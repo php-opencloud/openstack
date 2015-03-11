@@ -1,0 +1,6 @@
+suites:
+  default_suite:
+    namespace: OpenStack
+    psr4_prefix: OpenStack
+
+formatter.name: pretty
