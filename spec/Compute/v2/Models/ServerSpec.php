@@ -15,6 +15,6 @@ class ServerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('OpenStack\Common\Resource\AbstractResource');
+        $this->shouldImplement('OpenStack\Common\Resource\ResourceInterface');
     }
 }
