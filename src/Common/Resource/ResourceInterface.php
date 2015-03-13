@@ -16,7 +16,20 @@ interface ResourceInterface
      * from a {@see ResponseInterface} object.
      *
      * @param ResponseInterface $response
+     *
+     * @return self
+     */
+    public function populateFromResponse(ResponseInterface $response);
+
+    /**
+     * @param array $data
      * @return mixed
      */
-    public function fromResponse(ResponseInterface $response);
+    public function populateFromArray(array $data);
+
+    /**
+     * @param ResponseInterface $response
+     * @return mixed
+     */
+    public function setLastResponse(ResponseInterface $response);
 } 
