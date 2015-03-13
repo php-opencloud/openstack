@@ -2,27 +2,34 @@
 
 namespace spec\OpenStack;
 
+use OpenStack\Common\Service\Builder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class OpenStackSpec extends ObjectBehavior
 {
-    private $options;
+    private $builder;
 
-    function let()
+    function let(Builder $builder)
     {
-        $this->options = ['authUrl' => '1', 'username' => '2', 'password' => '3', 'tenantId' => '4'];
+        $this->builder = $builder;
 
-        $this->beConstructedWith($this->options);
+        $this->beConstructedWith([], $this->builder);
     }
 
     function it_supports_object_store_v2()
     {
-        $this->getObjectStoreV2()->shouldReturnAnInstanceOf('OpenStack\ObjectStore\v2\Service');
+        $this->builder->createService('ObjectStore', 2, ['catalogName' => 'swift', 'catalogType' => 'object-store'])
+            ->shouldBeCalled();
+
+        $this->objectStoreV2();
     }
 
     function it_supports_compute_v2()
     {
-        $this->getComputeV2()->shouldReturnAnInstanceOf('OpenStack\Compute\v2\Service');
+        $this->builder->createService('Compute', 2, ['catalogName' => 'nova', 'catalogType' => 'compute'])
+            ->shouldBeCalled();
+
+        $this->computeV2();
     }
 }

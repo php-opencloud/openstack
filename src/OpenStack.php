@@ -25,11 +25,9 @@ class OpenStack
      * authUrl    (string) The Keystone URL        [REQUIRED]
      * debug      (bool)   Whether to enable HTTP logging [OPTIONAL]
      */
-    public function __construct(array $options = [])
+    public function __construct(array $options = [], Builder $builder = null)
     {
-        $options += $this->getEnvVars();
-
-        $this->builder = new Builder($options);
+        $this->builder = $builder ?: new Builder($options + $this->getEnvVars());
     }
 
     private function getEnvVars()
