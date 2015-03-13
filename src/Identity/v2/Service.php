@@ -3,13 +3,14 @@
 namespace OpenStack\Identity\v2;
 
 use OpenStack\Common\Service\AbstractService;
+use OpenStack\Identity\v2\Api\Token as TokenApi;
 
 class Service extends AbstractService
 {
     public function generateTokenAndServiceUrl(array $options)
     {
         $authOpts = ['username' => null, 'password' => null, 'tenantId' => null, 'tenantName' => null];
-        $response = $this->execute('postTokens', array_intersect_key($options, $authOpts));
+        $response = $this->execute(TokenApi::post(), array_intersect_key($options, $authOpts));
 
         $serviceUrl = $this->model('Catalog', $response)->getEndpointUrl(
             $options['catalogName'],
@@ -31,7 +32,7 @@ class Service extends AbstractService
             $options['tenantName'] = $tenantName;
         }
 
-        $response = $this->execute('postTokens', $options);
+        $response = $this->execute(TokenApi::post(), $options);
 
         return $this->model('Token', $response);
     }
