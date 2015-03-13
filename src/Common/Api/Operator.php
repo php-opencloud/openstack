@@ -7,32 +7,21 @@ use GuzzleHttp\Message\ResponseInterface;
 
 abstract class Operator implements OperatorInterface
 {
-    protected $client;
+    private $client;
 
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
 
-    public function getOperation($name, array $userOptions = [])
+    public function getOperation(array $definition, array $userOptions = [])
     {
-        $apiClass = sprintf("%s\\Api", $this->getServiceNamespace());
-
-        if (!method_exists($apiClass, $name)) {
-            throw new \Exception(sprintf("Method %s::%s does not exist", $apiClass, $name));
-        }
-
-        return new Operation($this->client, $apiClass::$name(), $userOptions);
+        return new Operation($this->client, $definition, $userOptions);
     }
 
-    protected function getCurrentNamespace()
+    protected function execute(array $definition, array $userOptions = [])
     {
-        return (new \ReflectionClass(get_class($this)))->getNamespaceName();
-    }
-
-    protected function execute($name, array $userOptions = [])
-    {
-        $operation = $this->getOperation($name, $userOptions);
+        $operation = $this->getOperation($definition, $userOptions);
 
         return $this->client->send($operation->createRequest());
     }

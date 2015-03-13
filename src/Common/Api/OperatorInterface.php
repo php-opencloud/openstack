@@ -8,7 +8,5 @@ interface OperatorInterface
 {
     public function __construct(ClientInterface $client);
 
-    public function getServiceNamespace();
-
-    public function getOperation($name, array $userOptions = []);
+    public function getOperation(array $definition, array $userOptions = []);
 } 

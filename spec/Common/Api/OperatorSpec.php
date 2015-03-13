@@ -22,27 +22,10 @@ class OperatorSpec extends ObjectBehavior
 
     function it_returns_operations()
     {
-        $this->getOperation('fooOperation', [])->shouldReturnAnInstanceOf('OpenStack\Common\Api\Operation');
-    }
-
-    function it_throws_an_exception_when_no_operation_found()
-    {
-        $this->shouldThrow('\Exception')->duringGetOperation('blahOperation');
+        $this->getOperation([], [])->shouldReturnAnInstanceOf('OpenStack\Common\Api\Operation');
     }
 }
 
 class TestOperator extends Operator
 {
-    public function getApiClass()
-    {
-        return __NAMESPACE__ . '\\TestApi';
-    }
-}
-
-class TestApi
-{
-    public static function fooOperation()
-    {
-        return [];
-    }
 }

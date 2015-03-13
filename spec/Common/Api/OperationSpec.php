@@ -4,8 +4,8 @@ namespace spec\OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\RequestInterface;
-use OpenStack\Compute\v2\Api as ComputeV2Api;
-use OpenStack\Identity\v2\Api as IdentityV2Api;
+use OpenStack\Compute\v2\Api\Server as ServerV2Api;
+use OpenStack\Identity\v2\Api\Token as TokenApi;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -16,7 +16,7 @@ class OperationSpec extends ObjectBehavior
 
     function let(ClientInterface $client)
     {
-        $this->parameters = ComputeV2Api::postServers();
+        $this->parameters = ServerV2Api::post();
         $this->client = $client;
 
         $this->beConstructedWith($client, $this->parameters, []);
@@ -105,7 +105,7 @@ class OperationSpec extends ObjectBehavior
 
     function it_embeds_params_according_to_path()
     {
-        $definition = IdentityV2Api::postTokens();
+        $definition = TokenApi::post();
         $userData = ['username' => 'foo', 'password' => 'bar', 'tenantId' => 'blah'];
         $this->beConstructedWith($this->client, $definition, $userData);
 
