@@ -1,0 +1,20 @@
+{
+    "name": "openstack",
+    "autoload": {
+        "psr-4": {
+            "OpenStack\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "spec\\OpenStack\\": "spec/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "~5.2",
+        "guzzlehttp/log-subscriber": "~1.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.1"
+    }
+}
