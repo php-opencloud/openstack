@@ -4,6 +4,7 @@ namespace OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\ResponseInterface;
+use OpenStack\Common\Resource\ResourceInterface;
 
 abstract class Operator implements OperatorInterface
 {
@@ -19,23 +20,31 @@ abstract class Operator implements OperatorInterface
         return new Operation($this->client, $definition, $userOptions);
     }
 
-    protected function execute(array $definition, array $userOptions = [])
+    public function execute(array $definition, array $userOptions = [])
     {
         $operation = $this->getOperation($definition, $userOptions);
 
         return $this->client->send($operation->createRequest());
     }
 
-    protected function model($name, ResponseInterface $response = null)
+    protected function model($name, $data = null)
     {
         $class = sprintf("%s\\Models\\%s", $this->getServiceNamespace(), $name);
 
         $model = new $class($this->client);
 
-        if ($response) {
-            $model->fromResponse($response);
+        if (!$model instanceof ResourceInterface) {
+            throw new \RuntimeException(sprintf('%s does not implement %s', $class, ResourceInterface::class));
+        }
+
+        if ($data instanceof ResponseInterface) {
+            $model->populateFromResponse($data);
+        } elseif (is_array($data)) {
+            $model->populateFromArray($data);
         }
 
         return $model;
     }
+
+    abstract protected function getServiceNamespace();
 }

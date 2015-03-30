@@ -6,7 +6,7 @@ use OpenStack\Common\Api\Operator;
 
 abstract class AbstractService extends Operator implements ServiceInterface
 {
-    public function getServiceNamespace()
+    protected function getServiceNamespace()
     {
         return $this->getCurrentNamespace();
     }

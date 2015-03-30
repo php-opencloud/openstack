@@ -28,4 +28,6 @@ class OperatorSpec extends ObjectBehavior
 
 class TestOperator extends Operator
 {
+    public function getServiceNamespace()
+    {}
 }
