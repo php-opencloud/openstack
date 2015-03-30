@@ -45,7 +45,7 @@ class Builder
      */
     public function createService($serviceName, $serviceVersion, array $serviceOptions = [])
     {
-        $options = array_merge($this->globalOptions, $serviceOptions) + $this->defaults;
+        $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
         $this->checkRequiredOptions($options);
 
         $serviceClass = sprintf("OpenStack\\%s\\v%d\\Service", $serviceName, $serviceVersion);

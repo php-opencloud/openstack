@@ -27,6 +27,12 @@ abstract class Operator implements OperatorInterface
         return $this->client->send($operation->createRequest());
     }
 
+    /**
+     * @param $name
+     * @param null $data
+     *
+     * @return ResourceInterface
+     */
     protected function model($name, $data = null)
     {
         $class = sprintf("%s\\Models\\%s", $this->getServiceNamespace(), $name);
