@@ -7,7 +7,7 @@ namespace OpenStack\Common\Resource;
  *
  * @package OpenStack\Common\Resource
  */
-interface IsUpdateableInterface
+interface IsUpdateable
 {
     /**
      * Update the current resource with the configuration set out in the user options.

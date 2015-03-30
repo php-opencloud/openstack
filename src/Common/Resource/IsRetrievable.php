@@ -7,7 +7,7 @@ namespace OpenStack\Common\Resource;
  *
  * @package OpenStack\Common\Resource
  */
-interface IsRetrievableInterface
+interface IsRetrievable
 {
     public function retrieve();
 }

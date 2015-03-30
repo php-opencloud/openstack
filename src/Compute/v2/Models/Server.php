@@ -2,20 +2,19 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Resource\IsCreatable;
+use OpenStack\Common\Resource\IsDeletable;
+use OpenStack\Common\Resource\IsRetrievable;
 use OpenStack\Common\Resource\IsRetrievableInterface;
-use OpenStack\Compute\v2\Api\Server as ServerApi;
+use OpenStack\Common\Resource\IsUpdateable;
 use OpenStack\Common\Resource\AbstractResource;
-use OpenStack\Common\Resource\IsCreatableInterface;
-use OpenStack\Common\Resource\IsDeletableInterface;
-use OpenStack\Common\Resource\IsUpdateableInterface;
-use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\ResourceInterface;
+use OpenStack\Compute\v2\Api\Server as ServerApi;
 
-class Server extends AbstractResource implements ResourceInterface,
-    IsCreatableInterface,
-    IsUpdateableInterface,
-    IsDeletableInterface,
-    IsRetrievableInterface
+class Server extends AbstractResource implements
+    IsCreatable,
+    IsUpdateable,
+    IsDeletable,
+    IsRetrievable
 {
     public $id;
     public $ipv4;

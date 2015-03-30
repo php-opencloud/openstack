@@ -7,7 +7,7 @@ namespace OpenStack\Common\Resource;
  *
  * @package OpenStack\Common\Resource
  */
-interface IsDeletableInterface
+interface IsDeletable
 {
     /**
      * Permanently delete this resource.
