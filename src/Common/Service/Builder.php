@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Log\Formatter;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
 use OpenStack\Common\Auth\AuthHandler;
+use OpenStack\Common\Error\Builder as ErrorBuilder;
 use OpenStack\Identity\v2\Service as IdentityV2Service;
 
 /**
@@ -50,7 +51,7 @@ class Builder
 
         $serviceClass = sprintf("OpenStack\\%s\\v%d\\Service", $serviceName, $serviceVersion);
 
-        return new $serviceClass($this->httpClient($options));
+        return new $serviceClass($this->httpClient($options), new ErrorBuilder());
     }
 
     /**

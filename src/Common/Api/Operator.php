@@ -4,15 +4,20 @@ namespace OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Message\ResponseInterface;
+use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Resource\ResourceInterface;
 
 abstract class Operator implements OperatorInterface
 {
     private $client;
+    private $errorBuilder;
 
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
+        $this->errorBuilder = new Builder();
+
+        $this->client->getEmitter()->attach($this->errorBuilder);
     }
 
     public function getOperation(array $definition, array $userOptions = [])

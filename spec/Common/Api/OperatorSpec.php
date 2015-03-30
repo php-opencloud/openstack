@@ -2,17 +2,18 @@
 
 namespace spec\OpenStack\Common\Api;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 use OpenStack\Common\Api\Operator;
+use OpenStack\Common\Error\Builder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class OperatorSpec extends ObjectBehavior
 {
-    function let(ClientInterface $client)
+    function let()
     {
         $this->beAnInstanceOf(__NAMESPACE__ . '\\TestOperator');
-        $this->beConstructedWith($client);
+        $this->beConstructedWith(new Client());
     }
 
     function it_implements()

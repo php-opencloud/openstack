@@ -2,15 +2,15 @@
 
 namespace spec\OpenStack\Identity\v2;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class ServiceSpec extends ObjectBehavior
 {
-    function let(ClientInterface $client)
+    function let()
     {
-        $this->beConstructedWith($client);
+        $this->beConstructedWith(new Client());
     }
 
     function it_is_initializable()

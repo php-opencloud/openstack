@@ -3,6 +3,7 @@
 namespace OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
+use OpenStack\Common\Error\Builder;
 
 interface OperatorInterface
 {

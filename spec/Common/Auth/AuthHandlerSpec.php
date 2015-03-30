@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
+use OpenStack\Common\Error\Builder;
 use OpenStack\Identity\v2\Models\Token;
 use OpenStack\Identity\v2\Service as IdentityService;
 use PhpSpec\ObjectBehavior;
