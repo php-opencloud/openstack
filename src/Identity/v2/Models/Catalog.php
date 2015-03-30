@@ -3,8 +3,9 @@
 namespace OpenStack\Identity\v2\Models;
 
 use GuzzleHttp\Message\ResponseInterface;
+use OpenStack\Common\Resource\AbstractResource;
 
-class Catalog
+class Catalog extends AbstractResource
 {
     const DEFAULT_URL_TYPE = 'publicURL';
 
@@ -15,7 +16,7 @@ class Catalog
         $entries = $response->json()['access']['serviceCatalog'];
 
         foreach ($entries as $entry) {
-            $this->entries[] = new Entry($entry);
+            $this->entries[] = $this->model('Entry', $entry);
         }
     }
 

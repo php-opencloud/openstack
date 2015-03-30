@@ -2,14 +2,16 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-class Endpoint
+use OpenStack\Common\Resource\AbstractResource;
+
+class Endpoint extends AbstractResource
 {
     private $adminUrl;
     private $region;
     private $internalUrl;
     private $publicUrl;
 
-    public function __construct(array $data)
+    public function populateFromArray(array $data)
     {
         $this->adminUrl = $data['adminURL'];
         $this->internalUrl = $data['internalURL'];

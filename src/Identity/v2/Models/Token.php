@@ -6,21 +6,27 @@ use GuzzleHttp\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\ValueResource;
 
-class Token extends ValueResource
+class Token extends AbstractResource
 {
     public $issuedAt;
     public $id;
     public $expires;
     public $tenant;
 
-    public function fromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response)
     {
-        $data = $response->json()['access']['token'];
+        $this->populateFromArray($response->json()['access']['token']);
+
+        return $this;
+    }
+
+    public function populateFromArray(array $data)
+    {
+        parent::populateFromArray($data);
 
         $this->issuedAt = new \DateTimeImmutable($data['issued_at']);
         $this->expires  = new \DateTimeImmutable($data['expires'], $this->issuedAt->getTimezone());
-        $this->id       = $data['id'];
-        $this->tenant   = new Tenant($data['tenant']);
+        $this->tenant   = $this->model('Tenant', $data['tenant']);
     }
 
     public function hasExpired()

@@ -2,6 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Resource\IsRetrievableInterface;
 use OpenStack\Compute\v2\Api\Server as ServerApi;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\IsCreatableInterface;
@@ -10,10 +11,11 @@ use OpenStack\Common\Resource\IsUpdateableInterface;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\ResourceInterface;
 
-class Server extends OperatorResource implements ResourceInterface,
+class Server extends AbstractResource implements ResourceInterface,
     IsCreatableInterface,
     IsUpdateableInterface,
-    IsDeletableInterface
+    IsDeletableInterface,
+    IsRetrievableInterface
 {
     public $id;
     public $ipv4;
@@ -54,18 +56,31 @@ class Server extends OperatorResource implements ResourceInterface,
     {
         $response = $this->execute(ServerApi::post(), $userOptions);
 
-        return $this->fromResponse($response);
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
         $response = $this->execute(ServerApi::put(), $this->getAttrs(['id', 'ipv4', 'ipv6']));
 
-        $this->fromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     public function delete()
     {
-        $this->execute(ServerApi::delete(), $this->getAttrs(['id']));
+        $response = $this->execute(ServerApi::delete(), $this->getAttrs(['id']));
+
+        if (in_array($response->getStatusCode(), [200, 201, 202, 204])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function retrieve()
+    {
+        $response = $this->execute(ServerApi::get());
+
+        $this->populateFromResponse($response);
     }
 }
