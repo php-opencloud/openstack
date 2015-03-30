@@ -26,10 +26,4 @@ interface ResourceInterface
      * @return mixed
      */
     public function populateFromArray(array $data);
-
-    /**
-     * @param ResponseInterface $response
-     * @return mixed
-     */
-    public function setLastResponse(ResponseInterface $response);
 } 

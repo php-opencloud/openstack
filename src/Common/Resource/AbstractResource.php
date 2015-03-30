@@ -2,16 +2,14 @@
 
 namespace OpenStack\Common\Resource;
 
+use OpenStack\Common\Api\Operator;
 use GuzzleHttp\Message\ResponseInterface;
 
-trait ResourceTrait
+abstract class AbstractResource extends Operator implements ResourceInterface
 {
-    /** @var ResponseInterface */
-    public $lastResponse;
-
     protected $aliases = [];
 
-    public function getServiceNamespace()
+    protected function getServiceNamespace()
     {
         return str_replace('\\Models', '', $this->getCurrentNamespace());
     }
@@ -25,7 +23,6 @@ trait ResourceTrait
         }
 
         $this->populateFromArray($json);
-        $this->setLastResponse($response);
 
         return $this;
     }
@@ -38,11 +35,6 @@ trait ResourceTrait
                 $this->$property = $val;
             }
         }
-    }
-
-    public function setLastResponse(ResponseInterface $response)
-    {
-        $this->lastResponse = $response;
     }
 
     protected function getAttrs(array $keys)
