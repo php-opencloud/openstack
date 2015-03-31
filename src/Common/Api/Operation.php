@@ -117,10 +117,10 @@ class Operation
         }
 
         // Type check nested object keys
-        if ($schema['type'] == 'object' && isset($schema['items'])) {
+        if ($schema['type'] == 'object' && isset($schema['properties'])) {
             $object = [];
             foreach ($userValue as $key => $keyVal) {
-                $object = $this->stockJson($key, $keyVal, $schema['items'][$key], $object);
+                $object = $this->stockJson($key, $keyVal, $schema['properties'][$key], $object);
             }
             $json[$name] = $object;
         }
@@ -160,21 +160,21 @@ class Operation
         }
 
         // Type check nested object keys
-        if (isset($schema['type']) && $schema['type'] == 'object' && isset($schema['items'])) {
+        if (isset($schema['type']) && $schema['type'] == 'object' && isset($schema['properties'])) {
             foreach ($userValue as $key => $keyVal) {
 
                 // Check that nested keys are properly defined, but
                 // permit arbitrary structures if it's metadata
-                if (!isset($schema['items'][$key])) {
+                if (!isset($schema['properties'][$key])) {
                     if ($attrName == 'metadata') {
-                        $_schema = $schema['items'];
+                        $_schema = $schema['properties'];
                     } else {
                         throw new \Exception(sprintf(
                             'The key provided "%s" is not defined', $key
                         ));
                     }
                 } else {
-                    $_schema = $schema['items'][$key];
+                    $_schema = $schema['properties'][$key];
                 }
 
                 $this->validateParam($key, $keyVal, $_schema);

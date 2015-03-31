@@ -13,7 +13,7 @@ final class Server
             'params' => [
                 'securityGroups' => [
                     'type' => 'array',
-                    'items' => ['type' => 'object', 'items' => ['name' => ['type' => 'string']]],
+                    'items' => ['type' => 'object', 'properties' => ['name' => ['type' => 'string']]],
                     'sentAs' => 'security_groups',
                 ],
                 'userData' => ['type' => 'string', 'sentAs' => 'user_data'],
@@ -24,21 +24,21 @@ final class Server
                     'type' => 'array',
                     'items' => [
                         'type' => 'object',
-                        'items' => [
+                        'properties' => [
                             'uuid' => ['type' => 'string'],
                             'port' => ['type' => 'string'],
                         ]
                     ]
                 ],
                 'name' => ['type' => 'string', 'required' => true],
-                'metadata' => ['type' => 'string'],
+                'metadata' => ['type' => 'object'],
                 'personality' => ['type' => 'string'],
                 'blockDeviceMapping' => [
                     'type' => 'array',
                     'sentAs' => 'block_device_mapping_v2',
                     'items' => [
                         'type' => 'object',
-                        'items' => [
+                        'properties' => [
                             'configDrive' => ['type' => 'string', 'sentAs' => 'config_drive'],
                             'bootIndex' => ['type' => 'string', 'sentAs' => 'boot_index'],
                             'deleteOnTermination' => ['type' => 'boolean', 'sentAs' => 'delete_on_termination'],

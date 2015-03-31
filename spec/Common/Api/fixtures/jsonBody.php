@@ -18,7 +18,7 @@ return [
         'etc' => [
             'type' => 'object',
             'sentAs' => 'etcetc',
-            'items' => [
+            'properties' => [
                 'dob' => ['type' => 'string'],
                 'age' => ['type' => 'integer', 'sentAs' => 'current_age'],
             ]
