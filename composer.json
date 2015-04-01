@@ -16,6 +16,7 @@
         "guzzlehttp/log-subscriber": "~1.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1"
+        "phpspec/phpspec": "~2.1",
+        "henrikbjorn/phpspec-code-coverage": "~1.0"
     }
 }

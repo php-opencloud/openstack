@@ -4,3 +4,14 @@ suites:
     psr4_prefix: OpenStack
 
 formatter.name: pretty
+
+extensions:
+  - PhpSpec\Extension\CodeCoverageExtension
+
+code_coverage:
+  format:
+    - html
+    - clover
+  output:
+    - coverage
+    - coverage.xml
