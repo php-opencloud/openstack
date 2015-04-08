@@ -2,11 +2,10 @@
 
 namespace spec\OpenStack\Compute\v2\Models;
 
-use GuzzleHttp\Client;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ServerSpec extends ObjectBehavior
+class ImageSpec extends ObjectBehavior
 {
     function let()
     {
