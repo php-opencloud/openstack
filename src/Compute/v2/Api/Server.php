@@ -2,7 +2,7 @@
 
 namespace OpenStack\Compute\v2\Api;
 
-final class Server
+class Server
 {
     public static function post()
     {
@@ -82,10 +82,8 @@ final class Server
     {
         return [
             'method' => 'GET',
-            'path'   => 'servers/{serverId}',
-            'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url']
-            ]
+            'path'   => 'servers/{id}',
+            'params' => ['id' => CommonParams::$id]
         ];
     }
 
@@ -93,9 +91,9 @@ final class Server
     {
         return [
             'method' => 'PUT',
-            'path'   => 'servers/{serverId}',
+            'path'   => 'servers/{id}',
             'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url'],
+                'id'   => CommonParams::$id,
                 'name' => ['type' => 'string', 'location' => 'json'],
                 'ipv4' => ['type' => 'string','location' => 'json'],
                 'ipv6' => ['type' => 'string','location' => 'json'],
@@ -107,10 +105,8 @@ final class Server
     {
         return [
             'method' => 'DELETE',
-            'path'   => 'servers/{serverId}',
-            'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url']
-            ],
+            'path'   => 'servers/{id}',
+            'params' => ['id' => CommonParams::$id],
         ];
     }
 
@@ -118,10 +114,10 @@ final class Server
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{serverId}/action',
+            'path' => 'servers/{id}/action',
             'jsonKey' => 'changePassword',
             'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url'],
+                'id' => CommonParams::$id,
                 'password' => ['sentAs' => 'adminPass', 'type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
@@ -131,10 +127,10 @@ final class Server
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{serverId}/action',
+            'path' => 'servers/{id}/action',
             'jsonKey' => 'reboot',
             'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url'],
+                'id' => CommonParams::$id,
                 'type' => ['type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
@@ -144,10 +140,8 @@ final class Server
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{serverId}/action',
-            'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url']
-            ],
+            'path' => 'servers/{id}/action',
+            'params' => ['id' => CommonParams::$id],
         ];
     }
 
@@ -155,10 +149,10 @@ final class Server
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{serverId}/action',
+            'path' => 'servers/{id}/action',
             'jsonKey' => 'resize',
             'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url'],
+                'id' => CommonParams::$id,
                 'flavorId' => ['sentAs' => 'flavorRef', 'type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
@@ -168,9 +162,9 @@ final class Server
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{serverId}/action',
+            'path' => 'servers/{id}/action',
             'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url'],
+                'id' => CommonParams::$id,
                 'confirmResize' => ['type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
@@ -180,9 +174,9 @@ final class Server
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{serverId}/action',
+            'path' => 'servers/{id}/action',
             'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url'],
+                'id' => CommonParams::$id,
                 'revertResize' => ['type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
@@ -192,10 +186,10 @@ final class Server
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{serverId}/action',
+            'path' => 'servers/{id}/action',
             'jsonKey' => 'createImage',
             'params' => [
-                'id' => ['type' => 'string', 'required' => true, 'location' => 'url'],
+                'id' => CommonParams::$id,
                 'name'     => ['type' => 'string', 'required' => true, 'location' => 'json'],
                 'metadata' => ['type' => 'object', 'location' => 'json'],
             ],

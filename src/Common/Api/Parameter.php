@@ -14,6 +14,7 @@ class Parameter
     private $required;
     private $location;
     private $path;
+    private $prefix;
 
     public function __construct(array $data)
     {
@@ -35,6 +36,10 @@ class Parameter
 
         if (isset($data['items'])) {
             $this->itemSchema = new Parameter($data['items'] + ['name' => $this->name . '[]']);
+        }
+
+        if (isset($data['prefix'])) {
+            $this->prefix = $data['prefix'];
         }
 
         if (isset($data['properties'])) {
@@ -141,5 +146,10 @@ class Parameter
     public function getProperty($name)
     {
         return isset($this->properties[$name]) ? $this->properties[$name] : null;
+    }
+
+    public function getPrefix()
+    {
+        return $this->prefix;
     }
 }

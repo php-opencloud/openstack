@@ -22,7 +22,9 @@ abstract class AbstractResource extends Operator implements ResourceInterface
             $json = $json[$definition['responseKey']];
         }
 
-        $this->populateFromArray($json);
+        if (!empty($json)) {
+            $this->populateFromArray($json);
+        }
 
         return $this;
     }

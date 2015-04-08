@@ -57,5 +57,10 @@ abstract class Operator implements OperatorInterface
         return $model;
     }
 
+    public function getCurrentNamespace()
+    {
+        return (new \ReflectionClass(get_class($this)))->getNamespaceName();
+    }
+
     abstract protected function getServiceNamespace();
 }

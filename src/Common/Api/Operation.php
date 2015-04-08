@@ -70,9 +70,9 @@ class Operation
             $options['headers'] = $headers;
         }
 
-        $uriPath = Utils::uriTemplate($this->definition['path'], $this->userValues);
+        $uriPath = Utils::uriTemplate($this->path, $this->userValues);
 
-        return $this->client->createRequest($this->definition['method'], $uriPath, $options);
+        return $this->client->createRequest($this->method, $uriPath, $options);
     }
 
     public function validate(array $userValues)
