@@ -47,8 +47,8 @@ class Server extends AbstractResource implements
 
         $this->created = new \DateTimeImmutable($this->created);
         $this->updated = new \DateTimeImmutable($this->updated);
-        //$this->flavor  = new Flavor();
-        //$this->image   = new Image();
+        $this->flavor = $this->model('Flavor', $data['flavor']);
+        $this->image = $this->model('Image', $data['image']);
     }
 
     public function create(array $userOptions)
