@@ -2,6 +2,7 @@
 
 namespace spec\OpenStack\Common\Api;
 
+use OpenStack\Common\Api\Operation;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -24,6 +25,6 @@ class HeaderSerializerSpec extends ObjectBehavior
             'X-Meta-hair_color' => $userValues['metadata']['hair_color'],
         ];
 
-        $this->serialize($userValues, $definition)->shouldReturn($expectedHeaders);
+        $this->serialize($userValues, Operation::toParamArray($definition['params']))->shouldReturn($expectedHeaders);
     }
 }

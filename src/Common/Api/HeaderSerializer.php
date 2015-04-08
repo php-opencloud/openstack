@@ -6,21 +6,19 @@ class HeaderSerializer
 {
     private $headers = [];
 
-    private function stockHeader($userValue, Parameter $param)
+    private function stockHeader(Parameter $param, $name, $value)
     {
-        $name = $param->getName();
-
         if ($name == 'metadata') {
-            foreach ($userValue as $key => $keyVal) {
-                $this->stockHeader($keyVal, $param->getItemSchema());
+            foreach ($value as $key => $keyVal) {
+                $this->stockHeader($param->getItemSchema(), $key, $keyVal);
             }
         }
 
-        if (is_string($userValue) || is_numeric($userValue)) {
+        if (is_string($value) || is_numeric($value)) {
             if ($prefix = $param->getPrefix()) {
                 $name = $prefix . $name;
             }
-            $this->headers[$name] = $userValue;
+            $this->headers[$name] = $value;
         }
     }
 
@@ -31,7 +29,7 @@ class HeaderSerializer
             if (!$schema->hasLocation('header')) {
                 continue;
             }
-            $this->stockHeader($value, $schema);
+            $this->stockHeader($schema, $schema->getName(), $value);
         }
 
         return $this->headers;

@@ -16,7 +16,9 @@ return [
         'metadata' => [
             'type'     => 'object',
             'location' => 'header',
-            'items'    => ['prefix' => 'X-Meta-']
+            'items'    => [
+                'prefix' => 'X-Meta-'
+            ]
         ],
         'other' => ['type' => 'string'] // should not be a header
     ],

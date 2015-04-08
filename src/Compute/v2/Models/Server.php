@@ -8,7 +8,7 @@ use OpenStack\Common\Resource\IsRetrievable;
 use OpenStack\Common\Resource\IsRetrievableInterface;
 use OpenStack\Common\Resource\IsUpdateable;
 use OpenStack\Common\Resource\AbstractResource;
-use OpenStack\Compute\v2\Api\Server as ServerApi;
+use OpenStack\Compute\v2\Api;
 
 class Server extends AbstractResource implements
     IsCreatable,
@@ -51,34 +51,47 @@ class Server extends AbstractResource implements
         $this->image = $this->model('Image', $data['image']);
     }
 
+    /**
+     * @param array $userOptions
+     * @return $this|IsCreatable
+     */
     public function create(array $userOptions)
     {
-        $response = $this->execute(ServerApi::post(), $userOptions);
+        $response = $this->execute(Api::postServer(), $userOptions);
 
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * @return void
+     */
     public function update()
     {
-        $response = $this->execute(ServerApi::put(), $this->getAttrs(['id', 'ipv4', 'ipv6']));
+        $response = $this->execute(Api::putServer(), $this->getAttrs(['id', 'ipv4', 'ipv6']));
 
         $this->populateFromResponse($response);
     }
 
+    /**
+     * @return bool
+     */
     public function delete()
     {
-        $response = $this->execute(ServerApi::delete(), $this->getAttrs(['id']));
+        $response = $this->execute(Api::deleteServer(), $this->getAttrs(['id']));
 
-        if (in_array($response->getStatusCode(), [200, 201, 202, 204])) {
+        if ($response->getStatusCode() === 204) {
             return true;
         }
 
         return false;
     }
 
+    /**
+     * @return void
+     */
     public function retrieve()
     {
-        $response = $this->execute(ServerApi::get());
+        $response = $this->execute(Api::getServer());
 
         $this->populateFromResponse($response);
     }

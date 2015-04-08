@@ -2,7 +2,7 @@
 
 namespace spec\OpenStack\Common\Api;
 
-use OpenStack\Compute\v2\Api\Server;
+use OpenStack\Compute\v2\Api as ComputeV2Api;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -14,7 +14,7 @@ class ParameterSpec extends ObjectBehavior
 
     function let()
     {
-        $this->data = Server::post()['params']['name'] + ['name' => 'name'];
+        $this->data = ComputeV2Api::postServer()['params']['name'] + ['name' => 'name'];
 
         $this->beConstructedWith($this->data);
     }
@@ -39,13 +39,13 @@ class ParameterSpec extends ObjectBehavior
 
     function it_indicates_its_item_schema()
     {
-        $this->beConstructedWith(Server::post()['params']['networks'] + ['name' => 'networks']);
+        $this->beConstructedWith(ComputeV2Api::postServer()['params']['networks'] + ['name' => 'networks']);
         $this->getItemSchema()->shouldReturnAnInstanceOf(self::PARAMETER_CLASS);
     }
 
     function it_allows_property_retrieval()
     {
-        $definition = Server::post()['params']['networks']['items'] + ['name' => 'network'];
+        $definition = ComputeV2Api::postServer()['params']['networks']['items'] + ['name' => 'network'];
         $this->beConstructedWith($definition);
 
         $this->getProperty('uuid')->shouldReturnAnInstanceOf(self::PARAMETER_CLASS);
@@ -75,7 +75,7 @@ class ParameterSpec extends ObjectBehavior
     {
         $userData = 'a_network!'; // should be an array
 
-        $this->beConstructedWith(Server::post()['params']['networks'] + ['name' => 'networks']);
+        $this->beConstructedWith(ComputeV2Api::postServer()['params']['networks'] + ['name' => 'networks']);
 
         $this->shouldThrow('\Exception')->duringValidate($userData);
     }
@@ -86,7 +86,7 @@ class ParameterSpec extends ObjectBehavior
             'name' => false // should be a string
         ];
 
-        $this->beConstructedWith(Server::post()['params']['networks'] + ['name' => 'networks']);
+        $this->beConstructedWith(ComputeV2Api::postServer()['params']['networks'] + ['name' => 'networks']);
 
         $this->shouldThrow('\Exception')->duringValidate($userData);
     }

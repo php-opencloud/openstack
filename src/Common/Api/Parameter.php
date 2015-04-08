@@ -19,8 +19,11 @@ class Parameter
     public function __construct(array $data)
     {
         $this->name = $data['name'];
-        $this->type = $data['type'];
         $this->location = isset($data['location']) ? $data['location'] : self::DEFAULT_LOCATION;
+
+        if (isset($data['type'])) {
+            $this->type = $data['type'];
+        }
 
         if (isset($data['path'])) {
             $this->path = $data['path'];

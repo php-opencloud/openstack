@@ -3,7 +3,7 @@
 namespace spec\OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
-use OpenStack\Compute\v2\Api\Server as ServerV2Api;
+use OpenStack\Compute\v2\Api as ComputeV2Api;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -14,7 +14,7 @@ class OperationSpec extends ObjectBehavior
 
     function let(ClientInterface $client)
     {
-        $this->definition = ServerV2Api::post();
+        $this->definition = ComputeV2Api::postServer();
         $this->client = $client;
 
         $this->beConstructedWith($client, $this->definition, []);
