@@ -7,8 +7,8 @@ use Prophecy\Argument;
 
 class FlavorSpec extends ObjectBehavior
 {
-    function let()
+    function it_retrieves_details()
     {
-        $this->beConstructedWith(new Client());
+
     }
 }

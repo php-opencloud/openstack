@@ -9,5 +9,5 @@ interface OperatorInterface
 {
     public function __construct(ClientInterface $client);
 
-    public function getOperation(array $definition, array $userOptions = []);
+    public function execute(array $definition, array $userOptions = []);
 } 

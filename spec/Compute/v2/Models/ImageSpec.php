@@ -7,8 +7,33 @@ use Prophecy\Argument;
 
 class ImageSpec extends ObjectBehavior
 {
-    function let()
+    function it_deletes()
     {
-        $this->beConstructedWith(new Client());
+
+    }
+
+    function it_retrieves_metadata()
+    {
+
+    }
+
+    function it_sets_metadata()
+    {
+
+    }
+
+    function it_updates_metadata()
+    {
+
+    }
+
+    function it_retrieves_a_metadata_item()
+    {
+
+    }
+
+    function it_deletes_a_metadata_item()
+    {
+
     }
 }
