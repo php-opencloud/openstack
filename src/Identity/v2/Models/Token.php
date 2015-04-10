@@ -26,7 +26,10 @@ class Token extends AbstractResource
 
         $this->issuedAt = new \DateTimeImmutable($data['issued_at']);
         $this->expires  = new \DateTimeImmutable($data['expires'], $this->issuedAt->getTimezone());
-        $this->tenant   = $this->model('Tenant', $data['tenant']);
+
+        if (isset($data['tenant'])) {
+            $this->tenant = $this->model('Tenant', $data['tenant']);
+        }
     }
 
     public function hasExpired()

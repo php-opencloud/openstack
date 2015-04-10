@@ -9,6 +9,12 @@ use GuzzleHttp\Message\ResponseInterface;
 
 class Builder implements SubscriberInterface
 {
+    private $docDomain = 'http://docs.php-opencloud.com/en/latest/';
+
+    /**
+     * @codeCoverageIgnore
+     * @return array
+     */
     public function getEvents()
     {
         return [
@@ -28,7 +34,7 @@ class Builder implements SubscriberInterface
 
     private function linkIsValid($link)
     {
-        $link = 'http://docs.php-opencloud.com/en/latest/' . $link;
+        $link = $this->docDomain . $link;
         return strpos(get_headers($link)[0], '404') === false;
     }
 
@@ -47,6 +53,7 @@ class Builder implements SubscriberInterface
 
         $message .= $this->header('Further information');
 
+        // @codeCoverageIgnoreStart
         switch ($response->getStatusCode()) {
             case 400:
                 $message .= "Please ensure that your input values are valid and well-formed. ";
@@ -61,6 +68,7 @@ class Builder implements SubscriberInterface
                 $message .= "Please try this operation again once you know the remote server is operational. ";
                 break;
         }
+        // @codeCoverageIgnoreEnd
 
         $message .= "Visit http://docs.php-opencloud.com/en/latest/http-codes for more information about debugging "
             . "HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.";
@@ -78,7 +86,7 @@ class Builder implements SubscriberInterface
         $message .= "Please ensure that the value adheres to the expectation above. ";
 
         if ($furtherLink && $this->linkIsValid($furtherLink)) {
-            $message .= sprintf("Visit %s for more information about input arguments. ", $furtherLink);
+            $message .= sprintf("Visit %s for more information about input arguments. ", $this->docDomain . $furtherLink);
         }
 
         $message .= 'If you run into trouble, please open a support issue on https://github.com/php-opencloud/openstack/issues.';

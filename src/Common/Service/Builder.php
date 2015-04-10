@@ -3,11 +3,12 @@
 namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Subscriber\Log\Formatter;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
 use OpenStack\Common\Auth\AuthHandler;
+use OpenStack\Common\Auth\ServiceUrlResolver;
 use OpenStack\Common\Error\Builder as ErrorBuilder;
-use OpenStack\Identity\v2\Service as IdentityV2Service;
 
 /**
  * A Builder for easily creating OpenStack services.
@@ -70,18 +71,15 @@ class Builder
      */
     private function httpClient(array $options)
     {
-        $httpClient = new Client(['base_url' => $this->trim($options['authUrl'])]);
+        $httpClient = isset($options['httpClient'])
+            ? $options['httpClient']
+            : new Client(['base_url' => $options['authUrl']]);
 
-        if (isset($options['debug']) && $options['debug'] === true) {
-            $httpClient->getEmitter()->attach(new LogSubscriber(null, Formatter::DEBUG));
-        }
+        $resolver = new ServiceUrlResolver($httpClient);
+        $resolver->resolve($options);
 
-        $identity = new IdentityV2Service($httpClient);
-
-        list ($serviceUrl, $token) = $identity->generateTokenAndServiceUrl($options);
-
-        $httpClient = new Client(['base_url' => $this->trim($serviceUrl)]);
-        $httpClient->getEmitter()->attach(new AuthHandler($identity, $options, $token));
+        $httpClient = new Client(['base_url' => $this->trim($resolver->getServiceUrl())]);
+        $httpClient->getEmitter()->attach(new AuthHandler($resolver->getService(), $options, $resolver->getToken()));
 
         if (isset($options['debug']) && $options['debug'] === true) {
             $httpClient->getEmitter()->attach(new LogSubscriber(null, Formatter::DEBUG));

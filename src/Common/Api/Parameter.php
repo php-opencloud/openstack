@@ -18,7 +18,10 @@ class Parameter
 
     public function __construct(array $data)
     {
-        $this->name = $data['name'];
+        if (isset($data['name'])) {
+            $this->name = $data['name'];
+        }
+
         $this->location = isset($data['location']) ? $data['location'] : self::DEFAULT_LOCATION;
 
         if (isset($data['type'])) {
@@ -38,7 +41,7 @@ class Parameter
         }
 
         if (isset($data['items'])) {
-            $this->itemSchema = new Parameter($data['items'] + ['name' => $this->name . '[]']);
+            $this->itemSchema = new Parameter($data['items']);
         }
 
         if (isset($data['prefix'])) {
@@ -83,16 +86,13 @@ class Parameter
         } elseif ($this->isObject()) {
             foreach ($userValues as $key => $userValue) {
                 // Check that nested keys are properly defined, but permit arbitrary structures if it's metadata
-                if (!isset($this->properties[$key])) {
-                    if ($this->name == 'metadata') {
-                        $property = $this->properties;
-                    } else {
-                        throw new \Exception(sprintf('The key provided "%s" is not defined', $key));
-                    }
-                } else {
+                if ($this->name == 'metadata' && $this->properties instanceof Parameter) {
+                    $property = $this->properties;
+                } elseif (isset($this->properties[$key])) {
                     $property = $this->properties[$key];
+                } else {
+                    throw new \Exception(sprintf('The key provided "%s" is not defined', $key));
                 }
-
                 $property->validate($userValue);
             }
         }
@@ -102,14 +102,9 @@ class Parameter
 
     private function hasCorrectType($userValue)
     {
-        // Don't worry about undefined types
-        if (!$this->type) {
-            return false;
-        }
-
         // Helper fn to see whether an array is associative (i.e. a JSON object)
         $isAssociative = function ($value) {
-            return is_array($value) && (bool) count(array_filter(array_keys($array), 'is_string'));
+            return is_array($value) && (bool) count(array_filter(array_keys($value), 'is_string'));
         };
 
         // For params defined as objects, we'll let the user get away with

@@ -13,10 +13,21 @@ class Endpoint extends AbstractResource
 
     public function populateFromArray(array $data)
     {
-        $this->adminUrl = $data['adminURL'];
-        $this->internalUrl = $data['internalURL'];
-        $this->publicUrl = $data['publicURL'];
-        $this->region = $data['region'];
+        if (isset($data['adminURL'])) {
+            $this->adminUrl = $data['adminURL'];
+        }
+
+        if (isset($data['internalURL'])) {
+            $this->internalUrl = $data['internalURL'];
+        }
+
+        if (isset($data['publicURL'])) {
+            $this->publicUrl = $data['publicURL'];
+        }
+
+        if (isset($data['region'])) {
+            $this->region = $data['region'];
+        }
     }
 
     public function supportsRegion($region)

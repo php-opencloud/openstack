@@ -10,4 +10,6 @@ interface OperatorInterface
     public function __construct(ClientInterface $client);
 
     public function execute(array $definition, array $userOptions = []);
+
+    public function model($name, $data = null);
 } 

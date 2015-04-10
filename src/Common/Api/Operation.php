@@ -20,7 +20,7 @@ class Operation
         $this->method = $definition['method'];
         $this->path   = $definition['path'];
 
-        if (isset($data['jsonKey'])) {
+        if (isset($definition['jsonKey'])) {
             $this->jsonKey = $definition['jsonKey'];
         }
 

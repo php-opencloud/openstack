@@ -3,6 +3,8 @@
 namespace OpenStack\Test\Common\Api;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\Request;
 use OpenStack\Common\Api\Operation;
 use OpenStack\Compute\v2\Api as ComputeV2Api;
 
@@ -12,7 +14,9 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->operation = new Operation(new Client(), ComputeV2Api::postServer());
+        $def = ComputeV2Api::postServer();
+
+        $this->operation = new Operation(new Client(), $def);
     }
 
     /**
@@ -31,5 +35,47 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $userData = ['name' => 'new_server', 'undefined_opt' => 'bah'];
 
         $this->operation->validate($userData);
+    }
+
+    public function test_headers_are_set_on_request()
+    {
+        $client = $this->prophesize(ClientInterface::class);
+        $client->createRequest('POST', 'path', [
+            'headers' => ['X-Foo' => 'bar']
+        ])->shouldBeCalled();
+
+        $def = [
+            'method' => 'POST',
+            'path' => 'path',
+            'params' => [
+                'Foo' => ['type' => 'string', 'location' => 'header', 'sentAs' => 'X-Foo']
+            ]
+        ];
+
+        $userVals = ['Foo' => 'bar'];
+
+        $operation = new Operation($client->reveal(), $def, $userVals);
+        $operation->createRequest();
+    }
+
+    public function test_json_is_set_on_request()
+    {
+        $client = $this->prophesize(ClientInterface::class);
+        $client->createRequest('POST', 'path', [
+            'json' => ['X-Foo' => 'bar']
+        ])->shouldBeCalled();
+
+        $def = [
+            'method' => 'POST',
+            'path' => 'path',
+            'params' => [
+                'Foo' => ['type' => 'string', 'location' => 'json', 'sentAs' => 'X-Foo']
+            ]
+        ];
+
+        $userVals = ['Foo' => 'bar'];
+
+        $operation = new Operation($client->reveal(), $def, $userVals);
+        $operation->createRequest();
     }
 }

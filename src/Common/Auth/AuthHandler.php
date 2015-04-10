@@ -23,6 +23,10 @@ class AuthHandler implements AuthHandlerInterface
         $this->token   = $token;
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @return array
+     */
     public function getEvents()
     {
         return [

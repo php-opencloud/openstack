@@ -38,15 +38,17 @@ abstract class Operator implements OperatorInterface
      *
      * @return ResourceInterface
      */
-    protected function model($name, $data = null)
+    public function model($name, $data = null)
     {
         $class = sprintf("%s\\Models\\%s", $this->getServiceNamespace(), $name);
 
         $model = new $class($this->client);
 
+        // @codeCoverageIgnoreStart
         if (!$model instanceof ResourceInterface) {
             throw new \RuntimeException(sprintf('%s does not implement %s', $class, ResourceInterface::class));
         }
+        // @codeCoverageIgnoreEnd
 
         if ($data instanceof ResponseInterface) {
             $model->populateFromResponse($data);

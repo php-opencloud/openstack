@@ -11,7 +11,7 @@ class Catalog extends AbstractResource
 
     private $entries = [];
 
-    public function fromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response)
     {
         $entries = $response->json()['access']['serviceCatalog'];
 

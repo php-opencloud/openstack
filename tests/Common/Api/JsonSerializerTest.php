@@ -51,4 +51,57 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->serializer->serialize($userValue, $params, ['jsonKey' => 'server']));
     }
+
+    public function test_it_nests_json_arrays()
+    {
+        $params = Operation::toParamArray(ComputeV2Api::postServer()['params']);
+
+        $userValues = [
+            'securityGroups' => [
+                ['name' => 'foo'],
+                ['name' => 'bar'],
+            ]
+        ];
+
+        $expected = [
+            'security_groups' => [
+                ['name' => 'foo'],
+                ['name' => 'bar'],
+            ]
+        ];
+
+        $this->assertEquals($expected, $this->serializer->serialize($userValues, $params));
+    }
+
+    public function test_it_nests_shallow_arrays()
+    {
+        $params = Operation::toParamArray(['foo' => ['type' => 'array', 'items' => ['type' => 'string']]]);
+
+        $userValues = ['foo' => ['1', '2', '3']];
+
+        $expected = $userValues;
+
+        $this->assertEquals($expected, $this->serializer->serialize($userValues, $params));
+    }
+
+    public function test_it_nests_shallow_objects()
+    {
+        $params = Operation::toParamArray(['foo' => ['type' => 'object', 'properties' => ['bar' => ['type' => 'string']]]]);
+
+        $userValues = ['foo' => ['bar' => 'hi']];
+
+        $expected = $userValues;
+
+        $this->assertEquals($expected, $this->serializer->serialize($userValues, $params));
+    }
+
+    public function test_it_ignores_non_json_locations()
+    {
+        $params = Operation::toParamArray(['foo' => ['type' => 'string', 'location' => 'header']]);
+
+        $userValues = ['foo' => 'bar'];
+        $expected = [];
+
+        $this->assertEquals($expected, $this->serializer->serialize($userValues, $params));
+    }
 }

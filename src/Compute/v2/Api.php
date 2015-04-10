@@ -146,7 +146,12 @@ class Api
             'params' => [
                 'securityGroups' => [
                     'type' => 'array',
-                    'items' => ['type' => 'object', 'properties' => ['name' => ['type' => 'string']]],
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'name' => ['type' => 'string']
+                        ]
+                    ],
                     'sentAs' => 'security_groups',
                 ],
                 'userData' => ['type' => 'string', 'sentAs' => 'user_data'],

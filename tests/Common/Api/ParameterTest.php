@@ -92,4 +92,55 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $param = new Parameter($data);
         $param->validate(['name' => false]); // value should be a string, not bool
     }
+
+    public function test_metadata_properties_are_handled_differently()
+    {
+        $params = [
+            'name' => 'metadata',
+            'type' => 'object',
+            'properties' => [
+                'type' => 'string'
+            ]
+        ];
+
+        $userValues = ['some' => 'value'];
+
+        $param = new Parameter($params);
+        $this->assertTrue($param->validate($userValues));
+    }
+
+    public function test_it_passes_validation_when_array_values_pass()
+    {
+        $params = [
+            'name' => 'foo',
+            'type' => 'array',
+            'items' => ['type' => 'string'],
+        ];
+
+        $userVals = ['1', '2', '3'];
+
+        $param = new Parameter($params);
+        $this->assertTrue($param->validate($userVals));
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_an_exception_is_thrown_when_an_undefined_property_is_provided()
+    {
+        $params = ['type' => 'object', 'properties' => ['foo' => ['type' => 'string']]];
+        $userVals = ['bar' => 'baz'];
+
+        $param = new Parameter($params);
+        $param->validate($userVals);
+    }
+
+    public function test_it_passes_validation_when_all_subproperties_pass()
+    {
+        $params = ['type' => 'object', 'properties' => ['foo' => ['type' => 'string']]];
+        $userVals = ['foo' => 'baz'];
+
+        $param = new Parameter($params);
+        $this->assertTrue($param->validate($userVals));
+    }
 }
