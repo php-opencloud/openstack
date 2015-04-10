@@ -7,16 +7,17 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "spec\\OpenStack\\": "spec/",
-            "integration\\OpenStack\\": "integration/"
+            "OpenStack\\Test\\": "tests/",
+            "OpenStack\\Integration\\": "integration/"
         }
     },
     "require": {
+        "php": ">=5.5",
         "guzzlehttp/guzzle": "~5.2",
         "guzzlehttp/log-subscriber": "~1.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1",
-        "henrikbjorn/phpspec-code-coverage": "~1.0"
+        "phpunit/phpunit": "~4.6",
+        "phpspec/prophecy-phpunit": "~1.0"
     }
 }

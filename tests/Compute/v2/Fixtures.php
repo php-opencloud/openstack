@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\OpenStack\Compute\v2;
+namespace OpenStack\Test\Compute\v2;
 
 class Fixtures
 {

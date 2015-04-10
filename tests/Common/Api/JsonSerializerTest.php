@@ -1,22 +1,28 @@
 <?php
 
-namespace spec\OpenStack\Common\Api;
+namespace OpenStack\Test\Common\Api;
 
+use OpenStack\Common\Api\JsonSerializer;
 use OpenStack\Common\Api\Operation;
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use OpenStack\Identity\v2\Api\Token as TokenApi;
 use OpenStack\Compute\v2\Api as ComputeV2Api;
 
-class JsonSerializerSpec extends ObjectBehavior
+class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 {
-    function it_embeds_params_according_to_path()
+    private $serializer;
+
+    public function setUp()
+    {
+        $this->serializer = new JsonSerializer();
+    }
+
+    public function test_it_embeds_params_according_to_path()
     {
         $params = Operation::toParamArray(TokenApi::post()['params']);
 
         $userValue = ['username' => 'foo', 'password' => 'bar', 'tenantId' => 'blah'];
 
-        $expectedStructure = [
+        $expected = [
             'auth' => [
                 'passwordCredentials' => [
                     'username' => 'foo',
@@ -26,16 +32,16 @@ class JsonSerializerSpec extends ObjectBehavior
             ],
         ];
 
-        $this->serialize($userValue, $params)->shouldReturn($expectedStructure);
+        $this->assertEquals($expected, $this->serializer->serialize($userValue, $params));
     }
 
-    function it_nests_json_objects_if_a_top_level_key_is_provided()
+    public function test_it_nests_json_objects_if_a_top_level_key_is_provided()
     {
         $params = Operation::toParamArray(ComputeV2Api::postServer()['params']);
 
         $userValue = ['name' => 'foo', 'imageId' => 'bar', 'flavorId' => 'baz'];
 
-        $expectedStructure = [
+        $expected = [
             'server' => [
                 'name' => $userValue['name'],
                 'imageRef' => $userValue['imageId'],
@@ -43,6 +49,6 @@ class JsonSerializerSpec extends ObjectBehavior
             ]
         ];
 
-        $this->serialize($userValue, $params, ['jsonKey' => 'server'])->shouldReturn($expectedStructure);
+        $this->assertEquals($expected, $this->serializer->serialize($userValue, $params, ['jsonKey' => 'server']));
     }
 }

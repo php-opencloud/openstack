@@ -2,4 +2,5 @@
 coverage/
 vendor/
 
+phpunit.xml
 coverage.xml

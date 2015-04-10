@@ -1,27 +1,24 @@
 <?php
 
-namespace spec\OpenStack\Common\Error;
+namespace OpenStack\Test\Common\Error;
 
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
 use OpenStack\Common\Error\BadResponseError;
+use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Error\UserInputError;
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
-class BuilderSpec extends ObjectBehavior
+class BuilderTest extends \PHPUnit_Framework_TestCase
 {
-    public function getMatchers()
+    private $builder;
+
+    public function __construct()
     {
-        return [
-            'matchException' => function (\Exception $a, \Exception $b) {
-                return $a->getMessage() == $b->getMessage();
-            }
-        ];
+        $this->builder = new Builder();
     }
 
-    function it_builds_http_errors(BadResponseError $e)
+    public function test_it_builds_http_errors()
     {
         $request = new Request('POST', '/servers');
         $response = new Response(400, [], Stream::factory('Invalid parameters'));
@@ -48,12 +45,12 @@ Please ensure that your input values are valid and well-formed. Visit http://doc
 EOT;
 
 
-        $e->beConstructedWith([$errorMessage]);
+        $e = new BadResponseError($errorMessage);
 
-        $this->httpError($request, $response)->shouldMatchException($e);
+        $this->assertEquals($e, $this->builder->httpError($request, $response));
     }
 
-    function it_builds_user_input_errors(UserInputError $e)
+    public function test_it_builds_user_input_errors()
     {
         $expected = 'A well-formed string';
         $value = ['foo' => true];
@@ -72,8 +69,8 @@ Please ensure that the value adheres to the expectation above. If you run into t
 EOT;
 
 
-        $e->beConstructedWith([$errorMessage]);
+        $e = new UserInputError($errorMessage);
 
-        $this->userInputError($expected, $value)->shouldMatchException($e);
+        $this->assertEquals($e, $this->builder->userInputError($expected, $value));
     }
 }

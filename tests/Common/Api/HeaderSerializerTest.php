@@ -1,14 +1,20 @@
 <?php
 
-namespace spec\OpenStack\Common\Api;
+namespace OpenStack\Test\Common\Api;
 
+use OpenStack\Common\Api\HeaderSerializer;
 use OpenStack\Common\Api\Operation;
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
-class HeaderSerializerSpec extends ObjectBehavior
+class HeaderSerializerSpec extends \PHPUnit_Framework_TestCase
 {
-    function it_stocks_headers_of_request()
+    private $serializer;
+
+    public function setUp()
+    {
+        $this->serializer = new HeaderSerializer();
+    }
+
+    public function testHeadersOfRequestAreStocked()
     {
         $definition = include 'fixtures/headers.php';
 
@@ -19,12 +25,14 @@ class HeaderSerializerSpec extends ObjectBehavior
             'other'    => 'blah'
         ];
 
-        $expectedHeaders = [
+        $expected = [
             'X-Foo-Name'        => $userValues['name'],
             'age'               => $userValues['age'],
             'X-Meta-hair_color' => $userValues['metadata']['hair_color'],
         ];
 
-        $this->serialize($userValues, Operation::toParamArray($definition['params']))->shouldReturn($expectedHeaders);
+        $actual = $this->serializer->serialize($userValues, Operation::toParamArray($definition['params']));
+
+        $this->assertEquals($expected, $actual);
     }
 }

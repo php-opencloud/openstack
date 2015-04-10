@@ -108,8 +108,8 @@ class Parameter
         }
 
         // Helper fn to see whether an array is associative (i.e. a JSON object)
-        $isAssociative = function (array $array) {
-            return (bool) count(array_filter(array_keys($array), 'is_string'));
+        $isAssociative = function ($value) {
+            return is_array($value) && (bool) count(array_filter(array_keys($array), 'is_string'));
         };
 
         // For params defined as objects, we'll let the user get away with
