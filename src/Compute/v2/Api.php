@@ -230,11 +230,12 @@ class Api
         return [
             'method' => 'PUT',
             'path'   => 'servers/{id}',
+            'jsonKey' => 'server',
             'params' => [
                 'id'   => self::$idParam,
                 'name' => ['type' => 'string', 'location' => 'json'],
-                'ipv4' => ['type' => 'string','location' => 'json'],
-                'ipv6' => ['type' => 'string','location' => 'json'],
+                'ipv4' => ['type' => 'string','location' => 'json', 'sentAs' => 'accessIPv4'],
+                'ipv6' => ['type' => 'string','location' => 'json', 'sentAs' => 'accessIPv6'],
             ],
         ];
     }

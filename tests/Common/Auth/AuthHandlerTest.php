@@ -43,7 +43,7 @@ class AuthHandlerTest extends ProphecyTestCase
         // force the mock token to indicate that its expired
         $this->token->hasExpired()->willReturn(true);
 
-        $this->service->generateToken($this->opts['username'], $this->opts['password'], $this->opts['tenantName'], [])
+        $this->service->generateToken($this->opts)
             ->shouldBeCalled()
             ->willReturn($this->token);
 

@@ -33,6 +33,8 @@ class Server extends AbstractResource implements
     public $tenantId;
     public $userId;
 
+    protected $jsonKey = 'server';
+
     protected $aliases = [
         'block_device_mapping_v2' => 'blockDeviceMapping',
         'accessIPv4' => 'ipv4',
@@ -47,13 +49,19 @@ class Server extends AbstractResource implements
 
         $this->created = new \DateTimeImmutable($this->created);
         $this->updated = new \DateTimeImmutable($this->updated);
-        $this->flavor = $this->model('Flavor', $data['flavor']);
-        $this->image = $this->model('Image', $data['image']);
+
+        if (isset($data['flavor'])) {
+            $this->flavor = $this->model('Flavor', $data['flavor']);
+        }
+
+        if (isset($data['image'])) {
+            $this->image = $this->model('Image', $data['image']);
+        }
     }
 
     /**
      * @param array $userOptions
-     * @return $this|IsCreatable
+     * @return self
      */
     public function create(array $userOptions)
     {
@@ -63,36 +71,30 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @return void
+     * @return self
      */
     public function update()
     {
-        $response = $this->execute(Api::putServer(), $this->getAttrs(['id', 'ipv4', 'ipv6']));
+        $response = $this->execute(Api::putServer(), $this->getAttrs(['id', 'name', 'ipv4', 'ipv6']));
 
-        $this->populateFromResponse($response);
-    }
-
-    /**
-     * @return bool
-     */
-    public function delete()
-    {
-        $response = $this->execute(Api::deleteServer(), $this->getAttrs(['id']));
-
-        if ($response->getStatusCode() === 204) {
-            return true;
-        }
-
-        return false;
+        return $this->populateFromResponse($response);
     }
 
     /**
      * @return void
      */
+    public function delete()
+    {
+        $this->execute(Api::deleteServer(), $this->getAttrs(['id']));
+    }
+
+    /**
+     * @return self
+     */
     public function retrieve()
     {
-        $response = $this->execute(Api::getServer());
+        $response = $this->execute(Api::getServer(), $this->getAttrs(['id']));
 
-        $this->populateFromResponse($response);
+        return $this->populateFromResponse($response);
     }
 }

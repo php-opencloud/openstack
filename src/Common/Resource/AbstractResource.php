@@ -7,6 +7,8 @@ use GuzzleHttp\Message\ResponseInterface;
 
 abstract class AbstractResource extends Operator implements ResourceInterface
 {
+    protected $jsonKey;
+
     protected $aliases = [];
 
     /**
@@ -17,12 +19,12 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return str_replace('\\Models', '', $this->getCurrentNamespace());
     }
 
-    public function populateFromResponse(ResponseInterface $response, $resourceKey = null)
+    public function populateFromResponse(ResponseInterface $response)
     {
         $json = $response->json();
 
         if (!empty($json)) {
-            $json = $resourceKey && isset($json[$resourceKey]) ? $json[$resourceKey] : $json;
+            $json = $this->jsonKey && isset($json[$this->jsonKey]) ? $json[$this->jsonKey] : $json;
             $this->populateFromArray($json);
         }
 
@@ -45,6 +47,8 @@ abstract class AbstractResource extends Operator implements ResourceInterface
 
         foreach ($keys as $key) {
             if (property_exists($this, $key)) {
+                //$aliases = array_flip($this->aliases);
+                //$alias = isset($aliases[$key]) ? $aliases[$key] : $key;
                 $output[$key] = $this->$key;
             }
         }

@@ -23,7 +23,7 @@ class AbstractResourceTest extends ProphecyTestCase
             json_encode(['foo' => ['bar' => '1']])
         ));
 
-        $this->resource->populateFromResponse($response, 'foo');
+        $this->resource->populateFromResponse($response);
 
         $this->assertEquals('1', $this->resource->bar);
     }
@@ -40,6 +40,8 @@ class TestResource extends AbstractResource
 {
     /** @var string */
     public $bar;
+
+    protected $jsonKey = 'foo';
 
     public function getAttrs(array $keys)
     {

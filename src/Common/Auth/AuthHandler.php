@@ -25,6 +25,7 @@ class AuthHandler implements AuthHandlerInterface
 
     /**
      * @codeCoverageIgnore
+     *
      * @return array
      */
     public function getEvents()
@@ -56,11 +57,6 @@ class AuthHandler implements AuthHandlerInterface
 
     public function authenticate()
     {
-        $username = $this->options['username'];
-        $password = $this->options['password'];
-        $tenantName = isset($this->options['tenantName']) ? $this->options['tenantName'] : '';
-
-        $remaining = array_diff_key($this->options, ['username' => null, 'password' => null, 'tenantName' => null]);
-        $this->token = $this->service->generateToken($username, $password, $tenantName, $remaining);
+        $this->token = $this->service->generateToken($this->options);
     }
 }

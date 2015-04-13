@@ -30,6 +30,10 @@ class OpenStack
         $this->builder = $builder ?: new Builder($options + $this->getEnvVars());
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @return array
+     */
     private function getEnvVars()
     {
         return [
