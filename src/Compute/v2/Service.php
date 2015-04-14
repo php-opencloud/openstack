@@ -11,8 +11,14 @@ class Service extends AbstractService
      *
      * @return Models\Server
      */
-    public function createServer(array $options = [])
+    public function createServer(array $options)
     {
         return $this->model('Server')->create($options);
+    }
+
+    public function listServers(array $options = [], callable $mapFn = null)
+    {
+        $operation = $this->getOperation(Api::getServers(), $options);
+        return $this->model('Server')->enumerate($operation, $mapFn);
     }
 }

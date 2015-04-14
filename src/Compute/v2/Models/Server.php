@@ -4,6 +4,7 @@ namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\IsCreatable;
 use OpenStack\Common\Resource\IsDeletable;
+use OpenStack\Common\Resource\IsListable;
 use OpenStack\Common\Resource\IsRetrievable;
 use OpenStack\Common\Resource\IsRetrievableInterface;
 use OpenStack\Common\Resource\IsUpdateable;
@@ -14,7 +15,8 @@ class Server extends AbstractResource implements
     IsCreatable,
     IsUpdateable,
     IsDeletable,
-    IsRetrievable
+    IsRetrievable,
+    IsListable
 {
     public $id;
     public $ipv4;
@@ -33,7 +35,9 @@ class Server extends AbstractResource implements
     public $tenantId;
     public $userId;
 
-    protected $jsonKey = 'server';
+    protected $resourceKey = 'server';
+    protected $resourcesKey = 'servers';
+    protected $markerKey = 'id';
 
     protected $aliases = [
         'block_device_mapping_v2' => 'blockDeviceMapping',

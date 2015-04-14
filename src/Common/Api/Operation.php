@@ -29,6 +29,21 @@ class Operation
         $this->userValues = $userValues;
     }
 
+    public function setValue($key, $value)
+    {
+        $this->userValues[$key] = $value;
+    }
+
+    public function getValue($key)
+    {
+        return isset($this->userValues[$key]) ? $this->userValues[$key] : null;
+    }
+
+    public function hasParam($key)
+    {
+        return isset($this->params[$key]);
+    }
+
     public static function toParamArray(array $data)
     {
         $params = [];
@@ -73,6 +88,11 @@ class Operation
         $uriPath = Utils::uriTemplate($this->path, $this->userValues);
 
         return $this->client->createRequest($this->method, $uriPath, $options);
+    }
+
+    public function send()
+    {
+        return $this->client->send($this->createRequest());
     }
 
     public function validate(array $userValues)

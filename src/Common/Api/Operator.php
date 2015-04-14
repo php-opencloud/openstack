@@ -28,8 +28,7 @@ abstract class Operator implements OperatorInterface
     public function execute(array $definition, array $userOptions = [])
     {
         $operation = $this->getOperation($definition, $userOptions);
-
-        return $this->client->send($operation->createRequest());
+        return $operation->send();
     }
 
     /**
@@ -62,6 +61,11 @@ abstract class Operator implements OperatorInterface
     public function getCurrentNamespace()
     {
         return (new \ReflectionClass(get_class($this)))->getNamespaceName();
+    }
+
+    public function newInstance()
+    {
+        return new static($this->client);
     }
 
     abstract protected function getServiceNamespace();

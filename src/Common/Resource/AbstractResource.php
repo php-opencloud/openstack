@@ -2,13 +2,17 @@
 
 namespace OpenStack\Common\Resource;
 
+use OpenStack\Common\Api\Operation;
 use OpenStack\Common\Api\Operator;
 use GuzzleHttp\Message\ResponseInterface;
 
 abstract class AbstractResource extends Operator implements ResourceInterface
 {
-    protected $jsonKey;
+    const DEFAULT_MARKER_KEY = 'id';
 
+    protected $resourceKey;
+    protected $resourcesKey;
+    protected $markerKey;
     protected $aliases = [];
 
     /**
@@ -19,13 +23,18 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return str_replace('\\Models', '', $this->getCurrentNamespace());
     }
 
+    private function flatten(array $data, $key = null)
+    {
+        $key = $key ?: $this->resourceKey;
+        return $key && isset($data[$key]) ? $data[$key] : $data;
+    }
+
     public function populateFromResponse(ResponseInterface $response)
     {
         $json = $response->json();
 
         if (!empty($json)) {
-            $json = $this->jsonKey && isset($json[$this->jsonKey]) ? $json[$this->jsonKey] : $json;
-            $this->populateFromArray($json);
+            $this->populateFromArray($this->flatten($json));
         }
 
         return $this;
@@ -54,5 +63,49 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         }
 
         return $output;
+    }
+
+    public function enumerate(Operation $operation, callable $mapFn = null)
+    {
+        $limit = $operation->getValue('limit') ?: false;
+        $supportsPagination = $operation->hasParam('marker');
+        $markerKey = $this->markerKey ?: self::DEFAULT_MARKER_KEY;
+
+        $count = 0;
+        $moreRequestsRequired = true;
+        $totalReached = false;
+
+        while ($moreRequestsRequired && $count < 20) {
+
+            $response = $operation->send();
+            $body = $response->json();
+            $json = $this->flatten($body, $this->resourcesKey);
+
+            foreach ($json as $resourceData) {
+                if ($limit && $count >= $limit) {
+                    $totalReached = true;
+                    break;
+                }
+
+                $count++;
+
+                $resource = $this->newInstance();
+                $resource->populateFromArray($resourceData);
+
+                if ($mapFn) {
+                    call_user_func_array($mapFn, [$resource]);
+                }
+
+                if ($supportsPagination) {
+                    $operation->setValue('marker', $resource->$markerKey);
+                }
+
+                yield $resource;
+            }
+
+            if ($totalReached || !$supportsPagination || empty($json)) {
+                $moreRequestsRequired = false;
+            }
+        }
     }
 }

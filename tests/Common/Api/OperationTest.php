@@ -18,6 +18,20 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->operation = new Operation(new Client(), $def);
     }
 
+    public function test_user_values_can_set_and_get()
+    {
+        $this->assertNull($this->operation->getValue('foo'));
+
+        $this->operation->setValue('foo', 'blah');
+        $this->assertEquals('blah', $this->operation->getValue('foo'));
+    }
+
+    public function test_it_reveals_whether_params_are_set_or_not()
+    {
+        $this->assertFalse($this->operation->hasParam('foo'));
+        $this->assertTrue($this->operation->hasParam('name'));
+    }
+
     /**
      * @expectedException \Exception
      */
