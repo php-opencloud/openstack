@@ -4,8 +4,8 @@ namespace OpenStack\Test\Common\Api;
 
 use OpenStack\Common\Api\JsonSerializer;
 use OpenStack\Common\Api\Operation;
-use OpenStack\Identity\v2\Api\Token as TokenApi;
-use OpenStack\Compute\v2\Api as ComputeV2Api;
+use OpenStack\Test\Fixtures\ComputeV2Api;
+use OpenStack\Test\Fixtures\IdentityV2Api;
 
 class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +18,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
     public function test_it_embeds_params_according_to_path()
     {
-        $params = Operation::toParamArray(TokenApi::post()['params']);
+        $params = Operation::toParamArray(IdentityV2Api::postToken()['params']);
 
         $userValue = ['username' => 'foo', 'password' => 'bar', 'tenantId' => 'blah'];
 

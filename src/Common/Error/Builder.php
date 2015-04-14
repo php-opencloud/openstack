@@ -2,14 +2,23 @@
 
 namespace OpenStack\Common\Error;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Event\ErrorEvent;
 use GuzzleHttp\Event\SubscriberInterface;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 
 class Builder implements SubscriberInterface
 {
     private $docDomain = 'http://docs.php-opencloud.com/en/latest/';
+    private $client;
+
+    public function __construct(ClientInterface $client = null)
+    {
+        $this->client = $client ?: new Client();
+    }
 
     /**
      * @codeCoverageIgnore
@@ -35,7 +44,12 @@ class Builder implements SubscriberInterface
     private function linkIsValid($link)
     {
         $link = $this->docDomain . $link;
-        return strpos(get_headers($link)[0], '404') === false;
+
+        try {
+            $resp = $this->client->head($link);
+        } catch (ClientException $e) {}
+
+        return $resp->getStatusCode() < 400;
     }
 
     public function httpError(RequestInterface $request, ResponseInterface $response)

@@ -5,8 +5,8 @@ namespace OpenStack\Common\Auth;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Subscriber\Log\Formatter;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
+use OpenStack\Identity\v2\Api;
 use OpenStack\Identity\v2\Service as IdentityV2Service;
-use OpenStack\Identity\v2\Api\Token as TokenApi;
 
 class ServiceUrlResolver
 {
@@ -28,7 +28,7 @@ class ServiceUrlResolver
         $this->identityService = new IdentityV2Service($this->httpClient);
 
         $authOpts = ['username' => null, 'password' => null, 'tenantId' => null, 'tenantName' => null];
-        $response = $this->identityService->execute(TokenApi::post(), array_intersect_key($options, $authOpts));
+        $response = $this->identityService->execute(Api::postToken(), array_intersect_key($options, $authOpts));
 
         $this->serviceUrl = $this->identityService->model('Catalog', $response)->getEndpointUrl(
             $options['catalogName'],

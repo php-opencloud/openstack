@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenStack\Identity\v2;
+namespace OpenStack\Test\Fixtures;
 
-class Api
+class IdentityV2Api
 {
     public static function postToken()
     {

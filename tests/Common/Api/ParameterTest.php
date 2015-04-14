@@ -3,7 +3,7 @@
 namespace OpenStack\Test\Common\Api;
 
 use OpenStack\Common\Api\Parameter;
-use OpenStack\Compute\v2\Api as ComputeV2Api;
+use OpenStack\Test\Fixtures\ComputeV2Api;
 
 class ParameterTest extends \PHPUnit_Framework_TestCase
 {

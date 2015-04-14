@@ -3,6 +3,7 @@
 namespace OpenStack\Test\Common\Error;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Event\ErrorEvent;
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\Response;
@@ -15,10 +16,12 @@ use OpenStack\Common\Error\UserInputError;
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     private $builder;
+    private $client;
 
     public function __construct()
     {
-        $this->builder = new Builder();
+        $this->client = $this->prophesize(ClientInterface::class);
+        $this->builder = new Builder($this->client->reveal());
     }
 
     public function test_it_builds_http_errors()
@@ -50,13 +53,14 @@ EOT;
 
         $e = new BadResponseError($errorMessage);
 
-        $this->assertEquals($e, $this->builder->httpError($request, $response, 'index.html'));
+        $this->assertEquals($e, $this->builder->httpError($request, $response));
     }
 
     public function test_it_builds_user_input_errors()
     {
         $expected = 'A well-formed string';
         $value = ['foo' => true];
+        $link = 'http://docs.php-opencloud.com/en/latest/index.html';
 
         $errorMessage = <<<EOT
 User Input Error
@@ -68,9 +72,13 @@ Array
     [foo] => 1
 )
 
-Please ensure that the value adheres to the expectation above. Visit http://docs.php-opencloud.com/en/latest/index.html for more information about input arguments. If you run into trouble, please open a support issue on https://github.com/php-opencloud/openstack/issues.
+Please ensure that the value adheres to the expectation above. Visit $link for more information about input arguments. If you run into trouble, please open a support issue on https://github.com/php-opencloud/openstack/issues.
 EOT;
 
+        $this->client
+            ->head($link)
+            ->shouldBeCalled()
+            ->willReturn(new Response(200));
 
         $e = new UserInputError($errorMessage);
 
@@ -95,6 +103,10 @@ Array
 Please ensure that the value adheres to the expectation above. If you run into trouble, please open a support issue on https://github.com/php-opencloud/openstack/issues.
 EOT;
 
+        $this->client
+            ->head('http://docs.php-opencloud.com/en/latest/sdffsda')
+            ->shouldBeCalled()
+            ->willReturn(new Response(404));
 
         $e = new UserInputError($errorMessage);
 

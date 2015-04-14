@@ -4,9 +4,8 @@ namespace OpenStack\Test\Common\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Message\Request;
 use OpenStack\Common\Api\Operation;
-use OpenStack\Compute\v2\Api as ComputeV2Api;
+use OpenStack\Test\Fixtures\ComputeV2Api;
 
 class OperationTest extends \PHPUnit_Framework_TestCase
 {
