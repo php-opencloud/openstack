@@ -2,8 +2,12 @@
 
 namespace OpenStack\Common\Api;
 
+use OpenStack\Common\HydratorStrategyTrait;
+
 class Parameter
 {
+    use HydratorStrategyTrait;
+
     const DEFAULT_LOCATION = 'json';
 
     private $name;
@@ -18,34 +22,13 @@ class Parameter
 
     public function __construct(array $data)
     {
-        if (isset($data['name'])) {
-            $this->name = $data['name'];
-        }
+        $this->hydrate($data);
 
-        $this->location = isset($data['location']) ? $data['location'] : self::DEFAULT_LOCATION;
-
-        if (isset($data['type'])) {
-            $this->type = $data['type'];
-        }
-
-        if (isset($data['path'])) {
-            $this->path = $data['path'];
-        }
-
-        if (isset($data['required'])) {
-            $this->required = (bool) $data['required'];
-        }
-
-        if (isset($data['sentAs'])) {
-            $this->sentAs = $data['sentAs'];
-        }
+        $this->location = $this->location ?: self::DEFAULT_LOCATION;
+        $this->required = (bool) $this->required;
 
         if (isset($data['items'])) {
             $this->itemSchema = new Parameter($data['items']);
-        }
-
-        if (isset($data['prefix'])) {
-            $this->prefix = $data['prefix'];
         }
 
         if (isset($data['properties'])) {
