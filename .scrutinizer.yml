@@ -1,0 +1,21 @@
+filter:
+    excluded_paths:
+        - 'tests/*'
+        - 'samples/*'
+        - 'integration/*'
+        - '*/v*/Api.php'
+
+checks:
+    php: true
+
+coding_style:
+    php: {  }
+
+build:
+    tests:
+        override:
+            -
+                command: './vendor/bin/phpunit --coverage-clover ./coverage.xml'
+                coverage:
+                    file: 'coverage.xml'
+                    format: 'php-clover'
