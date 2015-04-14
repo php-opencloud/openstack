@@ -1,8 +1,10 @@
 # Contributing to the OpenStack SDK
 
 - [Setting up your git workspace](#setting-up-your-git-workspace)
-- [Tests](#tests)
-- [Style guide](#basic-style-guide)
+- [Unit tests](#unit-tests)
+- [Integration tests](#integration-tests)
+- [Style guide](#style-guide)
+- [Documentation](#documentation)
 - [5 ways to get involved](#5-ways-to-get-involved)
 
 ## Setting up your git workspace
