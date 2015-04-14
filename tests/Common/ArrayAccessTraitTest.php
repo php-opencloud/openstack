@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Test;
+namespace OpenStack\Test\Common;
 
 use OpenStack\Common\ArrayAccessTrait;
 use Prophecy\PhpUnit\ProphecyTestCase;

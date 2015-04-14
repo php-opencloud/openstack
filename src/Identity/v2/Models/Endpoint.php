@@ -2,10 +2,13 @@
 
 namespace OpenStack\Identity\v2\Models;
 
+use OpenStack\Common\HydratorStrategyTrait;
 use OpenStack\Common\Resource\AbstractResource;
 
 class Endpoint extends AbstractResource
 {
+    use HydratorStrategyTrait;
+
     private $adminUrl;
     private $region;
     private $internalUrl;
@@ -13,21 +16,13 @@ class Endpoint extends AbstractResource
 
     public function populateFromArray(array $data)
     {
-        if (isset($data['adminURL'])) {
-            $this->adminUrl = $data['adminURL'];
-        }
+        $aliases = [
+            'adminURL'    => 'adminUrl',
+            'internalURL' => 'internalUrl',
+            'publicURL'   => 'publicUrl',
+        ];
 
-        if (isset($data['internalURL'])) {
-            $this->internalUrl = $data['internalURL'];
-        }
-
-        if (isset($data['publicURL'])) {
-            $this->publicUrl = $data['publicURL'];
-        }
-
-        if (isset($data['region'])) {
-            $this->region = $data['region'];
-        }
+        $this->hydrate($data, $aliases);
     }
 
     public function supportsRegion($region)
