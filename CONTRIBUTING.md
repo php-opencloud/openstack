@@ -1,4 +1,4 @@
-# Contributing to gophercloud
+# Contributing to the OpenStack SDK
 
 - [Setting up your git workspace](#setting-up-your-git-workspace)
 - [Tests](#tests)
