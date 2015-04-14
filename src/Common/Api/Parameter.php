@@ -69,18 +69,23 @@ class Parameter
         } elseif ($this->isObject()) {
             foreach ($userValues as $key => $userValue) {
                 // Check that nested keys are properly defined, but permit arbitrary structures if it's metadata
-                if ($this->name == 'metadata' && $this->properties instanceof Parameter) {
-                    $property = $this->properties;
-                } elseif (isset($this->properties[$key])) {
-                    $property = $this->properties[$key];
-                } else {
-                    throw new \Exception(sprintf('The key provided "%s" is not defined', $key));
-                }
+                $property = $this->getNestedProperty($key);
                 $property->validate($userValue);
             }
         }
 
         return true;
+    }
+
+    private function getNestedProperty($key)
+    {
+        if ($this->name == 'metadata' && $this->properties instanceof Parameter) {
+            return $this->properties;
+        } elseif (isset($this->properties[$key])) {
+            return $this->properties[$key];
+        } else {
+            throw new \Exception(sprintf('The key provided "%s" is not defined', $key));
+        }
     }
 
     private function hasCorrectType($userValue)
