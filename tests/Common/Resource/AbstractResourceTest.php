@@ -8,13 +8,8 @@ use GuzzleHttp\Stream\Stream;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Api\Operation;
 use OpenStack\Common\Resource\Generator;
-use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Test\TestCase;
-use OpenStack\Compute\v2\Service;
 use Prophecy\Argument;
-use Prophecy\Promise\ReturnArgumentPromise;
-use Prophecy\Prophecy\MethodProphecy;
-use Prophecy\Prophecy\ObjectProphecy;
 
 class AbstractResourceTest extends TestCase
 {
@@ -122,15 +117,5 @@ class TestResource extends AbstractResource
     public function getAttrs(array $keys)
     {
         return parent::getAttrs($keys);
-    }
-}
-
-class ReturnServerPromise extends ReturnArgumentPromise
-{
-    public function execute(array $args, ObjectProphecy $object, MethodProphecy $method)
-    {
-        $server = new Server(new Client());
-        $server->populateFromArray($args[1]);
-        return $server;
     }
 }
