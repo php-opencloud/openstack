@@ -39,4 +39,14 @@ class ServiceTest extends TestCase
 
         $this->assertInstanceOf(Server::class, $this->service->createServer($opts));
     }
+
+    public function test_it_lists_servers()
+    {
+        $req = $this->setupMockRequest('GET', 'servers');
+        $this->setupMockResponse($req, 'servers-get');
+
+        foreach ($this->service->listServers() as $server) {
+            $this->assertInstanceOf(Server::class, $server);
+        }
+    }
 } 
