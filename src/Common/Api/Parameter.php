@@ -129,8 +129,18 @@ class Parameter
         return $this->itemSchema;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
     public function getProperty($name)
     {
+        if ($this->properties instanceof Parameter) {
+            $this->properties->setName($name);
+            return $this->properties;
+        }
+
         return isset($this->properties[$name]) ? $this->properties[$name] : null;
     }
 

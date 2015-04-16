@@ -13,7 +13,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $def = ComputeV2Api::postServer();
+        $def = (new ComputeV2Api())->postServer();
 
         $this->operation = new Operation(new Client(), $def);
     }

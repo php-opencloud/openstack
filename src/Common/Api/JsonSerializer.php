@@ -61,7 +61,7 @@ class JsonSerializer
         }
 
         // Populate the final value
-        if (is_scalar($userValue)) {
+        if (is_scalar($userValue) || is_null($userValue)) {
             $json = $this->stockValue($userValue, $param, $json);
         }
 

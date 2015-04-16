@@ -106,12 +106,12 @@ class Operation
 
         foreach ($this->params as $paramName => $param) {
             // Check that all required options have been provided
-            if ($param->isRequired() && !isset($userValues[$paramName])) {
+            if ($param->isRequired() && !array_key_exists($paramName, $userValues)) {
                 throw new \Exception(sprintf('"%s" is a required option, but it was not provided', $paramName));
             }
 
             // Check that the user value is valid and well-formed
-            if (isset($userValues[$paramName])) {
+            if (array_key_exists($paramName, $userValues)) {
                 $param->validate($userValues[$paramName]);
             }
         }

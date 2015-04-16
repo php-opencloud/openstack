@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\Identity\v2;
 
+use OpenStack\Identity\v2\Api;
 use OpenStack\Identity\v2\Models\Token;
 use OpenStack\Identity\v2\Service;
 use OpenStack\Test\TestCase;
@@ -16,7 +17,7 @@ class ServiceTest extends TestCase
 
         $this->rootFixturesDir = __DIR__;
 
-        $this->service = new Service($this->client->reveal());
+        $this->service = new Service($this->client->reveal(), new Api());
     }
     
     public function test_it_generates_tokens()

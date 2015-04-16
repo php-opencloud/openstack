@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\Identity\v2\Models;
 
+use OpenStack\Identity\v2\Api;
 use OpenStack\Identity\v2\Models\Token;
 use OpenStack\Test\TestCase;
 
@@ -13,7 +14,7 @@ class TokenTest extends TestCase
     {
         parent::setUp();
         
-        $this->token = new Token($this->client->reveal());
+        $this->token = new Token($this->client->reveal(), new Api());
     }
 
     public function test_expiration_is_false_for_active_tokens()

@@ -10,15 +10,20 @@ use OpenStack\Test\Fixtures\IdentityV2Api;
 class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 {
     private $serializer;
+    private $identityApi;
+    private $computeApi;
 
     public function setUp()
     {
+        $this->computeApi  = new ComputeV2Api();
+        $this->identityApi = new IdentityV2Api();
+
         $this->serializer = new JsonSerializer();
     }
 
     public function test_it_embeds_params_according_to_path()
     {
-        $params = Operation::toParamArray(IdentityV2Api::postToken()['params']);
+        $params = Operation::toParamArray($this->identityApi->postToken()['params']);
 
         $userValue = ['username' => 'foo', 'password' => 'bar', 'tenantId' => 'blah'];
 
@@ -37,7 +42,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
     public function test_it_nests_json_objects_if_a_top_level_key_is_provided()
     {
-        $params = Operation::toParamArray(ComputeV2Api::postServer()['params']);
+        $params = Operation::toParamArray($this->computeApi->postServer()['params']);
 
         $userValue = ['name' => 'foo', 'imageId' => 'bar', 'flavorId' => 'baz'];
 
@@ -54,7 +59,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
     public function test_it_nests_json_arrays()
     {
-        $params = Operation::toParamArray(ComputeV2Api::postServer()['params']);
+        $params = Operation::toParamArray($this->computeApi->postServer()['params']);
 
         $userValues = [
             'securityGroups' => [

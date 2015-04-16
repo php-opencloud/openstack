@@ -7,6 +7,7 @@ use GuzzleHttp\Event\Emitter;
 use GuzzleHttp\Message\MessageFactory;
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
+use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTestCase;
@@ -20,10 +21,17 @@ abstract class TestCase extends ProphecyTestCase
     /** @var string */
     protected $rootFixturesDir;
 
+    protected $api;
+
     protected function setUp()
     {
         $this->client = $this->prophesize(ClientInterface::class);
         $this->client->getEmitter()->willReturn(new Emitter());
+    }
+
+    protected function createResponse($status, array $headers, array $json)
+    {
+        return new Response($status, $headers, Stream::factory(json_encode($json)));
     }
 
     protected function getFixture($file)

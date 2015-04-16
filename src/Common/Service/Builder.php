@@ -3,12 +3,10 @@
 namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Subscriber\Log\Formatter;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
 use OpenStack\Common\Auth\AuthHandler;
 use OpenStack\Common\Auth\ServiceUrlResolver;
-use OpenStack\Common\Error\Builder as ErrorBuilder;
 
 /**
  * A Builder for easily creating OpenStack services.
@@ -50,9 +48,12 @@ class Builder
         $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
         $this->checkRequiredOptions($options);
 
-        $serviceClass = sprintf("OpenStack\\%s\\v%d\\Service", $serviceName, $serviceVersion);
+        $rootNamespace = sprintf("OpenStack\\%s\\v%d", $serviceName, $serviceVersion);
 
-        return new $serviceClass($this->httpClient($options), new ErrorBuilder());
+        $apiClass = sprintf("%s\\Api", $rootNamespace);
+        $serviceClass = sprintf("%s\\Service", $rootNamespace);
+
+        return new $serviceClass($this->httpClient($options), new $apiClass());
     }
 
     /**

@@ -11,10 +11,13 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
     private $param;
     private $data;
+    private $api;
 
     public function setUp()
     {
-        $this->data = ComputeV2Api::postServer()['params']['name'] + ['name' => 'name'];
+        $this->api = new ComputeV2Api();
+        
+        $this->data = $this->api->postServer()['params']['name'] + ['name' => 'name'];
         $this->param = new Parameter($this->data);
     }
 
@@ -38,7 +41,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
     public function test_it_indicates_its_item_schema()
     {
-        $data = ComputeV2Api::postServer()['params']['networks'] + ['name' => 'networks'];
+        $data = $this->api->postServer()['params']['networks'] + ['name' => 'networks'];
         $param = new Parameter($data);
 
         $this->assertInstanceOf(self::PARAMETER_CLASS, $param->getItemSchema());
@@ -46,7 +49,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
     public function test_it_allows_property_retrieval()
     {
-        $definition = ComputeV2Api::postServer()['params']['networks']['items'] + ['name' => 'network'];
+        $definition = $this->api->postServer()['params']['networks']['items'] + ['name' => 'network'];
         $param = new Parameter($definition);
 
         $this->assertInstanceOf(self::PARAMETER_CLASS, $param->getProperty('uuid'));
@@ -76,7 +79,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_throws_exception_when_values_do_not_match_their_definition_types()
     {
-        $data = ComputeV2Api::postServer()['params']['networks'] + ['name' => 'networks'];
+        $data = $this->api->postServer()['params']['networks'] + ['name' => 'networks'];
         $param = new Parameter($data);
 
         $param->validate('a_network!'); // should be an array
@@ -87,7 +90,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
      */
     public function test_it_throws_exception_when_deeply_nested_values_have_wrong_types()
     {
-        $data = ComputeV2Api::postServer()['params']['networks'] + ['name' => 'networks'];
+        $data = $this->api->postServer()['params']['networks'] + ['name' => 'networks'];
 
         $param = new Parameter($data);
         $param->validate(['name' => false]); // value should be a string, not bool

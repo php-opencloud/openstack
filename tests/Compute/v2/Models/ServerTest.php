@@ -2,8 +2,8 @@
 
 namespace OpenStack\Test\Compute\v2\Models;
 
-use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\Response;
+use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Test\TestCase;
@@ -19,7 +19,7 @@ class ServerTest extends TestCase
 
         $this->rootFixturesDir = dirname(__DIR__);
 
-        $this->server = new Server($this->client->reveal());
+        $this->server = new Server($this->client->reveal(), new Api());
         $this->server->id = 'serverId';
     }
 
@@ -37,17 +37,8 @@ class ServerTest extends TestCase
             'flavorRef' => $opts['flavorId'],
         ]];
 
-        $request = new Request('POST', 'servers');
-
-        $this->client
-            ->createRequest('POST', 'servers', ['json' => $expectedJson])
-            ->shouldBeCalled()
-            ->willReturn($request);
-
-        $this->client
-            ->send(Argument::is($request))
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('server-post'));
+        $req = $this->setupMockRequest('POST', 'servers', $expectedJson);
+        $this->setupMockResponse($req, 'server-post');
 
         $this->assertInstanceOf(Server::class, $this->server->create($opts));
     }
@@ -65,127 +56,212 @@ class ServerTest extends TestCase
             'accessIPv6' => '0:0:0:0:0:ffff:0:0',
         ]];
 
-        $request = new Request('PUT', 'server/serverId');
-
-        $this->client
-            ->createRequest('PUT', 'servers/serverId', ['json' => $expectedJson])
-            ->shouldBeCalled()
-            ->willReturn($request);
-
-        $this->client
-            ->send(Argument::is($request))
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('server-put'));
+        $request = $this->setupMockRequest('PUT', 'servers/serverId', $expectedJson);
+        $this->setupMockResponse($request, 'server-put');
 
         $this->assertInstanceOf(Server::class, $this->server->update());
     }
 
     public function test_it_deletes()
     {
-        $req = new Request('DELETE', '');
-
-        $this->client
-            ->createRequest('DELETE', 'servers/serverId', [])
-            ->shouldBeCalled()
-            ->willReturn($req);
-
-        $this->client
-            ->send(Argument::is($req))
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
+        $req = $this->setupMockRequest('DELETE', 'servers/serverId', []);
+        $this->setupMockResponse($req, new Response(204));
 
         $this->assertNull($this->server->delete());
     }
 
     public function test_it_retrieves()
     {
-        $request = new Request('GET', 'server/foo');
-
-        $this->client
-            ->createRequest('GET', 'servers/foo', [])
-            ->shouldBeCalled()
-            ->willReturn($request);
-
-        $this->client
-            ->send(Argument::is($request))
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('server-get'));
-
-        $this->server->id = 'foo';
+        $request = $this->setupMockRequest('GET', 'servers/serverId');
+        $this->setupMockResponse($request, 'server-get');
 
         $this->assertInstanceOf(Server::class, $this->server->retrieve());
-
         $this->assertInstanceOf(Flavor::class, $this->server->flavor);
         $this->assertEquals("1", $this->server->flavor->id);
     }
 
     public function test_it_changes_password()
     {
+        $expectedJson = ['changePassword' => ['adminPass' => 'foo']];
+        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
+        $this->setupMockResponse($request, new Response(202));
 
+        $this->assertNull($this->server->changePassword('foo'));
     }
 
     public function test_it_reboots()
     {
+        $expectedJson = ["reboot" => ["type" => "SOFT"]];
+        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
+        $this->setupMockResponse($request, new Response(202));
 
+        $this->assertNull($this->server->reboot());
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function test_an_exception_is_thrown_when_rebooting_with_an_invalid_type()
+    {
+        $this->server->reboot('foo');
     }
 
     public function test_it_rebuilds()
     {
+        $userOptions = [
+            'imageId' => 'newImage',
+            'name'    => 'newName',
+            'metadata' => [
+                'foo' => 'bar',
+                'baz' => 'bar',
+            ],
+            'personality' => [
+                [
+                    'path'     => '/etc/banner.txt',
+                    'contents' => base64_encode('Hi there!'),
+                ]
+            ]
+        ];
 
+        $expectedJson = ['rebuild' => [
+            'imageRef' => $userOptions['imageId'],
+            'name'     => $userOptions['name'],
+            'metadata' => $userOptions['metadata'],
+            'personality' => $userOptions['personality'],
+        ]];
+
+        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
+        $this->setupMockResponse($request, 'server-rebuild');
+
+        $this->server->rebuild($userOptions);
+
+        $this->assertEquals($userOptions['imageId'], $this->server->image->id);
+        $this->assertEquals($userOptions['name'], $this->server->name);
     }
 
     public function test_it_resizes()
     {
+        $expectedJson = ['resize' => ['flavorRef' => 'flavorId']];
 
+        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
+        $this->setupMockResponse($request, new Response(202));
+
+        $this->assertNull($this->server->resize('flavorId'));
     }
 
     public function test_it_confirms_resizes()
     {
+        $expectedJson = ['confirmResize' => null];
 
+        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
+        $this->setupMockResponse($request, new Response(202));
+
+        $this->assertNull($this->server->confirmResize());
     }
 
     public function test_it_reverts_resizes()
     {
+        $expectedJson = ['revertResize' => null];
 
+        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
+        $this->setupMockResponse($request, new Response(202));
+
+        $this->assertNull($this->server->revertResize());
     }
 
     public function test_it_creates_images()
     {
+        $userData = ['name' => 'newImage', 'metadata' => ['foo' => 'bar']];
 
+        $expectedJson = ['createImage' => $userData];
+
+        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
+        $this->setupMockResponse($request, new Response(202));
+
+        $this->assertNull($this->server->createImage($userData));
     }
 
     public function test_it_gets_ip_addresses()
     {
+        $request = $this->setupMockRequest('GET', 'servers/serverId/ips');
+        $this->setupMockResponse($request, 'server-ips');
 
+        $ips = $this->server->listAddresses();
+
+        $this->assertInternalType('array', $ips);
+        $this->assertCount(4, $ips['public']);
+        $this->assertCount(2, $ips['private']);
     }
 
     public function test_it_gets_ip_addresses_by_network_label()
     {
+        $request = $this->setupMockRequest('GET', 'servers/serverId/ips/foo');
+        $this->setupMockResponse($request, 'server-ips');
 
+        $ips = $this->server->listAddresses(['networkLabel' => 'foo']);
+
+        $this->assertInternalType('array', $ips);
+        $this->assertCount(4, $ips['public']);
+        $this->assertCount(2, $ips['private']);
     }
 
     public function test_it_retrieves_metadata()
     {
+        $request = $this->setupMockRequest('GET', 'servers/serverId/metadata');
+        $this->setupMockResponse($request, 'server-metadata-get');
 
+        $metadata = $this->server->getMetadata();
+
+        $this->assertEquals('x86_64', $metadata['architecture']);
+        $this->assertEquals('True', $metadata['auto_disk_config']);
+        $this->assertEquals('nokernel', $metadata['kernel_id']);
+        $this->assertEquals('nokernel', $metadata['ramdisk_id']);
     }
 
     public function test_it_sets_metadata()
     {
+        $metadata = ['foo' => '1', 'bar' => '2'];
 
+        $expectedJson = ['metadata' => $metadata];
+
+        $request = $this->setupMockRequest('PUT', 'servers/serverId/metadata', $expectedJson);
+        $this->setupMockResponse($request, $this->createResponse(200, [], $expectedJson));
+
+        $metadata = $this->server->resetMetadata($metadata);
+
+        $this->assertEquals('1', $metadata['foo']);
     }
 
     public function test_it_updates_metadata()
     {
+        $metadata = ['foo' => '1'];
 
+        $expectedJson = ['metadata' => $metadata];
+
+        $request = $this->setupMockRequest('POST', 'servers/serverId/metadata', $expectedJson);
+        $this->setupMockResponse($request, $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']])));
+
+        $metadata = $this->server->mergeMetadata($metadata);
+
+        $this->assertEquals('1', $metadata['foo']);
+        $this->assertEquals('2', $metadata['bar']);
     }
 
     public function test_it_retrieves_a_metadata_item()
     {
+        $request = $this->setupMockRequest('GET', 'servers/serverId/metadata/fooKey');
+        $this->setupMockResponse($request, $this->createResponse(200, [], ['metadata' => ['fooKey' => 'bar']]));
 
+        $value = $this->server->getMetadataItem('fooKey');
+
+        $this->assertEquals('bar', $value);
     }
 
     public function test_it_deletes_a_metadata_item()
     {
+        $request = $this->setupMockRequest('DELETE', 'servers/serverId/metadata/fooKey');
+        $this->setupMockResponse($request, new Response(204));
 
+        $this->assertNull($this->server->deleteMetadataItem('fooKey'));
     }
 }

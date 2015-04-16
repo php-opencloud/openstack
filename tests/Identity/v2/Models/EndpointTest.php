@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\Identity\v2\Models;
 
+use OpenStack\Identity\v2\Api;
 use OpenStack\Identity\v2\Models\Endpoint;
 use OpenStack\Test\TestCase;
 
@@ -13,7 +14,7 @@ class EndpointTest extends TestCase
     {
         parent::setUp();
 
-        $this->endpoint = new Endpoint($this->client->reveal());
+        $this->endpoint = new Endpoint($this->client->reveal(), new Api());
     }
 
     public function test_it_supports_internal_urls()

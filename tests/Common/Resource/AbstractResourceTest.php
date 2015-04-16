@@ -9,6 +9,7 @@ use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Api\Operation;
 use OpenStack\Common\Resource\Generator;
 use OpenStack\Common\Resource\ResourceInterface;
+use OpenStack\Test\Fixtures\ComputeV2Api;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
@@ -21,7 +22,7 @@ class AbstractResourceTest extends TestCase
         parent::setUp();
 
         $this->rootFixturesDir = __DIR__;
-        $this->resource = new TestResource(new Client());
+        $this->resource = new TestResource(new Client(), new ComputeV2Api());
     }
 
     public function test_it_populates_from_response()

@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\Compute\v2;
 
+use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Service;
 use OpenStack\Test\TestCase;
@@ -17,7 +18,7 @@ class ServiceTest extends TestCase
 
         $this->rootFixturesDir = __DIR__;
 
-        $this->service = new Service($this->client->reveal());
+        $this->service = new Service($this->client->reveal(), new Api());
     }
 
     public function test_it_creates_servers()

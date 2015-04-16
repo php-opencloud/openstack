@@ -11,10 +11,13 @@ abstract class Operator implements OperatorInterface
 {
     private $client;
     private $errorBuilder;
+    protected $api;
 
-    public function __construct(ClientInterface $client)
+    public function __construct(ClientInterface $client, ApiInterface $api)
     {
         $this->client = $client;
+        $this->api = $api;
+
         $this->errorBuilder = new Builder();
 
         $this->client->getEmitter()->attach($this->errorBuilder);
@@ -41,7 +44,7 @@ abstract class Operator implements OperatorInterface
     {
         $class = sprintf("%s\\Models\\%s", $this->getServiceNamespace(), $name);
 
-        $model = new $class($this->client);
+        $model = new $class($this->client, $this->api);
 
         // @codeCoverageIgnoreStart
         if (!$model instanceof ResourceInterface) {
@@ -65,7 +68,7 @@ abstract class Operator implements OperatorInterface
 
     public function newInstance()
     {
-        return new static($this->client);
+        return new static($this->client, $this->api);
     }
 
     abstract protected function getServiceNamespace();

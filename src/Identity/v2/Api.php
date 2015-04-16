@@ -2,9 +2,11 @@
 
 namespace OpenStack\Identity\v2;
 
-class Api
+use OpenStack\Common\Api\ApiInterface;
+
+class Api implements ApiInterface
 {
-    public static function postToken()
+    public function postToken()
     {
         return [
             'method' => 'POST',

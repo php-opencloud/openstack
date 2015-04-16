@@ -8,6 +8,7 @@ use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\Response;
 use OpenStack\Common\Api\Operator;
 use OpenStack\Common\Resource\ResourceInterface;
+use OpenStack\Test\Fixtures\ComputeV2Api;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTestCase;
 
@@ -28,7 +29,7 @@ class OperatorTest extends ProphecyTestCase
             'params' => [],
         ];
 
-        $this->operator = new TestOperator($this->client->reveal());
+        $this->operator = new TestOperator($this->client->reveal(), new ComputeV2Api());
     }
 
     public function test_it_returns_operations()

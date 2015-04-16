@@ -2,11 +2,13 @@
 
 namespace OpenStack\Test\Fixtures;
 
-class ComputeV2Api
-{
-    private static $idParam = ['type' => 'string', 'required' => true, 'location' => 'url'];
+use OpenStack\Common\Api\ApiInterface;
 
-    public static function getImage()
+class ComputeV2Api implements ApiInterface
+{
+    private $idParam = ['type' => 'string', 'required' => true, 'location' => 'url'];
+
+    public function getImage()
     {
         return [
             'method' => 'GET',
@@ -15,7 +17,7 @@ class ComputeV2Api
         ];
     }
 
-    public static function postServer()
+    public function postServer()
     {
         return [
             'path' => 'servers',
@@ -69,7 +71,7 @@ class ComputeV2Api
         ];
     }
 
-    public static function getServers()
+    public function getServers()
     {
         return [
             'method' => 'GET',

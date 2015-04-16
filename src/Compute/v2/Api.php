@@ -2,13 +2,72 @@
 
 namespace OpenStack\Compute\v2;
 
-class Api
-{
-    private static $idParam = ['type' => 'string', 'required' => true, 'location' => 'url'];
-    private static $keyParam = ['type' => 'string', 'location' => 'url', 'required' => true];
-    private static $metadataParam = ['type' => 'object', 'location' => 'json', 'required' => true];
+use OpenStack\Common\Api\ApiInterface;
 
-    public static function getFlavors()
+/**
+ * A representation of the Compute (Nova) v2 REST API.
+ *
+ * @package OpenStack\Compute\v2
+ */
+class Api implements ApiInterface
+{
+    private $idParam = [
+        'type' => 'string',
+        'required' => true,
+        'location' => 'url'
+    ];
+
+    private $keyParam = [
+        'type' => 'string',
+        'location' => 'url',
+        'required' => true
+    ];
+
+    private $ipv4Param = [
+        'type' => 'string',
+        'location' => 'json',
+        'sentAs' => 'accessIPv4'
+    ];
+
+    private $ipv6Param = [
+        'type' => 'string',
+        'location' => 'json',
+        'sentAs' => 'accessIPv6'
+    ];
+
+    private $imageIdParam = [
+        'type' => 'string',
+        'required' => true,
+        'sentAs' => 'imageRef'
+    ];
+
+    private $flavorIdParam = [
+        'type' => 'string',
+        'required' => true,
+        'sentAs' => 'flavorRef'
+    ];
+
+    private $metadataParam = [
+        'type' => 'object',
+        'location' => 'json',
+        'required' => true,
+        'properties' => [
+            'type' => 'string'
+        ]
+    ];
+
+    private $personalityParam = [
+        'type' => 'array',
+        'items' => [
+            'type' => 'object',
+            'properties' => [
+                'path' => ['type' => 'string'],
+                'contents' => ['type' => 'string'],
+            ]
+        ]
+    ];
+
+    public function getFlavors()
     {
         return [
             'method' => 'GET',
@@ -22,23 +81,23 @@ class Api
         ];
     }
 
-    public static function getFlavorsDetail()
+    public function getFlavorsDetail()
     {
-        $op = self::getAll();
+        $op = $this->getAll();
         $op['path'] += '/detail';
         return $op;
     }
 
-    public static function getFlavor()
+    public function getFlavor()
     {
         return [
             'method' => 'GET',
             'path'   => 'flavors/{id}',
-            'params' => [self::$idParam]
+            'params' => ['id' => $this->idParam]
         ];
     }
 
-    public static function getImages()
+    public function getImages()
     {
         return [
             'method' => 'GET',
@@ -55,89 +114,89 @@ class Api
         ];
     }
 
-    public static function getImagesDetail()
+    public function getImagesDetail()
     {
-        $op = self::getAll();
+        $op = $this->getAll();
         $op['path'] += '/detail';
         return $op;
     }
 
-    public static function getImage()
+    public function getImage()
     {
         return [
             'method' => 'GET',
             'path'   => 'images/{id}',
-            'params' => [self::$idParam]
+            'params' => [$this->idParam]
         ];
     }
 
-    public static function deleteImage()
+    public function deleteImage()
     {
         return [
             'method' => 'DELETE',
             'path'   => 'images/{id}',
-            'params' => ['id' => self::$idParam]
+            'params' => ['id' => $this->idParam]
         ];
     }
 
-    public static function getImageMetadata()
+    public function getImageMetadata()
     {
         return [
             'method' => 'GET',
             'path'   => 'images/{id}/metadata',
-            'params' => ['id' => self::$idParam]
+            'params' => ['id' => $this->idParam]
         ];
     }
 
-    public static function putImageMetadata()
+    public function putImageMetadata()
     {
         return [
             'method' => 'PUT',
             'path'   => 'images/{id}/metadata',
             'params' => [
-                'id' => self::$idParam,
-                'metadata' => self::$metadataParam
+                'id' => $this->idParam,
+                'metadata' => $this->metadataParam
             ]
         ];
     }
 
-    public static function postImageMetadata()
+    public function postImageMetadata()
     {
         return [
             'method' => 'POST',
             'path'   => 'images/{id}/metadata',
             'params' => [
-                'id' => self::$idParam,
-                'metadata' => self::$metadataParam
+                'id' => $this->idParam,
+                'metadata' => $this->metadataParam
             ]
         ];
     }
 
-    public static function getImageMetadataKey()
+    public function getImageMetadataKey()
     {
         return [
             'method' => 'GET',
             'path'   => 'images/{id}/metadata/{key}',
             'params' => [
-                'id' => self::$idParam,
-                'key' => self::$keyParam,
+                'id' => $this->idParam,
+                'key' => $this->keyParam,
             ]
         ];
     }
 
-    public static function deleteImageMetadataKey()
+    public function deleteImageMetadataKey()
     {
         return [
             'method' => 'DELETE',
             'path'   => 'images/{id}/metadata/{key}',
             'params' => [
-                'id' => self::$idParam,
-                'key' => self::$keyParam,
+                'id' => $this->idParam,
+                'key' => $this->keyParam,
             ]
         ];
     }
 
-    public static function postServer()
+    public function postServer()
     {
         return [
             'path' => 'servers',
@@ -156,8 +215,8 @@ class Api
                 ],
                 'userData' => ['type' => 'string', 'sentAs' => 'user_data'],
                 'availabilityZone' => ['type' => 'string', 'sentAs' => 'availability_zone'],
-                'imageId' => ['type' => 'string', 'required' => true, 'sentAs' => 'imageRef'],
-                'flavorId' => ['type' => 'string', 'required' => true, 'sentAs' => 'flavorRef'],
+                'imageId' => $this->imageIdParam,
+                'flavorId' => $this->flavorIdParam,
                 'networks' => [
                     'type' => 'array',
                     'items' => [
@@ -170,7 +229,7 @@ class Api
                 ],
                 'name' => ['type' => 'string', 'required' => true],
                 'metadata' => ['type' => 'object', 'location' => 'json'],
-                'personality' => ['type' => 'string'],
+                'personality' => $this->personalityParam,
                 'blockDeviceMapping' => [
                     'type' => 'array',
                     'sentAs' => 'block_device_mapping_v2',
@@ -191,7 +250,7 @@ class Api
         ];
     }
 
-    public static function getServers()
+    public function getServers()
     {
         return [
             'method' => 'GET',
@@ -209,206 +268,216 @@ class Api
         ];
     }
 
-    public static function getServersDetail()
+    public function getServersDetail()
     {
-        $definition = self::getServers();
+        $definition = $this->getServers();
         $definition['path'] += '/detail';
         return $definition;
     }
 
-    public static function getServer()
+    public function getServer()
     {
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}',
-            'params' => ['id' => self::$idParam]
+            'params' => ['id' => $this->idParam]
         ];
     }
 
-    public static function putServer()
+    public function putServer()
     {
         return [
             'method' => 'PUT',
             'path'   => 'servers/{id}',
             'jsonKey' => 'server',
             'params' => [
-                'id'   => self::$idParam,
+                'id'   => $this->idParam,
                 'name' => ['type' => 'string', 'location' => 'json'],
-                'ipv4' => ['type' => 'string','location' => 'json', 'sentAs' => 'accessIPv4'],
-                'ipv6' => ['type' => 'string','location' => 'json', 'sentAs' => 'accessIPv6'],
+                'ipv4' => $this->ipv4Param,
+                'ipv6' => $this->ipv6Param,
             ],
         ];
     }
 
-    public static function deleteServer()
+    public function deleteServer()
     {
         return [
             'method' => 'DELETE',
             'path'   => 'servers/{id}',
-            'params' => ['id' => self::$idParam],
+            'params' => ['id' => $this->idParam],
         ];
     }
 
-    public static function changeServerPassword()
+    public function changeServerPassword()
     {
         return [
             'method' => 'POST',
             'path' => 'servers/{id}/action',
             'jsonKey' => 'changePassword',
             'params' => [
-                'id' => self::$idParam,
+                'id' => $this->idParam,
                 'password' => ['sentAs' => 'adminPass', 'type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
     }
 
-    public static function rebootServer()
+    public function rebootServer()
     {
         return [
             'method' => 'POST',
             'path' => 'servers/{id}/action',
             'jsonKey' => 'reboot',
             'params' => [
-                'id' => self::$idParam,
+                'id' => $this->idParam,
                 'type' => ['type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
     }
 
-    public static function rebuildServer()
+    public function rebuildServer()
     {
         return [
             'method' => 'POST',
-            'path' => 'servers/{id}/action',
-            'params' => ['id' => self::$idParam],
+            'path'   => 'servers/{id}/action',
+            'jsonKey' => 'rebuild',
+            'params' => [
+                'id'          => $this->idParam,
+                'name'        => ['type' => 'string', 'location' => 'json'],
+                'ipv4'        => $this->ipv4Param,
+                'ipv6'        => $this->ipv6Param,
+                'imageId'     => $this->imageIdParam,
+                'adminPass'   => ['type' => 'string', 'location' => 'json'],
+                'metadata'    => ['type' => 'object', 'location' => 'json', 'properties' => ['type' => 'string']],
+                'personality' => $this->personalityParam,
+            ],
         ];
     }
 
-    public static function resizeServer()
+    public function resizeServer()
     {
         return [
             'method' => 'POST',
             'path' => 'servers/{id}/action',
             'jsonKey' => 'resize',
             'params' => [
-                'id' => self::$idParam,
+                'id' => $this->idParam,
                 'flavorId' => ['sentAs' => 'flavorRef', 'type' => 'string', 'location' => 'json', 'required' => true],
             ],
         ];
     }
 
-    public static function confirmServerResize()
+    public function confirmServerResize()
     {
         return [
             'method' => 'POST',
             'path' => 'servers/{id}/action',
             'params' => [
-                'id' => self::$idParam,
-                'confirmResize' => ['type' => 'string', 'location' => 'json', 'required' => true],
+                'id' => $this->idParam,
+                'confirmResize' => ['type' => 'NULL', 'location' => 'json', 'required' => true],
             ],
         ];
     }
 
-    public static function revertServerResize()
+    public function revertServerResize()
     {
         return [
             'method' => 'POST',
             'path' => 'servers/{id}/action',
             'params' => [
-                'id' => self::$idParam,
-                'revertResize' => ['type' => 'string', 'location' => 'json', 'required' => true],
+                'id' => $this->idParam,
+                'revertResize' => ['type' => 'NULL', 'location' => 'json', 'required' => true],
             ],
         ];
     }
 
-    public static function createServerImage()
+    public function createServerImage()
     {
         return [
             'method' => 'POST',
             'path' => 'servers/{id}/action',
             'jsonKey' => 'createImage',
             'params' => [
-                'id' => self::$idParam,
-                'name' => ['type' => 'string', 'required' => true, 'location' => 'json'],
-                'metadata' => self::$metadataParam,
+                'id'       => $this->idParam,
+                'name'     => ['type' => 'string', 'required' => true, 'location' => 'json'],
+                'metadata' => $this->metadataParam,
             ],
         ];
     }
 
-    public static function getAddresses()
+    public function getAddresses()
     {
         return [
             'method' => 'GET',
             'path' => 'servers/{id}/ips',
-            'params' => ['id' => self::$idParam],
+            'params' => ['id' => $this->idParam],
         ];
     }
 
-    public static function getAddressesByNetwork()
+    public function getAddressesByNetwork()
     {
         return [
             'method' => 'GET',
             'path' => 'servers/{id}/ips/{networkLabel}',
             'params' => [
-                'id' => self::$idParam,
+                'id' => $this->idParam,
                 'networkLabel' => ['type' => 'string', 'location' => 'url', 'required' => true],
             ],
         ];
     }
 
-    public static function getServerMetadata()
+    public function getServerMetadata()
     {
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}/metadata',
-            'params' => ['id' => self::$idParam]
+            'params' => ['id' => $this->idParam]
         ];
     }
 
-    public static function putServerMetadata()
+    public function putServerMetadata()
     {
         return [
             'method' => 'PUT',
             'path'   => 'servers/{id}/metadata',
             'params' => [
-                'id' => self::$idParam,
-                'metadata' => self::$metadataParam
+                'id' => $this->idParam,
+                'metadata' => $this->metadataParam
             ]
         ];
     }
 
-    public static function postServerMetadata()
+    public function postServerMetadata()
     {
         return [
             'method' => 'POST',
             'path'   => 'servers/{id}/metadata',
             'params' => [
-                'id' => self::$idParam,
-                'metadata' => self::$metadataParam
+                'id' => $this->idParam,
+                'metadata' => $this->metadataParam
             ]
         ];
     }
 
-    public static function getServerMetadataKey()
+    public function getServerMetadataKey()
     {
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}/metadata/{key}',
             'params' => [
-                'id'  => self::$idParam,
-                'key' => self::$keyParam,
+                'id'  => $this->idParam,
+                'key' => $this->keyParam,
             ]
         ];
     }
 
-    public static function deleteServerMetadataKey()
+    public function deleteServerMetadataKey()
     {
         return [
             'method' => 'DELETE',
             'path'   => 'servers/{id}/metadata/{key}',
             'params' => [
-                'id'  => self::$idParam,
-                'key' => self::$keyParam,
+                'id'  => $this->idParam,
+                'key' => $this->keyParam,
             ]
         ];
     }

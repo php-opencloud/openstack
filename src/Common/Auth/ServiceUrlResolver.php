@@ -25,10 +25,11 @@ class ServiceUrlResolver
             $this->httpClient->getEmitter()->attach(new LogSubscriber(null, Formatter::DEBUG));
         }
 
-        $this->identityService = new IdentityV2Service($this->httpClient);
+        $api = new Api();
+        $this->identityService = new IdentityV2Service($this->httpClient, $api);
 
         $authOpts = ['username' => null, 'password' => null, 'tenantId' => null, 'tenantName' => null];
-        $response = $this->identityService->execute(Api::postToken(), array_intersect_key($options, $authOpts));
+        $response = $this->identityService->execute($api->postToken(), array_intersect_key($options, $authOpts));
 
         $this->serviceUrl = $this->identityService->model('Catalog', $response)->getEndpointUrl(
             $options['catalogName'],

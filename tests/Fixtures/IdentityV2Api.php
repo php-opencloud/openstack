@@ -2,9 +2,11 @@
 
 namespace OpenStack\Test\Fixtures;
 
-class IdentityV2Api
+use OpenStack\Common\Api\ApiInterface;
+
+class IdentityV2Api implements ApiInterface
 {
-    public static function postToken()
+    public function postToken()
     {
         return [
             'method' => 'POST',
