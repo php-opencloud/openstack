@@ -67,6 +67,16 @@ class Api implements ApiInterface
         ]
     ];
 
+    private $limitParam = [
+        'type'     => 'integer',
+        'location' => 'query',
+    ];
+
+    private $markerParam = [
+        'type'     => 'string',
+        'location' => 'query',
+    ];
+
     public function getFlavors()
     {
         return [
@@ -74,9 +84,9 @@ class Api implements ApiInterface
             'path'   => 'flavors',
             'params' => [
                 'minDisk' => ['type' => 'integer', 'location' => 'query'],
-                'minRam' => ['type' => 'integer', 'location' => 'query'],
-                'limit' => ['type' => 'integer', 'location' => 'query'],
-                'marker' => ['type' => 'string', 'location' => 'query'],
+                'minRam'  => ['type' => 'integer', 'location' => 'query'],
+                'limit'   => $this->limitParam,
+                'marker'  => $this->markerParam,
             ],
         ];
     }
@@ -108,8 +118,8 @@ class Api implements ApiInterface
                 'name'   => ['type' => 'string', 'location' => 'query'],
                 'status' => ['type' => 'string', 'location' => 'query'],
                 'type'   => ['type' => 'string', 'location' => 'query'],
-                'limit'  => ['type' => 'integer', 'location' => 'query'],
-                'marker' => ['type' => 'string', 'location' => 'query'],
+                'limit'  => $this->limitParam,
+                'marker' => $this->markerParam,
             ],
         ];
     }
@@ -126,7 +136,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'images/{id}',
-            'params' => [$this->idParam]
+            'params' => ['id' => $this->idParam]
         ];
     }
 
@@ -260,8 +270,8 @@ class Api implements ApiInterface
                 'imageId'      => ['sentAs' => 'image', 'type' => 'string', 'location' => 'query'],
                 'flavorId'     => ['sentAs' => 'flavor', 'type' => 'string', 'location' => 'query'],
                 'name'         => ['type' => 'string', 'location' => 'query'],
-                'marker'       => ['type' => 'string', 'location' => 'query'],
-                'limit'        => ['type' => 'string', 'location' => 'query'],
+                'limit'        => $this->limitParam,
+                'marker'       => $this->markerParam,
                 'status'       => ['type' => 'string', 'location' => 'query'],
                 'host'         => ['type' => 'string', 'location' => 'query']
             ],

@@ -32,23 +32,29 @@ class Service extends AbstractService
         return $server;
     }
 
-    public function listFlavors(array $options = [])
+    public function listFlavors(array $options = [], callable $mapFn = null)
     {
-
+        $operation = $this->getOperation($this->api->getFlavors(), $options);
+        return $this->model('Flavor')->enumerate($operation, $mapFn);
     }
 
     public function getFlavor(array $options = [])
     {
-
+        $flavor = $this->model('Flavor');
+        $flavor->populateFromArray($options);
+        return $flavor;
     }
 
-    public function listImages(array $options = [])
+    public function listImages(array $options = [], callable $mapFn = null)
     {
-
+        $operation = $this->getOperation($this->api->getImages(), $options);
+        return $this->model('Image')->enumerate($operation, $mapFn);
     }
 
     public function getImage(array $options = [])
     {
-
+        $image = $this->model('Image');
+        $image->populateFromArray($options);
+        return $image;
     }
 }

@@ -36,7 +36,8 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
 
     public function retrieve()
     {
-
+        $response = $this->execute($this->api->getImage(), ['id' => (string) $this->id]);
+        $this->populateFromResponse($response);
     }
 
     public function delete()
@@ -46,26 +47,30 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
 
     public function getMetadata()
     {
-
+        $response = $this->execute($this->api->getImageMetadata(), ['id' => $this->id]);
+        return $response->json()['metadata'];
     }
 
     public function resetMetadata(array $metadata)
     {
-
+        $response = $this->execute($this->api->putImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+        return $response->json()['metadata'];
     }
 
     public function mergeMetadata(array $metadata)
     {
-
+        $response = $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+        return $response->json()['metadata'];
     }
 
     public function getMetadataItem($key)
     {
-
+        $response = $this->execute($this->api->getImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
+        return $response->json()['metadata'][$key];
     }
 
     public function deleteMetadataItem($key)
     {
-
+        $this->execute($this->api->deleteImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
     }
 }

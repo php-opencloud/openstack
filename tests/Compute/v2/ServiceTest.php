@@ -3,6 +3,8 @@
 namespace OpenStack\Test\Compute\v2;
 
 use OpenStack\Compute\v2\Api;
+use OpenStack\Compute\v2\Models\Flavor;
+use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Service;
 use OpenStack\Test\TestCase;
@@ -46,8 +48,63 @@ class ServiceTest extends TestCase
         $req = $this->setupMockRequest('GET', 'servers');
         $this->setupMockResponse($req, 'servers-get');
 
-        foreach ($this->service->listServers() as $server) {
+        foreach ($this->service->listServers(['limit' => 5]) as $server) {
             $this->assertInstanceOf(Server::class, $server);
         }
     }
-} 
+
+    public function test_it_gets_a_server()
+    {
+        $server = $this->service->getServer([
+            'id' => 'serverId'
+        ]);
+
+        $this->assertInstanceOf(Server::class, $server);
+        $this->assertEquals('serverId', $server->id);
+    }
+
+    public function test_it_lists_flavors()
+    {
+        $request = $this->setupMockRequest('GET', 'flavors');
+        $this->setupMockResponse($request, 'flavors-get');
+
+        $count = 0;
+
+        foreach ($this->service->listFlavors(['limit' => 5]) as $flavor) {
+            ++$count;
+            $this->assertInstanceOf(Flavor::class, $flavor);
+        }
+
+        $this->assertEquals(5, $count);
+    }
+
+    public function test_it_gets_a_flavor()
+    {
+        $flavor = $this->service->getFlavor([
+            'id' => 'flavorId'
+        ]);
+
+        $this->assertInstanceOf(Flavor::class, $flavor);
+        $this->assertEquals('flavorId', $flavor->id);
+    }
+
+    public function test_it_lists_images()
+    {
+        $req = $this->setupMockRequest('GET', 'images');
+        $this->setupMockResponse($req, 'images-get');
+
+        foreach ($this->service->listImages(['limit' => 5]) as $image) {
+            $this->assertInstanceOf(Image::class, $image);
+        }
+    }
+
+    public function test_it_gets_an_image()
+    {
+        $image = $this->service->getImage([
+            'id' => 'imageId'
+        ]);
+
+        $this->assertInstanceOf(Image::class, $image);
+        $this->assertEquals('imageId', $image->id);
+    }
+}

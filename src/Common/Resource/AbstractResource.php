@@ -75,7 +75,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         $moreRequestsRequired = true;
         $totalReached = false;
 
-        while ($moreRequestsRequired && $count < 20) {
+        while ($moreRequestsRequired) {
 
             $response = $operation->send();
             $body = $response->json();
