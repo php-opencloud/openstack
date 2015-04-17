@@ -1,0 +1,50 @@
+div.params div.row {
+    display: block;
+    clear: both;
+    width: 100%;
+    border-top: 1px solid #ddd;
+    padding: 10px 0 10px 10px;
+    margin: 0;
+}
+div.params div.row:last-child {
+    border-bottom: 1px solid #ddd;
+}
+div.params div.row:last-of-type {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+div.params div.row > div.col-md-2, div.params div.row > div.col-md-8 {
+    padding-left: 0;
+}
+div.params div.row div.row {
+    border: 0;
+    margin: 10px 0;
+    padding-left: 10px;
+}
+div.params div.row div.row:last-child {
+    margin-bottom: 0;
+}
+div.params .cleafix:after {
+    content:"";
+    display:table;
+    clear:both;
+}
+div.params .param-name {
+    width: 25%;
+    float:left;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+div.params .param-type {
+    width: 5%;
+    float:left;
+}
+div.params .param-desc {
+    width: 70%;
+    float:left;
+}
+div.params span.name {
+    color:green;
+}
+div.params span.parent {
+    color: grey;
+}

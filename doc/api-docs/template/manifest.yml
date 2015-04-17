@@ -1,0 +1,8 @@
+name: new_theme
+parent: default
+
+static:
+    'css/opencloud.css': "css/opencloud.css"
+
+class:
+    'class.twig': '%s.html'
