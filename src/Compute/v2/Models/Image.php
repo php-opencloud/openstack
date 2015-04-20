@@ -51,24 +51,42 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
         return $response->json()['metadata'];
     }
 
+    /**
+     * @param array $metadata {@see \OpenStack\Compute\v2\Api::putImageMetadata}
+     *
+     * @return mixed
+     */
     public function resetMetadata(array $metadata)
     {
         $response = $this->execute($this->api->putImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         return $response->json()['metadata'];
     }
 
+    /**
+     * @param array $metadata {@see \OpenStack\Compute\v2\Api::postImageMetadata}
+     *
+     * @return mixed
+     */
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         return $response->json()['metadata'];
     }
 
+    /**
+     * @param string $key {@see \OpenStack\Compute\v2\Api::putImageMetadata}
+     *
+     * @return mixed
+     */
     public function getMetadataItem($key)
     {
         $response = $this->execute($this->api->getImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
         return $response->json()['metadata'][$key];
     }
 
+    /**
+     * @param string $key {@see \OpenStack\Compute\v2\Api::putImageMetadata}
+     */
     public function deleteMetadataItem($key)
     {
         $this->execute($this->api->deleteImageMetadataKey(), ['id' => $this->id, 'key' => $key]);

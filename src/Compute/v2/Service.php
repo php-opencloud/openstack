@@ -27,7 +27,7 @@ class Service extends AbstractService
     /**
      * List servers.
      *
-     * @param array    $options {@see Api::getServers}
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getServers}
      * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
@@ -58,7 +58,7 @@ class Service extends AbstractService
     /**
      * List flavors.
      *
-     * @param array    $options {@see Api::getFlavors}
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getFlavors}
      * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
@@ -89,7 +89,7 @@ class Service extends AbstractService
     /**
      * List images.
      *
-     * @param array    $options {@see Api::getImages}
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getImages}
      * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator

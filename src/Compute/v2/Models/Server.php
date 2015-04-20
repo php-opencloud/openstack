@@ -2,6 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\IsCreatable;
 use OpenStack\Common\Resource\IsDeletable;
 use OpenStack\Common\Resource\IsListable;
@@ -21,6 +22,8 @@ class Server extends AbstractResource implements
     IsRetrievable,
     IsListable
 {
+    use HasWaiterTrait;
+
     public $id;
     public $ipv4;
     public $ipv6;
@@ -37,6 +40,8 @@ class Server extends AbstractResource implements
     public $status;
     public $tenantId;
     public $userId;
+    public $adminPass;
+    public $taskState;
 
     protected $resourceKey = 'server';
     protected $resourcesKey = 'servers';
@@ -48,6 +53,8 @@ class Server extends AbstractResource implements
         'accessIPv6' => 'ipv6',
         'tenant_id'  => 'tenantId',
         'user_id'    => 'userId',
+        'security_groups' => 'securityGroups',
+        'OS-EXT-STS:task_state' => 'taskState',
     ];
 
     public function populateFromArray(array $data)
@@ -67,13 +74,12 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @param array $userOptions
+     * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postServer}
      * @return self
      */
     public function create(array $userOptions)
     {
         $response = $this->execute($this->api->postServer(), $userOptions);
-
         return $this->populateFromResponse($response);
     }
 
@@ -111,7 +117,7 @@ class Server extends AbstractResource implements
     public function changePassword($newPassword)
     {
         $this->execute($this->api->changeServerPassword(), [
-            'id' => $this->id,
+            'id'       => $this->id,
             'password' => $newPassword
         ]);
     }
@@ -132,7 +138,7 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @param array $options
+     * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}
      */
     public function rebuild(array $options)
     {
@@ -155,22 +161,36 @@ class Server extends AbstractResource implements
         $this->populateFromResponse($response);
     }
 
+    /**
+     *
+     */
     public function confirmResize()
     {
         $this->execute($this->api->confirmServerResize(), ['confirmResize' => null, 'id' => $this->id]);
     }
 
+    /**
+     *
+     */
     public function revertResize()
     {
         $this->execute($this->api->revertServerResize(), ['revertResize' => null, 'id' => $this->id]);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Compute\v2\Api::createServerImage}
+     */
     public function createImage(array $options)
     {
         $options['id'] = $this->id;
         $this->execute($this->api->createServerImage(), $options);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getAddressesByNetwork}
+     *
+     * @return mixed
+     */
     public function listAddresses(array $options = [])
     {
         $options['id'] = $this->id;
@@ -180,30 +200,51 @@ class Server extends AbstractResource implements
         return $response->json()['addresses'];
     }
 
+    /**
+     * @return mixed
+     */
     public function getMetadata()
     {
         $response = $this->execute($this->api->getServerMetadata(), ['id' => $this->id]);
         return $response->json()['metadata'];
     }
 
+    /**
+     * @param array $metadata
+     *
+     * @return mixed
+     */
     public function resetMetadata(array $metadata)
     {
         $response = $this->execute($this->api->putServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         return $response->json()['metadata'];
     }
 
+    /**
+     * @param array $metadata
+     *
+     * @return mixed
+     */
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         return $response->json()['metadata'];
     }
 
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
     public function getMetadataItem($key)
     {
         $response = $this->execute($this->api->getServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
         return $response->json()['metadata'][$key];
     }
 
+    /**
+     * @param string $key
+     */
     public function deleteMetadataItem($key)
     {
         $this->execute($this->api->deleteServerMetadataKey(), ['id' => $this->id, 'key' => $key]);

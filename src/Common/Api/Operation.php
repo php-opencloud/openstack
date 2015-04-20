@@ -3,6 +3,7 @@
 namespace OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Url;
 use GuzzleHttp\Utils;
 
 class Operation
@@ -71,6 +72,13 @@ class Operation
         return $serializer->serialize($this->userValues, $this->params);
     }
 
+    private function serializeQuery($url)
+    {
+        $serializer = new QuerySerializer();
+
+        return $serializer->serialize($this->userValues, $this->params, $url);
+    }
+
     public function createRequest()
     {
         $this->validate($this->userValues);
@@ -85,9 +93,11 @@ class Operation
             $options['headers'] = $headers;
         }
 
-        $uriPath = Utils::uriTemplate($this->path, $this->userValues);
+        $url = $this->serializeQuery(
+            Utils::uriTemplate($this->path, $this->userValues)
+        );
 
-        return $this->client->createRequest($this->method, $uriPath, $options);
+        return $this->client->createRequest($this->method, $url, $options);
     }
 
     public function send()

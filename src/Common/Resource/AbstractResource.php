@@ -55,9 +55,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         $output = [];
 
         foreach ($keys as $key) {
-            if (property_exists($this, $key)) {
-                //$aliases = array_flip($this->aliases);
-                //$alias = isset($aliases[$key]) ? $aliases[$key] : $key;
+            if (property_exists($this, $key) && $this->$key !== null) {
                 $output[$key] = $this->$key;
             }
         }
@@ -75,7 +73,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         $moreRequestsRequired = true;
         $totalReached = false;
 
-        while ($moreRequestsRequired) {
+        while ($moreRequestsRequired && $count < 20) {
 
             $response = $operation->send();
             $body = $response->json();

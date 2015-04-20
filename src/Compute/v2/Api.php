@@ -20,7 +20,7 @@ class Api implements ApiInterface
 
     private $nameParam = [
         'type' => 'string',
-        'location' => 'query',
+        'location' => 'json',
         'description' => 'The name of the resource',
     ];
 
@@ -281,6 +281,7 @@ DESC
                 'flavorId'    => $this->flavorIdParam,
                 'personality' => $this->personalityParam,
                 'metadata'    => $this->notRequired($this->metadataParam),
+                'name'        => $this->isRequired($this->nameParam),
                 'securityGroups' => [
                     'type' => 'array',
                     'sentAs' => 'security_groups',
@@ -333,7 +334,6 @@ EOL
                         ]
                     ]
                 ],
-                'name' => $this->isRequired($this->nameParam),
                 'blockDeviceMapping' => [
                     'type' => 'array',
                     'sentAs' => 'block_device_mapping_v2',
@@ -346,12 +346,12 @@ EOL
                         'type' => 'object',
                         'properties' => [
                             'configDrive' => [
-                                'type' => 'string',
+                                'type' => 'bool',
                                 'sentAs' => 'config_drive',
                                 'description' => 'Enables metadata injection in a server through a configuration drive. To enable a configuration drive, specify true. Otherwise, specify false.',
                             ],
                             'bootIndex' => [
-                                'type' => 'string',
+                                'type' => 'integer',
                                 'sentAs' => 'boot_index',
                                 'description' => 'Indicates a number designating the boot order of the device. Use -1 for the boot volume, choose 0 for an attached volume.',
                             ],
@@ -585,7 +585,7 @@ EOL
             'jsonKey' => 'createImage',
             'params' => [
                 'id'       => $this->idParam,
-                'metadata' => $this->metadataParam,
+                'metadata' => $this->notRequired($this->metadataParam),
                 'name'     => $this->isRequired($this->nameParam),
             ],
         ];

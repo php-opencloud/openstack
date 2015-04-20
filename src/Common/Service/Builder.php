@@ -74,7 +74,7 @@ class Builder
     {
         $httpClient = isset($options['httpClient'])
             ? $options['httpClient']
-            : new Client(['base_url' => $options['authUrl']]);
+            : new Client(['base_url' => $this->trim($options['authUrl'])]);
 
         $resolver = new ServiceUrlResolver($httpClient);
         $resolver->resolve($options);

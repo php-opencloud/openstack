@@ -21,6 +21,9 @@ class Flavor extends AbstractResource implements IsListable, IsRetrievable
     protected $resourceKey = 'flavor';
     protected $resourcesKey = 'flavors';
 
+    /**
+     *
+     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getFlavor(), ['id' => (string) $this->id]);
