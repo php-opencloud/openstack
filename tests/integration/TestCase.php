@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration\Compute;
+namespace OpenStack\Integration;
 
 use Psr\Log\LoggerInterface;
 

@@ -5,9 +5,10 @@ namespace OpenStack\Integration\Compute;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Integration\TestCase;
 use OpenStack\OpenStack;
 
-class v2Test extends TestCase
+class V2Test extends TestCase
 {
     private $service;
     private $serverId;
@@ -25,7 +26,7 @@ class v2Test extends TestCase
 
     protected function getBasePath()
     {
-        return dirname(__DIR__) . '/../samples/compute/v2/';
+        return __DIR__ . '/../../../samples/compute/v2/';
     }
 
     private function searchImages($name)

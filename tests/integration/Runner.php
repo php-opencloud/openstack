@@ -10,7 +10,6 @@ class Runner
     public function __construct()
     {
         $this->logger = new DefaultLogger();
-
         $this->assembleServicesFromSamples();
     }
 
@@ -21,7 +20,7 @@ class Runner
 
     private function assembleServicesFromSamples()
     {
-        $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'samples';
+        $path = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'samples';
 
         foreach ($this->traverse($path) as $servicePath) {
             if ($servicePath->isDir()) {
@@ -90,7 +89,7 @@ class Runner
         foreach ($services as $serviceName => $versions) {
             foreach ($versions as $version) {
 
-                $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, ucfirst($serviceName), $version);
+                $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, ucfirst($serviceName), ucfirst($version));
                 $testRunner = new $class($this->logger);
 
                 if ($testMethodOpt && method_exists($testRunner, $testMethodOpt)) {
@@ -105,7 +104,7 @@ class Runner
     }
 }
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
 $runner = new Runner();
 $runner->runServices();
