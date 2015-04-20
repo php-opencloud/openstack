@@ -1,11 +1,10 @@
 <?php
 
-namespace integration\OpenStack;
+namespace OpenStack\Integration;
 
 class Runner
 {
     private $logger;
-
     private $services = [];
 
     public function __construct()
@@ -13,7 +12,6 @@ class Runner
         $this->logger = new DefaultLogger();
 
         $this->assembleServicesFromSamples();
-        $this->runServices();
     }
 
     private function traverse($path)
@@ -45,10 +43,21 @@ class Runner
         ]);
 
         return [
-            isset($opts['service']) ? $opts['service'] : 'all',
-            isset($opts['version']) ? $opts['version'] : 'all',
-            isset($opts['test']) ? $opts['test'] : '',
+            $this->getOpt($opts, ['s', 'service'], 'all'),
+            $this->getOpt($opts, ['v', 'version'], 'all'),
+            $this->getOpt($opts, ['t', 'test'], ''),
         ];
+    }
+
+    private function getOpt(array $opts, array $keys, $default)
+    {
+        foreach ($keys as $key) {
+            if (isset($opts[$key])) {
+                return $opts[$key];
+            }
+        }
+
+        return $default;
     }
 
     private function getRunnableServices($service, $version)
@@ -72,7 +81,7 @@ class Runner
         return $services;
     }
 
-    private function runServices()
+    public function runServices()
     {
         list ($serviceOpt, $versionOpt, $testMethodOpt) = $this->getOpts();
 
@@ -80,13 +89,17 @@ class Runner
 
         foreach ($services as $serviceName => $versions) {
             foreach ($versions as $version) {
-                $class = sprintf("%s\\%s\\%s", __NAMESPACE__, ucfirst($serviceName), $version);
+
+                $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, ucfirst($serviceName), $version);
                 $testRunner = new $class($this->logger);
+
                 if ($testMethodOpt && method_exists($testRunner, $testMethodOpt)) {
                     $testRunner->$testMethodOpt();
                 } else {
                     $testRunner->runTests();
                 }
+
+                $testRunner->deletePaths();
             }
         }
     }
@@ -95,4 +108,4 @@ class Runner
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $runner = new Runner();
-$runner->run();
+$runner->runServices();
