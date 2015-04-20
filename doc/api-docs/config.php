@@ -2,12 +2,13 @@
 
 use Sami\Sami;
 
-$path = __DIR__ . '/src';
+$path = dirname(dirname(__DIR__));
 
-return new Sami($path, [
+return new Sami($path . '/src', [
     'title'         => 'Test',
     'theme'         => 'new_theme',
     'build_dir'     => __DIR__ . '/build',
+    'cache_dir'     => __DIR__ . '/cache',
     'template_dirs' => [
         __DIR__ . '/template'
     ],
