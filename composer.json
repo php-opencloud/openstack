@@ -7,8 +7,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OpenStack\\Test\\": "tests/",
-            "OpenStack\\Integration\\": "integration/"
+            "OpenStack\\Test\\": "tests/unit/",
+            "OpenStack\\Integration\\": "tests/integration/"
         }
     },
     "repositories": [

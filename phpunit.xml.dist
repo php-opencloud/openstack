@@ -3,7 +3,7 @@
 
     <testsuites>
         <testsuite name="OpenStack">
-            <directory>tests</directory>
+            <directory>tests/unit</directory>
         </testsuite>
     </testsuites>
 
