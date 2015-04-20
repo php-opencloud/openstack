@@ -71,7 +71,10 @@ abstract class AbstractResource extends Operator implements ResourceInterface
 
         $count = 0;
         $moreRequestsRequired = true;
-        $totalReached = false;
+
+        $totalReached = function ($count) use ($limit) {
+            return $limit && $count >= $limit;
+        };
 
         while ($moreRequestsRequired && $count < 20) {
 
@@ -80,8 +83,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
             $json = $this->flatten($body, $this->resourcesKey);
 
             foreach ($json as $resourceData) {
-                if ($limit && $count >= $limit) {
-                    $totalReached = true;
+                if ($totalReached($count)) {
                     break;
                 }
 
@@ -101,7 +103,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
                 yield $resource;
             }
 
-            if ($totalReached || !$supportsPagination || empty($json)) {
+            if ($totalReached($count) || !$supportsPagination || empty($json)) {
                 $moreRequestsRequired = false;
             }
         }

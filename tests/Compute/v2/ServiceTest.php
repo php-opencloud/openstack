@@ -45,7 +45,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_servers()
     {
-        $req = $this->setupMockRequest('GET', 'servers');
+        $req = $this->setupMockRequest('GET', 'servers?limit=5');
         $this->setupMockResponse($req, 'servers-get');
 
         foreach ($this->service->listServers(['limit' => 5]) as $server) {
@@ -65,7 +65,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_flavors()
     {
-        $request = $this->setupMockRequest('GET', 'flavors');
+        $request = $this->setupMockRequest('GET', 'flavors?limit=5');
         $this->setupMockResponse($request, 'flavors-get');
 
         $count = 0;
@@ -90,7 +90,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_images()
     {
-        $req = $this->setupMockRequest('GET', 'images');
+        $req = $this->setupMockRequest('GET', 'images?limit=5');
         $this->setupMockResponse($req, 'images-get');
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
