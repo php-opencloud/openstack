@@ -3,6 +3,7 @@
 namespace OpenStack;
 
 use OpenStack\Common\Service\Builder;
+use OpenStack\Identity\v3\Service;
 
 /**
  * This class is the primary entry point for working with the SDK. It allows for the easy creation
@@ -61,7 +62,19 @@ class OpenStack
      */
     public function computeV2(array $options = [])
     {
-        $options = array_merge($options, ['catalogName' => 'nova', 'catalogType' => 'compute']);
-        return $this->builder->createService('Compute', 2, $options);
+        return $this->builder->createService('Compute', 2, array_merge($options, [
+            'catalogName' => 'nova',
+            'catalogType' => 'compute'
+        ]));
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return \OpenStack\Identity\v3\Service
+     */
+    public function identityV3(array $options = [])
+    {
+        return $this->builder->createIdentityService(3, $options);
     }
 }
