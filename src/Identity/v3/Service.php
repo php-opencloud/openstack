@@ -10,13 +10,13 @@ use OpenStack\Common\Service\Builder;
  */
 class Service extends AbstractService
 {
-    public static function factory(Builder $builder, $baseUrl, array $options = [])
-    {
-        $httpClient = $builder->httpClient($baseUrl, $options);
-
-        return new self($httpClient, new Api());
-    }
-
+    /**
+     * Generates a new authentication token
+     *
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postTokens}
+     *
+     * @return Models\Token
+     */
     public function generateToken(array $options)
     {
         return $this->model('Token')->create($options);

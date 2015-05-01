@@ -57,6 +57,9 @@ class Server extends AbstractResource implements
         'OS-EXT-STS:task_state' => 'taskState',
     ];
 
+    /**
+     * {@inheritDoc}
+     */
     public function populateFromArray(array $data)
     {
         parent::populateFromArray($data);
@@ -74,8 +77,9 @@ class Server extends AbstractResource implements
     }
 
     /**
+     * {@inheritDoc}
+     *
      * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postServer}
-     * @return self
      */
     public function create(array $userOptions)
     {
@@ -84,7 +88,7 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @return self
+     * {@inheritDoc}
      */
     public function update()
     {
@@ -94,7 +98,7 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @return void
+     * {@inheritDoc}
      */
     public function delete()
     {
@@ -102,7 +106,7 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @return self
+     * {@inheritDoc}
      */
     public function retrieve()
     {
@@ -112,7 +116,9 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @param string $newPassword The new root password for the server
+     * Changes the root password for a server.
+     *
+     * @param string $newPassword The new root password
      */
     public function changePassword($newPassword)
     {
@@ -123,6 +129,8 @@ class Server extends AbstractResource implements
     }
 
     /**
+     * Reboots the server.
+     *
      * @param string $type The type of reboot that will be performed. Either SOFT or HARD is supported.
      */
     public function reboot($type = Enum::REBOOT_SOFT)
@@ -138,6 +146,8 @@ class Server extends AbstractResource implements
     }
 
     /**
+     * Rebuilds the server.
+     *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}
      */
     public function rebuild(array $options)
@@ -149,6 +159,9 @@ class Server extends AbstractResource implements
     }
 
     /**
+     * Resizes the server to a new flavor. Once this operation is complete and server has transitioned
+     * to an active state, you will either need to call {@see confirmResize()} or {@see revertResize()}.
+     *
      * @param string $flavorId The UUID of the new flavor your server will be based on.
      */
     public function resize($flavorId)
@@ -162,7 +175,7 @@ class Server extends AbstractResource implements
     }
 
     /**
-     *
+     * Confirms a previous resize operation.
      */
     public function confirmResize()
     {
@@ -170,7 +183,7 @@ class Server extends AbstractResource implements
     }
 
     /**
-     *
+     * Reverts a previous resize operation.
      */
     public function revertResize()
     {
@@ -178,6 +191,8 @@ class Server extends AbstractResource implements
     }
 
     /**
+     * Creates an image for the current server.
+     *
      * @param array $options {@see \OpenStack\Compute\v2\Api::createServerImage}
      */
     public function createImage(array $options)
@@ -187,9 +202,11 @@ class Server extends AbstractResource implements
     }
 
     /**
+     * Iterates over all the IP addresses for this server.
+     *
      * @param array $options {@see \OpenStack\Compute\v2\Api::getAddressesByNetwork}
      *
-     * @return mixed
+     * @return array An array containing to two keys: "public" and "private"
      */
     public function listAddresses(array $options = [])
     {
@@ -201,7 +218,9 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @return mixed
+     * Retrieves metadata from the API.
+     *
+     * @return array
      */
     public function getMetadata()
     {
@@ -210,7 +229,10 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @param array $metadata
+     * Resets all the metadata for this server with the values provided. All existing metadata keys
+     * will either be replaced or removed.
+     *
+     * @param array $metadata {@see \OpenStack\Compute\v2\Api::putServerMetadata}
      *
      * @return mixed
      */
@@ -221,7 +243,11 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @param array $metadata
+     * Merges the existing metadata for the server with the values provided. Any existing keys
+     * referenced in the user options will be replaced with the user's new values. All other
+     * existing keys will remain unaffected.
+     *
+     * @param array $metadata {@see \OpenStack\Compute\v2\Api::postServerMetadata}
      *
      * @return mixed
      */
@@ -232,7 +258,9 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @param string $key
+     * Retrieve the value for a specific metadata key.
+     *
+     * @param string $key {@see \OpenStack\Compute\v2\Api::getServerMetadataKey}
      *
      * @return mixed
      */
@@ -243,7 +271,9 @@ class Server extends AbstractResource implements
     }
 
     /**
-     * @param string $key
+     * Remove a specific metadata key.
+     *
+     * @param string $key {@see \OpenStack\Compute\v2\Api::deleteServerMetadataKey}
      */
     public function deleteMetadataItem($key)
     {

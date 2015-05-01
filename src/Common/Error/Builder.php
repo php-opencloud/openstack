@@ -10,11 +10,33 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\ResponseInterface;
 
+/**
+ * Class responsible for building meaningful exceptions. For HTTP problems, it produces a {@see HttpError}
+ * exception, and supplies a error message with reasonable defaults. For user input problems, it produces a
+ * {@see UserInputError} exception. For both, the problem is described, a potential solution is offered and
+ * a link to further information is included.
+ *
+ * @package OpenStack\Common\Error
+ */
 class Builder implements SubscriberInterface
 {
+    /**
+     * The default domain to use for further link documentation.
+     *
+     * @var string
+     */
     private $docDomain = 'http://docs.php-opencloud.com/en/latest/';
+
+    /**
+     * The HTTP client required to validate the further links.
+     *
+     * @var Client
+     */
     private $client;
 
+    /**
+     * @param ClientInterface $client
+     */
     public function __construct(ClientInterface $client = null)
     {
         $this->client = $client ?: new Client();
@@ -31,16 +53,38 @@ class Builder implements SubscriberInterface
         ];
     }
 
+    /**
+     * Invoked for every HTTP error.
+     *
+     * @param ErrorEvent $event
+     *
+     * @throws BadResponseError
+     */
     public function onHttpError(ErrorEvent $event)
     {
         throw $this->httpError($event->getRequest(), $event->getResponse());
     }
 
+    /**
+     * Internal method used when outputting headers in the error description.
+     *
+     * @param $name
+     *
+     * @return string
+     */
     private function header($name)
     {
         return sprintf("%s\n%s\n", $name, str_repeat('~', strlen($name)));
     }
 
+    /**
+     * Before outputting custom links, it is validated to ensure that the user is not
+     * directed off to a broken link. If a 404 is detected, it is hidden.
+     *
+     * @param $link The proposed link
+     *
+     * @return bool
+     */
     private function linkIsValid($link)
     {
         $link = $this->docDomain . $link;
@@ -52,6 +96,14 @@ class Builder implements SubscriberInterface
         return $resp->getStatusCode() < 400;
     }
 
+    /**
+     * Helper method responsible for constructing and returning {@see BadResponseError} exceptions.
+     *
+     * @param RequestInterface  $request  The faulty request
+     * @param ResponseInterface $response The error-filled response
+     *
+     * @return BadResponseError
+     */
     public function httpError(RequestInterface $request, ResponseInterface $response)
     {
         $message = $this->header('HTTP Error');
@@ -90,6 +142,15 @@ class Builder implements SubscriberInterface
         return new BadResponseError($message);
     }
 
+    /**
+     * Helper method responsible for constructing and returning {@see UserInputError} exceptions.
+     *
+     * @param string      $expectedType The type that was expected from the user
+     * @param mixed       $userValue    The incorrect value the user actually provided
+     * @param string|null $furtherLink  A link to further information if necessary (optional).
+     *
+     * @return UserInputError
+     */
     public function userInputError($expectedType, $userValue, $furtherLink = null)
     {
         $message = $this->header('User Input Error');

@@ -2,6 +2,11 @@
 
 namespace OpenStack\Common\Error;
 
-class BaseError
+/**
+ * Base error class.
+ *
+ * @package OpenStack\Common\Error
+ */
+class BaseError extends \Exception
 {
 }

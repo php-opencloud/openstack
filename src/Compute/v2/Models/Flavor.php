@@ -7,6 +7,8 @@ use OpenStack\Common\Resource\IsListable;
 use OpenStack\Common\Resource\IsRetrievable;
 
 /**
+ * Represents a Compute v2 Flavor.
+ *
  * @property \OpenStack\Compute\v2\Api $api
  */
 class Flavor extends AbstractResource implements IsListable, IsRetrievable
@@ -22,7 +24,7 @@ class Flavor extends AbstractResource implements IsListable, IsRetrievable
     protected $resourcesKey = 'flavors';
 
     /**
-     *
+     * {@inheritDoc}
      */
     public function retrieve()
     {

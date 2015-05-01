@@ -2,6 +2,11 @@
 
 namespace OpenStack\Common\Error;
 
-class UserInputError extends \Exception
+/**
+ * Represents a user input error, caused by an incorrect type or malformed value.
+ *
+ * @package OpenStack\Common\Error
+ */
+class UserInputError extends BaseError
 {
 }

@@ -4,22 +4,116 @@ namespace OpenStack\Common\Api;
 
 use OpenStack\Common\HydratorStrategyTrait;
 
+/**
+ * Represents an individual request parameter in a RESTful operation. A parameter can take on many forms:
+ * in a URL path, in a URL query, in a JSON body, and in a HTTP header. It is worth documenting brifly each
+ * variety of parameter:
+ *
+ * * Header parameters are those which populate a HTTP header in a request. Header parameters can have
+ *   aliases; for example, a user-facing name of "Foo" can be sent over the wire as "X-Foo_Bar", as defined
+ *   by ``sentAs``. Prefixes can also be used.
+ *
+ * * Query parameters are those which populate a URL query parameter. The value is therefore usually
+ *   confined to a string.
+ *
+ * * JSON parameters are those which populate a JSON request body. These are the most complex variety
+ *   of Parameter, since there are so many different ways a JSON document can be constructed. The SDK
+ *   supports deep-nesting according to a XPath syntax; for more information, see {@see \OpenStack\Common\JsonPath}.
+ *   Nested object and array properties are also supported since JSON is a recursive data type. What
+ *   this means is that a Parameter can have an assortment of child Parameters, one for each object
+ *   property or array element.
+ *
+ * * Raw parameters are those which populate a non-JSON request body. This is typically used for
+ *   uploading payloads (such as Swift object data) to a remote API.
+ *
+ * * Path parameters are those which populate a URL path. They are serialized according to URL
+ *   placeholders.
+ *
+ * @package OpenStack\Common\Api
+ */
 class Parameter
 {
     use HydratorStrategyTrait;
 
     const DEFAULT_LOCATION = 'json';
 
+    /**
+     * The human-friendly name of the parameter. This is what the user will input.
+     *
+     * @var string
+     */
     private $name;
+
+    /**
+     * The alias for this parameter. Although the user will always interact with the human-friendly $name property,
+     * the $sentAs is what's used over the wire.
+     *
+     * @var string
+     */
     private $sentAs;
+
+    /**
+     * For array parameters (for example, an array of security group names when creating a server), each array element
+     * will need to adhere to a common schema. For the aforementioned example, each element will need to be a string.
+     * For more complicated parameters, you might be validated an array of complicated objects.
+     *
+     * @var Parameter
+     */
     private $itemSchema;
+
+    /**
+     * For object parameters, each property will need to adhere to a specific schema. For every property in the
+     * object, it has its own schema - meaning that this property is a hash of name/schema pairs.
+     *
+     * The *only* exception to this rule is for metadata parameters, which are arbitrary key/value pairs. Since it does
+     * not make sense to have a schema for each metadata key, a common schema is use for every one. So instead of this
+     * property being a hash of schemas, it is a single Parameter object instead. This single Parameter schema will
+     * then be applied to each metadata key provided.
+     *
+     * @var []Parameter|Parameter
+     */
     private $properties;
+
+    /**
+     * The value's PHP type which this parameter represents; either "string", "bool", "object", "array", "NULL".
+     *
+     * @var string
+     */
     private $type;
+
+    /**
+     * Indicates whether this parameter requires a value from the user.
+     *
+     * @var bool
+     */
     private $required;
+
+    /**
+     * The location in the HTTP request where this parameter will populate; either "header", "url", "query", "raw" or
+     * "json".
+     *
+     * @var string
+     */
     private $location;
+
+    /**
+     * Relevant to "json" location parameters only. This property allows for deep nesting through the use of
+     * {@see OpenStack\Common\JsonPath}.
+     *
+     * @var string
+     */
     private $path;
+
+    /**
+     * Allows for the prefixing of parameter names.
+     *
+     * @var string
+     */
     private $prefix;
 
+    /**
+     * @param array $data
+     */
     public function __construct(array $data)
     {
         $this->hydrate($data);
@@ -42,16 +136,34 @@ class Parameter
         }
     }
 
+    /**
+     * Retrieve the name that will be used over the wire.
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->sentAs ?: $this->name;
     }
 
+    /**
+     * Indicates whether the user must provide a value for this parameter.
+     *
+     * @return bool
+     */
     public function isRequired()
     {
         return $this->required === true;
     }
 
+    /**
+     * Validates a given user value and checks whether it passes basic sanity checking, such as types.
+     *
+     * @param $userValues The value provided by the user
+     *
+     * @return bool       TRUE if the validation passes
+     * @throws \Exception If validation fails
+     */
     public function validate($userValues)
     {
         // Check inputted type
@@ -77,6 +189,14 @@ class Parameter
         return true;
     }
 
+    /**
+     * Internal method which retrieves a nested property for object parameters.
+     *
+     * @param $key The name of the child parameter
+     *
+     * @returns Parameter
+     * @throws \Exception
+     */
     private function getNestedProperty($key)
     {
         if ($this->name == 'metadata' && $this->properties instanceof Parameter) {
@@ -88,6 +208,14 @@ class Parameter
         }
     }
 
+    /**
+     * Internal method which indicates whether the user value is of the same type as the one expected
+     * by this parameter.
+     *
+     * @param $userValue The value being checked
+     *
+     * @return bool
+     */
     private function hasCorrectType($userValue)
     {
         // Helper fn to see whether an array is associative (i.e. a JSON object)
@@ -104,36 +232,75 @@ class Parameter
         return gettype($userValue) == $this->type;
     }
 
+    /**
+     * Indicates whether this parameter represents an array type
+     *
+     * @return bool
+     */
     public function isArray()
     {
         return $this->type == 'array' && $this->itemSchema instanceof Parameter;
     }
 
+    /**
+     * Indicates whether this parameter represents an object type
+     *
+     * @return bool
+     */
     public function isObject()
     {
         return $this->type == 'object' && !empty($this->properties);
     }
 
+    /**
+     * Verifies whether the given location matches the parameter's location.
+     *
+     * @param $value
+     *
+     * @return bool
+     */
     public function hasLocation($value)
     {
         return $this->location == $value;
     }
 
+    /**
+     * Retrieves the parameter's path.
+     *
+     * @return string|null
+     */
     public function getPath()
     {
         return $this->path;
     }
 
+    /**
+     * Retrieves the common schema that an array parameter applies to all its child elements.
+     *
+     * @return Parameter
+     */
     public function getItemSchema()
     {
         return $this->itemSchema;
     }
 
+    /**
+     * Sets the name of the parameter to a new value
+     *
+     * @param string $name
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * Retrieves the child parameter for an object parameter.
+     *
+     * @param string $name The name of the child property
+     *
+     * @return null|Parameter
+     */
     public function getProperty($name)
     {
         if ($this->properties instanceof Parameter) {
@@ -144,6 +311,11 @@ class Parameter
         return isset($this->properties[$name]) ? $this->properties[$name] : null;
     }
 
+    /**
+     * Retrieves the prefix for a parameter, if any.
+     *
+     * @return string|null
+     */
     public function getPrefix()
     {
         return $this->prefix;

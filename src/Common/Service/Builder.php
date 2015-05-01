@@ -15,10 +15,18 @@ use OpenStack\Common\Auth\ServiceUrlResolver;
  */
 class Builder
 {
-    /** @var array */
+    /**
+     * Global options that will be applied to every service created by this builder.
+     *
+     * @var array
+     */
     private $globalOptions = [];
 
-    /** @var array */
+    /**
+     * Defaults that will be applied to options if no values are provided by the user.
+     *
+     * @var array
+     */
     private $defaults = ['urlType' => 'publicURL'];
 
     /**
@@ -31,6 +39,14 @@ class Builder
         $this->globalOptions = $globalOptions;
     }
 
+    /**
+     * Internal method which resolves the API and Service classes for a service.
+     *
+     * @param string $serviceName    The name of the service, e.g. Compute
+     * @param int    $serviceVersion The major version of the service, e.g. 2
+     *
+     * @return array
+     */
     private function getClasses($serviceName, $serviceVersion)
     {
         $rootNamespace = sprintf("OpenStack\\%s\\v%d", $serviceName, $serviceVersion);
@@ -48,9 +64,11 @@ class Builder
      * attachment of an authentication handler.
      *
      * @param $serviceName          The name of the service as it appears in the OpenStack\* namespace
-     * @param $serviceVersion       The version as an integer, which will be prepended with a v
+     * @param $serviceVersion       The major version of the service
      * @param array $serviceOptions The service-specific options to use
-     * @return mixed                OpenStack\Common\Service\ServiceInterface
+     *
+     * @return \OpenStack\Common\Service\ServiceInterface
+     *
      * @throws \Exception
      */
     public function createService($serviceName, $serviceVersion, array $serviceOptions = [])
@@ -63,6 +81,15 @@ class Builder
         return new $serviceClass($this->setupHttpClient($options), new $apiClass());
     }
 
+    /**
+     * Similar to {@see createService()} but confined to services, like Identity, that do not require
+     * initial authentication and service URL resolution.
+     *
+     * @param int   $serviceVersion The major version of the service
+     * @param array $serviceOptions The service-specific options to use
+     *
+     * @return \OpenStack\Common\Service\ServiceInterface
+     */
     public function createIdentityService($serviceVersion, array $serviceOptions = [])
     {
         $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
@@ -100,6 +127,14 @@ class Builder
         return $httpClient;
     }
 
+    /**
+     * Returns a new HTTP client based on the base URL and options provided.
+     *
+     * @param string $baseUrl
+     * @param array  $options
+     *
+     * @return Client
+     */
     public function httpClient($baseUrl, array $options = [])
     {
         $client = new Client([

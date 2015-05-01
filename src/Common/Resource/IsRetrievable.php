@@ -9,5 +9,10 @@ namespace OpenStack\Common\Resource;
  */
 interface IsRetrievable
 {
+    /**
+     * Retrieve details of the current resource from the remote API.
+     *
+     * @return mixed
+     */
     public function retrieve();
 }

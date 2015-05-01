@@ -2,6 +2,11 @@
 
 namespace OpenStack\Common\Error;
 
-class NotImplementedError
+/**
+ * Error to indicate functionality which has not been implemented yet.
+ *
+ * @package OpenStack\Common\Error
+ */
+class NotImplementedError extends BaseError
 {
 }

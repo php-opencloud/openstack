@@ -8,6 +8,8 @@ use OpenStack\Common\Resource\IsListable;
 use OpenStack\Common\Resource\IsRetrievable;
 
 /**
+ * Represents a Compute v2 Image
+ *
  * @property \OpenStack\Compute\v2\Api $api
  */
 class Image extends AbstractResource implements IsListable, IsRetrievable, IsDeletable
@@ -26,6 +28,9 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
     protected $resourceKey = 'image';
     protected $resourcesKey = 'images';
 
+    /**
+     * {@inheritDoc}
+     */
     public function populateFromArray(array $data)
     {
         parent::populateFromArray($data);
@@ -34,17 +39,28 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
         $this->updated = new \DateTimeImmutable($this->updated);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getImage(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
         $this->execute($this->api->deleteImage(), ['id' => (string) $this->id]);
     }
 
+    /**
+     * Retrieves metadata from the API.
+     *
+     * @return array
+     */
     public function getMetadata()
     {
         $response = $this->execute($this->api->getImageMetadata(), ['id' => $this->id]);
@@ -52,9 +68,12 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
     }
 
     /**
+     * Resets all the metadata for this image with the values provided. All existing metadata keys
+     * will either be replaced or removed.
+     *
      * @param array $metadata {@see \OpenStack\Compute\v2\Api::putImageMetadata}
      *
-     * @return mixed
+     * @return array
      */
     public function resetMetadata(array $metadata)
     {
@@ -63,9 +82,13 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
     }
 
     /**
+     * Merges the existing metadata for the image with the values provided. Any existing keys
+     * referenced in the user options will be replaced with the user's new values. All other
+     * existing keys will remain unaffected.
+     *
      * @param array $metadata {@see \OpenStack\Compute\v2\Api::postImageMetadata}
      *
-     * @return mixed
+     * @return array
      */
     public function mergeMetadata(array $metadata)
     {
@@ -74,7 +97,9 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
     }
 
     /**
-     * @param string $key {@see \OpenStack\Compute\v2\Api::putImageMetadata}
+     * Retrieve the value for a specific metadata key.
+     *
+     * @param string $key {@see \OpenStack\Compute\v2\Api::getImageMetadataKey}
      *
      * @return mixed
      */
@@ -85,7 +110,9 @@ class Image extends AbstractResource implements IsListable, IsRetrievable, IsDel
     }
 
     /**
-     * @param string $key {@see \OpenStack\Compute\v2\Api::putImageMetadata}
+     * Remove a specific metadata key.
+     *
+     * @param string $key {@see \OpenStack\Compute\v2\Api::deleteImageMetadataKey}
      */
     public function deleteMetadataItem($key)
     {

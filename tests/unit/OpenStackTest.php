@@ -17,15 +17,6 @@ class OpenStackTest extends ProphecyTestCase
         $this->openstack = new OpenStack([], $this->builder->reveal());
     }
 
-    public function test_it_supports_object_store_v2()
-    {
-        $this->builder
-            ->createService('ObjectStore', 2, ['catalogName' => 'swift', 'catalogType' => 'object-store'])
-            ->shouldBeCalled();
-
-        $this->openstack->objectStoreV2();
-    }
-
     public function test_it_supports_compute_v2()
     {
         $this->builder

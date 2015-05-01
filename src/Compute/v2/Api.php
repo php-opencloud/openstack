@@ -7,6 +7,7 @@ use OpenStack\Common\Api\ApiInterface;
 /**
  * A representation of the Compute (Nova) v2 REST API.
  *
+ * @internal
  * @package OpenStack\Compute\v2
  */
 class Api implements ApiInterface

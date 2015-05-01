@@ -3,7 +3,6 @@
 namespace OpenStack;
 
 use OpenStack\Common\Service\Builder;
-use OpenStack\Identity\v3\Service;
 
 /**
  * This class is the primary entry point for working with the SDK. It allows for the easy creation
@@ -47,17 +46,10 @@ class OpenStack
     }
 
     /**
-     * @param array $options
-     * @return \OpenStack\ObjectStore\v2\Service
-     */
-    public function objectStoreV2(array $options = [])
-    {
-        $options = array_merge($options, ['catalogName' => 'swift', 'catalogType' => 'object-store']);
-        return $this->builder->createService('ObjectStore', 2, $options);
-    }
-
-    /**
-     * @param array $options
+     * Creates a new Compute v2 service.
+     *
+     * @param array $options Options that will be used in configuring the service.
+     *
      * @return \OpenStack\Compute\v2\Service
      */
     public function computeV2(array $options = [])
@@ -69,7 +61,21 @@ class OpenStack
     }
 
     /**
-     * @param array $options
+     * Creates a new Identity v2 service.
+     *
+     * @param array $options Options that will be used in configuring the service.
+     *
+     * @return \OpenStack\Identity\v2\Service
+     */
+    public function identityV2(array $options = [])
+    {
+        return $this->builder->createIdentityService(2, $options);
+    }
+
+    /**
+     * Creates a new Identity v3 service.
+     *
+     * @param array $options Options that will be used in configuring the service.
      *
      * @return \OpenStack\Identity\v3\Service
      */
