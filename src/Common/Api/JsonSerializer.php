@@ -47,25 +47,14 @@ class JsonSerializer
     
     private function stockJson($userValue, Parameter $param, $json)
     {
-        $name = $param->getName();
-
         if ($param->isArray()) {
-            $json[$name] = $this->stockArrayJson($userValue, $param);
+            $userValue = $this->stockArrayJson($userValue, $param);
         } elseif ($param->isObject()) {
-            $value = $this->stockObjectJson($userValue, $param);
-            if ($name) {
-                $json[$name] = $value;
-            } else {
-                $json[] = $value;
-            }
+            $userValue = $this->stockObjectJson($userValue, $param);
         }
 
         // Populate the final value
-        if (is_scalar($userValue) || is_null($userValue)) {
-            $json = $this->stockValue($userValue, $param, $json);
-        }
-
-        return $json;
+        return $this->stockValue($userValue, $param, $json);
     }
 
     public function serialize($userValues, array $params, array $options = [])
