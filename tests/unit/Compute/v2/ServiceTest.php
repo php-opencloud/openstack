@@ -48,7 +48,7 @@ class ServiceTest extends TestCase
         $req = $this->setupMockRequest('GET', 'servers?limit=5');
         $this->setupMockResponse($req, 'servers-get');
 
-        foreach ($this->service->listServers(['limit' => 5]) as $server) {
+        foreach ($this->service->listServers(false, ['limit' => 5]) as $server) {
             $this->assertInstanceOf(Server::class, $server);
         }
     }

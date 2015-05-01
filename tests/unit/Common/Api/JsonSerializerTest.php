@@ -6,6 +6,7 @@ use OpenStack\Common\Api\JsonSerializer;
 use OpenStack\Common\Api\Operation;
 use OpenStack\Test\Fixtures\ComputeV2Api;
 use OpenStack\Test\Fixtures\IdentityV2Api;
+use OpenStack\Test\Fixtures\IdentityV3Api;
 
 class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 {
@@ -106,6 +107,42 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
         $userValues = ['foo' => 'bar'];
         $expected = [];
+
+        $this->assertEquals($expected, $this->serializer->serialize($userValues, $params));
+    }
+
+    public function test_it_nests_object_keys_according_to_path()
+    {
+        $api = new IdentityV3Api();
+        $params = Operation::toParamArray($api->postTokens()['params']);
+
+        $user = [
+            'name'     => 'foo',
+            'password' => 'bar',
+            'domain'   => ['name' => 'default']
+        ];
+
+        $scope = [
+            'project' => ['id' => 'baz']
+        ];
+
+        $userValues = [
+            'user'  => $user,
+            'scope' => $scope,
+            'methods' => ['password']
+        ];
+
+        $expected = [
+            'auth' => [
+                'identity' => [
+                    'methods' => ['password'],
+                    'password' => [
+                        'user' => $user
+                    ]
+                ],
+                'scope' => $scope
+            ]
+        ];
 
         $this->assertEquals($expected, $this->serializer->serialize($userValues, $params));
     }
