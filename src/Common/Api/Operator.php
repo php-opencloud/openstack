@@ -23,6 +23,12 @@ abstract class Operator implements OperatorInterface
         $this->client->getEmitter()->attach($this->errorBuilder);
     }
 
+    public function __debugInfo()
+    {
+        $excludedVars = ['client', 'errorBuilder', 'api'];
+        return array_diff_key(get_object_vars($this), $excludedVars);
+    }
+
     public function getOperation(array $definition, array $userOptions = [])
     {
         return new Operation($this->client, $definition, $userOptions);
