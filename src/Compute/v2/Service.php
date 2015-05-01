@@ -27,14 +27,17 @@ class Service extends AbstractService
     /**
      * List servers.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getServers}
-     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     *                           the ID, name and links attributes are returned, saving bandwidth.
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getServers}
+     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
      */
-    public function listServers(array $options = [], callable $mapFn = null)
+    public function listServers($detailed = false, array $options = [], callable $mapFn = null)
     {
-        $operation = $this->getOperation($this->api->getServers(), $options);
+        $def = ($detailed === true) ? $this->api->getServersDetail() : $this->api->getServers();
+        $operation = $this->getOperation($def, $options);
         return $this->model('Server')->enumerate($operation, $mapFn);
     }
 

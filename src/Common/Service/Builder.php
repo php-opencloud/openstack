@@ -31,6 +31,16 @@ class Builder
         $this->globalOptions = $globalOptions;
     }
 
+    private function getClasses($serviceName, $serviceVersion)
+    {
+        $rootNamespace = sprintf("OpenStack\\%s\\v%d", $serviceName, $serviceVersion);
+
+        return [
+            sprintf("%s\\Api", $rootNamespace),
+            sprintf("%s\\Service", $rootNamespace),
+        ];
+    }
+
     /**
      * This method will return an OpenStack service ready fully built and ready for use. There is
      * some initial setup that may prohibit users from directly instantiating the service class
@@ -48,12 +58,18 @@ class Builder
         $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
         $this->checkRequiredOptions($options);
 
-        $rootNamespace = sprintf("OpenStack\\%s\\v%d", $serviceName, $serviceVersion);
+        list ($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
 
-        $apiClass = sprintf("%s\\Api", $rootNamespace);
-        $serviceClass = sprintf("%s\\Service", $rootNamespace);
+        return new $serviceClass($this->setupHttpClient($options), new $apiClass());
+    }
 
-        return new $serviceClass($this->httpClient($options), new $apiClass());
+    public function createIdentityService($serviceVersion, array $serviceOptions = [])
+    {
+        $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
+
+        list ($apiClass, $serviceClass) = $this->getClasses('Identity', $serviceVersion);
+
+        return new $serviceClass($this->httpClient($options['authUrl'], $options), new $apiClass());
     }
 
     /**
@@ -70,28 +86,31 @@ class Builder
      * @param array $options
      * @return Client
      */
-    private function httpClient(array $options)
+    private function setupHttpClient(array $options)
     {
         $httpClient = isset($options['httpClient'])
             ? $options['httpClient']
-            : new Client(['base_url' => $this->trim($options['authUrl'])]);
+            : $this->httpClient($options['authUrl'], $options);
 
         $resolver = new ServiceUrlResolver($httpClient);
         $resolver->resolve($options);
 
-        $httpClient = new Client(['base_url' => $this->trim($resolver->getServiceUrl())]);
+        $httpClient = $this->httpClient($resolver->getServiceUrl(), $options);
         $httpClient->getEmitter()->attach(new AuthHandler($resolver->getService(), $options, $resolver->getToken()));
-
-        if (isset($options['debug']) && $options['debug'] === true) {
-            $httpClient->getEmitter()->attach(new LogSubscriber(null, Formatter::DEBUG));
-        }
-
         return $httpClient;
     }
 
-    private function trim($url)
+    public function httpClient($baseUrl, array $options = [])
     {
-        return rtrim($url, '/') . '/';
+        $client = new Client([
+            'base_url' => rtrim($baseUrl, '/') . '/',
+        ]);
+
+        if (isset($options['debug']) && $options['debug'] === true) {
+            $client->getEmitter()->attach(new LogSubscriber(null, Formatter::DEBUG));
+        }
+
+        return $client;
     }
 
     /**
