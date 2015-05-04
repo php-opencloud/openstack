@@ -44,7 +44,16 @@ abstract class Operator implements OperatorInterface
     public function __debugInfo()
     {
         $excludedVars = ['client', 'errorBuilder', 'api'];
-        return array_diff_key(get_object_vars($this), $excludedVars);
+
+        $output = [];
+
+        foreach (get_object_vars($this) as $key => $val) {
+            if (!in_array($key, $excludedVars)) {
+                $output[$key] = $val;
+            }
+        }
+
+        return $output;
     }
 
     /**
