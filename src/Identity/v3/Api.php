@@ -33,31 +33,21 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => 'tokens',
+            'path'   => 'auth/tokens',
             'params' => [
                 'methods' => [
                     'type' => 'array',
                     'path' => 'auth.identity',
-                    'items' => [
-                        'type' => 'string'
-                    ]
+                    'items' => ['type' => 'string']
                 ],
                 'user' => [
                     'type'   => 'object',
+                    'path'   => 'auth.identity.password',
                     'properties' => [
-                        'id'       => [
-                            'type' => 'string',
-                            'path' => 'auth.identity.password',
-                        ],
-                        'name'     => [
-                            'type' => 'string',
-                            'path' => 'auth.identity.password',
-                        ],
-                        'password' => [
-                            'type' => 'string',
-                            'path' => 'auth.identity.password',
-                        ],
-                        'domain'   => $this->domainParam() + ['path' => 'auth.identity.password']
+                        'id'       => ['type' => 'string'],
+                        'name'     => ['type' => 'string'],
+                        'password' => ['type' => 'string'],
+                        'domain'   => $this->domainParam()
                     ]
                 ],
                 'tokenId' => [
@@ -67,6 +57,7 @@ class Api implements ApiInterface
                 ],
                 'scope' => [
                     'type' => 'object',
+                    'path' => 'auth',
                     'properties' => [
                         'project' => $this->projectParam(),
                         'domain'  => $this->domainParam()
@@ -80,8 +71,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'auth/tokens',
+            'params' => [
+                'tokenId' => [
+                    'type'     => 'string',
+                    'location' => 'header',
+                    'sentAs'   => 'X-Subject-Token'
+                ]
+            ]
         ];
     }
 
@@ -89,8 +86,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'HEAD',
-            'path'   => '',
-            'params' => []
+            'path'   => 'auth/tokens',
+            'params' => [
+                'tokenId' => [
+                    'type'     => 'string',
+                    'location' => 'header',
+                    'sentAs'   => 'X-Subject-Token'
+                ]
+            ]
         ];
     }
 
@@ -98,17 +101,27 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'auth/tokens',
+            'params' => [
+                'tokenId' => [
+                    'type'     => 'string',
+                    'location' => 'header',
+                    'sentAs'   => 'X-Subject-Token'
+                ]
+            ]
         ];
     }
 
     public function postServices()
     {
         return [
-            'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'method'  => 'POST',
+            'path'    => 'services',
+            'jsonKey' => 'service',
+            'params' => [
+                'name' => ['type' => 'string'],
+                'type' => ['type' => 'string']
+            ]
         ];
     }
 
@@ -116,8 +129,13 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'services',
+            'params' => [
+                'type' => [
+                    'type'     => 'string',
+                    'location' => 'query'
+                ]
+            ]
         ];
     }
 
@@ -125,8 +143,13 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'services/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'path',
+                ]
+            ]
         ];
     }
 
@@ -134,8 +157,15 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'services/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'path',
+                ],
+                'name' => ['type' => 'string'],
+                'type' => ['type' => 'string']
+            ]
         ];
     }
 
@@ -143,8 +173,13 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'services/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'path',
+                ],
+            ]
         ];
     }
 
@@ -152,8 +187,27 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'endpoints',
+            'jsonKey' => 'endpoint',
+            'params' => [
+                'interface' => [
+                    'type' => 'string',
+                ],
+                'name' => [
+                    'type' => 'string',
+                    'required' => true,
+                ],
+                'region' => [
+                    'type' => 'string',
+                ],
+                'url' => [
+                    'type' => 'string',
+                ],
+                'serviceId' => [
+                    'type' => 'string',
+                    'sentAs' => 'service_id',
+                ],
+            ]
         ];
     }
 
@@ -161,8 +215,18 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'endpoints',
+            'params' => [
+                'interface' => [
+                    'type' => 'string',
+                    'location' => 'query'
+                ],
+                'serviceId' => [
+                    'type' => 'string',
+                    'sentAs' => 'service_id',
+                    'location' => 'query'
+                ],
+            ]
         ];
     }
 
@@ -170,8 +234,30 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'endpoints/{id}',
+            'params' => [
+                'id' => [
+                    'required' => true,
+                    'location' => 'url',
+                    'type' => 'string',
+                ],
+                'interface' => [
+                    'type' => 'string',
+                ],
+                'name' => [
+                    'type' => 'string',
+                ],
+                'region' => [
+                    'type' => 'string',
+                ],
+                'url' => [
+                    'type' => 'string',
+                ],
+                'serviceId' => [
+                    'type' => 'string',
+                    'sentAs' => 'service_id',
+                ],
+            ]
         ];
     }
 
@@ -179,8 +265,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'endpoints/{id}',
+            'params' => [
+                'id' => [
+                    'required' => true,
+                    'location' => 'url',
+                    'type' => 'string',
+                ]
+            ]
         ];
     }
 
@@ -188,8 +280,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains',
+            'params' => [
+                'name' => [
+                    'type' => 'string',
+                    'required' => true,
+                ],
+                'enabled' => [
+                    'type' => 'boolean',
+                ],
+                'description' => [
+                    'type' => 'string',
+                ]
+            ]
         ];
     }
 
@@ -197,8 +300,17 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains',
+            'params' => [
+                'name' => [
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
+                'enabled' => [
+                    'type' => 'boolean',
+                    'location' => 'query',
+                ],
+            ]
         ];
     }
 
@@ -206,8 +318,13 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                ]
+            ]
         ];
     }
 
@@ -215,8 +332,23 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{id}',
+            'jsonKey' => 'domain',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                ],
+                'name' => [
+                    'type' => 'string',
+                ],
+                'enabled' => [
+                    'type' => 'boolean',
+                ],
+                'description' => [
+                    'type' => 'string',
+                ]
+            ]
         ];
     }
 
@@ -224,8 +356,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+            ]
         ];
     }
 
@@ -233,8 +371,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/users/{userId}/roles',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -242,8 +391,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PUT',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/users/{userId}/roles/{roleId}',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -251,8 +416,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'HEAD',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/users/{userId}/roles/{roleId}',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -260,8 +441,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/users/{userId}/roles/{roleId}',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -269,8 +466,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/groups/{groupId}/roles',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+            ]
         ];
     }
 
@@ -278,8 +486,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PUT',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/groups/{groupId}/roles/{roleId}',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -287,8 +511,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/groups/{groupId}/roles/{roleId}',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -296,8 +536,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'domains/{domainId}/groups/{groupId}/roles/{roleId}',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -305,8 +561,23 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects',
+            'params' => [
+                'description' => [
+                    'type' => 'string'
+                ],
+                'domainId' => [
+                    'type' => 'string',
+                    'sentAs' => 'domain_id'
+                ],
+                'enabled' => [
+                    'type' => 'boolean'
+                ],
+                'name' => [
+                    'type' => 'string',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -314,8 +585,22 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'sentAs' => 'domain_id',
+                    'location' => 'query'
+                ],
+                'enabled' => [
+                    'type' => 'boolean',
+                    'location' => 'query'
+                ],
+                'name' => [
+                    'type' => 'string',
+                    'location' => 'query'
+                ]
+            ]
         ];
     }
 
@@ -323,8 +608,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -332,8 +623,27 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'description' => [
+                    'type' => 'string'
+                ],
+                'domainId' => [
+                    'type' => 'string',
+                    'sentAs' => 'domain_id'
+                ],
+                'enabled' => [
+                    'type' => 'boolean'
+                ],
+                'name' => [
+                    'type' => 'string',
+                ]
+            ]
         ];
     }
 
@@ -341,8 +651,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+            ]
         ];
     }
 
@@ -350,8 +666,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/users/{userId}/roles',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -359,8 +686,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PUT',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/users/{userId}/roles/{roleId}',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -368,8 +711,23 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'HEAD',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/users/{userId}/roles/{roleId}',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
         ];
     }
 
@@ -377,8 +735,23 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/users/{userId}/roles/{roleId}',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
         ];
     }
 
@@ -386,8 +759,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/groups/{groupId}/roles',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -395,8 +779,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PUT',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/groups/{groupId}/roles/{roleId}',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -404,8 +804,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'HEAD',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/groups/{groupId}/roles/{roleId}',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -413,8 +829,24 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'projects/{projectId}/groups/{groupId}/roles/{roleId}',
+            'params' => [
+                'projectId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ],
+                'roleId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -422,8 +854,34 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'users',
+            'jsonKey' => 'user',
+            'params' => [
+                'defaultProjectId' => [
+                    'sentAs' => 'default_project_id',
+                    'type'   => 'string'
+                ],
+                'description' => [
+                    'type' => 'string'
+                ],
+                'domainId' => [
+                    'type' => 'string',
+                    'sentAs' => 'domain_id'
+                ],
+                'email' => [
+                    'type' => 'string'
+                ],
+                'enabled' => [
+                    'type' => 'boolean'
+                ],
+                'name' => [
+                    'type' => 'string',
+                    'required' => true
+                ],
+                'password' => [
+                    'type' => 'string'
+                ]
+            ]
         ];
     }
 
@@ -431,8 +889,22 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'users',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'sentAs' => 'domain_id',
+                    'location' => 'query'
+                ],
+                'enabled' => [
+                    'type' => 'boolean',
+                    'location' => 'query'
+                ],
+                'name' => [
+                    'type' => 'string',
+                    'location' => 'query'
+                ],
+            ]
         ];
     }
 
@@ -440,8 +912,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'users/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ]
+            ]
         ];
     }
 
@@ -449,8 +927,28 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'users/{id}',
+            'jsonKey' => 'user',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+                'defaultProjectId' => [
+                    'sentAs' => 'default_project_id',
+                    'type'   => 'string'
+                ],
+                'description' => [
+                    'type' => 'string'
+                ],
+                'email' => [
+                    'type' => 'string'
+                ],
+                'enabled' => [
+                    'type' => 'boolean'
+                ],
+            ]
         ];
     }
 
@@ -458,8 +956,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'users/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ]
+            ]
         ];
     }
 
@@ -467,8 +971,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'users/{id}/groups',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ]
+            ]
         ];
     }
 
@@ -476,8 +986,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   =>'users/{id}/projects',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ]
+            ]
         ];
     }
 
@@ -485,8 +1001,21 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups',
+            'jsonKey' => 'group',
+            'params' => [
+                'description' => [
+                    'type' => 'string',
+                ],
+                'domainId' => [
+                    'type' => 'string',
+                    'sentAs' => 'domain_id',
+                ],
+                'name' => [
+                    'type' => 'string',
+                    'required' => true
+                ]
+            ]
         ];
     }
 
@@ -494,8 +1023,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups',
+            'params' => [
+                'domainId' => [
+                    'type' => 'string',
+                    'sentAs' => 'domain_id',
+                    'location' => 'query',
+                ],
+            ]
         ];
     }
 
@@ -503,8 +1038,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ]
+            ]
         ];
     }
 
@@ -512,8 +1053,20 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+                'description' => [
+                    'type' => 'string',
+                ],
+                'name' => [
+                    'type' => 'string',
+                ]
+            ]
         ];
     }
 
@@ -521,8 +1074,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+            ]
         ];
     }
 
@@ -530,8 +1089,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups/{id}/users',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+            ]
         ];
     }
 
@@ -539,8 +1104,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PUT',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups/{groupId}/users/{userId}',
+            'params' => [
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+            ]
         ];
     }
 
@@ -548,8 +1124,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups/{groupId}/users/{userId}',
+            'params' => [
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+            ]
         ];
     }
 
@@ -557,8 +1144,19 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'groups/{groupId}/users/{userId}',
+            'params' => [
+                'groupId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true
+                ],
+            ]
         ];
     }
 
@@ -566,8 +1164,23 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'credentials',
+            'params' => [
+                'blob' => [
+                    'type' => 'string'
+                ],
+                'projectId' => [
+                    'type' => 'string',
+                    'sentAs' => 'project_id',
+                ],
+                'type' => [
+                    'type' => 'string'
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'sentAs' => 'user_id',
+                ],
+            ]
         ];
     }
 
@@ -575,7 +1188,7 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
+            'path'   => 'credentials',
             'params' => []
         ];
     }
@@ -584,8 +1197,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'credentials/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -593,8 +1212,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'credentials/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -602,8 +1227,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'credentials/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'location' => 'url',
+                    'required' => true,
+                ]
+            ]
         ];
     }
 
@@ -611,8 +1242,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'roles',
+            'jsonKey' => 'role',
+            'params' => [
+                'name' => [
+                    'type' => 'string',
+                    'required' => true
+                ]
+            ]
         ];
     }
 
@@ -620,8 +1257,13 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'roles',
+            'params' => [
+                'name' => [
+                    'type' => 'string',
+                    'location' => 'query'
+                ]
+            ]
         ];
     }
 
@@ -629,8 +1271,33 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'role_assignments',
+            'params' => [
+                'userId' => [
+                    'sentAs' => 'user.id',
+                    'location' => 'query'
+                ],
+                'groupId' => [
+                    'sentAs' => 'group.id',
+                    'location' => 'query'
+                ],
+                'roleId' => [
+                    'sentAs' => 'role.id',
+                    'location' => 'query'
+                ],
+                'domainId' => [
+                    'sentAs' => 'scope.domain.id',
+                    'location' => 'query'
+                ],
+                'projectId' => [
+                    'sentAs' => 'scope.project.id',
+                    'location' => 'query'
+                ],
+                'effective' => [
+                    'type' => 'boolean',
+                    'location' => 'query'
+                ]
+            ]
         ];
     }
 
@@ -638,8 +1305,23 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'POST',
-            'path'   => '',
-            'params' => []
+            'path'   => 'policies',
+            'params' => [
+                'blob' => [
+                    'type' => 'string',
+                ],
+                'projectId' => [
+                    'type' => 'string',
+                    'sentAs' => 'project_id'
+                ],
+                'type' => [
+                    'type' => 'string',
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'sentAs' => 'user_id'
+                ]
+            ]
         ];
     }
 
@@ -647,8 +1329,13 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'policies',
+            'params' => [
+                'type' => [
+                    'type' => 'string',
+                    'location' => 'query'
+                ]
+            ]
         ];
     }
 
@@ -656,8 +1343,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'GET',
-            'path'   => '',
-            'params' => []
+            'path'   => 'policies/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'required' => true,
+                    'location' => 'url'
+                ]
+            ]
         ];
     }
 
@@ -665,8 +1358,28 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'PATCH',
-            'path'   => '',
-            'params' => []
+            'path'   => 'policies/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'required' => true,
+                    'location' => 'url'
+                ],
+                'blob' => [
+                    'type' => 'string',
+                ],
+                'projectId' => [
+                    'type' => 'string',
+                    'sentAs' => 'project_id'
+                ],
+                'type' => [
+                    'type' => 'string',
+                ],
+                'userId' => [
+                    'type' => 'string',
+                    'sentAs' => 'user_id'
+                ]
+            ]
         ];
     }
 
@@ -674,8 +1387,14 @@ class Api implements ApiInterface
     {
         return [
             'method' => 'DELETE',
-            'path'   => '',
-            'params' => []
+            'path'   => 'policies/{id}',
+            'params' => [
+                'id' => [
+                    'type' => 'string',
+                    'required' => true,
+                    'location' => 'url'
+                ]
+            ]
         ];
     }
 }
