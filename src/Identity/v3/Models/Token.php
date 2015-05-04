@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use GuzzleHttp\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\IsCreatable;
 
@@ -15,13 +16,23 @@ class Token extends AbstractResource implements IsCreatable
     public $extras;
     public $user;
     public $issuedAt;
+    public $id;
+
+    protected $resourceKey = 'token';
+
+    public function populateFromResponse(ResponseInterface $response)
+    {
+        parent::populateFromResponse($response);
+
+        $this->id = $response->getHeader('X-Subject-Token');
+    }
 
     public function populateFromArray(array $data)
     {
         parent::populateFromArray($data);
 
         $this->issuedAt = new \DateTimeImmutable($data['issued_at']);
-        $this->expires  = new \DateTimeImmutable($data['expires']);
+        $this->expires  = new \DateTimeImmutable($data['expires_at']);
 
         foreach ($data['roles'] as $roleData) {
             $this->roles[] = $this->model('Role', $roleData);
