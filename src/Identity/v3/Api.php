@@ -29,6 +29,18 @@ class Api implements ApiInterface
         ];
     }
 
+    private $idUrlParam = [
+        'required' => true,
+        'location' => 'url',
+        'type' => 'string',
+    ];
+
+    private $tokenIdParam = [
+        'type'     => 'string',
+        'location' => 'header',
+        'sentAs'   => 'X-Subject-Token'
+    ];
+
     public function postTokens()
     {
         return [
@@ -72,13 +84,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'auth/tokens',
-            'params' => [
-                'tokenId' => [
-                    'type'     => 'string',
-                    'location' => 'header',
-                    'sentAs'   => 'X-Subject-Token'
-                ]
-            ]
+            'params' => ['tokenId' => $this->tokenIdParam]
         ];
     }
 
@@ -87,13 +93,7 @@ class Api implements ApiInterface
         return [
             'method' => 'HEAD',
             'path'   => 'auth/tokens',
-            'params' => [
-                'tokenId' => [
-                    'type'     => 'string',
-                    'location' => 'header',
-                    'sentAs'   => 'X-Subject-Token'
-                ]
-            ]
+            'params' => ['tokenId' => $this->tokenIdParam]
         ];
     }
 
@@ -102,13 +102,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'auth/tokens',
-            'params' => [
-                'tokenId' => [
-                    'type'     => 'string',
-                    'location' => 'header',
-                    'sentAs'   => 'X-Subject-Token'
-                ]
-            ]
+            'params' => ['tokenId' => $this->tokenIdParam]
         ];
     }
 
@@ -144,12 +138,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'services/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'path',
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -159,10 +148,7 @@ class Api implements ApiInterface
             'method' => 'PATCH',
             'path'   => 'services/{id}',
             'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'path',
-                ],
+                'id' => $this->idUrlParam,
                 'name' => ['type' => 'string'],
                 'type' => ['type' => 'string']
             ]
@@ -174,12 +160,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'services/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'path',
-                ],
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -236,11 +217,7 @@ class Api implements ApiInterface
             'method' => 'PATCH',
             'path'   => 'endpoints/{id}',
             'params' => [
-                'id' => [
-                    'required' => true,
-                    'location' => 'url',
-                    'type' => 'string',
-                ],
+                'id' => $this->idUrlParam,
                 'interface' => [
                     'type' => 'string',
                 ],
@@ -266,13 +243,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'endpoints/{id}',
-            'params' => [
-                'id' => [
-                    'required' => true,
-                    'location' => 'url',
-                    'type' => 'string',
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam,]
         ];
     }
 
@@ -319,12 +290,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'domains/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -335,10 +301,7 @@ class Api implements ApiInterface
             'path'   => 'domains/{id}',
             'jsonKey' => 'domain',
             'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                ],
+                'id' => $this->idUrlParam,
                 'name' => [
                     'type' => 'string',
                 ],
@@ -357,13 +320,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'domains/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -373,16 +330,8 @@ class Api implements ApiInterface
             'method' => 'GET',
             'path'   => 'domains/{domainId}/users/{userId}/roles',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'domainId' => $this->idUrlParam,
+                'userId'   => $this->idUrlParam
             ]
         ];
     }
@@ -393,21 +342,9 @@ class Api implements ApiInterface
             'method' => 'PUT',
             'path'   => 'domains/{domainId}/users/{userId}/roles/{roleId}',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'domainId' => $this->idUrlParam,
+                'userId'   => $this->idUrlParam,
+                'roleId'   => $this->idUrlParam,
             ]
         ];
     }
@@ -418,21 +355,9 @@ class Api implements ApiInterface
             'method' => 'HEAD',
             'path'   => 'domains/{domainId}/users/{userId}/roles/{roleId}',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'domainId' => $this->idUrlParam,
+                'userId'   => $this->idUrlParam,
+                'roleId'   => $this->idUrlParam,
             ]
         ];
     }
@@ -443,21 +368,9 @@ class Api implements ApiInterface
             'method' => 'DELETE',
             'path'   => 'domains/{domainId}/users/{userId}/roles/{roleId}',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'domainId' => $this->idUrlParam,
+                'userId'   => $this->idUrlParam,
+                'roleId'   => $this->idUrlParam,
             ]
         ];
     }
@@ -468,16 +381,8 @@ class Api implements ApiInterface
             'method' => 'GET',
             'path'   => 'domains/{domainId}/groups/{groupId}/roles',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
+                'domainId' => $this->idUrlParam,
+                'groupId'  => $this->idUrlParam,
             ]
         ];
     }
@@ -488,21 +393,9 @@ class Api implements ApiInterface
             'method' => 'PUT',
             'path'   => 'domains/{domainId}/groups/{groupId}/roles/{roleId}',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'domainId' => $this->idUrlParam,
+                'groupId'  => $this->idUrlParam,
+                'roleId'   => $this->idUrlParam
             ]
         ];
     }
@@ -513,21 +406,9 @@ class Api implements ApiInterface
             'method' => 'POST',
             'path'   => 'domains/{domainId}/groups/{groupId}/roles/{roleId}',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'domainId' => $this->idUrlParam,
+                'groupId'  => $this->idUrlParam,
+                'roleId'   => $this->idUrlParam
             ]
         ];
     }
@@ -538,21 +419,9 @@ class Api implements ApiInterface
             'method' => 'DELETE',
             'path'   => 'domains/{domainId}/groups/{groupId}/roles/{roleId}',
             'params' => [
-                'domainId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'domainId' => $this->idUrlParam,
+                'groupId'  => $this->idUrlParam,
+                'roleId'   => $this->idUrlParam
             ]
         ];
     }
@@ -609,13 +478,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'projects/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -625,11 +488,7 @@ class Api implements ApiInterface
             'method' => 'PATCH',
             'path'   => 'projects/{id}',
             'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
+                'id' => $this->idUrlParam,
                 'description' => [
                     'type' => 'string'
                 ],
@@ -652,13 +511,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'projects/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -668,16 +521,8 @@ class Api implements ApiInterface
             'method' => 'GET',
             'path'   => 'projects/{projectId}/users/{userId}/roles',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'userId'    => $this->idUrlParam
             ]
         ];
     }
@@ -688,21 +533,9 @@ class Api implements ApiInterface
             'method' => 'PUT',
             'path'   => 'projects/{projectId}/users/{userId}/roles/{roleId}',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'userId'    => $this->idUrlParam,
+                'roleId'    => $this->idUrlParam
             ]
         ];
     }
@@ -713,21 +546,10 @@ class Api implements ApiInterface
             'method' => 'HEAD',
             'path'   => 'projects/{projectId}/users/{userId}/roles/{roleId}',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'userId'    => $this->idUrlParam,
+                'roleId'    => $this->idUrlParam
+            ]
         ];
     }
 
@@ -737,21 +559,10 @@ class Api implements ApiInterface
             'method' => 'DELETE',
             'path'   => 'projects/{projectId}/users/{userId}/roles/{roleId}',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'userId'    => $this->idUrlParam,
+                'roleId'    => $this->idUrlParam
+            ]
         ];
     }
 
@@ -761,16 +572,8 @@ class Api implements ApiInterface
             'method' => 'GET',
             'path'   => 'projects/{projectId}/groups/{groupId}/roles',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'groupId'   => $this->idUrlParam
             ]
         ];
     }
@@ -781,21 +584,9 @@ class Api implements ApiInterface
             'method' => 'PUT',
             'path'   => 'projects/{projectId}/groups/{groupId}/roles/{roleId}',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'groupId'   => $this->idUrlParam,
+                'roleId'    => $this->idUrlParam
             ]
         ];
     }
@@ -806,21 +597,9 @@ class Api implements ApiInterface
             'method' => 'HEAD',
             'path'   => 'projects/{projectId}/groups/{groupId}/roles/{roleId}',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'groupId'   => $this->idUrlParam,
+                'roleId'    => $this->idUrlParam
             ]
         ];
     }
@@ -831,21 +610,9 @@ class Api implements ApiInterface
             'method' => 'DELETE',
             'path'   => 'projects/{projectId}/groups/{groupId}/roles/{roleId}',
             'params' => [
-                'projectId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ],
-                'roleId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
+                'projectId' => $this->idUrlParam,
+                'groupId'   => $this->idUrlParam,
+                'roleId'    => $this->idUrlParam
             ]
         ];
     }
@@ -913,13 +680,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'users/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -930,11 +691,7 @@ class Api implements ApiInterface
             'path'   => 'users/{id}',
             'jsonKey' => 'user',
             'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
+                'id' => $this->idUrlParam,
                 'defaultProjectId' => [
                     'sentAs' => 'default_project_id',
                     'type'   => 'string'
@@ -957,13 +714,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'users/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -972,13 +723,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'users/{id}/groups',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -987,13 +732,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   =>'users/{id}/projects',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1039,13 +778,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'groups/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1055,11 +788,7 @@ class Api implements ApiInterface
             'method' => 'PATCH',
             'path'   => 'groups/{id}',
             'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
+                'id' => $this->idUrlParam,
                 'description' => [
                     'type' => 'string',
                 ],
@@ -1075,13 +804,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'groups/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1090,13 +813,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'groups/{id}/users',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1106,16 +823,8 @@ class Api implements ApiInterface
             'method' => 'PUT',
             'path'   => 'groups/{groupId}/users/{userId}',
             'params' => [
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
+                'groupId' => $this->idUrlParam,
+                'userId'  => $this->idUrlParam,
             ]
         ];
     }
@@ -1126,16 +835,8 @@ class Api implements ApiInterface
             'method' => 'DELETE',
             'path'   => 'groups/{groupId}/users/{userId}',
             'params' => [
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
+                'groupId' => $this->idUrlParam,
+                'userId'  => $this->idUrlParam,
             ]
         ];
     }
@@ -1146,16 +847,8 @@ class Api implements ApiInterface
             'method' => 'GET',
             'path'   => 'groups/{groupId}/users/{userId}',
             'params' => [
-                'groupId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
-                'userId' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true
-                ],
+                'groupId' => $this->idUrlParam,
+                'userId'  => $this->idUrlParam,
             ]
         ];
     }
@@ -1198,13 +891,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'credentials/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1213,13 +900,7 @@ class Api implements ApiInterface
         return [
             'method' => 'PATCH',
             'path'   => 'credentials/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1228,13 +909,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'credentials/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'location' => 'url',
-                    'required' => true,
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1344,13 +1019,7 @@ class Api implements ApiInterface
         return [
             'method' => 'GET',
             'path'   => 'policies/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'required' => true,
-                    'location' => 'url'
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 
@@ -1360,11 +1029,7 @@ class Api implements ApiInterface
             'method' => 'PATCH',
             'path'   => 'policies/{id}',
             'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'required' => true,
-                    'location' => 'url'
-                ],
+                'id' => $this->idUrlParam,
                 'blob' => [
                     'type' => 'string',
                 ],
@@ -1388,13 +1053,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => 'policies/{id}',
-            'params' => [
-                'id' => [
-                    'type' => 'string',
-                    'required' => true,
-                    'location' => 'url'
-                ]
-            ]
+            'params' => ['id' => $this->idUrlParam]
         ];
     }
 }
