@@ -217,9 +217,10 @@ php ./integration/Runner.php
 It supports these command-line flags:
 
 | Flag | Description | Example |
-| `-s` `--service` | Allows you to refine tests by a particular service. A service corresponds to top-level directories in the `./integration` directory, meaning that `compute` and `identity` are services because they exist as sub-directories there. If omitted, all services are run.|Run compute service: `php ./integration/Runner.php -s compute` Run all tests: `php ./integration/Runner.php` 
-| `-v` `--version` | Allows you to refine by a particular service version. A version corresponds to the sub-directories inside a service directory, meaning that `v2` is a supported version of `compute` because it exists as a sub-directory inside the `compute` directory. If omitted, all versions are run.|Run v2 Compute tests: `php ./integration/Runner.php -s compute -v v2` Run all compute tests: `php ./integration/Runner.php -s compute`
-| `-t` `--test` | Allows you to refine by a particular test. Tests are defined in classes like `integration\OpenStack\Compute\v2`. Each test method manually references a sample file. To refine which tests are run, list the name of the method in this class. If omitted, all tests are run.|Run create server test: `php ./integration/Runner.php -s compute -v v2 -t createServer` Run all compute v2 tests: `php ./integration/Runner.php -s compute -v v2`
+| ---- | ----------- | ------- |
+| `-s` `--service` | Allows you to refine tests by a particular service. A service corresponds to top-level directories in the `./integration` directory, meaning that `compute` and `identity` are services because they exist as sub-directories there. If omitted, all services are run.|Run compute service: `php ./integration/Runner.php -s compute` Run all tests: `php ./integration/Runner.php`|
+| `-v` `--version` | Allows you to refine by a particular service version. A version corresponds to the sub-directories inside a service directory, meaning that `v2` is a supported version of `compute` because it exists as a sub-directory inside the `compute` directory. If omitted, all versions are run.|Run v2 Compute tests: `php ./integration/Runner.php -s compute -v v2` Run all compute tests: `php ./integration/Runner.php -s compute`|
+| `-t` `--test` | Allows you to refine by a particular test. Tests are defined in classes like `integration\OpenStack\Compute\v2`. Each test method manually references a sample file. To refine which tests are run, list the name of the method in this class. If omitted, all tests are run.|Run create server test: `php ./integration/Runner.php -s compute -v v2 -t createServer` Run all compute v2 tests: `php ./integration/Runner.php -s compute -v v2`|
 | `--debug` |||
 | `--help` | A help screen is returned and no tests run | `php ./integration/Runner.php --help`
 
@@ -246,7 +247,7 @@ each is described briefly below. Once you've made up your mind and decided on
 your fix, you will need to follow the same basic steps that all submissions are
 required to adhere to:
 
-1. [fork](https://help.github.com/articles/fork-a-repo/) the `rackspace/gophercloud` repository
+1. [fork](https://help.github.com/articles/fork-a-repo/) the `php-opencloud/openstack` repository
 2. checkout a [new branch](https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches)
 3. submit your branch as a [pull request](https://help.github.com/articles/creating-a-pull-request/)
 
