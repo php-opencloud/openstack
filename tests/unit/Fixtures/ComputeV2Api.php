@@ -35,6 +35,7 @@ class ComputeV2Api implements ApiInterface
                     'sentAs' => 'security_groups',
                 ],
                 'userData' => ['type' => 'string', 'sentAs' => 'user_data'],
+                'keypair' => ['type' => 'string', 'sentAs' => 'key_name'],
                 'availabilityZone' => ['type' => 'string', 'sentAs' => 'availability_zone'],
                 'imageId' => ['type' => 'string', 'required' => true, 'sentAs' => 'imageRef'],
                 'flavorId' => ['type' => 'string', 'required' => true, 'sentAs' => 'flavorRef'],
