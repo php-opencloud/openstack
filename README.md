@@ -18,7 +18,7 @@ OpenStack services, and versions of services, are supported.
 
 ## Requirements
 
-* PHP 5.5
+* PHP 5.6
 * cURL extension
 
 ## How to install

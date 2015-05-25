@@ -1,5 +1,5 @@
 {
-    "name": "openstack",
+    "name": "php-opencloud/openstack",
     "autoload": {
         "psr-4": {
             "OpenStack\\": "src/"
