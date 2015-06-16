@@ -4,13 +4,13 @@ namespace OpenStack\Identity\v3\Models;
 
 use GuzzleHttp\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
-use OpenStack\Common\Resource\IsCreatable;
-use OpenStack\Common\Resource\IsRetrievable;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Retrievable;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Token extends AbstractResource implements IsCreatable, IsRetrievable
+class Token extends AbstractResource implements Creatable, Retrievable
 {
     /** @var array */
     public $methods;

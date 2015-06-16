@@ -7,7 +7,7 @@ namespace OpenStack\Common\Resource;
  *
  * @package OpenStack\Common\Resource
  */
-interface IsRetrievable
+interface Retrievable
 {
     /**
      * Retrieve details of the current resource from the remote API.

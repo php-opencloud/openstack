@@ -7,7 +7,7 @@ namespace OpenStack\Common\Resource;
  *
  * @package OpenStack\Common\Resource
  */
-interface IsCreatable
+interface Creatable
 {
     /**
      * Create a new resource according to the configuration set in the options.

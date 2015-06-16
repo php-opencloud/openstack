@@ -9,7 +9,7 @@ use OpenStack\Common\Api\Operation;
  *
  * @package OpenStack\Common\Resource
  */
-interface IsListable
+interface Listable
 {
     /**
      * Lists over a collection of resources.

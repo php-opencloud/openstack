@@ -3,12 +3,12 @@
 namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\HasWaiterTrait;
-use OpenStack\Common\Resource\IsCreatable;
-use OpenStack\Common\Resource\IsDeletable;
-use OpenStack\Common\Resource\IsListable;
-use OpenStack\Common\Resource\IsRetrievable;
-use OpenStack\Common\Resource\IsRetrievableInterface;
-use OpenStack\Common\Resource\IsUpdateable;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\RetrievableInterface;
+use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Compute\v2\Enum;
 
@@ -16,11 +16,11 @@ use OpenStack\Compute\v2\Enum;
  * @property \OpenStack\Compute\v2\Api $api
  */
 class Server extends AbstractResource implements
-    IsCreatable,
-    IsUpdateable,
-    IsDeletable,
-    IsRetrievable,
-    IsListable
+    Creatable,
+    Updateable,
+    Deletable,
+    Retrievable,
+    Listable
 {
     use HasWaiterTrait;
 

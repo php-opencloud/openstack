@@ -3,16 +3,16 @@
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\AbstractResource;
-use OpenStack\Common\Resource\IsCreatable;
-use OpenStack\Common\Resource\IsDeletable;
-use OpenStack\Common\Resource\IsListable;
-use OpenStack\Common\Resource\IsRetrievable;
-use OpenStack\Common\Resource\IsUpdateable;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\Updateable;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Domain extends AbstractResource implements IsCreatable, IsListable, IsRetrievable, IsUpdateable, IsDeletable
+class Domain extends AbstractResource implements Creatable, Listable, Retrievable, Updateable, Deletable
 {
     /** @var string */
     public $id;

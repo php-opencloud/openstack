@@ -9,5 +9,4 @@ use OpenStack\Common\Resource\AbstractResource;
  */
 class Catalog extends AbstractResource
 {
-
 }
