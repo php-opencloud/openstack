@@ -12,35 +12,29 @@ use OpenStack\Common\Resource\IsUpdateable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class User extends AbstractResource implements IsCreatable, IsListable, IsRetrievable, IsUpdateable, IsDeletable
+class Policy extends AbstractResource implements IsCreatable, IsListable, IsRetrievable, IsUpdateable, IsDeletable
 {
-    /** @var Domain */
-    public $domain;
-
     /** @var string */
-    public $defaultProjectId;
+    public $blob;
 
     /** @var string */
     public $id;
-
-    /** @var string */
-    public $email;
-
-    /** @var bool */
-    public $enabled;
-
-    /** @var string */
-    public $description;
 
     /** @var array */
     public $links;
 
     /** @var string */
-    public $name;
+    public $projectId;
+
+    /** @var string */
+    public $type;
+
+    /** @var string */
+    public $userId;
 
     protected $aliases = [
-        'domain_id' => 'domainId',
-        'default_project_id' => 'defaultProjectId'
+        'project_id' => 'projectId',
+        'user_id' => 'userId'
     ];
 
     public function create(array $data)
@@ -59,16 +53,6 @@ class User extends AbstractResource implements IsCreatable, IsListable, IsRetrie
     }
 
     public function delete()
-    {
-
-    }
-
-    public function listUserGroups()
-    {
-
-    }
-
-    public function listUserProjects()
     {
 
     }

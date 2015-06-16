@@ -12,7 +12,7 @@ use OpenStack\Common\Resource\IsUpdateable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Domain extends AbstractResource implements IsCreatable, IsListable, IsRetrievable, IsUpdateable, IsDeletable
+class Service extends AbstractResource implements IsCreatable, IsListable, IsRetrievable, IsUpdateable, IsDeletable
 {
     /** @var string */
     public $id;
@@ -20,21 +20,25 @@ class Domain extends AbstractResource implements IsCreatable, IsListable, IsRetr
     /** @var string */
     public $name;
 
-    /** @var array */
-    public $links;
-
-    /** @var bool */
-    public $enabled;
+    /** @var string */
+    public $type;
 
     /** @var string */
     public $description;
 
-    protected $resourceKey = 'domain';
+    /** @var []Endpoint */
+    public $endpoints;
+
+    /** @var array */
+    public $links;
+
+    protected $resourceKey = 'service';
 
     public function create(array $data)
     {
-        $response = $this->execute($this->api->postDomains(), $data);
+        $response = $this->execute($this->api->postServices(), $data);
         $this->populateFromResponse($response);
+
         return $this;
     }
 
@@ -49,46 +53,6 @@ class Domain extends AbstractResource implements IsCreatable, IsListable, IsRetr
     }
 
     public function delete()
-    {
-
-    }
-
-    public function listUserRoles()
-    {
-
-    }
-
-    public function grantUserRole()
-    {
-
-    }
-
-    public function checkUserRole()
-    {
-
-    }
-
-    public function revokeUserRole()
-    {
-
-    }
-
-    public function listGroupRoles()
-    {
-
-    }
-
-    public function grantGroupRole()
-    {
-
-    }
-
-    public function checkGroupRole()
-    {
-
-    }
-
-    public function revokeGroupRole()
     {
 
     }

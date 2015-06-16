@@ -252,6 +252,7 @@ class Api implements ApiInterface
         return [
             'method' => 'POST',
             'path'   => 'domains',
+            'jsonKey' => 'domain',
             'params' => [
                 'name' => [
                     'type' => 'string',

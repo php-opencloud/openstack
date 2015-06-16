@@ -102,12 +102,45 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      */
     public function populateFromArray(array $array)
     {
+        $reflClass = new \ReflectionClass($this);
+
         foreach ($array as $key => $val) {
-            $property = isset($this->aliases[$key]) ? $this->aliases[$key] : $key;
-            if (property_exists($this, $property)) {
-                $this->$property = $val;
+            $propertyName = isset($this->aliases[$key]) ? $this->aliases[$key] : $key;
+            if (property_exists($this, $propertyName)) {
+
+                if ($type = $this->extractTypeFromDocBlock($reflClass, $propertyName)) {
+                    if (in_array($type, ['string', 'bool', 'null', 'array', 'object', 'int'])) {
+                        $val = $val;
+                    } elseif (strpos($type, '[]') === 0) {
+                        if (is_array($val)) {
+                            $type = substr($type, 2);
+                            foreach ($val as $subVal) {
+                                array_push($this->$propertyName, $this->model($type, $subVal));
+                            }
+                        }
+                    } elseif ($type == '\DateTimeImmutable') {
+                        $val = new \DateTimeImmutable($val);
+                    } elseif (strpos($type, '\\') !== 0) {
+                        $val = $this->model($type, $val);
+                    }
+                }
+
+                $this->$propertyName = $val;
             }
         }
+    }
+
+    private function extractTypeFromDocBlock(\ReflectionClass $reflClass, $propertyName)
+    {
+        $docComment = $reflClass->getProperty($propertyName)->getDocComment();
+
+        if (!$docComment) {
+            return false;
+        }
+
+        $matches = [];
+        preg_match('#@var ([\w|\\\]+)#', $docComment, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
     }
 
     /**

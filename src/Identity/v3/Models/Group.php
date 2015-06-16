@@ -12,30 +12,26 @@ use OpenStack\Common\Resource\IsUpdateable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Domain extends AbstractResource implements IsCreatable, IsListable, IsRetrievable, IsUpdateable, IsDeletable
+class Group extends AbstractResource implements IsCreatable, IsListable, IsRetrievable, IsUpdateable, IsDeletable
 {
+    /** @var string */
+    public $domainId;
+
     /** @var string */
     public $id;
 
     /** @var string */
-    public $name;
+    public $description;
 
     /** @var array */
     public $links;
 
-    /** @var bool */
-    public $enabled;
-
     /** @var string */
-    public $description;
-
-    protected $resourceKey = 'domain';
+    public $name;
 
     public function create(array $data)
     {
-        $response = $this->execute($this->api->postDomains(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+
     }
 
     public function retrieve()
@@ -53,43 +49,23 @@ class Domain extends AbstractResource implements IsCreatable, IsListable, IsRetr
 
     }
 
-    public function listUserRoles()
+    public function listUsers()
     {
 
     }
 
-    public function grantUserRole()
+    public function createUser()
     {
 
     }
 
-    public function checkUserRole()
+    public function deleteUser()
     {
 
     }
 
-    public function revokeUserRole()
+    public function checkUserMembership()
     {
 
     }
-
-    public function listGroupRoles()
-    {
-
-    }
-
-    public function grantGroupRole()
-    {
-
-    }
-
-    public function checkGroupRole()
-    {
-
-    }
-
-    public function revokeGroupRole()
-    {
-
-    }
-} 
+}
