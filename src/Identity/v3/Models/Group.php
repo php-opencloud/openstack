@@ -29,9 +29,15 @@ class Group extends AbstractResource implements Creatable, Listable, Retrievable
     /** @var string */
     public $name;
 
+    protected $aliases = ['domain_id' => 'domainId'];
+
+    protected $resourceKey = 'group';
+
     public function create(array $data)
     {
-
+        $response = $this->execute($this->api->postGroups(), $data);
+        $this->populateFromResponse($response);
+        return $this;
     }
 
     public function retrieve()

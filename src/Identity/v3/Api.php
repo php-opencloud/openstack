@@ -432,6 +432,7 @@ class Api implements ApiInterface
         return [
             'method' => 'POST',
             'path'   => 'projects',
+            'jsonKey' => 'project',
             'params' => [
                 'description' => [
                     'type' => 'string'
@@ -439,6 +440,10 @@ class Api implements ApiInterface
                 'domainId' => [
                     'type' => 'string',
                     'sentAs' => 'domain_id'
+                ],
+                'parentId' => [
+                    'type' => 'string',
+                    'sentAs' => 'parent_id',
                 ],
                 'enabled' => [
                     'type' => 'boolean'

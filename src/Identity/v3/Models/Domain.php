@@ -30,6 +30,7 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
     public $description;
 
     protected $resourceKey = 'domain';
+    protected $resourcesKey = 'domains';
 
     public function create(array $data)
     {

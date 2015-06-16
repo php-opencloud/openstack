@@ -18,6 +18,12 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
     public $domainId;
 
     /** @var string */
+    public $parentId;
+
+    /** @var bool */
+    public $enabled;
+
+    /** @var string */
     public $id;
 
     /** @var array */
@@ -26,7 +32,12 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
     /** @var string */
     public $name;
 
-    protected $aliases = ['domain_id' => 'domainId'];
+    protected $aliases = [
+        'domain_id' => 'domainId',
+        'parent_id' => 'parentId',
+    ];
+
+    protected $resourceKey = 'project';
 
     public function populateFromArray(array $data)
     {
@@ -37,7 +48,9 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
 
     public function create(array $data)
     {
-
+        $response = $this->execute($this->api->postProjects(), $data);
+        $this->populateFromResponse($response);
+        return $this;
     }
 
     public function retrieve()

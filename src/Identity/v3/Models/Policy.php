@@ -39,7 +39,9 @@ class Policy extends AbstractResource implements Creatable, Listable, Retrievabl
 
     public function create(array $data)
     {
-
+        $response = $this->execute($this->api->postPolicies(), $data);
+        $this->populateFromResponse($response);
+        return $this;
     }
 
     public function retrieve()

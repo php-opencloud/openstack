@@ -56,4 +56,26 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
     {
 
     }
+
+    /**
+     * @param $name
+     * @param $type
+     * @param $region
+     *
+     * @return string|false
+     */
+    public function getUrl($name, $type, $region)
+    {
+        if ($this->name !== $name || $this->type !== $type) {
+            return false;
+        }
+
+        foreach ($this->endpoints as $endpoint) {
+            if ($endpoint->region == $region) {
+                return $endpoint->url;
+            }
+        }
+
+        return false;
+    }
 } 

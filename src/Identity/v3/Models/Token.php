@@ -10,7 +10,7 @@ use OpenStack\Common\Resource\Retrievable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Token extends AbstractResource implements Creatable, Retrievable
+class Token extends AbstractResource implements Creatable, Retrievable, \OpenStack\Common\Auth\Token
 {
     /** @var array */
     public $methods;
@@ -51,6 +51,16 @@ class Token extends AbstractResource implements Creatable, Retrievable
         parent::populateFromResponse($response);
 
         $this->id = $response->getHeader('X-Subject-Token');
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function hasExpired()
+    {
+        return $this->expires <= new \DateTimeImmutable('now', $this->expires->getTimezone());
     }
 
     public function retrieve()

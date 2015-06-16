@@ -2,14 +2,28 @@
 
 namespace OpenStack\Identity\v3;
 
+use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Service\AbstractService;
-use OpenStack\Common\Service\Builder;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Service extends AbstractService
+class Service extends AbstractService implements IdentityService
 {
+    public function authenticate(array $options)
+    {
+        $token = $this->generateToken($options);
+
+        $baseUrl = $token->catalog->getServiceUrl(
+            $options['catalogName'],
+            $options['catalogType'],
+            $options['region'],
+            $options['urlType']
+        );
+
+        return [$token, $baseUrl];
+    }
+
     /**
      * Generates a new authentication token
      *
@@ -23,16 +37,15 @@ class Service extends AbstractService
     }
 
     /**
+     * Retrieve a token by its unique ID.
+     *
      * @param string $id
      *
      * @return Models\Token
      */
     public function getToken($id)
     {
-        $token = $this->model('Token', ['id' => $id]);
-        $token->retrieve();
-
-        return $token;
+        return $this->model('Token', ['id' => $id]);
     }
 
     /**
@@ -48,136 +61,277 @@ class Service extends AbstractService
 
     /**
      * @param string $id
+     *
+     * @return Models\Token
      */
     public function revokeToken($id)
     {
         $this->execute($this->api->deleteTokens(), ['tokenId' => $id]);
     }
 
-    public function createService(array $data)
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postServices}
+     *
+     * @return Models\Service
+     */
+    public function createService(array $options)
     {
-        return $this->model('Service')->create($data);
+        return $this->model('Service')->create($options);
     }
 
-    public function listServices()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getServices}
+     *
+     * @return \Generator
+     */
+    public function listServices(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getServices());
+        $operation = $this->getOperation($this->api->getServices(), $options);
 
         return $this->model('Service')->enumerate($operation);
     }
 
+    /**
+     * @param string $id
+     *
+     * @return Models\Service
+     */
     public function getService($id)
     {
         return $this->model('Service', ['id' => $id]);
     }
 
-    public function createEndpoint(array $data)
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postEndpoints}
+     *
+     * @return Models\Endpoint
+     */
+    public function createEndpoint(array $options)
     {
-        return $this->model('Endpoint')->create($data);
+        return $this->model('Endpoint')->create($options);
     }
 
-    public function createDomain(array $data)
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postDomains}
+     *
+     * @return Models\Domain
+     */
+    public function createDomain(array $options)
     {
-        return $this->model('Domain')->create($data);
+        return $this->model('Domain')->create($options);
     }
 
-    public function listDomains()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getDomains}
+     *
+     * @return \Generator
+     */
+    public function listDomains(array $options = [])
     {
+        $operation = $this->getOperation($this->api->getDomains(), $options);
 
+        return $this->model('Domain')->enumerate($operation);
     }
 
-    public function getDomain()
+    /**
+     * @param string $id
+     *
+     * @return Models\Domain
+     */
+    public function getDomain($id)
     {
-
+        return $this->model('Domain', ['id' => $id]);
     }
 
-    public function createProject()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postProjects}
+     *
+     * @return Models\Project
+     */
+    public function createProject(array $options)
     {
-
+        return $this->model('Project')->create($options);
     }
 
-    public function listProjects()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getProjects}
+     *
+     * @return \Generator
+     */
+    public function listProjects(array $options = [])
     {
+        $operation = $this->getOperation($this->api->getProjects(), $options);
 
+        return $this->model('Project')->enumerate($operation);
     }
 
-    public function getProject()
+    /**
+     * @param string $id
+     *
+     * @return Models\Project
+     */
+    public function getProject($id)
     {
-
+        return $this->model('Project', ['id' => $id]);
     }
 
-    public function createUser()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postUsers}
+     *
+     * @return Models\User
+     */
+    public function createUser(array $options)
     {
-
+        return $this->model('User')->create($options);
     }
 
-    public function listUsers()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getUsers}
+     *
+     * @return \Generator
+     */
+    public function listUsers(array $options = [])
     {
+        $operation = $this->getOperation($this->api->getUsers(), $options);
 
+        return $this->model('User')->enumerate($operation);
     }
 
-    public function getUser()
+    /**
+     * @param string $id
+     *
+     * @return Models\User
+     */
+    public function getUser($id)
     {
-
+        return $this->model('User', ['id' => $id]);
     }
 
-    public function createGroup()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postGroups}
+     *
+     * @return Models\Group
+     */
+    public function createGroup(array $options)
     {
-
+        return $this->model('Group')->create($options);
     }
 
-    public function listGroups()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getGroups}
+     *
+     * @return \Generator
+     */
+    public function listGroups(array $options = [])
     {
+        $operation = $this->getOperation($this->api->getGroups(), $options);
 
+        return $this->model('Group')->enumerate($operation);
     }
 
-    public function getGroup()
+    /**
+     * @param string $id
+     *
+     * @return Models\Group
+     */
+    public function getGroup($id)
     {
-
+        return $this->model('Group', ['id' => $id]);
     }
 
-    public function createCredential()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postCredentials}
+     *
+     * @return Models\Credential
+     */
+    public function createCredential(array $options)
     {
-
+        return $this->model('Credential')->create($options);
     }
 
+    /**
+     * @return \Generator
+     */
     public function listCredentials()
     {
+        $operation = $this->getOperation($this->api->getCredentials());
 
+        return $this->model('Credential')->enumerate($operation);
     }
 
-    public function getCredential()
+    /**
+     * @param string $id
+     *
+     * @return Models\Credential
+     */
+    public function getCredential($id)
     {
-
+        return $this->model('Credential', ['id' => $id]);
     }
 
-    public function createRole()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postRoles}
+     *
+     * @return Models\Role
+     */
+    public function createRole(array $options)
     {
-
+        return $this->model('Role')->create($options);
     }
 
-    public function listRoles()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getRoles}
+     *
+     * @return \Generator
+     */
+    public function listRoles(array $options = [])
     {
+        $operation = $this->getOperation($this->api->getRoles(), $options);
 
+        return $this->model('Role')->enumerate($operation);
     }
 
-    public function listRoleAssignments()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getRoleAssignments}
+     *
+     * @return \Generator
+     */
+    public function listRoleAssignments(array $options = [])
     {
+        $operation = $this->getOperation($this->api->getRoleAssignments(), $options);
 
+        return $this->model('Assignment')->enumerate($operation);
     }
 
-    public function createPolicy()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::postPolicies}
+     *
+     * @return Models\Policy
+     */
+    public function createPolicy(array $options)
     {
-
+        return $this->model('Policy')->create($options);
     }
 
-    public function listPolicies()
+    /**
+     * @param array $options {@see \OpenStack\Identity\v2\Api::getPolicies}
+     *
+     * @return \Generator
+     */
+    public function listPolicies(array $options = [])
     {
+        $operation = $this->getOperation($this->api->getPolicies(), $options);
 
+        return $this->model('Policy')->enumerate($operation);
     }
 
-    public function getPolicy()
+    /**
+     * @param string $id
+     *
+     * @return Models\Policy
+     */
+    public function getPolicy($id)
     {
-
+        return $this->model('Policy', ['id' => $id]);
     }
 }

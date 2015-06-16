@@ -39,7 +39,9 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
 
     public function create(array $data)
     {
-
+        $response = $this->execute($this->api->postCredentials(), $data);
+        $this->populateFromResponse($response);
+        return $this;
     }
 
     public function retrieve()

@@ -43,9 +43,23 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
         'default_project_id' => 'defaultProjectId'
     ];
 
+    protected $resourceKey = 'user';
+
+    public function populateFromArray(array $data)
+    {
+        parent::populateFromArray($data);
+
+        if (isset($data['domainId']) || isset($data['domain_id'])) {
+            $domainId = isset($data['domain_id']) ? $data['domain_id'] : $data['domainId'];
+            $this->domain = $this->model('Domain', ['id' => $domainId]);
+        }
+    }
+
     public function create(array $data)
     {
-
+        $response = $this->execute($this->api->postUsers(), $data);
+        $this->populateFromResponse($response);
+        return $this;
     }
 
     public function retrieve()
