@@ -3,9 +3,8 @@
 namespace OpenStack\Common\Auth;
 
 use GuzzleHttp\Event\BeforeEvent;
+use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Message\RequestInterface;
-use OpenStack\Identity\v2\Models\Token;
-use OpenStack\Identity\v2\Service as IdentityV2Service;
 
 /**
  * This class is responsible for three tasks:
@@ -13,10 +12,8 @@ use OpenStack\Identity\v2\Service as IdentityV2Service;
  * 1. performing the initial authentication for OpenStack services
  * 2. populating the ``X-Auth-Token`` header for every HTTP request
  * 3. checking the token expiry before each request, and re-authenticating if necessary
- *
- * This handler is specific to OpenStack KeyStone v2 and uses it as the default authentication strategy.
  */
-class AuthHandler implements AuthHandlerInterface
+class AuthHandler implements SubscriberInterface
 {
     /**
      * The cached token
@@ -28,7 +25,7 @@ class AuthHandler implements AuthHandlerInterface
     /**
      * The service responsible for handling the authentication operation
      *
-     * @var IdentityV2Service
+     * @var IdentityService
      */
     private $service;
 
@@ -40,11 +37,11 @@ class AuthHandler implements AuthHandlerInterface
     private $options;
 
     /**
-     * @param IdentityV2Service $service
-     * @param array             $options
-     * @param Token             $token
+     * @param IdentityService $service
+     * @param array           $options
+     * @param Token           $token
      */
-    public function __construct(IdentityV2Service $service, array $options, Token $token)
+    public function __construct(IdentityService $service, array $options, Token $token)
     {
         $this->service = $service;
         $this->options = $options;
@@ -84,7 +81,7 @@ class AuthHandler implements AuthHandlerInterface
             $this->authenticate();
         }
 
-        $request->setHeader('X-Auth-Token', $this->token->id);
+        $request->setHeader('X-Auth-Token', $this->token->getId());
     }
 
     /**
@@ -105,6 +102,6 @@ class AuthHandler implements AuthHandlerInterface
      */
     public function authenticate()
     {
-        $this->token = $this->service->generateToken($this->options);
+        list ($this->token,) = $this->service->authenticate($this->options);
     }
 }

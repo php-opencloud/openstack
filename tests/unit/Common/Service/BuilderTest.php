@@ -8,8 +8,9 @@ use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
 use OpenStack\Common\Service\Builder;
+use OpenStack\Test\TestCase;
 
-class BuilderTest extends \PHPUnit_Framework_TestCase
+class BuilderTest extends TestCase
 {
     private $builder;
     private $opts;
@@ -93,29 +94,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function test_it_builds_services()
+    public function test_it_builds_services_with_v2_identity()
     {
-        $response = new Response(200, ['Content-Type' => 'application/json'], Stream::factory(json_encode(['access' => [
-            'token' => [
-                'issued_at' => '2014-01-30T15:30:58.819584',
-                'expires' => '2014-01-30T15:30:58.819584',
-                'id' => 'foo',
-            ],
-            'serviceCatalog' => [
-                [
-                    'endpoints' => [
-                        [
-                            'region' => $this->opts['region'],
-                            'publicURL' => 'foo.com',
-                        ]
-                    ],
-                    'name' => $this->opts['catalogName'],
-                    'type' => $this->opts['catalogType'],
-                ]
-            ]
-        ]])));
-
-        $request = new Request('POST', 'tokens');
+        $this->rootFixturesDir = dirname(dirname(__DIR__)) . '/Identity/v2/';
+        $response = $this->getFixture('token-post');
+        $request  = new Request('POST', 'tokens');
 
         $httpClient = $this->prophesize(ClientInterface::class);
         $httpClient->getEmitter()->willReturn(new Emitter());
@@ -125,11 +108,48 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $httpClient->send($request)->shouldBeCalled()->willReturn($response);
 
         $this->opts['httpClient'] = $httpClient->reveal();
-        $this->opts['debug'] = true;
+        $this->opts['identityService'] = $this->builder->createService('Identity', 2, $this->opts);
+        $this->opts['catalogName'] = 'nova';
+        $this->opts['catalogType'] = 'compute';
+        $this->opts['region'] = 'RegionOne';
 
-        $this->assertInstanceOf(
-            'OpenStack\Compute\v2\Service',
-            $this->builder->createService('Compute', 2, $this->opts)
-        );
+        $service = $this->builder->createService('Compute', 2, $this->opts);
+        $this->assertInstanceOf('OpenStack\Compute\v2\Service', $service);
+    }
+
+    public function it_builds_services_with_v3_identity()
+    {
+        $this->rootFixturesDir = dirname(dirname(__DIR__)) . '/Identity/v3/';
+
+        $response = $this->getFixture('token-get');
+        $request  = new Request('POST', 'tokens');
+
+        $expectedJson = [
+            'auth' => [
+                'identity' => [
+                    'methods'  => ['password'],
+                    'password' => ['user' => ['id' => '0ca8f6', 'password' => 'secretsecret']]
+                ]
+            ]
+        ];
+
+        $httpClient = $this->prophesize(ClientInterface::class);
+        $httpClient->getEmitter()->willReturn(new Emitter());
+        $httpClient->createRequest('POST', 'tokens', ['json' => $expectedJson])->shouldBeCalled()->willReturn($request);
+        $httpClient->send($request)->shouldBeCalled()->willReturn($response);
+
+        $options = [
+            'httpClient' => $httpClient->reveal(),
+            'catalogName' => 'nova',
+            'catalogType' => 'compute',
+            'region'      => 'RegionOne',
+            'user'        => [
+                'id'       => '0ca8f6',
+                'password' => 'secretsecret',
+            ]
+        ];
+
+        $service = $this->builder->createService('Compute', 2, $options);
+        $this->assertInstanceOf('OpenStack\Compute\v3\Service', $service);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v2;
 
+use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Service\AbstractService;
 
 /**
@@ -9,8 +10,26 @@ use OpenStack\Common\Service\AbstractService;
  *
  * @property \OpenStack\Identity\v2\Api $api
  */
-class Service extends AbstractService
+class Service extends AbstractService implements IdentityService
 {
+    public function authenticate(array $options = [])
+    {
+        $definition = $this->api->postToken();
+
+        $response = $this->execute($definition, array_intersect_key($options, $definition['params']));
+
+        $token = $this->model('Token', $response);
+
+        $serviceUrl = $this->model('Catalog', $response)->getServiceUrl(
+            $options['catalogName'],
+            $options['catalogType'],
+            $options['region'],
+            $options['urlType']
+        );
+
+        return [$serviceUrl, $token];
+    }
+
     /**
      * Generates a new authentication token
      *

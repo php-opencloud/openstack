@@ -74,29 +74,19 @@ class Builder
     public function createService($serviceName, $serviceVersion, array $serviceOptions = [])
     {
         $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
-        $this->checkRequiredOptions($options);
+
+        if ($serviceName != 'Identity') {
+            $this->checkRequiredOptions($options);
+            $defaultHttpClient = $this->setupHttpClient($options);
+        } else {
+            $defaultHttpClient = $this->httpClient($options['authUrl'], $options);
+        }
+
+        $httpClient = !empty($options['httpClient']) ? $options['httpClient'] : $defaultHttpClient;
 
         list ($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
 
-        return new $serviceClass($this->setupHttpClient($options), new $apiClass());
-    }
-
-    /**
-     * Similar to {@see createService()} but confined to services, like Identity, that do not require
-     * initial authentication and service URL resolution.
-     *
-     * @param int   $serviceVersion The major version of the service
-     * @param array $serviceOptions The service-specific options to use
-     *
-     * @return \OpenStack\Common\Service\ServiceInterface
-     */
-    public function createIdentityService($serviceVersion, array $serviceOptions = [])
-    {
-        $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
-
-        list ($apiClass, $serviceClass) = $this->getClasses('Identity', $serviceVersion);
-
-        return new $serviceClass($this->httpClient($options['authUrl'], $options), new $apiClass());
+        return new $serviceClass($httpClient, new $apiClass());
     }
 
     /**
@@ -111,19 +101,20 @@ class Builder
      * for an event to be fired before every Request is sent. It is given an initial token.
      *
      * @param array $options
+     *
      * @return Client
      */
     private function setupHttpClient(array $options)
     {
-        $httpClient = isset($options['httpClient'])
-            ? $options['httpClient']
-            : $this->httpClient($options['authUrl'], $options);
+        $identity = isset($options['identityService'])
+            ? $options['identityService']
+            : $this->createService('Identity', 3, $options);
 
-        $resolver = new ServiceUrlResolver($httpClient);
-        $resolver->resolve($options);
+        list ($baseUrl, $token) = $identity->authenticate($options);
 
-        $httpClient = $this->httpClient($resolver->getServiceUrl(), $options);
-        $httpClient->getEmitter()->attach(new AuthHandler($resolver->getService(), $options, $resolver->getToken()));
+        $httpClient = $this->httpClient($baseUrl, $options);
+        $httpClient->getEmitter()->attach(new AuthHandler($identity, $options, $token));
+
         return $httpClient;
     }
 
@@ -137,9 +128,7 @@ class Builder
      */
     public function httpClient($baseUrl, array $options = [])
     {
-        $client = new Client([
-            'base_url' => rtrim($baseUrl, '/') . '/',
-        ]);
+        $client = new Client(['base_url' => rtrim($baseUrl, '/') . '/']);
 
         if (isset($options['debug']) && $options['debug'] === true) {
             $client->getEmitter()->attach(new LogSubscriber(null, Formatter::DEBUG));

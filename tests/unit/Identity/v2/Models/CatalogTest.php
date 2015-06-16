@@ -22,6 +22,6 @@ class CatalogTest extends TestCase
      */
     public function test_it_throws_exception_when_no_endpoint_url_is_found()
     {
-        $this->catalog->getEndpointUrl('foo', 'bar', 'baz');
+        $this->catalog->getServiceUrl('foo', 'bar', 'baz');
     }
 } 

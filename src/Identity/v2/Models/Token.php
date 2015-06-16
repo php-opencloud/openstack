@@ -11,7 +11,7 @@ use OpenStack\Common\Resource\ValueResource;
  *
  * @package OpenStack\Identity\v2\Models
  */
-class Token extends AbstractResource
+class Token extends AbstractResource implements \OpenStack\Common\Auth\Token
 {
     /** @var \DatetimeImmutable */
     public $issuedAt;
@@ -50,11 +50,11 @@ class Token extends AbstractResource
         }
     }
 
-    /**
-     * Indicates whether the token has expired or not.
-     *
-     * @return bool TRUE if the token has expired, FALSE if it is still valid
-     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function hasExpired()
     {
         return $this->expires <= new \DateTimeImmutable('now', $this->expires->getTimezone());

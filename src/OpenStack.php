@@ -69,7 +69,7 @@ class OpenStack
      */
     public function identityV2(array $options = [])
     {
-        return $this->builder->createIdentityService(2, $options);
+        return $this->builder->createService('Identity', 2, $options);
     }
 
     /**
@@ -81,6 +81,6 @@ class OpenStack
      */
     public function identityV3(array $options = [])
     {
-        return $this->builder->createIdentityService(3, $options);
+        return $this->builder->createService('Identity', 3, $options);
     }
 }
