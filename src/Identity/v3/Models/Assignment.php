@@ -18,21 +18,4 @@ class Assignment extends AbstractResource implements Listable
 
     /** @var User */
     public $user;
-
-    public function populateFromArray(array $data)
-    {
-        parent::populateFromArray($data);
-
-        if (isset($data['role'])) {
-            $this->role = $this->model('Role', $data['role']);
-        }
-
-        if (isset($data['group'])) {
-            $this->group = $this->model('Group', $data['group']);
-        }
-
-        if (isset($data['user'])) {
-            $this->user = $this->model('User', $data['user']);
-        }
-    }
 }

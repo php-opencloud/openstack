@@ -2,9 +2,9 @@
 
 namespace OpenStack\Identity\v3;
 
-use OpenStack\Common\Api\ApiInterface;
+use OpenStack\Common\Api\AbstractApi;
 
-class Api implements ApiInterface
+class Api extends AbstractApi
 {
     private function domainParam()
     {
@@ -332,7 +332,7 @@ class Api implements ApiInterface
             'path'   => 'domains/{domainId}/users/{userId}/roles',
             'params' => [
                 'domainId' => $this->idUrlParam,
-                'userId'   => $this->idUrlParam
+                'userId'   => $this->idUrlParam,
             ]
         ];
     }
@@ -404,7 +404,7 @@ class Api implements ApiInterface
     public function headGroupRole()
     {
         return [
-            'method' => 'POST',
+            'method' => 'HEAD',
             'path'   => 'domains/{domainId}/groups/{groupId}/roles/{roleId}',
             'params' => [
                 'domainId' => $this->idUrlParam,
@@ -906,7 +906,7 @@ class Api implements ApiInterface
         return [
             'method' => 'PATCH',
             'path'   => 'credentials/{id}',
-            'params' => ['id' => $this->idUrlParam]
+            'params' => ['id' => $this->idUrlParam] + $this->postCredentials()['params']
         ];
     }
 

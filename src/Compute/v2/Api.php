@@ -2,7 +2,7 @@
 
 namespace OpenStack\Compute\v2;
 
-use OpenStack\Common\Api\ApiInterface;
+use OpenStack\Common\Api\AbstractApi;
 
 /**
  * A representation of the Compute (Nova) v2 REST API.
@@ -10,7 +10,7 @@ use OpenStack\Common\Api\ApiInterface;
  * @internal
  * @package OpenStack\Compute\v2
  */
-class Api implements ApiInterface
+class Api extends AbstractApi
 {
     private $idParam = [
         'type' => 'string',
@@ -674,15 +674,5 @@ EOL
                 'key' => $this->keyParam,
             ]
         ];
-    }
-
-    private function isRequired(array $param)
-    {
-        return array_merge($param, ['required' => true]);
-    }
-
-    private function notRequired(array $param)
-    {
-        return array_merge($param, ['required' => false]);
     }
 }

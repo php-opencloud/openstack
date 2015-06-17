@@ -37,25 +37,39 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
         'user_id' => 'userId'
     ];
 
+    /**
+     * {@inheritDoc}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postCredentials(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+        return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
-
+        $response = $this->execute($this->api->getCredential(), $this->getAttrs(['id']));
+        return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update()
     {
-
+        $attrs = ['id', 'blob', 'projectId', 'type', 'userId'];
+        $response = $this->execute($this->api->patchCredential(), $this->getAttrs($attrs));
+        return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
-
+        $this->execute($this->api->deleteServer(), $this->getAttrs(['id']));
     }
-} 
+}

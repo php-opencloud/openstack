@@ -9,6 +9,7 @@ use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Url;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTestCase;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -83,5 +84,42 @@ abstract class TestCase extends ProphecyTestCase
             ->send(Argument::is($request))
             ->shouldBeCalled()
             ->willReturn($response);
+    }
+
+    protected function createFn($receiver, $method, $args)
+    {
+        return function() use ($receiver, $method, $args) {
+            return $receiver->$method($args);
+        };
+    }
+
+    protected function listTest(callable $call, $urlPath, $modelName = null, $responseFile = null)
+    {
+        $modelName = $modelName ?: $urlPath;
+        $responseFile = $responseFile ?: $urlPath;
+
+        $request = $this->setupMockRequest('GET', $urlPath);
+        $this->setupMockResponse($request, $responseFile);
+
+        $resources = call_user_func($call);
+
+        $this->assertInstanceOf('\Generator', $resources);
+
+        $count = 0;
+
+        foreach ($resources as $resource) {
+            $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+            ++$count;
+        }
+
+        $this->assertEquals(2, $count);
+    }
+
+    protected function getTest(callable $call, $modelName)
+    {
+        $resource = call_user_func($call);
+
+        $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+        $this->assertEquals('id', $resource->id);
     }
 }

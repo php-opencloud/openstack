@@ -32,65 +32,83 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
     protected $resourceKey = 'domain';
     protected $resourcesKey = 'domains';
 
+    /**
+     * {@inheritDoc}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postDomains(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+        return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
-
+        $response = $this->execute($this->api->getDomain(), $this->getAttrs(['id']));
+        return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update()
     {
-
+        $def = $this->api->patchDomain();
+        $response = $this->execute($def, $this->getAttrs(array_keys($def['params'])));
+        return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
-
+        $this->execute($this->api->deleteDomain(), $this->getAttrs(['id']));
     }
 
-    public function listUserRoles()
+    public function listUserRoles(array $options = [])
     {
-
+        $operation = $this->getOperation($this->api->getUserRoles(), ['domainId' => $this->id] + $options);
+        return $this->model('Role')->enumerate($operation);
     }
 
-    public function grantUserRole()
+    public function grantUserRole(array $options = [])
     {
-
+        $this->execute($this->api->putUserRoles(), ['domainId' => $this->id] + $options);
     }
 
-    public function checkUserRole()
+    public function checkUserRole(array $options = [])
     {
-
+        $response = $this->execute($this->api->headUserRole(), ['domainId' => $this->id] + $options);
+        return $response->getStatusCode() === 200;
     }
 
-    public function revokeUserRole()
+    public function revokeUserRole(array $options = [])
     {
-
+        $this->execute($this->api->deleteUserRole(), ['domainId' => $this->id] + $options);
     }
 
-    public function listGroupRoles()
+    public function listGroupRoles(array $options = [])
     {
-
+        $operation = $this->getOperation($this->api->getGroupRoles(), ['domainId' => $this->id] + $options);
+        return $this->model('Role')->enumerate($operation);
     }
 
-    public function grantGroupRole()
+    public function grantGroupRole(array $options = [])
     {
-
+        $this->execute($this->api->putGroupRole(), ['domainId' => $this->id] + $options);
     }
 
-    public function checkGroupRole()
+    public function checkGroupRole(array $options = [])
     {
-
+        $response = $this->execute($this->api->headGroupRole(), ['domainId' => $this->id] + $options);
+        return $response->getStatusCode() === 200;
     }
 
-    public function revokeGroupRole()
+    public function revokeGroupRole(array $options = [])
     {
-
+        $this->execute($this->api->deleteGroupRole(), ['domainId' => $this->id] + $options);
     }
 } 

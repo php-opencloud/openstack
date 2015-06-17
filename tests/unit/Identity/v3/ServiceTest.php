@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\test_it_\Identity\v3;
+namespace OpenStack\Test\Identity\v3;
 
 use GuzzleHttp\Message\Response;
 use OpenStack\Identity\v3\Api;
@@ -12,7 +12,7 @@ use OpenStack\Test\TestCase;
 class ServiceTest extends TestCase
 {
     private $service;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -20,33 +20,6 @@ class ServiceTest extends TestCase
         $this->rootFixturesDir = __DIR__;
 
         $this->service = new Service($this->client->reveal(), new Api());
-    }
-
-    private function listTest($resourceName)
-    {
-        $request = $this->setupMockRequest('GET', $resourceName . 's');
-        $this->setupMockResponse($request, $resourceName . 's');
-
-        $resources = $this->service->{'list' . ucfirst($resourceName) . 's'}();
-
-        $this->assertInstanceOf('\Generator', $resources);
-
-        $count = 0;
-
-        foreach ($resources as $resource) {
-            $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($resourceName), $resource);
-            ++$count;
-        }
-
-        $this->assertEquals(2, $count);
-    }
-
-    private function getTest($resourceName)
-    {
-        $resource = $this->service->{'get' . ucfirst($resourceName)}('id');
-
-        $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($resourceName), $resource);
-        $this->assertEquals('id', $resource->id);
     }
 
     public function test_it_gets_token()
@@ -120,12 +93,12 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_services()
     {
-        $this->listTest('service');
+        $this->listTest($this->createFn($this->service, 'listServices', []), 'services', 'Service');
     }
 
     public function test_it_gets_service()
     {
-        $this->getTest('service');
+        $this->getTest($this->createFn($this->service, 'getService', 'id'), 'service');
     }
 
     public function test_it_creates_endpoint()
@@ -181,12 +154,12 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_domains()
     {
-        $this->listTest('domain');
+        $this->listTest($this->createFn($this->service, 'listDomains', []), 'domains', 'Domain');
     }
 
     public function test_it_gets_domain()
     {
-        $this->getTest('domain');
+        $this->getTest($this->createFn($this->service, 'getDomain', 'id'), 'domain');
     }
 
     public function test_it_creates_project()
@@ -231,7 +204,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_project()
     {
-        $this->getTest('project');
+        $this->getTest($this->createFn($this->service, 'getProject', 'id'), 'project');
     }
 
     public function test_it_creates_user()
@@ -270,12 +243,12 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_users()
     {
-        $this->listTest('user');
+        $this->listTest($this->createFn($this->service, 'listUsers', []), 'users', 'User');
     }
 
     public function test_it_gets_user()
     {
-        $this->getTest('user');
+        $this->getTest($this->createFn($this->service, 'getUser', 'id'), 'user');
     }
 
     public function test_it_creates_group()
@@ -301,12 +274,12 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_groups()
     {
-        $this->listTest('group');
+        $this->listTest($this->createFn($this->service, 'listGroups', []), 'groups', 'Group');
     }
 
     public function test_it_gets_group()
     {
-        $this->getTest('group');
+        $this->getTest($this->createFn($this->service, 'getGroup', 'id'), 'group');
     }
 
     public function test_it_creates_credential()
@@ -341,12 +314,12 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_credentials()
     {
-        $this->listTest('credential');
+        $this->listTest($this->createFn($this->service, 'listCredentials', []), 'credentials', 'Credential');
     }
 
     public function test_it_gets_credential()
     {
-        $this->getTest('credential');
+        $this->getTest($this->createFn($this->service, 'getCredential', 'id'), 'credential');
     }
 
     public function test_it_creates_role()
@@ -366,26 +339,13 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_roles()
     {
-        $this->listTest('role');
+        $this->listTest($this->createFn($this->service, 'listRoles', []), 'roles', 'Role');
     }
 
     public function test_it_lists_role_assignments()
     {
-        $request = $this->setupMockRequest('GET', 'role_assignments');
-        $this->setupMockResponse($request, 'role-assignments');
-
-        $resources = $this->service->listRoleAssignments();
-
-        $this->assertInstanceOf('\Generator', $resources);
-
-        $count = 0;
-
-        foreach ($resources as $resource) {
-            $this->assertInstanceOf(Models\Assignment::class, $resource);
-            ++$count;
-        }
-
-        $this->assertEquals(2, $count);
+        $fn = $this->createFn($this->service, 'listRoleAssignments', []);
+        $this->listTest($fn, 'role_assignments', 'Assignment');
     }
 
     public function test_it_creates_policy()
@@ -415,25 +375,11 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_policies()
     {
-        $request = $this->setupMockRequest('GET', 'policies');
-        $this->setupMockResponse($request, 'policies');
-
-        $resources = $this->service->listPolicies();
-
-        $this->assertInstanceOf('\Generator', $resources);
-
-        $count = 0;
-
-        foreach ($resources as $resource) {
-            $this->assertInstanceOf(Models\Policy::class, $resource);
-            ++$count;
-        }
-
-        $this->assertEquals(2, $count);
+        $this->listTest($this->createFn($this->service, 'listPolicies', []), 'policies', 'Policy');
     }
 
     public function test_it_gets_policy()
     {
-        $this->getTest('policy');
+        $this->getTest($this->createFn($this->service, 'getPolicy', 'id'), 'policy');
     }
 }
