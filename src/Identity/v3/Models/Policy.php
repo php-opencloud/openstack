@@ -34,28 +34,29 @@ class Policy extends AbstractResource implements Creatable, Listable, Retrievabl
 
     protected $aliases = [
         'project_id' => 'projectId',
-        'user_id' => 'userId'
+        'user_id'    => 'userId'
     ];
 
     public function create(array $data)
     {
         $response = $this->execute($this->api->postPolicies(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+        return $this->populateFromResponse($response);
     }
 
     public function retrieve()
     {
-
+        $response = $this->execute($this->api->getPolicy(), ['id' => $this->id]);
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
-
+        $response = $this->executeWithState($this->api->postPolicies());
+        return $this->populateFromResponse($response);
     }
 
     public function delete()
     {
-
+        $this->execute($this->api->deletePolicy(), ['id' => $this->id]);
     }
 }
