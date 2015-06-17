@@ -34,23 +34,22 @@ class Endpoint extends AbstractResource implements Creatable, Updateable, Deleta
     public $url;
 
     protected $resourceKey = 'endpoint';
-
     protected $aliases = ['service_id' => 'serviceId'];
 
     public function create(array $data)
     {
         $response = $this->execute($this->api->postEndpoints(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
-
+        $response = $this->executeWithState($this->api->patchEndpoint());
+        return $this->populateFromResponse($response);
     }
 
     public function delete()
     {
-
+        $this->execute($this->api->deleteEndpoint(), $this->getAttrs(['id']));
     }
 }

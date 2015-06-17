@@ -211,11 +211,12 @@ class Api extends AbstractApi
         ];
     }
 
-    public function patchEndpoints()
+    public function patchEndpoint()
     {
         return [
             'method' => 'PATCH',
             'path'   => 'endpoints/{id}',
+            'jsonKey' => 'endpoint',
             'params' => [
                 'id' => $this->idUrlParam,
                 'interface' => [
@@ -238,7 +239,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteEndpoints()
+    public function deleteEndpoint()
     {
         return [
             'method' => 'DELETE',
@@ -793,6 +794,7 @@ class Api extends AbstractApi
         return [
             'method' => 'PATCH',
             'path'   => 'groups/{id}',
+            'jsonKey' => 'group',
             'params' => [
                 'id' => $this->idUrlParam,
                 'description' => [
@@ -850,7 +852,7 @@ class Api extends AbstractApi
     public function headGroupUser()
     {
         return [
-            'method' => 'GET',
+            'method' => 'HEAD',
             'path'   => 'groups/{groupId}/users/{userId}',
             'params' => [
                 'groupId' => $this->idUrlParam,

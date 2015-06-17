@@ -164,6 +164,17 @@ abstract class AbstractResource extends Operator implements ResourceInterface
     }
 
     /**
+     * @param array $definition
+     *
+     * @return mixed
+     */
+    public function executeWithState(array $definition)
+    {
+        $operation = $this->getOperation($definition, $this->getAttrs(array_keys($definition['params'])));
+        return $operation->send();
+    }
+
+    /**
      * This method iterates over a collection of resources. It sends the operation's request to the API,
      * parses the response, converts each element into {@see self} and - if pagination is supported - continues
      * to send requests until an empty collection is received back.
