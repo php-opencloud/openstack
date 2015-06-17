@@ -36,42 +36,45 @@ class Group extends AbstractResource implements Creatable, Listable, Retrievable
     public function create(array $data)
     {
         $response = $this->execute($this->api->postGroups(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+        return $this->populateFromResponse($response);
     }
 
     public function retrieve()
     {
-
+        $response = $this->execute($this->api->getGroup(), ['id' => $this->id]);
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
-
+        $response = $this->executeWithState($this->api->patchGroup());
+        return $this->populateFromResponse($response);
     }
 
     public function delete()
     {
-
+        $this->execute($this->api->deleteGroup(), ['id' => $this->id]);
     }
 
-    public function listUsers()
+    public function listUsers(array $options = [])
     {
-
+        $operation = $this->getOperation($this->api->getGroupUsers(), ['id' => $this->id] + $options);
+        return $this->model('User')->enumerate($operation);
     }
 
-    public function createUser()
+    public function addUser(array $options)
     {
-
+        $this->execute($this->api->putGroupUser(), ['groupId' => $this->id] + $options);
     }
 
-    public function deleteUser()
+    public function removeUser(array $options)
     {
-
+        $this->execute($this->api->deleteGroupUser(), ['groupId' => $this->id] + $options);
     }
 
-    public function checkUserMembership()
+    public function checkMembership(array $options)
     {
-
+        $response = $this->execute($this->api->headGroupUser(), ['groupId' => $this->id] + $options);
+        return $response->getStatusCode() === 200;
     }
 }
