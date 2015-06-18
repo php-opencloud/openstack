@@ -43,4 +43,13 @@ class OpenStackTest extends ProphecyTestCase
 
         $this->openstack->identityV3();
     }
+    
+    public function test_it_supports_networking_v2()
+    {
+        $this->builder
+            ->createService('Networking', 2, ['catalogName' => 'neutron', 'catalogType' => 'network'])
+            ->shouldBeCalled();
+
+        $this->openstack->networkingV2();
+    }
 }
