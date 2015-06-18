@@ -69,8 +69,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
 
     public function update()
     {
-        $attrs = ['id', 'defaultProjectId', 'description', 'email', 'enabled'];
-        $response = $this->execute($this->api->patchUser(), $this->getAttrs($attrs));
+        $response = $this->executeWithState($this->api->patchUser());
         return $this->populateFromResponse($response);
     }
 

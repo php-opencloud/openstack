@@ -42,17 +42,19 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
 
     public function retrieve()
     {
-
+        $response = $this->executeWithState($this->api->getService());
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
-
+        $response = $this->executeWithState($this->api->patchService());
+        return $this->populateFromResponse($response);
     }
 
     public function delete()
     {
-
+        $this->executeWithState($this->api->deleteService());
     }
 
     /**
