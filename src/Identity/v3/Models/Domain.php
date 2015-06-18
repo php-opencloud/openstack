@@ -48,7 +48,7 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getDomain(), $this->getAttrs(['id']));
+        $response = $this->executeWithState($this->api->getDomain());
         return $this->populateFromResponse($response);
     }
 
@@ -57,8 +57,7 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function update()
     {
-        $def = $this->api->patchDomain();
-        $response = $this->execute($def, $this->getAttrs(array_keys($def['params'])));
+        $response = $this->executeWithState($this->api->patchDomain());
         return $this->populateFromResponse($response);
     }
 
@@ -67,7 +66,7 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function delete()
     {
-        $this->execute($this->api->deleteDomain(), $this->getAttrs(['id']));
+        $this->executeWithState($this->api->deleteDomain());
     }
 
     /**

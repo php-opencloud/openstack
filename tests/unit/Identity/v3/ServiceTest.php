@@ -382,4 +382,66 @@ class ServiceTest extends TestCase
     {
         $this->getTest($this->createFn($this->service, 'getPolicy', 'id'), 'policy');
     }
+
+    public function test_it_generates_tokens_with_user_creds()
+    {
+        $userOptions = [
+            'user' => [
+                'id'       => '{userId}',
+                'password' => '{userPassword}',
+                'domain'   => ['id' => '{domainId}']
+            ],
+            'scope' => [
+                'project' => ['id' => '{projectId}']
+            ]
+        ];
+
+        $expectedJson = [
+            "identity" => [
+                "methods" => ["password"],
+                "password" => [
+                    "user" => [
+                        "id"       => "{userId}",
+                        "password" => "{userPassword}",
+                        'domain'   => ['id' => '{domainId}']
+                    ]
+                ]
+            ],
+            "scope" => [
+                "project" => ["id" => "{projectId}"]
+            ]
+        ];
+
+        $request = $this->setupMockRequest('POST', 'auth/tokens', ['auth' => $expectedJson]);
+        $this->setupMockResponse($request, 'token');
+
+        $token = $this->service->generateToken($userOptions);
+        $this->assertInstanceOf(Models\Token::class, $token);
+    }
+
+    public function test_it_generates_token_with_token_id()
+    {
+        $userOptions = [
+            'tokenId' => '{tokenId}',
+            'scope' => [
+                'project' => ['id' => '{projectId}']
+            ]
+        ];
+
+        $expectedJson = [
+            "identity" => [
+                'methods' => ['token'],
+                "token"   => ['id' => '{tokenId}']
+            ],
+            "scope" => [
+                "project" => ["id" => "{projectId}"]
+            ]
+        ];
+
+        $request = $this->setupMockRequest('POST', 'auth/tokens', ['auth' => $expectedJson]);
+        $this->setupMockResponse($request, 'token');
+
+        $token = $this->service->generateToken($userOptions);
+        $this->assertInstanceOf(Models\Token::class, $token);
+    }
 }

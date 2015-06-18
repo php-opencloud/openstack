@@ -70,7 +70,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postServices}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postServices}
      *
      * @return Models\Service
      */
@@ -80,7 +80,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getServices}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getServices}
      *
      * @return \Generator
      */
@@ -102,7 +102,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postEndpoints}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postEndpoints}
      *
      * @return Models\Endpoint
      */
@@ -112,7 +112,29 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postDomains}
+     * @param array $data
+     *
+     * @return Models\Endpoint
+     */
+    public function getEndpoint(array $data)
+    {
+        return $this->model('Endpoint', $data);
+    }
+
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getEndpoints}
+     *
+     * @return \Generator
+     */
+    public function listEndpoints(array $options = [])
+    {
+        $operation = $this->getOperation($this->api->getEndpoints(), $options);
+
+        return $this->model('Endpoint')->enumerate($operation);
+    }
+
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postDomains}
      *
      * @return Models\Domain
      */
@@ -122,7 +144,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getDomains}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getDomains}
      *
      * @return \Generator
      */
@@ -144,7 +166,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postProjects}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postProjects}
      *
      * @return Models\Project
      */
@@ -154,7 +176,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getProjects}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getProjects}
      *
      * @return \Generator
      */
@@ -176,7 +198,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postUsers}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postUsers}
      *
      * @return Models\User
      */
@@ -186,7 +208,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getUsers}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getUsers}
      *
      * @return \Generator
      */
@@ -208,7 +230,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postGroups}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postGroups}
      *
      * @return Models\Group
      */
@@ -218,7 +240,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getGroups}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getGroups}
      *
      * @return \Generator
      */
@@ -240,7 +262,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postCredentials}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postCredentials}
      *
      * @return Models\Credential
      */
@@ -270,7 +292,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postRoles}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postRoles}
      *
      * @return Models\Role
      */
@@ -280,7 +302,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getRoles}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getRoles}
      *
      * @return \Generator
      */
@@ -292,7 +314,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getRoleAssignments}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getRoleAssignments}
      *
      * @return \Generator
      */
@@ -304,7 +326,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::postPolicies}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postPolicies}
      *
      * @return Models\Policy
      */
@@ -314,7 +336,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $options {@see \OpenStack\Identity\v2\Api::getPolicies}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getPolicies}
      *
      * @return \Generator
      */

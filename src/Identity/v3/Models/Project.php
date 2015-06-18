@@ -92,7 +92,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      *
      * @return \Generator
      */
-    public function listUserRoles(array $options)
+    public function listUserRoles(array $options = [])
     {
         $operation = $this->getOperation($this->api->getProjectUserRoles(), ['projectId' => $this->id] + $options);
         return $this->model('Role')->enumerate($operation);
@@ -130,7 +130,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      *
      * @return \Generator
      */
-    public function listGroupRoles(array $options)
+    public function listGroupRoles(array $options = [])
     {
         $operation = $this->getOperation($this->api->getProjectGroupRoles(), ['projectId' => $this->id] + $options);
         return $this->model('Role')->enumerate($operation);

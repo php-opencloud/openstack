@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Test\Identity\v3;
+namespace OpenStack\Test\Identity\v3\Models;
 
 use GuzzleHttp\Message\Response;
 use OpenStack\Identity\v3\Api;

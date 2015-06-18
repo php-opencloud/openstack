@@ -54,6 +54,8 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
         parent::populateFromResponse($response);
 
         $this->id = $response->getHeader('X-Subject-Token');
+
+        return $this;
     }
 
     /**
@@ -99,13 +101,12 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
                 );
             }
         } elseif (isset($data['tokenId'])) {
-            $data['methods'] = ['tokens'];
+            $data['methods'] = ['token'];
         } else {
             throw new \RuntimeException('Either a user or token must be provided.');
         }
 
         $response = $this->execute($this->api->postTokens(), $data);
-
         return $this->populateFromResponse($response);
     }
 }

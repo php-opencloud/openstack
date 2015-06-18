@@ -1,0 +1,77 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "token": {
+        "expires_at": "2013-02-27T18:30:59.999999Z",
+        "issued_at": "2013-02-27T16:30:59.999999Z",
+        "methods": [
+            "password"
+        ],
+        "catalog": [
+            {
+                "type": "identity",
+                "id": "100",
+                "endpoints": [
+                    {
+                        "links": {
+                            "self": "https://region-a.example.com:35357/v3/endpoints/130_P"
+                        },
+                        "id": "example-a",
+                        "interface": "public",
+                        "region_id": "region-a.geo-1",
+                        "url": "https://region-a.example.com:35357/v2.0/",
+                        "service_id": "100"
+                    },
+                    {
+                        "links": {
+                            "self": "https://region-a.example.com:35357/v3/endpoints/example-a"
+                        },
+                        "id": "example-a",
+                        "interface": "public",
+                        "region_id": "region-a.geo-1",
+                        "url": "https://region-a.example.com:35357/v3/",
+                        "service_id": "100"
+                    }
+                ]
+            }
+        ],
+        "domain": {
+            "id": "1789d1",
+            "links": {
+                "self": "http://identity:35357/v3/domains/1789d1"
+            },
+            "name": "example.com"
+        },
+        "roles": [
+            {
+                "id": "76e72a",
+                "links": {
+                    "self": "http://identity:35357/v3/roles/76e72a"
+                },
+                "name": "admin"
+            },
+            {
+                "id": "f4f392",
+                "links": {
+                    "self": "http://identity:35357/v3/roles/f4f392"
+                },
+                "name": "member"
+            }
+        ],
+        "user": {
+            "domain": {
+                "id": "1789d1",
+                "links": {
+                    "self": "http://identity:35357/v3/domains/1789d1"
+                },
+                "name": "example.com"
+            },
+            "id": "0ca8f6",
+            "links": {
+                "self": "http://identity:35357/v3/users/0ca8f6"
+            },
+            "name": "Joe"
+        }
+    }
+}

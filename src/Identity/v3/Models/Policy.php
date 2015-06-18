@@ -62,7 +62,7 @@ class Policy extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function update()
     {
-        $response = $this->executeWithState($this->api->postPolicies());
+        $response = $this->executeWithState($this->api->patchPolicy());
         return $this->populateFromResponse($response);
     }
 

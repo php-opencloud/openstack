@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Test\Identity\v3;
+namespace OpenStack\Test\Identity\v3\Models;
 
 use GuzzleHttp\Message\Response;
 use OpenStack\Identity\v3\Api;
@@ -49,14 +49,17 @@ class PolicyTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->getTest($this->createFn($this->policy, 'retrieve', ''), 'Policy');
+        $request = $this->setupMockRequest('GET', 'policies/POLICY_ID');
+        $this->setupMockResponse($request, 'policy');
+
+        $this->policy->retrieve();
     }
 
     public function test_it_updates()
     {
         $this->policy->type = 'foo';
 
-        $request = $this->setupMockRequest('PATCH', 'policies/POLICY_ID', ['policy' => ['type' => 'foo']]);
+        $request = $this->setupMockRequest('PATCH', 'policies/POLICY_ID', ['type' => 'foo']);
         $this->setupMockResponse($request, 'policy');
 
         $this->policy->update();
