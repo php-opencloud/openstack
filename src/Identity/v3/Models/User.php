@@ -45,6 +45,9 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
 
     protected $resourceKey = 'user';
 
+    /**
+     * {@inheritDoc}
+     */
     public function populateFromArray(array $data)
     {
         parent::populateFromArray($data);
@@ -55,35 +58,55 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postUsers}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postUsers(), $data);
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getUser(), ['id' => $this->id]);
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchUser());
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
         $this->execute($this->api->deleteUser(), ['id' => $this->id]);
     }
 
+    /**
+     * @return \Generator
+     */
     public function listGroups()
     {
         $operation = $this->getOperation($this->api->getUserGroups(), ['id' => $this->id]);
         return $this->model('Group')->enumerate($operation);
     }
 
+    /**
+     * @return \Generator
+     */
     public function listProjects()
     {
         $operation = $this->getOperation($this->api->getUserProjects(), ['id' => $this->id]);

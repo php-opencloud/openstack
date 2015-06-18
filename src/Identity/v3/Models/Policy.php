@@ -37,24 +37,38 @@ class Policy extends AbstractResource implements Creatable, Listable, Retrievabl
         'user_id'    => 'userId'
     ];
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postPolicies}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postPolicies(), $data);
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getPolicy(), ['id' => $this->id]);
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update()
     {
         $response = $this->executeWithState($this->api->postPolicies());
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
         $this->execute($this->api->deletePolicy(), ['id' => $this->id]);

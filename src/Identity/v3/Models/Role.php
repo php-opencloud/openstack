@@ -20,10 +20,14 @@ class Role extends AbstractResource implements Creatable, Listable
     /** @var array */
     public $links;
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postRoles}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postRoles(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+        return $this->populateFromResponse($response);
     }
 } 

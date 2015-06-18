@@ -46,6 +46,9 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
         'issued_at'  => 'issued'
     ];
 
+    /**
+     * {@inheritDoc}
+     */
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
@@ -53,16 +56,25 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
         $this->id = $response->getHeader('X-Subject-Token');
     }
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return bool TRUE if the token has expired (and is invalid); FALSE otherwise.
+     */
     public function hasExpired()
     {
         return $this->expires <= new \DateTimeImmutable('now', $this->expires->getTimezone());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getTokens(), ['tokenId' => $this->id]);
@@ -70,6 +82,11 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
         $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postTokens}
+     */
     public function create(array $data)
     {
         if (isset($data['user'])) {

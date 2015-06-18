@@ -36,18 +36,31 @@ class Endpoint extends AbstractResource implements Creatable, Updateable, Deleta
     protected $resourceKey = 'endpoint';
     protected $aliases = ['service_id' => 'serviceId'];
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postEndpoints}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postEndpoints(), $data);
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return self
+     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchEndpoint());
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
         $this->execute($this->api->deleteEndpoint(), $this->getAttrs(['id']));

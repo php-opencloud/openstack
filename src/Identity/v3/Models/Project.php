@@ -39,6 +39,9 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
 
     protected $resourceKey = 'project';
 
+    /**
+     * {@inheritDoc}
+     */
     public function populateFromArray(array $data)
     {
         parent::populateFromArray($data);
@@ -46,6 +49,11 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
         $this->domain = $this->model('Domain', $data);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postProjects}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postProjects(), $data);
@@ -53,62 +61,103 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getProject());
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchProject());
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteProject());
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getProjectUserRoles}
+     *
+     * @return \Generator
+     */
     public function listUserRoles(array $options)
     {
         $operation = $this->getOperation($this->api->getProjectUserRoles(), ['projectId' => $this->id] + $options);
         return $this->model('Role')->enumerate($operation);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::putProjectUserRole}
+     */
     public function grantUserRole(array $options)
     {
         $this->execute($this->api->putProjectUserRole(), ['projectId' => $this->id] + $options);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::headProjectUserRole}
+     *
+     * @return bool
+     */
     public function checkUserRole(array $options)
     {
         $response = $this->execute($this->api->headProjectUserRole(), ['projectId' => $this->id] + $options);
         return $response->getStatusCode() === 200;
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::deleteProjectUserRole}
+     */
     public function revokeUserRole(array $options)
     {
         $this->execute($this->api->deleteProjectUserRole(), ['projectId' => $this->id] + $options);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getProjectGroupRoles}
+     *
+     * @return \Generator
+     */
     public function listGroupRoles(array $options)
     {
         $operation = $this->getOperation($this->api->getProjectGroupRoles(), ['projectId' => $this->id] + $options);
         return $this->model('Role')->enumerate($operation);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::putProjectGroupRole}
+     */
     public function grantGroupRole(array $options)
     {
         $this->execute($this->api->putProjectGroupRole(), ['projectId' => $this->id] + $options);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::headProjectGroupRole}
+     *
+     * @return bool
+     */
     public function checkGroupRole(array $options)
     {
         $response = $this->execute($this->api->headProjectGroupRole(), ['projectId' => $this->id] + $options);
         return $response->getStatusCode() === 200;
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::deleteProjectGroupRole}
+     */
     public function revokeGroupRole(array $options)
     {
         $this->execute($this->api->deleteProjectGroupRole(), ['projectId' => $this->id] + $options);

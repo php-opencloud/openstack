@@ -34,6 +34,8 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postDomains}
      */
     public function create(array $data)
     {
@@ -68,45 +70,77 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
         $this->execute($this->api->deleteDomain(), $this->getAttrs(['id']));
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getUserRoles}
+     *
+     * @return \Generator
+     */
     public function listUserRoles(array $options = [])
     {
         $operation = $this->getOperation($this->api->getUserRoles(), ['domainId' => $this->id] + $options);
         return $this->model('Role')->enumerate($operation);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::putUserRoles}
+     */
     public function grantUserRole(array $options = [])
     {
         $this->execute($this->api->putUserRoles(), ['domainId' => $this->id] + $options);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::headUserRole}
+     *
+     * @return bool
+     */
     public function checkUserRole(array $options = [])
     {
         $response = $this->execute($this->api->headUserRole(), ['domainId' => $this->id] + $options);
         return $response->getStatusCode() === 200;
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::deleteUserRole}
+     */
     public function revokeUserRole(array $options = [])
     {
         $this->execute($this->api->deleteUserRole(), ['domainId' => $this->id] + $options);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getGroupRoles}
+     *
+     * @return \Generator
+     */
     public function listGroupRoles(array $options = [])
     {
         $operation = $this->getOperation($this->api->getGroupRoles(), ['domainId' => $this->id] + $options);
         return $this->model('Role')->enumerate($operation);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::putGroupRole}
+     */
     public function grantGroupRole(array $options = [])
     {
         $this->execute($this->api->putGroupRole(), ['domainId' => $this->id] + $options);
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::headGroupRole}
+     *
+     * @return bool
+     */
     public function checkGroupRole(array $options = [])
     {
         $response = $this->execute($this->api->headGroupRole(), ['domainId' => $this->id] + $options);
         return $response->getStatusCode() === 200;
     }
 
+    /**
+     * @param array $options {@see \OpenStack\Identity\v3\Api::deleteGroupRole}
+     */
     public function revokeGroupRole(array $options = [])
     {
         $this->execute($this->api->deleteGroupRole(), ['domainId' => $this->id] + $options);

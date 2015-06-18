@@ -34,33 +34,49 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
 
     protected $resourceKey = 'service';
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postServices}
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->postServices(), $data);
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getService());
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchService());
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteService());
     }
 
     /**
-     * @param $name
-     * @param $type
-     * @param $region
+     * Retrieve the base URL for a service.
+     *
+     * @param string $name   The name of the service as it appears in the catalog.
+     * @param string $type   The type of the service as it appears in the catalog.
+     * @param string $region The region of the service as it appears in the catalog.
      *
      * @return string|false
      */
