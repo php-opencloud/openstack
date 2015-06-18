@@ -55,56 +55,62 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
 
     public function retrieve()
     {
-
+        $response = $this->executeWithState($this->api->getProject());
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
-
+        $response = $this->executeWithState($this->api->patchProject());
+        return $this->populateFromResponse($response);
     }
 
     public function delete()
     {
-
+        $this->executeWithState($this->api->deleteProject());
     }
 
-    public function listUserRoles()
+    public function listUserRoles(array $options)
     {
-
+        $operation = $this->getOperation($this->api->getProjectUserRoles(), ['projectId' => $this->id] + $options);
+        return $this->model('Role')->enumerate($operation);
     }
 
-    public function grantUserRole()
+    public function grantUserRole(array $options)
     {
-
+        $this->execute($this->api->putProjectUserRole(), ['projectId' => $this->id] + $options);
     }
 
-    public function checkUserRole()
+    public function checkUserRole(array $options)
     {
-
+        $response = $this->execute($this->api->headProjectUserRole(), ['projectId' => $this->id] + $options);
+        return $response->getStatusCode() === 200;
     }
 
-    public function revokeUserRole()
+    public function revokeUserRole(array $options)
     {
-
+        $this->execute($this->api->deleteProjectUserRole(), ['projectId' => $this->id] + $options);
     }
 
-    public function listGroupRoles()
+    public function listGroupRoles(array $options)
     {
-
+        $operation = $this->getOperation($this->api->getProjectGroupRoles(), ['projectId' => $this->id] + $options);
+        return $this->model('Role')->enumerate($operation);
     }
 
-    public function grantGroupRole()
+    public function grantGroupRole(array $options)
     {
-
+        $this->execute($this->api->putProjectGroupRole(), ['projectId' => $this->id] + $options);
     }
 
-    public function checkGroupRole()
+    public function checkGroupRole(array $options)
     {
-
+        $response = $this->execute($this->api->headProjectGroupRole(), ['projectId' => $this->id] + $options);
+        return $response->getStatusCode() === 200;
     }
 
-    public function revokeGroupRole()
+    public function revokeGroupRole(array $options)
     {
-
+        $this->execute($this->api->deleteProjectGroupRole(), ['projectId' => $this->id] + $options);
     }
 }

@@ -494,6 +494,7 @@ class Api extends AbstractApi
         return [
             'method' => 'PATCH',
             'path'   => 'projects/{id}',
+            'jsonKey' => 'project',
             'params' => [
                 'id' => $this->idUrlParam,
                 'description' => [
@@ -502,6 +503,10 @@ class Api extends AbstractApi
                 'domainId' => [
                     'type' => 'string',
                     'sentAs' => 'domain_id'
+                ],
+                'parentId' => [
+                    'type' => 'string',
+                    'sentAs' => 'parent_id'
                 ],
                 'enabled' => [
                     'type' => 'boolean'
