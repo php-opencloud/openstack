@@ -37,9 +37,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
     public function create(array $data)
     {
         $response = $this->execute($this->api->postServices(), $data);
-        $this->populateFromResponse($response);
-
-        return $this;
+        return $this->populateFromResponse($response);
     }
 
     public function retrieve()
