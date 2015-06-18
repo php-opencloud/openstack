@@ -58,32 +58,36 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     public function create(array $data)
     {
         $response = $this->execute($this->api->postUsers(), $data);
-        $this->populateFromResponse($response);
-        return $this;
+        return $this->populateFromResponse($response);
     }
 
     public function retrieve()
     {
-
+        $response = $this->execute($this->api->getUser(), ['id' => $this->id]);
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
-
+        $attrs = ['id', 'defaultProjectId', 'description', 'email', 'enabled'];
+        $response = $this->execute($this->api->patchUser(), $this->getAttrs($attrs));
+        return $this->populateFromResponse($response);
     }
 
     public function delete()
     {
-
+        $this->execute($this->api->deleteUser(), ['id' => $this->id]);
     }
 
-    public function listUserGroups()
+    public function listGroups()
     {
-
+        $operation = $this->getOperation($this->api->getUserGroups(), ['id' => $this->id]);
+        return $this->model('Group')->enumerate($operation);
     }
 
-    public function listUserProjects()
+    public function listProjects()
     {
-
+        $operation = $this->getOperation($this->api->getUserProjects(), ['id' => $this->id]);
+        return $this->model('Project')->enumerate($operation);
     }
 }
