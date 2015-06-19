@@ -109,7 +109,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
             if (property_exists($this, $propertyName)) {
 
                 if ($type = $this->extractTypeFromDocBlock($reflClass, $propertyName)) {
-                    if (in_array($type, ['string', 'bool', 'null', 'array', 'object', 'int'])) {
+                    if (in_array($type, ['string', 'bool', 'null', 'array', 'object', 'int', 'mixed'])) {
                         $val = $val;
                     } elseif (strpos($type, '[]') === 0) {
                         if (is_array($val)) {
