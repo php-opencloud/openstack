@@ -12,8 +12,8 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3(['region' => '{region}']);
 
 $credential = $identity->createCredential([
-    'blob'      => "{\"access\":\"--access-key--\",\"secret\":\"--secret-key--\"}",
-    'projectId' => 'project_id',
-    'type'      => 'ec2',
-    'userId'    => 'user_id'
+    'blob'      => '{blob}',
+    'projectId' => '{projectId}',
+    'type'      => '{type}',
+    'userId'    => '{userId}'
 ]);

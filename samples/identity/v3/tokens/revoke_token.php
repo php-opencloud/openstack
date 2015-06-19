@@ -3,10 +3,16 @@
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
-    'username' => '{username}',
-    'password' => '{password}',
-    'tenantId' => '{tenantId}',
-    'authUrl'  => '{authUrl}',
+    'authUrl' => '{authUrl}',
+    'region'  => '{region}',
+    'user'    => [
+        'name'     => '{username}',
+        'password' => '{password}',
+        'domain'   => ['id' => '{domainId}']
+    ],
+    'scope' => [
+        'project' => ['id' => '{projectId}']
+    ]
 ]);
 
 $identity = $openstack->identityV3(['region' => '{region}']);

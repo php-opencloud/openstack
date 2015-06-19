@@ -3,13 +3,18 @@
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
-    'username' => '{username}',
-    'password' => '{password}',
-    'tenantId' => '{tenantId}',
-    'authUrl'  => '{authUrl}',
+    'authUrl' => '{authUrl}',
+    'region'  => '{region}',
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}'
+    ],
+    'scope' => [
+        'project' => ['id' => '{projectId}']
+    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
 // Since project names will not be unique across an entire OpenStack installation,
 // when authenticating with them you must also provide your domain ID. You do
@@ -18,13 +23,13 @@ $identity = $openstack->identityV3(['region' => '{region}']);
 $token = $identity->generateToken([
     'user' => [
         'id'       => '{userId}',
-        'password' => '{userPassword}'
+        'password' => '{password}'
     ],
     'scope' => [
         'project' => [
             'name' => '{projectName}',
             'domain' => [
-                'name' => '{domainName}'
+                'id' => '{domainId}'
             ]
         ]
     ]
