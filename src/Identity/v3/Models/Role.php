@@ -4,12 +4,13 @@ namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Role extends AbstractResource implements Creatable, Listable
+class Role extends AbstractResource implements Creatable, Listable, Deletable
 {
     /** @var string */
     public $id;
@@ -20,6 +21,8 @@ class Role extends AbstractResource implements Creatable, Listable
     /** @var array */
     public $links;
 
+    protected $resourceKey = 'role';
+
     /**
      * {@inheritDoc}
      *
@@ -29,5 +32,13 @@ class Role extends AbstractResource implements Creatable, Listable
     {
         $response = $this->execute($this->api->postRoles(), $data);
         return $this->populateFromResponse($response);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete()
+    {
+        $this->executeWithState($this->api->deleteRole());
     }
 } 

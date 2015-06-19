@@ -3,16 +3,25 @@
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
-    'username' => '{username}',
-    'password' => '{password}',
-    'tenantId' => '{tenantId}',
-    'authUrl'  => '{authUrl}',
+    'authUrl' => '{authUrl}',
+    'region'  => '{region}',
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}'
+    ],
+    'scope' => [
+        'project' => [
+            'id' => '{projectId}'
+        ]
+    ]
 ]);
 
 $identity = $openstack->identityV3(['region' => '{region}']);
 
 $domain = $identity->getDomain('{domainId}');
 
-if (true === $domain->checkUserRole(['userId' => '{userId}', 'roleId' => '{roleId}'])) {
+$result = $domain->checkUserRole(['userId' => '{domainUserId}', 'roleId' => '{roleId}']);
 
+if (true === $result) {
+    // It exists!
 }

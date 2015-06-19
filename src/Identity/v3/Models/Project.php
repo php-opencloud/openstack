@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -22,6 +23,9 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
 
     /** @var bool */
     public $enabled;
+
+    /** @var string */
+    public $description;
 
     /** @var string */
     public $id;
@@ -113,8 +117,12 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      */
     public function checkUserRole(array $options)
     {
-        $response = $this->execute($this->api->headProjectUserRole(), ['projectId' => $this->id] + $options);
-        return $response->getStatusCode() === 200;
+        try {
+            $this->execute($this->api->headProjectUserRole(), ['projectId' => $this->id] + $options);
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 
     /**
@@ -151,8 +159,12 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      */
     public function checkGroupRole(array $options)
     {
-        $response = $this->execute($this->api->headProjectGroupRole(), ['projectId' => $this->id] + $options);
-        return $response->getStatusCode() === 200;
+        try {
+            $this->execute($this->api->headProjectGroupRole(), ['projectId' => $this->id] + $options);
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 
     /**

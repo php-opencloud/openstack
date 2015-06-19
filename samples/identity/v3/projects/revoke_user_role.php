@@ -3,13 +3,24 @@
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
-    'username' => '{username}',
-    'password' => '{password}',
-    'tenantId' => '{tenantId}',
-    'authUrl'  => '{authUrl}',
+    'authUrl' => '{authUrl}',
+    'region'  => '{region}',
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}'
+    ],
+    'scope' => [
+        'project' => [
+            'id' => '{projectId}'
+        ]
+    ]
 ]);
 
 $identity = $openstack->identityV3(['region' => '{region}']);
 
-$project = $identity->getProject('{projectId}');
-$project->revokeUserRole(['userId' => '{userId}']);
+$project = $identity->getProject('{id}');
+
+$project->revokeUserRole([
+    'userId' => '{projectUserId}',
+    'roleId' => '{roleId}',
+]);

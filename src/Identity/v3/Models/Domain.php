@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -95,8 +96,12 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function checkUserRole(array $options = [])
     {
-        $response = $this->execute($this->api->headUserRole(), ['domainId' => $this->id] + $options);
-        return $response->getStatusCode() === 200;
+        try {
+            $this->execute($this->api->headUserRole(), ['domainId' => $this->id] + $options);
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 
     /**
@@ -133,8 +138,12 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function checkGroupRole(array $options = [])
     {
-        $response = $this->execute($this->api->headGroupRole(), ['domainId' => $this->id] + $options);
-        return $response->getStatusCode() === 200;
+        try {
+            $this->execute($this->api->headGroupRole(), ['domainId' => $this->id] + $options);
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 
     /**

@@ -64,11 +64,15 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected function getGlobalReplacements()
     {
         return [
+            '{userId}' => getenv('OS_USER_ID'),
             '{username}' => getenv('OS_USERNAME'),
             '{password}' => getenv('OS_PASSWORD'),
+            '{domainId}' => getenv('OS_DOMAIN_ID'),
             '{authUrl}'  => getenv('OS_AUTH_URL'),
             '{tenantId}' => getenv('OS_TENANT_ID'),
             '{region}'   => getenv('OS_REGION'),
+            '{projectId}' => getenv('OS_PROJECT_ID'),
+            '{projectName}' => getenv('OS_PROJECT_NAME'),
         ];
     }
 

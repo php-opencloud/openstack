@@ -2,15 +2,38 @@
 
 namespace OpenStack\Integration\Identity;
 
-use OpenStack\Identity\v3\Models\Token;
+use OpenStack\Identity\v3\Models;
 use OpenStack\Integration\TestCase;
+use OpenStack\OpenStack;
 
 class V3Test extends TestCase
 {
+    private $service;
+
+    private function getAuthOpts()
+    {
+        return [
+            'authUrl' => getenv('OS_AUTH_URL'),
+            'region'  => getenv('OS_REGION'),
+            'user'    => [
+                'id'       => getenv('OS_USER_ID'),
+                'password' => getenv('OS_PASSWORD'),
+            ],
+            'scope' => [
+                'project' => [
+                    'id' => getenv('OS_PROJECT_ID'),
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @return \OpenStack\Identity\v3\Service
+     */
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->identityV3(['region' => getenv('OS_REGION')]);
+            $this->service = (new OpenStack())->identityV3($this->getAuthOpts());
         }
 
         return $this->service;
@@ -23,57 +46,38 @@ class V3Test extends TestCase
 
     public function runTests()
     {
-        $this->runTokenTests();
-
-//        $this->runCredentialTests();
-//        $this->runDomainTests();
-//        $this->runEndpointTests();
-//        $this->runGroupTests();
-//        $this->runPolicyTests();
-//        $this->runProjectTests();
-//        $this->runRoleTests();
-//        $this->runServiceTests();
-//        $this->runUserTests();
+        $this->tokens();
+        $this->domains();
     }
 
-    private function runTokenTests()
+    public function tokens()
     {
-        $replacements = [
-            '{username}'  => getenv('OS_USERNAME'),
-            '{password}'  => getenv('OS_PASSWORD'),
-            '{domainId}'  => getenv('OS_DOMAIN_ID'),
-            '{projectId}' => getenv('OS_PROJECT_ID'),
-            '{projectName}' => getenv('OS_PROJECT_NAME'),
-        ];
+        /** @var $token \OpenStack\Identity\v3\Models\Token */
+        $path = $this->sampleFile([], 'tokens/generate_token_with_username.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Token::class, $token);
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
-        $path = $this->sampleFile($replacements, 'tokens/generate_token_with_username.php');
+        $path = $this->sampleFile([], 'tokens/generate_token_with_user_id.php');
         require_once $path;
-        $this->assertInstanceOf(Token::class, $token);
+        $this->assertInstanceOf(Models\Token::class, $token);
 
-        $replacements['{userId}'] = $token->user->id;
-
-        /** @var $token \OpenStack\Identity\v3\Models\Token */
-        $path = $this->sampleFile($replacements, 'tokens/generate_token_with_user_id.php');
-        require_once $path;
-        $this->assertInstanceOf(Token::class, $token);
-
-        $replacements['{tokenId}'] = $token->id;
+        $replacements = ['{tokenId}' => $token->id];
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile($replacements, 'tokens/generate_token_scoped_to_project_id.php');
         require_once $path;
-        $this->assertInstanceOf(Token::class, $token);
+        $this->assertInstanceOf(Models\Token::class, $token);
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile($replacements, 'tokens/generate_token_scoped_to_project_name.php');
         require_once $path;
-        $this->assertInstanceOf(Token::class, $token);
+        $this->assertInstanceOf(Models\Token::class, $token);
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile($replacements, 'tokens/generate_token_from_id.php');
         require_once $path;
-        $this->assertInstanceOf(Token::class, $token);
+        $this->assertInstanceOf(Models\Token::class, $token);
 
         /** @var $result bool */
         $path = $this->sampleFile($replacements, 'tokens/validate_token.php');
@@ -89,10 +93,260 @@ class V3Test extends TestCase
         $this->assertFalse($result);
     }
 
-    private function runCredentialTests()
+    public function domains()
     {
-        /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'add_cred.php');
+        $replacements = [
+            '{name}'        => $this->randomStr(),
+            '{description}' => $this->randomStr(),
+        ];
+
+        /** @var $domain \OpenStack\Identity\v3\Models\Domain */
+        $path = $this->sampleFile($replacements, 'domains/add_domain.php');
         require_once $path;
+        $this->assertInstanceOf(Models\Domain::class, $domain);
+
+        $replacements['{domainId}'] = $domain->id;
+
+        $path = $this->sampleFile([], 'domains/list_domains.php');
+        require_once $path;
+
+        /** @var $domain \OpenStack\Identity\v3\Models\Domain */
+        $path = $this->sampleFile($replacements, 'domains/show_domain.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Domain::class, $domain);
+
+        $parentRole = $this->getService()->createRole(['name' => $this->randomStr()]);
+        $group = $this->getService()->createGroup(['name' => $this->randomStr(), 'domainId' => $domain->id]);
+
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'domains/grant_group_role.php');
+        require_once $path;
+
+        /** @var $result bool */
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'domains/check_group_role.php');
+        require_once $path;
+        $this->assertTrue($result);
+
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id], 'domains/list_group_roles.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'domains/revoke_group_role.php');
+        require_once $path;
+
+        $group->delete();
+
+        $user = $this->getService()->createUser(['name' => $this->randomStr(), 'domainId' => $domain->id]);
+
+        $path = $this->sampleFile($replacements + ['{domainUserId}' => $user->id, '{roleId}' => $parentRole->id], 'domains/grant_user_role.php');
+        require_once $path;
+
+        /** @var $result bool */
+        $path = $this->sampleFile($replacements + ['{domainUserId}' => $user->id, '{roleId}' => $parentRole->id], 'domains/check_user_role.php');
+        require_once $path;
+        $this->assertTrue($result);
+
+        $path = $this->sampleFile($replacements + ['{domainUserId}' => $user->id], 'domains/list_user_roles.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements + ['{domainUserId}' => $user->id, '{roleId}' => $parentRole->id], 'domains/revoke_user_role.php');
+        require_once $path;
+
+        $user->delete();
+        $parentRole->delete();
+
+        /** @var $domain \OpenStack\Identity\v3\Models\Domain */
+        $path = $this->sampleFile($replacements, 'domains/update_domain.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Domain::class, $domain);
+
+        $path = $this->sampleFile($replacements, 'domains/delete_domain.php');
+        require_once $path;
+    }
+
+    public function endpoints()
+    {
+        $service = $this->getService()->createService(['name' => $this->randomStr(), 'type' => 'volume']);
+
+        $replacements = [
+            '{endpointName}' => $this->randomStr(),
+            '{serviceId}' => $service->id,
+            '{endpointUrl}' => getenv('OS_AUTH_URL'),
+            '{region}' => 'RegionOne',
+        ];
+
+        /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
+        $path = $this->sampleFile($replacements, 'endpoints/add_endpoint.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Endpoint::class, $endpoint);
+
+        $replacements['{endpointId}'] = $endpoint->id;
+
+        $path = $this->sampleFile($replacements, 'endpoints/list_endpoints.php');
+        require_once $path;
+
+        /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
+        $path = $this->sampleFile($replacements, 'endpoints/update_endpoint.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'endpoints/delete_endpoint.php');
+        require_once $path;
+
+        $service->delete();
+    }
+
+    public function services()
+    {
+        $replacements = [
+            '{serviceName}' => $this->randomStr(),
+            '{serviceType}' => $this->randomStr(),
+        ];
+
+        /** @var $service \OpenStack\Identity\v3\Models\Service */
+        $path = $this->sampleFile($replacements, 'services/add_service.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Service::class, $service);
+
+        $replacements['{serviceId}'] = $service->id;
+
+        $path = $this->sampleFile($replacements, 'services/list_services.php');
+        require_once $path;
+
+        /** @var $service \OpenStack\Identity\v3\Models\Service */
+        $path = $this->sampleFile($replacements, 'services/update_service.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Service::class, $service);
+
+        /** @var $service \OpenStack\Identity\v3\Models\Service */
+        $path = $this->sampleFile($replacements, 'services/get_service.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Service::class, $service);
+
+        $path = $this->sampleFile($replacements, 'services/delete_service.php');
+        require_once $path;
+    }
+
+    public function groups()
+    {
+        $groupUser = $this->getService()->createUser(['name' => $this->randomStr()]);
+
+        /** @var $group \OpenStack\Identity\v3\Models\Group */
+        $path = $this->sampleFile(['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'groups/add_group.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Group::class, $group);
+
+        $replacements = ['{groupId}' => $group->id];
+
+        $path = $this->sampleFile($replacements + ['{groupUserId}' => $groupUser->id], 'groups/add_user.php');
+        require_once $path;
+
+        /** @var $group \OpenStack\Identity\v3\Models\Group */
+        $path = $this->sampleFile($replacements, 'groups/get_group.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Group::class, $group);
+
+        /** @var $result bool */
+        $path = $this->sampleFile($replacements + ['{groupUserId}' => $groupUser->id], 'groups/check_user_membership.php');
+        require_once $path;
+        $this->assertTrue($result);
+
+        $path = $this->sampleFile($replacements, 'groups/list_users.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements + ['{groupUserId}' => $groupUser->id], 'groups/remove_user.php');
+        require_once $path;
+
+        /** @var $result bool */
+        $path = $this->sampleFile($replacements + ['{groupUserId}' => $groupUser->id], 'groups/check_user_membership.php');
+        require_once $path;
+        $this->assertFalse($result);
+
+        $path = $this->sampleFile($replacements + ['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'groups/update_group.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'groups/list_groups.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'groups/delete_group.php');
+        require_once $path;
+
+        $groupUser->delete();
+    }
+
+    public function projects()
+    {
+        /** @var $project \OpenStack\Identity\v3\Models\Project */
+        $path = $this->sampleFile(['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'projects/add_project.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Project::class, $project);
+
+        $replacements = ['{id}' => $project->id];
+
+        /** @var $project \OpenStack\Identity\v3\Models\Project */
+        $path = $this->sampleFile($replacements, 'projects/get_project.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Project::class, $project);
+
+        $domain = $this->getService()->createDomain(['name' => $this->randomStr()]);
+        $parentRole = $this->getService()->createRole(['name' => $this->randomStr()]);
+        $group = $this->getService()->createGroup(['name' => $this->randomStr(), 'domainId' => $domain->id]);
+
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'projects/grant_group_role.php');
+        require_once $path;
+
+        /** @var $result bool */
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'projects/check_group_role.php');
+        require_once $path;
+        $this->assertTrue($result);
+
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id], 'projects/list_group_roles.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'projects/revoke_group_role.php');
+        require_once $path;
+
+        $group->delete();
+
+        $user = $this->getService()->createUser(['name' => $this->randomStr(), 'domainId' => $domain->id]);
+
+        $path = $this->sampleFile($replacements + ['{projectUserId}' => $user->id, '{roleId}' => $parentRole->id], 'projects/grant_user_role.php');
+        require_once $path;
+
+        /** @var $result bool */
+        $path = $this->sampleFile($replacements + ['{projectUserId}' => $user->id, '{roleId}' => $parentRole->id], 'projects/check_user_role.php');
+        require_once $path;
+        $this->assertTrue($result);
+
+        $path = $this->sampleFile($replacements + ['{projectUserId}' => $user->id], 'projects/list_user_roles.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements + ['{projectUserId}' => $user->id, '{roleId}' => $parentRole->id], 'projects/revoke_user_role.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'projects/update_project.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'projects/delete_project.php');
+        require_once $path;
+
+        $user->delete();
+        $parentRole->delete();
+
+        $domain->enabled = false;
+        $domain->update();
+        $domain->delete();
+    }
+
+    public function policies()
+    {
+
+    }
+
+    public function roles()
+    {
+
+    }
+
+    public function users()
+    {
+
     }
 }

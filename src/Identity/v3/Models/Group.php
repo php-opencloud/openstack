@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -104,7 +105,11 @@ class Group extends AbstractResource implements Creatable, Listable, Retrievable
      */
     public function checkMembership(array $options)
     {
-        $response = $this->execute($this->api->headGroupUser(), ['groupId' => $this->id] + $options);
-        return $response->getStatusCode() === 200;
+        try {
+            $this->execute($this->api->headGroupUser(), ['groupId' => $this->id] + $options);
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 }

@@ -147,10 +147,12 @@ class Api extends AbstractApi
         return [
             'method' => 'PATCH',
             'path'   => 'services/{id}',
+            'jsonKey' => 'service',
             'params' => [
                 'id' => $this->idUrlParam,
                 'name' => ['type' => 'string'],
-                'type' => ['type' => 'string']
+                'type' => ['type' => 'string'],
+                'description' => ['type' => 'string'],
             ]
         ];
     }
@@ -951,6 +953,17 @@ class Api extends AbstractApi
                     'type' => 'string',
                     'location' => 'query'
                 ]
+            ]
+        ];
+    }
+
+    public function deleteRole()
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'roles/{id}',
+            'params' => [
+                'id' => $this->idUrlParam
             ]
         ];
     }

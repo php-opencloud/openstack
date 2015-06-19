@@ -10,7 +10,9 @@ $openstack = new OpenStack\OpenStack([
         'password' => '{password}'
     ],
     'scope' => [
-        'project' => ['id' => '{projectId}']
+        'project' => [
+            'id' => '{projectId}'
+        ]
     ]
 ]);
 
