@@ -94,7 +94,7 @@ class AuthHandler implements SubscriberInterface
      */
     private function shouldIgnore(RequestInterface $request)
     {
-        return strpos((string) $request->getUrl(), 'tokens') !== false;
+        return strpos((string) $request->getUrl(), 'tokens') !== false && $request->getMethod() == 'POST';
     }
 
     /**
