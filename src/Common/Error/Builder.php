@@ -4,6 +4,7 @@ namespace OpenStack\Common\Error;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\ErrorEvent;
 use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Exception\ClientException;
@@ -49,20 +50,24 @@ class Builder implements SubscriberInterface
     public function getEvents()
     {
         return [
-            'error' => ['onHttpError']
+            'complete' => ['onComplete']
         ];
     }
 
     /**
      * Invoked for every HTTP error.
      *
-     * @param ErrorEvent $event
+     * @param CompleteEvent $event
      *
      * @throws BadResponseError
      */
-    public function onHttpError(ErrorEvent $event)
+    public function onComplete(CompleteEvent $event)
     {
-        throw $this->httpError($event->getRequest(), $event->getResponse());
+        $response = $event->getResponse();
+
+        if ($response->getStatusCode() >= 400) {
+            throw $this->httpError($event->getRequest(), $response);
+        }
     }
 
     /**
