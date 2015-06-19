@@ -43,7 +43,18 @@ class V2Test extends TestCase
 
     private function createNetwork()
     {
-        $this->networkId = 'f5cc56db-db25-4488-8371-c507951b2631';
+        $replacements = [
+            '{networkName}' => 'fakeNetwork'
+        ];
+
+        /** @var $server \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile($replacements, 'create_network.php');
+        require_once $path;
+
+        $this->assertInstanceOf('OpenStack\Networking\v2\Models\Network', $network);
+        $this->assertNotEmpty($network->id);
+
+        $this->networkId = $network->id;
 
         $this->logStep('Created network {id}', ['{id}' => $this->networkId]);
     }
@@ -64,6 +75,12 @@ class V2Test extends TestCase
 
     private function deleteNetwork()
     {
+        $replacements = ['{networkId}' => $this->networkId];
+
+        /** @var $server \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile($replacements, 'delete_network.php');
+        require_once $path;
+
         $this->logStep('Deleted network ID', ['ID' => $this->networkId]);
     }
 }

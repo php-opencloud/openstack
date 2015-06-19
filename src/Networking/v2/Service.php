@@ -12,6 +12,18 @@ use OpenStack\Common\Service\AbstractService;
 class Service extends AbstractService
 {
     /**
+     * Create a new network resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postNetwork}
+     *
+     * @return \OpenStack\Networking\v2\Models\Network
+     */
+    public function createNetwork(array $options)
+    {
+        return $this->model('Network')->create($options);
+    }
+
+    /**
      * Retrieve a network object without calling the remote API. Any values provided in the array will populate the
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
      * and have the response populate the object, call {@see Server::retrieve}.

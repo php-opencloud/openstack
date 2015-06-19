@@ -30,4 +30,23 @@ class Network extends AbstractResource implements Listable, Retrievable
         $response = $this->execute($this->api->getNetwork(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $userOptions {@see \OpenStack\Networking\v2\Api::postNetwork}
+     */
+    public function create(array $userOptions)
+    {
+        $response = $this->execute($this->api->postNetwork(), $userOptions);
+        return $this->populateFromResponse($response);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete()
+    {
+        $this->execute($this->api->deleteNetwork(), $this->getAttrs(['id']));
+    }
 }

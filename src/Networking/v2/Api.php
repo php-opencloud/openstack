@@ -21,10 +21,37 @@ class Api implements ApiInterface
         'description' => 'The unique ID of the remote resource.',
     ];
 
+    private $nameParam = [
+        'type' => 'string',
+        'location' => 'json',
+        'description' => 'The name of the resource',
+    ];
+
     public function getNetwork()
     {
         return [
             'method' => 'GET',
+            'path'   => $this->pathPrefix . '/networks/{id}',
+            'params' => ['id' => $this->idParam],
+        ];
+    }
+
+    public function postNetwork()
+    {
+        return [
+            'path' => $this->pathPrefix . '/networks',
+            'method' => 'POST',
+            'jsonKey' => 'network',
+            'params' => [
+                'name' => $this->nameParam
+            ]
+        ];
+    }
+
+    public function deleteNetwork()
+    {
+        return [
+            'method' => 'DELETE',
             'path'   => $this->pathPrefix . '/networks/{id}',
             'params' => ['id' => $this->idParam]
         ];
