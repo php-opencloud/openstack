@@ -3,6 +3,7 @@
 namespace OpenStack\Identity\v3;
 
 use OpenStack\Common\Auth\IdentityService;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Service\AbstractService;
 
 /**
@@ -12,7 +13,9 @@ class Service extends AbstractService implements IdentityService
 {
     public function authenticate(array $options)
     {
-        $token = $this->generateToken($options);
+        $authOptions = array_intersect_key($options, $this->api->postTokens()['params']);
+
+        $token = $this->generateToken($authOptions);
 
         $baseUrl = $token->catalog->getServiceUrl(
             $options['catalogName'],
@@ -55,8 +58,12 @@ class Service extends AbstractService implements IdentityService
      */
     public function validateToken($id)
     {
-        $response = $this->execute($this->api->headTokens(), ['tokenId' => $id]);
-        return $response->getStatusCode() === 204;
+        try {
+            $this->execute($this->api->headTokens(), ['tokenId' => $id]);
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 
     /**

@@ -24,7 +24,11 @@ class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
      */
     public function getServiceUrl($name, $type, $region, $urlType)
     {
-        foreach ($this->service as $service) {
+        if (empty($this->services)) {
+            return false;
+        }
+
+        foreach ($this->services as $service) {
             if (false !== ($url = $service->getUrl($name, $type, $region))) {
                 return $url;
             }

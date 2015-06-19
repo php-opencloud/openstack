@@ -27,7 +27,7 @@ class Service extends AbstractService implements IdentityService
             $options['urlType']
         );
 
-        return [$serviceUrl, $token];
+        return [$token, $serviceUrl];
     }
 
     /**
