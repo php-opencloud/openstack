@@ -3,6 +3,7 @@
 namespace OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Utils;
 
 /**
@@ -167,7 +168,7 @@ class Operation
     {
         $this->validate($this->userValues);
 
-        $options = [];
+        $options = ['exceptions' => false];
 
         if (!empty($json = $this->serializeJson())) {
             $options['json'] = $json;
@@ -187,11 +188,16 @@ class Operation
     /**
      * This will first create a request {@see createRequest()} and then send it to the remote API.
      *
+     * @throws \Exception
      * @return \GuzzleHttp\Message\ResponseInterface
      */
     public function send()
     {
-        return $this->client->send($this->createRequest());
+        try {
+            return $this->client->send($this->createRequest());
+        } catch (RequestException $e) {
+            throw $e->getPrevious();
+        }
     }
 
     /**
