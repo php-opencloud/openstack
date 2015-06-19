@@ -297,6 +297,11 @@ DESC
                     'sentAs' => 'user_data',
                     'description' => 'Configuration information or scripts to use upon launch. Must be Base64 encoded.',
                 ],
+                'keypair' => [
+                    'type' => 'string',
+                    'sentAs' => 'key_name',
+                    'description' => 'The name of the keypair.'
+                ],
                 'availabilityZone' => [
                     'type' => 'string',
                     'sentAs' => 'availability_zone',
