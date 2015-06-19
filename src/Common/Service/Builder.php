@@ -3,10 +3,13 @@
 namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Subscriber\Log\Formatter;
 use GuzzleHttp\Subscriber\Log\LogSubscriber;
 use OpenStack\Common\Auth\AuthHandler;
 use OpenStack\Common\Auth\ServiceUrlResolver;
+use OpenStack\Identity\v3\Api;
+use OpenStack\Identity\v3\Service;
 
 /**
  * A Builder for easily creating OpenStack services.
@@ -75,14 +78,15 @@ class Builder
     {
         $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
 
-        if ($serviceName != 'Identity') {
-            $this->checkRequiredOptions($options);
-            $defaultHttpClient = $this->setupHttpClient($options);
-        } else {
-            $defaultHttpClient = $this->httpClient($options['authUrl'], $options);
+        if (strcasecmp($serviceName, 'identity') === 0) {
+            $options['identityService'] = new Service($this->httpClient($options['authUrl']), new Api());
         }
 
-        $httpClient = !empty($options['httpClient']) ? $options['httpClient'] : $defaultHttpClient;
+        if (!empty($options['httpClient']) && $options['httpClient'] instanceof ClientInterface) {
+            $httpClient = $options['httpClient'];
+        } else {
+            $httpClient = $this->setupHttpClient($options);
+        }
 
         list ($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
 
@@ -110,7 +114,11 @@ class Builder
             ? $options['identityService']
             : $this->createService('Identity', 3, $options);
 
-        list ($baseUrl, $token) = $identity->authenticate($options);
+        list ($token, $baseUrl) = $identity->authenticate($options);
+
+        if (false === $baseUrl) {
+            $baseUrl = $options['authUrl'];
+        }
 
         $httpClient = $this->httpClient($baseUrl, $options);
         $httpClient->getEmitter()->attach(new AuthHandler($identity, $options, $token));
@@ -135,30 +143,5 @@ class Builder
         }
 
         return $client;
-    }
-
-    /**
-     * Ensures that user-provided input contains required keys.
-     *
-     * @param array $options
-     * @throws \Exception    If not all required keys are provided
-     */
-    private function checkRequiredOptions(array $options)
-    {
-        $failures = [];
-
-        foreach (['username', 'password', 'authUrl', 'region', 'catalogName', 'catalogType'] as $requiredOption) {
-            if (!isset($options[$requiredOption])) {
-                $failures[] = $requiredOption;
-            }
-        }
-
-        if (!empty($failures)) {
-            throw new \Exception(sprintf("You must provide these options: %s", implode(', ', $failures)));
-        }
-
-        if (!isset($options['tenantId']) && !isset($options['tenantName'])) {
-            throw new \Exception('You must provide either a tenantId or tenantName');
-        }
     }
 }
