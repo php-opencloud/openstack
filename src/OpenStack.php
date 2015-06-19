@@ -27,22 +27,7 @@ class OpenStack
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
-        $this->builder = $builder ?: new Builder($options + $this->getEnvVars());
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @return array
-     */
-    private function getEnvVars()
-    {
-        return [
-            'username'   => getenv('OS_USERNAME'),
-            'password'   => getenv('OS_PASSWORD'),
-            'tenantId'   => getenv('OS_TENANT_ID'),
-            'tenantName' => getenv('OS_TENANT_NAME'),
-            'authUrl'    => getenv('OS_AUTH_URL'),
-        ];
+        $this->builder = $builder ?: new Builder($options);
     }
 
     /**
@@ -69,7 +54,10 @@ class OpenStack
      */
     public function identityV2(array $options = [])
     {
-        return $this->builder->createService('Identity', 2, $options);
+        return $this->builder->createService('Identity', 2, array_merge($options, [
+            'catalogName' => false,
+            'catalogType' => false,
+        ]));
     }
 
     /**
@@ -81,6 +69,9 @@ class OpenStack
      */
     public function identityV3(array $options = [])
     {
-        return $this->builder->createService('Identity', 3, $options);
+        return $this->builder->createService('Identity', 3, array_merge($options, [
+            'catalogName' => false,
+            'catalogType' => false,
+        ]));
     }
 }
