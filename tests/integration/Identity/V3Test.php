@@ -337,7 +337,7 @@ class V3Test extends TestCase
 
     public function policies()
     {
-
+        
     }
 
     public function roles()
