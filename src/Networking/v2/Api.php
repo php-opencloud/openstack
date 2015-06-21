@@ -27,6 +27,19 @@ class Api implements ApiInterface
         'description' => 'The name of the resource',
     ];
 
+    private $adminStateUp = [
+        'type' => 'boolean',
+        'location' => 'json',
+        'sentAs' => 'admin_state_up',
+        'description' => 'The administrative state of the network',
+    ];
+
+    private $sharedParam = [
+        'type' => 'boolean',
+        'location' => 'json',
+        'description' => 'Indicates whether this network is shared across all tenants',
+    ];
+
     public function getNetwork()
     {
         return [
@@ -43,7 +56,9 @@ class Api implements ApiInterface
             'method' => 'POST',
             'jsonKey' => 'network',
             'params' => [
-                'name' => $this->nameParam
+                'name' => $this->nameParam,
+                'shared' => $this->sharedParam,
+                'admin_state_up' => $this->adminStateUp
             ]
         ];
     }
