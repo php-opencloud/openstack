@@ -335,18 +335,68 @@ class V3Test extends TestCase
         $domain->delete();
     }
 
-    public function policies()
-    {
-        
-    }
-
     public function roles()
     {
+        /** @var $role \OpenStack\Identity\v3\Models\Role */
+        $path = $this->sampleFile(['{name}' => $this->randomStr()], 'roles/add_role.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\Role::class, $role);
 
+        $path = $this->sampleFile([], 'roles/list_roles.php');
+        require_once $path;
+
+        $path = $this->sampleFile([], 'roles/list_assignments.php');
+        require_once $path;
     }
 
     public function users()
     {
+        $parentDomain  = $this->getService()->createDomain(['name' => $this->randomStr()]);
+        $parentProject = $this->getService()->createProject(['name' => $this->randomStr(), 'domainId' => $parentDomain->id]);
 
+        $replacements = [
+            '{defaultProjectId}' => $parentProject->id,
+            '{description}'      => $this->randomStr(),
+            '{domainId}'         => $parentDomain->id,
+            '{email}'            => 'foo@bar.com',
+            '{enabled}'          => true,
+            '{name}'             => $this->randomStr(),
+            '{userPass}'         => $this->randomStr(),
+        ];
+
+        /** @var $user \OpenStack\Identity\v3\Models\User */
+        $path = $this->sampleFile($replacements, 'users/add_user.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\User::class, $user);
+
+        $replacements = ['{id}' => $user->id];
+
+        /** @var $user \OpenStack\Identity\v3\Models\User */
+        $path = $this->sampleFile($replacements, 'users/get_user.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\User::class, $user);
+
+        $path = $this->sampleFile([], 'users/list_users.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'users/list_groups.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'users/list_projects.php');
+        require_once $path;
+
+        /** @var $user \OpenStack\Identity\v3\Models\User */
+        $path = $this->sampleFile($replacements + ['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'users/update_user.php');
+        require_once $path;
+        $this->assertInstanceOf(Models\User::class, $user);
+
+        $path = $this->sampleFile($replacements, 'users/delete_user.php');
+        require_once $path;
+
+        $parentProject->delete();
+
+        $parentDomain->enabled = false;
+        $parentDomain->update();
+        $parentDomain->delete();
     }
 }

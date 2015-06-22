@@ -3,15 +3,22 @@
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
-    'username' => '{username}',
-    'password' => '{password}',
-    'tenantId' => '{tenantId}',
-    'authUrl'  => '{authUrl}',
+    'authUrl' => '{authUrl}',
+    'region'  => '{region}',
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}'
+    ],
+    'scope' => [
+        'project' => [
+            'id' => '{projectId}'
+        ]
+    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
-$user = $identity->getUser('{userId}');
+$user = $identity->getUser('{id}');
 
 foreach ($user->listProjects() as $project) {
 
