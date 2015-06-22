@@ -1,8 +1,8 @@
 # PHP OpenStack SDK
 
-[![Build Status](https://scrutinizer-ci.com/g/php-opencloud/openstack-prototype-v3/badges/build.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack-prototype-v3/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/php-opencloud/openstack-prototype-v3/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack-prototype-v3/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-opencloud/openstack-prototype-v3/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack-prototype-v3/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/build.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
 
 php-opencloud/openstack is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
 idiomatic way. This binding is specifically designed for OpenStack APIs, but other provider SDKs are available. Multiple 
