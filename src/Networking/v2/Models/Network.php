@@ -18,6 +18,11 @@ class Network extends AbstractResource implements Listable, Retrievable
     public $shared;
     public $status;
     public $subnets;
+    public $adminStateUp;
+
+    protected $aliases = [
+        'admin_state_up' => 'adminStateUp',
+    ];
 
     protected $resourceKey = 'network';
     protected $resourcesKey = 'networks';
@@ -39,6 +44,16 @@ class Network extends AbstractResource implements Listable, Retrievable
     public function create(array $userOptions)
     {
         $response = $this->execute($this->api->postNetwork(), $userOptions);
+        return $this->populateFromResponse($response);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function update()
+    {
+        $response = $this->execute($this->api->putNetwork(), $this->getAttrs(['id', 'name', 'shared', 'adminStateUp']));
+
         return $this->populateFromResponse($response);
     }
 

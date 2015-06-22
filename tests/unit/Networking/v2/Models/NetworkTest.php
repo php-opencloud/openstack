@@ -26,19 +26,38 @@ class NetworkTest extends TestCase
         $opts = [
             'name' => 'foo',
             'shared' => false,
-            'admin_state_up' => true
+            'adminStateUp' => true
         ];
 
         $expectedJson = ['network' => [
             'name' => $opts['name'],
             'shared' => $opts['shared'],
-            'admin_state_up' => $opts['admin_state_up'],
+            'admin_state_up' => $opts['adminStateUp'],
         ]];
 
         $req = $this->setupMockRequest('POST', 'v2.0/networks', $expectedJson);
         $this->setupMockResponse($req, 'network-post');
 
         $this->assertInstanceOf(Network::class, $this->network->create($opts));
+    }
+
+    public function test_it_updates()
+    {
+        // Updatable attributes
+        $this->network->name = 'foo';
+        $this->network->shared = true;
+        $this->network->adminStateUp = false;
+
+        $expectedJson = ['network' => [
+            'name' => 'foo',
+            'shared' => true,
+            'admin_state_up' => false,
+        ]];
+
+        $request = $this->setupMockRequest('PUT', 'v2.0/networks/networkId', $expectedJson);
+        $this->setupMockResponse($request, 'network-put');
+
+        $this->assertInstanceOf(Network::class, $this->network->update());
     }
 
     public function test_it_retrieves()

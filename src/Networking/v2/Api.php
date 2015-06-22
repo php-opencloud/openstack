@@ -58,8 +58,23 @@ class Api implements ApiInterface
             'params' => [
                 'name' => $this->nameParam,
                 'shared' => $this->sharedParam,
-                'admin_state_up' => $this->adminStateUp
+                'adminStateUp' => $this->adminStateUp,
             ]
+        ];
+    }
+
+    public function putNetwork()
+    {
+        return [
+            'method' => 'PUT',
+            'path'   => $this->pathPrefix . '/networks/{id}',
+            'jsonKey' => 'network',
+            'params' => [
+              'id' => $this->idParam,
+              'name' => $this->nameParam,
+              'shared' => $this->sharedParam,
+              'adminStateUp' => $this->adminStateUp,
+            ],
         ];
     }
 

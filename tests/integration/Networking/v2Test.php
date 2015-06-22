@@ -32,6 +32,7 @@ class V2Test extends TestCase
         $this->createNetwork();
 
         try {
+            $this->updateNetwork();
             $this->retrieveNetwork();
         } finally {
             // Teardown
@@ -57,6 +58,25 @@ class V2Test extends TestCase
         $this->networkId = $network->id;
 
         $this->logStep('Created network {id}', ['{id}' => $this->networkId]);
+    }
+
+    private function updateNetwork()
+    {
+        $name = $this->randomStr();
+
+        $replacements = [
+            '{networkId}' => $this->networkId,
+            '{newName}'  => $name,
+        ];
+
+        /** @var $server \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile($replacements, 'update_network.php');
+        require_once $path;
+
+        $this->assertInstanceOf('OpenStack\Networking\v2\Models\Network', $network);
+        $this->assertEquals($name, $network->name);
+
+        $this->logStep('Updated network ID to use this name: NAME', ['ID' => $this->networkId, 'NAME' => $name]);
     }
 
     private function retrieveNetwork()
