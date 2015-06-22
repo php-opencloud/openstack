@@ -13,6 +13,16 @@ class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
     public $services;
 
     /**
+     * {@inheritDoc}
+     */
+    public function populateFromArray(array $data)
+    {
+        foreach ($data as $service) {
+            $this->services[] = $this->model('Service', $service);
+        }
+    }
+
+    /**
      * Retrieve a base URL for a service, according to its catalog name, type, region.
      *
      * @param string $name    The name of the service as it appears in the catalog.
@@ -29,7 +39,7 @@ class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
         }
 
         foreach ($this->services as $service) {
-            if (false !== ($url = $service->getUrl($name, $type, $region))) {
+            if (false !== ($url = $service->getUrl($name, $type, $region, $urlType))) {
                 return $url;
             }
         }

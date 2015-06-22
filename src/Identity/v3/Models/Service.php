@@ -77,17 +77,18 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
      * @param string $name   The name of the service as it appears in the catalog.
      * @param string $type   The type of the service as it appears in the catalog.
      * @param string $region The region of the service as it appears in the catalog.
+     * @param string $urlType
      *
      * @return string|false
      */
-    public function getUrl($name, $type, $region)
+    public function getUrl($name, $type, $region, $urlType)
     {
         if ($this->name !== $name || $this->type !== $type) {
             return false;
         }
 
         foreach ($this->endpoints as $endpoint) {
-            if ($endpoint->region == $region) {
+            if ($endpoint->region == $region && $endpoint->interface == $urlType) {
                 return $endpoint->url;
             }
         }

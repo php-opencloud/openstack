@@ -3,7 +3,7 @@
 |Name|PHP classes|API definition|Unit tests|Sample files|Integration tests|Documentation|
 |---|:--:|:--:|:--:|:--:|:--:|:--:|
 |Block Storage v2|||||||
-|Compute v2|&#10003;|&#10003;||&#10003;|&#10003;|&#10003;|
+|Compute v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
 |Compute v2 exts|||||||
 |Data Processing v1|||||||
 |Database v1|||||||

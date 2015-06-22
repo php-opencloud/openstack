@@ -34,6 +34,7 @@ class Endpoint extends AbstractResource implements Creatable, Updateable, Deleta
     public $url;
 
     protected $resourceKey = 'endpoint';
+    protected $resourcesKey = 'endpoints';
     protected $aliases = ['service_id' => 'serviceId'];
 
     /**

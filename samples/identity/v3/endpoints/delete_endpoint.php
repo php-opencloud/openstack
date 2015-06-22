@@ -18,5 +18,5 @@ $openstack = new OpenStack\OpenStack([
 
 $identity = $openstack->identityV3(['region' => '{region}']);
 
-$endpoint = $identity->getEndpoint(['id' => '{endpointId}']);
+$endpoint = $identity->getEndpoint('{endpointId}');
 $endpoint->delete();

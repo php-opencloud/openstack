@@ -10,30 +10,32 @@ Content-Type: application/json
         ],
         "catalog": [
             {
-                "type": "identity",
-                "id": "100",
                 "endpoints": [
                     {
-                        "links": {
-                            "self": "https://region-a.example.com:35357/v3/endpoints/130_P"
-                        },
-                        "id": "example-a",
+                        "region_id": "RegionOne",
+                        "url": "http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10",
+                        "region": "RegionOne",
                         "interface": "public",
-                        "region_id": "region-a.geo-1",
-                        "url": "https://region-a.example.com:35357/v2.0/",
-                        "service_id": "100"
+                        "id": "hhh"
                     },
                     {
-                        "links": {
-                            "self": "https://region-a.example.com:35357/v3/endpoints/example-a"
-                        },
-                        "id": "example-a",
-                        "interface": "public",
-                        "region_id": "region-a.geo-1",
-                        "url": "https://region-a.example.com:35357/v3/",
-                        "service_id": "100"
+                        "region_id": "RegionOne",
+                        "url": "http://example.org:8082",
+                        "region": "RegionOne",
+                        "interface": "admin",
+                        "id": "ggg"
+                    },
+                    {
+                        "region_id": "RegionOne",
+                        "url": "http://example.org:8081/v1/AUTH_e00abf65afca49609eedd163c515cf10",
+                        "region": "RegionOne",
+                        "interface": "internal",
+                        "id": "fff"
                     }
-                ]
+                ],
+                "type": "object-store",
+                "id": "aaa",
+                "name": "swift"
             }
         ],
         "domain": {

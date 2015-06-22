@@ -103,7 +103,7 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
         } elseif (isset($data['tokenId'])) {
             $data['methods'] = ['token'];
         } else {
-            throw new \RuntimeException('Either a user or token must be provided.');
+            throw new \InvalidArgumentException('Either a user or token must be provided.');
         }
 
         $response = $this->execute($this->api->postTokens(), $data);

@@ -24,6 +24,47 @@ class ServiceTest extends TestCase
         $this->service = new Service($this->client->reveal(), new Api());
     }
 
+    public function test_it_authenticates()
+    {
+        $userOptions = [
+            'user' => [
+                'id'       => '{userId}',
+                'password' => '{userPassword}',
+                'domain'   => ['id' => '{domainId}']
+            ],
+            'scope' => [
+                'project' => ['id' => '{projectId}']
+            ],
+            'catalogName' => 'swift',
+            'catalogType' => 'object-store',
+            'region' => 'RegionOne',
+        ];
+
+        $expectedJson = [
+            "identity" => [
+                "methods" => ["password"],
+                "password" => [
+                    "user" => [
+                        "id"       => "{userId}",
+                        "password" => "{userPassword}",
+                        'domain'   => ['id' => '{domainId}']
+                    ]
+                ]
+            ],
+            "scope" => [
+                "project" => ["id" => "{projectId}"]
+            ]
+        ];
+
+        $request = $this->setupMockRequest('POST', 'auth/tokens', ['auth' => $expectedJson]);
+        $this->setupMockResponse($request, 'token');
+
+        list ($token, $url) = $this->service->authenticate($userOptions);
+
+        $this->assertInstanceOf(Models\Token::class, $token);
+        $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
+    }
+
     public function test_it_gets_token()
     {
         $request = $this->setupMockRequest('GET', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId']);
@@ -449,5 +490,15 @@ class ServiceTest extends TestCase
 
         $token = $this->service->generateToken($userOptions);
         $this->assertInstanceOf(Models\Token::class, $token);
+    }
+
+    public function test_it_lists_endpoints()
+    {
+        $this->listTest($this->createFn($this->service, 'listEndpoints', []), 'endpoints', 'Endpoint');
+    }
+
+    public function test_it_gets_endpoint()
+    {
+        $this->getTest($this->createFn($this->service, 'getEndpoint', 'id'), 'endpoint');
     }
 }

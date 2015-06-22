@@ -51,7 +51,7 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getCredential(), $this->getAttrs(['id']));
+        $response = $this->executeWithState($this->api->getCredential());
         return $this->populateFromResponse($response);
     }
 
@@ -60,8 +60,7 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
      */
     public function update()
     {
-        $attrs = ['id', 'blob', 'projectId', 'type', 'userId'];
-        $response = $this->execute($this->api->patchCredential(), $this->getAttrs($attrs));
+        $response = $this->executeWithState($this->api->patchCredential());
         return $this->populateFromResponse($response);
     }
 
@@ -70,6 +69,6 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
      */
     public function delete()
     {
-        $this->execute($this->api->deleteServer(), $this->getAttrs(['id']));
+        $this->executeWithState($this->api->deleteCredential());
     }
 }

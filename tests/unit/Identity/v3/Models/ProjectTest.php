@@ -3,9 +3,11 @@
 namespace OpenStack\Test\Identity\v3\Models;
 
 use GuzzleHttp\Message\Response;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Project;
 use OpenStack\Test\TestCase;
+use Prophecy\Argument;
 
 class ProjectTest extends TestCase
 {
@@ -78,7 +80,19 @@ class ProjectTest extends TestCase
         $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID');
         $this->setupMockResponse($request, new Response(200));
 
-        $this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']);
+        $this->assertTrue($this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
+    }
+
+    public function test_it_checks_nonexistent_user_role()
+    {
+        $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID');
+
+        $this->client
+            ->send(Argument::is($request))
+            ->shouldBeCalled()
+            ->willThrow(new BadResponseError());
+
+        $this->assertFalse($this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_user_role()
@@ -108,7 +122,19 @@ class ProjectTest extends TestCase
         $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID');
         $this->setupMockResponse($request, new Response(200));
 
-        $this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']);
+        $this->assertTrue($this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
+    }
+
+    public function test_it_checks_nonexistent_group_role()
+    {
+        $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID');
+
+        $this->client
+            ->send(Argument::is($request))
+            ->shouldBeCalled()
+            ->willThrow(new BadResponseError());
+
+        $this->assertFalse($this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_group_role()

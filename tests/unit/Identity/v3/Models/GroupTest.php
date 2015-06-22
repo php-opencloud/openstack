@@ -3,9 +3,11 @@
 namespace OpenStack\Test\Identity\v3\Models;
 
 use GuzzleHttp\Message\Response;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Group;
 use OpenStack\Test\TestCase;
+use Prophecy\Argument;
 
 class GroupTest extends TestCase
 {
@@ -18,6 +20,14 @@ class GroupTest extends TestCase
 
         $this->group = new Group($this->client->reveal(), new Api());
         $this->group->id = 'GROUP_ID';
+    }
+
+    public function test_it_retrieves()
+    {
+        $request = $this->setupMockRequest('GET', 'groups/GROUP_ID');
+        $this->setupMockResponse($request, 'group');
+
+        $this->group->retrieve();
     }
 
     public function test_it_creates_group()
@@ -92,5 +102,17 @@ class GroupTest extends TestCase
         $this->setupMockResponse($request, new Response(200));
 
         $this->group->checkMembership(['userId' => 'USER_ID']);
+    }
+
+    public function test_it_checks_nonexistent_memberships()
+    {
+        $request = $this->setupMockRequest('HEAD', 'groups/GROUP_ID/users/USER_ID');
+
+        $this->client
+            ->send(Argument::is($request))
+            ->shouldBeCalled()
+            ->willThrow(new BadResponseError());
+
+        $this->assertFalse($this->group->checkMembership(['userId' => 'USER_ID']));
     }
 }

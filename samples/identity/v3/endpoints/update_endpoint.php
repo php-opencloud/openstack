@@ -18,7 +18,7 @@ $openstack = new OpenStack\OpenStack([
 
 $identity = $openstack->identityV3(['region' => '{region}']);
 
-$endpoint = $identity->getEndpoint(['id' => '{endpointId}']);
+$endpoint = $identity->getEndpoint('{endpointId}');
 
 $endpoint->interface = \OpenStack\Identity\v3\Enum::INTERFACE_PUBLIC;
 

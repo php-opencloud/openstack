@@ -25,4 +25,22 @@ class OpenStackTest extends ProphecyTestCase
 
         $this->openstack->computeV2();
     }
+
+    public function test_it_supports_identity_v2()
+    {
+        $this->builder
+            ->createService('Identity', 2, ['catalogName' => false, 'catalogType' => false])
+            ->shouldBeCalled();
+
+        $this->openstack->identityV2();
+    }
+
+    public function test_it_supports_identity_v3()
+    {
+        $this->builder
+            ->createService('Identity', 3, ['catalogName' => false, 'catalogType' => false])
+            ->shouldBeCalled();
+
+        $this->openstack->identityV3();
+    }
 }

@@ -107,16 +107,17 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         foreach ($array as $key => $val) {
             $propertyName = isset($this->aliases[$key]) ? $this->aliases[$key] : $key;
             if (property_exists($this, $propertyName)) {
-
                 if ($type = $this->extractTypeFromDocBlock($reflClass, $propertyName)) {
                     if (in_array($type, ['string', 'bool', 'null', 'array', 'object', 'int', 'mixed'])) {
                         $val = $val;
                     } elseif (strpos($type, '[]') === 0) {
                         if (is_array($val)) {
+                            $array = [];
                             $type = substr($type, 2);
                             foreach ($val as $subVal) {
-                                array_push($this->$propertyName, $this->model($type, $subVal));
+                                array_push($array, $this->model($type, $subVal));
                             }
+                            $val = $array;
                         }
                     } elseif ($type == '\DateTimeImmutable') {
                         $val = new \DateTimeImmutable($val);
@@ -139,7 +140,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         }
 
         $matches = [];
-        preg_match('#@var ([\w|\\\]+)#', $docComment, $matches);
+        preg_match('#@var ((\[\])?[\w|\\\]+)#', $docComment, $matches);
         return isset($matches[1]) ? $matches[1] : null;
     }
 

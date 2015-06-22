@@ -21,7 +21,7 @@ class Service extends AbstractService implements IdentityService
             $options['catalogName'],
             $options['catalogType'],
             $options['region'],
-            $options['urlType']
+            isset($options['interface']) ? $options['interface'] : Enum::INTERFACE_PUBLIC
         );
 
         return [$token, $baseUrl];
@@ -119,13 +119,13 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * @param array $data
+     * @param string $id
      *
      * @return Models\Endpoint
      */
-    public function getEndpoint(array $data)
+    public function getEndpoint($id)
     {
-        return $this->model('Endpoint', $data);
+        return $this->model('Endpoint', ['id' => $id]);
     }
 
     /**
