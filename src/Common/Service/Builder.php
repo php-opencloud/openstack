@@ -76,7 +76,7 @@ class Builder
      */
     public function createService($serviceName, $serviceVersion, array $serviceOptions = [])
     {
-        $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
+        $options = $this->mergeOptions($serviceOptions);
 
         if (strcasecmp($serviceName, 'identity') === 0) {
             $options['identityService'] = new Service($this->httpClient($options['authUrl']), new Api());
@@ -143,5 +143,16 @@ class Builder
         }
 
         return $client;
+    }
+
+    private function mergeOptions(array $serviceOptions)
+    {
+        $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
+
+        if (!isset($options['authUrl'])) {
+            throw new \InvalidArgumentException('"authUrl" is a required option');
+        }
+
+        return $options;
     }
 }

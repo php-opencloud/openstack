@@ -3,11 +3,13 @@
 namespace OpenStack\Test\Identity\v3;
 
 use GuzzleHttp\Message\Response;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Enum;
 use OpenStack\Identity\v3\Models;
 use OpenStack\Identity\v3\Service;
 use OpenStack\Test\TestCase;
+use Prophecy\Argument;
 
 class ServiceTest extends TestCase
 {
@@ -63,7 +65,11 @@ class ServiceTest extends TestCase
     public function test_true_is_returned_when_token_validation_returns_error()
     {
         $request = $this->setupMockRequest('HEAD', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId']);
-        $this->setupMockResponse($request, new Response(404));
+
+        $this->client
+            ->send(Argument::is($request))
+            ->shouldBeCalled()
+            ->willThrow(new BadResponseError());
 
         $this->assertFalse($this->service->validateToken('tokenId'));
     }
@@ -430,8 +436,8 @@ class ServiceTest extends TestCase
 
         $expectedJson = [
             "identity" => [
+                "token"   => ['id' => '{tokenId}'],
                 'methods' => ['token'],
-                "token"   => ['id' => '{tokenId}']
             ],
             "scope" => [
                 "project" => ["id" => "{projectId}"]

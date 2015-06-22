@@ -4,7 +4,7 @@ namespace OpenStack\Test\Common\Error;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Event\ErrorEvent;
+use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
@@ -119,9 +119,9 @@ EOT;
     public function test_an_exception_is_thrown()
     {
         $trans = new Transaction(new Client(), new Request('GET', ''));
-        $trans->response = new Response(200);
-        $event = new ErrorEvent($trans);
+        $trans->response = new Response(400);
+        $event = new CompleteEvent($trans);
 
-        $this->builder->onHttpError($event);
+        $this->builder->onComplete($event);
     }
 }

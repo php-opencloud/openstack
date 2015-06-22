@@ -42,7 +42,7 @@ class OperatorTest extends ProphecyTestCase
 
     public function test_it_sends_a_request_when_operations_are_executed()
     {
-        $this->client->createRequest('GET', 'test', [])->willReturn(new Request('GET', 'test'));
+        $this->client->createRequest('GET', 'test', ['exceptions' => false])->willReturn(new Request('GET', 'test'));
         $this->client->send(Argument::type(Request::class))->shouldBeCalled();
 
         $this->operator->execute($this->def, []);

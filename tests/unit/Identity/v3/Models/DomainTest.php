@@ -3,9 +3,11 @@
 namespace OpenStack\Test\Identity\v3\Models;
 
 use GuzzleHttp\Message\Response;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Domain;
 use OpenStack\Test\TestCase;
+use Prophecy\Argument;
 
 class DomainTest extends TestCase
 {
@@ -44,7 +46,12 @@ class DomainTest extends TestCase
     public function test_it_checks_nonexistent_user_role()
     {
         $request = $this->setupMockRequest('HEAD', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(404));
+
+        $this->client
+            ->send(Argument::is($request))
+            ->shouldBeCalled()
+            ->willThrow(new BadResponseError());
+
         $this->assertFalse($this->domain->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
@@ -71,7 +78,12 @@ class DomainTest extends TestCase
     public function test_it_checks_group_role()
     {
         $request = $this->setupMockRequest('HEAD', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(404));
+
+        $this->client
+            ->send(Argument::is($request))
+            ->shouldBeCalled()
+            ->willThrow(new BadResponseError());
+
         $this->assertFalse($this->domain->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 

@@ -33,7 +33,7 @@ class ServiceTest extends TestCase
     {
         $this->service->type = 'foo';
 
-        $request = $this->setupMockRequest('PATCH', 'services/SERVICE_ID', ['type' => 'foo']);
+        $request = $this->setupMockRequest('PATCH', 'services/SERVICE_ID', ['service' => ['type' => 'foo']]);
         $this->setupMockResponse($request, 'service');
 
         $this->service->update();

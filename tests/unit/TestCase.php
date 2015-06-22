@@ -56,7 +56,7 @@ abstract class TestCase extends ProphecyTestCase
     {
         $request = new Request($method, $path, $headers, Stream::factory(json_encode($json)));
 
-        $options = [];
+        $options = ['exceptions' => false];
 
         if (!empty($json)) {
             $options['json'] = $json;

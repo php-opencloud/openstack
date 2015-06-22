@@ -5,10 +5,11 @@ namespace OpenStack\Test\Common\Service;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Event\Emitter;
 use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Stream\Stream;
 use OpenStack\Common\Service\Builder;
+use OpenStack\Identity\v2\Models\Token;
+use OpenStack\Identity\v2\Service;
 use OpenStack\Test\TestCase;
+use Prophecy\Argument;
 
 class BuilderTest extends TestCase
 {
@@ -97,18 +98,12 @@ class BuilderTest extends TestCase
     public function test_it_builds_services_with_v2_identity()
     {
         $this->rootFixturesDir = dirname(dirname(__DIR__)) . '/Identity/v2/';
-        $response = $this->getFixture('token-post');
-        $request  = new Request('POST', 'tokens');
 
-        $httpClient = $this->prophesize(ClientInterface::class);
-        $httpClient->getEmitter()->willReturn(new Emitter());
-        $httpClient->createRequest('POST', 'tokens', [
-            'json' => ['auth' => ['passwordCredentials' => ['username' => '1', 'password' => '2'], 'tenantId' => '3']]
-        ])->shouldBeCalled()->willReturn($request);
-        $httpClient->send($request)->shouldBeCalled()->willReturn($response);
+        $token = $this->prophesize(Token::class)->reveal();
+        $service = $this->prophesize(Service::class);
+        $service->authenticate(Argument::type('array'))->shouldBeCalled()->willReturn([$token, '']);
 
-        $this->opts['httpClient'] = $httpClient->reveal();
-        $this->opts['identityService'] = $this->builder->createService('Identity', 2, $this->opts);
+        $this->opts['identityService'] = $service->reveal();
         $this->opts['catalogName'] = 'nova';
         $this->opts['catalogType'] = 'compute';
         $this->opts['region'] = 'RegionOne';

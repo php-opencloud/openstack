@@ -54,7 +54,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     {
         $client = $this->prophesize(ClientInterface::class);
         $client->createRequest('POST', 'path', [
-            'headers' => ['X-Foo' => 'bar']
+            'headers' => ['X-Foo' => 'bar'], 'exceptions' => false,
         ])->shouldBeCalled();
 
         $def = [
@@ -75,7 +75,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     {
         $client = $this->prophesize(ClientInterface::class);
         $client->createRequest('POST', 'path', [
-            'json' => ['X-Foo' => 'bar']
+            'json' => ['X-Foo' => 'bar'], 'exceptions' => false,
         ])->shouldBeCalled();
 
         $def = [
