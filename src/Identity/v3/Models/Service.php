@@ -83,7 +83,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
      */
     public function getUrl($name, $type, $region, $urlType)
     {
-        if ($this->name !== $name || $this->type !== $type) {
+        if (($this->name !== $name && !empty($this->name)) || $this->type !== $type) {
             return false;
         }
 
@@ -95,4 +95,4 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
 
         return false;
     }
-} 
+}
