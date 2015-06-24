@@ -51,7 +51,7 @@ class V2Test extends TestCase
             '{networkName2}' => 'fakeNetwork2'
         ];
 
-        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        /** @var $networks array */
         $path = $this->sampleFile($replacements, 'create_networks.php');
         require_once $path;
 

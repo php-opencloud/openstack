@@ -28,13 +28,11 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postsNetwork}
      *
-     * @return \Generator
+     * @return array
      */
     public function createNetworks(array $options)
     {
-        return $this->model('Network')->bulkCreate([
-            'networks' => $options
-        ]);
+        return $this->model('Network')->bulkCreate($options);
     }
 
     /**

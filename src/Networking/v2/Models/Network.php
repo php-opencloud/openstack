@@ -43,7 +43,9 @@ class Network extends AbstractResource implements Listable, Retrievable
      */
     public function bulkCreate(array $userOptions)
     {
-        $response = $this->execute($this->api->postNetworks(), $userOptions);
+        $response = $this->execute($this->api->postNetworks(), [
+            'networks' => $userOptions,
+        ]);
         $body = $response->json();
         $json = $body['networks'];
 
