@@ -29,6 +29,8 @@ class V2Test extends TestCase
     {
         $this->startTimer();
 
+        $this->createNetworksAndDelete();
+
         $this->createNetwork();
 
         try {
@@ -42,10 +44,31 @@ class V2Test extends TestCase
         $this->outputTimeTaken();
     }
 
+    private function createNetworksAndDelete()
+    {
+        $replacements = [
+            '{networkName1}' => 'fakeNetwork1',
+            '{networkName2}' => 'fakeNetwork2'
+        ];
+
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile($replacements, 'create_networks.php');
+        require_once $path;
+
+        foreach($networks as $network) {
+            $this->networkId = $network->id;
+            $this->logStep('Created network {id}', ['{id}' => $this->networkId]);
+
+            $this->deleteNetwork();
+        }
+
+        $this->networkId = null;
+    }
+
     private function createNetwork()
     {
         $replacements = [
-            '{networkName}' => 'fakeNetwork'
+            '{networkName}' => 'fakeNetwork',
         ];
 
         /** @var $network \OpenStack\Networking\v2\Models\Network */
