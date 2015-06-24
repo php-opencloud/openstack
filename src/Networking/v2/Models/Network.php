@@ -39,6 +39,17 @@ class Network extends AbstractResource implements Listable, Retrievable
     /**
      * {@inheritDoc}
      *
+     * @param array $userOptions {@see \OpenStack\Networking\v2\Api::postNetworks}
+     */
+    public function bulkCreate(array $userOptions)
+    {
+        $response = $this->execute($this->api->postNetworks(), $userOptions);
+        return $this->populateFromResponse($response);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @param array $userOptions {@see \OpenStack\Networking\v2\Api::postNetwork}
      */
     public function create(array $userOptions)

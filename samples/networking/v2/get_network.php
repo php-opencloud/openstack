@@ -16,7 +16,7 @@ $openstack = new OpenStack\OpenStack([
     ]
 ]);
 
-$networking = $openstack->networkingV2(['region' => '{region}']);
+$networking = $openstack->networkingV2();
 
 $network = $networking->getNetwork(['id' => '{networkId}']);
 

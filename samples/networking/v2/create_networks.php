@@ -18,9 +18,13 @@ $openstack = new OpenStack\OpenStack([
 
 $networking = $openstack->networkingV2();
 
-$network = $networking->getNetwork([
-    'id' => '{networkId}',
-]);
+$options = [
+    [
+      'name' => '{networkName1}'
+    ],
+    [
+      'name' => '{networkName2}'
+    ],
+];
 
-$network->name = '{newName}';
-$network->update();
+$networks = $networking->createNetworks($options);

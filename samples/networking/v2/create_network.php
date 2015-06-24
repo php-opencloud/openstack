@@ -16,7 +16,7 @@ $openstack = new OpenStack\OpenStack([
     ]
 ]);
 
-$networking = $openstack->networkingV2(['region' => 'SBG-1']);
+$networking = $openstack->networkingV2();
 
 $options = [
     'name' => '{networkName}',

@@ -48,7 +48,7 @@ class V2Test extends TestCase
             '{networkName}' => 'fakeNetwork'
         ];
 
-        /** @var $server \OpenStack\Networking\v2\Models\Network */
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
         $path = $this->sampleFile($replacements, 'create_network.php');
         require_once $path;
 
@@ -69,7 +69,7 @@ class V2Test extends TestCase
             '{newName}'  => $name,
         ];
 
-        /** @var $server \OpenStack\Networking\v2\Models\Network */
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
         $path = $this->sampleFile($replacements, 'update_network.php');
         require_once $path;
 
@@ -97,7 +97,7 @@ class V2Test extends TestCase
     {
         $replacements = ['{networkId}' => $this->networkId];
 
-        /** @var $server \OpenStack\Networking\v2\Models\Network */
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
         $path = $this->sampleFile($replacements, 'delete_network.php');
         require_once $path;
 

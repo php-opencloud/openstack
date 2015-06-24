@@ -63,6 +63,29 @@ class Api implements ApiInterface
         ];
     }
 
+    public function postNetworks()
+    {
+        return [
+            'path' => $this->pathPrefix . '/networks',
+            'method' => 'POST',
+            'jsonKey' => '',
+            'params' => [
+                'networks' => [
+                    'type' => 'array',
+                    'description' => 'List of networks',
+                    'items' => [
+                        'type'       => 'object',
+                        'properties' => [
+                            'name' => $this->nameParam,
+                            'shared' => $this->sharedParam,
+                            'adminStateUp' => $this->adminStateUp,
+                        ]
+                    ],
+                ]
+            ]
+        ];
+    }
+
     public function putNetwork()
     {
         return [
