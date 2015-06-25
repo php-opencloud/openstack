@@ -112,7 +112,10 @@ class Builder
     {
         $identity = isset($options['identityService'])
             ? $options['identityService']
-            : $this->createService('Identity', 3, $options);
+            : $this->createService('Identity', 3, array_merge($options, [
+                'catalogName' => false,
+                'catalogType' => false,
+            ]));
 
         list ($token, $baseUrl) = $identity->authenticate($options);
 
