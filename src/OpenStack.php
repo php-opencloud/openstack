@@ -46,6 +46,21 @@ class OpenStack
     }
 
     /**
+     * Creates a new Networking v2 service.
+     *
+     * @param array $options Options that will be used in configuring the service.
+     *
+     * @return \OpenStack\Networking\v2\Service
+     */
+    public function networkingV2(array $options = [])
+    {
+        return $this->builder->createService('Networking', 2, array_merge($options, [
+            'catalogName' => 'neutron',
+            'catalogType' => 'network'
+        ]));
+    }
+
+    /**
      * Creates a new Identity v2 service.
      *
      * @param array $options Options that will be used in configuring the service.
