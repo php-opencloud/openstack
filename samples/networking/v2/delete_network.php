@@ -18,6 +18,6 @@ $openstack = new OpenStack\OpenStack([
 
 $networking = $openstack->networkingV2();
 
-$network = $networking->getNetwork(['id' => '{networkId}']);
+$network = $networking->getNetwork('{networkId}');
 
 $network->delete();

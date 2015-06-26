@@ -26,7 +26,7 @@ class Service extends AbstractService
     /**
      * Create a new network resources.
      *
-     * @param array $options {@see \OpenStack\Networking\v2\Api::postsNetwork}
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postNetworks}
      *
      * @return array
      */
@@ -38,17 +38,14 @@ class Service extends AbstractService
     /**
      * Retrieve a network object without calling the remote API. Any values provided in the array will populate the
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
-     * and have the response populate the object, call {@see Server::retrieve}.
+     * and have the response populate the object, call {@see Network::retrieve}.
      *
-     * @param array $options An array of attributes that will be set on the {@see Network} object. The array keys need to
-     *                       correspond to the class public properties.
+     * @param string $id
      *
      * @return \OpenStack\Networking\v2\Models\Network
      */
-    public function getNetwork(array $options = [])
+    public function getNetwork($id)
     {
-        $server = $this->model('Network');
-        $server->populateFromArray($options);
-        return $server;
+        return $this->model('Network', ['id' => $id]);
     }
 }

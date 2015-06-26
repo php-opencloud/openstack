@@ -82,9 +82,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_an_network()
     {
-      $network = $this->service->getNetwork([
-            'id' => 'networkId'
-        ]);
+      $network = $this->service->getNetwork('networkId');
 
         $this->assertInstanceOf(Network::class, $network);
         $this->assertEquals('networkId', $network->id);

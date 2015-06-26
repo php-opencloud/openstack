@@ -4,6 +4,8 @@ namespace OpenStack\Networking\v2\Models;
 
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Retrievable;
 
 /**
@@ -11,7 +13,7 @@ use OpenStack\Common\Resource\Retrievable;
  *
  * @property \OpenStack\Networking\v2\Api $api
  */
-class Network extends AbstractResource implements Listable, Retrievable
+class Network extends AbstractResource implements Listable, Retrievable, Creatable, Deletable
 {
     public $id;
     public $name;
@@ -39,12 +41,12 @@ class Network extends AbstractResource implements Listable, Retrievable
     /**
      * {@inheritDoc}
      *
-     * @param array $userOptions {@see \OpenStack\Networking\v2\Api::postNetworks}
+     * @param array $data {@see \OpenStack\Networking\v2\Api::postNetworks}
      */
-    public function bulkCreate(array $userOptions)
+    public function bulkCreate(array $data)
     {
         $response = $this->execute($this->api->postNetworks(), [
-            'networks' => $userOptions,
+            'networks' => $data,
         ]);
         $body = $response->json();
         $json = $body['networks'];
@@ -62,11 +64,11 @@ class Network extends AbstractResource implements Listable, Retrievable
     /**
      * {@inheritDoc}
      *
-     * @param array $userOptions {@see \OpenStack\Networking\v2\Api::postNetwork}
+     * @param array $data {@see \OpenStack\Networking\v2\Api::postNetwork}
      */
-    public function create(array $userOptions)
+    public function create(array $data)
     {
-        $response = $this->execute($this->api->postNetwork(), $userOptions);
+        $response = $this->execute($this->api->postNetwork(), $data);
         return $this->populateFromResponse($response);
     }
 
@@ -75,8 +77,7 @@ class Network extends AbstractResource implements Listable, Retrievable
      */
     public function update()
     {
-        $response = $this->execute($this->api->putNetwork(), $this->getAttrs(['id', 'name', 'shared', 'adminStateUp']));
-
+        $response = $this->executeWithState($this->api->putNetwork());
         return $this->populateFromResponse($response);
     }
 

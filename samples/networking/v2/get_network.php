@@ -18,7 +18,7 @@ $openstack = new OpenStack\OpenStack([
 
 $networking = $openstack->networkingV2();
 
-$network = $networking->getNetwork(['id' => '{networkId}']);
+$network = $networking->getNetwork('{networkId}');
 
 // By default, this will return an empty Network object and NOT hit the API.
 // This is convenient for when you want to use the object for operations
