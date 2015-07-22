@@ -1,10 +1,16 @@
 <?php
 
 use Sami\Sami;
+use Symfony\Component\Finder\Finder;
 
-$path = dirname(dirname(__DIR__));
+$iterator = Finder::create()
+    ->files()
+    ->name('*.php')
+    ->notName('Api.php')
+    ->in($dir = dirname(dirname(__DIR__)) . '/src')
+;
 
-return new Sami($path . '/src', [
+return new Sami($iterator, [
     'title'         => 'Test',
     'theme'         => 'new_theme',
     'build_dir'     => __DIR__ . '/build',
