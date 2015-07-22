@@ -43,10 +43,26 @@
                 {{ render_classes(traits) }}
             {% endif %}
 
-            {% if constants %}
+            {% set has_constants = false %}
+            {% for constant in constants if constant.class is sameas(class) %}
+                {% set has_constants = true %}
+            {% endfor %}
+
+            {% if has_constants == true %}
                 <h2>Constants</h2>
 
                 {{ block('constants') }}
+            {% endif %}
+
+            {% set has_properties = false %}
+            {% for property in properties if property.class is sameas(class) %}
+                {% set has_properties = true %}
+            {% endfor %}
+
+            {% if has_properties == true %}
+                <h2>Properties</h2>
+
+                {{ block('properties') }}
             {% endif %}
 
             {% set has_methods = false %}
@@ -161,7 +177,7 @@
 
         {% block constants %}
             <table class="table table-condensed">
-                {% for constant in constants %}
+                {% for constant in constants if constant.class is sameas(class) %}
                     <tr>
                         <td>{{ constant.name }}</td>
                         <td class="last">
@@ -175,21 +191,13 @@
 
         {% block properties %}
             <table class="table table-condensed">
-                {% for property in properties %}
+                {% for property in properties if property.class is sameas(class) %}
                     <tr>
-                        <td class="type" id="property_{{ property.name }}">
-                            {% if property.static %}static{% endif %}
-                            {% if property.protected %}protected{% endif %}
-                            {% if property.private %}private{% endif %}
+                        <td class="param-name" width="10%"><span>${{ property.name }}</span></td>
+                        <td class="type" id="property_{{ property.name }}" width="10%">
                             {{ hint_link(property.hint) }}
                         </td>
-                        <td>${{ property.name }}</td>
                         <td class="last">{{ property.shortdesc|desc(class) }}</td>
-                        <td>
-                            {%- if property.class is not sameas(class) -%}
-                                <small>from&nbsp;{{ property_link(property, false, true) }}</small>
-                            {%- endif -%}
-                        </td>
                     </tr>
                 {% endfor %}
             </table>

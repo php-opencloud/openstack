@@ -14,7 +14,9 @@ use OpenStack\Common\Resource\Updateable;
  */
 class Credential extends AbstractResource implements Creatable, Updateable, Retrievable, Listable, Deletable
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     public $blob;
 
     /** @var string */

@@ -10,9 +10,9 @@ class Api extends AbstractApi
     {
         return [
             'type' => 'object',
-            'params' => [
-                'id'   => ['type' => 'string'],
-                'name' => ['type' => 'string']
+            'properties' => [
+                'id'   => ['type' => 'string', 'description' => Desc::id('domain')],
+                'name' => ['type' => 'string', 'description' => 'The name of the domain'],
             ]
         ];
     }
@@ -21,9 +21,9 @@ class Api extends AbstractApi
     {
         return [
             'type' => 'object',
-            'params' => [
-                'id'     => ['type' => 'string'],
-                'name'   => ['type' => 'string'],
+            'properties' => [
+                'id'     => ['type' => 'string', 'description' => Desc::id('project')],
+                'name'   => ['type' => 'string', 'description' => 'The name of the project'],
                 'domain' => $this->domainParam(),
             ]
         ];
@@ -33,12 +33,14 @@ class Api extends AbstractApi
         'required' => true,
         'location' => 'url',
         'type' => 'string',
+        'description' => 'The unique ID'
     ];
 
     private $tokenIdParam = [
         'type'     => 'string',
         'location' => 'header',
-        'sentAs'   => 'X-Subject-Token'
+        'sentAs'   => 'X-Subject-Token',
+        'description' => 'The unique token ID'
     ];
 
     public function postTokens()
@@ -50,15 +52,16 @@ class Api extends AbstractApi
                 'methods' => [
                     'type' => 'array',
                     'path' => 'auth.identity',
+                    'description' => Desc::$methods,
                     'items' => ['type' => 'string']
                 ],
                 'user' => [
                     'type'   => 'object',
                     'path'   => 'auth.identity.password',
                     'properties' => [
-                        'id'       => ['type' => 'string'],
-                        'name'     => ['type' => 'string'],
-                        'password' => ['type' => 'string'],
+                        'id'       => ['type' => 'string', 'description' => Desc::id('user')],
+                        'name'     => ['type' => 'string', 'description' => 'The username of the user'],
+                        'password' => ['type' => 'string', 'description' => 'The password of the user'],
                         'domain'   => $this->domainParam()
                     ]
                 ],
@@ -66,6 +69,7 @@ class Api extends AbstractApi
                     'type'   => 'string',
                     'path'   => 'auth.identity.token',
                     'sentAs' => 'id',
+                    'description' => Desc::id('token'),
                 ],
                 'scope' => [
                     'type' => 'object',
@@ -113,8 +117,8 @@ class Api extends AbstractApi
             'path'    => 'services',
             'jsonKey' => 'service',
             'params' => [
-                'name' => ['type' => 'string'],
-                'type' => ['type' => 'string']
+                'name' => ['type' => 'string', 'description' => 'The name of the new service, as it will appear in the catalog'],
+                'type' => ['type' => 'string', 'description' => 'The type of the new service, as it will appear in the catalog']
             ]
         ];
     }
@@ -127,7 +131,8 @@ class Api extends AbstractApi
             'params' => [
                 'type' => [
                     'type'     => 'string',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filters all the available services according to a given type'
                 ]
             ]
         ];
@@ -150,9 +155,9 @@ class Api extends AbstractApi
             'jsonKey' => 'service',
             'params' => [
                 'id' => $this->idUrlParam,
-                'name' => ['type' => 'string'],
-                'type' => ['type' => 'string'],
-                'description' => ['type' => 'string'],
+                'name' => ['type' => 'string', 'description' => Desc::name('service')],
+                'type' => ['type' => 'string', 'description' => Desc::type('service')],
+                'description' => ['type' => 'string', 'description' => 'A brief summary which explains what the service does'],
             ]
         ];
     }
@@ -175,20 +180,25 @@ class Api extends AbstractApi
             'params' => [
                 'interface' => [
                     'type' => 'string',
+                    'description' => Desc::$interface,
                 ],
                 'name' => [
                     'type' => 'string',
                     'required' => true,
+                    'description' => Desc::id('endpoint')
                 ],
                 'region' => [
                     'type' => 'string',
+                    'description' => Desc::$region,
                 ],
                 'url' => [
                     'type' => 'string',
+                    'description' => Desc::$endpointUrl,
                 ],
                 'serviceId' => [
                     'type' => 'string',
                     'sentAs' => 'service_id',
+                    'description' => Desc::id('service') . ' that this endpoint belongs to',
                 ],
             ]
         ];
@@ -202,12 +212,14 @@ class Api extends AbstractApi
             'params' => [
                 'interface' => [
                     'type' => 'string',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::$interface,
                 ],
                 'serviceId' => [
                     'type' => 'string',
                     'sentAs' => 'service_id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::id('service') . ' that this endpoint belongs to',
                 ],
             ]
         ];
@@ -223,19 +235,24 @@ class Api extends AbstractApi
                 'id' => $this->idUrlParam,
                 'interface' => [
                     'type' => 'string',
+                    'description' => Desc::$interface,
                 ],
                 'name' => [
                     'type' => 'string',
+                    'description' => Desc::id('endpoint')
                 ],
                 'region' => [
                     'type' => 'string',
+                    'description' => Desc::$region,
                 ],
                 'url' => [
                     'type' => 'string',
+                    'description' => Desc::$endpointUrl,
                 ],
                 'serviceId' => [
                     'type' => 'string',
                     'sentAs' => 'service_id',
+                    'description' => Desc::id('service') . ' that this endpoint belongs to',
                 ],
             ]
         ];
@@ -260,12 +277,15 @@ class Api extends AbstractApi
                 'name' => [
                     'type' => 'string',
                     'required' => true,
+                    'description' => Desc::name('domain')
                 ],
                 'enabled' => [
                     'type' => 'boolean',
+                    'description' => Desc::enabled('domain'),
                 ],
                 'description' => [
                     'type' => 'string',
+                    'description' => Desc::desc('domain'),
                 ]
             ]
         ];
@@ -280,10 +300,12 @@ class Api extends AbstractApi
                 'name' => [
                     'type' => 'string',
                     'location' => 'query',
+                    'description' => Desc::name('domain')
                 ],
                 'enabled' => [
                     'type' => 'boolean',
                     'location' => 'query',
+                    'description' => Desc::enabled('domain'),
                 ],
             ]
         ];
@@ -308,12 +330,15 @@ class Api extends AbstractApi
                 'id' => $this->idUrlParam,
                 'name' => [
                     'type' => 'string',
+                    'description' => Desc::name('domain'),
                 ],
                 'enabled' => [
                     'type' => 'boolean',
+                    'description' => Desc::enabled('domain'),
                 ],
                 'description' => [
                     'type' => 'string',
+                    'description' => Desc::desc('domain'),
                 ]
             ]
         ];
@@ -438,22 +463,27 @@ class Api extends AbstractApi
             'jsonKey' => 'project',
             'params' => [
                 'description' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => Desc::enabled('project'),
                 ],
                 'domainId' => [
                     'type' => 'string',
-                    'sentAs' => 'domain_id'
+                    'sentAs' => 'domain_id',
+                    'description' => Desc::id('domain') . ' associated with this project',
                 ],
                 'parentId' => [
                     'type' => 'string',
                     'sentAs' => 'parent_id',
+                    'description' => Desc::$projectParent,
                 ],
                 'enabled' => [
-                    'type' => 'boolean'
+                    'type' => 'boolean',
+                    'description' => Desc::enabled('project')
                 ],
                 'name' => [
                     'type' => 'string',
                     'required' => true,
+                    'description' => Desc::name('project'),
                 ]
             ]
         ];
@@ -468,15 +498,18 @@ class Api extends AbstractApi
                 'domainId' => [
                     'type' => 'string',
                     'sentAs' => 'domain_id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::id('domain') . ' associated with this project',
                 ],
                 'enabled' => [
                     'type' => 'boolean',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::enabled('project')
                 ],
                 'name' => [
                     'type' => 'string',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::name('project')
                 ]
             ]
         ];
@@ -500,21 +533,26 @@ class Api extends AbstractApi
             'params' => [
                 'id' => $this->idUrlParam,
                 'description' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => Desc::desc('project')
                 ],
                 'domainId' => [
                     'type' => 'string',
-                    'sentAs' => 'domain_id'
+                    'sentAs' => 'domain_id',
+                    'description' => Desc::id('domain') . ' associated with this project',
                 ],
                 'parentId' => [
                     'type' => 'string',
-                    'sentAs' => 'parent_id'
+                    'sentAs' => 'parent_id',
+                    'description' => Desc::$projectParent
                 ],
                 'enabled' => [
-                    'type' => 'boolean'
+                    'type' => 'boolean',
+                    'description' => Desc::enabled('project'),
                 ],
                 'name' => [
                     'type' => 'string',
+                    'description' => Desc::name('project'),
                 ]
             ]
         ];
@@ -640,27 +678,34 @@ class Api extends AbstractApi
             'params' => [
                 'defaultProjectId' => [
                     'sentAs' => 'default_project_id',
-                    'type'   => 'string'
+                    'type'   => 'string',
+                    'description' => Desc::$defaultProject,
                 ],
                 'description' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => Desc::desc('user'),
                 ],
                 'domainId' => [
                     'type' => 'string',
-                    'sentAs' => 'domain_id'
+                    'sentAs' => 'domain_id',
+                    'description' => Desc::id('domain') . ' associated with this user',
                 ],
                 'email' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => Desc::$email,
                 ],
                 'enabled' => [
-                    'type' => 'boolean'
+                    'type' => 'boolean',
+                    'description' => Desc::enabled('user'),
                 ],
                 'name' => [
                     'type' => 'string',
-                    'required' => true
+                    'required' => true,
+                    'description' => Desc::enabled('name'),
                 ],
                 'password' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => Desc::$password,
                 ]
             ]
         ];
@@ -675,15 +720,18 @@ class Api extends AbstractApi
                 'domainId' => [
                     'type' => 'string',
                     'sentAs' => 'domain_id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filters by the ' . Desc::id('domain') . ' associated with the users',
                 ],
                 'enabled' => [
                     'type' => 'boolean',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filters by the "enabled" status of the user'
                 ],
                 'name' => [
                     'type' => 'string',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filters by the name of the user',
                 ],
             ]
         ];
@@ -711,13 +759,16 @@ class Api extends AbstractApi
                     'type'   => 'string'
                 ],
                 'description' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => Desc::desc('user'),
                 ],
                 'email' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => Desc::$email,
                 ],
                 'enabled' => [
-                    'type' => 'boolean'
+                    'type' => 'boolean',
+                    'description' => Desc::enabled('user'),
                 ],
             ]
         ];
@@ -759,14 +810,17 @@ class Api extends AbstractApi
             'params' => [
                 'description' => [
                     'type' => 'string',
+                    'description' => Desc::desc('group'),
                 ],
                 'domainId' => [
                     'type' => 'string',
                     'sentAs' => 'domain_id',
+                    'description' => Desc::id('domain') . ' associated with this group',
                 ],
                 'name' => [
                     'type' => 'string',
-                    'required' => true
+                    'required' => true,
+                    'description' => Desc::name('group'),
                 ]
             ]
         ];
@@ -782,6 +836,7 @@ class Api extends AbstractApi
                     'type' => 'string',
                     'sentAs' => 'domain_id',
                     'location' => 'query',
+                    'description' => Desc::id('domain') . ' associated with the groups',
                 ],
             ]
         ];
@@ -806,9 +861,11 @@ class Api extends AbstractApi
                 'id' => $this->idUrlParam,
                 'description' => [
                     'type' => 'string',
+                    'description' => Desc::desc('group'),
                 ],
                 'name' => [
                     'type' => 'string',
+                    'description' => Desc::name('group'),
                 ]
             ]
         ];
@@ -875,18 +932,22 @@ class Api extends AbstractApi
             'path'   => 'credentials',
             'params' => [
                 'blob' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => "This does something, but it's not explained in the docs (as of writing this)"
                 ],
                 'projectId' => [
                     'type' => 'string',
                     'sentAs' => 'project_id',
+                    'description' => Desc::id('project') . ' of the project'
                 ],
                 'type' => [
-                    'type' => 'string'
+                    'type' => 'string',
+                    'description' => "This does something, but it's not explained in the docs (as of writing this)"
                 ],
                 'userId' => [
                     'type' => 'string',
                     'sentAs' => 'user_id',
+                    'description' => Desc::id('user') . ' of the user'
                 ],
             ]
         ];
@@ -937,7 +998,8 @@ class Api extends AbstractApi
             'params' => [
                 'name' => [
                     'type' => 'string',
-                    'required' => true
+                    'required' => true,
+                    'description' => Desc::name('role'),
                 ]
             ]
         ];
@@ -951,7 +1013,8 @@ class Api extends AbstractApi
             'params' => [
                 'name' => [
                     'type' => 'string',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::name('role'),
                 ]
             ]
         ];
@@ -976,27 +1039,33 @@ class Api extends AbstractApi
             'params' => [
                 'userId' => [
                     'sentAs' => 'user.id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filter by user ID'
                 ],
                 'groupId' => [
                     'sentAs' => 'group.id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filter by group ID'
                 ],
                 'roleId' => [
                     'sentAs' => 'role.id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filter by role ID'
                 ],
                 'domainId' => [
                     'sentAs' => 'scope.domain.id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::id('domain') . ' associated with the role assignments',
                 ],
                 'projectId' => [
                     'sentAs' => 'scope.project.id',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filter by project ID'
                 ],
                 'effective' => [
                     'type' => 'boolean',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => Desc::$effective,
                 ]
             ]
         ];
@@ -1010,18 +1079,22 @@ class Api extends AbstractApi
             'params' => [
                 'blob' => [
                     'type' => 'string',
+                    'description' => "This does something, but it's not explained in the docs (as of writing this)"
                 ],
                 'projectId' => [
                     'type' => 'string',
-                    'sentAs' => 'project_id'
+                    'sentAs' => 'project_id',
+                    'description' => Desc::id('project') . ' of the project'
                 ],
                 'type' => [
                     'type' => 'string',
+                    'description' => "This does something, but it's not explained in the docs (as of writing this)"
                 ],
                 'userId' => [
                     'type' => 'string',
-                    'sentAs' => 'user_id'
-                ]
+                    'sentAs' => 'user_id',
+                    'description' => Desc::id('user') . ' of the user'
+                ],
             ]
         ];
     }
@@ -1034,7 +1107,8 @@ class Api extends AbstractApi
             'params' => [
                 'type' => [
                     'type' => 'string',
-                    'location' => 'query'
+                    'location' => 'query',
+                    'description' => 'Filter by type'
                 ]
             ]
         ];
@@ -1058,18 +1132,22 @@ class Api extends AbstractApi
                 'id' => $this->idUrlParam,
                 'blob' => [
                     'type' => 'string',
+                    'description' => "This does something, but it's not explained in the docs (as of writing this)"
                 ],
                 'projectId' => [
                     'type' => 'string',
-                    'sentAs' => 'project_id'
+                    'sentAs' => 'project_id',
+                    'description' => Desc::id('project') . ' of the project'
                 ],
                 'type' => [
                     'type' => 'string',
+                    'description' => "This does something, but it's not explained in the docs (as of writing this)"
                 ],
                 'userId' => [
                     'type' => 'string',
-                    'sentAs' => 'user_id'
-                ]
+                    'sentAs' => 'user_id',
+                    'description' => Desc::id('user') . ' of the user'
+                ],
             ]
         ];
     }
