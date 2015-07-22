@@ -49,6 +49,13 @@
             <div class="col param-type">
                 {{ _self.fill(type) }}
             </div>
+            <div class="col param-req">
+                {% if sub_param.required == 'true' %}
+                Required
+                {% else %}
+                Optional
+                {% endif %}
+            </div>
             <div class="col param-desc">
                 {{ _self.fill(sub_param.description) }}
             </div>

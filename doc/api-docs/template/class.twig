@@ -49,13 +49,12 @@
                 {{ block('constants') }}
             {% endif %}
 
-            {% if properties %}
-                <h2>Properties</h2>
+            {% set has_methods = false %}
+            {% for method in methods if method.class is sameas(class) %}
+              {% set has_methods = true %}
+            {% endfor %}
 
-                {{ block('properties') }}
-            {% endif %}
-
-            {% if methods %}
+            {% if has_methods == true %}
                 <h2>Methods</h2>
 
                 {{ block('methods') }}
@@ -89,7 +88,6 @@
             {% if method.static %}static{% endif %}
             {% if method.protected %}protected{% endif %}
             {% if method.private %}private{% endif %}
-            {{ hint_link(method.hint) }}
             <strong>{{ method.name }}</strong>{{ block('method_parameters_signature') }}
         {%- endblock %}
 
@@ -101,11 +99,11 @@
         {% block parameters %}
             {% set subParams = '' %}
 
-            <table class="table table-condensed">
+            <table class="table table-condensed params-table">
                 {% for parameter in method.parameters %}
                     <tr>
-                        <td>{% if parameter.hint %}{{ hint_link(parameter.hint) }}{% endif %}</td>
-                        <td>${{ parameter.name }}</td>
+                        <td class="param-name" width="15%"><span class="name">${{ parameter.name }}</span></td>
+                        <td width="10%">{% if parameter.hint %}{{ hint_link(parameter.hint) }}{% endif %}</td>
                         <td>
                             {% if parameter.subParams|length > 0 %}
                                 {% set subParams = parameter.subParams %}
@@ -131,7 +129,9 @@
         {% block return %}
             <table class="table table-condensed">
                 <tr>
-                    <td>{{ hint_link(method.hint) }}</td>
+                    <td>
+                      {{ hint_link(method.hint) }}
+                    </td>
                     <td>{{ method.hintDesc|desc(class) }}</td>
                 </tr>
             </table>
@@ -197,23 +197,21 @@
 
         {% block methods %}
             <div class="container-fluid underlined">
-                {% for method in methods %}
+                {% for method in methods if method.class is sameas(class) %}
                     <div class="row">
                         <div class="col-md-2 type">
                             {% if method.static %}static&nbsp;{% endif %}{{ hint_link(method.hint) }}
                         </div>
-                        <div class="col-md-8 type">
-                            <a href="#method_{{ method.name }}">{{ method.name }}</a>{{ block('method_parameters_signature') }}
+                        <div class="col-md-10 type">
+                            <div class="method-header">
+                              <a href="#method_{{ method.name }}">{{ method.name }}</a>
+                              {{ block('method_parameters_signature') }}
+                            </div>
                             {% if not method.shortdesc %}
                                 <p class="no-description">No description</p>
                             {% else %}
                                 <p>{{ method.shortdesc|desc(class) }}</p>
                             {%- endif %}
-                        </div>
-                        <div class="col-md-2">
-                            {%- if method.class is not sameas(class) -%}
-                                <small>from&nbsp;{{ method_link(method, false, true) }}</small>
-                            {%- endif -%}
                         </div>
                     </div>
                 {% endfor %}
@@ -222,7 +220,7 @@
 
         {% block methods_details %}
             <div id="method-details">
-                {% for method in methods %}
+                {% for method in methods if method.class is sameas(class) %}
                     <div class="method-item">
                         {{ block('method') }}
                     </div>
@@ -232,7 +230,9 @@
 
         {% block method %}
             <h3 id="method_{{ method.name }}">
-                <div class="location">{% if method.class is not sameas(class) %}in {{ method_link(method, false, true) }} {% endif %}at line {{ method.line }}</div>
+                <div class="location">
+                  <a href="https://github.com/php-opencloud/openstack/blob/master/{{ method.file }}#L{{ method.line }}" target="_blank">View source</a>
+                </div>
                 <code>{{ block('method_signature') }}</code>
             </h3>
             <div class="details">
@@ -258,7 +258,7 @@
                     {% endif %}
 
                     {% if method.hintDesc or method.hint %}
-                        <h4>Return Value</h4>
+                        <h4>Returns</h4>
 
                         {{ block('return') }}
                     {% endif %}

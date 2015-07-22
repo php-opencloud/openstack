@@ -3,7 +3,7 @@ div.params div.row {
     clear: both;
     width: 100%;
     border-top: 1px solid #ddd;
-    padding: 10px 0 10px 10px;
+    padding: 10px 0;
     margin: 0;
 }
 div.params div.row:last-child {
@@ -19,7 +19,7 @@ div.params div.row > div.col-md-2, div.params div.row > div.col-md-8 {
 div.params div.row div.row {
     border: 0;
     margin: 10px 0;
-    padding-left: 10px;
+    /*padding-left: 10px;*/
 }
 div.params div.row div.row:last-child {
     margin-bottom: 0;
@@ -30,21 +30,38 @@ div.params .cleafix:after {
     clear:both;
 }
 div.params .param-name {
-    width: 25%;
+    width: 20%;
     float:left;
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    padding-right: 10px;
+    word-wrap: break-word;
 }
 div.params .param-type {
-    width: 5%;
+    width: 8%;
     float:left;
+}
+div.params .param-req {
+  float:left;
+  width:8%;
 }
 div.params .param-desc {
-    width: 70%;
+    width: 64%;
     float:left;
 }
-div.params span.name {
+.param-name span.name {
     color:green;
 }
-div.params span.parent {
+.param-name span.parent {
     color: grey;
+}
+.param-name span, .method-header {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+div.details {
+  padding-left: 10px !important;
+}
+table.params-table td {
+  padding: 10px 5px !important;
+}
+.method-header {
+  margin-bottom: 5px;
 }
