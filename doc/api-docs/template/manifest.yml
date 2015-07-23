@@ -3,6 +3,7 @@ parent: default
 
 static:
     'css/opencloud.css': "css/opencloud.css"
+    'img/link.png': "img/link.png"
 
 class:
     'class.twig': '%s.html'
