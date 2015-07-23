@@ -19,14 +19,11 @@ from pygments.lexers.web import PhpLexer
 
 sys.path.append(os.path.abspath('_exts'))
 
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-
 lexers['php'] = PhpLexer(startinline=True, linenos=1)
 lexers['php-annotations'] = PhpLexer(startinline=True, linenos=1)
 primary_domain = 'php'
 
-extensions = ['sphinxcontrib.phpdomain', 'extlinks']
-templates_path = ['_templates']
+extensions = ['sphinxcontrib.phpdomain', 'samples', 'refdoc']
 source_suffix = '.rst'
 master_doc = 'index'
 project = u'php-opencloud'
@@ -35,15 +32,9 @@ version = '1.12'
 release = '1.12.1'
 exclude_patterns = ['_build']
 pygments_style = 'sphinx'
-html_theme = 'default'
 
-if not on_rtd:
-    import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path(), "_templates"]
-
-html_static_path = ['_static']
-html_use_index = True
+html_theme = 'sphinx_rtd_theme'
+html_theme_path = ["_templates", ]
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'php-openclouddoc'
@@ -63,8 +54,3 @@ texinfo_documents = [
    u'Jamie Hannaford', 'php-opencloud', 'One line description of project.',
    'Miscellaneous'),
 ]
-
-extlinks = {
-    'sample': ('https://github.com/php-opencloud/openstack/blob/master/samples/%s', 'PHP code sample'),
-    'apiref': (os.path.abspath('api-docs/build') + '/%s', 'API reference docs')
-}
