@@ -9,12 +9,12 @@
 |Database v1|||||||
 |Identity v2|&#10003;|&#10003;|||||
 |Identity v2 exts|||||||
-|Identity v3|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;||
+|Identity v3|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
 |Identity v3 exts|||||||
 |Image v2|||||||
 |Networking v2|||||||
 |Networking v2 exts|||||||
-|Object Storage v1|||||||
+|Object Storage v1||&#10003;|||||
 |Orchestration v1|||||||
 |Telemetry v2|||||||
 
