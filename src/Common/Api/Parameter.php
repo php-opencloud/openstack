@@ -118,8 +118,12 @@ class Parameter
     {
         $this->hydrate($data);
 
+        if (!$this->type) {
+            $this->type = 'string';
+        }
+
         $this->location = $this->location ?: self::DEFAULT_LOCATION;
-        $this->required = (bool) $this->required;
+        $this->required = (bool)$this->required;
 
         if (isset($data['items'])) {
             $this->itemSchema = new Parameter($data['items']);
@@ -168,10 +172,12 @@ class Parameter
     {
         // Check inputted type
         if (!$this->hasCorrectType($userValues)) {
-            throw new \Exception(sprintf(
-                'The key provided "%s" has the wrong value type. You provided %s but was expecting %s',
-                $this->name, print_r($userValues, true), $this->type
-            ));
+            throw new \Exception(
+                sprintf(
+                    'The key provided "%s" has the wrong value type. You provided %s but was expecting %s',
+                    $this->name, print_r($userValues, true), $this->type
+                )
+            );
         }
 
         if ($this->isArray()) {
@@ -220,7 +226,7 @@ class Parameter
     {
         // Helper fn to see whether an array is associative (i.e. a JSON object)
         $isAssociative = function ($value) {
-            return is_array($value) && (bool) count(array_filter(array_keys($value), 'is_string'));
+            return is_array($value) && (bool)count(array_filter(array_keys($value), 'is_string'));
         };
 
         // For params defined as objects, we'll let the user get away with

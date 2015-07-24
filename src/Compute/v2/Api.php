@@ -153,7 +153,7 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'jsonKey' => 'server',
             'params'  => [
-                'imageId'            => $this->params->urlId('server'),
+                'imageId'            => $this->params->imageId(),
                 'flavorId'           => $this->params->flavorId(),
                 'personality'        => $this->params->personality(),
                 'metadata'           => $this->notRequired($this->params->metadata()),
@@ -197,7 +197,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}',
-            'params' => ['id' => $this->params->id('server')]
+            'params' => ['id' => $this->params->urlId('server')]
         ];
     }
 
@@ -208,7 +208,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}',
             'jsonKey' => 'server',
             'params'  => [
-                'id'   => $this->params->id('server'),
+                'id'   => $this->params->urlId('server'),
                 'ipv4' => $this->params->ipv4(),
                 'ipv6' => $this->params->ipv6(),
                 'name' => $this->params->name('server'),
@@ -221,7 +221,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'servers/{id}',
-            'params' => ['id' => $this->params->id('server')],
+            'params' => ['id' => $this->params->urlId('server')],
         ];
     }
 
@@ -232,7 +232,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/action',
             'jsonKey' => 'changePassword',
             'params'  => [
-                'id'       => $this->params->id('server'),
+                'id'       => $this->params->urlId('server'),
                 'password' => $this->params->password(),
             ],
         ];
@@ -245,7 +245,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/action',
             'jsonKey' => 'reboot',
             'params'  => [
-                'id'   => $this->params->id('server'),
+                'id'   => $this->params->urlId('server'),
                 'type' => $this->params->rebootType(),
             ],
         ];
@@ -258,7 +258,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/action',
             'jsonKey' => 'rebuild',
             'params'  => [
-                'id'          => $this->params->id('server'),
+                'id'          => $this->params->urlId('server'),
                 'ipv4'        => $this->params->ipv4(),
                 'ipv6'        => $this->params->ipv6(),
                 'imageId'     => $this->params->imageId(),
@@ -277,7 +277,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/action',
             'jsonKey' => 'resize',
             'params'  => [
-                'id'       => $this->params->id('server'),
+                'id'       => $this->params->urlId('server'),
                 'flavorId' => $this->params->flavorId(),
             ],
         ];
@@ -289,7 +289,7 @@ class Api extends AbstractApi
             'method' => 'POST',
             'path'   => 'servers/{id}/action',
             'params' => [
-                'id'            => $this->params->id('server'),
+                'id'            => $this->params->urlId('server'),
                 'confirmResize' => $this->params->nullAction(),
             ],
         ];
@@ -301,7 +301,7 @@ class Api extends AbstractApi
             'method' => 'POST',
             'path'   => 'servers/{id}/action',
             'params' => [
-                'id'           => $this->params->id('server'),
+                'id'           => $this->params->urlId('server'),
                 'revertResize' => $this->params->nullAction(),
             ],
         ];
@@ -314,7 +314,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/action',
             'jsonKey' => 'createImage',
             'params'  => [
-                'id'       => $this->params->id('server'),
+                'id'       => $this->params->urlId('server'),
                 'metadata' => $this->notRequired($this->params->metadata()),
                 'name'     => $this->isRequired($this->params->name('server')),
             ],
@@ -326,7 +326,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}/ips',
-            'params' => ['id' => $this->params->id('server')],
+            'params' => ['id' => $this->params->urlId('server')],
         ];
     }
 
@@ -336,7 +336,7 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'servers/{id}/ips/{networkLabel}',
             'params' => [
-                'id'           => $this->params->id('server'),
+                'id'           => $this->params->urlId('server'),
                 'networkLabel' => $this->params->networkLabel(),
             ],
         ];
@@ -347,7 +347,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}/metadata',
-            'params' => ['id' => $this->params->id('server')]
+            'params' => ['id' => $this->params->urlId('server')]
         ];
     }
 
@@ -357,7 +357,7 @@ class Api extends AbstractApi
             'method' => 'PUT',
             'path'   => 'servers/{id}/metadata',
             'params' => [
-                'id'       => $this->params->id('server'),
+                'id'       => $this->params->urlId('server'),
                 'metadata' => $this->params->metadata()
             ]
         ];
@@ -369,7 +369,7 @@ class Api extends AbstractApi
             'method' => 'POST',
             'path'   => 'servers/{id}/metadata',
             'params' => [
-                'id'       => $this->params->id('server'),
+                'id'       => $this->params->urlId('server'),
                 'metadata' => $this->params->metadata()
             ]
         ];
@@ -381,7 +381,7 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'servers/{id}/metadata/{key}',
             'params' => [
-                'id'  => $this->params->id('server'),
+                'id'  => $this->params->urlId('server'),
                 'key' => $this->params->key(),
             ]
         ];
@@ -393,7 +393,7 @@ class Api extends AbstractApi
             'method' => 'DELETE',
             'path'   => 'servers/{id}/metadata/{key}',
             'params' => [
-                'id'  => $this->params->id('server'),
+                'id'  => $this->params->urlId('server'),
                 'key' => $this->params->key(),
             ]
         ];

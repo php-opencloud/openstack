@@ -13,7 +13,7 @@ abstract class AbstractParams
 
     // types
     const STRING_TYPE = "string";
-    const BOOL_TYPE = "bool";
+    const BOOL_TYPE = "boolean";
     const OBJECT_TYPE = "object";
     const ARRAY_TYPE = "array";
     const NULL_TYPE = "NULL";

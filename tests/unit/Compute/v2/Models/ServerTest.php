@@ -26,14 +26,14 @@ class ServerTest extends TestCase
     public function test_it_creates()
     {
         $opts = [
-            'name' => 'foo',
-            'imageId' => 'bar',
+            'name'     => 'foo',
+            'imageId'  => 'bar',
             'flavorId' => 'baz',
         ];
 
         $expectedJson = ['server' => [
-            'name' => $opts['name'],
-            'imageRef' => $opts['imageId'],
+            'name'      => $opts['name'],
+            'imageRef'  => $opts['imageId'],
             'flavorRef' => $opts['flavorId'],
         ]];
 
@@ -51,7 +51,7 @@ class ServerTest extends TestCase
         $this->server->ipv6 = '0:0:0:0:0:ffff:0:0';
 
         $expectedJson = ['server' => [
-            'name' => 'foo',
+            'name'       => 'foo',
             'accessIPv4' => '0.0.0.0',
             'accessIPv6' => '0:0:0:0:0:ffff:0:0',
         ]];
@@ -109,9 +109,9 @@ class ServerTest extends TestCase
     public function test_it_rebuilds()
     {
         $userOptions = [
-            'imageId' => 'newImage',
-            'name'    => 'newName',
-            'metadata' => [
+            'imageId'     => 'newImage',
+            'name'        => 'newName',
+            'metadata'    => [
                 'foo' => 'bar',
                 'baz' => 'bar',
             ],
@@ -120,14 +120,16 @@ class ServerTest extends TestCase
                     'path'     => '/etc/banner.txt',
                     'contents' => base64_encode('Hi there!'),
                 ]
-            ]
+            ],
+            'adminPass'   => 'foo',
         ];
 
         $expectedJson = ['rebuild' => [
-            'imageRef' => $userOptions['imageId'],
-            'name'     => $userOptions['name'],
-            'metadata' => $userOptions['metadata'],
+            'imageRef'    => $userOptions['imageId'],
+            'name'        => $userOptions['name'],
+            'metadata'    => $userOptions['metadata'],
             'personality' => $userOptions['personality'],
+            'adminPass'   => $userOptions['adminPass']
         ]];
 
         $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
