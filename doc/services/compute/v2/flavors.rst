@@ -4,18 +4,8 @@ Flavors
 List flavors
 ------------
 
-- :apiref:`OpenStack/Compute/v2/Service.html#method_listFlavors`
-- :sample:`compute/v2/list_flavors.php`
-
-To list a collection of flavors, you run:
-
-.. code-block:: php
-
-    $flavors = $service->listFlavors();
-
-    foreach ($flavors as $flavor) {
-
-    }
+.. sample:: compute/v2/list_flavors.php
+.. refdoc:: OpenStack/Compute/v2/Service.html#method_listFlavors
 
 Each iteration will return a :apiref:`Flavor instance <OpenStack/Compute/v2/Models/Flavor.html>`.
 
@@ -34,8 +24,8 @@ for a flavor, you must enable detailed information, like so:
 Retrieve a flavor
 -----------------
 
-- :apiref:`OpenStack/Compute/v2/Service.html#method_getFlavor`
-- :sample:`compute/v2/get_flavor.php`
+.. sample:: compute/v2/get_flavor.php
+.. refdoc:: OpenStack/Compute/v2/Service.html#method_getFlavor
 
 When retrieving a flavor, sometimes you only want to operate on it. If this is the case,
 then there is no need to perform an initial ``GET`` request to the server:

@@ -7,7 +7,7 @@ $iterator = Finder::create()
     ->files()
     ->name('*.php')
     ->notName('Api.php')
-    ->notName('Desc.php')
+    ->notName('Params.php')
     ->in($dir = dirname(dirname(__DIR__)) . '/src')
 ;
 
