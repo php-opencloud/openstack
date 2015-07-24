@@ -4,6 +4,8 @@ namespace OpenStack\Common\Api;
 
 abstract class AbstractApi implements ApiInterface
 {
+    protected $params;
+
     protected function isRequired(array $param)
     {
         return array_merge($param, ['required' => true]);
@@ -12,5 +14,10 @@ abstract class AbstractApi implements ApiInterface
     protected function notRequired(array $param)
     {
         return array_merge($param, ['required' => false]);
+    }
+
+    protected function query(array $param)
+    {
+        return array_merge($param, ['location' => AbstractParams::QUERY]);
     }
 } 
