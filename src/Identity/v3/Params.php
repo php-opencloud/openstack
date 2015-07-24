@@ -215,13 +215,6 @@ EOT
         ];
     }
 
-    public function id($type)
-    {
-        return [
-            'description' => sprintf("The unique ID, or identifier, for the %s", $type)
-        ];
-    }
-
     public function idUrl($type)
     {
         return [
@@ -256,13 +249,6 @@ EOT
 The unique ID of the project which serves as the parent for this project. For more information about hierarchical
 multitenancy in Keystone v3, see: http://specs.openstack.org/openstack/keystone-specs/specs/juno/hierarchical_multitenancy.html
 EOT
-        ];
-    }
-
-    public function name($resource)
-    {
-        return [
-            'description' => sprintf("The name of the %s", $resource)
         ];
     }
 
