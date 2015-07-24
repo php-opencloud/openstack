@@ -2,5 +2,7 @@
 coverage/
 vendor/
 
+*.pyc
+
 phpunit.xml
 coverage.xml
