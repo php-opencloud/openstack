@@ -205,7 +205,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function headObjectMetadata()
+    public function headObject()
     {
         return [
             'method' => 'HEAD',
@@ -217,7 +217,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postObjectMetadata()
+    public function postObject()
     {
         return [
             'method' => 'POST',
