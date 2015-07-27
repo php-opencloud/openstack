@@ -9,7 +9,7 @@ use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Retrievable;
 
 /**
- * Represents a Network v2 Network.
+ * Represents a Networking v2 Network.
  *
  * @property \OpenStack\Networking\v2\Api $api
  */
@@ -39,20 +39,18 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
     }
 
     /**
-     * {@inheritDoc}
+     * Creates multiple networks in a single request.
      *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postNetworks}
+     * @return Network[]
      */
     public function bulkCreate(array $data)
     {
-        $response = $this->execute($this->api->postNetworks(), [
-            'networks' => $data,
-        ]);
-        $body = $response->json();
-        $json = $body['networks'];
+        $response = $this->execute($this->api->postNetworks(), ['networks' => $data]);
+        $networksData = $response->json()['networks'];
 
         $networks = [];
-        foreach($json as $resourceData) {
+        foreach($networksData as $resourceData) {
             $resource = $this->newInstance();
             $resource->populateFromArray($resourceData);
             $networks[] = $resource;
@@ -86,6 +84,6 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
      */
     public function delete()
     {
-        $this->execute($this->api->deleteNetwork(), $this->getAttrs(['id']));
+        $this->executeWithState($this->api->deleteNetwork());
     }
 }
