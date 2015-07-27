@@ -2,6 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
+use GuzzleHttp\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;

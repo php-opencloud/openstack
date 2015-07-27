@@ -9,10 +9,8 @@ use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
-use GuzzleHttp\Url;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 
 abstract class TestCase extends ProphecyTestCase
 {
@@ -88,7 +86,7 @@ abstract class TestCase extends ProphecyTestCase
 
     protected function createFn($receiver, $method, $args)
     {
-        return function() use ($receiver, $method, $args) {
+        return function () use ($receiver, $method, $args) {
             return $receiver->$method($args);
         };
     }

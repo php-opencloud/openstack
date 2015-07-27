@@ -6,11 +6,9 @@ use OpenStack\Common\Api\AbstractApi;
 
 class Api extends AbstractApi
 {
-    private $params;
-
     public function __construct()
     {
-        $this->params->params = new Params();
+        $this->params = new Params();
     }
 
     public function getAccount()

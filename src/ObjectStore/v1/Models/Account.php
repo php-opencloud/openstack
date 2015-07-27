@@ -32,17 +32,15 @@ class Account extends AbstractResource implements Retrievable
     {
         parent::populateFromResponse($response);
 
-        $headers = $response->getHeaders();
+        $this->containerCount = $response->getHeader('X-Account-Container-Count');
+        $this->objectCount = $response->getHeader('X-Account-Object-Count');
+        $this->bytesUsed = $response->getHeader('X-Account-Bytes-Used');
+        $this->tempUrl = $response->getHeader('X-Account-Meta-Temp-URL-Key');
 
-        $this->containerCount = $headers['X-Account-Container-Count'];
-        $this->objectCount = $headers['X-Account-Object-Count'];
-        $this->bytesUsed = $headers['X-Account-Bytes-Used'];
-        $this->bytesUsed = $headers['X-Account-Meta-Temp-URL-Key'];
-
-        foreach ($headers as $header => $value) {
-            $position = strpos($headers, self::METADATA_PREFIX);
+        foreach ($response->getHeaders() as $header => $value) {
+            $position = strpos($header, self::METADATA_PREFIX);
             if ($position === 0) {
-                $this->metadata[substr($header, $position)] = $value;
+                $this->metadata[ltrim($header, self::METADATA_PREFIX)] = $response->getHeader($header);
             }
         }
     }

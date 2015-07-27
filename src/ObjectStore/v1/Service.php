@@ -26,7 +26,8 @@ class Service extends AbstractService
         return $this->model('Container');
     }
 
-    public function createContainer()
+    public function createContainer(array $data)
     {
+        return $this->getContainer()->create($data);
     }
 }
