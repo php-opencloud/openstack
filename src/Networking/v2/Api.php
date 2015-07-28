@@ -12,40 +12,19 @@ use OpenStack\Common\Api\ApiInterface;
  */
 class Api implements ApiInterface
 {
+    public function __construct()
+    {
+        $this->params = new Params();
+    }
+
     private $pathPrefix = 'v2.0';
-
-    private $idParam = [
-        'type' => 'string',
-        'required' => true,
-        'location' => 'url',
-        'description' => 'The unique ID of the remote resource.',
-    ];
-
-    private $nameParam = [
-        'type' => 'string',
-        'location' => 'json',
-        'description' => 'The name of the resource',
-    ];
-
-    private $adminStateUp = [
-        'type' => 'boolean',
-        'location' => 'json',
-        'sentAs' => 'admin_state_up',
-        'description' => 'The administrative state of the network',
-    ];
-
-    private $sharedParam = [
-        'type' => 'boolean',
-        'location' => 'json',
-        'description' => 'Indicates whether this network is shared across all tenants',
-    ];
 
     public function getNetwork()
     {
         return [
             'method' => 'GET',
             'path'   => $this->pathPrefix . '/networks/{id}',
-            'params' => ['id' => $this->idParam],
+            'params' => ['id' => $this->params->urlId('network')],
         ];
     }
 
@@ -56,9 +35,9 @@ class Api implements ApiInterface
             'method' => 'POST',
             'jsonKey' => 'network',
             'params' => [
-                'name' => $this->nameParam,
-                'shared' => $this->sharedParam,
-                'adminStateUp' => $this->adminStateUp,
+                'name' => $this->params->name('network'),
+                'shared' => $this->params->shared(),
+                'adminStateUp' => $this->params->adminStateUp(),
             ]
         ];
     }
@@ -76,9 +55,9 @@ class Api implements ApiInterface
                     'items' => [
                         'type'       => 'object',
                         'properties' => [
-                            'name' => $this->nameParam,
-                            'shared' => $this->sharedParam,
-                            'adminStateUp' => $this->adminStateUp,
+                            'name' => $this->params->name('network'),
+                            'shared' => $this->params->shared(),
+                            'adminStateUp' => $this->params->adminStateUp(),
                         ]
                     ],
                 ]
@@ -93,10 +72,10 @@ class Api implements ApiInterface
             'path'   => $this->pathPrefix . '/networks/{id}',
             'jsonKey' => 'network',
             'params' => [
-              'id' => $this->idParam,
-              'name' => $this->nameParam,
-              'shared' => $this->sharedParam,
-              'adminStateUp' => $this->adminStateUp,
+              'id' => $this->params->urlId('network'),
+              'name' => $this->params->name('network'),
+              'shared' => $this->params->shared(),
+              'adminStateUp' => $this->params->adminStateUp(),
             ],
         ];
     }
@@ -106,7 +85,7 @@ class Api implements ApiInterface
         return [
             'method' => 'DELETE',
             'path'   => $this->pathPrefix . '/networks/{id}',
-            'params' => ['id' => $this->idParam]
+            'params' => ['id' => $this->params->urlId('network')]
         ];
     }
 }
