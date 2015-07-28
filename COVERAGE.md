@@ -14,7 +14,7 @@
 |Image v2|||||||
 |Networking v2|||||||
 |Networking v2 exts|||||||
-|Object Storage v1||&#10003;|||||
+|Object Storage v1|&#10003;|&#10003;|&#10003;||||
 |Orchestration v1|||||||
 |Telemetry v2|||||||
 
