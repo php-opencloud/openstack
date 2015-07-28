@@ -1,0 +1,27 @@
+<?php
+
+require 'vendor/autoload.php';
+
+$openstack = new OpenStack\OpenStack([
+    'authUrl' => '{authUrl}',
+    'region'  => '{region}',
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}'
+    ],
+    'scope'   => ['project' => ['id' => '{projectId}']]
+]);
+
+$options = [
+    'name'     => '{objectName}',
+    'content'  => '{objectContent}',
+    'metadata' => [
+        '{key_1}' => '{val_1}',
+        '{key_2}' => '{val_2}',
+    ]
+];
+
+/** @var \OpenStack\ObjectStore\v1\Models\Object $object */
+$object = $openstack->objectStoreV1()
+                    ->getContainer('{containerName}')
+                    ->createObject($options);
