@@ -17,8 +17,9 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => '',
             'params' => [
-                'limit'     => $this->params->limit,
-                'marker'    => $this->params->marker,
+                'format'    => $this->params->format,
+                'limit'     => $this->params->limit(),
+                'marker'    => $this->params->marker(),
                 'endMarker' => $this->params->endMarker,
                 'prefix'    => $this->params->prefix,
                 'delimiter' => $this->params->delimiter,
@@ -33,9 +34,10 @@ class Api extends AbstractApi
             'method' => 'POST',
             'path'   => '',
             'params' => [
-                'tempUrlKey'  => $this->params->tempUrlKey,
-                'tempUrlKey2' => $this->params->tempUrlKey2,
-                'metadata'    => $this->params->metadataParam('account'),
+                'tempUrlKey'     => $this->params->tempUrlKey('account'),
+                'tempUrlKey2'    => $this->params->tempUrlKey2('account'),
+                'metadata'       => $this->params->metadata('account'),
+                'removeMetadata' => $this->params->metadata('account', true),
             ],
         ];
     }
@@ -56,8 +58,9 @@ class Api extends AbstractApi
             'path'   => '{name}',
             'params' => [
                 'name'      => $this->params->containerName,
-                'limit'     => $this->params->limit,
-                'marker'    => $this->params->marker,
+                'format'    => $this->params->format,
+                'limit'     => $this->params->limit(),
+                'marker'    => $this->params->marker(),
                 'endMarker' => $this->params->endMarker,
                 'prefix'    => $this->params->prefix,
                 'path'      => $this->params->path,
@@ -74,11 +77,11 @@ class Api extends AbstractApi
             'path'   => '{name}',
             'params' => [
                 'name'              => $this->params->containerName,
-                'readAccess'        => $this->params->readAccessParam('container'),
-                'writeAccess'       => $this->params->writeAccessParam('container'),
-                'metadata'          => $this->params->metadataParam('container'),
-                'syncTo'            => $this->params->syncToParam('container'),
-                'syncKey'           => $this->params->syncKeyParam('container'),
+                'readAccess'        => $this->params->readAccess('container'),
+                'writeAccess'       => $this->params->writeAccess('container'),
+                'metadata'          => $this->params->metadata('container'),
+                'syncTo'            => $this->params->syncTo(),
+                'syncKey'           => $this->params->syncKey(),
                 'versionsLocation'  => $this->params->versionsLocation,
                 'bytesQuota'        => $this->params->bytesQuota,
                 'countQuota'        => $this->params->countQuota,
@@ -106,13 +109,12 @@ class Api extends AbstractApi
             'path'   => '{name}',
             'params' => [
                 'name'                   => $this->params->containerName,
-                'readAccess'             => $this->params->readAccessParam('container'),
-                'readAccess'             => $this->params->readAccessParam('container'),
-                'writeAccess'            => $this->params->writeAccessParam('container'),
-                'metadata'               => $this->params->metadataParam('container'),
-                'removeMetadata'         => $this->params->metadataParam('container', true),
-                'syncTo'                 => $this->params->syncToParam('container'),
-                'syncKey'                => $this->params->syncKeyParam('container'),
+                'readAccess'             => $this->params->readAccess('container'),
+                'writeAccess'            => $this->params->writeAccess('container'),
+                'metadata'               => $this->params->metadata('container'),
+                'removeMetadata'         => $this->params->metadata('container', true),
+                'syncTo'                 => $this->params->syncTo(),
+                'syncKey'                => $this->params->syncKey(),
                 'versionsLocation'       => $this->params->versionsLocation,
                 'removeVersionsLocation' => $this->params->removeVersionsLocation,
                 'bytesQuota'             => $this->params->bytesQuota,
@@ -128,9 +130,7 @@ class Api extends AbstractApi
         return [
             'method' => 'HEAD',
             'path'   => '{name}',
-            'params' => [
-                'name' => $this->params->containerName,
-            ],
+            'params' => ['name' => $this->params->containerName],
         ];
     }
 
@@ -138,9 +138,9 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => '{container}/{name}',
+            'path'   => '{containerName}/{name}',
             'params' => [
-                'container'         => $this->params->containerName,
+                'containerName'     => $this->params->containerName,
                 'name'              => $this->params->objectName,
                 'range'             => $this->params->range,
                 'ifMatch'           => $this->params->ifMatch,
@@ -155,10 +155,11 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'PUT',
-            'path'   => '{container}/{name}',
+            'path'   => '{containerName}/{name}',
             'params' => [
-                'container'          => $this->params->containerName,
+                'containerName'      => $this->params->containerName,
                 'name'               => $this->params->objectName,
+                'content'            => $this->params->content,
                 'contentType'        => $this->params->contentType,
                 'detectContentType'  => $this->params->detectContentType,
                 'copyFrom'           => $this->params->copyFrom,
@@ -167,8 +168,8 @@ class Api extends AbstractApi
                 'contentEncoding'    => $this->params->contentEncoding,
                 'deleteAt'           => $this->params->deleteAt,
                 'deleteAfter'        => $this->params->deleteAfter,
-                'metadata'           => $this->params->metadataParam('object'),
-                'ifNoneMatch'        => $this->params->ifNoneMatchParam,
+                'metadata'           => $this->params->metadata('object'),
+                'ifNoneMatch'        => $this->params->ifNoneMatch,
             ],
         ];
     }
@@ -177,15 +178,15 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'COPY',
-            'path'   => '{container}/{name}',
+            'path'   => '{containerName}/{name}',
             'params' => [
-                'container'          => $this->params->containerName,
+                'containerName'      => $this->params->containerName,
                 'name'               => $this->params->objectName,
                 'destination'        => $this->params->destination,
                 'contentType'        => $this->params->contentType,
                 'contentDisposition' => $this->params->contentDisposition,
                 'contentEncoding'    => $this->params->contentEncoding,
-                'metadata'           => $this->params->metadataParam('object'),
+                'metadata'           => $this->params->metadata('object'),
                 'freshMetadata'      => $this->params->freshMetadata,
             ],
         ];
@@ -195,10 +196,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => '{container}/{name}',
+            'path'   => '{containerName}/{name}',
             'params' => [
-                'container' => $this->params->containerName,
-                'name'      => $this->params->objectName,
+                'containerName' => $this->params->containerName,
+                'name'          => $this->params->objectName,
             ],
         ];
     }
@@ -207,10 +208,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'HEAD',
-            'path'   => '{container}/{name}',
+            'path'   => '{containerName}/{name}',
             'params' => [
-                'container' => $this->params->containerName,
-                'name'      => $this->params->objectName,
+                'containerName' => $this->params->containerName,
+                'name'          => $this->params->objectName,
             ],
         ];
     }
@@ -219,11 +220,12 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'POST',
-            'path'   => '{container}/{name}',
+            'path'   => '{containerName}/{name}',
             'params' => [
-                'container'          => $this->params->containerName,
+                'containerName'      => $this->params->containerName,
                 'name'               => $this->params->objectName,
-                'metadata'           => $this->params->metadataParam('object'),
+                'metadata'           => $this->params->metadata('object'),
+                'removeMetadata'     => $this->params->metadata('object', true),
                 'deleteAt'           => $this->params->deleteAt,
                 'deleteAfter'        => $this->params->deleteAfter,
                 'contentDisposition' => $this->params->contentDisposition,

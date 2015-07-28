@@ -22,7 +22,7 @@ abstract class AbstractParams
     public function limit()
     {
         return [
-            'type'        => 'integer',
+            'type'        => self::INT_TYPE,
             'location'    => 'query',
             'description' => <<<DESC
 This will limit the total amount of elements returned in a list up to the number specified. For example, specifying a

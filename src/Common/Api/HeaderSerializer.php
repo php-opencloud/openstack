@@ -19,9 +19,10 @@ class HeaderSerializer
      */
     private function stockHeader(Parameter $param, $name, $value)
     {
-        if ($name == 'metadata') {
+        if ($name == 'metadata' || $name == 'removeMetadata') {
             foreach ($value as $key => $keyVal) {
-                $this->stockHeader($param->getItemSchema(), $key, $keyVal);
+                $schema = $param->getItemSchema() ?: new Parameter(['prefix' => $param->getPrefix()]);
+                $this->stockHeader($schema, $key, $keyVal);
             }
         }
 
@@ -34,7 +35,7 @@ class HeaderSerializer
     }
 
     /**
-     * @param array       $userValues The user-defined values being populated
+     * @param array $userValues The user-defined values being populated
      * @param []Parameter $params     The parameter schemas which defines how headers are populated
      *
      * @return array

@@ -3,14 +3,17 @@
 namespace OpenStack\ObjectStore\v1\Models;
 
 use OpenStack\Common\Resource\AbstractResource;
+use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\Retrievable;
 use GuzzleHttp\Message\ResponseInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
  */
-class Account extends AbstractResource implements Retrievable
+class Account extends AbstractResource implements Retrievable, HasMetadata
 {
+    use MetadataTrait;
+
     const METADATA_PREFIX = 'X-Account-Meta-';
 
     /** @var int */
@@ -36,13 +39,7 @@ class Account extends AbstractResource implements Retrievable
         $this->objectCount = $response->getHeader('X-Account-Object-Count');
         $this->bytesUsed = $response->getHeader('X-Account-Bytes-Used');
         $this->tempUrl = $response->getHeader('X-Account-Meta-Temp-URL-Key');
-
-        foreach ($response->getHeaders() as $header => $value) {
-            $position = strpos($header, self::METADATA_PREFIX);
-            if ($position === 0) {
-                $this->metadata[ltrim($header, self::METADATA_PREFIX)] = $response->getHeader($header);
-            }
-        }
+        $this->metadata = $this->parseMetadata($response);
     }
 
     public function retrieve()
@@ -53,8 +50,7 @@ class Account extends AbstractResource implements Retrievable
 
     public function mergeMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
-        return $response->json()['metadata'];
+        $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
     }
 
     public function resetMetadata(array $metadata)
@@ -64,17 +60,18 @@ class Account extends AbstractResource implements Retrievable
             'metadata'       => $metadata,
         ];
 
-        foreach ($this->getMetadata() as $metadataItem => $val) {
-            $options['removeMetadata'][$metadataItem] = true;
+        foreach ($this->getMetadata() as $key => $val) {
+            if (!array_key_exists($key, $metadata)) {
+                $options['removeMetadata'][$key] = 'True';
+            }
         }
 
-        $response = $this->execute($this->api->postAccount(), $options);
-        return $response->json()['metadata'];
+        $this->execute($this->api->postAccount(), $options);
     }
 
     public function getMetadata()
     {
         $response = $this->execute($this->api->headAccount());
-        return $response->json()['metadata'];
+        return $this->parseMetadata($response);
     }
 }

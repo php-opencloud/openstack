@@ -27,7 +27,7 @@ class AbstractResourceTest extends TestCase
 
     public function test_it_populates_from_response()
     {
-        $response = new Response(200, [], Stream::factory(
+        $response = new Response(200, ['Content-Type' => 'application/json'], Stream::factory(
             json_encode(['foo' => ['bar' => '1']])
         ));
 
@@ -57,11 +57,11 @@ class AbstractResourceTest extends TestCase
 
         $operation->setValue('marker', Argument::any())->shouldBeCalled();
 
-        $operation->setValue('marker', '5')->will(function() use ($response2) {
+        $operation->setValue('marker', '5')->will(function () use ($response2) {
             $this->send()->willReturn($response2);
         });
 
-        $operation->setValue('marker', '10')->will(function() use ($response3) {
+        $operation->setValue('marker', '10')->will(function () use ($response3) {
             $this->send()->willReturn($response3);
         });
 
@@ -106,7 +106,8 @@ class AbstractResourceTest extends TestCase
             $count++;
         };
 
-        foreach ($this->resource->enumerate($operation->reveal(), $fn) as $item) {}
+        foreach ($this->resource->enumerate($operation->reveal(), $fn) as $item) {
+        }
 
         $this->assertEquals(10, $count);
     }

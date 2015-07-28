@@ -39,4 +39,37 @@ class AccountTest extends TestCase
 
         $this->assertNotEmpty($this->account->metadata);
     }
+
+    public function test_Get_Metadata()
+    {
+        $this->setupMockResponse($this->setupMockRequest('HEAD', ''), 'HEAD_Account');
+        $this->assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->getMetadata());
+    }
+
+    public function test_Merge_Metadata()
+    {
+        $headers = ['X-Account-Meta-Subject' => 'AmericanLiterature'];
+
+        $this->setupMockResponse($this->setupMockRequest('POST', '', [], $headers), 'NoContent');
+
+        $this->account->mergeMetadata(['Subject' => 'AmericanLiterature']);
+    }
+
+    public function test_Reset_Metadata()
+    {
+        $this->setupMockResponse($this->setupMockRequest('HEAD', ''), 'HEAD_Account');
+
+        $headers = [
+            'X-Account-Meta-Book'         => 'Middlesex',
+            'X-Account-Meta-Author'       => 'Jeffrey Eugenides',
+            'X-Remove-Account-Meta-Genre' => 'True',
+        ];
+
+        $this->setupMockResponse($this->setupMockRequest('POST', '', [], $headers), 'NoContent');
+
+        $this->account->resetMetadata([
+            'Book'   => 'Middlesex',
+            'Author' => 'Jeffrey Eugenides',
+        ]);
+    }
 }

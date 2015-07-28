@@ -103,6 +103,29 @@ EOT
         ];
     }
 
+    public function syncTo()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Container-Sync-To',
+            'description' => <<<TYPEOTHER
+Sets the destination for container synchronization. Used with the secret key indicated in the X-Container-Sync-Key
+header. If you want to stop a container from synchronizing, send a blank value for the X-Container-Sync-Key header.
+TYPEOTHER
+        ];
+    }
+
+    public function syncKey()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Container-Sync-Key',
+            'description' => <<<TYPEOTHER
+Sets the secret key for container synchronization. If you remove the secret key, synchronization is halted.
+TYPEOTHER
+        ];
+    }
+
     public function writeAccess($type)
     {
         return [
@@ -120,6 +143,7 @@ EOT
 
         return [
             'location'    => self::HEADER,
+            'type'        => self::OBJECT_TYPE,
             'prefix'      => sprintf("X-%s-Meta-", ucfirst($type)),
             'description' => <<<EOT
 Human-readable key/value pairs that help describe and determine what type of resource it is. You can specify whichever
@@ -335,6 +359,7 @@ TYPEOTHER
 
     public $destination = [
         'location'    => self::HEADER,
+        'sentAs'      => 'Destination',
         'description' => <<<TYPEOTHER
 The container and object name of the destination object in the form of /container/object. You must UTF-8-encode and
 then URL-encode the names of the destination container and object before you include them in this header.
@@ -348,5 +373,17 @@ TYPEOTHER
 Enables object creation that omits existing user metadata. If set to True, the COPY request creates an object without
 existing user metadata. Default value is False.
 TYPEOTHER
+    ];
+
+    public $content = [
+        'location'    => self::RAW,
+        'type'        => self::STRING_TYPE,
+        'description' => 'The content of the object in string form',
+    ];
+
+    public $format = [
+        'location'    => selF::QUERY,
+        'type'        => self::STRING_TYPE,
+        'description' => 'Defines the format of the collection. Will always default to `json`.'
     ];
 }

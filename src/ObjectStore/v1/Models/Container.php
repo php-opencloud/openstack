@@ -6,21 +6,24 @@ use GuzzleHttp\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Retrievable;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
  */
-class Container extends AbstractResource implements Creatable, Deletable, Retrievable, Listable
+class Container extends AbstractResource implements Creatable, Deletable, Retrievable, Listable, HasMetadata
 {
+    use MetadataTrait;
+
     const METADATA_PREFIX = 'X-Container-Meta-';
 
     /** @var int */
-    public $count;
+    public $objectCount;
 
     /** @var int */
-    public $bytes;
+    public $bytesUsed;
 
     /** @var string */
     public $name;
@@ -28,21 +31,22 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     /** @var metadata */
     public $metadata;
 
+    protected $markerKey = 'name';
+
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
 
-        $headers = $response->getHeaders();
+        $this->objectCount = $response->getHeader('X-Container-Object-Count');
+        $this->bytesUsed = $response->getHeader('X-Container-Bytes-Used');
+        $this->metadata = $this->parseMetadata($response);
+    }
 
-        $this->count = $headers['X-Container-Object-Count'];
-        $this->bytes = $headers['X-Container-Bytes-Used'];
-
-        foreach ($headers as $header => $value) {
-            $position = strpos($headers, self::METADATA_PREFIX);
-            if ($position === 0) {
-                $this->metadata[substr($header, $position)] = $value;
-            }
-        }
+    public function listObjects(array $options = [], callable $mapFn = null)
+    {
+        $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
+        $operation = $this->getOperation($this->api->getContainer(), $options);
+        return $this->model('Object')->enumerate($operation, $mapFn);
     }
 
     public function retrieve()
@@ -53,7 +57,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
 
     public function create(array $data)
     {
-        $response = $this->execute($this->api->postContainer(), $data);
+        $response = $this->execute($this->api->putContainer(), $data);
         $this->populateFromResponse($response);
     }
 
@@ -64,19 +68,22 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
 
     public function mergeMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->postContainer(), ['metadata' => $metadata]);
+        $response = $this->execute($this->api->postContainer(), ['name' => $this->name, 'metadata' => $metadata]);
         return $response->json()['metadata'];
     }
 
     public function resetMetadata(array $metadata)
     {
         $options = [
+            'name'           => $this->name,
             'removeMetadata' => [],
             'metadata'       => $metadata,
         ];
 
-        foreach ($this->getMetadata() as $metadataItem => $val) {
-            $options['removeMetadata'][$metadataItem] = true;
+        foreach ($this->getMetadata() as $key => $val) {
+            if (!array_key_exists($key, $metadata)) {
+                $options['removeMetadata'][$key] = 'True';
+            }
         }
 
         $response = $this->execute($this->api->postContainer(), $options);
@@ -85,8 +92,8 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
 
     public function getMetadata()
     {
-        $response = $this->execute($this->api->headContainer());
-        return $response->json()['metadata'];
+        $response = $this->executeWithState($this->api->headContainer());
+        return $this->parseMetadata($response);
     }
 
     public function getObject($name)
@@ -96,6 +103,6 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
 
     public function createObject(array $data)
     {
-        return $this->model('Object')->create($data);
+        return $this->model('Object')->create($data + ['containerName' => $this->name]);
     }
 }

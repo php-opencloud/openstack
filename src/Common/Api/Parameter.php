@@ -130,7 +130,7 @@ class Parameter
         }
 
         if (isset($data['properties'])) {
-            if ($this->name == 'metadata') {
+            if ($this->name == 'metadata' || $this->name == 'removeMetadata') {
                 $this->properties = new Parameter($data['properties']);
             } else {
                 foreach ($data['properties'] as $name => $property) {

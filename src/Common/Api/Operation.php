@@ -47,7 +47,7 @@ class Operation
     public function __construct(ClientInterface $client, array $definition, array $userValues = [])
     {
         $this->method = $definition['method'];
-        $this->path   = $definition['path'];
+        $this->path = $definition['path'];
 
         if (isset($definition['jsonKey'])) {
             $this->jsonKey = $definition['jsonKey'];
@@ -153,6 +153,18 @@ class Operation
         return $serializer->serialize($this->userValues, $this->params, $url);
     }
 
+    private function serializeBody()
+    {
+        foreach ($this->userValues as $paramName => $val) {
+            $schema = $this->params[$paramName];
+            if ($schema->hasLocation('raw')) {
+                return $val;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * This method will take all of the user-provided values and populate them into a
      * {@see \GuzzleHttp\Message\RequestInterface} object according to each parameter schema.
@@ -172,6 +184,10 @@ class Operation
 
         if (!empty($json = $this->serializeJson())) {
             $options['json'] = $json;
+        }
+
+        if (!empty($body = $this->serializeBody())) {
+            $options['body'] = $body;
         }
 
         if (!empty($headers = $this->serializeHeaders())) {
