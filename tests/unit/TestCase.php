@@ -50,14 +50,19 @@ abstract class TestCase extends ProphecyTestCase
         return (new MessageFactory())->fromMessage($contents);
     }
 
-    protected function setupMockRequest($method, $path, array $json = [], array $headers = [])
+    protected function setupMockRequest($method, $path, $body = null, array $headers = [])
     {
-        $request = new Request($method, $path, $headers, Stream::factory(json_encode($json)));
+        $stream = null;
+        if ($body) {
+            $stream = Stream::factory(is_array($body) ? json_encode($body) : $body);
+        }
+
+        $request = new Request($method, $path, $headers, $stream);
 
         $options = ['exceptions' => false];
 
-        if (!empty($json)) {
-            $options['json'] = $json;
+        if (!empty($body)) {
+            $options[is_array($body) ? 'json' : 'body'] = $body;
         }
         if (!empty($headers)) {
             $options['headers'] = $headers;
