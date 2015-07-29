@@ -12,8 +12,7 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$service = $openstack->objectStoreV1();
-
-foreach ($service->listContainers() as $container) {
-    /** @var \OpenStack\ObjectStore\v1\Models\Container $container */
-}
+/** @var bool $exists */
+$exists = $openstack->objectStoreV1()
+                    ->getContainer('{containerName}')
+                    ->objectExists('{objectName}');

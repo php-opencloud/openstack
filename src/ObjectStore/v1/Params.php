@@ -143,7 +143,7 @@ TYPEOTHER
 
         return [
             'location'    => self::HEADER,
-            'type'        => self::OBJECT_TYPE,
+            'type'        => self::ARRAY_TYPE,
             'prefix'      => sprintf("X-%s-Meta-", ucfirst($type)),
             'description' => <<<EOT
 Human-readable key/value pairs that help describe and determine what type of resource it is. You can specify whichever

@@ -21,9 +21,9 @@ class Service extends AbstractService
         return $this->model('Container')->enumerate($operation, $mapFn);
     }
 
-    public function getContainer()
+    public function getContainer($name = null)
     {
-        return $this->model('Container');
+        return $this->model('Container', ['name' => $name]);
     }
 
     public function createContainer(array $data)

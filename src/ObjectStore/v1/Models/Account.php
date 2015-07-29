@@ -50,7 +50,8 @@ class Account extends AbstractResource implements Retrievable, HasMetadata
 
     public function mergeMetadata(array $metadata)
     {
-        $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
+        $response = $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
+        return $this->parseMetadata($response);
     }
 
     public function resetMetadata(array $metadata)
@@ -66,7 +67,8 @@ class Account extends AbstractResource implements Retrievable, HasMetadata
             }
         }
 
-        $this->execute($this->api->postAccount(), $options);
+        $response = $this->execute($this->api->postAccount(), $options);
+        return $this->parseMetadata($response);
     }
 
     public function getMetadata()

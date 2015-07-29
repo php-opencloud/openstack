@@ -90,7 +90,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
     {
         $options = ['containerName' => $this->containerName, 'name' => $this->name, 'metadata' => $metadata];
         $response = $this->execute($this->api->postObject(), $options);
-        return $response->json()['metadata'];
+        return $this->parseMetadata($response);
     }
 
     public function resetMetadata(array $metadata)
@@ -109,7 +109,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         }
 
         $response = $this->execute($this->api->postObject(), $options);
-        return $response->json()['metadata'];
+        return $this->parseMetadata($response);
     }
 
     public function getMetadata()

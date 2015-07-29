@@ -3,6 +3,7 @@
 namespace OpenStack\ObjectStore\v1\Models;
 
 use GuzzleHttp\Message\ResponseInterface;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -58,7 +59,11 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     public function create(array $data)
     {
         $response = $this->execute($this->api->putContainer(), $data);
+
         $this->populateFromResponse($response);
+        $this->name = $data['name'];
+
+        return $this;
     }
 
     public function delete()
@@ -69,7 +74,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postContainer(), ['name' => $this->name, 'metadata' => $metadata]);
-        return $response->json()['metadata'];
+        return $this->parseMetadata($response);
     }
 
     public function resetMetadata(array $metadata)
@@ -87,7 +92,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
         }
 
         $response = $this->execute($this->api->postContainer(), $options);
-        return $response->json()['metadata'];
+        return $this->parseMetadata($response);
     }
 
     public function getMetadata()
@@ -99,6 +104,19 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     public function getObject($name)
     {
         return $this->model('Object', ['containerName' => $this->name, 'name' => $name]);
+    }
+
+    public function objectExists($name)
+    {
+        try {
+            $this->getObject($name)->retrieve();
+            return true;
+        } catch (BadResponseError $e) {
+            if ($e->response->getStatusCode() === 404) {
+                return false;
+            }
+            throw $e;
+        }
     }
 
     public function createObject(array $data)

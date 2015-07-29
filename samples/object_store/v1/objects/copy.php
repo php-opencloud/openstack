@@ -15,4 +15,6 @@ $openstack = new OpenStack\OpenStack([
 $openstack->objectStoreV1()
           ->getContainer('{containerName}')
           ->getObject('{objectName}')
-          ->copy('{newContainerName}/{newObjectName}');
+          ->copy([
+              'destination' => '{newContainerName}/{newObjectName}'
+          ]);

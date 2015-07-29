@@ -13,12 +13,8 @@ $openstack = new OpenStack\OpenStack([
 ]);
 
 $options = [
-    'name'     => '{objectName}',
-    'content'  => '{objectContent}',
-    'metadata' => [
-        '{key_1}' => '{val_1}',
-        '{key_2}' => '{val_2}',
-    ]
+    'name'    => '{objectName}',
+    'content' => '{objectContent}',
 ];
 
 /** @var \OpenStack\ObjectStore\v1\Models\Object $object */

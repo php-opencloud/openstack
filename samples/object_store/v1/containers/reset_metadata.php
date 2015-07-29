@@ -16,7 +16,7 @@ $service = $openstack->objectStoreV1();
 
 $container = $service->getContainer('{containerName}');
 
-$container->mergeMetadata([
+$container->resetMetadata([
     '{key_1}' => '{val_1}',
     '{key_2}' => '{val_2}',
 ]);

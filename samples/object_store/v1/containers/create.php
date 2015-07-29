@@ -15,9 +15,5 @@ $openstack = new OpenStack\OpenStack([
 $service = $openstack->objectStoreV1();
 
 $container = $service->createContainer([
-    'name'     => '{containerName}',
-    'metadata' => [
-        '{key_1}' => '{val_1}',
-        '{key_2}' => '{val_2}',
-    ],
+    'name' => '{containerName}'
 ]);
