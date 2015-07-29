@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-    private $logger;
+    protected $logger;
     private $basePath;
     private $paths = [];
     private $startPoint;
@@ -19,6 +19,23 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     abstract protected function getBasePath();
+
+    protected function getAuthOpts()
+    {
+        return [
+            'authUrl' => getenv('OS_AUTH_URL'),
+            'region'  => getenv('OS_REGION'),
+            'user'    => [
+                'id'       => getenv('OS_USER_ID'),
+                'password' => getenv('OS_PASSWORD'),
+            ],
+            'scope'   => [
+                'project' => [
+                    'id' => getenv('OS_PROJECT_ID'),
+                ]
+            ]
+        ];
+    }
 
     protected function startTimer()
     {
@@ -64,14 +81,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected function getGlobalReplacements()
     {
         return [
-            '{userId}' => getenv('OS_USER_ID'),
-            '{username}' => getenv('OS_USERNAME'),
-            '{password}' => getenv('OS_PASSWORD'),
-            '{domainId}' => getenv('OS_DOMAIN_ID'),
-            '{authUrl}'  => getenv('OS_AUTH_URL'),
-            '{tenantId}' => getenv('OS_TENANT_ID'),
-            '{region}'   => getenv('OS_REGION'),
-            '{projectId}' => getenv('OS_PROJECT_ID'),
+            '{userId}'      => getenv('OS_USER_ID'),
+            '{username}'    => getenv('OS_USERNAME'),
+            '{password}'    => getenv('OS_PASSWORD'),
+            '{domainId}'    => getenv('OS_DOMAIN_ID'),
+            '{authUrl}'     => getenv('OS_AUTH_URL'),
+            '{tenantId}'    => getenv('OS_TENANT_ID'),
+            '{region}'      => getenv('OS_REGION'),
+            '{projectId}'   => getenv('OS_PROJECT_ID'),
             '{projectName}' => getenv('OS_PROJECT_NAME'),
         ];
     }

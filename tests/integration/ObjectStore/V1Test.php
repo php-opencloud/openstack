@@ -10,23 +10,6 @@ class V1Test extends TestCase
 {
     private $service;
 
-    private function getAuthOpts()
-    {
-        return [
-            'authUrl' => getenv('OS_AUTH_URL'),
-            'region'  => getenv('OS_REGION'),
-            'user'    => [
-                'id'       => getenv('OS_USER_ID'),
-                'password' => getenv('OS_PASSWORD'),
-            ],
-            'scope'   => [
-                'project' => [
-                    'id' => getenv('OS_PROJECT_ID'),
-                ]
-            ]
-        ];
-    }
-
     /**
      * @return \OpenStack\ObjectStore\v1\Service
      */

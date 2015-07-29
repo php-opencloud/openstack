@@ -146,8 +146,8 @@ class Builder implements SubscriberInterface
             . "HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.";
 
         $e = new BadResponseError($message);
-        $e->request = $request;
-        $e->response = $response;
+        $e->setRequest($request);
+        $e->setResponse($response);
 
         return $e;
     }

@@ -18,7 +18,7 @@ class V2Test extends TestCase
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->computeV2(['region' => getenv('OS_REGION')]);
+            $this->service = (new OpenStack())->computeV2($this->getAuthOpts());
         }
 
         return $this->service;
@@ -187,9 +187,14 @@ class V2Test extends TestCase
 
     private function resizeServer()
     {
+        $resizeFlavorId = getenv('OS_RESIZE_FLAVOR');
+        if (!$resizeFlavorId) {
+            throw new \RuntimeException('OS_RESIZE_FLAVOR env var must be set');
+        }
+
         $replacements = [
             '{serverId}' => $this->serverId,
-            '{flavorId}' => 2,
+            '{flavorId}' => $resizeFlavorId,
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
@@ -215,8 +220,8 @@ class V2Test extends TestCase
     private function rebuildServer()
     {
         $replacements = [
-            '{serverId}' => $this->serverId,
-            '{imageId}'  => $this->imageId,
+            '{serverId}'  => $this->serverId,
+            '{imageId}'   => $this->imageId,
             '{adminPass}' => $this->adminPass,
         ];
 
@@ -261,7 +266,7 @@ class V2Test extends TestCase
         $name = $this->randomStr();
 
         $replacements = [
-            '{serverId}' => $this->serverId,
+            '{serverId}'  => $this->serverId,
             '{imageName}' => $name,
         ];
 
@@ -304,7 +309,7 @@ class V2Test extends TestCase
         require_once $this->sampleFile($replacements, 'retrieve_image_metadata.php');
         $this->logStep('Retrieved metadata of image {imageId}', $replacements);
 
-        require_once $this->sampleFile($replacements + ['{metadataKey}' ], 'delete_image_metadata_item.php');
+        require_once $this->sampleFile($replacements + ['{metadataKey}'], 'delete_image_metadata_item.php');
         $this->logStep('Deleted metadata key of image {imageId}', $replacements);
     }
 

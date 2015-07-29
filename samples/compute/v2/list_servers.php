@@ -3,10 +3,13 @@
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
-'username' => '{username}',
-'password' => '{password}',
-'tenantId' => '{tenantId}',
-'authUrl'  => '{authUrl}',
+    'authUrl' => '{authUrl}',
+    'region'  => '{region}',
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}'
+    ],
+    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
 $compute = $openstack->computeV2(['region' => '{region}']);
@@ -14,5 +17,4 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 $servers = $compute->listServers(['imageId' => '{imageId}']);
 
 foreach ($servers as $server) {
-
 }
