@@ -89,4 +89,19 @@ class OpenStack
             'catalogType' => false,
         ]));
     }
+
+    /**
+     * Creates a new Object Store v1 service.
+     *
+     * @param array $options Options that will be used in configuring the service.
+     *
+     * @return \OpenStack\ObjectStore\v1\Service
+     */
+    public function objectStoreV1(array $options = [])
+    {
+        return $this->builder->createService('ObjectStore', 1, array_merge($options, [
+            'catalogName' => 'swift',
+            'catalogType' => 'object-store',
+        ]));
+    }
 }
