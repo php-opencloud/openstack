@@ -33,6 +33,7 @@ class V1Test extends TestCase
 
         $this->accountMetadata();
         $this->containers();
+        $this->objects();
     }
 
     public function accountMetadata()
