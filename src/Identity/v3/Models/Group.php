@@ -33,6 +33,7 @@ class Group extends AbstractResource implements Creatable, Listable, Retrievable
     protected $aliases = ['domain_id' => 'domainId'];
 
     protected $resourceKey = 'group';
+    protected $resourcesKey = 'groups';
 
     /**
      * {@inheritDoc}

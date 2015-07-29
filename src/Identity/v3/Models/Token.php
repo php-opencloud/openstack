@@ -40,6 +40,7 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
     public $id;
 
     protected $resourceKey = 'token';
+    protected $resourcesKey = 'tokens';
 
     protected $aliases = [
         'expires_at' => 'expires',

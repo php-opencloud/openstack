@@ -42,6 +42,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
     ];
 
     protected $resourceKey = 'project';
+    protected $resourcesKey = 'projects';
 
     /**
      * {@inheritDoc}

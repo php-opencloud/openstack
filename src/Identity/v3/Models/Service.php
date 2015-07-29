@@ -33,6 +33,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
     public $links;
 
     protected $resourceKey = 'service';
+    protected $resourcesKey = 'services';
 
     /**
      * {@inheritDoc}

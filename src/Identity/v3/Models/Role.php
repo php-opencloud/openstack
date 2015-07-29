@@ -22,6 +22,7 @@ class Role extends AbstractResource implements Creatable, Listable, Deletable
     public $links;
 
     protected $resourceKey = 'role';
+    protected $resourcesKey = 'roles';
 
     /**
      * {@inheritDoc}
