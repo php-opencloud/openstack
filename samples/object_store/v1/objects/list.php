@@ -12,8 +12,9 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$service = $openstack->objectStoreV1();
+$container = $openstack->objectStoreV1()
+                       ->getContainer('{containerName}');
 
-foreach ($service->listContainers() as $container) {
-    /** @var \OpenStack\ObjectStore\v1\Models\Container $container */
+foreach ($container->listObjects() as $object) {
+    /** @var \OpenStack\ObjectStore\v1\Models\Object $object */
 }

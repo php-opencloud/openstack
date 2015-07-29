@@ -4,7 +4,7 @@ Flavors
 List flavors
 ------------
 
-.. sample:: compute/v2/list_flavors.php
+.. sample:: compute/v2/flavors/list_flavors.php
 .. refdoc:: OpenStack/Compute/v2/Service.html#method_listFlavors
 
 Each iteration will return a :apiref:`Flavor instance <OpenStack/Compute/v2/Models/Flavor.html>`.
@@ -24,7 +24,7 @@ for a flavor, you must enable detailed information, like so:
 Retrieve a flavor
 -----------------
 
-.. sample:: compute/v2/get_flavor.php
+.. sample:: compute/v2/flavors/get_flavor.php
 .. refdoc:: OpenStack/Compute/v2/Service.html#method_getFlavor
 
 When retrieving a flavor, sometimes you only want to operate on it. If this is the case,

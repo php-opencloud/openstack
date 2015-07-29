@@ -12,6 +12,5 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$openstack->objectStoreV1()
-          ->getContainer('{containerName}')
-          ->delete();
+$account = $openstack->objectStoreV1()
+                     ->getAccount();
