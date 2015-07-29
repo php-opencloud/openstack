@@ -190,12 +190,15 @@
   {% endif %}
 
   <script>
-    jQuery(function () {
-      jQuery('a.toggle').on('click', function () {
-        jQuery(this).next('div.highlight-php').toggle();
+      jQuery(function () {
+          jQuery('a.toggle').on('click', function () {
+              var neighbour = jQuery(this).next('div.highlight-php');
+              var verb = neighbour.hasClass("enabled") ? "Show" : "Hide";
+              neighbour.toggleClass("enabled").toggle();
+              $(this).text(verb + " auth code");
+          });
+          jQuery('a.toggle').next('div.highlight-php').hide();
       });
-//      jQuery('a.toggle').next('div.highlight-php').hide();
-    });
   </script>
 
   {%- block footer %} {% endblock %}
