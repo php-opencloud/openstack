@@ -84,7 +84,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      */
     public function populateFromResponse(ResponseInterface $response)
     {
-        if ($response->getHeader('Content-Type') == 'application/json') {
+        if (strpos($response->getHeader('Content-Type'), 'application/json') === 0) {
             $json = $response->json();
             if (!empty($json)) {
                 $this->populateFromArray($this->flatten($json));
