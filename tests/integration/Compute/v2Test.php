@@ -88,7 +88,7 @@ class V2Test extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'create_server.php');
+        $path = $this->sampleFile($replacements, 'servers/create_server.php');
         require_once $path;
 
         $server->waitUntilActive(false);
@@ -113,7 +113,7 @@ class V2Test extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'update_server.php');
+        $path = $this->sampleFile($replacements, 'servers/update_server.php');
         require_once $path;
 
         $this->assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
@@ -129,7 +129,7 @@ class V2Test extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'delete_server.php');
+        $path = $this->sampleFile($replacements, 'servers/delete_server.php');
         require_once $path;
 
         $this->logStep('Deleted server ID', ['ID' => $this->serverId]);
@@ -140,7 +140,7 @@ class V2Test extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'get_server.php');
+        $path = $this->sampleFile($replacements, 'servers/get_server.php');
         require_once $path;
 
         $this->assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
@@ -161,13 +161,13 @@ class V2Test extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'reset_server_metadata.php');
+        require_once $this->sampleFile($replacements, 'servers/reset_server_metadata.php');
         $this->logStep('Reset metadata of server {serverId}', $replacements);
 
-        require_once $this->sampleFile($replacements, 'get_server_metadata.php');
+        require_once $this->sampleFile($replacements, 'servers/get_server_metadata.php');
         $this->logStep('Retrieved metadata of server {serverId}', $replacements);
 
-        require_once $this->sampleFile($replacements, 'delete_server_metadata_item.php');
+        require_once $this->sampleFile($replacements, 'servers/delete_server_metadata_item.php');
         $this->logStep('Deleted metadata key of server {serverId}', $replacements);
     }
 
@@ -180,7 +180,7 @@ class V2Test extends TestCase
             '{newPassword}' => $this->adminPass,
         ];
 
-        require_once $this->sampleFile($replacements, 'change_server_password.php');
+        require_once $this->sampleFile($replacements, 'servers/change_server_password.php');
 
         $this->logStep('Changed root password of server {serverId} to {newPassword}', $replacements);
     }
@@ -198,7 +198,7 @@ class V2Test extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'resize_server.php');
+        require_once $this->sampleFile($replacements, 'servers/resize_server.php');
 
         $server->waitUntil('VERIFY_RESIZE');
 
@@ -210,7 +210,7 @@ class V2Test extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'confirm_server_resize.php');
+        require_once $this->sampleFile($replacements, 'servers/confirm_server_resize.php');
 
         $server->waitUntilActive();
 
@@ -226,7 +226,7 @@ class V2Test extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'rebuild_server.php');
+        require_once $this->sampleFile($replacements, 'servers/rebuild_server.php');
 
         $server->waitUntilActive();
 
@@ -238,7 +238,7 @@ class V2Test extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'reboot_server.php');
+        require_once $this->sampleFile($replacements, 'servers/reboot_server.php');
 
         $server->waitUntilActive(false);
 
@@ -247,7 +247,7 @@ class V2Test extends TestCase
 
     private function listFlavors()
     {
-        require_once $this->sampleFile([], 'list_flavors.php');
+        require_once $this->sampleFile([], 'flavors/list_flavors.php');
 
         $this->logStep('Listed all available flavors');
     }
@@ -256,7 +256,7 @@ class V2Test extends TestCase
     {
         $replacements = ['{flavorId}' => 1];
 
-        require_once $this->sampleFile($replacements, 'get_flavor.php');
+        require_once $this->sampleFile($replacements, 'flavors/get_flavor.php');
 
         $this->logStep('Retrieved details for flavor {flavorId}', $replacements);
     }
@@ -271,7 +271,7 @@ class V2Test extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'create_server_image.php');
+        require_once $this->sampleFile($replacements, 'images/create_server_image.php');
 
         $server->waitWithCallback(function (Server $server) {
             return !$server->taskState;
@@ -284,7 +284,7 @@ class V2Test extends TestCase
 
     private function listImages()
     {
-        require_once $this->sampleFile([], 'list_images.php');
+        require_once $this->sampleFile([], 'images/list_images.php');
 
         $this->logStep('Listed all available images');
     }
@@ -293,7 +293,7 @@ class V2Test extends TestCase
     {
         $replacements = ['{imageId}' => $this->imageId];
 
-        require_once $this->sampleFile($replacements, 'get_image.php');
+        require_once $this->sampleFile($replacements, 'images/get_image.php');
 
         $this->logStep('Retrieved details for image {imageId}', $replacements);
     }
@@ -303,20 +303,20 @@ class V2Test extends TestCase
         $replacements = ['{imageId}' => $this->imageId];
 
         /** @var $image \OpenStack\Compute\v2\Models\Image */
-        require_once $this->sampleFile($replacements, 'reset_image_metadata.php');
+        require_once $this->sampleFile($replacements, 'images/reset_image_metadata.php');
         $this->logStep('Reset metadata of image {imageId}', $replacements);
 
-        require_once $this->sampleFile($replacements, 'retrieve_image_metadata.php');
+        require_once $this->sampleFile($replacements, 'images/retrieve_image_metadata.php');
         $this->logStep('Retrieved metadata of image {imageId}', $replacements);
 
-        require_once $this->sampleFile($replacements + ['{metadataKey}'], 'delete_image_metadata_item.php');
+        require_once $this->sampleFile($replacements + ['{metadataKey}'], 'images/delete_image_metadata_item.php');
         $this->logStep('Deleted metadata key of image {imageId}', $replacements);
     }
 
     private function deleteServerImage()
     {
         $replacements = ['{imageId}' => $this->imageId];
-        require_once $this->sampleFile($replacements, 'delete_image.php');
+        require_once $this->sampleFile($replacements, 'images/delete_image.php');
         $this->logStep('Deleted image {imageId}', $replacements);
     }
 }
