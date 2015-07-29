@@ -96,7 +96,8 @@ class Builder implements SubscriberInterface
 
         try {
             $resp = $this->client->head($link);
-        } catch (ClientException $e) {}
+        } catch (ClientException $e) {
+        }
 
         return $resp->getStatusCode() < 400;
     }
@@ -112,15 +113,15 @@ class Builder implements SubscriberInterface
     public function httpError(RequestInterface $request, ResponseInterface $response)
     {
         $message = $this->header('HTTP Error');
-        
+
         $message .= sprintf("The remote server returned a \"%d %s\" error for the following transaction:\n\n",
             $response->getStatusCode(), $response->getReasonPhrase());
 
         $message .= $this->header('Request');
-        $message .= trim((string) $request) . PHP_EOL . PHP_EOL;
+        $message .= trim((string)$request) . PHP_EOL . PHP_EOL;
 
         $message .= $this->header('Response');
-        $message .= trim((string) $response) . PHP_EOL . PHP_EOL;
+        $message .= trim((string)$response) . PHP_EOL . PHP_EOL;
 
         $message .= $this->header('Further information');
 
@@ -144,7 +145,11 @@ class Builder implements SubscriberInterface
         $message .= "Visit http://docs.php-opencloud.com/en/latest/http-codes for more information about debugging "
             . "HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.";
 
-        return new BadResponseError($message);
+        $e = new BadResponseError($message);
+        $e->request = $request;
+        $e->response = $response;
+
+        return $e;
     }
 
     /**
