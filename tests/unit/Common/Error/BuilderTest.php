@@ -52,6 +52,8 @@ EOT;
 
 
         $e = new BadResponseError($errorMessage);
+        $e->setRequest($request);
+        $e->setResponse($response);
 
         $this->assertEquals($e, $this->builder->httpError($request, $response));
     }
