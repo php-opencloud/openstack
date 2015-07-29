@@ -2,10 +2,13 @@
 
 namespace OpenStack\Test\ObjectStore\v1\Models;
 
+use GuzzleHttp\Message\Response;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Container;
 use OpenStack\ObjectStore\v1\Models\Object;
 use OpenStack\Test\TestCase;
+use Prophecy\Argument;
 
 class ContainerTest extends TestCase
 {
@@ -129,5 +132,29 @@ class ContainerTest extends TestCase
         foreach ($this->container->listObjects(['limit' => 2]) as $object) {
             $this->assertInstanceOf(Object::class, $object);
         }
+    }
+
+    public function test_true_is_returned_for_existing_object()
+    {
+        $req = $this->setupMockRequest('HEAD', 'test/bar');
+        $this->setupMockResponse($req, new Response(200));
+
+        $this->assertTrue($this->container->objectExists('bar'));
+    }
+
+    public function test_false_is_returned_for_non_existing_object()
+    {
+        $req = $this->setupMockRequest('HEAD', 'test/bar');
+        $res = new Response(404);
+
+        $e = new BadResponseError();
+        $e->setRequest($req);
+        $e->setResponse($res);
+
+        $this->client
+            ->send(Argument::is($req))
+            ->willThrow($e);
+
+        $this->assertFalse($this->container->objectExists('bar'));
     }
 }

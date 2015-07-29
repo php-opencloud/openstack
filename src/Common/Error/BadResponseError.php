@@ -13,8 +13,28 @@ use GuzzleHttp\Message\ResponseInterface;
 class BadResponseError extends BaseError
 {
     /** @var RequestInterface */
-    public $request;
+    private $request;
 
     /** @var ResponseInterface */
-    public $response;
+    private $response;
+
+    public function setRequest(RequestInterface $request)
+    {
+        $this->request = $request;
+    }
+
+    public function setResponse(ResponseInterface $response)
+    {
+        $this->response = $response;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
+    }
 }

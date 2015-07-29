@@ -112,7 +112,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
             $this->getObject($name)->retrieve();
             return true;
         } catch (BadResponseError $e) {
-            if ($e->response->getStatusCode() === 404) {
+            if ($e->getResponse()->getStatusCode() === 404) {
                 return false;
             }
             throw $e;
