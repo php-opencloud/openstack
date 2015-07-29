@@ -79,7 +79,7 @@ class Builder
         $options = $this->mergeOptions($serviceOptions);
 
         if (strcasecmp($serviceName, 'identity') === 0) {
-            $options['identityService'] = new Service($this->httpClient($options['authUrl']), new Api());
+            $options['identityService'] = new Service($this->httpClient($options['authUrl'], $options), new Api());
         }
 
         if (!empty($options['httpClient']) && $options['httpClient'] instanceof ClientInterface) {
