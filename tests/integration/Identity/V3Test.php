@@ -10,7 +10,7 @@ class V3Test extends TestCase
 {
     private $service;
 
-    private function getAuthOpts()
+    protected function getAuthOpts()
     {
         return [
             'authUrl' => getenv('OS_AUTH_URL'),
