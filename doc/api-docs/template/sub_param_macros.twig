@@ -47,13 +47,16 @@
                 {% endif %}
             </div>
             <div class="col param-type">
+                {% if type is empty %}
+                    {% set type = "string" %}
+                {% endif %}
                 {{ _self.fill(type) }}
             </div>
             <div class="col param-req">
                 {% if sub_param.required == 'true' %}
-                Required
+                    Required
                 {% else %}
-                Optional
+                    Optional
                 {% endif %}
             </div>
             <div class="col param-desc">
@@ -82,7 +85,11 @@
 {%- endmacro %}
 
 {% macro fill(val) -%}
-    {% if val %}
+    {% if val is iterable %}
+        {% for subval in val %}
+            {{ _self.fill(subval) }}
+        {% endfor %}
+    {% elseif val is not empty %}
         {{ val }}
     {% else %}
         &nbsp;

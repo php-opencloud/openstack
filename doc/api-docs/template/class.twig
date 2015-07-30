@@ -67,7 +67,7 @@
 
             {% set has_methods = false %}
             {% for method in methods if method.class is sameas(class) %}
-              {% set has_methods = true %}
+                {% set has_methods = true %}
             {% endfor %}
 
             {% if has_methods == true %}
@@ -113,7 +113,7 @@
         {%- endblock %}
 
         {% block parameters %}
-            {% set subParams = '' %}
+            {% set subParams = [] %}
 
             <table class="table table-condensed params-table">
                 {% for parameter in method.parameters %}
@@ -133,7 +133,7 @@
                 {% endfor %}
             </table>
 
-            {% if subParams %}
+            {% if subParams is not empty %}
                 <h4>Configuration Options</h4>
                 <div class="params">
                     {{ iterate_sub_params(subParams) }}
@@ -146,7 +146,7 @@
             <table class="table table-condensed">
                 <tr>
                     <td>
-                      {{ hint_link(method.hint) }}
+                        {{ hint_link(method.hint) }}
                     </td>
                     <td>{{ method.hintDesc|desc(class) }}</td>
                 </tr>
@@ -182,6 +182,7 @@
                         <td>{{ constant.name }}</td>
                         <td class="last">
                             <p><em>{{ constant.shortdesc|desc(class) }}</em></p>
+
                             <p>{{ constant.longdesc|desc(class) }}</p>
                         </td>
                     </tr>
@@ -212,8 +213,8 @@
                         </div>
                         <div class="col-md-10 type">
                             <div class="method-header">
-                              <a href="#method_{{ method.name }}">{{ method.name }}</a>
-                              {{ block('method_parameters_signature') }}
+                                <a href="#method_{{ method.name }}">{{ method.name }}</a>
+                                {{ block('method_parameters_signature') }}
                             </div>
                             {% if not method.shortdesc %}
                                 <p class="no-description">No description</p>
@@ -239,7 +240,8 @@
         {% block method %}
             <h3 id="method_{{ method.name }}">
                 <div class="location">
-                    <a href="https://github.com/php-opencloud/openstack/blob/master/{{ method.file }}#L{{ method.line }}" target="_blank">View source</a>
+                    <a href="https://github.com/php-opencloud/openstack/blob/master/{{ method.file }}#L{{ method.line }}"
+                       target="_blank">View source</a>
                 </div>
                 <a href="#method_{{ method.name }}"><img src="{{ path('img/link.png') }}"/></a>
                 <code>{{ block('method_signature') }}</code>
