@@ -31,6 +31,9 @@ class Account extends AbstractResource implements Retrievable, HasMetadata
     /** @var string */
     public $tempUrl;
 
+    /**
+     * {@inheritdoc}
+     */
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
@@ -42,18 +45,27 @@ class Account extends AbstractResource implements Retrievable, HasMetadata
         $this->metadata = $this->parseMetadata($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function retrieve()
     {
         $response = $this->execute($this->api->headAccount());
         $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
         return $this->parseMetadata($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function resetMetadata(array $metadata)
     {
         $options = [
@@ -71,6 +83,9 @@ class Account extends AbstractResource implements Retrievable, HasMetadata
         return $this->parseMetadata($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMetadata()
     {
         $response = $this->execute($this->api->headAccount());

@@ -12,7 +12,7 @@ interface Retrievable
     /**
      * Retrieve details of the current resource from the remote API.
      *
-     * @return mixed
+     * @return void
      */
     public function retrieve();
 }

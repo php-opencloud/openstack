@@ -3,6 +3,7 @@
 namespace OpenStack\ObjectStore\v1\Models;
 
 use GuzzleHttp\Message\ResponseInterface;
+use GuzzleHttp\Stream\StreamInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -41,6 +42,9 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
     protected $markerKey = 'name';
     protected $aliases = ['bytes' => 'contentLength'];
 
+    /**
+     * {@inheritdoc}
+     */
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
@@ -53,7 +57,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
     }
 
     /**
-     * @param array $data
+     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
      *
      * @return $this|\OpenStack\Common\Resource\ResourceInterface|void
      */
@@ -63,29 +67,49 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         return $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->headObject());
         $this->populateFromResponse($response);
     }
 
+    /**
+     * This call will perform a `GET` HTTP request for the given object and return back its content in the form of a
+     * Guzzle Stream object. Downloading an object will transfer all of the content for an object, and is therefore
+     * distinct from fetching its metadata (a `HEAD` request). The body of an object is not fetched by default to
+     * improve performance when handling large objects.
+     *
+     * @return StreamInterface
+     */
     public function download()
     {
         $response = $this->executeWithState($this->api->getObject());
         return $response->getBody();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteObject());
     }
 
+    /**
+     * @param array $options {@see \OpenStack\ObjectStore\v1\Api::copyObject}
+     */
     public function copy(array $options)
     {
         $options += ['name' => $this->name, 'containerName' => $this->containerName];
         $this->execute($this->api->copyObject(), $options);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function mergeMetadata(array $metadata)
     {
         $options = ['containerName' => $this->containerName, 'name' => $this->name, 'metadata' => $metadata];
@@ -93,6 +117,9 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         return $this->parseMetadata($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function resetMetadata(array $metadata)
     {
         $options = [
@@ -112,6 +139,9 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         return $this->parseMetadata($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMetadata()
     {
         $response = $this->executeWithState($this->api->headObject());

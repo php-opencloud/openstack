@@ -29,11 +29,14 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     /** @var string */
     public $name;
 
-    /** @var metadata */
+    /** @var array */
     public $metadata;
 
     protected $markerKey = 'name';
 
+    /**
+     * {@inheritdoc}
+     */
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
@@ -43,6 +46,14 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
         $this->metadata = $this->parseMetadata($response);
     }
 
+    /**
+     * Retrieves a collection of object resources in the form of a generator.
+     *
+     * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getContainer}
+     * @param callable|null $mapFn   Allows a function to be mapped over each element.
+     *
+     * @return \Generator
+     */
     public function listObjects(array $options = [], callable $mapFn = null)
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
@@ -50,12 +61,20 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
         return $this->model('Object')->enumerate($operation, $mapFn);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->headContainer());
         $this->populateFromResponse($response);
     }
 
+    /**
+     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putContainer}
+     *
+     * @return $this
+     */
     public function create(array $data)
     {
         $response = $this->execute($this->api->putContainer(), $data);
@@ -66,17 +85,26 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteContainer());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postContainer(), ['name' => $this->name, 'metadata' => $metadata]);
         return $this->parseMetadata($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function resetMetadata(array $metadata)
     {
         $options = [
@@ -95,17 +123,39 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
         return $this->parseMetadata($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMetadata()
     {
         $response = $this->executeWithState($this->api->headContainer());
         return $this->parseMetadata($response);
     }
 
+    /**
+     * Retrieves an Object and populates its `name` and `containerName` properties according to the name provided and
+     * the name of this container. A HTTP call will not be executed by default - you need to call
+     * {@see Object::retrieve} or {@see Object::download} on the returned Object object to do that.
+     *
+     * @param string $name The name of the object
+     *
+     * @return Object
+     */
     public function getObject($name)
     {
         return $this->model('Object', ['containerName' => $this->name, 'name' => $name]);
     }
 
+    /**
+     * Identifies whether an object exists in this container.
+     *
+     * @param string $name The name of the object.
+     *
+     * @return bool TRUE if the object exists, FALSE if it does not.
+     *
+     * @throws BadResponseError For any other HTTP error which does not have a 404 Not Found status.
+     * @throws \Exception       For any other type of fatal error.
+     */
     public function objectExists($name)
     {
         try {
@@ -119,6 +169,13 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
         }
     }
 
+    /**
+     * Creates a single object according to the values provided.
+     *
+     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
+     *
+     * @return Object
+     */
     public function createObject(array $data)
     {
         return $this->model('Object')->create($data + ['containerName' => $this->name]);
