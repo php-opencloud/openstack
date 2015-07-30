@@ -44,6 +44,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     ];
 
     protected $resourceKey = 'user';
+    protected $resourcesKey = 'users';
 
     /**
      * {@inheritDoc}
