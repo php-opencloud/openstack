@@ -1,5 +1,5 @@
-Identity v3 service
-===================
+Identity v3
+===========
 
 .. toctree::
   :maxdepth: 3
@@ -8,9 +8,9 @@ Identity v3 service
   domains
   endpoints
   groups
-  policies  
-  projects  
-  roles  
-  services  
-  tokens  
-  users  
+  policies
+  projects
+  roles
+  services
+  tokens
+  users
