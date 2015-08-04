@@ -142,7 +142,8 @@ class Builder
         $client = new Client(['base_url' => rtrim($baseUrl, '/') . '/']);
 
         if (isset($options['debug']) && $options['debug'] === true) {
-            $client->getEmitter()->attach(new LogSubscriber(null, Formatter::DEBUG));
+            $logger = isset($options['logger']) ? $options['logger'] : null;
+            $client->getEmitter()->attach(new LogSubscriber($logger, Formatter::DEBUG));
         }
 
         return $client;
