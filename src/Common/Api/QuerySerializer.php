@@ -32,7 +32,7 @@ class QuerySerializer
                 continue;
             }
 
-            $query->set($paramName, $value);
+            $query->set($schema->getName(), $value);
         }
 
         $url->setQuery($query);
