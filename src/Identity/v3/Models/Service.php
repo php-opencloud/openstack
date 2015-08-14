@@ -89,7 +89,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
         }
 
         foreach ($this->endpoints as $endpoint) {
-            if ($endpoint->region == $region && $endpoint->interface == $urlType) {
+            if (($endpoint->region == $region || empty($endpoint->region)) && $endpoint->interface == $urlType) {
                 return $endpoint->url;
             }
         }
