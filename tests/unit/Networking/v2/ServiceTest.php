@@ -4,6 +4,7 @@ namespace OpenStack\Test\Networking\v2;
 
 use OpenStack\Networking\v2\Api;
 use OpenStack\Networking\v2\Models\Network;
+use OpenStack\Networking\v2\Models\Subnet;
 use OpenStack\Networking\v2\Service;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
@@ -84,7 +85,86 @@ class ServiceTest extends TestCase
     {
       $network = $this->service->getNetwork('networkId');
 
-        $this->assertInstanceOf(Network::class, $network);
-        $this->assertEquals('networkId', $network->id);
+      $this->assertInstanceOf(Network::class, $network);
+      $this->assertEquals('networkId', $network->id);
+    }
+
+    public function test_it_creates_an_subnet()
+    {
+        $opts = [
+            'name' => 'foo',
+            'networkId' => 'networkId',
+            'tenantId' => 'tenantId',
+            'ipVersion' => 4,
+            'cidr' => '192.168.199.0/24',
+        ];
+
+        $expectedJson = ['subnet' => [
+            'name' => $opts['name'],
+            'network_id' => $opts['networkId'],
+            'tenant_id' => $opts['tenantId'],
+            'ip_version' => $opts['ipVersion'],
+            'cidr' => $opts['cidr'],
+        ]];
+
+        $req = $this->setupMockRequest('POST', 'v2.0/subnets', $expectedJson);
+        $this->setupMockResponse($req, 'subnet-post');
+
+        $this->assertInstanceOf(Subnet::class, $this->service->createSubnet($opts));
+    }
+
+    public function test_it_bulk_creates_subnets()
+    {
+        $opts = [
+            [
+                'name' => 'foo',
+                'networkId' => 'networkId',
+                'tenantId' => 'tenantId',
+                'ipVersion' => 4,
+                'cidr' => '192.168.199.0/24',
+            ],
+            [
+                'name' => 'bar',
+                'networkId' => 'networkId',
+                'tenantId' => 'tenantId',
+                'ipVersion' => 4,
+                'cidr' => '10.56.4.0/22',
+            ],
+        ];
+
+        $expectedJson = [
+            'subnets' => [
+                [
+                    'name' => $opts[0]['name'],
+                    'network_id' => $opts[0]['networkId'],
+                    'tenant_id' => $opts[0]['tenantId'],
+                    'ip_version' => $opts[0]['ipVersion'],
+                    'cidr' => $opts[0]['cidr'],
+                ],
+                [
+                    'name' => $opts[1]['name'],
+                    'network_id' => $opts[1]['networkId'],
+                    'tenant_id' => $opts[1]['tenantId'],
+                    'ip_version' => $opts[1]['ipVersion'],
+                    'cidr' => $opts[1]['cidr'],
+                ],
+            ],
+        ];
+
+        $req = $this->setupMockRequest('POST', 'v2.0/subnets', $expectedJson);
+        $this->setupMockResponse($req, 'subnets-post');
+
+        $subnets = $this->service->createSubnets($opts);
+
+        $this->assertInternalType('array', $subnets);
+        $this->assertCount(2, $subnets);
+    }
+
+    public function test_it_gets_an_subnet()
+    {
+      $subnet = $this->service->getSubnet('subnetId');
+
+      $this->assertInstanceOf(Subnet::class, $subnet);
+      $this->assertEquals('subnetId', $subnet->id);
     }
 }

@@ -3,6 +3,8 @@
 namespace OpenStack\Networking\v2;
 
 use OpenStack\Common\Service\AbstractService;
+use OpenStack\Networking\v2\Models\Network;
+use OpenStack\Networking\v2\Models\Subnet;
 
 /**
  * Network v2 service for OpenStack.
@@ -16,7 +18,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postNetwork}
      *
-     * @return \OpenStack\Networking\v2\Models\Network
+     * @return Network
      */
     public function createNetwork(array $options)
     {
@@ -42,10 +44,48 @@ class Service extends AbstractService
      *
      * @param string $id
      *
-     * @return \OpenStack\Networking\v2\Models\Network
+     * @return Network
      */
     public function getNetwork($id)
     {
         return $this->model('Network', ['id' => $id]);
+    }
+
+    /**
+     * Create a new subnet resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postSubnet}
+     *
+     * @return Subnet
+     */
+    public function createSubnet(array $options)
+    {
+        return $this->model('Subnet')->create($options);
+    }
+
+    /**
+     * Create a new subnet resources.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postSubnets}
+     *
+     * @return []Subnet
+     */
+    public function createSubnets(array $options)
+    {
+        return $this->model('Subnet')->bulkCreate($options);
+    }
+
+    /**
+     * Retrieve a subnet object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see Subnet::retrieve}.
+     *
+     * @param string $id
+     *
+     * @return Subnet
+     */
+    public function getSubnet($id)
+    {
+        return $this->model('Subnet', ['id' => $id]);
     }
 }
