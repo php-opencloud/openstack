@@ -2,7 +2,6 @@
 
 namespace OpenStack\Common\Api;
 
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Utils;
 
@@ -31,20 +30,12 @@ class Operation
     /** @var []Parameter The parameters of this operation */
     private $params;
 
-    /** @var ClientInterface The HTTP client responsible for creating and sending requests */
-    private $client;
-
-    /** @var array The user-defined values that will populate this request */
-    private $userValues;
-
     /**
-     * @param ClientInterface $client     The HTTP client
      * @param array           $definition The data definition (in array form) that will populate this
      *                                    operation. Usually this is retrieved from an {@see ApiInterface}
      *                                    object method.
-     * @param array           $userValues The user-defined values.
      */
-    public function __construct(ClientInterface $client, array $definition, array $userValues = [])
+    public function __construct(array $definition)
     {
         $this->method = $definition['method'];
         $this->path = $definition['path'];
@@ -54,32 +45,16 @@ class Operation
         }
 
         $this->params = self::toParamArray($definition['params']);
-        $this->client = $client;
-        $this->userValues = $userValues;
     }
 
-    /**
-     * Allows for the setting or overriding of a user value. This is useful for when an operation
-     * needs to be updated after creation time (to update the "marker" query for example).
-     *
-     * @param string $key   The name of the value being updated
-     * @param mixed  $value The (new) value being set
-     */
-    public function setValue($key, $value)
+    public function getPath()
     {
-        $this->userValues[$key] = $value;
+        return $this->path;
     }
 
-    /**
-     * This will retrieve a previously set user value.
-     *
-     * @param $key The name of the user value
-     *
-     * @return mixed|null
-     */
-    public function getValue($key)
+    public function getMethod()
     {
-        return isset($this->userValues[$key]) ? $this->userValues[$key] : null;
+        return $this->method;
     }
 
     /**
@@ -92,6 +67,16 @@ class Operation
     public function hasParam($key)
     {
         return isset($this->params[$key]);
+    }
+
+    /**
+     * @param $name
+     *
+     * @return Parameter
+     */
+    public function getParam($name)
+    {
+        return $this->params[$name];
     }
 
     /**
@@ -111,109 +96,6 @@ class Operation
         }
 
         return $params;
-    }
-
-    /**
-     * Internal method that serializes the JSON body for a request
-     *
-     * @return array
-     */
-    private function serializeJson()
-    {
-        $serializer = new JsonSerializer();
-
-        $options = $this->jsonKey ? ['jsonKey' => $this->jsonKey] : [];
-
-        return $serializer->serialize($this->userValues, $this->params, $options);
-    }
-
-    /**
-     * Internal method that serializes all of the HTTP headers for a request
-     *
-     * @return array
-     */
-    private function serializeHeaders()
-    {
-        $serializer = new HeaderSerializer();
-
-        return $serializer->serialize($this->userValues, $this->params);
-    }
-
-    /**
-     * Internal method that serializes all of the query parameters for a request's URL
-     *
-     * @param string $url The input URL
-     *
-     * @return \GuzzleHttp\Url
-     */
-    private function serializeQuery($url)
-    {
-        $serializer = new QuerySerializer();
-
-        return $serializer->serialize($this->userValues, $this->params, $url);
-    }
-
-    private function serializeBody()
-    {
-        foreach ($this->userValues as $paramName => $val) {
-            $schema = $this->params[$paramName];
-            if ($schema->hasLocation('raw')) {
-                return $val;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * This method will take all of the user-provided values and populate them into a
-     * {@see \GuzzleHttp\Message\RequestInterface} object according to each parameter schema.
-     * Headers and URL query parameters will be set, along with the JSON body.
-     *
-     * In other words, it allows for the easy creation of a fully populated HTTP request in
-     * accordance with the expectations of the remote API.
-     *
-     * @return \GuzzleHttp\Message\RequestInterface
-     * @throws \Exception
-     */
-    public function createRequest()
-    {
-        $this->validate($this->userValues);
-
-        $options = ['exceptions' => false];
-
-        if (!empty($json = $this->serializeJson())) {
-            $options['json'] = $json;
-        }
-
-        if (!empty($body = $this->serializeBody())) {
-            $options['body'] = $body;
-        }
-
-        if (!empty($headers = $this->serializeHeaders())) {
-            $options['headers'] = $headers;
-        }
-
-        $url = $this->serializeQuery(
-            Utils::uriTemplate($this->path, $this->userValues)
-        );
-
-        return $this->client->createRequest($this->method, $url, $options);
-    }
-
-    /**
-     * This will first create a request {@see createRequest()} and then send it to the remote API.
-     *
-     * @throws \Exception
-     * @return \GuzzleHttp\Message\ResponseInterface
-     */
-    public function send()
-    {
-        try {
-            return $this->client->send($this->createRequest());
-        } catch (RequestException $e) {
-            throw $e->getPrevious();
-        }
     }
 
     /**
