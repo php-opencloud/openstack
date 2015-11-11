@@ -2,9 +2,9 @@
 
 namespace OpenStack\Common\Auth;
 
-use GuzzleHttp\Event\BeforeEvent;
-use GuzzleHttp\Event\SubscriberInterface;
-use GuzzleHttp\Message\RequestInterface;
+use function GuzzleHttp\Psr7\modify_request;
+
+use Psr\Http\Message\RequestInterface;
 
 /**
  * This class is responsible for three tasks:
@@ -13,51 +13,23 @@ use GuzzleHttp\Message\RequestInterface;
  * 2. populating the ``X-Auth-Token`` header for every HTTP request
  * 3. checking the token expiry before each request, and re-authenticating if necessary
  */
-class AuthHandler implements SubscriberInterface
+class AuthHandler
 {
-    /**
-     * The cached token
-     *
-     * @var Token
-     */
+    private $nextHandler;
+
+    private $tokenGenerator;
+
     private $token;
 
     /**
-     * The service responsible for handling the authentication operation
-     *
-     * @var IdentityService
+     * @param callable $nextHandler
+     * @param callable $tokenGenerator
      */
-    private $service;
-
-    /**
-     * Configuration options
-     *
-     * @var array
-     */
-    private $options;
-
-    /**
-     * @param IdentityService $service
-     * @param array           $options
-     * @param Token           $token
-     */
-    public function __construct(IdentityService $service, array $options, Token $token)
+    public function __construct(callable $nextHandler, callable $tokenGenerator, Token $token = null)
     {
-        $this->service = $service;
-        $this->options = $options;
-        $this->token   = $token;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @return array
-     */
-    public function getEvents()
-    {
-        return [
-            'before' => ['checkTokenIsValid']
-        ];
+        $this->nextHandler = $nextHandler;
+        $this->tokenGenerator = $tokenGenerator;
+        $this->token = $token;
     }
 
     /**
@@ -65,23 +37,26 @@ class AuthHandler implements SubscriberInterface
      * checks to see whether a token is set and valid, and then sets the ``X-Auth-Token`` header
      * for the HTTP request before letting it continue on its merry way.
      *
-     * @param BeforeEvent $event
+     * @param RequestInterface $request
+     * @param array            $options
      *
      * @return mixed|void
      */
-    public function checkTokenIsValid(BeforeEvent $event)
+    public function __invoke(RequestInterface $request, array $options)
     {
-        $request = $event->getRequest();
+        $fn = $this->nextHandler;
 
         if ($this->shouldIgnore($request)) {
-            return;
+            return $fn($request, $options);
         }
 
         if (!$this->token || $this->token->hasExpired()) {
-            $this->authenticate();
+            $this->token = call_user_func($this->tokenGenerator);
         }
 
-        $request->setHeader('X-Auth-Token', $this->token->getId());
+        $modify = ['set_headers' => ['X-Auth-Token' => $this->token->getId()]];
+
+        return $fn(modify_request($request, $modify), $options);
     }
 
     /**
@@ -94,14 +69,6 @@ class AuthHandler implements SubscriberInterface
      */
     private function shouldIgnore(RequestInterface $request)
     {
-        return strpos((string) $request->getUrl(), 'tokens') !== false && $request->getMethod() == 'POST';
-    }
-
-    /**
-     * Authenticates and retrieves a fresh token for caching.
-     */
-    public function authenticate()
-    {
-        list ($this->token,) = $this->service->authenticate($this->options);
+        return strpos((string) $request->getUri(), 'tokens') !== false && $request->getMethod() == 'POST';
     }
 }

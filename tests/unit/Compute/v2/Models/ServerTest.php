@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Compute\v2\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Server;
@@ -37,8 +37,7 @@ class ServerTest extends TestCase
             'flavorRef' => $opts['flavorId'],
         ]];
 
-        $req = $this->setupMockRequest('POST', 'servers', $expectedJson);
-        $this->setupMockResponse($req, 'server-post');
+        $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
 
         $this->assertInstanceOf(Server::class, $this->server->create($opts));
     }
@@ -56,24 +55,21 @@ class ServerTest extends TestCase
             'accessIPv6' => '0:0:0:0:0:ffff:0:0',
         ]];
 
-        $request = $this->setupMockRequest('PUT', 'servers/serverId', $expectedJson);
-        $this->setupMockResponse($request, 'server-put');
+        $this->setupMock('PUT', 'servers/serverId', $expectedJson, [], 'server-put');
 
         $this->assertInstanceOf(Server::class, $this->server->update());
     }
 
     public function test_it_deletes()
     {
-        $req = $this->setupMockRequest('DELETE', 'servers/serverId', []);
-        $this->setupMockResponse($req, new Response(204));
+        $this->setupMock('DELETE', 'servers/serverId', null, [], new Response(204));
 
         $this->assertNull($this->server->delete());
     }
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'servers/serverId');
-        $this->setupMockResponse($request, 'server-get');
+        $this->setupMock('GET', 'servers/serverId', null, [], 'server-get');
 
         $this->assertInstanceOf(Server::class, $this->server->retrieve());
         $this->assertInstanceOf(Flavor::class, $this->server->flavor);
@@ -83,8 +79,7 @@ class ServerTest extends TestCase
     public function test_it_changes_password()
     {
         $expectedJson = ['changePassword' => ['adminPass' => 'foo']];
-        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
-        $this->setupMockResponse($request, new Response(202));
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
 
         $this->assertNull($this->server->changePassword('foo'));
     }
@@ -92,8 +87,7 @@ class ServerTest extends TestCase
     public function test_it_reboots()
     {
         $expectedJson = ["reboot" => ["type" => "SOFT"]];
-        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
-        $this->setupMockResponse($request, new Response(202));
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
 
         $this->assertNull($this->server->reboot());
     }
@@ -132,8 +126,7 @@ class ServerTest extends TestCase
             'adminPass'   => $userOptions['adminPass']
         ]];
 
-        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
-        $this->setupMockResponse($request, 'server-rebuild');
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-rebuild');
 
         $this->server->rebuild($userOptions);
 
@@ -144,9 +137,7 @@ class ServerTest extends TestCase
     public function test_it_resizes()
     {
         $expectedJson = ['resize' => ['flavorRef' => 'flavorId']];
-
-        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
-        $this->setupMockResponse($request, new Response(202));
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
 
         $this->assertNull($this->server->resize('flavorId'));
     }
@@ -154,9 +145,7 @@ class ServerTest extends TestCase
     public function test_it_confirms_resizes()
     {
         $expectedJson = ['confirmResize' => null];
-
-        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
-        $this->setupMockResponse($request, new Response(202));
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
 
         $this->assertNull($this->server->confirmResize());
     }
@@ -164,9 +153,7 @@ class ServerTest extends TestCase
     public function test_it_reverts_resizes()
     {
         $expectedJson = ['revertResize' => null];
-
-        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
-        $this->setupMockResponse($request, new Response(202));
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
 
         $this->assertNull($this->server->revertResize());
     }
@@ -176,17 +163,14 @@ class ServerTest extends TestCase
         $userData = ['name' => 'newImage', 'metadata' => ['foo' => 'bar']];
 
         $expectedJson = ['createImage' => $userData];
-
-        $request = $this->setupMockRequest('POST', 'servers/serverId/action', $expectedJson);
-        $this->setupMockResponse($request, new Response(202));
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
 
         $this->assertNull($this->server->createImage($userData));
     }
 
     public function test_it_gets_ip_addresses()
     {
-        $request = $this->setupMockRequest('GET', 'servers/serverId/ips');
-        $this->setupMockResponse($request, 'server-ips');
+        $this->setupMock('GET', 'servers/serverId/ips', null, [], 'server-ips');
 
         $ips = $this->server->listAddresses();
 
@@ -197,8 +181,7 @@ class ServerTest extends TestCase
 
     public function test_it_gets_ip_addresses_by_network_label()
     {
-        $request = $this->setupMockRequest('GET', 'servers/serverId/ips/foo');
-        $this->setupMockResponse($request, 'server-ips');
+        $this->setupMock('GET', 'servers/serverId/ips/foo', null, [], 'server-ips');
 
         $ips = $this->server->listAddresses(['networkLabel' => 'foo']);
 
@@ -209,8 +192,7 @@ class ServerTest extends TestCase
 
     public function test_it_retrieves_metadata()
     {
-        $request = $this->setupMockRequest('GET', 'servers/serverId/metadata');
-        $this->setupMockResponse($request, 'server-metadata-get');
+        $this->setupMock('GET', 'servers/serverId/metadata', null, [], 'server-metadata-get');
 
         $metadata = $this->server->getMetadata();
 
@@ -225,9 +207,8 @@ class ServerTest extends TestCase
         $metadata = ['foo' => '1', 'bar' => '2'];
 
         $expectedJson = ['metadata' => $metadata];
-
-        $request = $this->setupMockRequest('PUT', 'servers/serverId/metadata', $expectedJson);
-        $this->setupMockResponse($request, $this->createResponse(200, [], $expectedJson));
+        $response = $this->createResponse(200, [], $expectedJson);
+        $this->setupMock('PUT', 'servers/serverId/metadata', $expectedJson, [], $response);
 
         $metadata = $this->server->resetMetadata($metadata);
 
@@ -239,9 +220,8 @@ class ServerTest extends TestCase
         $metadata = ['foo' => '1'];
 
         $expectedJson = ['metadata' => $metadata];
-
-        $request = $this->setupMockRequest('POST', 'servers/serverId/metadata', $expectedJson);
-        $this->setupMockResponse($request, $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']])));
+        $response = $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']]));
+        $this->setupMock('POST', 'servers/serverId/metadata', $expectedJson, [], $response);
 
         $metadata = $this->server->mergeMetadata($metadata);
 
@@ -251,8 +231,8 @@ class ServerTest extends TestCase
 
     public function test_it_retrieves_a_metadata_item()
     {
-        $request = $this->setupMockRequest('GET', 'servers/serverId/metadata/fooKey');
-        $this->setupMockResponse($request, $this->createResponse(200, [], ['metadata' => ['fooKey' => 'bar']]));
+        $response = $this->createResponse(200, [], ['metadata' => ['fooKey' => 'bar']]);
+        $this->setupMock('GET', 'servers/serverId/metadata/fooKey', null, [], $response);
 
         $value = $this->server->getMetadataItem('fooKey');
 
@@ -261,8 +241,7 @@ class ServerTest extends TestCase
 
     public function test_it_deletes_a_metadata_item()
     {
-        $request = $this->setupMockRequest('DELETE', 'servers/serverId/metadata/fooKey');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'servers/serverId/metadata/fooKey', null, [], new Response(204));
 
         $this->assertNull($this->server->deleteMetadataItem('fooKey'));
     }

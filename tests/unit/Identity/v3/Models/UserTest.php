@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Identity\v3\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\User;
 use OpenStack\Test\TestCase;
@@ -23,8 +23,7 @@ class UserTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'users/USER_ID');
-        $this->setupMockResponse($request, 'user');
+        $this->setupMock('GET', 'users/USER_ID', null, [], 'user');
 
         $this->user->retrieve();
     }
@@ -43,16 +42,14 @@ class UserTest extends TestCase
             'enabled' => true,
         ];
 
-        $request = $this->setupMockRequest('PATCH', 'users/USER_ID', ['user' => $expectedJson]);
-        $this->setupMockResponse($request, 'user');
+        $this->setupMock('PATCH', 'users/USER_ID', ['user' => $expectedJson], [], 'user');
 
         $this->user->update();
     }
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'users/USER_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'users/USER_ID', null, [], new Response(204));
 
         $this->user->delete();
     }

@@ -22,8 +22,7 @@ class FlavorTest extends TestCase
 
     public function test_it_retrieves_details()
     {
-        $request = $this->setupMockRequest('GET', 'flavors/1');
-        $this->setupMockResponse($request, 'flavor-get');
+        $this->setupMock('GET', 'flavors/1', null, [], 'flavor-get');
 
         $this->flavor->retrieve();
 

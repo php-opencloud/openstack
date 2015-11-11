@@ -2,8 +2,8 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
-use GuzzleHttp\Message\ResponseInterface;
-use GuzzleHttp\Stream\StreamInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -49,10 +49,10 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
     {
         parent::populateFromResponse($response);
 
-        $this->hash = $response->getHeader('ETag');
-        $this->contentLength = $response->getHeader('Content-Length');
-        $this->lastModified = $response->getHeader('Last-Modified');
-        $this->contentType = $response->getHeader('Content-Type');
+        $this->hash = $response->getHeaderLine('ETag');
+        $this->contentLength = $response->getHeaderLine('Content-Length');
+        $this->lastModified = $response->getHeaderLine('Last-Modified');
+        $this->contentType = $response->getHeaderLine('Content-Type');
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -112,7 +112,12 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
      */
     public function mergeMetadata(array $metadata)
     {
-        $options = ['containerName' => $this->containerName, 'name' => $this->name, 'metadata' => $metadata];
+        $options = [
+            'containerName' => $this->containerName,
+            'name'          => $this->name,
+            'metadata'      => array_merge($metadata, $this->getMetadata()),
+        ];
+
         $response = $this->execute($this->api->postObject(), $options);
         return $this->parseMetadata($response);
     }
@@ -125,15 +130,8 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         $options = [
             'containerName'  => $this->containerName,
             'name'           => $this->name,
-            'removeMetadata' => [],
             'metadata'       => $metadata,
         ];
-
-        foreach ($this->getMetadata() as $key => $val) {
-            if (!array_key_exists($key, $metadata)) {
-                $options['removeMetadata'][$key] = 'True';
-            }
-        }
 
         $response = $this->execute($this->api->postObject(), $options);
         return $this->parseMetadata($response);

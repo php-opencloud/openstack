@@ -33,7 +33,7 @@ class AccountTest extends TestCase
 
     public function test_Retrieve()
     {
-        $this->setupMockResponse($this->setupMockRequest('HEAD', ''), 'HEAD_Account');
+        $this->setupMock('HEAD', '', null, [], 'HEAD_Account');
 
         $this->account->retrieve();
 
@@ -42,7 +42,7 @@ class AccountTest extends TestCase
 
     public function test_Get_Metadata()
     {
-        $this->setupMockResponse($this->setupMockRequest('HEAD', ''), 'HEAD_Account');
+        $this->setupMock('HEAD', '', null, [], 'HEAD_Account');
         $this->assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->getMetadata());
     }
 
@@ -50,14 +50,14 @@ class AccountTest extends TestCase
     {
         $headers = ['X-Account-Meta-Subject' => 'AmericanLiterature'];
 
-        $this->setupMockResponse($this->setupMockRequest('POST', '', [], $headers), 'NoContent');
+        $this->setupMock('POST', '', [], $headers, 'NoContent');
 
         $this->account->mergeMetadata(['Subject' => 'AmericanLiterature']);
     }
 
     public function test_Reset_Metadata()
     {
-        $this->setupMockResponse($this->setupMockRequest('HEAD', ''), 'HEAD_Account');
+        $this->setupMock('HEAD', '', null, [], 'HEAD_Account');
 
         $headers = [
             'X-Account-Meta-Book'         => 'Middlesex',
@@ -65,7 +65,7 @@ class AccountTest extends TestCase
             'X-Remove-Account-Meta-Genre' => 'True',
         ];
 
-        $this->setupMockResponse($this->setupMockRequest('POST', '', [], $headers), 'NoContent');
+        $this->setupMock('POST', '', [], $headers, 'NoContent');
 
         $this->account->resetMetadata([
             'Book'   => 'Middlesex',

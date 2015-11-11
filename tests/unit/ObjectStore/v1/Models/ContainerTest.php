@@ -2,7 +2,8 @@
 
 namespace OpenStack\Test\ObjectStore\v1\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -39,14 +40,16 @@ class ContainerTest extends TestCase
 
     public function test_Retrieve()
     {
-        $this->setupMockResponse($this->setupMockRequest('HEAD', self::NAME), 'HEAD_Container');
+        $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
+
         $this->container->retrieve();
         $this->assertNotEmpty($this->container->metadata);
     }
 
     public function test_Get_Metadata()
     {
-        $this->setupMockResponse($this->setupMockRequest('HEAD', self::NAME), 'HEAD_Container');
+        $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
+
         $this->assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->getMetadata());
     }
 
@@ -54,21 +57,21 @@ class ContainerTest extends TestCase
     {
         $headers = ['X-Container-Meta-Subject' => 'AmericanLiterature'];
 
-        $this->setupMockResponse($this->setupMockRequest('POST', self::NAME, [], $headers), 'NoContent');
+        $this->setupMock('POST', self::NAME, [], $headers, 'NoContent');
 
         $this->container->mergeMetadata(['Subject' => 'AmericanLiterature']);
     }
 
     public function test_Reset_Metadata()
     {
-        $this->setupMockResponse($this->setupMockRequest('HEAD', self::NAME), 'HEAD_Container');
+        $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
 
         $headers = [
             'X-Container-Meta-Book'          => 'Middlesex',
             'X-Remove-Container-Meta-Author' => 'True',
         ];
 
-        $this->setupMockResponse($this->setupMockRequest('POST', self::NAME, [], $headers), 'NoContent');
+        $this->setupMock('POST', self::NAME, [], $headers, 'NoContent');
 
         $this->container->resetMetadata([
             'Book' => 'Middlesex',
@@ -77,13 +80,13 @@ class ContainerTest extends TestCase
 
     public function test_It_Creates()
     {
-        $this->setupMockResponse($this->setupMockRequest('PUT', self::NAME), 'Created');
+        $this->setupMock('PUT', self::NAME, null, [], 'Created');
         $this->container->create(['name' => self::NAME]);
     }
 
     public function test_It_Deletes()
     {
-        $this->setupMockResponse($this->setupMockRequest('DELETE', self::NAME), 'NoContent');
+        $this->setupMock('DELETE', self::NAME, null, [], 'NoContent');
         $this->container->delete();
     }
 
@@ -110,8 +113,7 @@ class ContainerTest extends TestCase
 
         $content = json_encode(['foo' => 'bar']);
 
-        $request = $this->setupMockRequest('PUT', self::NAME . '/' . $objectName, $content, $headers);
-        $this->setupMockResponse($request, 'Created');
+        $this->setupMock('PUT', self::NAME . '/' . $objectName, $content, $headers, 'Created');
 
         $this->container->createObject([
             'name'               => $objectName,
@@ -126,8 +128,15 @@ class ContainerTest extends TestCase
 
     public function test_it_lists_objects()
     {
-        $req = $this->setupMockRequest('GET', 'test?limit=2&format=json');
-        $this->setupMockResponse($req, 'GET_Container');
+        $this->client
+            ->request('GET', 'test', ['query' => ['limit' => 2, 'format' => 'json'], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('GET_Container'));
+
+        $this->client
+            ->request('GET', 'test', ['query' => ['limit' => 2, 'format' => 'json', 'marker' => 'helloworld'], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn(new Response(204));
 
         foreach ($this->container->listObjects(['limit' => 2]) as $object) {
             $this->assertInstanceOf(Object::class, $object);
@@ -136,23 +145,20 @@ class ContainerTest extends TestCase
 
     public function test_true_is_returned_for_existing_object()
     {
-        $req = $this->setupMockRequest('HEAD', 'test/bar');
-        $this->setupMockResponse($req, new Response(200));
+        $this->setupMock('HEAD', 'test/bar', null, [], new Response(200));
 
         $this->assertTrue($this->container->objectExists('bar'));
     }
 
     public function test_false_is_returned_for_non_existing_object()
     {
-        $req = $this->setupMockRequest('HEAD', 'test/bar');
-        $res = new Response(404);
-
         $e = new BadResponseError();
-        $e->setRequest($req);
-        $e->setResponse($res);
+        $e->setRequest(new Request('HEAD', 'test/bar'));
+        $e->setResponse(new Response(404));
 
         $this->client
-            ->send(Argument::is($req))
+            ->request('HEAD', 'test/bar', ['headers' => []])
+            ->shouldBeCalled()
             ->willThrow($e);
 
         $this->assertFalse($this->container->objectExists('bar'));

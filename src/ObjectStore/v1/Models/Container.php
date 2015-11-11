@@ -2,7 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
@@ -41,8 +41,8 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     {
         parent::populateFromResponse($response);
 
-        $this->objectCount = $response->getHeader('X-Container-Object-Count');
-        $this->bytesUsed = $response->getHeader('X-Container-Bytes-Used');
+        $this->objectCount = $response->getHeaderLine('X-Container-Object-Count');
+        $this->bytesUsed = $response->getHeaderLine('X-Container-Bytes-Used');
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -57,8 +57,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     public function listObjects(array $options = [], callable $mapFn = null)
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
-        $operation = $this->getOperation($this->api->getContainer(), $options);
-        return $this->model('Object')->enumerate($operation, $mapFn);
+        return $this->model('Object')->enumerate($this->api->getContainer(), $options, $mapFn);
     }
 
     /**

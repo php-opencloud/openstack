@@ -2,13 +2,12 @@
 
 namespace OpenStack\Common\Api;
 
+use function GuzzleHttp\uri_template;
+
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Message\ResponseInterface;
-use GuzzleHttp\Middleware;
-use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Resource\ResourceInterface;
-use OpenStack\Common\Transport\HandlerStack;
 use OpenStack\Common\Transport\RequestSerializer;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * {@inheritDoc}
@@ -18,13 +17,8 @@ abstract class Operator implements OperatorInterface
     /** @var ClientInterface */
     private $client;
 
-    /** @var Builder Constructs and raises meaningful errors */
-    private $errorBuilder;
-
     /** @var ApiInterface */
     protected $api;
-
-    private $handlerStack;
 
     /**
      * {@inheritDoc}
@@ -33,11 +27,6 @@ abstract class Operator implements OperatorInterface
     {
         $this->client = $client;
         $this->api = $api;
-
-        $this->handlerStack = HandlerStack::create();
-        $this->errorBuilder = new Builder();
-
-        $this->client->getEmitter()->attach($this->errorBuilder);
     }
 
     /**
@@ -72,7 +61,16 @@ abstract class Operator implements OperatorInterface
      */
     public function getOperation(array $definition)
     {
-        return new Operation($this->client, $definition);
+        return new Operation($definition);
+    }
+
+    protected function sendRequest(Operation $operation, array $userValues = [], $async = false)
+    {
+        $uri     = uri_template($operation->getPath(), $userValues);
+        $options = RequestSerializer::serializeOptions($operation, $userValues);
+        $method  = $async ? 'requestAsync' : 'request';
+
+        return $this->client->$method($operation->getMethod(), $uri, $options);
     }
 
     /**
@@ -80,24 +78,12 @@ abstract class Operator implements OperatorInterface
      */
     public function executeAsync(array $definition, array $userValues = [])
     {
-        $operation = $this->getOperation($definition);
-
-        $method  = $operation->getMethod();
-        $uri     = uri_template($operation->getPath(), $userValues);
-        $options = RequestSerializer::serializeOptions($operation, $userValues);
-
-        return $this->client->requestAsync($method, $uri, $options);
+        return $this->sendRequest($this->getOperation($definition), $userValues, true);
     }
 
     public function execute(array $definition, array $userValues = [])
     {
-        $operation = $this->getOperation($definition);
-
-        $method  = $operation->getMethod();
-        $uri     = uri_template($operation->getPath(), $userValues);
-        $options = RequestSerializer::serializeOptions($operation, $userValues);
-
-        return $this->client->request($method, $uri, $options);
+        return $this->sendRequest($this->getOperation($definition), $userValues);
     }
 
     /**

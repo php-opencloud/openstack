@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Identity\v3\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Policy;
 use OpenStack\Test\TestCase;
@@ -37,8 +37,7 @@ class PolicyTest extends TestCase
             'user_id' => 'id',
         ];
 
-        $request = $this->setupMockRequest('POST', 'policies', $userJson);
-        $this->setupMockResponse($request, 'policy');
+        $this->setupMock('POST', 'policies', $userJson, [], 'policy');
 
         /** @var $policy \OpenStack\Identity\v3\Models\Policy */
         $policy = $this->policy->create($userOptions);
@@ -49,8 +48,7 @@ class PolicyTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'policies/POLICY_ID');
-        $this->setupMockResponse($request, 'policy');
+        $this->setupMock('GET', 'policies/POLICY_ID', null, [], 'policy');
 
         $this->policy->retrieve();
     }
@@ -59,16 +57,14 @@ class PolicyTest extends TestCase
     {
         $this->policy->type = 'foo';
 
-        $request = $this->setupMockRequest('PATCH', 'policies/POLICY_ID', ['type' => 'foo']);
-        $this->setupMockResponse($request, 'policy');
+        $this->setupMock('PATCH', 'policies/POLICY_ID', ['type' => 'foo'], [], 'policy');
 
         $this->policy->update();
     }
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'policies/POLICY_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'policies/POLICY_ID', null, [], new Response(204));
 
         $this->policy->delete();
     }

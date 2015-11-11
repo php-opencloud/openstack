@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Identity\v3\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Endpoint;
 use OpenStack\Identity\v3\Models\Service;
@@ -24,8 +24,7 @@ class ServiceTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'services/SERVICE_ID');
-        $this->setupMockResponse($request, 'service');
+        $this->setupMock('GET', 'services/SERVICE_ID', null, [], 'service');
 
         $this->service->retrieve();
     }
@@ -34,16 +33,14 @@ class ServiceTest extends TestCase
     {
         $this->service->type = 'foo';
 
-        $request = $this->setupMockRequest('PATCH', 'services/SERVICE_ID', ['service' => ['type' => 'foo']]);
-        $this->setupMockResponse($request, 'service');
+        $this->setupMock('PATCH', 'services/SERVICE_ID', ['service' => ['type' => 'foo']], [], 'service');
 
         $this->service->update();
     }
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'services/SERVICE_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'services/SERVICE_ID', null, [], new Response(204));
 
         $this->service->delete();
     }

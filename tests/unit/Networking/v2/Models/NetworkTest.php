@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Networking\v2\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Networking\v2\Api;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Test\TestCase;
@@ -35,8 +35,7 @@ class NetworkTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/networks', $expectedJson);
-        $this->setupMockResponse($req, 'network-post');
+        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'network-post');
 
         $this->assertInstanceOf(Network::class, $this->network->create($opts));
     }
@@ -71,8 +70,7 @@ class NetworkTest extends TestCase
             ],
         ];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/networks', $expectedJson);
-        $this->setupMockResponse($req, 'networks-post');
+        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'networks-post');
 
         $networks = $this->network->bulkCreate($opts);
 
@@ -93,16 +91,14 @@ class NetworkTest extends TestCase
             'admin_state_up' => false,
         ]];
 
-        $request = $this->setupMockRequest('PUT', 'v2.0/networks/networkId', $expectedJson);
-        $this->setupMockResponse($request, 'network-put');
+        $this->setupMock('PUT', 'v2.0/networks/networkId', $expectedJson, [], 'network-put');
 
         $this->assertInstanceOf(Network::class, $this->network->update());
     }
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'v2.0/networks/networkId');
-        $this->setupMockResponse($request, 'network-get');
+        $this->setupMock('GET', 'v2.0/networks/networkId', null, [], 'network-get');
 
         $this->network->retrieve();
 
@@ -113,8 +109,7 @@ class NetworkTest extends TestCase
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'v2.0/networks/networkId');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'v2.0/networks/networkId', null, [], new Response(204));
 
         $this->network->delete();
     }

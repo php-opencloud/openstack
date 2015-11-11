@@ -4,12 +4,34 @@ namespace OpenStack\Common\Transport;
 
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
+use OpenStack\Common\Auth\AuthHandler;
+use OpenStack\Common\Auth\Token;
+use OpenStack\Common\Error\Builder;
+use Psr\Http\Message\ResponseInterface;
 
 final class Middleware
 {
     public static function httpErrors()
     {
+        return function (callable $handler) {
+            return function ($request, array $options) use ($handler) {
+                return $handler($request, $options)->then(
+                    function (ResponseInterface $response) use ($request, $handler) {
+                        if ($response->getStatusCode() < 400) {
+                            return $response;
+                        }
+                        throw (new Builder())->httpError($request, $response);
+                    }
+                );
+            };
+        };
+    }
 
+    public static function authHandler(callable $tokenGenerator, Token $token = null)
+    {
+        return function (callable $handler) use ($tokenGenerator, $token) {
+            return new AuthHandler($handler, $tokenGenerator, $token);
+        };
     }
 
     public static function history(array &$container)

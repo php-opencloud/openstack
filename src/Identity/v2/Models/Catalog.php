@@ -2,8 +2,9 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use GuzzleHttp\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
+use OpenStack\Common\Transport\Utils;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents an Identity v2 service catalog.
@@ -26,7 +27,7 @@ class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
      */
     public function populateFromResponse(ResponseInterface $response)
     {
-        $entries = $response->json()['access']['serviceCatalog'];
+        $entries = Utils::jsonDecode($response)['access']['serviceCatalog'];
 
         foreach ($entries as $entry) {
             $this->entries[] = $this->model('Entry', $entry);

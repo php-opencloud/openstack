@@ -79,6 +79,11 @@ class Operation
         return $this->params[$name];
     }
 
+    public function getJsonKey()
+    {
+        return $this->jsonKey;
+    }
+
     /**
      * A convenience method that will take a generic array of data and convert it into an array of
      * {@see Parameter} objects.

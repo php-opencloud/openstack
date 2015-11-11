@@ -7,6 +7,7 @@ use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Transport\Utils;
 
 /**
  * Represents a Networking v2 Network.
@@ -47,7 +48,7 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
     public function bulkCreate(array $data)
     {
         $response = $this->execute($this->api->postNetworks(), ['networks' => $data]);
-        $networksData = $response->json()['networks'];
+        $networksData = Utils::jsonDecode($response)['networks'];
 
         $networks = [];
         foreach($networksData as $resourceData) {

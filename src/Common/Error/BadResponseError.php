@@ -2,8 +2,8 @@
 
 namespace OpenStack\Common\Error;
 
-use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents a HTTP-specific error, caused by 4xx or 5xx response statuses.

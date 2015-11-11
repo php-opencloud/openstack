@@ -32,8 +32,7 @@ class Service extends AbstractService
     public function listContainers(array $options = [], callable $mapFn = null)
     {
         $options = array_merge($options, ['format' => 'json']);
-        $operation = $this->getOperation($this->api->getAccount(), $options);
-        return $this->model('Container')->enumerate($operation, $mapFn);
+        return $this->model('Container')->enumerate($this->api->getAccount(), $options, $mapFn);
     }
 
     /**

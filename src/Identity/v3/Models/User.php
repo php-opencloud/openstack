@@ -101,8 +101,8 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
      */
     public function listGroups()
     {
-        $operation = $this->getOperation($this->api->getUserGroups(), ['id' => $this->id]);
-        return $this->model('Group')->enumerate($operation);
+        $options['id'] = $this->id;
+        return $this->model('Group')->enumerate($this->api->getUserGroups(), $options);
     }
 
     /**
@@ -110,7 +110,6 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
      */
     public function listProjects()
     {
-        $operation = $this->getOperation($this->api->getUserProjects(), ['id' => $this->id]);
-        return $this->model('Project')->enumerate($operation);
+        return $this->model('Project')->enumerate($this->api->getUserProjects(), ['id' => $this->id]);
     }
 }

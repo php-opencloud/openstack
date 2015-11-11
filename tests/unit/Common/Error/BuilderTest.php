@@ -2,12 +2,12 @@
 
 namespace OpenStack\Test\Common\Error;
 
-use GuzzleHttp\Client;
+use function GuzzleHttp\Psr7\stream_for;
+use function GuzzleHttp\Psr7\str;
+
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Event\CompleteEvent;
-use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Transaction;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Error\Builder;
@@ -27,10 +27,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function test_it_builds_http_errors()
     {
         $request = new Request('POST', '/servers');
-        $response = new Response(400, [], Stream::factory('Invalid parameters'));
+        $response = new Response(400, [], stream_for('Invalid parameters'));
 
-        $requestStr = trim((string)$request);
-        $responseStr = trim((string)$response);
+        $requestStr = trim(str($request));
+        $responseStr = trim(str($response));
 
         $errorMessage = <<<EOT
 HTTP Error
@@ -49,7 +49,6 @@ Further information
 ~~~~~~~~~~~~~~~~~~~
 Please ensure that your input values are valid and well-formed. Visit http://docs.php-opencloud.com/en/latest/http-codes for more information about debugging HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.
 EOT;
-
 
         $e = new BadResponseError($errorMessage);
         $e->setRequest($request);
@@ -78,7 +77,7 @@ Please ensure that the value adheres to the expectation above. Visit $link for m
 EOT;
 
         $this->client
-            ->head($link)
+            ->request('HEAD', $link)
             ->shouldBeCalled()
             ->willReturn(new Response(200));
 
@@ -106,24 +105,12 @@ Please ensure that the value adheres to the expectation above. If you run into t
 EOT;
 
         $this->client
-            ->head('http://docs.php-opencloud.com/en/latest/sdffsda')
+            ->request('HEAD', 'http://docs.php-opencloud.com/en/latest/sdffsda')
             ->shouldBeCalled()
             ->willReturn(new Response(404));
 
         $e = new UserInputError($errorMessage);
 
         $this->assertEquals($e, $this->builder->userInputError($expected, $value, 'sdffsda'));
-    }
-
-    /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
-     */
-    public function test_an_exception_is_thrown()
-    {
-        $trans = new Transaction(new Client(), new Request('GET', ''));
-        $trans->response = new Response(400);
-        $event = new CompleteEvent($trans);
-
-        $this->builder->onComplete($event);
     }
 }

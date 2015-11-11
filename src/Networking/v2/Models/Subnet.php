@@ -7,6 +7,7 @@ use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Transport\Utils;
 
 /**
  * Represents a Networking v2 Network.
@@ -60,7 +61,7 @@ class Subnet extends AbstractResource implements Listable, Retrievable, Creatabl
     public function bulkCreate(array $data)
     {
         $response = $this->execute($this->api->postSubnets(), ['subnets' => $data]);
-        $subnetsData = $response->json()['subnets'];
+        $subnetsData = Utils::jsonDecode($response)['subnets'];
 
         $subnets = [];
         foreach($subnetsData as $resourceData) {

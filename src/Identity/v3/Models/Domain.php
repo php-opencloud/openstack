@@ -77,8 +77,8 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function listUserRoles(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getUserRoles(), ['domainId' => $this->id] + $options);
-        return $this->model('Role')->enumerate($operation);
+        $options['domainId'] = $this->id;
+        return $this->model('Role')->enumerate($this->api->getUserRoles(), $options);
     }
 
     /**
@@ -119,8 +119,8 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
      */
     public function listGroupRoles(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getGroupRoles(), ['domainId' => $this->id] + $options);
-        return $this->model('Role')->enumerate($operation);
+        $options['domainId'] = $this->id;
+        return $this->model('Role')->enumerate($this->api->getGroupRoles(), $options);
     }
 
     /**

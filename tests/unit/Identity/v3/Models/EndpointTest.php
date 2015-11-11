@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Identity\v3\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Endpoint;
 use OpenStack\Identity\v3\Service;
@@ -39,8 +39,7 @@ class EndpointTest extends TestCase
         $userJson['service_id'] = $userOptions['serviceId'];
         unset($userJson['serviceId']);
 
-        $request = $this->setupMockRequest('POST', 'endpoints', ['endpoint' => $userJson]);
-        $this->setupMockResponse($request, 'endpoint');
+        $this->setupMock('POST', 'endpoints', ['endpoint' => $userJson], [], 'endpoint');
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
         $endpoint = $this->service->createEndpoint($userOptions);
@@ -64,16 +63,14 @@ class EndpointTest extends TestCase
             'service_id' => '12345'
         ];
 
-        $request = $this->setupMockRequest('PATCH', 'endpoints/ENDPOINT_ID', ['endpoint' => $userJson]);
-        $this->setupMockResponse($request, 'endpoint');
+        $this->setupMock('PATCH', 'endpoints/ENDPOINT_ID', ['endpoint' => $userJson], [], 'endpoint');
 
         $this->endpoint->update();
     }
 
     public function test_it_deletes_endpoint()
     {
-        $request = $this->setupMockRequest('DELETE', 'endpoints/ENDPOINT_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'endpoints/ENDPOINT_ID', null, [], new Response(204));
 
         $this->endpoint->delete();
     }

@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Compute\v2\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Test\TestCase;
@@ -23,8 +23,7 @@ class ImageTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'images/imageId');
-        $this->setupMockResponse($request, 'image-get');
+        $this->setupMock('GET', 'images/imageId', null, [], 'image-get');
 
         $this->image->retrieve();
 
@@ -47,16 +46,14 @@ class ImageTest extends TestCase
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'images/imageId');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'images/imageId', null, [], new Response(204));
 
         $this->image->delete();
     }
 
     public function test_it_retrieves_metadata()
     {
-        $request = $this->setupMockRequest('GET', 'images/imageId/metadata');
-        $this->setupMockResponse($request, 'server-metadata-get');
+        $this->setupMock('GET', 'images/imageId/metadata', null, [], 'server-metadata-get');
 
         $metadata = $this->image->getMetadata();
 
@@ -72,8 +69,8 @@ class ImageTest extends TestCase
 
         $expectedJson = ['metadata' => $metadata];
 
-        $request = $this->setupMockRequest('PUT', 'images/imageId/metadata', $expectedJson);
-        $this->setupMockResponse($request, $this->createResponse(200, [], $expectedJson));
+        $response = $this->createResponse(200, [], $expectedJson);
+        $this->setupMock('PUT', 'images/imageId/metadata', $expectedJson, [], $response);
 
         $metadata = $this->image->resetMetadata($metadata);
 
@@ -86,8 +83,8 @@ class ImageTest extends TestCase
 
         $expectedJson = ['metadata' => $metadata];
 
-        $request = $this->setupMockRequest('POST', 'images/imageId/metadata', $expectedJson);
-        $this->setupMockResponse($request, $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']])));
+        $response = $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']]));
+        $this->setupMock('POST', 'images/imageId/metadata', $expectedJson, [], $response);
 
         $metadata = $this->image->mergeMetadata($metadata);
 
@@ -97,8 +94,8 @@ class ImageTest extends TestCase
 
     public function test_it_retrieves_a_metadata_item()
     {
-        $request = $this->setupMockRequest('GET', 'images/imageId/metadata/fooKey');
-        $this->setupMockResponse($request, $this->createResponse(200, [], ['metadata' => ['fooKey' => 'bar']]));
+        $response = $this->createResponse(200, [], ['metadata' => ['fooKey' => 'bar']]);
+        $this->setupMock('GET', 'images/imageId/metadata/fooKey', null, [], $response);
 
         $value = $this->image->getMetadataItem('fooKey');
 
@@ -107,8 +104,7 @@ class ImageTest extends TestCase
 
     public function test_it_deletes_a_metadata_item()
     {
-        $request = $this->setupMockRequest('DELETE', 'images/imageId/metadata/fooKey');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'images/imageId/metadata/fooKey', null, [], new Response(204));
 
         $this->assertNull($this->image->deleteMetadataItem('fooKey'));
     }

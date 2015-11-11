@@ -6,6 +6,7 @@ use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Transport\Utils;
 
 /**
  * Represents a Compute v2 Image
@@ -64,7 +65,7 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
     public function getMetadata()
     {
         $response = $this->execute($this->api->getImageMetadata(), ['id' => $this->id]);
-        return $response->json()['metadata'];
+        return Utils::jsonDecode($response)['metadata'];
     }
 
     /**
@@ -78,7 +79,7 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
     public function resetMetadata(array $metadata)
     {
         $response = $this->execute($this->api->putImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return $response->json()['metadata'];
+        return Utils::jsonDecode($response)['metadata'];
     }
 
     /**
@@ -93,7 +94,7 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return $response->json()['metadata'];
+        return Utils::jsonDecode($response)['metadata'];
     }
 
     /**
@@ -106,7 +107,7 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
     public function getMetadataItem($key)
     {
         $response = $this->execute($this->api->getImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
-        return $response->json()['metadata'][$key];
+        return Utils::jsonDecode($response)['metadata'][$key];
     }
 
     /**

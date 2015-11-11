@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Identity\v3\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Credential;
 use OpenStack\Test\TestCase;
@@ -23,8 +23,7 @@ class CredentialTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'credentials/CRED_ID');
-        $this->setupMockResponse($request, 'cred');
+        $this->setupMock('GET', 'credentials/CRED_ID', null, [], 'cred');
 
         $this->credential->retrieve();
     }
@@ -39,16 +38,14 @@ class CredentialTest extends TestCase
             'project_id' => 'bar',
         ];
 
-        $request = $this->setupMockRequest('PATCH', 'credentials/CRED_ID', $expectedJson);
-        $this->setupMockResponse($request, 'cred');
+        $this->setupMock('PATCH', 'credentials/CRED_ID', $expectedJson, [], 'cred');
 
         $this->credential->update();
     }
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'credentials/CRED_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'credentials/CRED_ID', null, [], new Response(204));
 
         $this->credential->delete();
     }

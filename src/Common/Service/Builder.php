@@ -4,12 +4,9 @@ namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Subscriber\Log\Formatter;
-use GuzzleHttp\Subscriber\Log\LogSubscriber;
-use OpenStack\Common\Auth\AuthHandler;
 use OpenStack\Common\Auth\ServiceUrlResolver;
-use OpenStack\Identity\v3\Api;
-use OpenStack\Identity\v3\Service;
+use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\Middleware;
 
 /**
  * A Builder for easily creating OpenStack services.
@@ -78,75 +75,52 @@ class Builder
     {
         $options = $this->mergeOptions($serviceOptions);
 
-        if (strcasecmp($serviceName, 'identity') === 0) {
-            $options['identityService'] = new Service($this->httpClient($options['authUrl'], $options), new Api());
-        }
 
-        if (!empty($options['httpClient']) && $options['httpClient'] instanceof ClientInterface) {
-            $httpClient = $options['httpClient'];
-        } else {
-            $httpClient = $this->setupHttpClient($options);
+        if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
+            $options['httpClient'] = (strcasecmp($serviceName, 'identity') === 0)
+                ? $this->setupAuthHttpClient($options)
+                : $this->setupHttpClient($options);
         }
 
         list ($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
 
-        return new $serviceClass($httpClient, new $apiClass());
+        return new $serviceClass($options['httpClient'], new $apiClass());
     }
 
-    /**
-     * This method does a few different things, but the overall purpose is to return a suitable
-     * HTTP client which can be injected into an OpenStack service.
-     *
-     * The first thing that happens is to use the KeyStone v2 Service to generate a token. This
-     * also causes a Service Catalog to be returned.
-     *
-     * The service URL is passed in to the HTTP client as its base URL. The authentication handler
-     * is then attached to the HTTP client as an event subscriber, meaning that it will listen out
-     * for an event to be fired before every Request is sent. It is given an initial token.
-     *
-     * @param array $options
-     *
-     * @return Client
-     */
     private function setupHttpClient(array $options)
     {
-        $identity = isset($options['identityService'])
-            ? $options['identityService']
-            : $this->createService('Identity', 3, array_merge($options, [
+        if (!isset($options['identityService'])) {
+            $options['identityService'] = $this->createService('Identity', 3, array_merge($options, [
                 'catalogName' => false,
                 'catalogType' => false,
             ]));
-
-        list ($token, $baseUrl) = $identity->authenticate($options);
-
-        if (false === $baseUrl) {
-            $baseUrl = $options['authUrl'];
         }
 
-        $httpClient = $this->httpClient($baseUrl, $options);
-        $httpClient->getEmitter()->attach(new AuthHandler($identity, $options, $token));
+        if (!isset($options['authHandler'])) {
+            $options['authHandler'] = function () use ($options) {
+                return $options['identityService']->generateToken();
+            };
+        }
 
-        return $httpClient;
+        list ($token, $baseUrl) = $options['identityService']->authenticate($options);
+
+        $stack = HandlerStack::create();
+        $stack->push(Middleware::authHandler($options['authHandler'], $token));
+
+        return $this->httpClient($baseUrl, $stack);
     }
 
-    /**
-     * Returns a new HTTP client based on the base URL and options provided.
-     *
-     * @param string $baseUrl
-     * @param array  $options
-     *
-     * @return Client
-     */
-    public function httpClient($baseUrl, array $options = [])
+    private function setupAuthHttpClient(array $options)
     {
-        $client = new Client(['base_url' => rtrim($baseUrl, '/') . '/']);
+        return $this->httpClient($options['authUrl'], HandlerStack::create());
+    }
 
-        if (isset($options['debug']) && $options['debug'] === true) {
-            $logger = isset($options['logger']) ? $options['logger'] : null;
-            $client->getEmitter()->attach(new LogSubscriber($logger, Formatter::DEBUG));
-        }
-
-        return $client;
+    private function httpClient($baseUrl, HandlerStack $stack)
+    {
+        return new Client([
+            'base_url' => rtrim($baseUrl, '/') . '/',
+            'handler'  => $stack,
+        ]);
     }
 
     private function mergeOptions(array $serviceOptions)
