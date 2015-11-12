@@ -18,7 +18,9 @@ class RequestSerializer
         $jsonSerializer = new JsonSerializer();
 
         foreach ($userValues as $paramName => $paramValue) {
-            $schema = $operation->getParam($paramName);
+            if (null === ($schema = $operation->getParam($paramName))) {
+                continue;
+            }
 
             switch ($schema->getLocation()) {
                 case 'query':

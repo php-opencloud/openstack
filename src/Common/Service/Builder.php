@@ -4,9 +4,13 @@ namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Middleware as GuzzleMiddleware;
+
 use OpenStack\Common\Auth\ServiceUrlResolver;
+use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Transport\HandlerStack;
 use OpenStack\Common\Transport\Middleware;
+use OpenStack\Identity\v3\Service;
 
 /**
  * A Builder for easily creating OpenStack services.
@@ -75,11 +79,31 @@ class Builder
     {
         $options = $this->mergeOptions($serviceOptions);
 
+        if (!isset($options['identityService'])) {
+            $httpClient = $this->httpClient($options['authUrl'], HandlerStack::create());
+            $options['identityService'] = Service::factory($httpClient);
+        }
+
+        if (!isset($options['authHandler'])) {
+            $options['authHandler'] = function () use ($options) {
+                return $options['identityService']->generateToken($options);
+            };
+        }
 
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
-            $options['httpClient'] = (strcasecmp($serviceName, 'identity') === 0)
-                ? $this->setupAuthHttpClient($options)
-                : $this->setupHttpClient($options);
+            if (strcasecmp($serviceName, 'identity') === 0) {
+                $baseUrl = $options['authUrl'];
+                $stack = $this->getStack($options['authHandler']);
+            } else {
+                list ($token, $baseUrl) = $options['identityService']->authenticate($options);
+                $stack = $this->getStack($options['authHandler'], $token);
+            }
+
+            if (!empty($options['debugLog'])) {
+                $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
+            }
+
+            $options['httpClient'] = $this->httpClient($baseUrl, $stack);
         }
 
         list ($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
@@ -87,38 +111,26 @@ class Builder
         return new $serviceClass($options['httpClient'], new $apiClass());
     }
 
-    private function setupHttpClient(array $options)
+    private function getStack(callable $authHandler, Token $token = null)
     {
-        if (!isset($options['identityService'])) {
-            $options['identityService'] = $this->createService('Identity', 3, array_merge($options, [
-                'catalogName' => false,
-                'catalogType' => false,
-            ]));
-        }
-
-        if (!isset($options['authHandler'])) {
-            $options['authHandler'] = function () use ($options) {
-                return $options['identityService']->generateToken();
-            };
-        }
-
-        list ($token, $baseUrl) = $options['identityService']->authenticate($options);
-
         $stack = HandlerStack::create();
-        $stack->push(Middleware::authHandler($options['authHandler'], $token));
-
-        return $this->httpClient($baseUrl, $stack);
+        $stack->push(Middleware::authHandler($authHandler, $token));
+        return $stack;
     }
 
-    private function setupAuthHttpClient(array $options)
+    private function normalizeUrl($url)
     {
-        return $this->httpClient($options['authUrl'], HandlerStack::create());
+        if (strpos($url, 'http') === false) {
+            $url = 'http://' . $url;
+        }
+
+        return rtrim($url, '/') . '/';
     }
 
     private function httpClient($baseUrl, HandlerStack $stack)
     {
         return new Client([
-            'base_url' => rtrim($baseUrl, '/') . '/',
+            'base_uri' => $this->normalizeUrl($baseUrl),
             'handler'  => $stack,
         ]);
     }

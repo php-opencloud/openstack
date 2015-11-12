@@ -45,6 +45,7 @@ class Runner
             $this->getOpt($opts, ['s', 'service'], 'all'),
             $this->getOpt($opts, ['v', 'version'], 'all'),
             $this->getOpt($opts, ['t', 'test'], ''),
+            isset($opts['debug']) || isset($opts['d']),
         ];
     }
 
@@ -82,7 +83,7 @@ class Runner
 
     public function runServices()
     {
-        list ($serviceOpt, $versionOpt, $testMethodOpt) = $this->getOpts();
+        list ($serviceOpt, $versionOpt, $testMethodOpt, $debugOpt) = $this->getOpts();
 
         $services = $this->getRunnableServices($serviceOpt, $versionOpt, $testMethodOpt);
 
@@ -90,7 +91,7 @@ class Runner
             foreach ($versions as $version) {
 
                 $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, ucfirst($serviceName), ucfirst($version));
-                $testRunner = new $class($this->logger);
+                $testRunner = new $class($this->logger, $debugOpt);
 
                 if ($testMethodOpt && method_exists($testRunner, $testMethodOpt)) {
                     $testRunner->$testMethodOpt();

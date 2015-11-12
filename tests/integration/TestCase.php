@@ -11,11 +11,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     private $paths = [];
     private $startPoint;
     private $lastPoint;
+    private $debug;
+    protected $defaultLogging;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, $debug = false)
     {
         $this->basePath = $this->getBasePath();
         $this->logger = $logger;
+        $this->debug = $debug;
     }
 
     abstract protected function getBasePath();
@@ -118,13 +121,30 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         }
 
         $content = strtr(file_get_contents($sampleFile), $replacements);
-
         $content = str_replace("'vendor/'", "'" . dirname(__DIR__) . "/../vendor'", $content);
+
+        if ($this->debug) {
+            $subst = <<<'EOL'
+use OpenStack\Integration\DefaultLogger;
+use GuzzleHttp\MessageFormatter;
+
+$openstack = new OpenStack\OpenStack([
+    'debugLog'         => true,
+    'logger'           => new DefaultLogger(),
+    'messageFormatter' => new MessageFormatter(),
+EOL;
+            $content = str_replace('$openstack = new OpenStack\OpenStack([', $subst, $content);
+        }
 
         $tmp = tempnam(sys_get_temp_dir(), 'openstack');
         file_put_contents($tmp, $content);
 
         $this->paths[] = $tmp;
+
+        if ($this->defaultLogging === true) {
+            $msg = ucfirst(str_replace('_', ' ', basename($sampleFile, '.php')));
+            $this->logStep($msg);
+        }
 
         return $tmp;
     }

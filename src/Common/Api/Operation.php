@@ -76,7 +76,7 @@ class Operation
      */
     public function getParam($name)
     {
-        return $this->params[$name];
+        return isset($this->params[$name]) ? $this->params[$name] : null;
     }
 
     public function getJsonKey()

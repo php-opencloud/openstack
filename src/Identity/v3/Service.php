@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3;
 
+use GuzzleHttp\ClientInterface;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Service\AbstractService;
@@ -13,6 +14,11 @@ use OpenStack\Common\Service\AbstractService;
  */
 class Service extends AbstractService implements IdentityService
 {
+    public static function factory(ClientInterface $client)
+    {
+        return new static($client, new Api());
+    }
+
     /**
      * Authenticates credentials, giving back a token and a base URL for the service.
      *
@@ -32,6 +38,12 @@ class Service extends AbstractService implements IdentityService
             $options['region'],
             isset($options['interface']) ? $options['interface'] : Enum::INTERFACE_PUBLIC
         );
+
+        if (!$baseUrl) {
+            throw new \RuntimeException(sprintf("No service found with type [%s] name [%s] region [%s] interface [%s]",
+                $options['catalogType'], $options['catalogName'], $options['region'], $options['interface']
+            ));
+        }
 
         return [$token, $baseUrl];
     }
