@@ -37,8 +37,7 @@ class Service extends AbstractService
     public function listServers($detailed = false, array $options = [], callable $mapFn = null)
     {
         $def = ($detailed === true) ? $this->api->getServersDetail() : $this->api->getServers();
-        $operation = $this->getOperation($def, $options);
-        return $this->model('Server')->enumerate($operation, $mapFn);
+        return $this->model('Server')->enumerate($def, $options, $mapFn);
     }
 
     /**
@@ -68,8 +67,7 @@ class Service extends AbstractService
      */
     public function listFlavors(array $options = [], callable $mapFn = null)
     {
-        $operation = $this->getOperation($this->api->getFlavors(), $options);
-        return $this->model('Flavor')->enumerate($operation, $mapFn);
+        return $this->model('Flavor')->enumerate($this->api->getFlavors(), $options, $mapFn);
     }
 
     /**
@@ -99,8 +97,7 @@ class Service extends AbstractService
      */
     public function listImages(array $options = [], callable $mapFn = null)
     {
-        $operation = $this->getOperation($this->api->getImages(), $options);
-        return $this->model('Image')->enumerate($operation, $mapFn);
+        return $this->model('Image')->enumerate($this->api->getImages(), $options, $mapFn);
     }
 
     /**

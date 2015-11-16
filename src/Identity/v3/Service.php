@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3;
 
+use GuzzleHttp\ClientInterface;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Service\AbstractService;
@@ -13,6 +14,11 @@ use OpenStack\Common\Service\AbstractService;
  */
 class Service extends AbstractService implements IdentityService
 {
+    public static function factory(ClientInterface $client)
+    {
+        return new static($client, new Api());
+    }
+
     /**
      * Authenticates credentials, giving back a token and a base URL for the service.
      *
@@ -32,6 +38,12 @@ class Service extends AbstractService implements IdentityService
             $options['region'],
             isset($options['interface']) ? $options['interface'] : Enum::INTERFACE_PUBLIC
         );
+
+        if (!$baseUrl) {
+            throw new \RuntimeException(sprintf("No service found with type [%s] name [%s] region [%s] interface [%s]",
+                $options['catalogType'], $options['catalogName'], $options['region'], $options['interface']
+            ));
+        }
 
         return [$token, $baseUrl];
     }
@@ -114,9 +126,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listServices(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getServices(), $options);
-
-        return $this->model('Service')->enumerate($operation);
+        return $this->model('Service')->enumerate($this->api->getServices(), $options);
     }
 
     /**
@@ -168,9 +178,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listEndpoints(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getEndpoints(), $options);
-
-        return $this->model('Endpoint')->enumerate($operation);
+        return $this->model('Endpoint')->enumerate($this->api->getEndpoints(), $options);
     }
 
     /**
@@ -196,9 +204,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listDomains(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getDomains(), $options);
-
-        return $this->model('Domain')->enumerate($operation);
+        return $this->model('Domain')->enumerate($this->api->getDomains(), $options);
     }
 
     /**
@@ -237,9 +243,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listProjects(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getProjects(), $options);
-
-        return $this->model('Project')->enumerate($operation);
+        return $this->model('Project')->enumerate($this->api->getProjects(), $options);
     }
 
     /**
@@ -278,9 +282,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listUsers(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getUsers(), $options);
-
-        return $this->model('User')->enumerate($operation);
+        return $this->model('User')->enumerate($this->api->getUsers(), $options);
     }
 
     /**
@@ -319,9 +321,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listGroups(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getGroups(), $options);
-
-        return $this->model('Group')->enumerate($operation);
+        return $this->model('Group')->enumerate($this->api->getGroups(), $options);
     }
 
     /**
@@ -358,9 +358,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listCredentials()
     {
-        $operation = $this->getOperation($this->api->getCredentials());
-
-        return $this->model('Credential')->enumerate($operation);
+        return $this->model('Credential')->enumerate($this->api->getCredentials());
     }
 
     /**
@@ -399,9 +397,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listRoles(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getRoles(), $options);
-
-        return $this->model('Role')->enumerate($operation);
+        return $this->model('Role')->enumerate($this->api->getRoles(), $options);
     }
 
     /**
@@ -415,9 +411,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listRoleAssignments(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getRoleAssignments(), $options);
-
-        return $this->model('Assignment')->enumerate($operation);
+        return $this->model('Assignment')->enumerate($this->api->getRoleAssignments(), $options);
     }
 
     /**
@@ -443,9 +437,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listPolicies(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getPolicies(), $options);
-
-        return $this->model('Policy')->enumerate($operation);
+        return $this->model('Policy')->enumerate($this->api->getPolicies(), $options);
     }
 
     /**

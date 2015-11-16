@@ -46,6 +46,9 @@ class V3Test extends TestCase
 
     public function runTests()
     {
+        $this->defaultLogging = true;
+        $this->startTimer();
+
         $this->tokens();
         $this->domains();
     }

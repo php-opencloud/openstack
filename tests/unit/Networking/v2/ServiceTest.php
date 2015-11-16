@@ -36,8 +36,7 @@ class ServiceTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/networks', $expectedJson);
-        $this->setupMockResponse($req, 'network-post');
+        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'network-post');
 
         $this->assertInstanceOf(Network::class, $this->service->createNetwork($opts));
     }
@@ -72,8 +71,7 @@ class ServiceTest extends TestCase
             ],
         ];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/networks', $expectedJson);
-        $this->setupMockResponse($req, 'networks-post');
+        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'networks-post');
 
         $networks = $this->service->createNetworks($opts);
 
@@ -107,8 +105,7 @@ class ServiceTest extends TestCase
             'cidr' => $opts['cidr'],
         ]];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/subnets', $expectedJson);
-        $this->setupMockResponse($req, 'subnet-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnet-post');
 
         $this->assertInstanceOf(Subnet::class, $this->service->createSubnet($opts));
     }
@@ -151,8 +148,7 @@ class ServiceTest extends TestCase
             ],
         ];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/subnets', $expectedJson);
-        $this->setupMockResponse($req, 'subnets-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnets-post');
 
         $subnets = $this->service->createSubnets($opts);
 

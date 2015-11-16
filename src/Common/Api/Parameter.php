@@ -258,6 +258,11 @@ class Parameter
         return $this->type == 'object' && !empty($this->properties);
     }
 
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
     /**
      * Verifies whether the given location matches the parameter's location.
      *

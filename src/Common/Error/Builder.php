@@ -2,14 +2,13 @@
 
 namespace OpenStack\Common\Error;
 
+use function GuzzleHttp\Psr7\str;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Event\CompleteEvent;
-use GuzzleHttp\Event\ErrorEvent;
-use GuzzleHttp\Event\SubscriberInterface;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class responsible for building meaningful exceptions. For HTTP problems, it produces a {@see HttpError}
@@ -19,7 +18,7 @@ use GuzzleHttp\Message\ResponseInterface;
  *
  * @package OpenStack\Common\Error
  */
-class Builder implements SubscriberInterface
+class Builder
 {
     /**
      * The default domain to use for further link documentation.
@@ -41,33 +40,6 @@ class Builder implements SubscriberInterface
     public function __construct(ClientInterface $client = null)
     {
         $this->client = $client ?: new Client();
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @return array
-     */
-    public function getEvents()
-    {
-        return [
-            'complete' => ['onComplete']
-        ];
-    }
-
-    /**
-     * Invoked for every HTTP error.
-     *
-     * @param CompleteEvent $event
-     *
-     * @throws BadResponseError
-     */
-    public function onComplete(CompleteEvent $event)
-    {
-        $response = $event->getResponse();
-
-        if ($response->getStatusCode() >= 400) {
-            throw $this->httpError($event->getRequest(), $response);
-        }
     }
 
     /**
@@ -95,7 +67,7 @@ class Builder implements SubscriberInterface
         $link = $this->docDomain . $link;
 
         try {
-            $resp = $this->client->head($link);
+            $resp = $this->client->request('HEAD', $link);
         } catch (ClientException $e) {
         }
 
@@ -118,10 +90,10 @@ class Builder implements SubscriberInterface
             $response->getStatusCode(), $response->getReasonPhrase());
 
         $message .= $this->header('Request');
-        $message .= trim((string)$request) . PHP_EOL . PHP_EOL;
+        $message .= trim(str($request)) . PHP_EOL . PHP_EOL;
 
         $message .= $this->header('Response');
-        $message .= trim((string)$response) . PHP_EOL . PHP_EOL;
+        $message .= trim(str($response)) . PHP_EOL . PHP_EOL;
 
         $message .= $this->header('Further information');
 

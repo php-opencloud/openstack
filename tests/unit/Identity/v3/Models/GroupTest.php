@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Identity\v3\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Group;
@@ -24,8 +24,7 @@ class GroupTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'groups/GROUP_ID');
-        $this->setupMockResponse($request, 'group');
+        $this->setupMock('GET', 'groups/GROUP_ID', null, [], 'group');
 
         $this->group->retrieve();
     }
@@ -44,8 +43,7 @@ class GroupTest extends TestCase
             'name'        => $userOptions['name']
         ];
 
-        $request = $this->setupMockRequest('POST', 'groups', ['group' => $userJson]);
-        $this->setupMockResponse($request, 'group');
+        $this->setupMock('POST', 'groups', ['group' => $userJson], [], 'group');
 
         /** @var $group \OpenStack\Identity\v3\Models\Group */
         $group = $this->group->create($userOptions);
@@ -60,16 +58,14 @@ class GroupTest extends TestCase
 
         $userJson = ['description'  => 'desc', 'name' => 'name'];
 
-        $request = $this->setupMockRequest('PATCH', 'groups/GROUP_ID', ['group' => $userJson]);
-        $this->setupMockResponse($request, 'endpoint');
+        $this->setupMock('PATCH', 'groups/GROUP_ID', ['group' => $userJson], [], 'endpoint');
 
         $this->group->update();
     }
 
     public function test_it_deletes_group()
     {
-        $request = $this->setupMockRequest('DELETE', 'groups/GROUP_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'groups/GROUP_ID', null, [], new Response(204));
 
         $this->group->delete();
     }
@@ -82,34 +78,29 @@ class GroupTest extends TestCase
 
     public function test_it_adds_users()
     {
-        $request = $this->setupMockRequest('PUT', 'groups/GROUP_ID/users/USER_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('PUT', 'groups/GROUP_ID/users/USER_ID', null, [], new Response(204));
 
         $this->group->addUser(['userId' => 'USER_ID']);
     }
 
     public function test_it_removes_users()
     {
-        $request = $this->setupMockRequest('DELETE', 'groups/GROUP_ID/users/USER_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'groups/GROUP_ID/users/USER_ID', null, [], new Response(204));
 
         $this->group->removeUser(['userId' => 'USER_ID']);
     }
 
     public function test_it_checks_user_memberships()
     {
-        $request = $this->setupMockRequest('HEAD', 'groups/GROUP_ID/users/USER_ID');
-        $this->setupMockResponse($request, new Response(200));
+        $this->setupMock('HEAD', 'groups/GROUP_ID/users/USER_ID', null, [], new Response(200));
 
         $this->group->checkMembership(['userId' => 'USER_ID']);
     }
 
     public function test_it_checks_nonexistent_memberships()
     {
-        $request = $this->setupMockRequest('HEAD', 'groups/GROUP_ID/users/USER_ID');
-
         $this->client
-            ->send(Argument::is($request))
+            ->request('HEAD', 'groups/GROUP_ID/users/USER_ID', ['headers' => []])
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 

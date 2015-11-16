@@ -2,7 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 trait MetadataTrait
 {
@@ -13,7 +13,7 @@ trait MetadataTrait
         foreach ($response->getHeaders() as $header => $value) {
             $position = strpos($header, static::METADATA_PREFIX);
             if ($position === 0) {
-                $metadata[ltrim($header, static::METADATA_PREFIX)] = $response->getHeader($header);
+                $metadata[ltrim($header, static::METADATA_PREFIX)] = $response->getHeader($header)[0];
             }
         }
 

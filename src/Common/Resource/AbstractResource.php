@@ -4,7 +4,8 @@ namespace OpenStack\Common\Resource;
 
 use OpenStack\Common\Api\Operation;
 use OpenStack\Common\Api\Operator;
-use GuzzleHttp\Message\ResponseInterface;
+use OpenStack\Common\Transport\Utils;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents a top-level abstraction of a remote API resource. Usually a resource represents a discrete
@@ -62,20 +63,6 @@ abstract class AbstractResource extends Operator implements ResourceInterface
     }
 
     /**
-     * Internal method for flattening a nested array.
-     *
-     * @param array $data The nested array
-     * @param null  $key  The key to extract
-     *
-     * @return array
-     */
-    private function flatten(array $data, $key = null)
-    {
-        $key = $key ?: $this->resourceKey;
-        return $key && isset($data[$key]) ? $data[$key] : $data;
-    }
-
-    /**
      * Populates the current resource from a response object.
      *
      * @param ResponseInterface $response
@@ -84,10 +71,10 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      */
     public function populateFromResponse(ResponseInterface $response)
     {
-        if (strpos($response->getHeader('Content-Type'), 'application/json') === 0) {
-            $json = $response->json();
+        if (strpos($response->getHeaderLine('Content-Type'), 'application/json') === 0) {
+            $json = Utils::jsonDecode($response);
             if (!empty($json)) {
-                $this->populateFromArray($this->flatten($json));
+                $this->populateFromArray(Utils::flattenJson($json, $this->resourceKey));
             }
         }
 
@@ -172,40 +159,39 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      */
     public function executeWithState(array $definition)
     {
-        $operation = $this->getOperation($definition, $this->getAttrs(array_keys($definition['params'])));
-        return $operation->send();
+        return $this->execute($definition, $this->getAttrs(array_keys($definition['params'])));
     }
 
     /**
-     * This method iterates over a collection of resources. It sends the operation's request to the API,
-     * parses the response, converts each element into {@see self} and - if pagination is supported - continues
-     * to send requests until an empty collection is received back.
-     *
-     * For paginated collections, it sends subsequent requests according to a marker URL query. The value
-     * of the marker will depend on the last element returned in the previous response. If a limit is
-     * provided, the loop will continue up until that point.
-     *
-     * @param Operation $operation The operation responsible for retrieving a new collection
-     * @param callable  $mapFn     An optional callback that will be executed on every resource iteration.
+     * {@inheritDoc}
      */
-    public function enumerate(Operation $operation, callable $mapFn = null)
+    public function enumerate(array $def, array $userVals = [], callable $mapFn = null)
     {
-        $limit = $operation->getValue('limit') ?: false;
-        $supportsPagination = $operation->hasParam('marker');
+        $operation = $this->getOperation($def);
         $markerKey = $this->markerKey ?: self::DEFAULT_MARKER_KEY;
+        $supportsPagination = $operation->hasParam('marker');
 
+        $limit = isset($userVals['limit']) ? $userVals : false;
         $count = 0;
-        $moreRequestsRequired = true;
 
         $totalReached = function ($count) use ($limit) {
             return $limit && $count >= $limit;
         };
 
-        while ($moreRequestsRequired && $count < 20) {
+        while (true) {
 
-            $response = $operation->send();
-            $body = $response->json();
-            $json = $this->flatten($body, $this->resourcesKey);
+            $response = $this->sendRequest($operation, $userVals);
+            $json = Utils::jsonDecode($response);
+
+            if (!$json) {
+                break;
+            }
+
+            $json = Utils::flattenJson($json, $this->resourcesKey);
+
+            if ($response->getStatusCode() === 204 || empty($json)) {
+                break;
+            }
 
             foreach ($json as $resourceData) {
                 if ($totalReached($count)) {
@@ -222,14 +208,14 @@ abstract class AbstractResource extends Operator implements ResourceInterface
                 }
 
                 if ($supportsPagination) {
-                    $operation->setValue('marker', $resource->$markerKey);
+                    $userVals['marker'] = $resource->$markerKey;
                 }
 
                 yield $resource;
             }
 
-            if ($totalReached($count) || !$supportsPagination || empty($json)) {
-                $moreRequestsRequired = false;
+            if ($totalReached($count) || !$supportsPagination) {
+                break;
             }
         }
     }

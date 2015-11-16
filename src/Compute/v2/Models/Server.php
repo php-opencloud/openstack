@@ -10,6 +10,7 @@ use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\RetrievableInterface;
 use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Resource\AbstractResource;
+use OpenStack\Common\Transport\Utils;
 use OpenStack\Compute\v2\Enum;
 
 /**
@@ -214,7 +215,7 @@ class Server extends AbstractResource implements
 
         $data = (isset($options['networkLabel'])) ? $this->api->getAddressesByNetwork() : $this->api->getAddresses();
         $response = $this->execute($data, $options);
-        return $response->json()['addresses'];
+        return Utils::jsonDecode($response)['addresses'];
     }
 
     /**
@@ -225,7 +226,7 @@ class Server extends AbstractResource implements
     public function getMetadata()
     {
         $response = $this->execute($this->api->getServerMetadata(), ['id' => $this->id]);
-        return $response->json()['metadata'];
+        return Utils::jsonDecode($response)['metadata'];
     }
 
     /**
@@ -239,7 +240,7 @@ class Server extends AbstractResource implements
     public function resetMetadata(array $metadata)
     {
         $response = $this->execute($this->api->putServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return $response->json()['metadata'];
+        return Utils::jsonDecode($response)['metadata'];
     }
 
     /**
@@ -254,7 +255,7 @@ class Server extends AbstractResource implements
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return $response->json()['metadata'];
+        return Utils::jsonDecode($response)['metadata'];
     }
 
     /**
@@ -267,7 +268,7 @@ class Server extends AbstractResource implements
     public function getMetadataItem($key)
     {
         $response = $this->execute($this->api->getServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
-        return $response->json()['metadata'][$key];
+        return Utils::jsonDecode($response)['metadata'][$key];
     }
 
     /**

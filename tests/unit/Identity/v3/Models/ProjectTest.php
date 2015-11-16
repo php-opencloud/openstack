@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Identity\v3\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Project;
@@ -25,8 +25,7 @@ class ProjectTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'projects/PROJECT_ID');
-        $this->setupMockResponse($request, 'project');
+        $this->setupMock('GET', 'projects/PROJECT_ID', null, [], 'project');
 
         $this->project->retrieve();
     }
@@ -47,16 +46,14 @@ class ProjectTest extends TestCase
             'name' => 'name',
         ];
 
-        $request = $this->setupMockRequest('PATCH', 'projects/PROJECT_ID', ['project' => $expectedJson]);
-        $this->setupMockResponse($request, 'project');
+        $this->setupMock('PATCH', 'projects/PROJECT_ID', ['project' => $expectedJson], [], 'project');
 
         $this->project->update();
     }
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'projects/PROJECT_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'projects/PROJECT_ID', null, [], new Response(204));
 
         $this->project->delete();
     }
@@ -69,26 +66,22 @@ class ProjectTest extends TestCase
 
     public function test_it_grants_user_role()
     {
-        $request = $this->setupMockRequest('PUT', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('PUT', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(204));
 
         $this->project->grantUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']);
     }
 
     public function test_it_checks_user_role()
     {
-        $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(200));
+        $this->setupMock('HEAD', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(200));
 
         $this->assertTrue($this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_user_role()
     {
-        $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID');
-
         $this->client
-            ->send(Argument::is($request))
+            ->request('HEAD', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID', ['headers' => []])
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 
@@ -97,8 +90,7 @@ class ProjectTest extends TestCase
 
     public function test_it_revokes_user_role()
     {
-        $request = $this->setupMockRequest('DELETE', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(204));
 
         $this->project->revokeUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']);
     }
@@ -111,26 +103,22 @@ class ProjectTest extends TestCase
 
     public function test_it_grants_group_role()
     {
-        $request = $this->setupMockRequest('PUT', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('PUT', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(204));
 
         $this->project->grantGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']);
     }
 
     public function test_it_checks_group_role()
     {
-        $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(200));
+        $this->setupMock('HEAD', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(200));
 
         $this->assertTrue($this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_group_role()
     {
-        $request = $this->setupMockRequest('HEAD', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID');
-
         $this->client
-            ->send(Argument::is($request))
+            ->request('HEAD', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID', ['headers' => []])
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 
@@ -139,8 +127,7 @@ class ProjectTest extends TestCase
 
     public function test_it_revokes_group_role()
     {
-        $request = $this->setupMockRequest('DELETE', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(204));
 
         $this->project->revokeGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']);
     }

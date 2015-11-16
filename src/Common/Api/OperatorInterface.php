@@ -23,12 +23,12 @@ interface OperatorInterface
     /**
      * A convenience method that assembles an operation and sends it to the remote API
      *
-     * @param array $definition  The data that dictates how the operation works
-     * @param array $userOptions The user-defined values that populate the request
+     * @param array $definition The data that dictates how the operation works
+     * @param array $userValues The user-defined values that populate the request
      *
      * @return ResponseInterface
      */
-    public function execute(array $definition, array $userOptions = []);
+    public function execute(array $definition, array $userValues = []);
 
     /**
      * @param string $name The name of the model class.

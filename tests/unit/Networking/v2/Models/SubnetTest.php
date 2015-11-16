@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Subneting\v2\Models;
 
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Networking\v2\Api;
 use OpenStack\Networking\v2\Models\Subnet;
 use OpenStack\Test\TestCase;
@@ -41,8 +41,7 @@ class SubnetTest extends TestCase
             'enable_dhcp' => $opts['enableDhcp'],
         ]];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/subnets', $expectedJson);
-        $this->setupMockResponse($req, 'subnet-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnet-post');
 
         $this->assertInstanceOf(Subnet::class, $this->subnet->create($opts));
     }
@@ -85,8 +84,7 @@ class SubnetTest extends TestCase
             ],
         ];
 
-        $req = $this->setupMockRequest('POST', 'v2.0/subnets', $expectedJson);
-        $this->setupMockResponse($req, 'subnets-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnets-post');
 
         $subnets = $this->subnet->bulkCreate($opts);
 
@@ -105,16 +103,14 @@ class SubnetTest extends TestCase
             'gateway_ip' => $this->subnet->gatewayIp,
         ]];
 
-        $request = $this->setupMockRequest('PUT', 'v2.0/subnets/subnetId', $expectedJson);
-        $this->setupMockResponse($request, 'subnet-put');
+        $this->setupMock('PUT', 'v2.0/subnets/subnetId', $expectedJson, [], 'subnet-put');
 
         $this->assertInstanceOf(Subnet::class, $this->subnet->update());
     }
 
     public function test_it_retrieves()
     {
-        $request = $this->setupMockRequest('GET', 'v2.0/subnets/subnetId');
-        $this->setupMockResponse($request, 'subnet-get');
+        $this->setupMock('GET', 'v2.0/subnets/subnetId', null, [], 'subnet-get');
 
         $this->subnet->retrieve();
 
@@ -126,8 +122,7 @@ class SubnetTest extends TestCase
 
     public function test_it_deletes()
     {
-        $request = $this->setupMockRequest('DELETE', 'v2.0/subnets/subnetId');
-        $this->setupMockResponse($request, new Response(204));
+        $this->setupMock('DELETE', 'v2.0/subnets/subnetId', null, [], new Response(204));
 
         $this->subnet->delete();
     }

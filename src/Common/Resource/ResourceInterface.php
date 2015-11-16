@@ -2,7 +2,7 @@
 
 namespace OpenStack\Common\Resource;
 
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents an API resource.

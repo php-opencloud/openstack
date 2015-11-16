@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\Compute\v2;
 
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
@@ -37,16 +38,22 @@ class ServiceTest extends TestCase
             'flavorRef' => $opts['flavorId'],
         ]];
 
-        $req = $this->setupMockRequest('POST', 'servers', $expectedJson);
-        $this->setupMockResponse($req, 'server-post');
+        $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
 
         $this->assertInstanceOf(Server::class, $this->service->createServer($opts));
     }
 
     public function test_it_lists_servers()
     {
-        $req = $this->setupMockRequest('GET', 'servers?limit=5');
-        $this->setupMockResponse($req, 'servers-get');
+        $this->client
+            ->request('GET', 'servers', ['query' => ['limit' => 5], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('servers-get'));
+
+        $this->client
+            ->request('GET', 'servers', ['query' => ['limit' => 5, 'marker' => '5'], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn(new Response(204));
 
         foreach ($this->service->listServers(false, ['limit' => 5]) as $server) {
             $this->assertInstanceOf(Server::class, $server);
@@ -65,8 +72,15 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_flavors()
     {
-        $request = $this->setupMockRequest('GET', 'flavors?limit=5');
-        $this->setupMockResponse($request, 'flavors-get');
+        $this->client
+            ->request('GET', 'flavors', ['query' => ['limit' => 5], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('flavors-get'));
+
+        $this->client
+            ->request('GET', 'flavors', ['query' => ['limit' => 5, 'marker' => '5'], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn(new Response(204));
 
         $count = 0;
 
@@ -90,8 +104,15 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_images()
     {
-        $req = $this->setupMockRequest('GET', 'images?limit=5');
-        $this->setupMockResponse($req, 'images-get');
+        $this->client
+            ->request('GET', 'images', ['query' => ['limit' => 5], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('images-get'));
+
+        $this->client
+            ->request('GET', 'images', ['query' => ['limit' => 5, 'marker' => '76fa36fc-c930-4bf3-8c8a-ea2a2420deb6'], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn(new Response(204));
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
             $this->assertInstanceOf(Image::class, $image);

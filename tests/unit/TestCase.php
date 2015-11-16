@@ -2,13 +2,11 @@
 
 namespace OpenStack\Test;
 
+use function GuzzleHttp\Psr7\stream_for;
+use function GuzzleHttp\Psr7\parse_response;
+
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Event\Emitter;
-use GuzzleHttp\Message\MessageFactory;
-use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\RequestInterface;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTestCase;
 
@@ -25,12 +23,11 @@ abstract class TestCase extends ProphecyTestCase
     protected function setUp()
     {
         $this->client = $this->prophesize(ClientInterface::class);
-        $this->client->getEmitter()->willReturn(new Emitter());
     }
 
     protected function createResponse($status, array $headers, array $json)
     {
-        return new Response($status, $headers, Stream::factory(json_encode($json)));
+        return new Response($status, $headers, stream_for(json_encode($json)));
     }
 
     protected function getFixture($file)
@@ -45,46 +42,23 @@ abstract class TestCase extends ProphecyTestCase
             throw new \RuntimeException(sprintf("%s does not exist", $path));
         }
 
-        $contents = file_get_contents($path);
-
-        return (new MessageFactory())->fromMessage($contents);
+        return parse_response(file_get_contents($path));
     }
 
-    protected function setupMockRequest($method, $path, $body = null, array $headers = [])
+    protected function setupMock($method, $path, $body = null, array $headers = [], $response)
     {
-        $stream = null;
-        if ($body) {
-            $stream = Stream::factory(is_array($body) ? json_encode($body) : $body);
-        }
-
-        $request = new Request($method, $path, $headers, $stream);
-
-        $options = ['exceptions' => false];
+        $options = ['headers' => $headers];
 
         if (!empty($body)) {
             $options[is_array($body) ? 'json' : 'body'] = $body;
         }
-        if (!empty($headers)) {
-            $options['headers'] = $headers;
-        }
 
-        $this->client
-            ->createRequest($method, $path, $options)
-            ->shouldBeCalled()
-            ->willReturn($request);
-
-        return $request;
-    }
-
-    protected function setupMockResponse(RequestInterface $request, $response)
-    {
-        // If a string is passed in, assume its a path to a HTTP representation
         if (is_string($response)) {
             $response = $this->getFixture($response);
         }
 
         $this->client
-            ->send(Argument::is($request))
+            ->request($method, $path, $options)
             ->shouldBeCalled()
             ->willReturn($response);
     }
@@ -101,8 +75,7 @@ abstract class TestCase extends ProphecyTestCase
         $modelName = $modelName ?: $urlPath;
         $responseFile = $responseFile ?: $urlPath;
 
-        $request = $this->setupMockRequest('GET', $urlPath);
-        $this->setupMockResponse($request, $responseFile);
+        $this->setupMock('GET', $urlPath, null, [], $responseFile);
 
         $resources = call_user_func($call);
 

@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Retrievable;
@@ -54,7 +54,7 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
     {
         parent::populateFromResponse($response);
 
-        $this->id = $response->getHeader('X-Subject-Token');
+        $this->id = $response->getHeader('X-Subject-Token')[0];
 
         return $this;
     }

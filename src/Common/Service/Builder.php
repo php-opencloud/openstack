@@ -4,11 +4,12 @@ namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Subscriber\Log\Formatter;
-use GuzzleHttp\Subscriber\Log\LogSubscriber;
-use OpenStack\Common\Auth\AuthHandler;
+use GuzzleHttp\Middleware as GuzzleMiddleware;
+
 use OpenStack\Common\Auth\ServiceUrlResolver;
-use OpenStack\Identity\v3\Api;
+use OpenStack\Common\Auth\Token;
+use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\Middleware;
 use OpenStack\Identity\v3\Service;
 
 /**
@@ -78,75 +79,60 @@ class Builder
     {
         $options = $this->mergeOptions($serviceOptions);
 
-        if (strcasecmp($serviceName, 'identity') === 0) {
-            $options['identityService'] = new Service($this->httpClient($options['authUrl'], $options), new Api());
+        if (!isset($options['identityService'])) {
+            $httpClient = $this->httpClient($options['authUrl'], HandlerStack::create());
+            $options['identityService'] = Service::factory($httpClient);
         }
 
-        if (!empty($options['httpClient']) && $options['httpClient'] instanceof ClientInterface) {
-            $httpClient = $options['httpClient'];
-        } else {
-            $httpClient = $this->setupHttpClient($options);
+        if (!isset($options['authHandler'])) {
+            $options['authHandler'] = function () use ($options) {
+                return $options['identityService']->generateToken($options);
+            };
+        }
+
+        if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
+            if (strcasecmp($serviceName, 'identity') === 0) {
+                $baseUrl = $options['authUrl'];
+                $stack = $this->getStack($options['authHandler']);
+            } else {
+                list ($token, $baseUrl) = $options['identityService']->authenticate($options);
+                $stack = $this->getStack($options['authHandler'], $token);
+            }
+
+            if (!empty($options['debugLog'])) {
+                $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
+            }
+
+            $options['httpClient'] = $this->httpClient($baseUrl, $stack);
         }
 
         list ($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
 
-        return new $serviceClass($httpClient, new $apiClass());
+        return new $serviceClass($options['httpClient'], new $apiClass());
     }
 
-    /**
-     * This method does a few different things, but the overall purpose is to return a suitable
-     * HTTP client which can be injected into an OpenStack service.
-     *
-     * The first thing that happens is to use the KeyStone v2 Service to generate a token. This
-     * also causes a Service Catalog to be returned.
-     *
-     * The service URL is passed in to the HTTP client as its base URL. The authentication handler
-     * is then attached to the HTTP client as an event subscriber, meaning that it will listen out
-     * for an event to be fired before every Request is sent. It is given an initial token.
-     *
-     * @param array $options
-     *
-     * @return Client
-     */
-    private function setupHttpClient(array $options)
+    private function getStack(callable $authHandler, Token $token = null)
     {
-        $identity = isset($options['identityService'])
-            ? $options['identityService']
-            : $this->createService('Identity', 3, array_merge($options, [
-                'catalogName' => false,
-                'catalogType' => false,
-            ]));
-
-        list ($token, $baseUrl) = $identity->authenticate($options);
-
-        if (false === $baseUrl) {
-            $baseUrl = $options['authUrl'];
-        }
-
-        $httpClient = $this->httpClient($baseUrl, $options);
-        $httpClient->getEmitter()->attach(new AuthHandler($identity, $options, $token));
-
-        return $httpClient;
+        $stack = HandlerStack::create();
+        $stack->push(Middleware::authHandler($authHandler, $token));
+        return $stack;
     }
 
-    /**
-     * Returns a new HTTP client based on the base URL and options provided.
-     *
-     * @param string $baseUrl
-     * @param array  $options
-     *
-     * @return Client
-     */
-    public function httpClient($baseUrl, array $options = [])
+    private function normalizeUrl($url)
     {
-        $client = new Client(['base_url' => rtrim($baseUrl, '/') . '/']);
-
-        if (isset($options['debug']) && $options['debug'] === true) {
-            $logger = isset($options['logger']) ? $options['logger'] : null;
-            $client->getEmitter()->attach(new LogSubscriber($logger, Formatter::DEBUG));
+        if (strpos($url, 'http') === false) {
+            $url = 'http://' . $url;
         }
 
-        return $client;
+        return rtrim($url, '/') . '/';
+    }
+
+    private function httpClient($baseUrl, HandlerStack $stack)
+    {
+        return new Client([
+            'base_uri' => $this->normalizeUrl($baseUrl),
+            'handler'  => $stack,
+        ]);
     }
 
     private function mergeOptions(array $serviceOptions)

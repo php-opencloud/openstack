@@ -79,8 +79,8 @@ class Group extends AbstractResource implements Creatable, Listable, Retrievable
      */
     public function listUsers(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getGroupUsers(), ['id' => $this->id] + $options);
-        return $this->model('User')->enumerate($operation);
+        $options['id'] = $this->id;
+        return $this->model('User')->enumerate($this->api->getGroupUsers(), $options);
     }
 
     /**

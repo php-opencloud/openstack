@@ -1,13 +1,14 @@
 <?php
 
-namespace OpenStack\Common\Api;
+namespace OpenStack\Common\Transport;
 
+use OpenStack\Common\Api\Parameter;
 use OpenStack\Common\JsonPath;
 
 /**
  * Class responsible for populating the JSON body of a {@see GuzzleHttp\Message\Request} object.
  *
- * @package OpenStack\Common\Api
+ * @package OpenStack\Common\Transport
  */
 class JsonSerializer
 {
@@ -15,16 +16,15 @@ class JsonSerializer
      * Populates the actual value into a JSON field, i.e. it has reached the end of the line and no
      * further nesting is required.
      *
-     * @param mixed     $userValue The user value that is populating a JSON field
      * @param Parameter $param     The schema that defines how the JSON field is being populated
+     * @param mixed     $userValue The user value that is populating a JSON field
      * @param array     $json      The existing JSON structure that will be populated
      *
      * @return array|mixed
      */
-    private function stockValue($userValue, Parameter $param, $json)
+    private function stockValue(Parameter $param, $userValue, $json)
     {
         $name = $param->getName();
-
         if ($path = $param->getPath()) {
             $jsonPath = new JsonPath($json);
             $jsonPath->set(sprintf("%s.%s", $path, $name), $userValue);
@@ -41,38 +41,34 @@ class JsonSerializer
     /**
      * Populates a value into an array-like structure.
      *
-     * @param mixed     $userValue The user value that is populating a JSON field
      * @param Parameter $param     The schema that defines how the JSON field is being populated
+     * @param mixed     $userValue The user value that is populating a JSON field
      *
      * @return array|mixed
      */
-    private function stockArrayJson($userValue, Parameter $param)
+    private function stockArrayJson(Parameter $param, $userValue)
     {
         $elems = [];
-
         foreach ($userValue as $item) {
-            $elems = $this->stockJson($item, $param->getItemSchema(), $elems);
+            $elems = $this->stockJson($param->getItemSchema(), $item, $elems);
         }
-
         return $elems;
     }
 
     /**
      * Populates a value into an object-like structure.
      *
-     * @param mixed     $userValue The user value that is populating a JSON field
      * @param Parameter $param     The schema that defines how the JSON field is being populated
+     * @param mixed     $userValue The user value that is populating a JSON field
      *
      * @return array
      */
-    private function stockObjectJson($userValue, Parameter $param)
+    private function stockObjectJson(Parameter $param, $userValue)
     {
         $object = [];
-
         foreach ($userValue as $key => $val) {
-            $object = $this->stockJson($val, $param->getProperty($key), $object);
+            $object = $this->stockJson($param->getProperty($key), $val, $object);
         }
-
         return $object;
     }
 
@@ -80,49 +76,20 @@ class JsonSerializer
      * A generic method that will populate a JSON structure with a value according to a schema. It
      * supports multiple types and will delegate accordingly.
      *
-     * @param mixed     $userValue The user value that is populating a JSON field
      * @param Parameter $param     The schema that defines how the JSON field is being populated
+     * @param mixed     $userValue The user value that is populating a JSON field
      * @param array     $json      The existing JSON structure that will be populated
      *
      * @return array
      */
-    private function stockJson($userValue, Parameter $param, $json)
+    public function stockJson(Parameter $param, $userValue, $json)
     {
         if ($param->isArray()) {
-            $userValue = $this->stockArrayJson($userValue, $param);
+            $userValue = $this->stockArrayJson($param, $userValue);
         } elseif ($param->isObject()) {
-            $userValue = $this->stockObjectJson($userValue, $param);
+            $userValue = $this->stockObjectJson($param, $userValue);
         }
-
         // Populate the final value
-        return $this->stockValue($userValue, $param, $json);
-    }
-
-    /**
-     * @param array       $userValues The user-defined values that will populate the JSON
-     * @param []Parameter $params     The parameter schemas that define how each value is populated.
-     *                                For example, specifying any deep nesting or aliasing.
-     * @param array       $options    Configuration options which also specify how the JSON is
-     *                                structured. Currently this is restricted to a top-level key.
-     *
-     * @return array
-     */
-    public function serialize($userValues, array $params, array $options = [])
-    {
-        $json = [];
-
-        foreach ($userValues as $paramName => $value) {
-            $param = $params[$paramName];
-            if (!$param->hasLocation('json')) {
-                continue;
-            }
-            $json = $this->stockJson($value, $param, $json);
-        }
-
-        if (isset($options['jsonKey'])) {
-            $json = [$options['jsonKey'] => $json];
-        }
-
-        return $json;
+        return $this->stockValue($param, $userValue, $json);
     }
 }

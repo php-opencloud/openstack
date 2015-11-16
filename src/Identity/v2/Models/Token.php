@@ -2,7 +2,8 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use GuzzleHttp\Message\ResponseInterface;
+use OpenStack\Common\Transport\Utils;
+use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\ValueResource;
 
@@ -30,7 +31,7 @@ class Token extends AbstractResource implements \OpenStack\Common\Auth\Token
      */
     public function populateFromResponse(ResponseInterface $response)
     {
-        $this->populateFromArray($response->json()['access']['token']);
+        $this->populateFromArray(Utils::jsonDecode($response)['access']['token']);
 
         return $this;
     }

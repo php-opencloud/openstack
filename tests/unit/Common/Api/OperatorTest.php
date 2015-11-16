@@ -2,15 +2,15 @@
 
 namespace OpenStack\Test\Common\Api;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Event\Emitter;
-use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Api\Operator;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Test\Fixtures\ComputeV2Api;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTestCase;
+use Psr\Http\Message\RequestInterface;
 
 class OperatorTest extends ProphecyTestCase
 {
@@ -20,8 +20,7 @@ class OperatorTest extends ProphecyTestCase
 
     function setUp()
     {
-        $this->client = $this->prophesize(Client::class);
-        $this->client->getEmitter()->willReturn(new Emitter());
+        $this->client = $this->prophesize(ClientInterface::class);
 
         $this->def = [
             'method' => 'GET',
@@ -42,8 +41,7 @@ class OperatorTest extends ProphecyTestCase
 
     public function test_it_sends_a_request_when_operations_are_executed()
     {
-        $this->client->createRequest('GET', 'test', ['exceptions' => false])->willReturn(new Request('GET', 'test'));
-        $this->client->send(Argument::type(Request::class))->shouldBeCalled();
+        $this->client->request('GET', 'test', ['headers' => []])->willReturn(new Request('GET', 'test'));
 
         $this->operator->execute($this->def, []);
     }
@@ -55,8 +53,7 @@ class OperatorTest extends ProphecyTestCase
 
     public function test_it_populates_models_from_response()
     {
-        $response = new Response(200);
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model('Server', $response));
+        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model('Server', new Response(200)));
     }
 
     public function test_it_populates_models_from_arrays()

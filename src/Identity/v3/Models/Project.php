@@ -99,8 +99,8 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      */
     public function listUserRoles(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getProjectUserRoles(), ['projectId' => $this->id] + $options);
-        return $this->model('Role')->enumerate($operation);
+        $options['projectId'] = $this->id;
+        return $this->model('Role')->enumerate($this->api->getProjectUserRoles(), $options);
     }
 
     /**
@@ -141,8 +141,8 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      */
     public function listGroupRoles(array $options = [])
     {
-        $operation = $this->getOperation($this->api->getProjectGroupRoles(), ['projectId' => $this->id] + $options);
-        return $this->model('Role')->enumerate($operation);
+        $options['projectId'] = $this->id;
+        return $this->model('Role')->enumerate($this->api->getProjectGroupRoles(), $options);
     }
 
     /**

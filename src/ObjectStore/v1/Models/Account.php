@@ -5,7 +5,7 @@ namespace OpenStack\ObjectStore\v1\Models;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\Retrievable;
-use GuzzleHttp\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
@@ -38,10 +38,10 @@ class Account extends AbstractResource implements Retrievable, HasMetadata
     {
         parent::populateFromResponse($response);
 
-        $this->containerCount = $response->getHeader('X-Account-Container-Count');
-        $this->objectCount = $response->getHeader('X-Account-Object-Count');
-        $this->bytesUsed = $response->getHeader('X-Account-Bytes-Used');
-        $this->tempUrl = $response->getHeader('X-Account-Meta-Temp-URL-Key');
+        $this->containerCount = $response->getHeaderLine('X-Account-Container-Count');
+        $this->objectCount = $response->getHeaderLine('X-Account-Object-Count');
+        $this->bytesUsed = $response->getHeaderLine('X-Account-Bytes-Used');
+        $this->tempUrl = $response->getHeaderLine('X-Account-Meta-Temp-URL-Key');
         $this->metadata = $this->parseMetadata($response);
     }
 

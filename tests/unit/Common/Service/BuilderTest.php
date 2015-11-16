@@ -130,7 +130,7 @@ class BuilderTest extends TestCase
 
         $httpClient = $this->prophesize(ClientInterface::class);
         $httpClient->getEmitter()->willReturn(new Emitter());
-        $httpClient->createRequest('POST', 'tokens', ['json' => $expectedJson])->shouldBeCalled()->willReturn($request);
+        $httpClient->request('POST', 'tokens', ['json' => $expectedJson])->shouldBeCalled()->willReturn($request);
         $httpClient->send($request)->shouldBeCalled()->willReturn($response);
 
         $options = [

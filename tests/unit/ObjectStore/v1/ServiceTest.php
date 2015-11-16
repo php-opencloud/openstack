@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\ObjectStore\v1;
 
+use GuzzleHttp\Psr7\Response;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -28,8 +29,15 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_containers()
     {
-        $req = $this->setupMockRequest('GET', '?limit=2&format=json');
-        $this->setupMockResponse($req, 'GET_Container');
+        $this->client
+            ->request('GET', '', ['query' => ['limit' => 2, 'format' => 'json'], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('GET_Container'));
+
+        $this->client
+            ->request('GET', '', ['query' => ['limit' => 2, 'format' => 'json', 'marker' => 'helloworld'], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn(new Response(204));
 
         foreach ($this->service->listContainers(['limit' => 2]) as $container) {
             $this->assertInstanceOf(Container::class, $container);
@@ -38,7 +46,7 @@ class ServiceTest extends TestCase
 
     public function test_It_Create_Containers()
     {
-        $this->setupMockResponse($this->setupMockRequest('PUT', 'foo'), 'Created');
+        $this->setupMock('PUT', 'foo', null, [], 'Created');
         $this->service->createContainer(['name' => 'foo']);
     }
 }
