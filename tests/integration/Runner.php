@@ -81,6 +81,15 @@ class Runner
         return $services;
     }
 
+    private function getCamelCaseStr($className) {
+      $elements = explode('_', $className);
+      $output = '';
+      foreach ($elements as $element) {
+        $output .= ucfirst(trim($element));
+      }
+      return $output;
+    }
+
     public function runServices()
     {
         list ($serviceOpt, $versionOpt, $testMethodOpt, $debugOpt) = $this->getOpts();
@@ -90,7 +99,7 @@ class Runner
         foreach ($services as $serviceName => $versions) {
             foreach ($versions as $version) {
 
-                $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, ucfirst($serviceName), ucfirst($version));
+                $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, $this->getCamelCaseStr($serviceName), ucfirst($version));
                 $testRunner = new $class($this->logger, $debugOpt);
 
                 if ($testMethodOpt && method_exists($testRunner, $testMethodOpt)) {
