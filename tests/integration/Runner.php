@@ -81,8 +81,9 @@ class Runner
         return $services;
     }
 
-    private function toCamelCase($word, $separator = '_') {
-      return str_replace($separator, '', ucwords($word, $separator));
+    private function toCamelCase($word, $separator = '_')
+    {
+        return str_replace($separator, '', ucwords($word, $separator));
     }
 
     public function runServices()
