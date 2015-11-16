@@ -10,6 +10,7 @@ use OpenStack\Common\Auth\ServiceUrlResolver;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Transport\HandlerStack;
 use OpenStack\Common\Transport\Middleware;
+use OpenStack\Common\Transport\Utils;
 use OpenStack\Identity\v3\Service;
 
 /**
@@ -118,19 +119,10 @@ class Builder
         return $stack;
     }
 
-    private function normalizeUrl($url)
-    {
-        if (strpos($url, 'http') === false) {
-            $url = 'http://' . $url;
-        }
-
-        return rtrim($url, '/') . '/';
-    }
-
     private function httpClient($baseUrl, HandlerStack $stack)
     {
         return new Client([
-            'base_uri' => $this->normalizeUrl($baseUrl),
+            'base_uri' => Utils::normalizeUrl($baseUrl),
             'handler'  => $stack,
         ]);
     }

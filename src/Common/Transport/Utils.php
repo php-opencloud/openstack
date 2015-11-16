@@ -40,4 +40,23 @@ class Utils
     {
         return (!empty($data) && $key && isset($data[$key])) ? $data[$key] : $data;
     }
+
+    /**
+     * Method for normalize an URL string.
+     *
+     * Append the http:// prefix if not present, and add a
+     * closing url separator when missing.
+     *
+     * @param string $url The url representation.
+     *
+     * @return string
+     */
+    public static function normalizeUrl($url)
+    {
+        if (strpos($url, 'http') === false) {
+            $url = 'http://' . $url;
+        }
+
+        return rtrim($url, '/') . '/';
+    }
 }
