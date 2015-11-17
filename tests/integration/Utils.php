@@ -33,21 +33,21 @@ class Utils
             'base_uri' => CommonUtils::normalizeUrl(getenv('OS_AUTH_URL')),
             'handler'  => HandlerStack::create(),
         ]);
-        $identityService = new Service($httpClient, new Api);
         return [
             'authUrl'         => getenv('OS_AUTH_URL'),
             'region'          => getenv('OS_REGION_NAME'),
             'username'        => getenv('OS_USERNAME'),
             'password'        => getenv('OS_PASSWORD'),
             'tenantName'      => getenv('OS_TENANT_NAME'),
-            'identityService' => $identityService,
+            'identityService' => new Service($httpClient, new Api),
         ];
     }
 
-    public static function getAuthOpts($options = [])
+    public static function getAuthOpts(array $options = [])
     {
-        $authOptions = getenv('OS_IDENTITY_API_VERSION') == '2.0' ?
-            self::getAuthOptsV2() : self::getAuthOptsV3();
+        $authOptions = getenv('OS_IDENTITY_API_VERSION') == '2.0'
+            ? self::getAuthOptsV2()
+            : self::getAuthOptsV3();
         return array_merge($authOptions, $options);
     }
 }
