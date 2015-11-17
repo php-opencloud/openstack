@@ -4,6 +4,7 @@ namespace OpenStack\Integration\ObjectStore;
 
 use GuzzleHttp\Stream\StreamInterface;
 use OpenStack\Integration\TestCase;
+use OpenStack\Integration\Utils;
 use OpenStack\OpenStack;
 
 class V1Test extends TestCase
@@ -16,7 +17,7 @@ class V1Test extends TestCase
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->objectStoreV1($this->getAuthOpts());
+            $this->service = (new OpenStack())->objectStoreV1(Utils::getAuthOpts());
         }
 
         return $this->service;

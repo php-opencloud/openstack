@@ -4,28 +4,12 @@ namespace OpenStack\Integration\Identity;
 
 use OpenStack\Identity\v3\Models;
 use OpenStack\Integration\TestCase;
+use OpenStack\Integration\Utils;
 use OpenStack\OpenStack;
 
 class V3Test extends TestCase
 {
     private $service;
-
-    protected function getAuthOpts()
-    {
-        return [
-            'authUrl' => getenv('OS_AUTH_URL'),
-            'region'  => getenv('OS_REGION'),
-            'user'    => [
-                'id'       => getenv('OS_USER_ID'),
-                'password' => getenv('OS_PASSWORD'),
-            ],
-            'scope' => [
-                'project' => [
-                    'id' => getenv('OS_PROJECT_ID'),
-                ]
-            ]
-        ];
-    }
 
     /**
      * @return \OpenStack\Identity\v3\Service
@@ -33,7 +17,7 @@ class V3Test extends TestCase
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->identityV3($this->getAuthOpts());
+            $this->service = (new OpenStack())->identityV3(Utils::getAuthOpts());
         }
 
         return $this->service;
