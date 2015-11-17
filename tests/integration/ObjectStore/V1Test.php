@@ -2,10 +2,10 @@
 
 namespace OpenStack\Integration\ObjectStore;
 
-use GuzzleHttp\Stream\StreamInterface;
 use OpenStack\Integration\TestCase;
 use OpenStack\Integration\Utils;
 use OpenStack\OpenStack;
+use Psr\Http\Message\StreamInterface;
 
 class V1Test extends TestCase
 {
