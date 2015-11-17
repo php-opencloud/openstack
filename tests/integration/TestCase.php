@@ -27,46 +27,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     abstract protected function getBasePath();
 
-    protected function getAuthOptsV3()
-    {
-        return [
-            'authUrl' => getenv('OS_AUTH_URL'),
-            'region'  => getenv('OS_REGION'),
-            'user'    => [
-                'id'       => getenv('OS_USER_ID'),
-                'password' => getenv('OS_PASSWORD'),
-            ],
-            'scope'   => [
-                'project' => [
-                    'id' => getenv('OS_PROJECT_ID'),
-                ]
-            ]
-        ];
-    }
-
-    protected function getAuthOptsV2()
-    {
-        $httpClient = new Client([
-            'base_uri' => getenv('OS_AUTH_URL'),
-            'handler'  => HandlerStack::create(),
-        ]);
-        $identityService = new Service($httpClient, new Api);
-        return [
-            'authUrl'         => getenv('OS_AUTH_URL'),
-            'region'          => getenv('OS_REGION_NAME'),
-            'username'        => getenv('OS_USERNAME'),
-            'password'        => getenv('OS_PASSWORD'),
-            'tenantName'      => getenv('OS_TENANT_NAME'),
-            'identityService' => $identityService,
-        ];
-    }
-
-    protected function getAuthOpts()
-    {
-        return getenv('OS_IDENTITY_API_VERSION') == '2.0' ?
-            $this->getAuthOptsV2() : $this->getAuthOptsV3();
-    }
-
     protected function startTimer()
     {
         $this->startPoint = $this->lastPoint = microtime(true);
@@ -136,6 +96,31 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         return 'phptest_' . $randomString;
     }
 
+    protected function getConnectionTemplate($debug)
+    {
+        if ($debug) {
+            $subst = <<<'EOL'
+use OpenStack\Integration\DefaultLogger;
+use OpenStack\Integration\Utils;
+use GuzzleHttp\MessageFormatter;
+
+$options = [
+    'debugLog'         => true,
+    'logger'           => new DefaultLogger(),
+    'messageFormatter' => new MessageFormatter(),
+];
+$openstack = new OpenStack\OpenStack(Utils::getAuthOpts($options));
+EOL;
+        } else {
+            $subst = <<<'EOL'
+use OpenStack\Integration\Utils;
+
+$openstack = new OpenStack\OpenStack(Utils::getAuthOpts());
+EOL;
+        }
+        return $subst;
+    }
+
     protected function sampleFile(array $replacements, $sampleFilename)
     {
         $replacements = array_merge($this->getGlobalReplacements(), $replacements);
@@ -150,18 +135,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $content = strtr(file_get_contents($sampleFile), $replacements);
         $content = str_replace("'vendor/'", "'" . dirname(__DIR__) . "/../vendor'", $content);
 
-        if ($this->debug) {
-            $subst = <<<'EOL'
-use OpenStack\Integration\DefaultLogger;
-use GuzzleHttp\MessageFormatter;
-
-$openstack = new OpenStack\OpenStack([
-    'debugLog'         => true,
-    'logger'           => new DefaultLogger(),
-    'messageFormatter' => new MessageFormatter(),
-EOL;
-            $content = str_replace('$openstack = new OpenStack\OpenStack([', $subst, $content);
-        }
+        $subst = $this->getConnectionTemplate($this->debug);
+        $content = preg_replace('/\([^)]+\)/', '', $content, 1);
+        $content = str_replace('$openstack = new OpenStack\OpenStack;', $subst, $content);
 
         $tmp = tempnam(sys_get_temp_dir(), 'openstack');
         file_put_contents($tmp, $content);
