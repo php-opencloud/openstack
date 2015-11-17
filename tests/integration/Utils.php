@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use OpenStack\Identity\v2\Api;
 use OpenStack\Identity\v2\Service;
 use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\Utils as CommonUtils;
 
 class Utils
 {
@@ -28,14 +29,13 @@ class Utils
 
     public static function getAuthOptsV2()
     {
-        $authUrl = \OpenStack\Common\Transport\Utils::normalizeUrl(getenv('OS_AUTH_URL'));
         $httpClient = new Client([
-            'base_uri' => $authUrl,
+            'base_uri' => CommonUtils::normalizeUrl(getenv('OS_AUTH_URL')),
             'handler'  => HandlerStack::create(),
         ]);
         $identityService = new Service($httpClient, new Api);
         return [
-            'authUrl'         => $authUrl,
+            'authUrl'         => getenv('OS_AUTH_URL'),
             'region'          => getenv('OS_REGION_NAME'),
             'username'        => getenv('OS_USERNAME'),
             'password'        => getenv('OS_PASSWORD'),
@@ -44,10 +44,10 @@ class Utils
         ];
     }
 
-    public static function getAuthOpts($options = array())
+    public static function getAuthOpts($options = [])
     {
-        $auth_options = getenv('OS_IDENTITY_API_VERSION') == '2.0' ?
+        $authOptions = getenv('OS_IDENTITY_API_VERSION') == '2.0' ?
             self::getAuthOptsV2() : self::getAuthOptsV3();
-        return array_merge($auth_options, $options);
+        return array_merge($authOptions, $options);
     }
 }
