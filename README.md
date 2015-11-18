@@ -11,6 +11,7 @@ OpenStack services, and versions of services, are supported.
 ## Links
 
 * [Official documentation](http://docs.php-opencloud.com)
+* [Docs for PHP-OpenCloud/OpenStack](http://php-opencloudopenstack.readthedocs.org/en/latest/index.html)
 * [Homepage](http://php-opencloud.com/)
 * [Developer support](https://developer.rackspace.com/)
 * [Mailing list](https://groups.google.com/forum/#!forum/php-opencloud)
