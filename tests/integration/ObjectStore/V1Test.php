@@ -195,6 +195,7 @@ class V1Test extends TestCase
 
         $this->logStep('Delete object');
         require_once $this->sampleFile($replacements, 'objects/delete.php');
+        $container->getObject($replacements['{newObjectName}'])->delete();
 
         $this->logStep('Delete container');
         $container->delete();
