@@ -13,6 +13,7 @@
             <exclude>
                 <directory suffix="Interface.php">./src</directory>
                 <directory suffix="Api.php">./src</directory>
+                <directory suffix="Params.php">./src</directory>
             </exclude>
         </whitelist>
     </filter>
