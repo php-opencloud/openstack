@@ -50,8 +50,6 @@ class Endpoint extends AbstractResource implements Creatable, Updateable, Deleta
 
     /**
      * {@inheritDoc}
-     *
-     * @return self
      */
     public function update()
     {

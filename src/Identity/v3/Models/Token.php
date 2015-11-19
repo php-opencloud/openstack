@@ -54,7 +54,7 @@ class Token extends AbstractResource implements Creatable, Retrievable, \OpenSta
     {
         parent::populateFromResponse($response);
 
-        $this->id = $response->getHeader('X-Subject-Token')[0];
+        $this->id = $response->getHeaderLine('X-Subject-Token');
 
         return $this;
     }

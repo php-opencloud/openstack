@@ -12,13 +12,10 @@ class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
     /** @var []Service */
     public $services;
 
-    /**
-     * {@inheritDoc}
-     */
     public function populateFromArray(array $data)
     {
         foreach ($data as $service) {
-            $this->services[] = $this->model('Service', $service);
+            $this->services[] = $this->model(Service::class, $service);
         }
     }
 

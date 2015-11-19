@@ -14,8 +14,8 @@ use OpenStack\Common\Resource\Updateable;
  */
 class User extends AbstractResource implements Creatable, Listable, Retrievable, Updateable, Deletable
 {
-    /** @var Domain */
-    public $domain;
+    /** @var string */
+    public $domainId;
 
     /** @var string */
     public $defaultProjectId;
@@ -39,25 +39,12 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     public $name;
 
     protected $aliases = [
-        'domain_id' => 'domainId',
+        'domain_id'          => 'domainId',
         'default_project_id' => 'defaultProjectId'
     ];
 
     protected $resourceKey = 'user';
     protected $resourcesKey = 'users';
-
-    /**
-     * {@inheritDoc}
-     */
-    public function populateFromArray(array $data)
-    {
-        parent::populateFromArray($data);
-
-        if (isset($data['domainId']) || isset($data['domain_id'])) {
-            $domainId = isset($data['domain_id']) ? $data['domain_id'] : $data['domainId'];
-            $this->domain = $this->model('Domain', ['id' => $domainId]);
-        }
-    }
 
     /**
      * {@inheritDoc}
@@ -102,7 +89,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     public function listGroups()
     {
         $options['id'] = $this->id;
-        return $this->model('Group')->enumerate($this->api->getUserGroups(), $options);
+        return $this->model(Group::class)->enumerate($this->api->getUserGroups(), $options);
     }
 
     /**
@@ -110,6 +97,6 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
      */
     public function listProjects()
     {
-        return $this->model('Project')->enumerate($this->api->getUserProjects(), ['id' => $this->id]);
+        return $this->model(Project::class)->enumerate($this->api->getUserProjects(), ['id' => $this->id]);
     }
 }

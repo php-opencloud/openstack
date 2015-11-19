@@ -46,16 +46,6 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
 
     /**
      * {@inheritDoc}
-     */
-    public function populateFromArray(array $data)
-    {
-        parent::populateFromArray($data);
-
-        $this->domain = $this->model('Domain', $data);
-    }
-
-    /**
-     * {@inheritDoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postProjects}
      */
@@ -100,7 +90,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
     public function listUserRoles(array $options = [])
     {
         $options['projectId'] = $this->id;
-        return $this->model('Role')->enumerate($this->api->getProjectUserRoles(), $options);
+        return $this->model(Role::class)->enumerate($this->api->getProjectUserRoles(), $options);
     }
 
     /**
@@ -142,7 +132,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
     public function listGroupRoles(array $options = [])
     {
         $options['projectId'] = $this->id;
-        return $this->model('Role')->enumerate($this->api->getProjectGroupRoles(), $options);
+        return $this->model(Role::class)->enumerate($this->api->getProjectGroupRoles(), $options);
     }
 
     /**

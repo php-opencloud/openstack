@@ -20,7 +20,7 @@ class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
      *
      * @var []Entry
      */
-    private $entries = [];
+    public $entries = [];
 
     /**
      * {@inheritDoc}
@@ -30,7 +30,7 @@ class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
         $entries = Utils::jsonDecode($response)['access']['serviceCatalog'];
 
         foreach ($entries as $entry) {
-            $this->entries[] = $this->model('Entry', $entry);
+            $this->entries[] = $this->model(Entry::class, $entry);
         }
     }
 

@@ -16,11 +16,22 @@ use OpenStack\Common\Transport\Utils;
  */
 class Network extends AbstractResource implements Listable, Retrievable, Creatable, Deletable
 {
+    /** @var string */
     public $id;
+
+    /** @var string */
     public $name;
+
+    /** @var bool */
     public $shared;
+
+    /** @var string */
     public $status;
+
+    /** @var array */
     public $subnets;
+
+    /** @var string */
     public $adminStateUp;
 
     protected $aliases = [

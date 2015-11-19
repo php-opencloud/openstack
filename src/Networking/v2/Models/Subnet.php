@@ -16,17 +16,40 @@ use OpenStack\Common\Transport\Utils;
  */
 class Subnet extends AbstractResource implements Listable, Retrievable, Creatable, Deletable
 {
+    /** @var string */
     public $id;
+
+    /** @var string */
     public $name;
+
+    /** @var bool */
     public $enableDhcp;
+
+    /** @var string */
     public $networkId;
+
+    /** @var array */
     public $dnsNameservers;
+
+    /** @var array */
     public $allocationPools;
+
+    /** @var array */
     public $hostRoutes;
+
+    /** @var int */
     public $ipVersion;
+
+    /** @var string */
     public $gatewayIp;
+
+    /** @var string */
     public $cidr;
+
+    /** @var string */
     public $tenantId;
+
+    /** @var array */
     public $links;
 
     protected $aliases = [

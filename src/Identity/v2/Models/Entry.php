@@ -21,19 +21,6 @@ class Entry extends AbstractResource
     private $endpoints = [];
 
     /**
-     * {@inheritDoc}
-     */
-    public function populateFromArray(array $data)
-    {
-        $this->name = $data['name'];
-        $this->type = $data['type'];
-
-        foreach ($data['endpoints'] as $endpoint) {
-            $this->endpoints[] = $this->model('Endpoint', $endpoint);
-        }
-    }
-
-    /**
      * Indicates whether this catalog entry matches a certain name and type.
      *
      * @param string $name

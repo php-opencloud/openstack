@@ -18,7 +18,7 @@ class Service extends AbstractService
      */
     public function getAccount()
     {
-        return $this->model('Account');
+        return $this->model(Account::class);
     }
 
     /**
@@ -32,7 +32,7 @@ class Service extends AbstractService
     public function listContainers(array $options = [], callable $mapFn = null)
     {
         $options = array_merge($options, ['format' => 'json']);
-        return $this->model('Container')->enumerate($this->api->getAccount(), $options, $mapFn);
+        return $this->model(Container::class)->enumerate($this->api->getAccount(), $options, $mapFn);
     }
 
     /**
@@ -45,7 +45,7 @@ class Service extends AbstractService
      */
     public function getContainer($name = null)
     {
-        return $this->model('Container', ['name' => $name]);
+        return $this->model(Container::class, ['name' => $name]);
     }
 
     /**

@@ -25,23 +25,58 @@ class Server extends AbstractResource implements
 {
     use HasWaiterTrait;
 
+    /** @var string */
     public $id;
+
+    /** @var string */
     public $ipv4;
+
+    /** @var string */
     public $ipv6;
+
+    /** @var array */
     public $addresses;
+
+    /** @var \DateTimeImmutable */
     public $created;
+
+    /** @var \DateTimeImmutable */
     public $updated;
+
+    /** @var Flavor */
     public $flavor;
+
+    /** @var string */
     public $hostId;
+
+    /** @var Image */
     public $image;
+
+    /** @var array */
     public $links;
+
+    /** @var array */
     public $metadata;
+
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $progress;
+
+    /** @var string */
     public $status;
+
+    /** @var string */
     public $tenantId;
+
+    /** @var string */
     public $userId;
+
+    /** @var string */
     public $adminPass;
+
+    /** @var string */
     public $taskState;
 
     protected $resourceKey = 'server';
@@ -57,25 +92,6 @@ class Server extends AbstractResource implements
         'security_groups' => 'securityGroups',
         'OS-EXT-STS:task_state' => 'taskState',
     ];
-
-    /**
-     * {@inheritDoc}
-     */
-    public function populateFromArray(array $data)
-    {
-        parent::populateFromArray($data);
-
-        $this->created = new \DateTimeImmutable($this->created);
-        $this->updated = new \DateTimeImmutable($this->updated);
-
-        if (isset($data['flavor'])) {
-            $this->flavor = $this->model('Flavor', $data['flavor']);
-        }
-
-        if (isset($data['image'])) {
-            $this->image = $this->model('Image', $data['image']);
-        }
-    }
 
     /**
      * {@inheritDoc}

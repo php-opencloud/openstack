@@ -6,6 +6,7 @@ use GuzzleHttp\ClientInterface;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Service\AbstractService;
+use OpenStack\Identity\v3\Models;
 
 /**
  * Represents the Keystone v3 service.
@@ -32,20 +33,17 @@ class Service extends AbstractService implements IdentityService
 
         $token = $this->generateToken($authOptions);
 
-        $baseUrl = $token->catalog->getServiceUrl(
-            $options['catalogName'],
-            $options['catalogType'],
-            $options['region'],
-            isset($options['interface']) ? $options['interface'] : Enum::INTERFACE_PUBLIC
-        );
+        $name      = $options['catalogName'];
+        $type      = $options['catalogType'];
+        $region    = $options['region'];
+        $interface = isset($options['interface']) ? $options['interface'] : Enum::INTERFACE_PUBLIC;
 
-        if (!$baseUrl) {
-            throw new \RuntimeException(sprintf("No service found with type [%s] name [%s] region [%s] interface [%s]",
-                $options['catalogType'], $options['catalogName'], $options['region'], $options['interface']
-            ));
+        if ($baseUrl = $token->catalog->getServiceUrl($name, $type, $region, $interface)) {
+            return [$token, $baseUrl];
         }
 
-        return [$token, $baseUrl];
+        throw new \RuntimeException(sprintf("No service found with type [%s] name [%s] region [%s] interface [%s]",
+            $type, $name, $region, $interface));
     }
 
     /**
@@ -57,7 +55,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function generateToken(array $options)
     {
-        return $this->model('Token')->create($options);
+        return $this->model(Models\Token::class)->create($options);
     }
 
     /**
@@ -70,7 +68,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getToken($id)
     {
-        return $this->model('Token', ['id' => $id]);
+        return $this->model(Models\Token::class, ['id' => $id]);
     }
 
     /**
@@ -112,7 +110,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createService(array $options)
     {
-        return $this->model('Service')->create($options);
+        return $this->model(Models\Service::class)->create($options);
     }
 
     /**
@@ -126,7 +124,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listServices(array $options = [])
     {
-        return $this->model('Service')->enumerate($this->api->getServices(), $options);
+        return $this->model(Models\Service::class)->enumerate($this->api->getServices(), $options);
     }
 
     /**
@@ -139,7 +137,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getService($id)
     {
-        return $this->model('Service', ['id' => $id]);
+        return $this->model(Models\Service::class, ['id' => $id]);
     }
 
     /**
@@ -151,7 +149,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createEndpoint(array $options)
     {
-        return $this->model('Endpoint')->create($options);
+        return $this->model(Models\Endpoint::class)->create($options);
     }
 
     /**
@@ -164,7 +162,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getEndpoint($id)
     {
-        return $this->model('Endpoint', ['id' => $id]);
+        return $this->model(Models\Endpoint::class, ['id' => $id]);
     }
 
     /**
@@ -178,7 +176,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listEndpoints(array $options = [])
     {
-        return $this->model('Endpoint')->enumerate($this->api->getEndpoints(), $options);
+        return $this->model(Models\Endpoint::class)->enumerate($this->api->getEndpoints(), $options);
     }
 
     /**
@@ -190,7 +188,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createDomain(array $options)
     {
-        return $this->model('Domain')->create($options);
+        return $this->model(Models\Domain::class)->create($options);
     }
 
     /**
@@ -204,7 +202,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listDomains(array $options = [])
     {
-        return $this->model('Domain')->enumerate($this->api->getDomains(), $options);
+        return $this->model(Models\Domain::class)->enumerate($this->api->getDomains(), $options);
     }
 
     /**
@@ -217,7 +215,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getDomain($id)
     {
-        return $this->model('Domain', ['id' => $id]);
+        return $this->model(Models\Domain::class, ['id' => $id]);
     }
 
     /**
@@ -229,7 +227,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createProject(array $options)
     {
-        return $this->model('Project')->create($options);
+        return $this->model(Models\Project::class)->create($options);
     }
 
     /**
@@ -243,7 +241,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listProjects(array $options = [])
     {
-        return $this->model('Project')->enumerate($this->api->getProjects(), $options);
+        return $this->model(Models\Project::class)->enumerate($this->api->getProjects(), $options);
     }
 
     /**
@@ -256,7 +254,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getProject($id)
     {
-        return $this->model('Project', ['id' => $id]);
+        return $this->model(Models\Project::class, ['id' => $id]);
     }
 
     /**
@@ -268,7 +266,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createUser(array $options)
     {
-        return $this->model('User')->create($options);
+        return $this->model(Models\User::class)->create($options);
     }
 
     /**
@@ -282,7 +280,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listUsers(array $options = [])
     {
-        return $this->model('User')->enumerate($this->api->getUsers(), $options);
+        return $this->model(Models\User::class)->enumerate($this->api->getUsers(), $options);
     }
 
     /**
@@ -295,7 +293,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getUser($id)
     {
-        return $this->model('User', ['id' => $id]);
+        return $this->model(Models\User::class, ['id' => $id]);
     }
 
     /**
@@ -307,7 +305,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createGroup(array $options)
     {
-        return $this->model('Group')->create($options);
+        return $this->model(Models\Group::class)->create($options);
     }
 
     /**
@@ -321,7 +319,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listGroups(array $options = [])
     {
-        return $this->model('Group')->enumerate($this->api->getGroups(), $options);
+        return $this->model(Models\Group::class)->enumerate($this->api->getGroups(), $options);
     }
 
     /**
@@ -334,7 +332,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getGroup($id)
     {
-        return $this->model('Group', ['id' => $id]);
+        return $this->model(Models\Group::class, ['id' => $id]);
     }
 
     /**
@@ -346,7 +344,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createCredential(array $options)
     {
-        return $this->model('Credential')->create($options);
+        return $this->model(Models\Credential::class)->create($options);
     }
 
     /**
@@ -358,7 +356,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listCredentials()
     {
-        return $this->model('Credential')->enumerate($this->api->getCredentials());
+        return $this->model(Models\Credential::class)->enumerate($this->api->getCredentials());
     }
 
     /**
@@ -371,7 +369,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function getCredential($id)
     {
-        return $this->model('Credential', ['id' => $id]);
+        return $this->model(Models\Credential::class, ['id' => $id]);
     }
 
     /**
@@ -383,7 +381,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createRole(array $options)
     {
-        return $this->model('Role')->create($options);
+        return $this->model(Models\Role::class)->create($options);
     }
 
     /**
@@ -397,7 +395,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listRoles(array $options = [])
     {
-        return $this->model('Role')->enumerate($this->api->getRoles(), $options);
+        return $this->model(Models\Role::class)->enumerate($this->api->getRoles(), $options);
     }
 
     /**
@@ -411,7 +409,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listRoleAssignments(array $options = [])
     {
-        return $this->model('Assignment')->enumerate($this->api->getRoleAssignments(), $options);
+        return $this->model(Models\Assignment::class)->enumerate($this->api->getRoleAssignments(), $options);
     }
 
     /**
@@ -423,7 +421,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function createPolicy(array $options)
     {
-        return $this->model('Policy')->create($options);
+        return $this->model(Models\Policy::class)->create($options);
     }
 
     /**
@@ -437,7 +435,7 @@ class Service extends AbstractService implements IdentityService
      */
     public function listPolicies(array $options = [])
     {
-        return $this->model('Policy')->enumerate($this->api->getPolicies(), $options);
+        return $this->model(Models\Policy::class)->enumerate($this->api->getPolicies(), $options);
     }
 
     /**
@@ -450,6 +448,6 @@ class Service extends AbstractService implements IdentityService
      */
     public function getPolicy($id)
     {
-        return $this->model('Policy', ['id' => $id]);
+        return $this->model(Models\Policy::class, ['id' => $id]);
     }
 }

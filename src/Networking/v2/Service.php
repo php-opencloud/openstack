@@ -22,7 +22,7 @@ class Service extends AbstractService
      */
     public function createNetwork(array $options)
     {
-        return $this->model('Network')->create($options);
+        return $this->model(Network::class)->create($options);
     }
 
     /**
@@ -34,7 +34,7 @@ class Service extends AbstractService
      */
     public function createNetworks(array $options)
     {
-        return $this->model('Network')->bulkCreate($options);
+        return $this->model(Network::class)->bulkCreate($options);
     }
 
     /**
@@ -48,7 +48,7 @@ class Service extends AbstractService
      */
     public function getNetwork($id)
     {
-        return $this->model('Network', ['id' => $id]);
+        return $this->model(Network::class, ['id' => $id]);
     }
 
     /**
@@ -60,7 +60,7 @@ class Service extends AbstractService
      */
     public function createSubnet(array $options)
     {
-        return $this->model('Subnet')->create($options);
+        return $this->model(Subnet::class)->create($options);
     }
 
     /**
@@ -72,7 +72,7 @@ class Service extends AbstractService
      */
     public function createSubnets(array $options)
     {
-        return $this->model('Subnet')->bulkCreate($options);
+        return $this->model(Subnet::class)->bulkCreate($options);
     }
 
     /**
@@ -86,6 +86,6 @@ class Service extends AbstractService
      */
     public function getSubnet($id)
     {
-        return $this->model('Subnet', ['id' => $id]);
+        return $this->model(Subnet::class, ['id' => $id]);
     }
 }

@@ -76,7 +76,7 @@ class ServiceTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2013-02-27T16:30:59.999999Z'), $token->issued);
         $this->assertEquals(['password'], $token->methods);
 
-        $user = $this->service->model('User', [
+        $user = $this->service->model(Models\User::class, [
             "domain" => [
                 "id" => "1789d1",
                 "links" => [
@@ -269,7 +269,7 @@ class ServiceTest extends TestCase
 
         $this->assertEquals('263fd9', $user->defaultProjectId);
         $this->assertEquals("Jim Doe's user", $user->description);
-        $this->assertEquals("1789d1", $user->domain->id);
+        $this->assertEquals("1789d1", $user->domainId);
         $this->assertEquals("jdoe@example.com", $user->email);
         $this->assertTrue($user->enabled);
         $this->assertEquals('ff4e51', $user->id);

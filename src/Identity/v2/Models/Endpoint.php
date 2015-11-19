@@ -15,30 +15,22 @@ class Endpoint extends AbstractResource
     use HydratorStrategyTrait;
 
     /** @var string */
-    private $adminUrl;
+    public $adminUrl;
 
     /** @var string */
-    private $region;
+    public $region;
 
     /** @var string */
-    private $internalUrl;
+    public $internalUrl;
 
     /** @var string */
-    private $publicUrl;
+    public $publicUrl;
 
-    /**
-     * {@inheritDoc}
-     */
-    public function populateFromArray(array $data)
-    {
-        $aliases = [
-            'adminURL'    => 'adminUrl',
-            'internalURL' => 'internalUrl',
-            'publicURL'   => 'publicUrl',
-        ];
-
-        $this->hydrate($data, $aliases);
-    }
+    protected $aliases = [
+        'adminURL'    => 'adminUrl',
+        'internalURL' => 'internalUrl',
+        'publicURL'   => 'publicUrl',
+    ];
 
     /**
      * Indicates whether a given region is supported

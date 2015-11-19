@@ -2,7 +2,6 @@
 
 namespace OpenStack\Common\Resource;
 
-use OpenStack\Common\Api\Operation;
 use OpenStack\Common\Api\Operator;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
@@ -55,14 +54,6 @@ abstract class AbstractResource extends Operator implements ResourceInterface
     protected $aliases = [];
 
     /**
-     * @codeCoverageIgnore
-     */
-    protected function getServiceNamespace()
-    {
-        return str_replace('\\Models', '', $this->getCurrentNamespace());
-    }
-
-    /**
      * Populates the current resource from a response object.
      *
      * @param ResponseInterface $response
@@ -96,27 +87,39 @@ abstract class AbstractResource extends Operator implements ResourceInterface
             $propertyName = isset($this->aliases[$key]) ? $this->aliases[$key] : $key;
             if (property_exists($this, $propertyName)) {
                 if ($type = $this->extractTypeFromDocBlock($reflClass, $propertyName)) {
-                    if (in_array($type, ['string', 'bool', 'null', 'array', 'object', 'int', 'mixed'])) {
-                        $val = $val;
-                    } elseif (strpos($type, '[]') === 0) {
-                        if (is_array($val)) {
-                            $array = [];
-                            $type = substr($type, 2);
-                            foreach ($val as $subVal) {
-                                array_push($array, $this->model($type, $subVal));
-                            }
-                            $val = $array;
+                    if (strpos($type, '[]') === 0 && is_array($val)) {
+                        $array = [];
+                        foreach ($val as $subVal) {
+                            $array[] = $this->model($this->normalizeModelClass(substr($type, 2)), $subVal);
                         }
-                    } elseif ($type == '\DateTimeImmutable') {
+                        $val = $array;
+                    } elseif (strcasecmp($type, '\datetimeimmutable') === 0) {
                         $val = new \DateTimeImmutable($val);
-                    } elseif (strpos($type, '\\') !== 0) {
-                        $val = $this->model($type, $val);
+                    } elseif ($this->isNotNativeType($type)) {
+                        $val = $this->model($this->normalizeModelClass($type), $val);
                     }
                 }
 
                 $this->$propertyName = $val;
             }
         }
+    }
+
+    private function isNotNativeType($type)
+    {
+        return !in_array($type, [
+            'string', 'bool', 'boolean', 'null', 'array', 'object', 'int', 'integer', 'float', 'numeric', 'mixed'
+        ]);
+    }
+
+    private function normalizeModelClass($class)
+    {
+        if (strpos($class, '\\') === false) {
+            $currentNamespace = (new \ReflectionClass($this))->getNamespaceName();
+            $class = sprintf("%s\\%s", $currentNamespace, $class);
+        }
+
+        return $class;
     }
 
     private function extractTypeFromDocBlock(\ReflectionClass $reflClass, $propertyName)

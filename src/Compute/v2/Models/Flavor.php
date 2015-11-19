@@ -13,11 +13,22 @@ use OpenStack\Common\Resource\Retrievable;
  */
 class Flavor extends AbstractResource implements Listable, Retrievable
 {
+    /** @var int */
     public $disk;
+
+    /** @var string */
     public $id;
+
+    /** @var string */
     public $name;
+
+    /** @var int */
     public $ram;
+
+    /** @var int */
     public $vcpus;
+
+    /** @var array */
     public $links;
 
     protected $resourceKey = 'flavor';

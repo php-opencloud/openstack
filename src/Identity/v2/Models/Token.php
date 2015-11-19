@@ -14,17 +14,19 @@ use OpenStack\Common\Resource\ValueResource;
  */
 class Token extends AbstractResource implements \OpenStack\Common\Auth\Token
 {
-    /** @var \DatetimeImmutable */
+    /** @var \DateTimeImmutable */
     public $issuedAt;
 
     /** @var string */
     public $id;
 
-    /** @var \DatetimeImmutable */
+    /** @var \DateTimeImmutable */
     public $expires;
 
     /** @var Tenant */
     public $tenant;
+
+    protected $aliases = ['issued_at' => 'issuedAt'];
 
     /**
      * {@inheritDoc}
@@ -34,21 +36,6 @@ class Token extends AbstractResource implements \OpenStack\Common\Auth\Token
         $this->populateFromArray(Utils::jsonDecode($response)['access']['token']);
 
         return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function populateFromArray(array $data)
-    {
-        parent::populateFromArray($data);
-
-        $this->issuedAt = new \DateTimeImmutable($data['issued_at']);
-        $this->expires  = new \DateTimeImmutable($data['expires'], $this->issuedAt->getTimezone());
-
-        if (isset($data['tenant'])) {
-            $this->tenant = $this->model('Tenant', $data['tenant']);
-        }
     }
 
     public function getId()

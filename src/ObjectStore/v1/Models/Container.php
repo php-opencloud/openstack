@@ -57,7 +57,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     public function listObjects(array $options = [], callable $mapFn = null)
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
-        return $this->model('Object')->enumerate($this->api->getContainer(), $options, $mapFn);
+        return $this->model(Object::class)->enumerate($this->api->getContainer(), $options, $mapFn);
     }
 
     /**
@@ -142,7 +142,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      */
     public function getObject($name)
     {
-        return $this->model('Object', ['containerName' => $this->name, 'name' => $name]);
+        return $this->model(Object::class, ['containerName' => $this->name, 'name' => $name]);
     }
 
     /**
@@ -177,6 +177,6 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      */
     public function createObject(array $data)
     {
-        return $this->model('Object')->create($data + ['containerName' => $this->name]);
+        return $this->model(Object::class)->create($data + ['containerName' => $this->name]);
     }
 }

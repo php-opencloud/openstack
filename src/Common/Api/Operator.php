@@ -88,13 +88,9 @@ abstract class Operator implements OperatorInterface
 
     /**
      * {@inheritDoc}
-     *
-     * Refer to {@see getServiceNamespace()} for more information about how model namespaces are resolved.
      */
-    public function model($name, $data = null)
+    public function model($class, $data = null)
     {
-        $class = sprintf("%s\\Models\\%s", $this->getServiceNamespace(), $name);
-
         $model = new $class($this->client, $this->api);
 
         // @codeCoverageIgnoreStart
@@ -113,14 +109,6 @@ abstract class Operator implements OperatorInterface
     }
 
     /**
-     * @return string
-     */
-    public function getCurrentNamespace()
-    {
-        return (new \ReflectionClass(get_class($this)))->getNamespaceName();
-    }
-
-    /**
      * Will create a new instance of this class with the current HTTP client and API injected in. This
      * is useful when enumerating over a collection since multiple copies of the same resource class
      * are needed.
@@ -131,13 +119,4 @@ abstract class Operator implements OperatorInterface
     {
         return new static($this->client, $this->api);
     }
-
-    /**
-     * Determines which root namespace to use when instantiating a new model. For example, if a service class
-     * is invoking the model, it will use ``__NAMESPACE__\Models`` as the root namespace; for models creating
-     * other models, it will just use ``__NAMESPACE__``.
-     *
-     * @return string
-     */
-    abstract protected function getServiceNamespace();
 }

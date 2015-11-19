@@ -15,30 +15,38 @@ use OpenStack\Common\Transport\Utils;
  */
 class Image extends AbstractResource implements Listable, Retrievable, Deletable
 {
-    public $created;
+    /** @var string */
     public $id;
+
+    /** @var array */
     public $links;
+
+    /** @var array */
     public $metadata;
+
+    /** @var int */
     public $minDisk;
+
+    /** @var int */
     public $minRam;
+
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $progress;
+
+    /** @var string */
     public $status;
+
+    /** @var \DateTimeImmutable */
+    public $created;
+
+    /** @var \DateTimeImmutable */
     public $updated;
 
     protected $resourceKey = 'image';
     protected $resourcesKey = 'images';
-
-    /**
-     * {@inheritDoc}
-     */
-    public function populateFromArray(array $data)
-    {
-        parent::populateFromArray($data);
-
-        $this->created = new \DateTimeImmutable($this->created);
-        $this->updated = new \DateTimeImmutable($this->updated);
-    }
 
     /**
      * {@inheritDoc}
