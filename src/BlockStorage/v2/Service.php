@@ -27,7 +27,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listVolumes($detail, array $userOptions = [])
+    public function listVolumes($detail = false, array $userOptions = [])
     {
         $def = ($detail === true) ? $this->api->getVolumesDetail() : $this->api->getVolumes();
         return $this->model(Volume::class)->enumerate($def, $userOptions);
@@ -48,7 +48,7 @@ class Service extends AbstractService
     /**
      * @param array $userOptions {@see Api::postTypes}
      *
-     * @return PostType
+     * @return VolumeType
      */
     public function createVolumeType(array $userOptions)
     {
@@ -88,7 +88,7 @@ class Service extends AbstractService
     /**
      * @return \Generator
      */
-    public function listSnapshots($detail, array $userOptions = [])
+    public function listSnapshots($detail = false, array $userOptions = [])
     {
         $def = ($detail === true) ? $this->api->getSnapshotsDetail() : $this->api->getSnapshots();
         return $this->model(Snapshot::class)->enumerate($def, $userOptions);

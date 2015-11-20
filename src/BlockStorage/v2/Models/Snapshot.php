@@ -6,18 +6,19 @@ use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Transport\Utils;
-use OpenStack\ObjectStore\v1\Models\MetadataTrait;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api
  */
-class Snapshot extends AbstractResource implements Listable, Creatable, Updateable, Deletable, HasMetadata
+class Snapshot extends AbstractResource implements Listable, Creatable, Updateable, Deletable, Retrievable, HasMetadata
 {
-    use MetadataTrait;
+    use HasWaiterTrait;
 
     /** @var string */
     public $id;
@@ -35,7 +36,7 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
     public $createdAt;
 
     /** @var array */
-    public $metadata;
+    public $metadata = [];
 
     /** @var string */
     public $volumeId;
@@ -54,10 +55,14 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
-
         $this->metadata = $this->parseMetadata($response);
-
         return $this;
+    }
+
+    public function retrieve()
+    {
+        $response = $this->executeWithState($this->api->getSnapshot());
+        return $this->populateFromResponse($response);
     }
 
     /**
@@ -84,20 +89,26 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
     public function getMetadata()
     {
         $response = $this->executeWithState($this->api->getSnapshotMetadata());
-        return $this->parseMetadata($response);
+        $this->metadata = $this->parseMetadata($response);
+        return $this->metadata;
     }
 
     public function mergeMetadata(array $metadata)
     {
+        $this->getMetadata();
+        $this->metadata = array_merge($this->metadata, $metadata);
+        $this->executeWithState($this->api->putSnapshotMetadata());
     }
 
     public function resetMetadata(array $metadata)
     {
+        $this->metadata = $metadata;
+        $this->executeWithState($this->api->putSnapshotMetadata());
     }
 
     public function parseMetadata(ResponseInterface $response)
     {
         $json = Utils::jsonDecode($response);
-        return isset($json['metadata']) ? $json['metadata'] : null;
+        return isset($json['metadata']) ? $json['metadata'] : [];
     }
 }

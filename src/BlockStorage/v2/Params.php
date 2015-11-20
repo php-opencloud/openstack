@@ -83,6 +83,12 @@ class Params extends AbstractParams
             'type'        => self::OBJECT_TYPE,
             'location'    => self::JSON,
             'description' => 'One or more metadata key and value pairs to associate with the volume.',
+            'properties'  => [
+                'type'        => self::STRING_TYPE,
+                'description' => <<<TYPEOTHER
+The value being set for your key. Bear in mind that "key" is just an example, you can name it anything.
+TYPEOTHER
+            ]
         ];
     }
 

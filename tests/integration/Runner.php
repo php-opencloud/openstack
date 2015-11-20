@@ -66,7 +66,8 @@ class Runner
 
         if ($service != 'all') {
             if (!isset($this->services[strtolower($service)])) {
-                $this->logger->emergency('{service} does not exist', ['service' => $service]);
+                $this->logger->emergency('{service} service does not exist', ['{service}' => $service]);
+                exit;
             }
 
             if ($version == 'all') {
@@ -99,6 +100,7 @@ class Runner
                 $testRunner = new $class($this->logger, $debugOpt);
 
                 if ($testMethodOpt && method_exists($testRunner, $testMethodOpt)) {
+                    $testRunner->startTimer();
                     $testRunner->$testMethodOpt();
                 } else {
                     $testRunner->runTests();

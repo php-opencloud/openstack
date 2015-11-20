@@ -16,14 +16,14 @@ class OpenStack
     private $builder;
 
     /**
-     * @param array $options Supported options:
+     * @param array $options User-defined options
      *
-     * username   (string) Your OpenStack username [REQUIRED]
-     * password   (string) Your OpenStack password [REQUIRED]
-     * tenantId   (string) Your tenant ID          [either tenantId or tenantName must be required]
-     * tenantName (string) Your tenant name        [either tenantId or tenantName must be required]
-     * authUrl    (string) The Keystone URL        [REQUIRED]
-     * debug      (bool)   Whether to enable HTTP logging [OPTIONAL]
+     * $options['username']   = (string) Your OpenStack username        [REQUIRED]
+     *         ['password']   = (string) Your OpenStack password        [REQUIRED]
+     *         ['tenantId']   = (string) Your tenant ID                 [REQUIRED if tenantName omitted]
+     *         ['tenantName'] = (string) Your tenant name               [REQUIRED if tenantId omitted]
+     *         ['authUrl']    = (string) The Keystone URL               [REQUIRED]
+     *         ['debug']      = (bool)   Whether to enable HTTP logging [OPTIONAL]
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
@@ -39,10 +39,8 @@ class OpenStack
      */
     public function computeV2(array $options = [])
     {
-        return $this->builder->createService('Compute', 2, array_merge($options, [
-            'catalogName' => 'nova',
-            'catalogType' => 'compute'
-        ]));
+        $defaults = ['catalogName' => 'nova', 'catalogType' => 'compute'];
+        return $this->builder->createService('Compute', 2, array_merge($defaults, $options));
     }
 
     /**
@@ -54,10 +52,8 @@ class OpenStack
      */
     public function networkingV2(array $options = [])
     {
-        return $this->builder->createService('Networking', 2, array_merge($options, [
-            'catalogName' => 'neutron',
-            'catalogType' => 'network'
-        ]));
+        $defaults = ['catalogName' => 'neutron', 'catalogType' => 'network'];
+        return $this->builder->createService('Networking', 2, array_merge($defaults, $options));
     }
 
     /**
@@ -69,10 +65,8 @@ class OpenStack
      */
     public function identityV2(array $options = [])
     {
-        return $this->builder->createService('Identity', 2, array_merge($options, [
-            'catalogName' => false,
-            'catalogType' => false,
-        ]));
+        $defaults = ['catalogName' => false, 'catalogType' => false];
+        return $this->builder->createService('Identity', 2, array_merge($defaults, $options));
     }
 
     /**
@@ -84,10 +78,8 @@ class OpenStack
      */
     public function identityV3(array $options = [])
     {
-        return $this->builder->createService('Identity', 3, array_merge($options, [
-            'catalogName' => false,
-            'catalogType' => false,
-        ]));
+        $defaults = ['catalogName' => false, 'catalogType' => false];
+        return $this->builder->createService('Identity', 3, array_merge($defaults, $options));
     }
 
     /**
@@ -99,9 +91,20 @@ class OpenStack
      */
     public function objectStoreV1(array $options = [])
     {
-        return $this->builder->createService('ObjectStore', 1, array_merge($options, [
-            'catalogName' => 'swift',
-            'catalogType' => 'object-store',
-        ]));
+        $defaults = ['catalogName' => 'swift', 'catalogType' => 'object-store'];
+        return $this->builder->createService('ObjectStore', 1, array_merge($defaults, $options));
+    }
+
+    /**
+     * Creates a new Block Storage v2 service.
+     *
+     * @param array $options Options that will be used in configuring the service.
+     *
+     * @return \OpenStack\BlockStorage\v2\Service
+     */
+    public function blockStorageV2(array $options = [])
+    {
+        $defaults = ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'];
+        return $this->builder->createService('BlockStorage', 2, array_merge($defaults, $options));
     }
 }
