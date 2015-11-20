@@ -7,7 +7,7 @@
 |Compute v2 exts|||||||
 |Data Processing v1|||||||
 |Database v1|||||||
-|Identity v2|&#10003;|&#10003;|||||
+|Identity v2|&#10003;|&#10003;|&#10003;||||
 |Identity v2 exts|||||||
 |Identity v3|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
 |Identity v3 exts|||||||
