@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "91e34b5c181d3351e9d43d84b56467b0",
+    "hash": "c737fe1a3edec0fb5644996208d1ac4f",
     "content-hash": "d89b4262307b80f1a2ce34435367254a",
     "packages": [
         {
@@ -996,12 +996,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-opencloud/Sami.git",
-                "reference": "388a3e4ad10b83041fd3d7f8400d802c669f07d6"
+                "reference": "7337bfaa25e00cd3780f0b9c8cea12a158693002"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-opencloud/Sami/zipball/388a3e4ad10b83041fd3d7f8400d802c669f07d6",
-                "reference": "388a3e4ad10b83041fd3d7f8400d802c669f07d6",
+                "url": "https://api.github.com/repos/php-opencloud/Sami/zipball/7337bfaa25e00cd3780f0b9c8cea12a158693002",
+                "reference": "7337bfaa25e00cd3780f0b9c8cea12a158693002",
                 "shasum": ""
             },
             "require": {
@@ -1048,7 +1048,7 @@
             "support": {
                 "source": "https://github.com/php-opencloud/Sami/tree/master"
             },
-            "time": "2015-11-20 15:26:13"
+            "time": "2015-11-23 10:58:46"
         },
         {
             "name": "sebastian/comparator",
