@@ -25,6 +25,8 @@ class Service extends AbstractService
     }
 
     /**
+     * Lists all available volumes.
+     * 
      * @param bool  $detail      If set to TRUE, more information will be returned.
      * @param array $userOptions {@see Api::getVolumes}
      *
