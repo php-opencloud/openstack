@@ -56,7 +56,15 @@
 
             {% set has_properties = false %}
             {% for property in properties if property.class is sameas(class) %}
-                {% set has_properties = true %}
+                {%- for hint in property.hint %}
+                    {%- if hint.class %}
+                        {% if hint.name.projectclass or hint.name.phpclass %}
+                            {% set has_properties = true %}
+                        {% endif %}
+                    {% else %}
+                        {% set has_properties = true %}
+                    {%- endif %}
+                {%- endfor %}
             {% endfor %}
 
             {% if has_properties == true %}
@@ -193,13 +201,25 @@
         {% block properties %}
             <table class="table table-condensed">
                 {% for property in properties if property.class is sameas(class) %}
+                    {% set display = false %}
+                    {%- for hint in property.hint %}
+                        {%- if hint.class %}
+                            {% if hint.name.projectclass or hint.name.phpclass %}
+                                {% set display = true %}
+                            {% endif %}
+                        {% else %}
+                            {% set display = true %}
+                        {%- endif %}
+                    {%- endfor %}
+                    {% if display %}
                     <tr>
                         <td class="param-name" width="10%"><span>${{ property.name }}</span></td>
                         <td class="type" id="property_{{ property.name }}" width="10%">
                             {{ hint_link(property.hint) }}
                         </td>
-                        <td class="last">{{ property.shortdesc|desc(class) }}</td>
+                        <td class="last">{{ property.shortdesc }}</td>
                     </tr>
+                    {% endif %}
                 {% endfor %}
             </table>
         {% endblock %}
@@ -208,13 +228,12 @@
             <div class="container-fluid underlined">
                 {% for method in methods if method.class is sameas(class) %}
                     <div class="row">
-                        <div class="col-md-2 type">
-                            {% if method.static %}static&nbsp;{% endif %}{{ hint_link(method.hint) }}
-                        </div>
-                        <div class="col-md-10 type">
+                        <div class="col-md-12 type">
                             <div class="method-header">
                                 <a href="#method_{{ method.name }}">{{ method.name }}</a>
                                 {{ block('method_parameters_signature') }}
+                                {% if method.hint %} : {% endif %}
+                                {% if method.static %}static&nbsp;{% endif %}{{ hint_link(method.hint) }}
                             </div>
                             {% if not method.shortdesc %}
                                 <p class="no-description">No description</p>
@@ -269,7 +288,7 @@
                     {% endif %}
 
                     {% if method.hintDesc or method.hint %}
-                        <h4>Returns</h4>
+                        <h4>Return value</h4>
 
                         {{ block('return') }}
                     {% endif %}
