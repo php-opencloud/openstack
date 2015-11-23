@@ -6,18 +6,19 @@ namespace OpenStack\Common;
  * This class allows arbitrary data structures to be inserted into, and extracted from, deep arrays
  * and JSON-serialized strings. Say, for example, that you have this array as an input:
  *
- * ['foo' => ['bar' => ['baz' => 'some_value']]]
+ * <pre><code>['foo' => ['bar' => ['baz' => 'some_value']]]</code></pre>
  *
  * and you wanted to insert or extract an element. Usually, you would use:
  *
- * $array['foo']['bar']['baz'] = 'new_value';
+ * <pre><code>$array['foo']['bar']['baz'] = 'new_value';</code></pre>
  *
  * but sometimes you do not have access to the variable - so a string representation is needed. Using
  * XPath-like syntax, this class allows you to do this:
  *
- * $jsonPath = new JsonPath($array);
+ * <pre><code>$jsonPath = new JsonPath($array);
  * $jsonPath->set('foo.bar.baz', 'new_value');
  * $val = $jsonPath->get('foo.bar.baz');
+ * </code></pre>
  *
  * @package OpenStack\Common
  */
