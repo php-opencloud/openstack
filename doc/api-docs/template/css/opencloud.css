@@ -65,6 +65,10 @@ table.params-table td {
 .method-header {
   margin-bottom: 5px;
 }
+.method-item {
+    border-top: 3px solid #bbb;
+}
 .method-item h3 {
     padding:10px !important;
+    margin-top:0 !important;
 }
