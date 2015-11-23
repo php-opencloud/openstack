@@ -4,6 +4,7 @@ filter:
         - 'samples/*'
         - 'integration/*'
         - '*/v*/Api.php'
+        - '*/v*/Params.php'
 
 checks:
     php: true
