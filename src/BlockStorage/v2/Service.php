@@ -12,6 +12,9 @@ use OpenStack\Common\Service\AbstractService;
 class Service extends AbstractService
 {
     /**
+     * Provisions a new bootable volume, based either on an existing volume, image or snapshot.
+     * You must have enough volume storage quota remaining to create a volume of size requested.
+     * 
      * @param array $userOptions {@see Api::postVolumes}
      *
      * @return Volume
