@@ -29,7 +29,7 @@ visibility.
 
 ### API definitions
 
-This is the `Api.php` file for each service, which defines the contract between client and API. It outlines all of the 
+This is the `Api.php` and `Params.php` files for each service, which defines the contract between client and API. It outlines all of the 
 available API operations, along with parameters, methods, URL paths, etc. In order for this to be marked complete, it 
 must cover 100% of the remote API.
 
