@@ -2,6 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
+use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use OpenStack\Common\Resource\AbstractResource;
@@ -57,9 +58,19 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
     }
 
     /**
+     * Retrieves the public URI for this resource.
+     *
+     * @return \GuzzleHttp\Psr7\Uri
+     */
+    public function getPublicUri()
+    {
+        return Utils::addPaths($this->getHttpBaseUrl(), $this->containerName, $this->name);
+    }
+
+    /**
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
      *
-     * @return $this|\OpenStack\Common\Resource\ResourceInterface|void
+     * @return $this
      */
     public function create(array $data)
     {

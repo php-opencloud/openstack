@@ -118,4 +118,12 @@ abstract class Operator implements OperatorInterface
     {
         return new static($this->client, $this->api);
     }
+
+    /**
+     * @return \GuzzleHttp\Psr7\Uri
+     */
+    protected function getHttpBaseUrl()
+    {
+        return $this->client->getConfig('base_url');
+    }
 }

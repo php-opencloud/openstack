@@ -2,7 +2,9 @@
 
 namespace OpenStack\Common\Transport;
 
+use function GuzzleHttp\Psr7\uri_for;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 class Utils
 {
@@ -58,5 +60,18 @@ class Utils
         }
 
         return rtrim($url, '/') . '/';
+    }
+
+    /**
+     * Add an unlimited list of paths to a given URI.
+     *
+     * @param UriInterface $uri
+     * @param              ...$paths
+     *
+     * @return UriInterface
+     */
+    public static function addPaths(UriInterface $uri, ...$paths)
+    {
+        return uri_for(rtrim((string) $uri, '/') . '/' . implode('/', $paths));
     }
 }
