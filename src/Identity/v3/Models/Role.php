@@ -42,4 +42,4 @@ class Role extends AbstractResource implements Creatable, Listable, Deletable
     {
         $this->executeWithState($this->api->deleteRole());
     }
-} 
+}

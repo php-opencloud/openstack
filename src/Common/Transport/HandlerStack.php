@@ -3,7 +3,6 @@
 namespace OpenStack\Common\Transport;
 
 use function GuzzleHttp\choose_handler;
-
 use GuzzleHttp\HandlerStack as GuzzleStack;
 
 class HandlerStack extends GuzzleStack

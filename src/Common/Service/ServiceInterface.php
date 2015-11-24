@@ -11,4 +11,4 @@ use OpenStack\Common\Api\OperatorInterface;
  */
 interface ServiceInterface extends OperatorInterface
 {
-} 
+}

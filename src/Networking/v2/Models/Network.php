@@ -62,7 +62,7 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
         $networksData = Utils::jsonDecode($response)['networks'];
 
         $networks = [];
-        foreach($networksData as $resourceData) {
+        foreach ($networksData as $resourceData) {
             $resource = $this->newInstance();
             $resource->populateFromArray($resourceData);
             $networks[] = $resource;

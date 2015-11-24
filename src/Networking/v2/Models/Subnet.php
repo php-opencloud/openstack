@@ -87,7 +87,7 @@ class Subnet extends AbstractResource implements Listable, Retrievable, Creatabl
         $subnetsData = Utils::jsonDecode($response)['subnets'];
 
         $subnets = [];
-        foreach($subnetsData as $resourceData) {
+        foreach ($subnetsData as $resourceData) {
             $resource = $this->newInstance();
             $resource->populateFromArray($resourceData);
             $subnets[] = $resource;

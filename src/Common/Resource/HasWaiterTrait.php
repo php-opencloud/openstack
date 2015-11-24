@@ -95,4 +95,4 @@ trait HasWaiterTrait
     {
         $this->waitUntil('ACTIVE');
     }
-} 
+}

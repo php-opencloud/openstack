@@ -153,4 +153,4 @@ class Domain extends AbstractResource implements Creatable, Listable, Retrievabl
     {
         $this->execute($this->api->deleteGroupRole(), ['domainId' => $this->id] + $options);
     }
-} 
+}

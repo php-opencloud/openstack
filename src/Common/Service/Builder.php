@@ -5,7 +5,6 @@ namespace OpenStack\Common\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
-
 use OpenStack\Common\Auth\ServiceUrlResolver;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Transport\HandlerStack;
@@ -96,7 +95,7 @@ class Builder
                 $baseUrl = $options['authUrl'];
                 $stack = $this->getStack($options['authHandler']);
             } else {
-                list ($token, $baseUrl) = $options['identityService']->authenticate($options);
+                list($token, $baseUrl) = $options['identityService']->authenticate($options);
                 $stack = $this->getStack($options['authHandler'], $token);
             }
 
@@ -107,7 +106,7 @@ class Builder
             $options['httpClient'] = $this->httpClient($baseUrl, $stack);
         }
 
-        list ($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
+        list($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
 
         return new $serviceClass($options['httpClient'], new $apiClass());
     }

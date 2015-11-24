@@ -7,7 +7,7 @@ namespace OpenStack\Common;
  *
  * @package OpenStack\Common
  */
-trait ArrayAccessTrait 
+trait ArrayAccessTrait
 {
     /**
      * The internal state that this object represents
@@ -64,4 +64,4 @@ trait ArrayAccessTrait
     {
         return $this->offsetExists($offset) ? $this->internalState[$offset] : null;
     }
-} 
+}

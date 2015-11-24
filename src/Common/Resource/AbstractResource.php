@@ -182,7 +182,6 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         };
 
         while (true) {
-
             $response = $this->sendRequest($operation, $userVals);
             $json = Utils::jsonDecode($response);
 

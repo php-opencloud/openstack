@@ -3,7 +3,6 @@
 namespace OpenStack\Common\Auth;
 
 use function GuzzleHttp\Psr7\modify_request;
-
 use Psr\Http\Message\RequestInterface;
 
 /**

@@ -3,7 +3,6 @@
 namespace OpenStack\Common\Error;
 
 use function GuzzleHttp\Psr7\str;
-
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;

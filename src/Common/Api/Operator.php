@@ -3,7 +3,6 @@
 namespace OpenStack\Common\Api;
 
 use function GuzzleHttp\uri_template;
-
 use GuzzleHttp\ClientInterface;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Common\Transport\RequestSerializer;

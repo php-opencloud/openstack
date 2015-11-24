@@ -26,4 +26,4 @@ interface ResourceInterface
      * @return mixed
      */
     public function populateFromArray(array $data);
-} 
+}

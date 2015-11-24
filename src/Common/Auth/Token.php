@@ -12,4 +12,4 @@ interface Token
      * @return bool TRUE if the token has expired, FALSE if it is still valid
      */
     public function hasExpired();
-} 
+}
