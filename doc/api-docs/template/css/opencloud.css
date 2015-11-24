@@ -72,3 +72,11 @@ table.params-table td {
     padding:10px !important;
     margin-top:0 !important;
 }
+pre.php {
+    padding: 15px;
+    font-size: 14px;
+    border: none;
+}
+code.pre {
+    padding: 0;
+}

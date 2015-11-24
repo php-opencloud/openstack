@@ -95,3 +95,23 @@
         &nbsp;
     {% endif %}
 {%- endmacro %}
+
+{% macro sub_param_example(sub_param, name) %}
+    {%- if sub_param.type == 'string' -%}
+        {%- verbatim -%}'{{%- endverbatim -%}{{- name -}}{%- verbatim -%}}'{%- endverbatim -%}
+    {%- elseif sub_param.type == 'bool' or sub_param.type == 'boolean' -%}
+        {{- 'true' -}}
+    {%- elseif sub_param.type == 'array' -%}
+        {% verbatim %}[{% endverbatim %}
+        {% for i in 1..2 %}
+            {{ _self.sub_param_example(sub_param.itemSchema, 'val' ~ i)|trim|raw }}{% verbatim %},{% endverbatim %}
+        {% endfor %}
+        {% verbatim %}]{% endverbatim %}
+    {%- elseif sub_param.type == 'object' -%}
+        {% verbatim %}[{% endverbatim %}
+        {% for propName, prop in sub_param.properties %}
+            {% verbatim %}'{% endverbatim %}{{- propName|trim -}}{%- verbatim -%}' => {%- endverbatim -%}{{- _self.sub_param_example(prop, propName)|trim|raw -}}{% verbatim %},{% endverbatim %}
+        {% endfor %}
+        {% verbatim %}]{% endverbatim %}
+    {%- endif -%}
+{% endmacro %}

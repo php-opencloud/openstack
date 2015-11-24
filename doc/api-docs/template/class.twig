@@ -2,7 +2,7 @@
 
 {% import _self as selfClass %}
 {% from "macros.twig" import render_classes, breadcrumbs, namespace_link, class_link, property_link, method_link, hint_link %}
-{% from "sub_param_macros.twig" import output_sub_param, iterate_sub_params, fill %}
+{% from "sub_param_macros.twig" import output_sub_param, iterate_sub_params, fill, sub_param_example %}
 {% block title %}{{ class.name }} | {{ parent() }}{% endblock %}
 {% block body_class 'class' %}
     {% block page_id 'class:' ~ (class.name|replace({'\\': '_'})) %}
@@ -304,6 +304,9 @@
 
                         {{ block('see') }}
                     {% endif %}
+
+                    <h4>Example code</h4>
+                    <pre class="php"><code class="php">{{ code_sample(method)|trim|raw }}</code></pre>
                 </div>
             </div>
         {% endblock %}
