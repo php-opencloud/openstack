@@ -4,6 +4,7 @@ namespace OpenStack\Common\Api;
 
 use function GuzzleHttp\uri_template;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Promise\Promise;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Common\Transport\RequestSerializer;
 use Psr\Http\Message\ResponseInterface;
@@ -125,5 +126,39 @@ abstract class Operator implements OperatorInterface
     protected function getHttpBaseUrl()
     {
         return $this->client->getConfig('base_url');
+    }
+
+    /**
+     * Magic method which intercepts async calls, finds the sequential version, and wraps it in a
+     * {@see Promise} object. In order for this to happen, the called methods need to be in the
+     * following format: `createAsync`, where `create` is the sequential method being wrapped.
+     *
+     * @param $methodName The name of the method being invoked.
+     * @param $args       The arguments to be passed to the sequential method.
+     *
+     * @return Promise
+     */
+    public function __call($methodName, $args)
+    {
+        if (substr($methodName, -5) === 'Async') {
+            $realMethod = substr($methodName, 0, -5);
+            if (!method_exists($this, $realMethod)) {
+                throw new \InvalidArgumentException(sprintf(
+                    '%s is not a defined method on %s', $realMethod, get_class($this)
+                ));
+            }
+
+            $promise = new Promise(
+                function () use (&$promise, $realMethod, $args) {
+                    $value = call_user_func_array([$this, $realMethod], $args);
+                    $promise->resolve($value);
+                },
+                function ($e) use (&$promise) {
+                    $promise->reject($e);
+                }
+            );
+
+            return $promise;
+        }
     }
 }
