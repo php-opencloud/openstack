@@ -12,13 +12,13 @@ use OpenStack\Common\Resource\AbstractResource;
 class Entry extends AbstractResource
 {
     /** @var string */
-    private $name;
+    public $name;
 
     /** @var string */
-    private $type;
+    public $type;
 
     /** @var []Endpoint */
-    private $endpoints = [];
+    public $endpoints = [];
 
     /**
      * Indicates whether this catalog entry matches a certain name and type.
