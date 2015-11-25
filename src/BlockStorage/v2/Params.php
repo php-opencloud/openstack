@@ -116,6 +116,7 @@ TYPEOTHER
             'type'        => self::STRING_TYPE,
             'location'    => self::URL,
             'description' => 'The UUID of the resource',
+            'documented'  => false,
         ];
     }
 

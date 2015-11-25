@@ -25,4 +25,9 @@ abstract class AbstractApi implements ApiInterface
     {
         return array_merge($param, ['location' => AbstractParams::URL]);
     }
+
+    public function documented(array $param)
+    {
+        return array_merge($param, ['required' => true]);
+    }
 }

@@ -46,7 +46,9 @@ class Service extends AbstractService
     /**
      * Retrieve a server object without calling the remote API. Any values provided in the array will populate the
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
-     * and have the response populate the object, call {@see Server::retrieve}.
+     * and have the response populate the object, call {@see Server::retrieve}. For example:
+     *
+     * <code>$server = $service->getServer(['id' => '{serverId}']);</code>
      *
      * @param array $options An array of attributes that will be set on the {@see Server} object. The array keys need to
      *                       correspond to the class public properties.

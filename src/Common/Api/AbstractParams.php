@@ -47,14 +47,16 @@ DESC
     public function id($type)
     {
         return [
-            'description' => sprintf("The unique ID, or identifier, for the %s", $type)
+            'description' => sprintf("The unique ID, or identifier, for the %s", $type),
+            'type'        => self::STRING_TYPE,
         ];
     }
 
     public function name($resource)
     {
         return [
-            'description' => sprintf("The name of the %s", $resource)
+            'description' => sprintf("The name of the %s", $resource),
+            'type'        => self::STRING_TYPE,
         ];
     }
 }

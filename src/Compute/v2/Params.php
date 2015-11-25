@@ -9,8 +9,9 @@ class Params extends AbstractParams
     public function urlId($type)
     {
         return parent::id($type) + [
-            'required' => true,
-            'location' => self::URL,
+            'required'   => true,
+            'location'   => self::URL,
+            'documented' => false,
         ];
     }
 

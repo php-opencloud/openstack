@@ -47,6 +47,7 @@ EOT
         return [
             'path'        => 'auth.identity.token',
             'sentAs'      => 'id',
+            'type'        => self::STRING_TYPE,
             'description' => $this->id('token'),
         ];
     }

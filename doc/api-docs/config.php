@@ -19,4 +19,5 @@ return new Sami($iterator, [
     'template_dirs' => [
         __DIR__ . '/template'
     ],
+    'default_opened_level' => 1,
 ]);
