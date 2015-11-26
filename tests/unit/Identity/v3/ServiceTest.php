@@ -64,6 +64,44 @@ class ServiceTest extends TestCase
         $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function test_it_throws_exception_if_no_endpoint_found()
+    {
+        $expectedJson = [
+            "identity" => [
+                "methods" => ["password"],
+                "password" => [
+                    "user" => [
+                        "id"       => "{userId}",
+                        "password" => "{userPassword}",
+                        'domain'   => ['id' => '{domainId}']
+                    ]
+                ]
+            ],
+            "scope" => [
+                "project" => ["id" => "{projectId}"]
+            ]
+        ];
+
+        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+
+        $this->service->authenticate([
+            'catalogName' => 'foo',
+            'catalogType' => 'bar',
+            'region'      => 'baz',
+            'user'        => [
+                'id'       => '{userId}',
+                'password' => '{userPassword}',
+                'domain'   => ['id' => '{domainId}']
+            ],
+            'scope' => [
+                'project' => ['id' => '{projectId}']
+            ],
+        ]);
+    }
+
     public function test_it_gets_token()
     {
         $this->setupMock('GET', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId'], 'token-get');

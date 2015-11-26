@@ -52,4 +52,22 @@ class OpenStackTest extends ProphecyTestCase
 
         $this->openstack->networkingV2();
     }
+
+    public function test_it_supports_object_store_v1()
+    {
+        $this->builder
+            ->createService('ObjectStore', 1, ['catalogName' => 'swift', 'catalogType' => 'object-store'])
+            ->shouldBeCalled();
+
+        $this->openstack->objectStoreV1();
+    }
+
+    public function test_it_supports_block_storage_v2()
+    {
+        $this->builder
+            ->createService('BlockStorage', 2, ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'])
+            ->shouldBeCalled();
+
+        $this->openstack->blockStorageV2();
+    }
 }

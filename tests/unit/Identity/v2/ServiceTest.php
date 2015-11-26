@@ -26,6 +26,10 @@ class ServiceTest extends TestCase
             'username' => 'foo',
             'password' => 'bar',
             'tenantId' => 'baz',
+            'catalogName' => 'nova',
+            'catalogType' => 'compute',
+            'region'      => 'RegionOne',
+            'urlType'     => 'publicUrl',
         ];
 
         $expectedJson = ['auth' => [

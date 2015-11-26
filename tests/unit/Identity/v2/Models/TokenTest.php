@@ -17,6 +17,12 @@ class TokenTest extends TestCase
         $this->token = new Token($this->client->reveal(), new Api());
     }
 
+    public function test_getting_id()
+    {
+        $this->token->id = 'foo';
+        $this->assertEquals('foo', $this->token->getId());
+    }
+
     public function test_expiration_is_false_for_active_tokens()
     {
         $this->token->populateFromArray([
