@@ -85,24 +85,32 @@ abstract class AbstractResource extends Operator implements ResourceInterface
 
         foreach ($array as $key => $val) {
             $propertyName = isset($this->aliases[$key]) ? $this->aliases[$key] : $key;
+
             if (property_exists($this, $propertyName)) {
                 if ($type = $this->extractTypeFromDocBlock($reflClass, $propertyName)) {
-                    if (strpos($type, '[]') === 0 && is_array($val)) {
-                        $array = [];
-                        foreach ($val as $subVal) {
-                            $array[] = $this->model($this->normalizeModelClass(substr($type, 2)), $subVal);
-                        }
-                        $val = $array;
-                    } elseif (strcasecmp($type, '\datetimeimmutable') === 0) {
-                        $val = new \DateTimeImmutable($val);
-                    } elseif ($this->isNotNativeType($type)) {
-                        $val = $this->model($this->normalizeModelClass($type), $val);
-                    }
+                    $val = $this->parseDocBlockValue($type, $val);
                 }
 
                 $this->$propertyName = $val;
             }
         }
+    }
+
+    private function parseDocBlockValue($type, $val)
+    {
+        if (strpos($type, '[]') === 0 && is_array($val)) {
+            $array = [];
+            foreach ($val as $subVal) {
+                $array[] = $this->model($this->normalizeModelClass(substr($type, 2)), $subVal);
+            }
+            $val = $array;
+        } elseif (strcasecmp($type, '\datetimeimmutable') === 0) {
+            $val = new \DateTimeImmutable($val);
+        } elseif ($this->isNotNativeType($type)) {
+            $val = $this->model($this->normalizeModelClass($type), $val);
+        }
+
+        return $val;
     }
 
     private function isNotNativeType($type)
