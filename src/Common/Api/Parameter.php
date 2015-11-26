@@ -122,11 +122,20 @@ class Parameter
             $this->type = 'string';
         }
 
-        $this->location = $this->location ?: self::DEFAULT_LOCATION;
         $this->required = (bool)$this->required;
 
+        $this->stockLocation($data);
         $this->stockItemSchema($data);
         $this->stockProperties($data);
+    }
+
+    private function stockLocation(array $data)
+    {
+        $this->location = isset($data['location']) ? $data['location'] : self::DEFAULT_LOCATION;
+
+        if (!AbstractParams::isSupportedLocation($this->location)) {
+            throw new \RuntimeException(sprintf("%s is not a permitted location", $this->location));
+        }
     }
 
     private function stockItemSchema(array $data)
@@ -350,5 +359,10 @@ class Parameter
     public function getPrefix()
     {
         return $this->prefix;
+    }
+
+    public function getPrefixedName()
+    {
+        return $this->prefix . $this->getName();
     }
 }

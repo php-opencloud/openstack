@@ -19,7 +19,7 @@ class VolumeTest extends TestCase
         $this->rootFixturesDir = dirname(__DIR__);
 
         $this->volume = new Volume($this->client->reveal(), new Api());
-        $this->volume->id = 1;
+        $this->volume->id = '1';
     }
 
     public function test_it_updates()

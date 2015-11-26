@@ -19,6 +19,11 @@ abstract class AbstractParams
     const NULL_TYPE = "NULL";
     const INT_TYPE = 'integer';
 
+    public static function isSupportedLocation($val)
+    {
+        return in_array($val, [self::QUERY, self::HEADER, self::URL, self::JSON, self::RAW]);
+    }
+
     public function limit()
     {
         return [

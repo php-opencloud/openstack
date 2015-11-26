@@ -67,9 +67,11 @@ abstract class Operator implements OperatorInterface
 
     protected function sendRequest(Operation $operation, array $userValues = [], $async = false)
     {
-        $uri     = uri_template($operation->getPath(), $userValues);
+        $operation->validate($userValues);
+
         $options = (new RequestSerializer)->serializeOptions($operation, $userValues);
-        $method  = $async ? 'requestAsync' : 'request';
+        $method = $async ? 'requestAsync' : 'request';
+        $uri = uri_template($operation->getPath(), $userValues);
 
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }

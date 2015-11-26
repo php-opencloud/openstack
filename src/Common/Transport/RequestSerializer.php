@@ -27,7 +27,8 @@ class RequestSerializer
                 continue;
             }
 
-            $this->stockOptions($schema, $paramName, $paramValue, $options);
+            $method = sprintf('stock%s', ucfirst($schema->getLocation()));
+            $this->$method($schema, $paramValue, $options);
         }
 
         if (!empty($options['json']) && ($key = $operation->getJsonKey())) {
@@ -37,45 +38,41 @@ class RequestSerializer
         return $options;
     }
 
-    private function stockOptions(Parameter $schema, $paramName, $paramValue, array &$options)
+    private function stockUrl()
+    {}
+
+    private function stockQuery(Parameter $schema, $paramValue, array &$options)
     {
-        switch ($schema->getLocation()) {
-            case 'query':
-                $options['query'][$schema->getName()] = $paramValue;
-                break;
-            case 'header':
-                $options['headers'] += $this->parseHeader($schema, $paramName, $paramValue);
-                break;
-            case 'json':
-                $json = isset($options['json']) ? $options['json'] : [];
-                $options['json'] = $this->jsonSerializer->stockJson($schema, $paramValue, $json);
-                break;
-            case 'raw':
-                $options['body'] = $paramValue;
-                break;
+        $options['query'][$schema->getName()] = $paramValue;
+    }
+
+    private function stockHeader(Parameter $schema, $paramValue, array &$options)
+    {
+        $paramName = $schema->getName();
+
+        if (strpos(strtolower($paramName), 'metadata') !== false) {
+            return $this->stockMetadataHeader($schema, $paramValue, $options);
+        }
+
+        $options['headers'] += is_scalar($paramValue) ? [$schema->getPrefixedName() => $paramValue] : [];
+    }
+
+    private function stockMetadataHeader(Parameter $schema, $paramValue, array &$options)
+    {
+        foreach ($paramValue as $key => $keyVal) {
+            $schema = $schema->getItemSchema() ?: new Parameter(['prefix' => $schema->getPrefix(), 'name' => $key]);
+            $this->stockHeader($schema, $keyVal, $options);
         }
     }
 
-    private function parseMetadataHeaders(Parameter $param, $value)
+    private function stockJson(Parameter $schema, $paramValue, array &$options)
     {
-        $headers = [];
-
-        foreach ($value as $key => $keyVal) {
-            $schema = $param->getItemSchema() ?: new Parameter(['prefix' => $param->getPrefix(), 'name' => $key]);
-            $headers += $this->parseHeader($schema, $key, $keyVal);
-        }
-
-        return $headers;
+        $json = isset($options['json']) ? $options['json'] : [];
+        $options['json'] = $this->jsonSerializer->stockJson($schema, $paramValue, $json);
     }
 
-    private function parseHeader(Parameter $param, $name, $value)
+    private function stockRaw(Parameter $schema, $paramValue, array &$options)
     {
-        if (strpos(strtolower($name), 'metadata') !== false) {
-            return $this->parseMetadataHeaders($param, $value);
-        }
-
-        return is_string($value) || is_numeric($value)
-            ? [$param->getPrefix() . $param->getName() => $value]
-            : [];
+        $options['body'] = $paramValue;
     }
 }

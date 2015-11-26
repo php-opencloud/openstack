@@ -19,7 +19,7 @@ class VolumeTypeTest extends TestCase
         $this->rootFixturesDir = dirname(__DIR__);
 
         $this->volumeType = new VolumeType($this->client->reveal(), new Api());
-        $this->volumeType->id = 1;
+        $this->volumeType->id = '1';
     }
 
     public function test_it_updates()

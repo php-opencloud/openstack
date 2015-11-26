@@ -98,7 +98,7 @@ class ComputeV2Api implements ApiInterface
                 'flavorId'     => ['sentAs' => 'flavor', 'type' => 'string', 'location' => 'query'],
                 'name'         => ['type' => 'string', 'location' => 'query'],
                 'marker'       => ['type' => 'string', 'location' => 'query'],
-                'limit'        => ['type' => 'string', 'location' => 'query'],
+                'limit'        => ['type' => 'integer', 'location' => 'query'],
                 'status'       => ['type' => 'string', 'location' => 'query'],
                 'host'         => ['type' => 'string', 'location' => 'query']
             ],

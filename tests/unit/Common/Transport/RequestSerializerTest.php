@@ -46,9 +46,9 @@ class RequestSerializerTest extends TestCase
     public function test_it_serializes_headers()
     {
         $sch = $this->prophesize(Parameter::class);
-        $sch->getName()->shouldBeCalled()->willReturn('fooAlias');
         $sch->getLocation()->shouldBeCalled()->willReturn('header');
-        $sch->getPrefix()->shouldBeCalled()->willReturn('prefix-');
+        $sch->getName()->shouldBeCalled()->willReturn('fooAlias');
+        $sch->getPrefixedName()->shouldBeCalled()->willReturn('prefix-fooAlias');
 
         $op = $this->prophesize(Operation::class);
         $op->getParam('foo')->shouldBeCalled()->willReturn($sch);
@@ -61,10 +61,14 @@ class RequestSerializerTest extends TestCase
 
     public function test_it_serializes_metadata_headers()
     {
+        $itemSch = $this->prophesize(Parameter::class);
+        $itemSch->getName()->shouldBeCalled()->willReturn('foo');
+        $itemSch->getPrefixedName()->shouldBeCalled()->willReturn('prefix-foo');
+
         $sch = $this->prophesize(Parameter::class);
-        $sch->getItemSchema()->shouldBeCalled();
+        $sch->getItemSchema()->shouldBeCalled()->willReturn($itemSch);
         $sch->getLocation()->shouldBeCalled()->willReturn('header');
-        $sch->getPrefix()->shouldBeCalled()->willReturn('prefix-');
+        $sch->getName()->shouldBeCalled()->willReturn('metadata');
 
         $op = $this->prophesize(Operation::class);
         $op->getParam('metadata')->shouldBeCalled()->willReturn($sch);

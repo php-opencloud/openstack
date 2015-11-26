@@ -181,7 +181,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         $operation = $this->getOperation($def);
 
         $requestFn = function ($marker) use ($operation, $userVals) {
-            if ($operation->hasParam('marker') && $marker) {
+            if ($marker) {
                 $userVals['marker'] = $marker;
             }
             return $this->sendRequest($operation, $userVals);

@@ -124,25 +124,25 @@ class Operation
      */
     public function validate(array $userValues)
     {
-        // Make sure the user has not provided undefined keys
+        $this->checkDisallowedKeys($userValues);
+
+        foreach ($this->params as $paramName => $param) {
+            if (array_key_exists($paramName, $userValues)) {
+                $param->validate($userValues[$paramName]);
+            } elseif ($param->isRequired()) {
+                throw new \Exception(sprintf('"%s" is a required option, but it was not provided', $paramName));
+            }
+        }
+
+        return true;
+    }
+
+    private function checkDisallowedKeys(array $userValues)
+    {
         if (!empty($disallowedKeys = array_keys(array_diff_key($userValues, $this->params)))) {
             throw new \Exception(sprintf(
                 'The following keys are not supported: %s', implode($disallowedKeys, ', ')
             ));
         }
-
-        foreach ($this->params as $paramName => $param) {
-            // Check that all required options have been provided
-            if ($param->isRequired() && !array_key_exists($paramName, $userValues)) {
-                throw new \Exception(sprintf('"%s" is a required option, but it was not provided', $paramName));
-            }
-
-            // Check that the user value is valid and well-formed
-            if (array_key_exists($paramName, $userValues)) {
-                $param->validate($userValues[$paramName]);
-            }
-        }
-
-        return true;
     }
 }

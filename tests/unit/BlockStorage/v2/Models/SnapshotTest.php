@@ -19,7 +19,7 @@ class SnapshotTest extends TestCase
         $this->rootFixturesDir = dirname(__DIR__);
 
         $this->snapshot = new Snapshot($this->client->reveal(), new Api());
-        $this->snapshot->id = 1;
+        $this->snapshot->id = '1';
     }
 
     public function test_it_updates()
