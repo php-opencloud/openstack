@@ -25,13 +25,20 @@ interface OperatorInterface
      *
      * @param array $definition The data that dictates how the operation works
      * @param array $userValues The user-defined values that populate the request
-     * @param bool  $async      Indicates whether the operation should be executed asychronously. If set to TRUE, a
-     *                          {@see PromiseInterface} is returned. If FALSE is provided (the default), a
-     *                          {@see ResponseInterface} is returned.
      *
-     * @return \Psr\Http\Message\ResponseInterface|\GuzzleHttp\Promise\PromiseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function execute(array $definition, array $userValues = [], $async = false);
+    public function execute(array $definition, array $userValues = []);
+
+    /**
+     * A convenience method that assembles an operation and asynchronously sends it to the remote API
+     *
+     * @param array $definition The data that dictates how the operation works
+     * @param array $userValues The user-defined values that populate the request
+     *
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function executeAsync(array $definition, array $userValues = []);
 
     /**
      * @param string $name The name of the model class.

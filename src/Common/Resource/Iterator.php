@@ -38,6 +38,10 @@ class Iterator
 
     private function fetchResources()
     {
+        if ($this->shouldNotSendAnotherRequest()) {
+            return false;
+        }
+
         $response = call_user_func($this->requestFn, $this->currentMarker);
 
         $json = Utils::flattenJson(Utils::jsonDecode($response), $this->resourcesKey);
@@ -71,21 +75,15 @@ class Iterator
         return $this->limit && $this->count >= $this->limit;
     }
 
-    private function shouldHalt()
+    private function shouldNotSendAnotherRequest()
     {
-        return $this->totalReached() || !$this->markerKey;
+        return $this->totalReached() || ($this->count > 0 && !$this->markerKey);
     }
 
     public function __invoke()
     {
-        while (true) {
-            // Fetch new collection from API. Break loop if empty set returned
-            if (false === ($resources = $this->fetchResources())) {
-                break;
-            }
-
+        while ($resources = $this->fetchResources()) {
             foreach ($resources as $resourceData) {
-                // Halt if user-provided limit is reached
                 if ($this->totalReached()) {
                     break;
                 }
@@ -93,12 +91,6 @@ class Iterator
                 $this->count++;
 
                 yield $this->assembleResource($resourceData);
-            }
-
-            // If user-provided limit has been reached, or if the operation does not support pagination, halt the
-            // loop without sending another request.
-            if ($this->shouldHalt()) {
-                break;
             }
         }
     }

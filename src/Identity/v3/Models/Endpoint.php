@@ -64,4 +64,14 @@ class Endpoint extends AbstractResource implements Creatable, Updateable, Deleta
     {
         $this->execute($this->api->deleteEndpoint(), $this->getAttrs(['id']));
     }
+
+    public function regionMatches($value)
+    {
+        return $this->region && $this->region == $value;
+    }
+
+    public function interfaceMatches($value)
+    {
+        return $this->interface && $this->interface == $value;
+    }
 }

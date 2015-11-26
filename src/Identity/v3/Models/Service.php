@@ -72,24 +72,34 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
         $this->executeWithState($this->api->deleteService());
     }
 
+    private function nameMatches($value)
+    {
+        return $this->name && $this->name == $value;
+    }
+
+    private function typeMatches($value)
+    {
+        return $this->type && $this->type = $value;
+    }
+
     /**
      * Retrieve the base URL for a service.
      *
-     * @param string $name   The name of the service as it appears in the catalog.
-     * @param string $type   The type of the service as it appears in the catalog.
-     * @param string $region The region of the service as it appears in the catalog.
-     * @param string $urlType
+     * @param string $name      The name of the service as it appears in the catalog.
+     * @param string $type      The type of the service as it appears in the catalog.
+     * @param string $region    The region of the service as it appears in the catalog.
+     * @param string $interface The interface of the service as it appears in the catalog.
      *
      * @return string|false
      */
-    public function getUrl($name, $type, $region, $urlType)
+    public function getUrl($name, $type, $region, $interface)
     {
-        if (($this->name !== $name && !empty($this->name)) || $this->type !== $type) {
+        if (!$this->nameMatches($name) || !$this->typeMatches($type)) {
             return false;
         }
 
         foreach ($this->endpoints as $endpoint) {
-            if (($endpoint->region == $region || empty($endpoint->region)) && $endpoint->interface == $urlType) {
+            if ($endpoint->regionMatches($region) && $endpoint->interfaceMatches($interface)) {
                 return $endpoint->url;
             }
         }

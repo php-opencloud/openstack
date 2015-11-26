@@ -56,15 +56,22 @@ class RequestSerializer
         }
     }
 
+    private function parseMetadataHeaders(Parameter $param, $value)
+    {
+        $headers = [];
+
+        foreach ($value as $key => $keyVal) {
+            $schema = $param->getItemSchema() ?: new Parameter(['prefix' => $param->getPrefix(), 'name' => $key]);
+            $headers += $this->parseHeader($schema, $key, $keyVal);
+        }
+
+        return $headers;
+    }
+
     private function parseHeader(Parameter $param, $name, $value)
     {
-        if ($name == 'metadata' || $name == 'removeMetadata') {
-            $headers = [];
-            foreach ($value as $key => $keyVal) {
-                $schema = $param->getItemSchema() ?: new Parameter(['prefix' => $param->getPrefix(), 'name' => $key]);
-                $headers += $this->parseHeader($schema, $key, $keyVal);
-            }
-            return $headers;
+        if (strpos(strtolower($name), 'metadata') !== false) {
+            return $this->parseMetadataHeaders($param, $value);
         }
 
         return is_string($value) || is_numeric($value)

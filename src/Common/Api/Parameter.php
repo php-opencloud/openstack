@@ -179,29 +179,40 @@ class Parameter
      */
     public function validate($userValues)
     {
-        // Check inputted type
-        if (!$this->hasCorrectType($userValues)) {
-            throw new \Exception(
-                sprintf(
-                    'The key provided "%s" has the wrong value type. You provided %s but was expecting %s',
-                    $this->name, print_r($userValues, true), $this->type
-                )
-            );
-        }
+        $this->validateType($userValues);
 
         if ($this->isArray()) {
-            foreach ($userValues as $userValue) {
-                $this->itemSchema->validate($userValue);
-            }
+            $this->validateArray($userValues);
         } elseif ($this->isObject()) {
-            foreach ($userValues as $key => $userValue) {
-                // Check that nested keys are properly defined, but permit arbitrary structures if it's metadata
-                $property = $this->getNestedProperty($key);
-                $property->validate($userValue);
-            }
+            $this->validateObject($userValues);
         }
 
         return true;
+    }
+
+    private function validateType($userValues)
+    {
+        if (!$this->hasCorrectType($userValues)) {
+            throw new \Exception(sprintf(
+                'The key provided "%s" has the wrong value type. You provided %s but was expecting %s',
+                $this->name, print_r($userValues, true), $this->type
+            ));
+        }
+    }
+
+    private function validateArray($userValues)
+    {
+        foreach ($userValues as $userValue) {
+            $this->itemSchema->validate($userValue);
+        }
+    }
+
+    private function validateObject($userValues)
+    {
+        foreach ($userValues as $key => $userValue) {
+            $property = $this->getNestedProperty($key);
+            $property->validate($userValue);
+        }
     }
 
     /**

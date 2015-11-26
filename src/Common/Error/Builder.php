@@ -29,7 +29,7 @@ class Builder
     /**
      * The HTTP client required to validate the further links.
      *
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
@@ -95,23 +95,7 @@ class Builder
         $message .= trim(str($response)) . PHP_EOL . PHP_EOL;
 
         $message .= $this->header('Further information');
-
-        // @codeCoverageIgnoreStart
-        switch ($response->getStatusCode()) {
-            case 400:
-                $message .= "Please ensure that your input values are valid and well-formed. ";
-                break;
-            case 401:
-                $message .= "Please ensure that your authentication credentials are valid. ";
-                break;
-            case 404:
-                $message .= "Please ensure that the resource you're trying to access actually exists. ";
-                break;
-            case 500:
-                $message .= "Please try this operation again once you know the remote server is operational. ";
-                break;
-        }
-        // @codeCoverageIgnoreEnd
+        $message .= $this->getStatusCodeMessage($response->getStatusCode());
 
         $message .= "Visit http://docs.php-opencloud.com/en/latest/http-codes for more information about debugging "
             . "HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.";
@@ -121,6 +105,18 @@ class Builder
         $e->setResponse($response);
 
         return $e;
+    }
+
+    private function getStatusCodeMessage($statusCode)
+    {
+        $errors = [
+            400 => 'Please ensure that your input values are valid and well-formed. ',
+            401 => 'Please ensure that your authentication credentials are valid. ',
+            404 => "Please ensure that the resource you're trying to access actually exists. ",
+            500 => 'Please try this operation again once you know the remote server is operational. ',
+        ];
+
+        return isset($errors[$statusCode]) ? $errors[$statusCode] : '';
     }
 
     /**

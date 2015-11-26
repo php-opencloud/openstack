@@ -77,9 +77,17 @@ abstract class Operator implements OperatorInterface
     /**
      * {@inheritDoc}
      */
-    public function execute(array $definition, array $userValues = [], $async = false)
+    public function execute(array $definition, array $userValues = [])
     {
-        return $this->sendRequest($this->getOperation($definition), $userValues, $async);
+        return $this->sendRequest($this->getOperation($definition), $userValues);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function executeAsync(array $definition, array $userValues = [])
+    {
+        return $this->sendRequest($this->getOperation($definition), $userValues, true);
     }
 
     /**
