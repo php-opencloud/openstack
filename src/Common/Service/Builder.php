@@ -79,19 +79,17 @@ class Builder
     {
         $options = $this->mergeOptions($serviceOptions);
 
-        if (!isset($options['identityService'])) {
-            $httpClient = $this->httpClient($options['authUrl'], HandlerStack::create());
-            $options['identityService'] = Service::factory($httpClient);
-        }
+        $this->stockIdentityService($options);
+        $this->stockAuthHandler($options);
+        $this->stockHttpClient($options, $serviceName);
 
-        if (!isset($options['authHandler'])) {
-            // @codeCoverageIgnoreStart
-            $options['authHandler'] = function () use ($options) {
-                return $options['identityService']->generateToken($options);
-            };
-            // @codeCoverageIgnoreEnd
-        }
+        list($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
 
+        return new $serviceClass($options['httpClient'], new $apiClass());
+    }
+
+    private function stockHttpClient(array &$options, $serviceName)
+    {
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
             if (strcasecmp($serviceName, 'identity') === 0) {
                 $baseUrl = $options['authUrl'];
@@ -101,18 +99,44 @@ class Builder
                 $stack = $this->getStack($options['authHandler'], $token);
             }
 
-            // @codeCoverageIgnoreStart
-            if (!empty($options['debugLog'])) {
-                $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
-            }
-            // @codeCoverageIgnoreEnd
+            $this->addDebugMiddleware($options, $stack);
 
             $options['httpClient'] = $this->httpClient($baseUrl, $stack);
         }
+    }
 
-        list($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
+    /**
+     * @codeCoverageIgnore
+     */
+    private function addDebugMiddleware(array $options, HandlerStack &$stack)
+    {
+        if (!empty($options['debugLog'])
+            && !empty($options['logger'])
+            && !empty($options['messageFormatter'])
+        ) {
+            $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
+        }
+    }
 
-        return new $serviceClass($options['httpClient'], new $apiClass());
+    private function stockIdentityService(array &$options)
+    {
+        if (!isset($options['identityService'])) {
+            $httpClient = $this->httpClient($options['authUrl'], HandlerStack::create());
+            $options['identityService'] = Service::factory($httpClient);
+        }
+    }
+
+    /**
+     * @param array $options
+     * @codeCoverageIgnore
+     */
+    private function stockAuthHandler(array &$options)
+    {
+        if (!isset($options['authHandler'])) {
+            $options['authHandler'] = function () use ($options) {
+                return $options['identityService']->generateToken($options);
+            };
+        }
     }
 
     private function getStack(callable $authHandler, Token $token = null)

@@ -36,11 +36,6 @@ class Iterator
         $this->resourceFn = $resourceFn;
     }
 
-    private function totalReached()
-    {
-        return $this->limit && $this->count >= $this->limit;
-    }
-
     private function fetchResources()
     {
         $response = call_user_func($this->requestFn, $this->currentMarker);
@@ -71,6 +66,16 @@ class Iterator
         return $resource;
     }
 
+    private function totalReached()
+    {
+        return $this->limit && $this->count >= $this->limit;
+    }
+
+    private function shouldHalt()
+    {
+        return $this->totalReached() || !$this->markerKey;
+    }
+
     public function __invoke()
     {
         while (true) {
@@ -92,7 +97,7 @@ class Iterator
 
             // If user-provided limit has been reached, or if the operation does not support pagination, halt the
             // loop without sending another request.
-            if ($this->totalReached() || !$this->markerKey) {
+            if ($this->shouldHalt()) {
                 break;
             }
         }

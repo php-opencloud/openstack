@@ -125,12 +125,21 @@ class Parameter
         $this->location = $this->location ?: self::DEFAULT_LOCATION;
         $this->required = (bool)$this->required;
 
+        $this->stockItemSchema($data);
+        $this->stockProperties($data);
+    }
+
+    private function stockItemSchema(array $data)
+    {
         if (isset($data['items'])) {
             $this->itemSchema = new Parameter($data['items']);
         }
+    }
 
+    private function stockProperties(array $data)
+    {
         if (isset($data['properties'])) {
-            if ($this->name == 'metadata' || $this->name == 'removeMetadata') {
+            if (strpos(strtolower($this->name), 'metadata') !== false) {
                 $this->properties = new Parameter($data['properties']);
             } else {
                 foreach ($data['properties'] as $name => $property) {

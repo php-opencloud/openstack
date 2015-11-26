@@ -27,21 +27,7 @@ class RequestSerializer
                 continue;
             }
 
-            switch ($schema->getLocation()) {
-                case 'query':
-                    $options['query'][$schema->getName()] = $paramValue;
-                    break;
-                case 'header':
-                    $options['headers'] += $this->parseHeader($schema, $paramName, $paramValue);
-                    break;
-                case 'json':
-                    $json = isset($options['json']) ? $options['json'] : [];
-                    $options['json'] = $this->jsonSerializer->stockJson($schema, $paramValue, $json);
-                    break;
-                case 'raw':
-                    $options['body'] = $paramValue;
-                    break;
-            }
+            $this->stockOptions($schema, $paramName, $paramValue, $options);
         }
 
         if (!empty($options['json']) && ($key = $operation->getJsonKey())) {
@@ -49,6 +35,25 @@ class RequestSerializer
         }
 
         return $options;
+    }
+
+    private function stockOptions(Parameter $schema, $paramName, $paramValue, array &$options)
+    {
+        switch ($schema->getLocation()) {
+            case 'query':
+                $options['query'][$schema->getName()] = $paramValue;
+                break;
+            case 'header':
+                $options['headers'] += $this->parseHeader($schema, $paramName, $paramValue);
+                break;
+            case 'json':
+                $json = isset($options['json']) ? $options['json'] : [];
+                $options['json'] = $this->jsonSerializer->stockJson($schema, $paramValue, $json);
+                break;
+            case 'raw':
+                $options['body'] = $paramValue;
+                break;
+        }
     }
 
     private function parseHeader(Parameter $param, $name, $value)
