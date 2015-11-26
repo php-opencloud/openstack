@@ -19,6 +19,30 @@ class ServiceTest extends TestCase
 
         $this->service = new Service($this->client->reveal(), new Api());
     }
+
+    public function test_it_authenticates()
+    {
+        $options = [
+            'username' => 'foo',
+            'password' => 'bar',
+            'tenantId' => 'baz',
+        ];
+
+        $expectedJson = ['auth' => [
+            'passwordCredentials' => [
+                'username' => $options['username'],
+                'password' => $options['password'],
+            ],
+            'tenantId' => $options['tenantId'],
+        ]];
+
+        $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post');
+
+        list ($token, $baseUrl) = $this->service->authenticate($options);
+
+        $this->assertInstanceOf(Token::class, $token);
+        $this->assertInternalType('string', $baseUrl);
+    }
     
     public function test_it_generates_tokens()
     {

@@ -85,9 +85,11 @@ class Builder
         }
 
         if (!isset($options['authHandler'])) {
+            // @codeCoverageIgnoreStart
             $options['authHandler'] = function () use ($options) {
                 return $options['identityService']->generateToken($options);
             };
+            // @codeCoverageIgnoreEnd
         }
 
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
@@ -99,9 +101,11 @@ class Builder
                 $stack = $this->getStack($options['authHandler'], $token);
             }
 
+            // @codeCoverageIgnoreStart
             if (!empty($options['debugLog'])) {
                 $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
             }
+            // @codeCoverageIgnoreEnd
 
             $options['httpClient'] = $this->httpClient($baseUrl, $stack);
         }

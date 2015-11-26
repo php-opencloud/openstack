@@ -34,6 +34,7 @@ abstract class Operator implements OperatorInterface
      * For the benefit of users, extremely verbose and heavy properties (such as HTTP clients) are
      * removed to provide easier access to normal state, such as resource attributes.
      *
+     * @codeCoverageIgnore
      * @return array
      */
     public function __debugInfo()
@@ -67,7 +68,7 @@ abstract class Operator implements OperatorInterface
     protected function sendRequest(Operation $operation, array $userValues = [], $async = false)
     {
         $uri     = uri_template($operation->getPath(), $userValues);
-        $options = RequestSerializer::serializeOptions($operation, $userValues);
+        $options = (new RequestSerializer)->serializeOptions($operation, $userValues);
         $method  = $async ? 'requestAsync' : 'request';
 
         return $this->client->$method($operation->getMethod(), $uri, $options);
@@ -76,14 +77,9 @@ abstract class Operator implements OperatorInterface
     /**
      * {@inheritDoc}
      */
-    public function executeAsync(array $definition, array $userValues = [])
+    public function execute(array $definition, array $userValues = [], $async = false)
     {
-        return $this->sendRequest($this->getOperation($definition), $userValues, true);
-    }
-
-    public function execute(array $definition, array $userValues = [])
-    {
-        return $this->sendRequest($this->getOperation($definition), $userValues);
+        return $this->sendRequest($this->getOperation($definition), $userValues, $async);
     }
 
     /**
@@ -125,7 +121,7 @@ abstract class Operator implements OperatorInterface
      */
     protected function getHttpBaseUrl()
     {
-        return $this->client->getConfig('base_url');
+        return $this->client->getConfig('base_uri');
     }
 
     /**
@@ -136,29 +132,32 @@ abstract class Operator implements OperatorInterface
      * @param $methodName The name of the method being invoked.
      * @param $args       The arguments to be passed to the sequential method.
      *
+     * @throws \RuntimeException If method does not exist
+     *
      * @return Promise
      */
     public function __call($methodName, $args)
     {
+        $e = function ($name) {
+            return new \RuntimeException(sprintf('%s::%s is not defined', $name, get_class($this)));
+        };
+
         if (substr($methodName, -5) === 'Async') {
             $realMethod = substr($methodName, 0, -5);
             if (!method_exists($this, $realMethod)) {
-                throw new \InvalidArgumentException(sprintf(
-                    '%s is not a defined method on %s', $realMethod, get_class($this)
-                ));
+                throw $e($realMethod);
             }
 
             $promise = new Promise(
                 function () use (&$promise, $realMethod, $args) {
                     $value = call_user_func_array([$this, $realMethod], $args);
                     $promise->resolve($value);
-                },
-                function ($e) use (&$promise) {
-                    $promise->reject($e);
                 }
             );
 
             return $promise;
         }
+
+        throw $e($methodName);
     }
 }

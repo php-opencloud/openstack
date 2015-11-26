@@ -3,11 +3,11 @@
 namespace OpenStack\Test\Common\Service;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Event\Emitter;
-use GuzzleHttp\Message\Request;
 use OpenStack\Common\Service\Builder;
 use OpenStack\Identity\v2\Models\Token;
-use OpenStack\Identity\v2\Service;
+use OpenStack\Identity\v2\Service as IdentityV2;
+use OpenStack\Identity\v3\Service as IdentityV3;
+use OpenStack\Compute\v2\Service as ComputeV2;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
@@ -95,29 +95,30 @@ class BuilderTest extends TestCase
         ]);
     }
 
-    public function test_it_builds_services_with_v2_identity()
+    public function test_it_builds_services_with_custom_identity_service()
     {
         $this->rootFixturesDir = dirname(dirname(__DIR__)) . '/Identity/v2/';
 
         $token = $this->prophesize(Token::class)->reveal();
-        $service = $this->prophesize(Service::class);
+        $service = $this->prophesize(IdentityV2::class);
         $service->authenticate(Argument::type('array'))->shouldBeCalled()->willReturn([$token, '']);
 
-        $this->opts['identityService'] = $service->reveal();
-        $this->opts['catalogName'] = 'nova';
-        $this->opts['catalogType'] = 'compute';
-        $this->opts['region'] = 'RegionOne';
+        $this->opts += [
+            'identityService' => $service->reveal(),
+            'catalogName'     => 'nova',
+            'catalogType'     => 'compute',
+            'region'          => 'RegionOne',
+        ];
 
         $service = $this->builder->createService('Compute', 2, $this->opts);
-        $this->assertInstanceOf('OpenStack\Compute\v2\Service', $service);
+        $this->assertInstanceOf(ComputeV2::class, $service);
     }
 
-    public function it_builds_services_with_v3_identity()
+    private function setupHttpClient()
     {
         $this->rootFixturesDir = dirname(dirname(__DIR__)) . '/Identity/v3/';
 
         $response = $this->getFixture('token-get');
-        $request  = new Request('POST', 'tokens');
 
         $expectedJson = [
             'auth' => [
@@ -129,12 +130,17 @@ class BuilderTest extends TestCase
         ];
 
         $httpClient = $this->prophesize(ClientInterface::class);
-        $httpClient->getEmitter()->willReturn(new Emitter());
-        $httpClient->request('POST', 'tokens', ['json' => $expectedJson])->shouldBeCalled()->willReturn($request);
-        $httpClient->send($request)->shouldBeCalled()->willReturn($response);
+        $httpClient->request('POST', 'tokens', ['json' => $expectedJson])->shouldBeCalled()->willReturn($response);
+
+        return $httpClient;
+    }
+
+    public function it_builds_services_with_default_identity()
+    {
+        $httpClient = $this->setupHttpClient();
 
         $options = [
-            'httpClient' => $httpClient->reveal(),
+            'httpClient'  => $httpClient->reveal(),
             'catalogName' => 'nova',
             'catalogType' => 'compute',
             'region'      => 'RegionOne',
@@ -145,6 +151,13 @@ class BuilderTest extends TestCase
         ];
 
         $service = $this->builder->createService('Compute', 2, $options);
-        $this->assertInstanceOf('OpenStack\Compute\v3\Service', $service);
+        $this->assertInstanceOf(ComputeV2::class, $service);
+    }
+
+    public function test_it_does_not_authenticate_when_creating_identity_services()
+    {
+        $this->assertInstanceOf(IdentityV3::class, $this->builder->createService('Identity', 3, [
+            'authUrl'    => 'foo.com',
+        ]));
     }
 }

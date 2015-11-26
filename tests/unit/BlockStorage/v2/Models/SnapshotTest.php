@@ -51,4 +51,35 @@ class SnapshotTest extends TestCase
 
         $this->assertEquals($expected, $this->snapshot->getMetadata());
     }
+
+    public function test_it_retrieves()
+    {
+        $this->setupMock('GET', 'snapshots/1', null, [], 'GET_snapshot');
+
+        $this->snapshot->retrieve();
+    }
+
+    public function test_it_merges_metadata()
+    {
+        $this->setupMock('GET', 'snapshots/1/metadata', null, [], 'GET_metadata');
+
+        $expectedJson = ['metadata' => [
+            'foo' => 'newFoo',
+            'bar' => '2',
+            'baz' => 'bazVal',
+        ]];
+
+        $this->setupMock('PUT', 'snapshots/1/metadata', $expectedJson, [], 'GET_metadata');
+
+        $this->snapshot->mergeMetadata(['foo' => 'newFoo', 'baz' => 'bazVal']);
+    }
+
+    public function test_it_resets_metadata()
+    {
+        $expectedJson = ['metadata' => ['key1' => 'val1']];
+
+        $this->setupMock('PUT', 'snapshots/1/metadata', $expectedJson, [], 'GET_metadata');
+
+        $this->snapshot->resetMetadata(['key1' => 'val1']);
+    }
 }

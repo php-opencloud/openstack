@@ -39,4 +39,35 @@ class VolumeTest extends TestCase
 
         $this->volume->delete();
     }
+
+    public function test_it_retrieves()
+    {
+        $this->setupMock('GET', 'volumes/1', null, [], 'GET_volume');
+
+        $this->volume->retrieve();
+    }
+
+    public function test_it_merges_metadata()
+    {
+        $this->setupMock('GET', 'volumes/1/metadata', null, [], 'GET_metadata');
+
+        $expectedJson = ['metadata' => [
+            'foo' => 'newFoo',
+            'bar' => '2',
+            'baz' => 'bazVal',
+        ]];
+
+        $this->setupMock('PUT', 'volumes/1/metadata', $expectedJson, [], 'GET_metadata');
+
+        $this->volume->mergeMetadata(['foo' => 'newFoo', 'baz' => 'bazVal']);
+    }
+
+    public function test_it_resets_metadata()
+    {
+        $expectedJson = ['metadata' => ['key1' => 'val1']];
+
+        $this->setupMock('PUT', 'volumes/1/metadata', $expectedJson, [], 'GET_metadata');
+
+        $this->volume->resetMetadata(['key1' => 'val1']);
+    }
 }

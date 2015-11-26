@@ -174,7 +174,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         $markerKey = $this->markerKey ?: self::DEFAULT_MARKER_KEY;
         $supportsPagination = $operation->hasParam('marker');
 
-        $limit = isset($userVals['limit']) ? $userVals : false;
+        $limit = isset($userVals['limit']) ? $userVals['limit'] : false;
         $count = 0;
 
         $totalReached = function ($count) use ($limit) {
@@ -183,15 +183,9 @@ abstract class AbstractResource extends Operator implements ResourceInterface
 
         while (true) {
             $response = $this->sendRequest($operation, $userVals);
-            $json = Utils::jsonDecode($response);
+            $json = Utils::flattenJson(Utils::jsonDecode($response), $this->resourcesKey);
 
-            if (!$json) {
-                break;
-            }
-
-            $json = Utils::flattenJson($json, $this->resourcesKey);
-
-            if ($response->getStatusCode() === 204 || empty($json)) {
+            if ($response->getStatusCode() === 204 || !$json) {
                 break;
             }
 

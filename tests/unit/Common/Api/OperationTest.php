@@ -29,6 +29,27 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Parameter::class, $this->operation->getParam('name'));
     }
 
+    public function test_it_validates_params()
+    {
+        $this->assertTrue($this->operation->validate([
+            'name'     => 'foo',
+            'imageId'  => 'bar',
+            'flavorId' => 'baz',
+        ]));
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_exceptions_are_propagated()
+    {
+        $this->assertFalse($this->operation->validate([
+            'name'     => true,
+            'imageId'  => 'bar',
+            'flavorId' => 'baz',
+        ]));
+    }
+
     /**
      * @expectedException \Exception
      */
@@ -45,5 +66,10 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $userData = ['name' => 'new_server', 'undefined_opt' => 'bah'];
 
         $this->operation->validate($userData);
+    }
+
+    public function test_it_gets_json_key()
+    {
+        $this->assertEquals('server', $this->operation->getJsonKey());
     }
 }

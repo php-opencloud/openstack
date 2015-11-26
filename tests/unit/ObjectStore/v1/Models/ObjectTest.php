@@ -122,7 +122,7 @@ class ObjectTest extends TestCase
 
     public function test_It_Gets_Public_Uri()
     {
-        $this->client->getConfig('base_url')
+        $this->client->getConfig('base_uri')
             ->shouldBeCalled()
             ->willReturn(uri_for('myopenstack.org:9000/tenantId'));
 

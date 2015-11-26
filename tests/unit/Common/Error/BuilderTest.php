@@ -24,6 +24,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->builder = new Builder($this->client->reveal());
     }
 
+    public function test_it_injects_client()
+    {
+        $this->assertInstanceOf(Builder::class, new Builder($this->client->reveal()));
+    }
+
     public function test_it_builds_http_errors()
     {
         $request = new Request('POST', '/servers');

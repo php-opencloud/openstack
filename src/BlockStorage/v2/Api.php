@@ -88,6 +88,27 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getVolumeMetadata()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'volumes/{id}/metadata',
+            'params' => ['id' => $this->params->idPath()],
+        ];
+    }
+
+    public function putVolumeMetadata()
+    {
+        return [
+            'method' => 'PUT',
+            'path'   => 'volumes/{id}/metadata',
+            'params' => [
+                'id'       => $this->params->idPath(),
+                'metadata' => $this->params->metadata(),
+            ],
+        ];
+    }
+
     public function getTypes()
     {
         return [

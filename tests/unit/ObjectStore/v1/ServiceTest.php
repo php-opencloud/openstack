@@ -34,11 +34,6 @@ class ServiceTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->getFixture('GET_Container'));
 
-        $this->client
-            ->request('GET', '', ['query' => ['limit' => 2, 'format' => 'json', 'marker' => 'helloworld'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
-
         foreach ($this->service->listContainers(['limit' => 2]) as $container) {
             $this->assertInstanceOf(Container::class, $container);
         }

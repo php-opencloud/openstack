@@ -31,9 +31,9 @@ class Operation
     private $params;
 
     /**
-     * @param array           $definition The data definition (in array form) that will populate this
-     *                                    operation. Usually this is retrieved from an {@see ApiInterface}
-     *                                    object method.
+     * @param array $definition The data definition (in array form) that will populate this
+     *                          operation. Usually this is retrieved from an {@see ApiInterface}
+     *                          object method.
      */
     public function __construct(array $definition)
     {
@@ -47,11 +47,17 @@ class Operation
         $this->params = self::toParamArray($definition['params']);
     }
 
+    /**
+     * @return string
+     */
     public function getPath()
     {
         return $this->path;
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return $this->method;
@@ -79,6 +85,9 @@ class Operation
         return isset($this->params[$name]) ? $this->params[$name] : null;
     }
 
+    /**
+     * @return string
+     */
     public function getJsonKey()
     {
         return $this->jsonKey;

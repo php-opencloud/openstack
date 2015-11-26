@@ -11,6 +11,9 @@ use Psr\Http\Message\ResponseInterface;
 
 final class Middleware
 {
+    /**
+     * @return callable
+     */
     public static function httpErrors()
     {
         return function (callable $handler) {
@@ -27,6 +30,12 @@ final class Middleware
         };
     }
 
+    /**
+     * @param callable $tokenGenerator
+     * @param Token    $token
+     *
+     * @return callable
+     */
     public static function authHandler(callable $tokenGenerator, Token $token = null)
     {
         return function (callable $handler) use ($tokenGenerator, $token) {
@@ -34,31 +43,49 @@ final class Middleware
         };
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function history(array &$container)
     {
         return GuzzleMiddleware::history($container);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function retry(callable $decider, callable $delay = null)
     {
         return GuzzleMiddleware::retry($decider, $delay);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function log(LoggerInterface $logger, MessageFormatter $formatter, $logLevel = LogLevel::INFO)
     {
         return GuzzleMiddleware::log($logger, $formatter, $logLevel);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function prepareBody()
     {
         return GuzzleMiddleware::prepareBody();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function mapRequest(callable $fn)
     {
         return GuzzleMiddleware::mapRequest($fn);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function mapResponse(callable $fn)
     {
         return GuzzleMiddleware::mapResponse($fn);

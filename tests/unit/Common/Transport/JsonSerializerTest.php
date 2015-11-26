@@ -60,4 +60,26 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function test_it_serializes_objects()
+    {
+        $prop = $this->prophesize(Parameter::class);
+        $prop->isArray()->shouldBeCalled()->willReturn(false);
+        $prop->isObject()->shouldBeCalled()->willReturn(false);
+        $prop->getName()->shouldBeCalled()->willReturn('foo');
+        $prop->getPath()->shouldBeCalled()->willReturn(null);
+
+        $param = $this->prophesize(Parameter::class);
+        $param->isArray()->shouldBeCalled()->willReturn(false);
+        $param->isObject()->shouldBeCalled()->willReturn(true);
+        $param->getName()->shouldBeCalled()->willReturn('topLevel');
+        $param->getPath()->shouldBeCalled()->willReturn(false);
+        $param->getProperty('foo')->shouldBeCalled()->willReturn($prop);
+
+        $expected = ['topLevel' => ['foo' => true]];
+
+        $json = $this->serializer->stockJson($param->reveal(), ['foo' => true], []);
+
+        $this->assertEquals($expected, $json);
+    }
 }

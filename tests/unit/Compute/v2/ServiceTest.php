@@ -50,11 +50,6 @@ class ServiceTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->getFixture('servers-get'));
 
-        $this->client
-            ->request('GET', 'servers', ['query' => ['limit' => 5, 'marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
-
         foreach ($this->service->listServers(false, ['limit' => 5]) as $server) {
             $this->assertInstanceOf(Server::class, $server);
         }
@@ -76,11 +71,6 @@ class ServiceTest extends TestCase
             ->request('GET', 'flavors', ['query' => ['limit' => 5], 'headers' => []])
             ->shouldBeCalled()
             ->willReturn($this->getFixture('flavors-get'));
-
-        $this->client
-            ->request('GET', 'flavors', ['query' => ['limit' => 5, 'marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
 
         $count = 0;
 
@@ -108,11 +98,6 @@ class ServiceTest extends TestCase
             ->request('GET', 'images', ['query' => ['limit' => 5], 'headers' => []])
             ->shouldBeCalled()
             ->willReturn($this->getFixture('images-get'));
-
-        $this->client
-            ->request('GET', 'images', ['query' => ['limit' => 5, 'marker' => '76fa36fc-c930-4bf3-8c8a-ea2a2420deb6'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
             $this->assertInstanceOf(Image::class, $image);

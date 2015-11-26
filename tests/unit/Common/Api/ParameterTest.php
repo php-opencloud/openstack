@@ -146,4 +146,26 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $param = new Parameter($params);
         $this->assertTrue($param->validate($userVals));
     }
+
+    public function test_it_sets_name()
+    {
+        $this->param->setName('foo');
+        $this->assertEquals($this->param->getName(), 'foo');
+    }
+
+    public function test_it_gets_property()
+    {
+        $property = new Parameter([
+            'name' => 'metadata',
+            'properties' => [
+                'type' => 'string',
+                'prefix' => 'foo',
+            ],
+        ]);
+
+        $prop = $property->getProperty('metadata');
+
+        $this->assertInstanceOf(Parameter::class, $prop);
+        $this->assertEquals('foo', $prop->getPrefix());
+    }
 }

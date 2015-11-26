@@ -6,6 +6,8 @@ namespace OpenStack\Common\Resource;
  * Contains reusable functionality for resources that have long operations which require waiting in
  * order to reach a particular state.
  *
+ * @codeCoverageIgnore
+ *
  * @package OpenStack\Common\Resource
  */
 trait HasWaiterTrait

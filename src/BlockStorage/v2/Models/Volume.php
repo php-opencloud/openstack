@@ -105,14 +105,22 @@ class Volume extends AbstractResource implements Creatable, Listable, Updateable
 
     public function getMetadata()
     {
+        $response = $this->executeWithState($this->api->getVolumeMetadata());
+        $this->metadata = $this->parseMetadata($response);
+        return $this->metadata;
     }
 
     public function mergeMetadata(array $metadata)
     {
+        $this->getMetadata();
+        $this->metadata = array_merge($this->metadata, $metadata);
+        $this->executeWithState($this->api->putVolumeMetadata());
     }
 
     public function resetMetadata(array $metadata)
     {
+        $this->metadata = $metadata;
+        $this->executeWithState($this->api->putVolumeMetadata());
     }
 
     public function parseMetadata(ResponseInterface $response)

@@ -24,6 +24,10 @@ class ComputeV2Api implements ApiInterface
             'method' => 'POST',
             'jsonKey' => 'server',
             'params' => [
+                'removeMetadata' => [
+                    'type' => 'object',
+                    'properties' => ['type' => 'string'],
+                ],
                 'securityGroups' => [
                     'type' => 'array',
                     'items' => [
@@ -67,6 +71,18 @@ class ComputeV2Api implements ApiInterface
                         ]
                     ],
                 ],
+            ]
+        ];
+    }
+
+    public function test()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'foo',
+            'params' => [
+                'id'  => ['type' => 'string', 'location' => 'json'],
+                'bar' => ['type' => 'string', 'location' => 'json'],
             ]
         ];
     }

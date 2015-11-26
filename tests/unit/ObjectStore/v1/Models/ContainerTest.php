@@ -133,11 +133,6 @@ class ContainerTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->getFixture('GET_Container'));
 
-        $this->client
-            ->request('GET', 'test', ['query' => ['limit' => 2, 'format' => 'json', 'marker' => 'helloworld'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
-
         foreach ($this->container->listObjects(['limit' => 2]) as $object) {
             $this->assertInstanceOf(Object::class, $object);
         }

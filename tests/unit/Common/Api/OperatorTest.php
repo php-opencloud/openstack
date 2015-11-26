@@ -2,17 +2,19 @@
 
 namespace OpenStack\Test\Common\Api;
 
+use function GuzzleHttp\Psr7\uri_for;
+
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Uri;
 use OpenStack\Common\Api\Operator;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Test\Fixtures\ComputeV2Api;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTestCase;
-use Psr\Http\Message\RequestInterface;
 
 class OperatorTest extends ProphecyTestCase
 {
@@ -78,18 +80,47 @@ class OperatorTest extends ProphecyTestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \RuntimeException
      */
     public function test_it_throws_exception_when_async_is_called_on_a_non_existent_method()
     {
         $this->operator->fooAsync();
     }
+
+    public function test_it_retrieves_base_http_url()
+    {
+        $returnedUri = uri_for('http://foo.com');
+
+        $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn($returnedUri);
+
+        $uri = $this->operator->testBaseUri();
+
+        $this->assertInstanceOf(Uri::class, $uri);
+        $this->assertEquals($returnedUri, $uri);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_undefined_methods_result_in_error()
+    {
+        $this->operator->foo();
+    }
 }
 
 class TestOperator extends Operator
 {
+    public function testBaseUri()
+    {
+        return $this->getHttpBaseUrl();
+    }
+
     public function create($str)
     {
         return 'Created ' . $str;
+    }
+
+    public function fail()
+    {
     }
 }
