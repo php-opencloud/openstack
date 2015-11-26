@@ -179,48 +179,28 @@ abstract class AbstractResource extends Operator implements ResourceInterface
     public function enumerate(array $def, array $userVals = [], callable $mapFn = null)
     {
         $operation = $this->getOperation($def);
-        $markerKey = $this->markerKey ?: self::DEFAULT_MARKER_KEY;
-        $supportsPagination = $operation->hasParam('marker');
 
-        $limit = isset($userVals['limit']) ? $userVals['limit'] : false;
-        $count = 0;
-
-        $totalReached = function ($count) use ($limit) {
-            return $limit && $count >= $limit;
+        $requestFn = function ($marker) use ($operation, $userVals) {
+            if ($operation->hasParam('marker') && $marker) {
+                $userVals['marker'] = $marker;
+            }
+            return $this->sendRequest($operation, $userVals);
         };
 
-        while (true) {
-            $response = $this->sendRequest($operation, $userVals);
-            $json = Utils::flattenJson(Utils::jsonDecode($response), $this->resourcesKey);
+        $resourceFn = function (array $data) {
+            $resource = $this->newInstance();
+            $resource->populateFromArray($data);
+            return $resource;
+        };
 
-            if ($response->getStatusCode() === 204 || !$json) {
-                break;
-            }
+        $opts = [
+            'limit'        => isset($userVals['limit']) ? $userVals['limit'] : null,
+            'resourcesKey' => $this->resourcesKey,
+            'markerKey'    => $this->markerKey,
+            'mapFn'        => $mapFn,
+        ];
 
-            foreach ($json as $resourceData) {
-                if ($totalReached($count)) {
-                    break;
-                }
-
-                $count++;
-
-                $resource = $this->newInstance();
-                $resource->populateFromArray($resourceData);
-
-                if ($mapFn) {
-                    call_user_func_array($mapFn, [$resource]);
-                }
-
-                if ($supportsPagination) {
-                    $userVals['marker'] = $resource->$markerKey;
-                }
-
-                yield $resource;
-            }
-
-            if ($totalReached($count) || !$supportsPagination) {
-                break;
-            }
-        }
+        $iterator = new Iterator($opts, $requestFn, $resourceFn);
+        return $iterator();
     }
 }

@@ -46,6 +46,7 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
 
     protected $resourceKey = 'snapshot';
     protected $resourcesKey = 'snapshots';
+    protected $markerKey = 'id';
 
     protected $aliases = [
         'created_at' => 'createdAt',

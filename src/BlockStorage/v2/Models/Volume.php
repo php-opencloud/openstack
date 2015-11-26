@@ -57,6 +57,8 @@ class Volume extends AbstractResource implements Creatable, Listable, Updateable
 
     protected $resourceKey = 'volume';
     protected $resourcesKey = 'volumes';
+    protected $markerKey = 'id';
+
     protected $aliases = [
         'availability_zone' => 'availabilityZone',
         'source_volid'      => 'sourceVolumeId',
