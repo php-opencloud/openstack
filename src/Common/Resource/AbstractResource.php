@@ -173,6 +173,18 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return $this->execute($definition, $this->getAttrs(array_keys($definition['params'])));
     }
 
+    private function getResourcesKey()
+    {
+        $resourcesKey = $this->resourcesKey;
+
+        if (!$resourcesKey) {
+            $class =  substr(static::class, strrpos(static::class, '\\') + 1);
+            $resourcesKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $class)) . 's';
+        }
+
+        return $resourcesKey;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -195,7 +207,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
 
         $opts = [
             'limit'        => isset($userVals['limit']) ? $userVals['limit'] : null,
-            'resourcesKey' => $this->resourcesKey,
+            'resourcesKey' => $this->getResourcesKey(),
             'markerKey'    => $this->markerKey,
             'mapFn'        => $mapFn,
         ];

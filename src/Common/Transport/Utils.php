@@ -74,4 +74,9 @@ class Utils
     {
         return uri_for(rtrim((string) $uri, '/') . '/' . implode('/', $paths));
     }
+
+    public static function appendPath(UriInterface $uri, $path)
+    {
+        return uri_for(rtrim((string) $uri, '/') . '/' . $path);
+    }
 }

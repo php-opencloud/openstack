@@ -158,24 +158,4 @@ TYPEOTHER
             'location' => self::JSON,
         ];
     }
-
-    public function sortDir()
-    {
-        return [
-            'type'     => self::STRING_TYPE,
-            'location' => self::QUERY,
-            'description' => "Sorts by one or more sets of attribute and sort direction combinations. If you omit " .
-                "the sort direction in a set, default is desc."
-        ];
-    }
-
-    public function sortKey()
-    {
-        return [
-            'type'     => self::STRING_TYPE,
-            'location' => self::QUERY,
-            'description' => "Sorts by one or more sets of attribute and sort direction combinations. If you omit " .
-                "the sort direction in a set, default is desc."
-        ];
-    }
 }

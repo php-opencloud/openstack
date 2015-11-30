@@ -112,6 +112,13 @@ class Parameter
     private $prefix;
 
     /**
+     * The enum values for which this param is restricted.
+     *
+     * @var array
+     */
+    private $enum;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data)
@@ -188,6 +195,7 @@ class Parameter
      */
     public function validate($userValues)
     {
+        $this->validateEnums($userValues);
         $this->validateType($userValues);
 
         if ($this->isArray()) {
@@ -197,6 +205,15 @@ class Parameter
         }
 
         return true;
+    }
+
+    private function validateEnums($userValues)
+    {
+        if (!empty($this->enum) && $this->type == 'string' && !in_array($userValues, $this->enum)) {
+            throw new \Exception(sprintf(
+                'The only permitted values are %s. You provided %s', implode(', ', $this->enum), $userValues
+            ));
+        }
     }
 
     private function validateType($userValues)

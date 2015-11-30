@@ -149,7 +149,7 @@ abstract class Operator implements OperatorInterface
     public function __call($methodName, $args)
     {
         $e = function ($name) {
-            return new \RuntimeException(sprintf('%s::%s is not defined', $name, get_class($this)));
+            return new \RuntimeException(sprintf('%s::%s is not defined', get_class($this), $name));
         };
 
         if (substr($methodName, -5) === 'Async') {
