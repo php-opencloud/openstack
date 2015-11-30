@@ -54,6 +54,16 @@ DESC
         return [
             'description' => sprintf("The unique ID, or identifier, for the %s", $type),
             'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+        ];
+    }
+
+    public function idPath()
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::URL,
+            'description' => 'The unique ID of the resource',
         ];
     }
 
@@ -62,6 +72,27 @@ DESC
         return [
             'description' => sprintf("The name of the %s", $resource),
             'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+        ];
+    }
+
+
+    public function sortDir()
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::QUERY,
+            'description' => "Sorts by one or more sets of attribute and sort direction combinations.",
+            'enum'        => ['asc', 'desc']
+        ];
+    }
+
+    public function sortKey()
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::QUERY,
+            'description' => "Sorts by one or more sets of attribute and sort direction combinations.",
         ];
     }
 }
