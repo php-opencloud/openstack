@@ -43,9 +43,9 @@ class Runner
 
         return [
             $this->getOpt($opts, ['s', 'service'], 'all'),
-            $this->getOpt($opts, ['v', 'version'], 'all'),
+            $this->getOpt($opts, ['n', 'version'], 'all'),
             $this->getOpt($opts, ['t', 'test'], ''),
-            isset($opts['debug']) || isset($opts['d']),
+            isset($opts['debug']) ? (int) $opts['debug'] : 0,
         ];
     }
 
@@ -89,7 +89,7 @@ class Runner
 
     public function runServices()
     {
-        list ($serviceOpt, $versionOpt, $testMethodOpt, $debugOpt) = $this->getOpts();
+        list ($serviceOpt, $versionOpt, $testMethodOpt, $verbosity) = $this->getOpts();
 
         $services = $this->getRunnableServices($serviceOpt, $versionOpt, $testMethodOpt);
 
@@ -97,7 +97,7 @@ class Runner
             foreach ($versions as $version) {
 
                 $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, $this->toCamelCase($serviceName), ucfirst($version));
-                $testRunner = new $class($this->logger, $debugOpt);
+                $testRunner = new $class($this->logger, $verbosity);
 
                 if ($testMethodOpt && method_exists($testRunner, $testMethodOpt)) {
                     $testRunner->startTimer();

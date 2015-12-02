@@ -15,14 +15,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     private $paths = [];
     private $startPoint;
     private $lastPoint;
-    private $debug;
+    private $verbosity;
     protected $defaultLogging;
 
-    public function __construct(LoggerInterface $logger, $debug = false)
+    public function __construct(LoggerInterface $logger, $verbosity)
     {
         $this->basePath = $this->getBasePath();
         $this->logger = $logger;
-        $this->debug = $debug;
+        $this->verbosity = $verbosity;
     }
 
     abstract protected function getBasePath();
@@ -136,9 +136,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         return 'phptest_' . $randomString;
     }
 
-    protected function getConnectionTemplate($debug)
+    protected function getConnectionTemplate()
     {
-        if ($debug) {
+        if ($this->verbosity === 1) {
             $subst = <<<'EOL'
 use OpenStack\Integration\DefaultLogger;
 use OpenStack\Integration\Utils;
@@ -151,6 +151,19 @@ $options = [
 ];
 $openstack = new OpenStack\OpenStack(Utils::getAuthOpts($options));
 EOL;
+        } elseif ($this->verbosity === 2) {
+            $subst = <<<'EOL'
+use OpenStack\Integration\DefaultLogger;
+use OpenStack\Integration\Utils;
+use GuzzleHttp\MessageFormatter;
+
+$options = [
+    'debugLog'         => true,
+    'logger'           => new DefaultLogger(),
+    'messageFormatter' => new MessageFormatter(MessageFormatter::DEBUG),
+];
+$openstack = new OpenStack\OpenStack(Utils::getAuthOpts($options));
+EOL;
         } else {
             $subst = <<<'EOL'
 use OpenStack\Integration\Utils;
@@ -158,6 +171,7 @@ use OpenStack\Integration\Utils;
 $openstack = new OpenStack\OpenStack(Utils::getAuthOpts());
 EOL;
         }
+
         return $subst;
     }
 
@@ -175,7 +189,7 @@ EOL;
         $content = strtr(file_get_contents($sampleFile), $replacements);
         $content = str_replace("'vendor/'", "'" . dirname(__DIR__) . "/../vendor'", $content);
 
-        $subst = $this->getConnectionTemplate($this->debug);
+        $subst = $this->getConnectionTemplate();
         $content = preg_replace('/\([^)]+\)/', '', $content, 1);
         $content = str_replace('$openstack = new OpenStack\OpenStack;', $subst, $content);
 

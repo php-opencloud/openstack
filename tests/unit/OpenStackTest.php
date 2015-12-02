@@ -70,4 +70,13 @@ class OpenStackTest extends ProphecyTestCase
 
         $this->openstack->blockStorageV2();
     }
+
+    public function test_it_supports_images_v2()
+    {
+        $this->builder
+            ->createService('Images', 2, ['catalogName' => 'glance', 'catalogType' => 'image'])
+            ->shouldBeCalled();
+
+        $this->openstack->imagesV2();
+    }
 }

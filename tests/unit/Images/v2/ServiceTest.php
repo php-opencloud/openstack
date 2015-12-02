@@ -42,7 +42,7 @@ class ServiceTest extends TestCase
             "min_ram" => 0,
         ];
 
-        $this->setupMock('POST', 'images', $expectedJson, [], 'GET_image');
+        $this->setupMock('POST', 'v2/images', $expectedJson, [], 'GET_image');
 
         $this->service->createImage([
             'name' => 'Ubuntu 12.10',
@@ -64,7 +64,7 @@ class ServiceTest extends TestCase
             ->willReturn(\GuzzleHttp\Psr7\uri_for(''));
 
         $this->client
-            ->request('GET', 'images', ['query' => ['limit' => 5], 'headers' => []])
+            ->request('GET', 'v2/images', ['query' => ['limit' => 5], 'headers' => []])
             ->shouldBeCalled()
             ->willReturn($this->getFixture('GET_images'));
 

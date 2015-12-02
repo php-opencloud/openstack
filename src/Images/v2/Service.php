@@ -20,6 +20,11 @@ class Service extends AbstractService
         return $this->model(Image::class)->enumerate($this->api->getImages(), $data);
     }
 
+    /**
+     * @param null $id
+     *
+     * @return Image
+     */
     public function getImage($id = null)
     {
         $image = $this->model(Image::class);

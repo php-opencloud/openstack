@@ -107,4 +107,17 @@ class OpenStack
         $defaults = ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'];
         return $this->builder->createService('BlockStorage', 2, array_merge($defaults, $options));
     }
+
+    /**
+     * Creates a new Images v2 service.
+     *
+     * @param array $options Options that will be used in configuring the service.
+     *
+     * @return \OpenStack\Images\v2\Service
+     */
+    public function imagesV2(array $options = [])
+    {
+        $defaults = ['catalogName' => 'glance', 'catalogType' => 'image'];
+        return $this->builder->createService('Images', 2, array_merge($defaults, $options));
+    }
 }

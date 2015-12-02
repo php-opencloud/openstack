@@ -12,7 +12,7 @@ use OpenStack\Common\Resource\Updateable;
 /**
  * @property \OpenStack\Images\v2\Api $api
  */
-class Member extends AbstractResource implements Creatable, Listable, Retrievable, Deletable, Updateable
+class Member extends AbstractResource implements Creatable, Listable, Retrievable, Deletable
 {
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_PENDING  = 'pending';
@@ -60,8 +60,9 @@ class Member extends AbstractResource implements Creatable, Listable, Retrievabl
         $this->executeWithState($this->api->deleteImageMember());
     }
 
-    public function update()
+    public function updateStatus($status)
     {
+        $this->status = $status;
         $this->executeWithState($this->api->putImageMember());
     }
 }

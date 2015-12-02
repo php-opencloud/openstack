@@ -25,7 +25,7 @@ class ImageTest extends TestCase
 
         $this->image = new Image($this->client->reveal(), new Api());
         $this->image->id = '386f0425-3ee8-4688-b73f-272328fe4c71';
-        $this->path = sprintf("images/%s", $this->image->id);
+        $this->path = sprintf("v2/images/%s", $this->image->id);
     }
 
     public function test_it_retrieves()
@@ -79,7 +79,7 @@ class ImageTest extends TestCase
         ], JSON_UNESCAPED_SLASHES);
 
         $this->setupMock('GET', $this->path, null, [], 'GET_image');
-        $this->setupMock('GET', 'schemas/image', null, [], 'GET_image_schema');
+        $this->setupMock('GET', 'v2/schemas/image', null, [], 'GET_image_schema');
 
         $headers = ['Content-Type' => 'application/openstack-images-v2.1-json-patch'];
         $this->setupMock('PATCH', $this->path, $expectedJson, $headers, 'POST_image');
@@ -95,7 +95,7 @@ class ImageTest extends TestCase
         $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn(new Uri);
 
         $this->setupMock('GET', $this->path, null, [], 'GET_image');
-        $this->setupMock('GET', 'schemas/image', null, [], 'GET_image_schema');
+        $this->setupMock('GET', 'v2/schemas/image', null, [], 'GET_image_schema');
 
         $this->image->update([
             'minDisk' => 'foo',
