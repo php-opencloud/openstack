@@ -17,7 +17,6 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->operation = new Operation($def);
     }
 
-
     public function test_it_reveals_whether_params_are_set_or_not()
     {
         $this->assertFalse($this->operation->hasParam('foo'));

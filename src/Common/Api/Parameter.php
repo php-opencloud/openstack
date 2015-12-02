@@ -281,6 +281,10 @@ class Parameter
             return true;
         }
 
+        if (class_exists($this->type) || interface_exists($this->type)) {
+            return is_a($userValue, $this->type);
+        }
+
         return gettype($userValue) == $this->type;
     }
 

@@ -59,4 +59,133 @@ class Api extends AbstractApi
             'params' => ['id' => $this->params->idPath()],
         ];
     }
+
+    public function patchImage()
+    {
+        return [
+            'method' => 'PATCH',
+            'path'   => 'images/{id}',
+            'params' => [
+                'id'          => $this->params->idPath(),
+                'patchDoc'    => $this->params->patchDoc(),
+                'contentType' => $this->params->contentType(),
+            ],
+        ];
+    }
+
+    public function deleteImage()
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'images/{id}',
+            'params' => ['id' => $this->params->idPath()],
+        ];
+    }
+
+    public function reactivateImage()
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'images/{id}/actions/reactivate',
+            'params' => ['id' => $this->params->idPath()],
+        ];
+    }
+
+    public function deactivateImage()
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'images/{id}/actions/deactivate',
+            'params' => ['id' => $this->params->idPath()],
+        ];
+    }
+
+    public function postImageData()
+    {
+        return [
+            'method' => 'PUT',
+            'path'   => 'images/{id}/file',
+            'params' => [
+                'id'          => $this->params->idPath(),
+                'data'        => $this->params->data(),
+                'contentType' => $this->params->contentType(),
+            ]
+        ];
+    }
+
+    public function getImageData()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'images/{id}/file',
+            'params' => ['id' => $this->params->idPath()]
+        ];
+    }
+
+    public function getImageSchema()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'schemas/image',
+            'params' => [],
+        ];
+    }
+
+    public function postImageMembers()
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'images/{imageId}/members',
+            'params' => [
+                'imageId' => $this->params->idPath(),
+                'id'      => $this->params->memberId(),
+            ],
+        ];
+    }
+
+    public function getImageMembers()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'images/{imageId}/members',
+            'params' => ['imageId' => $this->params->idPath()],
+        ];
+    }
+
+    public function getImageMember()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'images/{imageId}/members/{id}',
+            'params' => [
+                'imageId' => $this->params->idPath(),
+                'id'      => $this->params->idPath(),
+            ],
+        ];
+    }
+
+    public function deleteImageMember()
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'images/{imageId}/members/{id}',
+            'params' => [
+                'imageId' => $this->params->idPath(),
+                'id'      => $this->params->idPath(),
+            ],
+        ];
+    }
+
+    public function putImageMember()
+    {
+        return [
+            'method' => 'PUT',
+            'path'   => 'images/{imageId}/members/{id}',
+            'params' => [
+                'imageId' => $this->params->idPath(),
+                'id'      => $this->params->idPath(),
+                'status'  => $this->params->status(),
+            ],
+        ];
+    }
 }

@@ -3,6 +3,7 @@
 namespace OpenStack\Images\v2;
 
 use OpenStack\Common\Api\AbstractParams;
+use Psr\Http\Message\StreamInterface;
 
 class Params extends AbstractParams
 {
@@ -158,6 +159,54 @@ class Params extends AbstractParams
             'location'    => self::QUERY,
             'type'        => self::STRING_TYPE,
             'description' => 'Image tag.',
+        ];
+    }
+
+    public function contentType()
+    {
+        return [
+            'location' => self::HEADER,
+            'type'     => self::STRING_TYPE,
+            'sentAs'   => 'Content-Type',
+        ];
+    }
+
+    public function patchDoc()
+    {
+        return [
+            'location'   => self::RAW,
+            'type'       => self::STRING_TYPE,
+            'required'   => true,
+            'documented' => false,
+        ];
+    }
+
+    public function data()
+    {
+        return [
+            'location'   => self::RAW,
+            'type'       => StreamInterface::class,
+            'required'   => true,
+            'documented' => false,
+        ];
+    }
+
+    public function memberId()
+    {
+        return [
+            'location'  => self::JSON,
+            'sentAs'    => 'member',
+            'type'      => self::STRING_TYPE,
+            'documeted' => false,
+        ];
+    }
+
+    public function status()
+    {
+        return [
+            'location' => self::JSON,
+            'type'     => self::STRING_TYPE,
+            "enum"     => ["pending", "accepted", "rejected"],
         ];
     }
 }

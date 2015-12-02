@@ -8,11 +8,11 @@ class Params extends AbstractParams
 {
     public function urlId($type)
     {
-        return parent::id($type) + [
+        return array_merge(parent::id($type), [
             'required'   => true,
             'location'   => self::URL,
             'documented' => false,
-        ];
+        ]);
     }
 
     public function minDisk()

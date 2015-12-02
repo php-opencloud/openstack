@@ -50,6 +50,13 @@ class OperatorTest extends ProphecyTestCase
         $this->operator->execute($this->def, []);
     }
 
+    public function test_it_sends_a_request_when_async_operations_are_executed()
+    {
+        $this->client->requestAsync('GET', 'test', ['headers' => []])->willReturn(new Promise());
+
+        $this->operator->executeAsync($this->def, []);
+    }
+
     public function test_it_returns_a_model_instance()
     {
         $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(Server::class));

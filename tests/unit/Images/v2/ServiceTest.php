@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\Images\v2;
 
+use GuzzleHttp\Psr7\Uri;
 use OpenStack\Images\v2\Api;
 use OpenStack\Images\v2\Models\Image;
 use OpenStack\Images\v2\Service;
@@ -75,47 +76,5 @@ class ServiceTest extends TestCase
     public function test_it_gets_image()
     {
         $this->assertInstanceOf(Image::class, $this->service->getImage('id'));
-    }
-
-    public function test_it_updates_image()
-    {
-        $image = new Image($this->client->reveal(), new Api());
-
-        $opts = [
-            'architecture'    => 'x86_64',
-            'containerFormat' => 'ami',
-            'diskFormat'      => 'iso',
-            'minDisk'         => 1,
-            'minRam'          => 1,
-            'name'            => 'foo',
-            'osDistro'        => 'ubuntu',
-            'osVersion'       => '12.10',
-            'owner'           => 'bar',
-            'protected'       => true,
-            'size'            => 10,
-            'tags'            => ['1', '2', '3'],
-            'visibility'      => 'public',
-        ];
-
-        $expectedJson = [
-            ['op' => 'replace', 'path' => 'architecture', 'value' => 'x86_64'],
-            ['op' => 'replace', 'path' => 'containerFormat', 'value' => 'ami'],
-            ['op' => 'replace', 'path' => 'diskFormat', 'value' => 'iso'],
-            ['op' => 'replace', 'path' => 'minDisk', 'value' => 1],
-            ['op' => 'replace', 'path' => 'minRam', 'value' => 1],
-            ['op' => 'replace', 'path' => 'name', 'value' => 'foo'],
-            ['op' => 'replace', 'path' => 'osDistro', 'value' => 'ubuntu'],
-            ['op' => 'replace', 'path' => 'osVersion', 'value' => '12.10'],
-            ['op' => 'replace', 'path' => 'owner', 'value' => 'bar'],
-            ['op' => 'replace', 'path' => 'protected', 'value' => true],
-            ['op' => 'replace', 'path' => 'size', 'value' => 10],
-            ['op' => 'replace', 'path' => 'tags', 'value' => ['1', '2', '3']],
-            ['op' => 'replace', 'path' => 'visibility', 'value' => 'public'],
-        ];
-
-        $headers = ['Content-Type' => 'application/openstack-images-v2.1-json-patch'];
-        $this->setupMock('PATCH', 'images/id', $expectedJson, $headers, 'POST_image');
-
-        $image->update($opts);
     }
 }

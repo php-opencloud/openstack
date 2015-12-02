@@ -21,6 +21,16 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $this->param = new Parameter($this->data);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function test_exception_is_thrown_for_invalid_locations()
+    {
+        $data = $this->data;
+        $data['location'] = 'foo';
+        new Parameter($data);
+    }
+
     public function test_it_should_provide_access_to_a_name()
     {
         $this->assertEquals($this->data['name'], $this->param->getName());
@@ -167,5 +177,17 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Parameter::class, $prop);
         $this->assertEquals('foo', $prop->getPrefix());
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function test_exception_is_thrown_when_value_is_not_in_enum_list()
+    {
+        $data = $this->data;
+        $data['enum'] = ['foo'];
+
+        $param = new Parameter($data);
+        $param->validate('blah');
     }
 }

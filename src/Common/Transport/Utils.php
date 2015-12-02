@@ -8,7 +8,7 @@ use Psr\Http\Message\UriInterface;
 
 class Utils
 {
-    public static function jsonDecode(ResponseInterface $response)
+    public static function jsonDecode(ResponseInterface $response, $assoc = true)
     {
         $jsonErrors = [
             JSON_ERROR_DEPTH => 'JSON_ERROR_DEPTH - Maximum stack depth exceeded',
@@ -18,7 +18,7 @@ class Utils
             JSON_ERROR_UTF8 => 'JSON_ERROR_UTF8 - Malformed UTF-8 characters, possibly incorrectly encoded'
         ];
 
-        $data = json_decode((string) $response->getBody(), true);
+        $data = json_decode((string) $response->getBody(), $assoc);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
             $last = json_last_error();

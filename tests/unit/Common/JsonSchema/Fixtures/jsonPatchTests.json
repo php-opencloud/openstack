@@ -163,6 +163,7 @@
     "comment": "value in array replace not flattened" },
 
   { "comment": "replace whole document",
+    "disabled": true,
     "doc": {"foo": "bar"},
     "patch": [{"op": "replace", "path": "", "value": {"baz": "qux"}}],
     "expected": {"baz": "qux"} },
