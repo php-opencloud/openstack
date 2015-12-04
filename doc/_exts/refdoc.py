@@ -1,7 +1,7 @@
 from docutils.parsers.rst import Directive
 from docutils import nodes
 
-REFDOC_URL = 'https://php-opencloud.com/api/'
+REFDOC_URL = 'http://refdocs.php-opencloud.com/'
 
 class RefDoc(Directive):
 
@@ -20,7 +20,6 @@ class RefDoc(Directive):
       ])
 
     return [nodes.paragraph('', '', *text)]
-
 
 def setup(app):
     app.add_directive('refdoc', RefDoc)
