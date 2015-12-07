@@ -31,15 +31,23 @@ class RequestSerializer
             $this->$method($schema, $paramValue, $options);
         }
 
-        if (!empty($options['json']) && ($key = $operation->getJsonKey())) {
-            $options['json'] = [$key => $options['json']];
+        if (!empty($options['json'])) {
+            if ($key = $operation->getJsonKey()) {
+                $options['json'] = [$key => $options['json']];
+            }
+            if (strpos(json_encode($options['json']), '\/') !== false) {
+                $options['body'] = json_encode($options['json'], JSON_UNESCAPED_SLASHES);
+                $options['headers']['Content-Type'] = 'application/json';
+                unset($options['json']);
+            }
         }
 
         return $options;
     }
 
     private function stockUrl()
-    {}
+    {
+    }
 
     private function stockQuery(Parameter $schema, $paramValue, array &$options)
     {

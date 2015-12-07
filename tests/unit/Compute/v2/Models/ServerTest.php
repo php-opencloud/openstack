@@ -118,15 +118,15 @@ class ServerTest extends TestCase
             'adminPass'   => 'foo',
         ];
 
-        $expectedJson = ['rebuild' => [
+        $expectedJson = json_encode(['rebuild' => [
             'imageRef'    => $userOptions['imageId'],
             'name'        => $userOptions['name'],
             'metadata'    => $userOptions['metadata'],
             'personality' => $userOptions['personality'],
             'adminPass'   => $userOptions['adminPass']
-        ]];
+        ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-rebuild');
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, ['Content-Type' => 'application/json'], 'server-rebuild');
 
         $this->server->rebuild($userOptions);
 

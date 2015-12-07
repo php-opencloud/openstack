@@ -3,6 +3,7 @@
 namespace OpenStack\Integration\Networking;
 
 use OpenStack\Networking\v2\Models\Network;
+use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Subnet;
 use OpenStack\Integration\TestCase;
 use OpenStack\OpenStack;
@@ -10,8 +11,6 @@ use OpenStack\OpenStack;
 class V2Test extends TestCase
 {
     private $service;
-    private $networkId;
-    private $subnetId;
 
     private function getService()
     {
@@ -31,33 +30,35 @@ class V2Test extends TestCase
     {
         $this->startTimer();
 
-        $this->createNetworksAndDelete();
-
-        $this->createNetwork();
-
-        try {
-            $this->updateNetwork();
-            $this->retrieveNetwork();
-
-            $this->createSubnetsAndDelete();
-
-            $this->createSubnet();
-            $this->updateSubnet();
-            $this->retrieveSubnet();
-            $this->deleteSubnet();
-
-            $this->createSubnetWithGatewayIp();
-            $this->deleteSubnet();
-
-            $this->createSubnetWithHostRoutes();
-            $this->deleteSubnet();
-
-        } finally {
-            // Teardown
-            $this->deleteNetwork();
-        }
+        $this->networks();
+        $this->subnets();
+        $this->ports();
 
         $this->outputTimeTaken();
+    }
+
+    public function subnets()
+    {
+        $this->createSubnetsAndDelete();
+        //$this->createSubnetWithGatewayIp();
+        $this->createSubnetWithHostRoutes();
+
+        list($subnetId, $networkId) = $this->createSubnet();
+
+        $this->updateSubnet($subnetId);
+        $this->retrieveSubnet($subnetId);
+        $this->deleteSubnet($subnetId);
+        $this->deleteNetwork($networkId);
+    }
+
+    public function networks()
+    {
+        $this->createNetworksAndDelete();
+
+        $networkId = $this->createNetwork();
+        $this->updateNetwork($networkId);
+        $this->retrieveNetwork($networkId);
+        $this->deleteNetwork($networkId);
     }
 
     private function createNetworksAndDelete()
@@ -68,20 +69,18 @@ class V2Test extends TestCase
         ];
 
         /** @var $networks array */
-        $path = $this->sampleFile($replacements, 'create_networks.php');
+        $path = $this->sampleFile($replacements, 'networks/create_batch.php');
         require_once $path;
 
-        foreach($networks as $network) {
+        foreach ($networks as $network) {
             $this->assertInstanceOf(Network::class, $network);
             $this->assertNotEmpty($network->id);
 
             $this->networkId = $network->id;
             $this->logStep('Created network {id}', ['{id}' => $this->networkId]);
 
-            $this->deleteNetwork();
+            $this->deleteNetwork($network->id);
         }
-
-        $this->networkId = null;
     }
 
     private function createNetwork()
@@ -91,114 +90,125 @@ class V2Test extends TestCase
         ];
 
         /** @var $network \OpenStack\Networking\v2\Models\Network */
-        $path = $this->sampleFile($replacements, 'create_network.php');
+        $path = $this->sampleFile($replacements, 'networks/create.php');
         require_once $path;
 
         $this->assertInstanceOf(Network::class, $network);
         $this->assertNotEmpty($network->id);
 
-        $this->networkId = $network->id;
-
         $this->logStep('Created network {id}', ['{id}' => $this->networkId]);
+
+        return $network->id;
     }
 
-    private function updateNetwork()
+    private function updateNetwork($networkId)
     {
         $name = $this->randomStr();
 
         $replacements = [
-            '{networkId}' => $this->networkId,
-            '{newName}'  => $name,
+            '{networkId}' => $networkId,
+            '{newName}'   => $name,
         ];
 
         /** @var $network \OpenStack\Networking\v2\Models\Network */
-        $path = $this->sampleFile($replacements, 'update_network.php');
+        $path = $this->sampleFile($replacements, 'networks/update.php');
         require_once $path;
 
         $this->assertInstanceOf(Network::class, $network);
         $this->assertEquals($name, $network->name);
 
-        $this->logStep('Updated network ID to use this name: NAME', ['ID' => $this->networkId, 'NAME' => $name]);
+        $this->logStep('Updated network ID to use this name: NAME', ['ID' => $networkId, 'NAME' => $name]);
     }
 
-    private function retrieveNetwork()
+    private function retrieveNetwork($networkId)
     {
-        $replacements = ['{networkId}' => $this->networkId];
+        $replacements = ['{networkId}' => $networkId];
 
         /** @var $network \OpenStack\Networking\v2\Models\Network */
-        $path = $this->sampleFile($replacements, 'get_network.php');
+        $path = $this->sampleFile($replacements, 'networks/get.php');
         require_once $path;
 
         $this->assertInstanceOf(Network::class, $network);
-        $this->assertEquals($this->networkId, $network->id);
 
-        $this->logStep('Retrieved the details of network ID', ['ID' => $this->networkId]);
+        $this->logStep('Retrieved the details of network ID', ['ID' => $networkId]);
     }
 
-    private function deleteNetwork()
+    private function deleteNetwork($networkId)
     {
-        $replacements = ['{networkId}' => $this->networkId];
+        $replacements = ['{networkId}' => $networkId];
 
         /** @var $network \OpenStack\Networking\v2\Models\Network */
-        $path = $this->sampleFile($replacements, 'delete_network.php');
+        $path = $this->sampleFile($replacements, 'networks/delete.php');
         require_once $path;
 
-        $this->logStep('Deleted network ID', ['ID' => $this->networkId]);
+        $this->logStep('Deleted network ID', ['ID' => $networkId]);
     }
 
     private function createSubnetsAndDelete()
     {
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile(['{newName}' => $this->randomStr()], 'networks/create.php');
+        require_once $path;
+
         $replacements = [
             '{subnetName1}' => $this->randomStr(),
             '{subnetName2}' => $this->randomStr(),
-            '{networkId1}' => $this->networkId,
-            '{networkId2}' => $this->networkId,
+            '{networkId1}'  => $network->id,
+            '{networkId2}'  => $network->id,
         ];
 
         /** @var $subnets array */
-        $path = $this->sampleFile($replacements, 'create_subnets.php');
+        $path = $this->sampleFile($replacements, 'subnets/create_batch.php');
         require_once $path;
 
-        foreach($subnets as $subnet) {
+        foreach ($subnets as $subnet) {
             $this->assertInstanceOf(Subnet::class, $subnet);
             $this->assertNotEmpty($subnet->id);
 
-            $this->subnetId = $subnet->id;
-            $this->logStep('Created subnet {id}', ['{id}' => $this->subnetId]);
+            $this->logStep('Created subnet {id}', ['{id}' => $subnet->id]);
 
-            $this->deleteSubnet();
+            $this->deleteSubnet($subnet->id);
         }
 
-        $this->subnetId = null;
+        $path = $this->sampleFile(['{networkId}' => $network->id], 'networks/delete.php');
+        require_once $path;
     }
 
     private function createSubnet()
     {
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile(['{newName}' => $this->randomStr()], 'networks/create.php');
+        require_once $path;
+
         $replacements = [
             '{subnetName}' => $this->randomStr(),
-            '{networkId}' => $this->networkId,
+            '{networkId}'  => $network->id,
         ];
 
         /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
-        $path = $this->sampleFile($replacements, 'create_subnet.php');
+        $path = $this->sampleFile($replacements, 'subnets/create.php');
         require_once $path;
 
         $this->assertInstanceOf(Subnet::class, $subnet);
         $this->assertNotEmpty($subnet->id);
 
-        $this->subnetId = $subnet->id;
+        $this->logStep('Created subnet {id}', ['{id}' => $subnet->id]);
 
-        $this->logStep('Created subnet {id}', ['{id}' => $this->subnetId]);
+        return [$subnet->id, $network->id];
     }
 
     private function createSubnetWithGatewayIp()
     {
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile(['{newName}' => $this->randomStr()], 'networks/create.php');
+        require_once $path;
+
         $replacements = [
-            '{networkId}' => $this->networkId,
+            '{networkId}' => $network->id,
         ];
 
         /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
-        $path = $this->sampleFile($replacements, 'create_subnet_with_gateway_ip.php');
+        $path = $this->sampleFile($replacements, 'subnets/create_with_gateway_ip.php');
         require_once $path;
 
         $this->assertInstanceOf(Subnet::class, $subnet);
@@ -207,68 +217,122 @@ class V2Test extends TestCase
         $this->subnetId = $subnet->id;
 
         $this->logStep('Created subnet {id} with gateway ip', ['{id}' => $this->subnetId]);
+
+        $path = $this->sampleFile($replacements, 'networks/delete.php');
+        require_once $path;
     }
 
     private function createSubnetWithHostRoutes()
     {
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile(['{newName}' => $this->randomStr()], 'networks/create.php');
+        require_once $path;
+
         $replacements = [
-            '{networkId}' => $this->networkId,
+            '{networkId}' => $network->id,
         ];
 
         /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
-        $path = $this->sampleFile($replacements, 'create_subnet_with_host_routes.php');
+        $path = $this->sampleFile($replacements, 'subnets/create_with_host_routes.php');
         require_once $path;
 
         $this->assertInstanceOf(Subnet::class, $subnet);
         $this->assertNotEmpty($subnet->id);
 
-        $this->subnetId = $subnet->id;
+        $this->logStep('Created subnet {id} with host routes', ['{id}' => $subnet->id]);
 
-        $this->logStep('Created subnet {id} with host routes', ['{id}' => $this->subnetId]);
+        $path = $this->sampleFile($replacements, 'networks/delete.php');
+        require_once $path;
     }
 
-    private function updateSubnet()
+    private function updateSubnet($subnetId)
     {
         $name = $this->randomStr();
 
         $replacements = [
-            '{subnetId}' => $this->subnetId,
+            '{subnetId}' => $subnetId,
             '{newName}'  => $name,
         ];
 
         /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
-        $path = $this->sampleFile($replacements, 'update_subnet.php');
+        $path = $this->sampleFile($replacements, 'subnets/update.php');
         require_once $path;
 
         $this->assertInstanceOf(Subnet::class, $subnet);
         $this->assertEquals($name, $subnet->name);
 
-        $this->logStep('Updated subnet ID to use this name: NAME', ['ID' => $this->subnetId, 'NAME' => $name]);
+        $this->logStep('Updated subnet ID to use this name: NAME', ['ID' => $subnetId, 'NAME' => $name]);
     }
 
 
-    private function retrieveSubnet()
+    private function retrieveSubnet($subnetId)
     {
-        $replacements = ['{subnetId}' => $this->subnetId];
+        $replacements = ['{subnetId}' => $subnetId];
 
         /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
-        $path = $this->sampleFile($replacements, 'get_subnet.php');
+        $path = $this->sampleFile($replacements, 'subnets/get.php');
         require_once $path;
 
         $this->assertInstanceOf(Subnet::class, $subnet);
-        $this->assertEquals($this->subnetId, $subnet->id);
 
-        $this->logStep('Retrieved the details of subnet ID', ['ID' => $this->subnetId]);
+        $this->logStep('Retrieved the details of subnet ID', ['ID' => $subnetId]);
     }
 
-    private function deleteSubnet()
+    private function deleteSubnet($subnetId)
     {
-        $replacements = ['{subnetId}' => $this->subnetId];
+        $replacements = ['{subnetId}' => $subnetId];
 
         /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
-        $path = $this->sampleFile($replacements, 'delete_subnet.php');
+        $path = $this->sampleFile($replacements, 'subnets/delete.php');
         require_once $path;
 
-        $this->logStep('Deleted subnet ID', ['ID' => $this->subnetId]);
+        $this->logStep('Deleted subnet ID', ['ID' => $subnetId]);
+    }
+
+    public function ports()
+    {
+        $replacements = ['{newName}' => $this->randomStr()];
+
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile($replacements, 'networks/create.php');
+        require_once $path;
+
+        $replacements = ['{networkId}' => $network->id];
+
+        /** @var $port \OpenStack\Networking\v2\Models\Port */
+        $path = $this->sampleFile($replacements, 'ports/create.php');
+        require_once $path;
+        $this->assertInstanceOf(Port::class, $port);
+
+        $replacements['{portId}'] = $port->id;
+        $port->networkId = $network->id;
+
+        /** @var $ports array */
+        $path = $this->sampleFile($replacements, 'ports/create_batch.php');
+        require_once $path;
+        foreach ($ports as $port) {
+            $this->assertInstanceOf(Port::class, $port);
+            $port->delete();
+        }
+
+        /** @var $port \OpenStack\Networking\v2\Models\Port */
+        $path = $this->sampleFile($replacements, 'ports/list.php');
+        require_once $path;
+
+        /** @var $port \OpenStack\Networking\v2\Models\Port */
+        $path = $this->sampleFile($replacements, 'ports/get.php');
+        require_once $path;
+        $this->assertInstanceOf(Port::class, $port);
+
+        /** @var $port \OpenStack\Networking\v2\Models\Port */
+        $path = $this->sampleFile($replacements, 'ports/update.php');
+        require_once $path;
+        $this->assertInstanceOf(Port::class, $port);
+
+        $path = $this->sampleFile($replacements, 'ports/delete.php');
+        require_once $path;
+
+        $path = $this->sampleFile($replacements, 'networks/delete.php');
+        require_once $path;
     }
 }

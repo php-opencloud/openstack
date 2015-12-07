@@ -113,6 +113,8 @@ class Port extends AbstractResource implements Creatable, Updateable, Deletable,
      */
     public $portSecurityEnabled;
 
+    protected $resourceKey = 'port';
+
     /**
      * {@inheritDoc}
      */

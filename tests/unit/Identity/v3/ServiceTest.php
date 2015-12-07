@@ -27,22 +27,22 @@ class ServiceTest extends TestCase
     public function test_it_authenticates()
     {
         $userOptions = [
-            'user' => [
+            'user'        => [
                 'id'       => '{userId}',
                 'password' => '{userPassword}',
                 'domain'   => ['id' => '{domainId}']
             ],
-            'scope' => [
+            'scope'       => [
                 'project' => ['id' => '{projectId}']
             ],
             'catalogName' => 'swift',
             'catalogType' => 'object-store',
-            'region' => 'RegionOne',
+            'region'      => 'RegionOne',
         ];
 
         $expectedJson = [
             "identity" => [
-                "methods" => ["password"],
+                "methods"  => ["password"],
                 "password" => [
                     "user" => [
                         "id"       => "{userId}",
@@ -51,7 +51,7 @@ class ServiceTest extends TestCase
                     ]
                 ]
             ],
-            "scope" => [
+            "scope"    => [
                 "project" => ["id" => "{projectId}"]
             ]
         ];
@@ -71,7 +71,7 @@ class ServiceTest extends TestCase
     {
         $expectedJson = [
             "identity" => [
-                "methods" => ["password"],
+                "methods"  => ["password"],
                 "password" => [
                     "user" => [
                         "id"       => "{userId}",
@@ -80,7 +80,7 @@ class ServiceTest extends TestCase
                     ]
                 ]
             ],
-            "scope" => [
+            "scope"    => [
                 "project" => ["id" => "{projectId}"]
             ]
         ];
@@ -96,7 +96,7 @@ class ServiceTest extends TestCase
                 'password' => '{userPassword}',
                 'domain'   => ['id' => '{domainId}']
             ],
-            'scope' => [
+            'scope'       => [
                 'project' => ['id' => '{projectId}']
             ],
         ]);
@@ -116,17 +116,17 @@ class ServiceTest extends TestCase
 
         $user = $this->service->model(Models\User::class, [
             "domain" => [
-                "id" => "1789d1",
+                "id"    => "1789d1",
                 "links" => [
                     "self" => "http://identity:35357/v3/domains/1789d1"
                 ],
-                "name" => "example.com"
+                "name"  => "example.com"
             ],
-            "id" => "0ca8f6",
-            "links" => [
+            "id"     => "0ca8f6",
+            "links"  => [
                 "self" => "http://identity:35357/v3/users/0ca8f6"
             ],
-            "name" => "Joe"
+            "name"   => "Joe"
         ]);
         $this->assertEquals($user, $token->user);
     }
@@ -192,8 +192,9 @@ class ServiceTest extends TestCase
         $expectedJson = ['endpoint' => $userOptions];
         unset($expectedJson['endpoint']['serviceId']);
         $expectedJson['endpoint']['service_id'] = $userOptions['serviceId'];
+        $expectedJson = json_encode($expectedJson, JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'endpoints', $expectedJson, [], 'endpoint');
+        $this->setupMock('POST', 'endpoints', $expectedJson, ['Content-Type' => 'application/json'], 'endpoint');
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
         $endpoint = $this->service->createEndpoint($userOptions);
@@ -211,8 +212,8 @@ class ServiceTest extends TestCase
     {
         $userOptions = [
             'description' => 'bar',
-            'enabled' => true,
-            'name' => 'foo'
+            'enabled'     => true,
+            'name'        => 'foo'
         ];
 
         $this->setupMock('POST', 'domains', ['domain' => $userOptions], [], 'domain');
@@ -455,7 +456,7 @@ class ServiceTest extends TestCase
     public function test_it_generates_tokens_with_user_creds()
     {
         $userOptions = [
-            'user' => [
+            'user'  => [
                 'id'       => '{userId}',
                 'password' => '{userPassword}',
                 'domain'   => ['id' => '{domainId}']
@@ -467,7 +468,7 @@ class ServiceTest extends TestCase
 
         $expectedJson = [
             "identity" => [
-                "methods" => ["password"],
+                "methods"  => ["password"],
                 "password" => [
                     "user" => [
                         "id"       => "{userId}",
@@ -476,7 +477,7 @@ class ServiceTest extends TestCase
                     ]
                 ]
             ],
-            "scope" => [
+            "scope"    => [
                 "project" => ["id" => "{projectId}"]
             ]
         ];
@@ -491,7 +492,7 @@ class ServiceTest extends TestCase
     {
         $userOptions = [
             'tokenId' => '{tokenId}',
-            'scope' => [
+            'scope'   => [
                 'project' => ['id' => '{projectId}']
             ]
         ];
@@ -501,7 +502,7 @@ class ServiceTest extends TestCase
                 "token"   => ['id' => '{tokenId}'],
                 'methods' => ['token'],
             ],
-            "scope" => [
+            "scope"    => [
                 "project" => ["id" => "{projectId}"]
             ]
         ];

@@ -9,7 +9,7 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
+    'scope'   => [
         'project' => [
             'id' => '{projectId}'
         ]
@@ -18,8 +18,10 @@ $openstack = new OpenStack\OpenStack([
 
 $networking = $openstack->networkingV2();
 
-$subnet = $networking->getSubnet('{subnetId}');
+$options = [
+    'name'         => '{networkName}',
+    'adminStateUp' => true,
+];
 
-$subnet->name = '{newName}';
-$subnet->gatewayIp = '192.168.62.155';
-$subnet->update();
+// Create the network
+$network = $networking->createNetwork($options);

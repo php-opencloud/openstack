@@ -24,24 +24,24 @@ class SubnetTest extends TestCase
     public function test_it_creates()
     {
         $opts = [
-            'name' => 'foo',
-            'networkId' => 'networkId',
-            'tenantId' => 'tenantId',
-            'ipVersion' => 4,
-            'cidr' => '192.168.199.0/24',
+            'name'       => 'foo',
+            'networkId'  => 'networkId',
+            'tenantId'   => 'tenantId',
+            'ipVersion'  => 4,
+            'cidr'       => '192.168.199.0/24',
             'enableDhcp' => false,
         ];
 
-        $expectedJson = ['subnet' => [
-            'name' => $opts['name'],
-            'network_id' => $opts['networkId'],
-            'tenant_id' => $opts['tenantId'],
-            'ip_version' => $opts['ipVersion'],
-            'cidr' => $opts['cidr'],
+        $expectedJson = json_encode(['subnet' => [
+            'name'        => $opts['name'],
+            'network_id'  => $opts['networkId'],
+            'tenant_id'   => $opts['tenantId'],
+            'ip_version'  => $opts['ipVersion'],
+            'cidr'        => $opts['cidr'],
             'enable_dhcp' => $opts['enableDhcp'],
-        ]];
+        ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnet-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnet-post');
 
         $this->assertInstanceOf(Subnet::class, $this->subnet->create($opts));
     }
@@ -50,41 +50,41 @@ class SubnetTest extends TestCase
     {
         $opts = [
             [
-                'name' => 'foo',
+                'name'      => 'foo',
                 'networkId' => 'networkId',
-                'tenantId' => 'tenantId',
+                'tenantId'  => 'tenantId',
                 'ipVersion' => 4,
-                'cidr' => '192.168.199.0/24',
+                'cidr'      => '192.168.199.0/24',
             ],
             [
-                'name' => 'bar',
+                'name'      => 'bar',
                 'networkId' => 'networkId',
-                'tenantId' => 'tenantId',
+                'tenantId'  => 'tenantId',
                 'ipVersion' => 4,
-                'cidr' => '10.56.4.0/22',
+                'cidr'      => '10.56.4.0/22',
             ],
         ];
 
-        $expectedJson = [
+        $expectedJson = json_encode([
             'subnets' => [
                 [
-                    'name' => $opts[0]['name'],
+                    'name'       => $opts[0]['name'],
                     'network_id' => $opts[0]['networkId'],
-                    'tenant_id' => $opts[0]['tenantId'],
+                    'tenant_id'  => $opts[0]['tenantId'],
                     'ip_version' => $opts[0]['ipVersion'],
-                    'cidr' => $opts[0]['cidr'],
+                    'cidr'       => $opts[0]['cidr'],
                 ],
                 [
-                    'name' => $opts[1]['name'],
+                    'name'       => $opts[1]['name'],
                     'network_id' => $opts[1]['networkId'],
-                    'tenant_id' => $opts[1]['tenantId'],
+                    'tenant_id'  => $opts[1]['tenantId'],
                     'ip_version' => $opts[1]['ipVersion'],
-                    'cidr' => $opts[1]['cidr'],
+                    'cidr'       => $opts[1]['cidr'],
                 ],
             ],
-        ];
+        ], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnets-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnets-post');
 
         $subnets = $this->subnet->bulkCreate($opts);
 
@@ -99,7 +99,7 @@ class SubnetTest extends TestCase
         $this->subnet->gatewayIp = '192.168.199.1';
 
         $expectedJson = ['subnet' => [
-            'name' => $this->subnet->name,
+            'name'       => $this->subnet->name,
             'gateway_ip' => $this->subnet->gatewayIp,
         ]];
 

@@ -119,7 +119,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postPort}
      *
-     * @return Subnet
+     * @return Port
      */
     public function createPort(array $options)
     {

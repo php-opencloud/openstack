@@ -256,7 +256,21 @@ class Api extends AbstractApi
             'method'  => 'PUT',
             'path'    => $this->pathPrefix . '/ports/{id}',
             'jsonKey' => 'port',
-            'params'  => ['id' => $this->params->idPath()] + $this->postSinglePort()['params'],
+            'params'  => [
+                'id'                  => $this->params->idPath(),
+                'name'                => $this->params->name('port'),
+                'adminStateUp'        => $this->params->adminStateUp(),
+                'tenantId'            => $this->params->tenantId(),
+                'macAddress'          => $this->params->macAddr(),
+                'fixedIps'            => $this->params->fixedIps(),
+                'subnetId'            => $this->params->subnetId(),
+                'ipAddress'           => $this->params->ipAddress(),
+                'securityGroups'      => $this->params->secGroupIds(),
+                'networkId'           => $this->notRequired($this->params->networkId()),
+                'allowedAddressPairs' => $this->params->allowedAddrPairs(),
+                'deviceOwner'         => $this->params->deviceOwner(),
+                'deviceId'            => $this->params->deviceId(),
+            ],
         ];
     }
 

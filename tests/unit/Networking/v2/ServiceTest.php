@@ -100,7 +100,7 @@ class ServiceTest extends TestCase
         }
     }
 
-    public function test_it_creates_an_subnet()
+    public function test_it_creates_a_subnet()
     {
         $opts = [
             'name'      => 'foo',
@@ -110,15 +110,15 @@ class ServiceTest extends TestCase
             'cidr'      => '192.168.199.0/24',
         ];
 
-        $expectedJson = ['subnet' => [
+        $expectedJson = json_encode(['subnet' => [
             'name'       => $opts['name'],
             'network_id' => $opts['networkId'],
             'tenant_id'  => $opts['tenantId'],
             'ip_version' => $opts['ipVersion'],
             'cidr'       => $opts['cidr'],
-        ]];
+        ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnet-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnet-post');
 
         $this->assertInstanceOf(Subnet::class, $this->service->createSubnet($opts));
     }
@@ -142,7 +142,7 @@ class ServiceTest extends TestCase
             ],
         ];
 
-        $expectedJson = [
+        $expectedJson = json_encode([
             'subnets' => [
                 [
                     'name'       => $opts[0]['name'],
@@ -159,9 +159,9 @@ class ServiceTest extends TestCase
                     'cidr'       => $opts[1]['cidr'],
                 ],
             ],
-        ];
+        ], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, [], 'subnets-post');
+        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnets-post');
 
         $subnets = $this->service->createSubnets($opts);
 
