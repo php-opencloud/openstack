@@ -46,7 +46,7 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getNetwork(), ['id' => (string) $this->id]);
+        $response = $this->execute($this->api->getNetwork(), ['id' => (string)$this->id]);
         $this->populateFromResponse($response);
     }
 
@@ -54,21 +54,13 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
      * Creates multiple networks in a single request.
      *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postNetworks}
+     *
      * @return Network[]
      */
     public function bulkCreate(array $data)
     {
         $response = $this->execute($this->api->postNetworks(), ['networks' => $data]);
-        $networksData = Utils::jsonDecode($response)['networks'];
-
-        $networks = [];
-        foreach ($networksData as $resourceData) {
-            $resource = $this->newInstance();
-            $resource->populateFromArray($resourceData);
-            $networks[] = $resource;
-        }
-
-        return $networks;
+        return $this->extractMultipleInstances($response);
     }
 
     /**

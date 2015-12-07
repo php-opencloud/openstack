@@ -56,7 +56,7 @@ abstract class Operator implements OperatorInterface
      * Retrieves a populated Operation according to the definition and values provided. A
      * HTTP client is also injected into the object to allow it to communicate with the remote API.
      *
-     * @param array $definition  The data that dictates how the operation works
+     * @param array $definition The data that dictates how the operation works
      *
      * @return Operation
      */
@@ -83,7 +83,7 @@ abstract class Operator implements OperatorInterface
     {
         return $this->sendRequest($this->getOperation($definition), $userValues);
     }
-    
+
     /**
      * {@inheritDoc}
      */

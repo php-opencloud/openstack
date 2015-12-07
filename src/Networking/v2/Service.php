@@ -4,6 +4,7 @@ namespace OpenStack\Networking\v2;
 
 use OpenStack\Common\Service\AbstractService;
 use OpenStack\Networking\v2\Models\Network;
+use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Subnet;
 
 /**
@@ -52,6 +53,18 @@ class Service extends AbstractService
     }
 
     /**
+     * List networks.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::getNetworks}
+     *
+     * @return \Generator
+     */
+    public function listNetworks(array $options = [])
+    {
+        return $this->model(Network::class)->enumerate($this->api->getNetworks(), $options);
+    }
+
+    /**
      * Create a new subnet resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postSubnet}
@@ -87,5 +100,67 @@ class Service extends AbstractService
     public function getSubnet($id)
     {
         return $this->model(Subnet::class, ['id' => $id]);
+    }
+
+    /**
+     * List subnets.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::getSubnets}
+     *
+     * @return \Generator
+     */
+    public function listSubnets(array $options = [])
+    {
+        return $this->model(Subnet::class)->enumerate($this->api->getSubnets(), $options);
+    }
+
+    /**
+     * Create a new port resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postPort}
+     *
+     * @return Subnet
+     */
+    public function createPort(array $options)
+    {
+        return $this->model(Port::class)->create($options);
+    }
+
+    /**
+     * Create new port resources.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postPorts}
+     *
+     * @return []Port
+     */
+    public function createPorts(array $options)
+    {
+        return $this->model(Port::class)->bulkCreate($options);
+    }
+
+    /**
+     * Retrieve a subnet object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see Port::retrieve}.
+     *
+     * @param string $id
+     *
+     * @return Port
+     */
+    public function getPort($id)
+    {
+        return $this->model(Port::class, ['id' => $id]);
+    }
+
+    /**
+     * List ports.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::getPorts}
+     *
+     * @return \Generator
+     */
+    public function listPorts(array $options = [])
+    {
+        return $this->model(Port::class)->enumerate($this->api->getPorts(), $options);
     }
 }

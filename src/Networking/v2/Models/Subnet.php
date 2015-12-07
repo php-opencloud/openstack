@@ -53,14 +53,14 @@ class Subnet extends AbstractResource implements Listable, Retrievable, Creatabl
     public $links;
 
     protected $aliases = [
-        'enable_dhcp' => 'enableDhcp',
-        'network_id' => 'networkId',
-        'dns_nameservers' => 'dnsNameservers',
+        'enable_dhcp'      => 'enableDhcp',
+        'network_id'       => 'networkId',
+        'dns_nameservers'  => 'dnsNameservers',
         'allocation_pools' => 'allocationPools',
-        'host_routes' => 'hostRoutes',
-        'ip_version' => 'ipVersion',
-        'gateway_ip' => 'gatewayIp',
-        'tenant_id' => 'tenantId'
+        'host_routes'      => 'hostRoutes',
+        'ip_version'       => 'ipVersion',
+        'gateway_ip'       => 'gatewayIp',
+        'tenant_id'        => 'tenantId'
     ];
 
     protected $resourceKey = 'subnet';
@@ -71,7 +71,7 @@ class Subnet extends AbstractResource implements Listable, Retrievable, Creatabl
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getSubnet(), ['id' => (string) $this->id]);
+        $response = $this->execute($this->api->getSubnet(), ['id' => (string)$this->id]);
         $this->populateFromResponse($response);
     }
 
@@ -79,21 +79,13 @@ class Subnet extends AbstractResource implements Listable, Retrievable, Creatabl
      * Creates multiple subnets in a single request.
      *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postSubnets}
+     *
      * @return Subnet[]
      */
     public function bulkCreate(array $data)
     {
         $response = $this->execute($this->api->postSubnets(), ['subnets' => $data]);
-        $subnetsData = Utils::jsonDecode($response)['subnets'];
-
-        $subnets = [];
-        foreach ($subnetsData as $resourceData) {
-            $resource = $this->newInstance();
-            $resource->populateFromArray($resourceData);
-            $subnets[] = $resource;
-        }
-
-        return $subnets;
+        return $this->extractMultipleInstances($response);
     }
 
     /**

@@ -28,6 +28,15 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getNetworks()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => $this->pathPrefix . '/networks',
+            'params' => [],
+        ];
+    }
+
     public function postNetwork()
     {
         return [
@@ -95,6 +104,15 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => $this->pathPrefix . '/subnets/{id}',
             'params' => ['id' => $this->params->urlId('network')],
+        ];
+    }
+
+    public function getSubnets()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => $this->pathPrefix . '/subnets',
+            'params' => [],
         ];
     }
 
@@ -169,10 +187,10 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => $this->pathPrefix . '/ports',
             'params' => [
-                'status'         => $this->params->status(),
+                'status'         => $this->params->statusQuery(),
                 'displayName'    => $this->params->displayNameQuery(),
                 'adminState'     => $this->params->adminStateQuery(),
-                'networkId'      => $this->params->networkId(),
+                'networkId'      => $this->notRequired($this->params->networkId()),
                 'tenantId'       => $this->params->tenantId(),
                 'deviceOwner'    => $this->params->deviceOwnerQuery(),
                 'macAddress'     => $this->params->macAddrQuery(),
@@ -235,9 +253,10 @@ class Api extends AbstractApi
     public function putPort()
     {
         return [
-            'method' => 'PUT',
-            'path'   => $this->pathPrefix . '/ports/{id}',
-            'params' => ['id' => $this->params->idPath()] + $this->postSinglePort()['params'],
+            'method'  => 'PUT',
+            'path'    => $this->pathPrefix . '/ports/{id}',
+            'jsonKey' => 'port',
+            'params'  => ['id' => $this->params->idPath()] + $this->postSinglePort()['params'],
         ];
     }
 

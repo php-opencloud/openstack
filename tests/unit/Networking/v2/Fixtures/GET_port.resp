@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "port": {
+        "status": "ACTIVE",
+        "name": "",
+        "allowed_address_pairs": [],
+        "admin_state_up": true,
+        "network_id": "a87cc70a-3e15-4acf-8205-9b711a3531b7",
+        "tenant_id": "7e02058126cc4950b75f9970368ba177",
+        "extra_dhcp_opts": [],
+        "device_owner": "network:router_interface",
+        "mac_address": "fa:16:3e:23:fd:d7",
+        "fixed_ips": [
+            {
+                "subnet_id": "a0304c3a-4f08-4c43-88af-d796509c97d2",
+                "ip_address": "10.0.0.1"
+            }
+        ],
+        "id": "46d4bfb9-b26e-41f3-bd2e-e6dcc1ccedb2",
+        "security_groups": [],
+        "device_id": "5e3898d7-11be-483e-9732-b2f5eccd2b2e"
+    }
+}

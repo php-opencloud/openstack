@@ -178,7 +178,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         $resourcesKey = $this->resourcesKey;
 
         if (!$resourcesKey) {
-            $class =  substr(static::class, strrpos(static::class, '\\') + 1);
+            $class = substr(static::class, strrpos(static::class, '\\') + 1);
             $resourcesKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $class)) . 's';
         }
 
@@ -214,5 +214,21 @@ abstract class AbstractResource extends Operator implements ResourceInterface
 
         $iterator = new Iterator($opts, $requestFn, $resourceFn);
         return $iterator();
+    }
+
+    public function extractMultipleInstances(ResponseInterface $response, $key = null)
+    {
+        $key = $key ?: $this->getResourcesKey();
+        $resourcesData = Utils::jsonDecode($response)[$key];
+
+        $resources = [];
+
+        foreach ($resourcesData as $resourceData) {
+            $resource = $this->newInstance();
+            $resource->populateFromArray($resourceData);
+            $resources[] = $resource;
+        }
+
+        return $resources;
     }
 }
