@@ -51,6 +51,11 @@ returned. If you would like to access all of the remote state of a collection it
 
 If you have a large collection of $object, this will slow things down because you're issuing a HEAD request per object.
 
+Create an object
+------------
+
+.. sample:: object_store/v1/objects/create.php
+
 Copy object
 -----------
 
