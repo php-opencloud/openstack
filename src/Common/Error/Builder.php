@@ -2,10 +2,10 @@
 
 namespace OpenStack\Common\Error;
 
-use function GuzzleHttp\Psr7\str;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -73,6 +73,34 @@ class Builder
         return $resp->getStatusCode() < 400;
     }
 
+    private function str(MessageInterface $message)
+    {
+        if ($message instanceof RequestInterface) {
+            $msg = trim($message->getMethod() . ' '
+                    . $message->getRequestTarget())
+                . ' HTTP/' . $message->getProtocolVersion();
+            if (!$message->hasHeader('host')) {
+                $msg .= "\r\nHost: " . $message->getUri()->getHost();
+            }
+        } elseif ($message instanceof ResponseInterface) {
+            $msg = 'HTTP/' . $message->getProtocolVersion() . ' '
+                . $message->getStatusCode() . ' '
+                . $message->getReasonPhrase();
+        } else {
+            throw new \InvalidArgumentException('Unknown message type');
+        }
+
+        foreach ($message->getHeaders() as $name => $values) {
+            $msg .= "\r\n{$name}: " . implode(', ', $values);
+        }
+
+        if ($message->getBody()->getSize() < ini_get('memory_limit')) {
+            $msg .= "\r\n\r\n" . $message->getBody();
+        }
+
+        return $msg;
+    }
+
     /**
      * Helper method responsible for constructing and returning {@see BadResponseError} exceptions.
      *
@@ -89,10 +117,10 @@ class Builder
             $response->getStatusCode(), $response->getReasonPhrase());
 
         $message .= $this->header('Request');
-        $message .= trim(str($request)) . PHP_EOL . PHP_EOL;
+        $message .= trim($this->str($request)) . PHP_EOL . PHP_EOL;
 
         $message .= $this->header('Response');
-        $message .= trim(str($response)) . PHP_EOL . PHP_EOL;
+        $message .= trim($this->str($response)) . PHP_EOL . PHP_EOL;
 
         $message .= $this->header('Further information');
         $message .= $this->getStatusCodeMessage($response->getStatusCode());
