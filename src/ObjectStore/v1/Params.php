@@ -3,42 +3,55 @@
 namespace OpenStack\ObjectStore\v1;
 
 use OpenStack\Common\Api\AbstractParams;
+use Psr\Http\Message\StreamInterface;
 
 class Params extends AbstractParams
 {
-    public $endMarker = [
-        'location'    => self::QUERY,
-        'description' => <<<EOT
+    public function endMarker()
+    {
+        return [
+            'location'    => self::QUERY,
+            'description' => <<<EOT
 Based on a string value, only containers with names that are less in value than the specified marker will be returned.
 "Less in value" refers to the sorting algorithm, which is based on the SQLite memcmp() collating function.'
 EOT
-    ];
+        ];
+    }
 
-    public $prefix = [
-        'location'    => self::QUERY,
-        'description' => <<<EOT
+    public function prefix()
+    {
+        return [
+            'location'    => self::QUERY,
+            'description' => <<<EOT
 Based on a string value, only containers with names that begin with this value will be returned. This is useful when
 you only want to return a set of containers that match a particular pattern.
 EOT
-    ];
+        ];
+    }
 
-    public $delimiter = [
-        'location'    => self::QUERY,
-        'description' => <<<EOT
+    public function delimiter()
+    {
+        return [
+            'location'    => self::QUERY,
+            'description' => <<<EOT
 Delimiter value, which returns the object names that are nested in the container.
 EOT
-    ];
+        ];
+    }
 
-    public $newest = [
-        'location'    => self::HEADER,
-        'type'        => self::BOOL_TYPE,
-        'sentAs'      => 'X-Newest',
-        'description' => <<<EOT
+    public function newest()
+    {
+        return [
+            'location'    => self::HEADER,
+            'type'        => self::BOOL_TYPE,
+            'sentAs'      => 'X-Newest',
+            'description' => <<<EOT
 If set to True, Object Storage queries all replicas to return the most recent one. If you omit this header, Object
 Storage responds faster after it finds one valid replica. Because setting this header to True is more expensive for the
 back end, use it only when it is absolutely needed.
 EOT
-    ];
+        ];
+    }
 
     public function tempUrlKey($type)
     {
@@ -61,23 +74,29 @@ EOT
         ];
     }
 
-    public $containerName = [
-        'location'    => self::URL,
-        'required'    => true,
-        'description' => <<<EOT
+    public function containerName()
+    {
+        return [
+            'location'    => self::URL,
+            'required'    => true,
+            'description' => <<<EOT
 The unique name for the container. The container name must be from 1 to 256 characters long and can start with any
 character and contain any pattern. Character set must be UTF-8. The container name cannot contain a slash (/) character
 because this character delimits the container and object name. For example, /account/container/object.
 EOT
-    ];
+        ];
+    }
 
-    public $path = [
-        'location'    => 'query',
-        'description' => <<<EOT
+    public function path()
+    {
+        return [
+            'location'    => 'query',
+            'description' => <<<EOT
 For a string value, returns the object names that are nested in the pseudo path. Equivalent to setting delimiter to /
 and prefix to the path with a / at the end.
 EOT
-    ];
+        ];
+    }
 
     public function readAccess($type)
     {
@@ -108,10 +127,10 @@ EOT
         return [
             'location'    => self::HEADER,
             'sentAs'      => 'X-Container-Sync-To',
-            'description' => <<<TYPEOTHER
+            'description' => <<<EOT
 Sets the destination for container synchronization. Used with the secret key indicated in the X-Container-Sync-Key
 header. If you want to stop a container from synchronizing, send a blank value for the X-Container-Sync-Key header.
-TYPEOTHER
+EOT
         ];
     }
 
@@ -120,9 +139,9 @@ TYPEOTHER
         return [
             'location'    => self::HEADER,
             'sentAs'      => 'X-Container-Sync-Key',
-            'description' => <<<TYPEOTHER
+            'description' => <<<EOT
 Sets the secret key for container synchronization. If you remove the secret key, synchronization is halted.
-TYPEOTHER
+EOT
         ];
     }
 
@@ -152,69 +171,92 @@ EOT
         ];
     }
 
-    public $versionsLocation = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Versions-Location',
-        'description' => <<<EOT
+    public function versionsLocation()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Versions-Location',
+            'description' => <<<EOT
 Enables versioning on this container. The value is the name of another container. You must UTF-8-encode and then
 URL-encode the name before you include it in the header. To disable versioning, set the header to an empty string.
 EOT
-    ];
+        ];
+    }
 
-    public $bytesQuota = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Container-Meta-Quota-Bytes',
-        'description' => <<<TYPEOTHER
+    public function bytesQuota()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Container-Meta-Quota-Bytes',
+            'description' => <<<EOT
 Sets maximum size of the container, in bytes. Typically these values are set by an administrator. Returns a 413
 response (request entity too large) when an object PUT operation exceeds this quota value.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $countQuota = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Container-Meta-Quota-Count',
-        'description' => <<<TYPEOTHER
+    public function countQuota()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Container-Meta-Quota-Count',
+            'description' => <<<EOT
 Sets maximum object count of the container. Typically these values are set by an administrator. Returns a 413
 response (request entity too large) when an object PUT operation exceeds this quota value.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $webDirType = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Container-Meta-Web-Directory-Type',
-        'description' => <<<TYPEOTHER
+    public function webDirType()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Container-Meta-Web-Directory-Type',
+            'description' => <<<EOT
 Sets the content-type of directory marker objects. If the header is not set, default is application/directory.
 Directory marker objects are 0-byte objects that represent directories to create a simulated hierarchical structure.
 For example, if you set "X-Container-Meta-Web-Directory- Type: text/directory", Object Storage treats 0-byte objects
 with a content-type of text/directory as directories rather than objects.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $detectContentType = [
-        'location'    => self::HEADER,
-        'type'        => self::BOOL_TYPE,
-        'sentAs'      => 'X-Detect-Content-Type',
-        'description' => <<<TYPEOTHER
+    public function detectContentType()
+    {
+        return [
+            'location'    => self::HEADER,
+            'type'        => self::BOOL_TYPE,
+            'sentAs'      => 'X-Detect-Content-Type',
+            'description' => <<<EOT
 If set to true, Object Storage guesses the content type based on the file extension and ignores the value sent in the
 Content-Type header, if present.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $removeVersionsLocation = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Remove-Versions-Location',
-        'description' => 'Set to any value to disable versioning.',
-    ];
+    public function removeVersionsLocation()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Remove-Versions-Location',
+            'description' => 'Set to any value to disable versioning.',
+        ];
+    }
 
-    public $objectName = [
-        'location'    => self::URL,
-        'required'    => true,
-        'description' => 'The unique name for the object',
-    ];
+    public function objectName()
+    {
+        return [
+            'location'    => self::URL,
+            'required'    => true,
+            'description' => 'The unique name for the object',
+        ];
+    }
 
-    public $range = [
-        'location'    => self::HEADER,
-        'description' => <<<TYPEOTHER
+    public function range()
+    {
+        return [
+            'location'    => self::HEADER,
+            'description' => <<<EOT
 You can use the Range header to get portions of data by using one or more range specifications. To specify many ranges,
 separate the range specifications with a comma. The types of range specifications are:
 
@@ -241,13 +283,16 @@ Range: bytes=6-. Byte 6 and after.
 
 Range: bytes=1-3,2-5. A multi-part response that contains bytes 1 to 3 inclusive, and bytes 2 to 5 inclusive. The
 Content-Type of the response is then multipart/byteranges.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $ifMatch = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'If-Match',
-        'description' => <<<TYPEOTHER
+    public function ifMatch()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'If-Match',
+            'description' => <<<EOT
 In a nutshell, this provides for conditional requests. The value provided should be a MD5 checksum, and it will be
 checked by the server receiving the request. If any existing entity held on the server has the same MD5 checksum (or
 ETag), or if "*" is provided as the value, the request will be performed.
@@ -256,13 +301,16 @@ Conversely, if none of the entity tags match, or if "*" is given and no current 
 perform the requested method, and MUST return a 412 (Precondition Failed) response.
 
 See http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14 for more information.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $ifNoneMatch = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'If-None-Match',
-        'description' => <<<TYPEOTHER
+    public function ifNoneMatch()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'If-None-Match',
+            'description' => <<<EOT
 In a nutshell, this provides for conditional requests. The value provided should be a MD5 checksum, and it will be
 checked by the server receiving the request. If any existing entity held on the server has the same MD5 checksum (or
 ETag), or if "*" is provided as the value, the request MUST NOT perform the request, and MUST return a 412
@@ -272,118 +320,180 @@ Conversely, if none of the entity tags match, or if "*" is given and no current 
 perform the requested method.
 
 See http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14 for more information.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $ifModifiedSince = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'If-Modified-Since',
-        'description' => <<<TYPEOTHER
+    public function ifModifiedSince()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'If-Modified-Since',
+            'description' => <<<EOT
 The value should be a valid HTTP-date. This value makes the request conditional. If the requested resource HAS NOT
 been modified or changed since the specified date, it will not be returned. Instead a 304 (Not Modified) response will
 be returned without any message body. If the resource HAS been modified since the specified date, it will be returned
 as usual.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $ifUnmodifiedSince = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'If-Unmodified-Since',
-        'description' => <<<TYPEOTHER
+    public function ifUnmodifiedSince()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'If-Unmodified-Since',
+            'description' => <<<EOT
 The value should be a valid HTTP-date. This value makes the request conditional. If the requested resource HAS
 been modified or changed since the specified date, it will not be returned. Instead a 412 (Precondition Failed)
 response will be returned without any message body. If the resource HAS NOT been modified since the specified date, it
 will be returned as usual.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $deleteAfter = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Delete-After',
-        'description' => <<<TYPEOTHER
+    public function deleteAfter()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Delete-After',
+            'description' => <<<EOT
 Specifies the number of seconds after which the object is removed. Internally, the Object Storage system stores this
 value in the X-Delete-At metadata item.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $deleteAt = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Delete-At',
-        'description' => 'The certain date, in UNIX Epoch timestamp format, when the object will be removed.',
-    ];
+    public function deleteAt()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Delete-At',
+            'description' => 'The certain date, in UNIX Epoch timestamp format, when the object will be removed.',
+        ];
+    }
 
-    public $contentEncoding = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'Content-Encoding',
-        'description' => <<<TYPEOTHER
+    public function contentEncoding()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'Content-Encoding',
+            'description' => <<<EOT
 The Content-Encoding entity-header field is used as a modifier to the media-type. When present, its value indicates
 what additional content codings have been applied to the entity-body, and thus what decoding mechanisms must be applied
 in order to obtain the media-type referenced by the Content-Type header field
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $contentDisposition = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'Content-Disposition',
-        'description' => <<<TYPEOTHER
+    public function contentDisposition()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'Content-Disposition',
+            'description' => <<<EOT
 The Content-Disposition response-header field has been proposed as a means for the origin server to suggest a default
 filename if the user requests that the content is saved to a file.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $copyFrom = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'X-Copy-From',
-        'description' => <<<TYPEOTHER
+    public function copyFrom()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Copy-From',
+            'description' => <<<EOT
 If set, this is the name of an object used to create the new object by copying the X-Copy-From object. The value is in
 form {container}/{object}. You must UTF-8-encode and then URL-encode the names of the container and object before you
 include them in the header. Using PUT with X-Copy-From has the same effect as using the COPY operation to copy an object.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $etag = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'ETag',
-        'description' => <<<TYPEOTHER
+    public function etag()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'ETag',
+            'description' => <<<EOT
 The MD5 checksum value of the request body. For example, the MD5 checksum value of the object content. You are strongly
 recommended to compute the MD5 checksum value of object content and include it in the request. This enables the Object
 Storage API to check the integrity of the upload. The value is not quoted.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $contentType = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'Content-Type',
-        'description' => 'The Content-Type entity-header field indicates the media type of the entity-body',
-    ];
+    public function contentType()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'Content-Type',
+            'description' => 'The Content-Type entity-header field indicates the media type of the entity-body',
+        ];
+    }
 
-    public $destination = [
-        'location'    => self::HEADER,
-        'sentAs'      => 'Destination',
-        'description' => <<<TYPEOTHER
+    public function destination()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'Destination',
+            'description' => <<<EOT
 The container and object name of the destination object in the form of /container/object. You must UTF-8-encode and
 then URL-encode the names of the destination container and object before you include them in this header.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $freshMetadata = [
-        'location'    => self::HEADER,
-        'type'        => self::BOOL_TYPE,
-        'description' => <<<TYPEOTHER
+    public function freshMetadata()
+    {
+        return [
+            'location'    => self::HEADER,
+            'type'        => self::BOOL_TYPE,
+            'description' => <<<EOT
 Enables object creation that omits existing user metadata. If set to True, the COPY request creates an object without
 existing user metadata. Default value is False.
-TYPEOTHER
-    ];
+EOT
+        ];
+    }
 
-    public $content = [
-        'location'    => self::RAW,
-        'type'        => self::STRING_TYPE,
-        'description' => 'The content of the object in string form',
-    ];
+    public function content()
+    {
+        return [
+            'location'    => self::RAW,
+            'type'        => self::STRING_TYPE,
+            'description' => 'The content of the object in string form',
+        ];
+    }
 
-    public $format = [
-        'location'    => selF::QUERY,
-        'type'        => self::STRING_TYPE,
-        'description' => 'Defines the format of the collection. Will always default to `json`.'
-    ];
+    public function stream()
+    {
+        return [
+            'location'    => self::RAW,
+            'type'        => StreamInterface::class,
+            'description' => 'The content of the object in string form',
+        ];
+    }
+
+    public function format()
+    {
+        return [
+            'location'    => self::QUERY,
+            'type'        => self::STRING_TYPE,
+            'description' => 'Defines the format of the collection. Will always default to `json`.',
+        ];
+    }
+
+    public function objectManifest()
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'X-Object-Manifest',
+            'type'        => self::STRING_TYPE,
+            'description' => <<<EOT
+The value of this header is {container}/{prefix}, where {container} is the name of the container where the segment
+objects are stored, and {prefix} is a string that all segment objects have in common
+EOT
+        ];
+    }
 }

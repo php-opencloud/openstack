@@ -4,6 +4,7 @@ namespace OpenStack\Test\ObjectStore\v1\Models;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -174,5 +175,28 @@ class ContainerTest extends TestCase
             ->willThrow($e);
 
         $this->container->objectExists('bar');
+    }
+
+    public function test_it_chunks_according_to_provided_segment_size()
+    {
+        /** @var \GuzzleHttp\Psr7\Stream $stream */
+        $stream = \GuzzleHttp\Psr7\stream_for(implode('', range('A', 'Z')));
+
+        $data = [
+            'name' => 'object',
+            'stream'           => $stream,
+            'segmentSize'      => 10,
+            'segmentPrefix'    => 'objectPrefix',
+            'segmentContainer' => 'segments',
+        ];
+
+        $this->setupMock('PUT', 'segments/objectPrefix/1', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/2', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/3', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'test/object', null, ['X-Object-Manifest' => 'segments/objectPrefix'], new Response(201));
+
+        $stream->rewind();
+
+        $this->container->createLargeObject($data);
     }
 }

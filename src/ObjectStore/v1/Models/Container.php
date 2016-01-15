@@ -2,6 +2,8 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
+use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Psr7\LimitStream;
 use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\AbstractResource;
@@ -178,5 +180,46 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     public function createObject(array $data)
     {
         return $this->model(Object::class)->create($data + ['containerName' => $this->name]);
+    }
+
+    /**
+     * @param array $data
+     */
+    public function createLargeObject(array $data)
+    {
+        /** @var \Psr\Http\Message\StreamInterface $stream */
+        $stream = $data['stream'];
+
+        $segmentSize      = isset($data['segmentSize']) ? $data['segmentSize'] : 1073741824;
+        $segmentContainer = isset($data['segmentContainer']) ? $data['segmentContainer'] : $this->name . '_segments';
+        $segmentPrefix    = isset($data['segmentPrefix'])
+            ? $data['segmentPrefix']
+            : sprintf("%s/%s/%d", $data['name'], microtime(true), $stream->getSize());
+
+        /** @var \OpenStack\ObjectStore\v1\Service $service */
+        $service = $this->getService();
+        if (!$service->containerExists($segmentContainer)) {
+            $service->createContainer(['name' => $segmentContainer]);
+        }
+
+        $promises = [];
+        $count    = 0;
+
+        while (!$stream->eof() && $count < round($stream->getSize() / $segmentSize)) {
+            $promises[] = $this->model(Object::class)->createAsync([
+                'name'          => sprintf("%s/%d", $segmentPrefix, ++$count),
+                'stream'        => new LimitStream($stream, $segmentSize, ($count - 1) * $segmentSize),
+                'containerName' => $segmentContainer,
+            ]);
+        }
+
+        /** @var Promise $p */
+        $p = \GuzzleHttp\Promise\all($promises);
+        $p->wait();
+
+        return $this->createObject([
+            'name'           => $data['name'],
+            'objectManifest' => sprintf("%s/%s", $segmentContainer, $segmentPrefix),
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1;
 
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Service\AbstractService;
 use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -58,5 +59,17 @@ class Service extends AbstractService
     public function createContainer(array $data)
     {
         return $this->getContainer()->create($data);
+    }
+
+    public function containerExists($name)
+    {
+        try {
+            $this->getContainer($name);
+        } catch (BadResponseError $e) {
+            if ($e->getResponse()->getStatusCode() === 404) {
+                return false;
+            }
+            throw $e;
+        }
     }
 }
