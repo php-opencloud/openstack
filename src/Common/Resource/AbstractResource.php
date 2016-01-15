@@ -231,4 +231,12 @@ abstract class AbstractResource extends Operator implements ResourceInterface
 
         return $resources;
     }
+
+    protected function getService()
+    {
+        $class = static::class;
+        $service = substr($class, 0, strpos($class, 'Models') - 1) . '\\Service';
+
+        return new $service($this->client, $this->api);
+    }
 }

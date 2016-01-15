@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 abstract class Operator implements OperatorInterface
 {
     /** @var ClientInterface */
-    private $client;
+    protected $client;
 
     /** @var ApiInterface */
     protected $api;
