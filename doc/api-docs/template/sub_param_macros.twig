@@ -26,7 +26,7 @@
             {{ _self.iterate_sub_params(sub_param.properties, 'false', full_name) }}
         {% endif %}
     {% elseif sub_param.type == 'array' %}
-        {% if sub_params.itemSchema is null %}
+        {% if sub_param.itemSchema is null %}
             {% set type = 'array' %}
         {% else %}
             {% set subType = sub_param.itemSchema.type %}
