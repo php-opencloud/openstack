@@ -26,8 +26,12 @@
             {{ _self.iterate_sub_params(sub_param.properties, 'false', full_name) }}
         {% endif %}
     {% elseif sub_param.type == 'array' %}
-        {% set subType = sub_param.itemSchema.type %}
-        {% set type = 'array of ' ~ subType ~ 's' %}
+        {% if sub_params.itemSchema is null %}
+            {% set type = 'array' %}
+        {% else %}
+            {% set subType = sub_param.itemSchema.type %}
+            {% set type = 'array of ' ~ subType ~ 's' %}
+        {% endif %}
     {% elseif parent_is_array == 'true' %}
         {% set render = 'false' %}
     {% endif %}
