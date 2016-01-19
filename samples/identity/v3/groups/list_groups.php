@@ -19,5 +19,4 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3(['region' => '{region}']);
 
 foreach ($identity->listGroups() as $group) {
-
 }

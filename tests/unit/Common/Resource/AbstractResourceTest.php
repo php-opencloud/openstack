@@ -3,7 +3,6 @@
 namespace OpenStack\Test\Common\Resource;
 
 use function GuzzleHttp\Psr7\stream_for;
-
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Generator;
@@ -113,7 +112,8 @@ class AbstractResourceTest extends TestCase
             $count++;
         };
 
-        foreach ($this->resource->enumerate($api->getServers(), [], $fn) as $item) {}
+        foreach ($this->resource->enumerate($api->getServers(), [], $fn) as $item) {
+        }
 
         $this->assertEquals(5, $count);
     }

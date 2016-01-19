@@ -16,7 +16,7 @@ class AuthHandlerTest extends ProphecyTestCase
     private $generator;
     private $handler;
 
-    function setUp()
+    public function setUp()
     {
         $this->generator = function () {
             $token = $this->prophesize(Token::class);

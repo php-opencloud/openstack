@@ -64,4 +64,4 @@ class ServiceTest extends TestCase
         $this->assertNotNull($this->service->getUrl('foo', 'bar', 'baz', 'internal'));
         $this->assertFalse($this->service->getUrl('foo', 'bar', 'bat', ''));
     }
-} 
+}

@@ -3,7 +3,6 @@
 namespace OpenStack\Common\Transport;
 
 use function GuzzleHttp\Psr7\modify_request;
-
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Auth\AuthHandler;

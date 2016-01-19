@@ -26,5 +26,4 @@ $result = $project->checkUserRole([
 ]);
 
 if (true === $result) {
-
 }

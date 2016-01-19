@@ -41,6 +41,12 @@ class Fixture
 
     use HydratorStrategyTrait;
 
-    public function getBar() { return $this->bar; }
-    public function getBaz() { return $this->baz; }
+    public function getBar()
+    {
+        return $this->bar;
+    }
+    public function getBaz()
+    {
+        return $this->baz;
+    }
 }

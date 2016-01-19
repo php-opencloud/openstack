@@ -89,13 +89,12 @@ class Runner
 
     public function runServices()
     {
-        list ($serviceOpt, $versionOpt, $testMethodOpt, $verbosity) = $this->getOpts();
+        list($serviceOpt, $versionOpt, $testMethodOpt, $verbosity) = $this->getOpts();
 
         $services = $this->getRunnableServices($serviceOpt, $versionOpt, $testMethodOpt);
 
         foreach ($services as $serviceName => $versions) {
             foreach ($versions as $version) {
-
                 $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, $this->toCamelCase($serviceName), ucfirst($version));
                 $testRunner = new $class($this->logger, $verbosity);
 

@@ -24,4 +24,4 @@ class CatalogTest extends TestCase
     {
         $this->catalog->getServiceUrl('foo', 'bar', 'baz');
     }
-} 
+}

@@ -1,6 +1,7 @@
 <?php
 
 namespace OpenStack\Common\Resource;
+
 use OpenStack\Common\Error\BadResponseError;
 
 /**

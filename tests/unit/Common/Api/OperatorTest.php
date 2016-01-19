@@ -3,7 +3,6 @@
 namespace OpenStack\Test\Common\Api;
 
 use function GuzzleHttp\Psr7\uri_for;
-
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Request;
@@ -22,7 +21,7 @@ class OperatorTest extends ProphecyTestCase
     private $client;
     private $def;
 
-    function setUp()
+    public function setUp()
     {
         $this->client = $this->prophesize(ClientInterface::class);
 

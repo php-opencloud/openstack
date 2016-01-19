@@ -13,5 +13,4 @@ $image = $openstack->imagesV2()
                    ->getImage('{imageId}');
 
 foreach ($image->listMembers() as $member) {
-
 }

@@ -11,7 +11,7 @@ class OpenStackTest extends ProphecyTestCase
     private $builder;
     private $openstack;
 
-    function setUp()
+    public function setUp()
     {
         $this->builder = $this->prophesize(Builder::class);
         $this->openstack = new OpenStack([], $this->builder->reveal());

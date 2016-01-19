@@ -19,5 +19,4 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3();
 
 foreach ($identity->listRoleAssignments() as $assignment) {
-
 }

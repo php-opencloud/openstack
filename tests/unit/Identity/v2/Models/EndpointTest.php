@@ -34,4 +34,4 @@ class EndpointTest extends TestCase
 
         $this->assertEquals($url, $this->endpoint->getUrl('adminURL'));
     }
-} 
+}

@@ -4,7 +4,6 @@ namespace OpenStack\Test\Common\Error;
 
 use function GuzzleHttp\Psr7\stream_for;
 use function GuzzleHttp\Psr7\str;
-
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;

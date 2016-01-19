@@ -3,7 +3,6 @@
 namespace OpenStack\Images\v2\Models;
 
 use function GuzzleHttp\Psr7\uri_for;
-
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;

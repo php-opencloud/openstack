@@ -26,5 +26,4 @@ $result = $project->checkGroupRole([
 ]);
 
 if (true === $result) {
-
 }

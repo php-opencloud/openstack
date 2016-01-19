@@ -10,4 +10,3 @@ $objectStore = $client->objectStoreV2([
     'region' => 'RegionOne',
     //'debug' => true,
 ]);
-

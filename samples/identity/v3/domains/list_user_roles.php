@@ -21,5 +21,4 @@ $identity = $openstack->identityV3(['region' => '{region}']);
 $domain = $identity->getDomain('{domainId}');
 
 foreach ($domain->listUserRoles(['userId' => '{domainUserId}']) as $role) {
-
 }

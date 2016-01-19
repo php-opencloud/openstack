@@ -23,5 +23,4 @@ $group = $identity->getGroup('{groupId}');
 $result = $group->checkMembership(['userId' => '{groupUserId}']);
 
 if (true === $result) {
-
 }

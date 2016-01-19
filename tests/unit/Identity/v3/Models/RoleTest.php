@@ -27,4 +27,4 @@ class RoleTest extends TestCase
 
         $this->role->delete();
     }
-} 
+}

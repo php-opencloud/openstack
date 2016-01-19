@@ -58,7 +58,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
 
-        list ($token, $url) = $this->service->authenticate($userOptions);
+        list($token, $url) = $this->service->authenticate($userOptions);
 
         $this->assertInstanceOf(Models\Token::class, $token);
         $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);

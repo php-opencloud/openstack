@@ -85,7 +85,7 @@ class JsonPatch
     {
         $result = [];
 
-        foreach($a1 as $key => $val) {
+        foreach ($a1 as $key => $val) {
             if (!in_array($val, $a2, true)) {
                 $result[$key] = $val;
             }
@@ -111,6 +111,5 @@ class JsonPatch
             case self::OP_REMOVE:
                 return ['op' => $op, 'path' => $path];
         }
-
     }
 }

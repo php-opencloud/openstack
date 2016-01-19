@@ -16,7 +16,7 @@ class BuilderTest extends TestCase
     private $builder;
     private $opts;
 
-    function setUp()
+    public function setUp()
     {
         $this->builder = new Builder([]);
 

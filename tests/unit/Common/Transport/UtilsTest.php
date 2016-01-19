@@ -4,7 +4,6 @@ namespace OpenStack\Test\Common\Transport;
 
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\uri_for;
-
 use GuzzleHttp\Psr7\Uri;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\Test\TestCase;

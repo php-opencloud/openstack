@@ -13,5 +13,4 @@ $images = $openstack->imagesV2()
                     ->listImages();
 
 foreach ($images as $image) {
-
 }

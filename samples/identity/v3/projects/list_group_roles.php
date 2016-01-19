@@ -21,5 +21,4 @@ $identity = $openstack->identityV3(['region' => '{region}']);
 $project = $identity->getProject('{id}');
 
 foreach ($project->listGroupRoles(['groupId' => '{groupId}']) as $role) {
-
 }

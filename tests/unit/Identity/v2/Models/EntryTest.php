@@ -21,4 +21,4 @@ class EntryTest extends TestCase
     {
         $this->assertNull($this->entry->getEndpointUrl('foo', 'bar'));
     }
-} 
+}

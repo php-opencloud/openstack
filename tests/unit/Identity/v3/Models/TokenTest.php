@@ -49,4 +49,4 @@ class TokenTest extends TestCase
     {
         $this->token->create([]);
     }
-} 
+}

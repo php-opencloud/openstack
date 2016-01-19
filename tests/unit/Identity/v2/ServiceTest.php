@@ -42,7 +42,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post');
 
-        list ($token, $baseUrl) = $this->service->authenticate($options);
+        list($token, $baseUrl) = $this->service->authenticate($options);
 
         $this->assertInstanceOf(Token::class, $token);
         $this->assertInternalType('string', $baseUrl);
