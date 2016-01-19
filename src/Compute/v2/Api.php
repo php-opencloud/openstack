@@ -34,7 +34,7 @@ class Api extends AbstractApi
     public function getFlavorsDetail()
     {
         $op = $this->getAll();
-        $op['path'] += '/detail';
+        $op['path'] .= '/detail';
         return $op;
     }
 
@@ -67,7 +67,7 @@ class Api extends AbstractApi
     public function getImagesDetail()
     {
         $op = $this->getAll();
-        $op['path'] += '/detail';
+        $op['path'] .= '/detail';
         return $op;
     }
 
@@ -188,7 +188,7 @@ class Api extends AbstractApi
     public function getServersDetail()
     {
         $definition = $this->getServers();
-        $definition['path'] += '/detail';
+        $definition['path'] .= '/detail';
         return $definition;
     }
 
