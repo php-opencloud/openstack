@@ -155,7 +155,7 @@ class Parameter
     private function stockProperties(array $data)
     {
         if (isset($data['properties'])) {
-            if (strpos(strtolower($this->name), 'metadata') !== false) {
+            if (stripos($this->name, 'metadata') !== false) {
                 $this->properties = new Parameter($data['properties']);
             } else {
                 foreach ($data['properties'] as $name => $property) {
@@ -251,7 +251,7 @@ class Parameter
      */
     private function getNestedProperty($key)
     {
-        if ($this->name == 'metadata' && $this->properties instanceof Parameter) {
+        if (stripos($this->name, 'metadata') !== false && $this->properties instanceof Parameter) {
             return $this->properties;
         } elseif (isset($this->properties[$key])) {
             return $this->properties[$key];

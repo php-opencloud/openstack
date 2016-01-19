@@ -57,7 +57,7 @@ class RequestSerializer
     {
         $paramName = $schema->getName();
 
-        if (strpos(strtolower($paramName), 'metadata') !== false) {
+        if (stripos($paramName, 'metadata') !== false) {
             return $this->stockMetadataHeader($schema, $paramValue, $options);
         }
 

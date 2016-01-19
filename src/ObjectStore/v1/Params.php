@@ -162,8 +162,11 @@ EOT
 
         return [
             'location'    => self::HEADER,
-            'type'        => self::ARRAY_TYPE,
+            'type'        => self::OBJECT_TYPE,
             'prefix'      => sprintf("X-%s-Meta-", ucfirst($type)),
+            'properties'  => [
+                'type' => self::STRING_TYPE,
+            ],
             'description' => <<<EOT
 Human-readable key/value pairs that help describe and determine what type of resource it is. You can specify whichever
 key you like, but the values need to be in scalar form (since they will be translated to strings).
