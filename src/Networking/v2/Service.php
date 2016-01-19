@@ -117,7 +117,7 @@ class Service extends AbstractService
     /**
      * Create a new port resource.
      *
-     * @param array $options {@see \OpenStack\Networking\v2\Api::postPorts}
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postSinglePort}
      *
      * @return Port
      */
@@ -129,7 +129,7 @@ class Service extends AbstractService
     /**
      * Create new port resources.
      *
-     * @param array $options {@see \OpenStack\Networking\v2\Api::postPorts}
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postMultiplePorts}
      *
      * @return []Port
      */
