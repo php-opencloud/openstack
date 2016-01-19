@@ -183,7 +183,17 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     }
 
     /**
-     * @param array $data
+     * Creates a Dynamic Large Object by chunking a file into smaller segments and uploading them into a holding
+     * container. When this completes, a manifest file is uploaded which references the prefix of the segments,
+     * allowing concatenation when a request is executed against the manifest.
+     *
+     * @param array  $data                     {@see \OpenStack\ObjectStore\v1\Api::putObject}
+     * @param int    $data['segmentSize']      The size in Bytes of each segment
+     * @param string $data['segmentContainer'] The container to which each segment will be uploaded
+     * @param string $data['segmentPrefix']    The prefix that will come before each segment. If omitted, a default
+     *                                         is used: name/timestamp/filesize
+     *
+     * @return Object
      */
     public function createLargeObject(array $data)
     {
