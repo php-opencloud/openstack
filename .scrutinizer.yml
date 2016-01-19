@@ -8,24 +8,3 @@ filter:
 
 checks:
     php: true
-
-tools:
-    php_cs_fixer:
-        fixers:
-            - 'psr2'
-        filter:
-            paths:
-                - 'samples/*'
-                - 'src/*'
-                - 'tests/*'
-
-build:
-    tests:
-        before:
-            - 'vendor/bin/parallel-lint --exclude vendor .'
-        override:
-            -
-                command: './vendor/bin/phpunit --coverage-clover ./coverage.xml'
-                coverage:
-                    file: 'coverage.xml'
-                    format: 'php-clover'
