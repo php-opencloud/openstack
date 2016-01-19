@@ -12,6 +12,8 @@ use GuzzleHttp\Transaction;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Error\UserInputError;
+use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\StreamInterface;
 
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {

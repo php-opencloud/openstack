@@ -61,10 +61,19 @@ class Service extends AbstractService
         return $this->getContainer()->create($data);
     }
 
+    /**
+     * Checks the existence of a container.
+     *
+     * @param string $name The name of the container
+     *
+     * @return bool             TRUE if exists, FALSE if it doesn't
+     * @throws BadResponseError Thrown for any non 404 status error
+     */
     public function containerExists($name)
     {
         try {
-            $this->getContainer($name);
+            $this->execute($this->api->headContainer(), ['name' => $name]);
+            return true;
         } catch (BadResponseError $e) {
             if ($e->getResponse()->getStatusCode() === 404) {
                 return false;

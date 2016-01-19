@@ -190,6 +190,18 @@ class ContainerTest extends TestCase
             'segmentContainer' => 'segments',
         ];
 
+        // check container creation
+        $e = new BadResponseError();
+        $e->setRequest(new Request('HEAD', 'segments'));
+        $e->setResponse(new Response(404));
+
+        $this->client
+            ->request('HEAD', 'segments', ['headers' => []])
+            ->shouldBeCalled()
+            ->willThrow($e);
+
+        $this->setupMock('PUT', 'segments', null, [], new Response(201));
+
         $this->setupMock('PUT', 'segments/objectPrefix/1', $stream->read(10), [], new Response(201));
         $this->setupMock('PUT', 'segments/objectPrefix/2', $stream->read(10), [], new Response(201));
         $this->setupMock('PUT', 'segments/objectPrefix/3', $stream->read(10), [], new Response(201));

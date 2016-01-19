@@ -86,8 +86,6 @@ class Builder
             $msg = 'HTTP/' . $message->getProtocolVersion() . ' '
                 . $message->getStatusCode() . ' '
                 . $message->getReasonPhrase();
-        } else {
-            throw new \InvalidArgumentException('Unknown message type');
         }
 
         foreach ($message->getHeaders() as $name => $values) {

@@ -2,7 +2,9 @@
 
 namespace OpenStack\Test\ObjectStore\v1;
 
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -43,5 +45,43 @@ class ServiceTest extends TestCase
     {
         $this->setupMock('PUT', 'foo', null, [], 'Created');
         $this->service->createContainer(['name' => 'foo']);
+    }
+
+    public function test_it_returns_true_for_existing_containers()
+    {
+        $this->setupMock('HEAD', 'foo', null, [], new Response(200));
+
+        $this->assertTrue($this->service->containerExists('foo'));
+    }
+
+    public function test_it_returns_false_if_container_does_not_exist()
+    {
+        $e = new BadResponseError();
+        $e->setRequest(new Request('HEAD', 'foo'));
+        $e->setResponse(new Response(404));
+
+        $this->client
+            ->request('HEAD', 'foo', ['headers' => []])
+            ->shouldBeCalled()
+            ->willThrow($e);
+
+        $this->assertFalse($this->service->containerExists('foo'));
+    }
+
+    /**
+     * @expectedException \OpenStack\Common\Error\BadResponseError
+     */
+    public function test_it_throws_exception_when_error()
+    {
+        $e = new BadResponseError();
+        $e->setRequest(new Request('HEAD', 'foo'));
+        $e->setResponse(new Response(500));
+
+        $this->client
+            ->request('HEAD', 'foo', ['headers' => []])
+            ->shouldBeCalled()
+            ->willThrow($e);
+
+        $this->assertFalse($this->service->containerExists('foo'));
     }
 }
