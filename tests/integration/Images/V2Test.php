@@ -34,6 +34,8 @@ class V2Test extends TestCase
 
         $this->images();
         $this->members();
+
+        $this->outputTimeTaken();
     }
 
     public function images()

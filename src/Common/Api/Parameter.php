@@ -211,7 +211,7 @@ class Parameter
     {
         if (!empty($this->enum) && $this->type == 'string' && !in_array($userValues, $this->enum)) {
             throw new \Exception(sprintf(
-                'The only permitted values are %s. You provided %s', implode(', ', $this->enum), $userValues
+                'The only permitted values are %s. You provided %s', implode(', ', $this->enum), print_r($userValues, true)
             ));
         }
     }
@@ -220,8 +220,8 @@ class Parameter
     {
         if (!$this->hasCorrectType($userValues)) {
             throw new \Exception(sprintf(
-                'The key provided "%s" has the wrong value type. You provided %s but was expecting %s',
-                $this->name, print_r($userValues, true), $this->type
+                'The key provided "%s" has the wrong value type. You provided %s (%s) but was expecting %s',
+                $this->name, print_r($userValues, true), gettype($userValues), $this->type
             ));
         }
     }

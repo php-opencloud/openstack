@@ -1,6 +1,7 @@
 <?php
 
 namespace OpenStack\Common\Resource;
+use OpenStack\Common\Error\BadResponseError;
 
 /**
  * Contains reusable functionality for resources that have long operations which require waiting in
@@ -96,5 +97,27 @@ trait HasWaiterTrait
     public function waitUntilActive($timeout = 60)
     {
         $this->waitUntil('ACTIVE');
+    }
+
+    public function waitUntilDeleted($timeout = 60, $sleepPeriod = 1)
+    {
+        $startTime = time();
+
+        while (true) {
+            try {
+                $this->retrieve();
+            } catch (BadResponseError $e) {
+                if ($e->getResponse()->getStatusCode() === 404) {
+                    break;
+                }
+                throw $e;
+            }
+
+            if ($this->shouldHalt($timeout, $startTime)) {
+                break;
+            }
+
+            sleep($sleepPeriod);
+        }
     }
 }

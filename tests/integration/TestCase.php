@@ -27,6 +27,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     abstract protected function getBasePath();
 
+    abstract protected function runTests();
+
     protected function getAuthOptsV3()
     {
         return [

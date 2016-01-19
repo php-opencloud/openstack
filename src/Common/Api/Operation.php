@@ -124,8 +124,6 @@ class Operation
      */
     public function validate(array $userValues)
     {
-        $this->checkDisallowedKeys($userValues);
-
         foreach ($this->params as $paramName => $param) {
             if (array_key_exists($paramName, $userValues)) {
                 $param->validate($userValues[$paramName]);
@@ -135,14 +133,5 @@ class Operation
         }
 
         return true;
-    }
-
-    private function checkDisallowedKeys(array $userValues)
-    {
-        if (!empty($disallowedKeys = array_keys(array_diff_key($userValues, $this->params)))) {
-            throw new \Exception(sprintf(
-                'The following keys are not supported: %s', implode($disallowedKeys, ', ')
-            ));
-        }
     }
 }

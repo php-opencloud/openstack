@@ -36,6 +36,8 @@ class V2Test extends TestCase
         $this->volumes();
         $this->volumeTypes();
         $this->snapshots();
+
+        $this->outputTimeTaken();
     }
 
     public function volumes()
@@ -45,7 +47,7 @@ class V2Test extends TestCase
 
         $replacements = [
             '{description}' => $this->randomStr(),
-            '{size}'        => 1,
+            "'{size}'"      => 1,
             '{name}'        => $this->randomStr(),
             '{volumeType}'  => $volumeType->id,
             '{key1}'        => $this->randomStr(),
@@ -57,10 +59,11 @@ class V2Test extends TestCase
         require_once $this->sampleFile($replacements, 'volumes/create.php');
         $this->assertInstanceOf(Volume::class, $volume);
         $this->assertEquals($replacements['{name}'], $volume->name);
-        $this->assertEquals(5, $volume->size);
+        $this->assertEquals(1, $volume->size);
         $this->assertEquals($volumeType->name, $volume->volumeTypeName);
 
-        $replacements = ['{volumeId}' => $volume->id];
+        $volumeId = $volume->id;
+        $replacements = ['{volumeId}' => $volumeId];
 
         $this->logStep('Getting volume');
         /** @var Volume $volume */
@@ -80,6 +83,9 @@ class V2Test extends TestCase
 
         $this->logStep('Deleting volume');
         require_once $this->sampleFile($replacements, 'volumes/delete.php');
+
+        $volume = $this->getService()->getVolume($volumeId);
+        $volume->waitUntilDeleted();
 
         $this->logStep('Deleting volume type');
         $volumeType->delete();
@@ -174,6 +180,7 @@ class V2Test extends TestCase
 
         $this->logStep('Deleting snapshot');
         require_once $this->sampleFile($replacements, 'snapshots/delete.php');
+        $snapshot->waitUntilDeleted();
 
         $this->logStep('Deleting volume');
         $volume->delete();

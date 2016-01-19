@@ -35,6 +35,8 @@ class V1Test extends TestCase
         $this->accountMetadata();
         $this->containers();
         $this->objects();
+
+        $this->outputTimeTaken();
     }
 
     public function accountMetadata()

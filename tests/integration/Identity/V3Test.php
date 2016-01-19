@@ -35,6 +35,8 @@ class V3Test extends TestCase
 
         $this->tokens();
         $this->domains();
+
+        $this->outputTimeTaken();
     }
 
     public function tokens()
