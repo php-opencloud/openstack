@@ -73,7 +73,7 @@ class Builder
         return $resp->getStatusCode() < 400;
     }
 
-    private function str(MessageInterface $message)
+    public function str(MessageInterface $message)
     {
         if ($message instanceof RequestInterface) {
             $msg = trim($message->getMethod() . ' '

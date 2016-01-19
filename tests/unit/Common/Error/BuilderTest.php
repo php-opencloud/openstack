@@ -35,8 +35,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $request = new Request('POST', '/servers');
         $response = new Response(400, [], stream_for('Invalid parameters'));
 
-        $requestStr = trim(str($request));
-        $responseStr = trim(str($response));
+        $requestStr = trim($this->builder->str($request));
+        $responseStr = trim($this->builder->str($response));
 
         $errorMessage = <<<EOT
 HTTP Error
