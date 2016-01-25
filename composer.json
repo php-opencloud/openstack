@@ -9,11 +9,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "OpenStack\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
+            "OpenStack\\": "src/",
             "OpenStack\\Test\\": "tests/unit/",
             "OpenStack\\Integration\\": "tests/integration/"
         }
