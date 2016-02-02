@@ -369,4 +369,14 @@ EOL
             'required' => true,
         ];
     }
+
+	public function keyName()
+	{
+		return [
+			'type'        => self::STRING_TYPE,
+			'required'    => false,
+			'sentAs'      => 'key_name',
+			'description' => 'The key name',
+		];
+	}
 }
