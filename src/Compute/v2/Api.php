@@ -163,7 +163,7 @@ class Api extends AbstractApi
                 'availabilityZone'   => $this->params->availabilityZone(),
                 'networks'           => $this->params->networks(),
                 'blockDeviceMapping' => $this->params->blockDeviceMapping(),
-				'keyName'            => $this->params->keyName()
+                'keyName'            => $this->params->keyName()
             ]
         ];
     }
