@@ -253,10 +253,9 @@ EOL
             'items'       => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
-                    'configDrive'         => [
-                        'type'        => self::BOOL_TYPE,
-                        'sentAs'      => 'config_drive',
-                        'description' => 'Enables metadata injection in a server through a configuration drive. To enable a configuration drive, specify true. Otherwise, specify false.',
+                    'uuid'         => [
+                        'type'        => self::STRING_TYPE,
+                        'description' => 'The unique ID for the volume which the server is to be booted from.',
                     ],
                     'bootIndex'           => [
                         'type'        => self::INT_TYPE,
