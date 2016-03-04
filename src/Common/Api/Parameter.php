@@ -125,10 +125,6 @@ class Parameter
     {
         $this->hydrate($data);
 
-        if (!$this->type) {
-            $this->type = 'string';
-        }
-
         $this->required = (bool)$this->required;
 
         $this->stockLocation($data);
@@ -272,7 +268,7 @@ class Parameter
     {
         // Helper fn to see whether an array is associative (i.e. a JSON object)
         $isAssociative = function ($value) {
-            return is_array($value) && (bool)count(array_filter(array_keys($value), 'is_string'));
+            return is_array($value) && array_keys($value) !== range(0, count($value) - 1);
         };
 
         // For params defined as objects, we'll let the user get away with
@@ -283,6 +279,10 @@ class Parameter
 
         if (class_exists($this->type) || interface_exists($this->type)) {
             return is_a($userValue, $this->type);
+        }
+
+        if (!$this->type) {
+            return true;
         }
 
         return gettype($userValue) == $this->type;
