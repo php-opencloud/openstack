@@ -85,12 +85,12 @@ class Server extends AbstractResource implements
 
     protected $aliases = [
         'block_device_mapping_v2' => 'blockDeviceMapping',
-        'accessIPv4' => 'ipv4',
-        'accessIPv6' => 'ipv6',
-        'tenant_id'  => 'tenantId',
-        'user_id'    => 'userId',
-        'security_groups' => 'securityGroups',
-        'OS-EXT-STS:task_state' => 'taskState',
+        'accessIPv4'              => 'ipv4',
+        'accessIPv6'              => 'ipv6',
+        'tenant_id'               => 'tenantId',
+        'user_id'                 => 'userId',
+        'security_groups'         => 'securityGroups',
+        'OS-EXT-STS:task_state'   => 'taskState',
     ];
 
     /**
@@ -141,7 +141,7 @@ class Server extends AbstractResource implements
     {
         $this->execute($this->api->changeServerPassword(), [
             'id'       => $this->id,
-            'password' => $newPassword
+            'password' => $newPassword,
         ]);
     }
 
@@ -171,7 +171,7 @@ class Server extends AbstractResource implements
     {
         $options['id'] = $this->id;
         $response = $this->execute($this->api->rebuildServer(), $options);
-        
+
         $this->populateFromResponse($response);
     }
 
@@ -184,7 +184,7 @@ class Server extends AbstractResource implements
     public function resize($flavorId)
     {
         $response = $this->execute($this->api->resizeServer(), [
-            'id' => $this->id,
+            'id'       => $this->id,
             'flavorId' => $flavorId,
         ]);
 
