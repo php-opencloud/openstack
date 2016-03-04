@@ -5,6 +5,7 @@ namespace OpenStack\Integration\Images;
 use OpenStack\Images\v2\Models\Image;
 use OpenStack\Images\v2\Models\Member;
 use OpenStack\Integration\TestCase;
+use OpenStack\Integration\Utils;
 use OpenStack\OpenStack;
 
 class V2Test extends TestCase
@@ -17,7 +18,7 @@ class V2Test extends TestCase
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->imagesV2($this->getAuthOpts());
+            $this->service = (new OpenStack())->imagesV2(Utils::getAuthOpts());
         }
 
         return $this->service;
