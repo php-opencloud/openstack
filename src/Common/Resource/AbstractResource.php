@@ -116,7 +116,8 @@ abstract class AbstractResource extends Operator implements ResourceInterface
     private function isNotNativeType($type)
     {
         return !in_array($type, [
-            'string', 'bool', 'boolean', 'null', 'array', 'object', 'int', 'integer', 'float', 'numeric', 'mixed'
+            'string', 'bool', 'boolean', 'double', 'null', 'array', 'object', 'int', 'integer', 'float', 'numeric',
+            'mixed'
         ]);
     }
 
