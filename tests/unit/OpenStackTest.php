@@ -4,9 +4,8 @@ namespace OpenStack\Test;
 
 use OpenStack\Common\Service\Builder;
 use OpenStack\OpenStack;
-use Prophecy\PhpUnit\ProphecyTestCase;
 
-class OpenStackTest extends ProphecyTestCase
+class OpenStackTest extends TestCase
 {
     private $builder;
     private $openstack;

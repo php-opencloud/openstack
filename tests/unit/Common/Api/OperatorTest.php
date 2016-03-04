@@ -3,7 +3,6 @@
 namespace OpenStack\Test\Common\Api;
 
 use function GuzzleHttp\Psr7\uri_for;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -12,18 +11,19 @@ use OpenStack\Common\Api\Operator;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Test\Fixtures\ComputeV2Api;
+use OpenStack\Test\TestCase;
 use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTestCase;
 
-class OperatorTest extends ProphecyTestCase
+class OperatorTest extends TestCase
 {
     private $operator;
-    private $client;
     private $def;
 
     public function setUp()
     {
-        $this->client = $this->prophesize(ClientInterface::class);
+        parent::setUp();
+
+        $this->rootFixturesDir = __DIR__;
 
         $this->def = [
             'method' => 'GET',

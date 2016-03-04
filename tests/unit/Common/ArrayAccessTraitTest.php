@@ -3,9 +3,9 @@
 namespace OpenStack\Test\Common;
 
 use OpenStack\Common\ArrayAccessTrait;
-use Prophecy\PhpUnit\ProphecyTestCase;
+use OpenStack\Test\TestCase;
 
-class ArrayAccessTraitTest extends ProphecyTestCase
+class ArrayAccessTraitTest extends TestCase
 {
     private $aa;
 

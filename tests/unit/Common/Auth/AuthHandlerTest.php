@@ -3,13 +3,12 @@
 namespace OpenStack\Test\Common\Auth;
 
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Uri;
 use OpenStack\Common\Auth\AuthHandler;
 use OpenStack\Identity\v3\Models\Token;
-use Prophecy\PhpUnit\ProphecyTestCase;
+use OpenStack\Test\TestCase;
 use Psr\Http\Message\RequestInterface;
 
-class AuthHandlerTest extends ProphecyTestCase
+class AuthHandlerTest extends TestCase
 {
     const TOKEN_ID = 'tokenId';
 
