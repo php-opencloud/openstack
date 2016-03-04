@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration;
+namespace OpenStack\integration;
 
 use GuzzleHttp\Client;
 use OpenStack\Identity\v2\Api;

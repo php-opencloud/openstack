@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration;
+namespace OpenStack\integration;
 
 use Psr\Log\AbstractLogger;
 

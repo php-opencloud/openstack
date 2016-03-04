@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration\ObjectStore;
+namespace OpenStack\integration\ObjectStore;
 
 use OpenStack\Integration\TestCase;
 use OpenStack\Integration\Utils;

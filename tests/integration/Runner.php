@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration;
+namespace OpenStack\integration;
 
 class Runner
 {
@@ -35,7 +35,7 @@ class Runner
     {
         $opts = getopt('s:v:t:', ['service:', 'version:', 'test::', 'debug::', 'help::']);
 
-        $getOpt = function(array $keys, $default) use ($opts) {
+        $getOpt = function (array $keys, $default) use ($opts) {
             foreach ($keys as $key) {
                 if (isset($opts[$key])) {
                     return $opts[$key];
@@ -93,7 +93,7 @@ class Runner
 
     public function runServices()
     {
-        list ($serviceOpt, $versionOpt, $testMethodOpt, $verbosityOpt) = $this->getOpts();
+        list($serviceOpt, $versionOpt, $testMethodOpt, $verbosityOpt) = $this->getOpts();
 
         foreach ($this->getRunnableServices($serviceOpt, $versionOpt) as $serviceName => $versions) {
             foreach ($versions as $version) {

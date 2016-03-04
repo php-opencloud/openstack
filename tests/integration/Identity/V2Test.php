@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration\Identity;
+namespace OpenStack\integration\Identity;
 
 use OpenStack\Integration\TestCase;
 

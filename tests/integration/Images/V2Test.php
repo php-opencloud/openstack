@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration\Images;
+namespace OpenStack\integration\Images;
 
 use OpenStack\Images\v2\Models\Image;
 use OpenStack\Images\v2\Models\Member;

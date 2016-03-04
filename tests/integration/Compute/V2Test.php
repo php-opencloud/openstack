@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration\Compute;
+namespace OpenStack\integration\Compute;
 
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;

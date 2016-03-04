@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration;
+namespace OpenStack\integration;
 
 class SampleManager implements SampleManagerInterface
 {

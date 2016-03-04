@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration\Networking;
+namespace OpenStack\integration\Networking;
 
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
