@@ -5,7 +5,6 @@ namespace OpenStack\Common\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
-use OpenStack\Common\Auth\ServiceUrlResolver;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Transport\HandlerStack;
 use OpenStack\Common\Transport\Middleware;
@@ -26,6 +25,9 @@ class Builder
      */
     private $globalOptions = [];
 
+    /** @var string */
+    private $rootNamespace;
+
     /**
      * Defaults that will be applied to options if no values are provided by the user.
      *
@@ -38,9 +40,10 @@ class Builder
      *                             Eventually they will be merged (and if necessary overridden) by the
      *                             service-specific options passed in.
      */
-    public function __construct(array $globalOptions = [])
+    public function __construct(array $globalOptions = [], $rootNamespace = 'OpenStack')
     {
         $this->globalOptions = $globalOptions;
+        $this->rootNamespace = $rootNamespace;
     }
 
     /**
@@ -53,7 +56,7 @@ class Builder
      */
     private function getClasses($serviceName, $serviceVersion)
     {
-        $rootNamespace = sprintf("OpenStack\\%s\\v%d", $serviceName, $serviceVersion);
+        $rootNamespace = sprintf("%s\\%s\\v%d", $this->rootNamespace, $serviceName, $serviceVersion);
 
         return [
             sprintf("%s\\Api", $rootNamespace),

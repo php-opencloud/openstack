@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v2;
 
+use GuzzleHttp\ClientInterface;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Service\AbstractService;
 use OpenStack\Identity\v2\Models\Catalog;
@@ -14,6 +15,11 @@ use OpenStack\Identity\v2\Models\Token;
  */
 class Service extends AbstractService implements IdentityService
 {
+    public static function factory(ClientInterface $client)
+    {
+        return new static($client, new Api());
+    }
+
     public function authenticate(array $options = [])
     {
         $definition = $this->api->postToken();

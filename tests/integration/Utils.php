@@ -48,6 +48,12 @@ class Utils
         $authOptions = getenv('OS_IDENTITY_API_VERSION') == '2.0'
             ? self::getAuthOptsV2()
             : self::getAuthOptsV3();
+
         return array_merge($authOptions, $options);
+    }
+
+    public static function toCamelCase($word, $separator = '_')
+    {
+        return str_replace($separator, '', ucwords($word, $separator));
     }
 }

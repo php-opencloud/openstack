@@ -95,9 +95,9 @@ trait HasWaiterTrait
      *                          or exceed this timeout, the blocking operation will immediately cease. If FALSE
      *                          is provided, the timeout will never be considered.
      */
-    public function waitUntilActive($timeout = 60)
+    public function waitUntilActive($timeout = false)
     {
-        $this->waitUntil('ACTIVE');
+        $this->waitUntil('ACTIVE', $timeout);
     }
 
     public function waitUntilDeleted($timeout = 60, $sleepPeriod = 1)

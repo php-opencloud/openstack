@@ -4,11 +4,13 @@ namespace OpenStack\Integration;
 
 class Runner
 {
+    private $basePath;
     private $logger;
     private $services = [];
 
-    public function __construct()
+    public function __construct($basePath)
     {
+        $this->basePath = $basePath;
         $this->logger = new DefaultLogger();
         $this->assembleServicesFromSamples();
     }
@@ -20,9 +22,7 @@ class Runner
 
     private function assembleServicesFromSamples()
     {
-        $path = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'samples';
-
-        foreach ($this->traverse($path) as $servicePath) {
+        foreach ($this->traverse($this->basePath) as $servicePath) {
             if ($servicePath->isDir()) {
                 foreach ($this->traverse($servicePath) as $versionPath) {
                     $this->services[$servicePath->getBasename()][] = $versionPath->getBasename();
@@ -33,31 +33,23 @@ class Runner
 
     private function getOpts()
     {
-        $opts = getopt('s:v:t:', [
-            'service:',
-            'version:',
-            'test::',
-            'debug::',
-            'help::',
-        ]);
+        $opts = getopt('s:v:t:', ['service:', 'version:', 'test::', 'debug::', 'help::']);
+
+        $getOpt = function(array $keys, $default) use ($opts) {
+            foreach ($keys as $key) {
+                if (isset($opts[$key])) {
+                    return $opts[$key];
+                }
+            }
+            return $default;
+        };
 
         return [
-            $this->getOpt($opts, ['s', 'service'], 'all'),
-            $this->getOpt($opts, ['n', 'version'], 'all'),
-            $this->getOpt($opts, ['t', 'test'], ''),
+            $getOpt(['s', 'service'], 'all'),
+            $getOpt(['n', 'version'], 'all'),
+            $getOpt(['t', 'test'], ''),
             isset($opts['debug']) ? (int) $opts['debug'] : 0,
         ];
-    }
-
-    private function getOpt(array $opts, array $keys, $default)
-    {
-        foreach ($keys as $key) {
-            if (isset($opts[$key])) {
-                return $opts[$key];
-            }
-        }
-
-        return $default;
     }
 
     private function getRunnableServices($service, $version)
@@ -65,53 +57,56 @@ class Runner
         $services = $this->services;
 
         if ($service != 'all') {
-            if (!isset($this->services[strtolower($service)])) {
-                $this->logger->emergency('{service} service does not exist', ['{service}' => $service]);
-                exit;
+            if (!isset($this->services[$service])) {
+                throw new \InvalidArgumentException(sprintf("%s service does not exist", $service));
             }
 
-            if ($version == 'all') {
-                $versions = $this->services[strtolower($service)];
-            } else {
-                $versions = [$version];
-            }
-
+            $versions = ($version == 'all') ? $this->services[$service] : [$version];
             $services = [$service => $versions];
         }
 
         return $services;
     }
 
-    private function toCamelCase($word, $separator = '_')
+    /**
+     * @return TestInterface
+     */
+    private function getTest($serviceName, $version, $verbosity)
     {
-        return str_replace($separator, '', ucwords($word, $separator));
+        $namespace = (new \ReflectionClass($this))->getNamespaceName();
+        $className = sprintf("%s\\%s\\%sTest", $namespace, Utils::toCamelCase($serviceName), ucfirst($version));
+
+        if (!class_exists($className)) {
+            throw new \RuntimeException(sprintf("%s does not exist", $className));
+        }
+
+        $basePath = $this->basePath . DIRECTORY_SEPARATOR . $serviceName . DIRECTORY_SEPARATOR . $version;
+        $smClass = sprintf("%s\\SampleManager", $namespace);
+        $class = new $className($this->logger, new $smClass($basePath, $verbosity));
+
+        if (!($class instanceof TestInterface)) {
+            throw new \RuntimeException(sprintf("%s does not implement TestInterface", $className));
+        }
+
+        return $class;
     }
 
     public function runServices()
     {
-        list($serviceOpt, $versionOpt, $testMethodOpt, $verbosity) = $this->getOpts();
+        list ($serviceOpt, $versionOpt, $testMethodOpt, $verbosityOpt) = $this->getOpts();
 
-        $services = $this->getRunnableServices($serviceOpt, $versionOpt, $testMethodOpt);
-
-        foreach ($services as $serviceName => $versions) {
+        foreach ($this->getRunnableServices($serviceOpt, $versionOpt) as $serviceName => $versions) {
             foreach ($versions as $version) {
-                $class = sprintf("%s\\%s\\%sTest", __NAMESPACE__, $this->toCamelCase($serviceName), ucfirst($version));
-                $testRunner = new $class($this->logger, $verbosity);
+                $testRunner = $this->getTest($serviceName, $version, $verbosityOpt);
 
-                if ($testMethodOpt && method_exists($testRunner, $testMethodOpt)) {
-                    $testRunner->startTimer();
-                    $testRunner->$testMethodOpt();
+                if ($testMethodOpt) {
+                    $testRunner->runOneTest($testMethodOpt);
                 } else {
                     $testRunner->runTests();
                 }
 
-                $testRunner->deletePaths();
+                $testRunner->teardown();
             }
         }
     }
 }
-
-require_once dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-
-$runner = new Runner();
-$runner->runServices();

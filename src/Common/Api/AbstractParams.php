@@ -14,10 +14,12 @@ abstract class AbstractParams
     // types
     const STRING_TYPE = "string";
     const BOOL_TYPE = "boolean";
+    const BOOLEAN_TYPE = self::BOOL_TYPE;
     const OBJECT_TYPE = "object";
     const ARRAY_TYPE = "array";
     const NULL_TYPE = "NULL";
     const INT_TYPE = 'integer';
+    const INTEGER_TYPE = self::INT_TYPE;
 
     public static function isSupportedLocation($val)
     {

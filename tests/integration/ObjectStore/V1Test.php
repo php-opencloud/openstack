@@ -14,7 +14,7 @@ class V1Test extends TestCase
     /**
      * @return \OpenStack\ObjectStore\v1\Service
      */
-    private function getService()
+    protected function getService()
     {
         if (null === $this->service) {
             $this->service = (new OpenStack())->objectStoreV1(Utils::getAuthOpts());
@@ -57,7 +57,7 @@ class V1Test extends TestCase
         $this->logStep('Getting account metadata');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'account/get_metadata.php');
-        $this->assertEquals([
+        $this->assertArraySubset([
             'Foo' => $replacements['{val_1}'],
             'Bar' => $replacements['{val_2}'],
         ], $metadata);

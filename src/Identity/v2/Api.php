@@ -7,7 +7,6 @@ use OpenStack\Common\Api\ApiInterface;
 /**
  * Represents the OpenStack Identity v2 API.
  *
- * @internal
  * @package OpenStack\Identity\v2
  */
 class Api implements ApiInterface
