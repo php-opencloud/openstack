@@ -18,7 +18,13 @@ class Utils
             JSON_ERROR_UTF8 => 'JSON_ERROR_UTF8 - Malformed UTF-8 characters, possibly incorrectly encoded'
         ];
 
-        $data = json_decode((string) $response->getBody(), $assoc);
+        $responseBody = (string) $response->getBody();
+
+        if (strlen($responseBody) === 0) {
+            return $responseBody;
+        }
+
+        $data = json_decode($responseBody, $assoc);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
             $last = json_last_error();
