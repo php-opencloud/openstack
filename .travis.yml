@@ -1,0 +1,30 @@
+language: php
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  include:
+    - php: 7.0
+    - php: nightly
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+
+before_install:
+  - composer self-update
+
+before_script:
+  - composer install --prefer-source
+  - vendor/bin/parallel-lint --exclude vendor .
+  - vendor/bin/php-cs-fixer fix --dry-run --diff --level psr2 .
+
+after_script:
+  - php vendor/bin/coveralls -v
+
+notifications:
+  email:
+    - jamie.hannaford@rackspace.com
