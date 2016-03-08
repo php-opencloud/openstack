@@ -9,7 +9,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "OpenStack\\": "src/",
+            "OpenStack\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "OpenStack\\Test\\": "tests/unit/",
             "OpenStack\\Integration\\": "tests/integration/"
         }
@@ -21,9 +25,7 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
-        "guzzlehttp/guzzle": "~6.1",
-        "justinrainbow/json-schema": "~1.3"
+        "php-opencloud/common": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
