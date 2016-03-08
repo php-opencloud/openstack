@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace OpenStack\BlockStorage\v2;
 
 use OpenStack\BlockStorage\v2\Models\Snapshot;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenStack;
 
@@ -37,7 +37,7 @@ class OpenStack
      *
      * @return \OpenStack\Compute\v2\Service
      */
-    public function computeV2(array $options = [])
+    public function computeV2(array $options = []): \OpenStack\Compute\v2\Service
     {
         $defaults = ['catalogName' => 'nova', 'catalogType' => 'compute'];
         return $this->builder->createService('Compute', 2, array_merge($defaults, $options));
@@ -50,7 +50,7 @@ class OpenStack
      *
      * @return \OpenStack\Networking\v2\Service
      */
-    public function networkingV2(array $options = [])
+    public function networkingV2(array $options = []): \OpenStack\Networking\v2\Service
     {
         $defaults = ['catalogName' => 'neutron', 'catalogType' => 'network'];
         return $this->builder->createService('Networking', 2, array_merge($defaults, $options));
@@ -63,7 +63,7 @@ class OpenStack
      *
      * @return \OpenStack\Identity\v2\Service
      */
-    public function identityV2(array $options = [])
+    public function identityV2(array $options = []): \OpenStack\Identity\v2\Service
     {
         $defaults = ['catalogName' => false, 'catalogType' => false];
         return $this->builder->createService('Identity', 2, array_merge($defaults, $options));
@@ -76,7 +76,7 @@ class OpenStack
      *
      * @return \OpenStack\Identity\v3\Service
      */
-    public function identityV3(array $options = [])
+    public function identityV3(array $options = []): \OpenStack\Identity\v3\Service
     {
         $defaults = ['catalogName' => false, 'catalogType' => false];
         return $this->builder->createService('Identity', 3, array_merge($defaults, $options));
@@ -89,7 +89,7 @@ class OpenStack
      *
      * @return \OpenStack\ObjectStore\v1\Service
      */
-    public function objectStoreV1(array $options = [])
+    public function objectStoreV1(array $options = []): \OpenStack\ObjectStore\v1\Service
     {
         $defaults = ['catalogName' => 'swift', 'catalogType' => 'object-store'];
         return $this->builder->createService('ObjectStore', 1, array_merge($defaults, $options));
@@ -102,7 +102,7 @@ class OpenStack
      *
      * @return \OpenStack\BlockStorage\v2\Service
      */
-    public function blockStorageV2(array $options = [])
+    public function blockStorageV2(array $options = []): \OpenStack\BlockStorage\v2\Service
     {
         $defaults = ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'];
         return $this->builder->createService('BlockStorage', 2, array_merge($defaults, $options));
@@ -115,7 +115,7 @@ class OpenStack
      *
      * @return \OpenStack\Images\v2\Service
      */
-    public function imagesV2(array $options = [])
+    public function imagesV2(array $options = []): \OpenStack\Images\v2\Service
     {
         $defaults = ['catalogName' => 'glance', 'catalogType' => 'image'];
         return $this->builder->createService('Images', 2, array_merge($defaults, $options));
