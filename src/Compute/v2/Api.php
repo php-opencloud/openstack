@@ -2,7 +2,7 @@
 
 namespace OpenStack\Compute\v2;
 
-use OpenStack\Common\Api\AbstractApi;
+use OpenCloud\Common\Api\AbstractApi;
 
 /**
  * A representation of the Compute (Nova) v2 REST API.

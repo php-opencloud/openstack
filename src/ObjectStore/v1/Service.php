@@ -2,8 +2,8 @@
 
 namespace OpenStack\ObjectStore\v1;
 
-use OpenStack\Common\Error\BadResponseError;
-use OpenStack\Common\Service\AbstractService;
+use OpenCloud\Common\Error\BadResponseError;
+use OpenCloud\Common\Service\AbstractService;
 use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
 

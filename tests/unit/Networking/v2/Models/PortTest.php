@@ -5,7 +5,7 @@ namespace OpenStack\Test\Subneting\v2\Models;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Networking\v2\Api;
 use OpenStack\Networking\v2\Models\Port;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 
 class PortTest extends TestCase
 {

@@ -4,12 +4,12 @@ namespace OpenStack\Test\ObjectStore\v1;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use OpenStack\Common\Error\BadResponseError;
+use OpenCloud\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
 use OpenStack\ObjectStore\v1\Service;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 
 class ServiceTest extends TestCase
 {
@@ -69,7 +69,7 @@ class ServiceTest extends TestCase
     }
 
     /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
+     * @expectedException \OpenCloud\Common\Error\BadResponseError
      */
     public function test_it_throws_exception_when_error()
     {

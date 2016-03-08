@@ -5,11 +5,11 @@ namespace OpenStack\Test\ObjectStore\v1\Models;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
-use OpenStack\Common\Error\BadResponseError;
+use OpenCloud\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Container;
 use OpenStack\ObjectStore\v1\Models\Object;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
 class ContainerTest extends TestCase
@@ -161,7 +161,7 @@ class ContainerTest extends TestCase
     }
 
     /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
+     * @expectedException \OpenCloud\Common\Error\BadResponseError
      */
     public function test_other_exceptions_are_thrown()
     {

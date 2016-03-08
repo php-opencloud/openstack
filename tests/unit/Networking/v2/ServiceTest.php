@@ -7,7 +7,7 @@ use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Subnet;
 use OpenStack\Networking\v2\Service;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
 class ServiceTest extends TestCase

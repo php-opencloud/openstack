@@ -2,7 +2,8 @@
 
 namespace OpenStack\Test;
 
-use OpenStack\Common\Service\Builder;
+use OpenCloud\Test\TestCase;
+use OpenCloud\Common\Service\Builder;
 use OpenStack\OpenStack;
 
 class OpenStackTest extends TestCase

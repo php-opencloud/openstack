@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Fixtures;
 
-use OpenStack\Common\Api\ApiInterface;
+use OpenCloud\Common\Api\ApiInterface;
 
 class IdentityV2Api implements ApiInterface
 {

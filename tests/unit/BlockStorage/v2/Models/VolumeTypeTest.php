@@ -5,7 +5,7 @@ namespace OpenStack\Test\BlockStorage\v2\Models;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\BlockStorage\v2\Api;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 
 class VolumeTypeTest extends TestCase
 {

@@ -5,8 +5,8 @@ namespace OpenStack\integration\BlockStorage;
 use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
-use OpenStack\Integration\TestCase;
-use OpenStack\Integration\Utils;
+use OpenCloud\Integration\TestCase;
+use OpenCloud\Integration\Utils;
 use OpenStack\OpenStack;
 
 class V2Test extends TestCase

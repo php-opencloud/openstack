@@ -2,7 +2,7 @@
 
 namespace OpenStack\Images\v2;
 
-use OpenStack\Common\Api\AbstractParams;
+use OpenCloud\Common\Api\AbstractParams;
 use Psr\Http\Message\StreamInterface;
 
 class Params extends AbstractParams

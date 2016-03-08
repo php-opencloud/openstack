@@ -2,7 +2,7 @@
 
 namespace OpenStack;
 
-use OpenStack\Common\Service\Builder;
+use OpenCloud\Common\Service\Builder;
 
 /**
  * This class is the primary entry point for working with the SDK. It allows for the easy creation

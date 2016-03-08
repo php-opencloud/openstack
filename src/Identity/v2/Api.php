@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v2;
 
-use OpenStack\Common\Api\ApiInterface;
+use OpenCloud\Common\Api\ApiInterface;
 
 /**
  * Represents the OpenStack Identity v2 API.

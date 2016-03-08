@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use OpenStack\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\AbstractResource;
 
 /**
  * Represents an Identity v2 Catalog Entry.

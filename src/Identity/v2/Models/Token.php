@@ -2,17 +2,17 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use OpenStack\Common\Transport\Utils;
+use OpenCloud\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
-use OpenStack\Common\Resource\AbstractResource;
-use OpenStack\Common\Resource\ValueResource;
+use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\ValueResource;
 
 /**
  * Represents an Identity v2 Token.
  *
  * @package OpenStack\Identity\v2\Models
  */
-class Token extends AbstractResource implements \OpenStack\Common\Auth\Token
+class Token extends AbstractResource implements \OpenCloud\Common\Auth\Token
 {
     /** @var \DateTimeImmutable */
     public $issuedAt;

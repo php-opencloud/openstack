@@ -8,7 +8,7 @@ use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Service;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
 class ServiceTest extends TestCase

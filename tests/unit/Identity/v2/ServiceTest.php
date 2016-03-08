@@ -5,7 +5,7 @@ namespace OpenStack\Test\Identity\v2;
 use OpenStack\Identity\v2\Api;
 use OpenStack\Identity\v2\Models\Token;
 use OpenStack\Identity\v2\Service;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 
 class ServiceTest extends TestCase
 {

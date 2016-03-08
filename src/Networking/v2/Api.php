@@ -2,7 +2,7 @@
 
 namespace OpenStack\Networking\v2;
 
-use OpenStack\Common\Api\AbstractApi;
+use OpenCloud\Common\Api\AbstractApi;
 
 /**
  * A representation of the Neutron (Nova) v2 REST API.

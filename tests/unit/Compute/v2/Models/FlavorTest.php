@@ -4,7 +4,7 @@ namespace OpenStack\Test\Compute\v2\Models;
 
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 
 class FlavorTest extends TestCase
 {

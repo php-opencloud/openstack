@@ -1,7 +1,7 @@
 <?php
 namespace OpenStack\BlockStorage\v2;
 
-use OpenStack\Common\Api\AbstractParams;
+use OpenCloud\Common\Api\AbstractParams;
 
 class Params extends AbstractParams
 {

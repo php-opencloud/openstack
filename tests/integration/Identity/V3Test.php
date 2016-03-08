@@ -3,8 +3,8 @@
 namespace OpenStack\integration\Identity;
 
 use OpenStack\Identity\v3\Models;
-use OpenStack\Integration\TestCase;
-use OpenStack\Integration\Utils;
+use OpenCloud\Integration\TestCase;
+use OpenCloud\Integration\Utils;
 use OpenStack\OpenStack;
 
 class V3Test extends TestCase

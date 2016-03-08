@@ -5,7 +5,7 @@ namespace OpenStack\integration\Networking;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Subnet;
-use OpenStack\Integration\TestCase;
+use OpenCloud\Integration\TestCase;
 use OpenStack\OpenStack;
 
 class V2Test extends TestCase

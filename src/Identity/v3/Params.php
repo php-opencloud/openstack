@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v3;
 
-use OpenStack\Common\Api\AbstractParams;
+use OpenCloud\Common\Api\AbstractParams;
 
 class Params extends AbstractParams
 {

@@ -5,7 +5,7 @@ namespace unit\Images\v2\Models;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Images\v2\Api;
 use OpenStack\Images\v2\Models\Member;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 
 class MemberTest extends TestCase
 {

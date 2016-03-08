@@ -2,8 +2,8 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use OpenStack\Common\HydratorStrategyTrait;
-use OpenStack\Common\Resource\AbstractResource;
+use OpenCloud\Common\HydratorStrategyTrait;
+use OpenCloud\Common\Resource\AbstractResource;
 
 /**
  * Represents an Identity v2 catalog entry endpoint.

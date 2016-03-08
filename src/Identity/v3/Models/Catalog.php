@@ -2,12 +2,12 @@
 
 namespace OpenStack\Identity\v3\Models;
 
-use OpenStack\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\AbstractResource;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
+class Catalog extends AbstractResource implements \OpenCloud\Common\Auth\Catalog
 {
     /** @var []Service */
     public $services;

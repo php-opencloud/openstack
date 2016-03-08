@@ -2,8 +2,8 @@
 
 namespace OpenStack\Identity\v3\Models;
 
-use OpenStack\Common\Resource\AbstractResource;
-use OpenStack\Common\Resource\Listable;
+use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\Listable;
 
 class Assignment extends AbstractResource implements Listable
 {

@@ -2,7 +2,7 @@
 
 namespace OpenStack\Images\v2;
 
-use OpenStack\Common\Service\AbstractService;
+use OpenCloud\Common\Service\AbstractService;
 use OpenStack\Images\v2\Models\Image;
 
 /**

@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Server;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
 class ServerTest extends TestCase

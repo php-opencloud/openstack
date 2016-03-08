@@ -2,7 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1;
 
-use OpenStack\Common\Api\AbstractParams;
+use OpenCloud\Common\Api\AbstractParams;
 use Psr\Http\Message\StreamInterface;
 
 class Params extends AbstractParams

@@ -2,8 +2,8 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use OpenStack\Common\Resource\AbstractResource;
-use OpenStack\Common\Transport\Utils;
+use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @package OpenStack\Identity\v2\Models
  */
-class Catalog extends AbstractResource implements \OpenStack\Common\Auth\Catalog
+class Catalog extends AbstractResource implements \OpenCloud\Common\Auth\Catalog
 {
     const DEFAULT_URL_TYPE = 'publicURL';
 

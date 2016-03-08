@@ -6,7 +6,7 @@ use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Psr7\Stream;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Object;
-use OpenStack\Test\TestCase;
+use OpenCloud\Test\TestCase;
 
 class ObjectTest extends TestCase
 {

@@ -2,7 +2,7 @@
 
 namespace OpenStack\Networking\v2;
 
-use OpenStack\Common\Api\AbstractParams;
+use OpenCloud\Common\Api\AbstractParams;
 
 class Params extends AbstractParams
 {

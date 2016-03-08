@@ -2,7 +2,7 @@
 
 namespace OpenStack\integration\Identity;
 
-use OpenStack\Integration\TestCase;
+use OpenCloud\Integration\TestCase;
 
 class V2Test extends TestCase
 {
