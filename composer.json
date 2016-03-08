@@ -1,0 +1,36 @@
+{
+    "name": "php-opencloud/common",
+    "authors": [
+        {
+            "name": "Jamie Hannaford",
+            "email": "jamie.hannaford@rackspace.com",
+            "homepage" : "https://github.com/jamiehannaford"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "OpenCloud\\": "src/",
+            "OpenCloud\\Test\\": "tests/unit/",
+            "OpenCloud\\Integration\\": "tests/integration/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/php-opencloud/Sami"
+        }
+    ],
+    "require": {
+        "php": "~7.0",
+        "guzzlehttp/guzzle": "~6.1",
+        "justinrainbow/json-schema": "~1.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "sami/sami": "dev-master",
+        "psr/log": "~1.0",
+        "satooshi/php-coveralls": "~1.0",
+        "jakub-onderka/php-parallel-lint": "0.*",
+        "fabpot/php-cs-fixer": "~1.0"
+    }
+}
