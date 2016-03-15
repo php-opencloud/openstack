@@ -27,7 +27,7 @@ class OpenStack
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
-        $this->builder = $builder ?: new Builder($options);
+        $this->builder = $builder ?: new Builder($options, 'OpenStack');
     }
 
     /**
