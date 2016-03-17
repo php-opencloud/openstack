@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Resource;
 
@@ -60,7 +60,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      *
      * @return $this|ResourceInterface
      */
-    public function populateFromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response): self
     {
         if (strpos($response->getHeaderLine('Content-Type'), 'application/json') === 0) {
             $json = Utils::jsonDecode($response);
@@ -79,7 +79,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      *
      * @return mixed|void
      */
-    public function populateFromArray(array $array)
+    public function populateFromArray(array $array): self
     {
         $reflClass = new \ReflectionClass($this);
 
@@ -94,9 +94,11 @@ abstract class AbstractResource extends Operator implements ResourceInterface
                 $this->$propertyName = $val;
             }
         }
+
+        return $this;
     }
 
-    private function parseDocBlockValue($type, $val)
+    private function parseDocBlockValue(string $type, $val)
     {
         if (strpos($type, '[]') === 0 && is_array($val)) {
             $array = [];
@@ -113,7 +115,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return $val;
     }
 
-    private function isNotNativeType($type)
+    private function isNotNativeType(string $type): bool
     {
         return !in_array($type, [
             'string', 'bool', 'boolean', 'double', 'null', 'array', 'object', 'int', 'integer', 'float', 'numeric',
@@ -121,7 +123,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         ]);
     }
 
-    private function normalizeModelClass($class)
+    private function normalizeModelClass(string $class): string
     {
         if (strpos($class, '\\') === false) {
             $currentNamespace = (new \ReflectionClass($this))->getNamespaceName();
@@ -131,7 +133,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return $class;
     }
 
-    private function extractTypeFromDocBlock(\ReflectionClass $reflClass, $propertyName)
+    private function extractTypeFromDocBlock(\ReflectionClass $reflClass, string $propertyName)
     {
         $docComment = $reflClass->getProperty($propertyName)->getDocComment();
 
@@ -174,7 +176,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return $this->execute($definition, $this->getAttrs(array_keys($definition['params'])));
     }
 
-    private function getResourcesKey()
+    private function getResourcesKey(): string
     {
         $resourcesKey = $this->resourcesKey;
 
@@ -189,7 +191,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
     /**
      * {@inheritDoc}
      */
-    public function enumerate(array $def, array $userVals = [], callable $mapFn = null)
+    public function enumerate(array $def, array $userVals = [], callable $mapFn = null): \Generator
     {
         $operation = $this->getOperation($def);
 
@@ -217,7 +219,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return $iterator();
     }
 
-    public function extractMultipleInstances(ResponseInterface $response, $key = null)
+    public function extractMultipleInstances(ResponseInterface $response, string $key = null): array
     {
         $key = $key ?: $this->getResourcesKey();
         $resourcesData = Utils::jsonDecode($response)[$key];

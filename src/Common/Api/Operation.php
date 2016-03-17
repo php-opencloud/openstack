@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Api;
-
-use GuzzleHttp\Utils;
 
 /**
  * This class represents an OpenCloud API operation. It encapsulates most aspects of the REST operation: its HTTP
@@ -49,7 +47,7 @@ class Operation
     /**
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -57,7 +55,7 @@ class Operation
     /**
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -69,7 +67,7 @@ class Operation
      *
      * @return bool
      */
-    public function hasParam($key)
+    public function hasParam(string $key): bool
     {
         return isset($this->params[$key]);
     }
@@ -79,7 +77,7 @@ class Operation
      *
      * @return Parameter
      */
-    public function getParam($name)
+    public function getParam(string $name)
     {
         return isset($this->params[$name]) ? $this->params[$name] : null;
     }
@@ -87,9 +85,9 @@ class Operation
     /**
      * @return string
      */
-    public function getJsonKey()
+    public function getJsonKey(): string
     {
-        return $this->jsonKey;
+        return $this->jsonKey ?: '';
     }
 
     /**
@@ -100,7 +98,7 @@ class Operation
      *
      * @return array
      */
-    public static function toParamArray(array $data)
+    public static function toParamArray(array $data): array
     {
         $params = [];
 
@@ -121,7 +119,7 @@ class Operation
      * @return bool       TRUE if validation passes
      * @throws \Exception If validate fails
      */
-    public function validate(array $userValues)
+    public function validate(array $userValues): bool
     {
         foreach ($this->params as $paramName => $param) {
             if (array_key_exists($paramName, $userValues)) {

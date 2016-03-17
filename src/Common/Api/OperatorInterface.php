@@ -1,8 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Api;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use OpenCloud\Common\Resource\ResourceInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * An operator is any resource or service that can invoke and send REST operations. In other words, it
@@ -28,7 +31,7 @@ interface OperatorInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function execute(array $definition, array $userValues = []);
+    public function execute(array $definition, array $userValues = []): ResponseInterface;
 
     /**
      * A convenience method that assembles an operation and asynchronously sends it to the remote API
@@ -38,7 +41,7 @@ interface OperatorInterface
      *
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function executeAsync(array $definition, array $userValues = []);
+    public function executeAsync(array $definition, array $userValues = []): PromiseInterface;
 
     /**
      * @param string $name The name of the model class.
@@ -47,5 +50,5 @@ interface OperatorInterface
      *
      * @return \OpenCloud\Common\Resource\ResourceInterface
      */
-    public function model($name, $data = null);
+    public function model(string $name, $data = null): ResourceInterface;
 }

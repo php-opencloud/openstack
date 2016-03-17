@@ -47,8 +47,8 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
         $itemSchema = $this->prophesize(Parameter::class);
         $itemSchema->isArray()->shouldBeCalled()->willReturn(false);
         $itemSchema->isObject()->shouldBeCalled()->willReturn(false);
-        $itemSchema->getName()->shouldBeCalled()->willReturn(null);
-        $itemSchema->getPath()->shouldBeCalled()->willReturn(null);
+        $itemSchema->getName()->shouldBeCalled()->willReturn('');
+        $itemSchema->getPath()->shouldBeCalled()->willReturn('');
 
         $param->getItemSchema()->shouldBeCalled()->willReturn($itemSchema);
 
@@ -67,7 +67,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
         $prop->isArray()->shouldBeCalled()->willReturn(false);
         $prop->isObject()->shouldBeCalled()->willReturn(false);
         $prop->getName()->shouldBeCalled()->willReturn('foo');
-        $prop->getPath()->shouldBeCalled()->willReturn(null);
+        $prop->getPath()->shouldBeCalled()->willReturn('');
 
         $param = $this->prophesize(Parameter::class);
         $param->isArray()->shouldBeCalled()->willReturn(false);
@@ -78,7 +78,7 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
 
         $expected = ['topLevel' => ['foo' => true]];
 
-        $json = $this->serializer->stockJson($param->reveal(), ['foo' => true], []);
+        $json = $this->serializer->stockJson($param->reveal(), (object) ['foo' => true], []);
 
         $this->assertEquals($expected, $json);
     }

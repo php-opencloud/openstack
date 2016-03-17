@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace OpenCloud\Common;
 
@@ -42,7 +42,7 @@ class JsonPath
      * @param $path  The XPath to use
      * @param $value The new value of the node
      */
-    public function set($path, $value)
+    public function set(string $path, $value)
     {
         $this->jsonStructure = $this->setPath($path, $value, $this->jsonStructure);
     }
@@ -53,9 +53,10 @@ class JsonPath
      * @param $path
      * @param $value
      * @param $json
+     *
      * @return mixed
      */
-    private function setPath($path, $value, $json)
+    private function setPath(string $path, $value, array $json): array
     {
         $nodes = explode('.', $path);
         $point = array_shift($nodes);
@@ -87,9 +88,10 @@ class JsonPath
      * Get a path's value. If no path can be matched, NULL is returned.
      *
      * @param $path
+     *
      * @return mixed|null
      */
-    public function get($path)
+    public function get(string $path)
     {
         return $this->getPath($path, $this->jsonStructure);
     }
@@ -99,9 +101,10 @@ class JsonPath
      *
      * @param $path
      * @param $json
+     *
      * @return null
      */
-    private function getPath($path, $json)
+    private function getPath(string $path, $json)
     {
         $nodes = explode('.', $path);
         $point = array_shift($nodes);

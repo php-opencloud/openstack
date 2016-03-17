@@ -1,7 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Api;
 
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Uri;
 use function GuzzleHttp\uri_template;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
@@ -60,12 +62,12 @@ abstract class Operator implements OperatorInterface
      *
      * @return Operation
      */
-    public function getOperation(array $definition)
+    public function getOperation(array $definition): Operation
     {
         return new Operation($definition);
     }
 
-    protected function sendRequest(Operation $operation, array $userValues = [], $async = false)
+    protected function sendRequest(Operation $operation, array $userValues = [], bool $async = false)
     {
         $operation->validate($userValues);
 
@@ -79,7 +81,7 @@ abstract class Operator implements OperatorInterface
     /**
      * {@inheritDoc}
      */
-    public function execute(array $definition, array $userValues = [])
+    public function execute(array $definition, array $userValues = []): ResponseInterface
     {
         return $this->sendRequest($this->getOperation($definition), $userValues);
     }
@@ -87,7 +89,7 @@ abstract class Operator implements OperatorInterface
     /**
      * {@inheritDoc}
      */
-    public function executeAsync(array $definition, array $userValues = [])
+    public function executeAsync(array $definition, array $userValues = []): PromiseInterface
     {
         return $this->sendRequest($this->getOperation($definition), $userValues, true);
     }
@@ -95,7 +97,7 @@ abstract class Operator implements OperatorInterface
     /**
      * {@inheritDoc}
      */
-    public function model($class, $data = null)
+    public function model(string $class, $data = null): ResourceInterface
     {
         $model = new $class($this->client, $this->api);
 
@@ -121,7 +123,7 @@ abstract class Operator implements OperatorInterface
      *
      * @return static
      */
-    public function newInstance()
+    public function newInstance(): self
     {
         return new static($this->client, $this->api);
     }
@@ -129,7 +131,7 @@ abstract class Operator implements OperatorInterface
     /**
      * @return \GuzzleHttp\Psr7\Uri
      */
-    protected function getHttpBaseUrl()
+    protected function getHttpBaseUrl(): Uri
     {
         return $this->client->getConfig('base_uri');
     }

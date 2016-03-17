@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common;
 
@@ -25,7 +25,7 @@ trait HydratorStrategyTrait
         }
     }
 
-    private function set($key, $property, array $data, callable $fn = null)
+    private function set(string $key, $property, array $data, callable $fn = null)
     {
         if (isset($data[$key]) && property_exists($this, $property)) {
             $value = $fn ? call_user_func($fn, $data[$key]) : $data[$key];

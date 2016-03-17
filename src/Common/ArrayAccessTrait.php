@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common;
 
@@ -38,7 +38,7 @@ trait ArrayAccessTrait
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(string $offset): bool
     {
         return isset($this->internalState[$offset]);
     }
@@ -48,7 +48,7 @@ trait ArrayAccessTrait
      *
      * @param string $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(string $offset)
     {
         unset($this->internalState[$offset]);
     }
@@ -60,7 +60,7 @@ trait ArrayAccessTrait
      *
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet(string $offset)
     {
         return $this->offsetExists($offset) ? $this->internalState[$offset] : null;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Api;
 
@@ -42,7 +42,7 @@ class Parameter
      *
      * @var string
      */
-    private $name;
+    private $name = '';
 
     /**
      * The alias for this parameter. Although the user will always interact with the human-friendly $name property,
@@ -50,7 +50,7 @@ class Parameter
      *
      * @var string
      */
-    private $sentAs;
+    private $sentAs = '';
 
     /**
      * For array parameters (for example, an array of security group names when creating a server), each array element
@@ -79,7 +79,7 @@ class Parameter
      *
      * @var string
      */
-    private $type;
+    private $type = '';
 
     /**
      * Indicates whether this parameter requires a value from the user.
@@ -94,7 +94,7 @@ class Parameter
      *
      * @var string
      */
-    private $location;
+    private $location = '';
 
     /**
      * Relevant to "json" location parameters only. This property allows for deep nesting through the use of
@@ -102,14 +102,14 @@ class Parameter
      *
      * @var string
      */
-    private $path;
+    private $path = '';
 
     /**
      * Allows for the prefixing of parameter names.
      *
      * @var string
      */
-    private $prefix;
+    private $prefix = '';
 
     /**
      * The enum values for which this param is restricted.
@@ -151,7 +151,7 @@ class Parameter
     private function stockProperties(array $data)
     {
         if (isset($data['properties'])) {
-            if (stripos($this->name, 'metadata') !== false) {
+            if ($this->name && stripos($this->name, 'metadata') !== false) {
                 $this->properties = new Parameter($data['properties']);
             } else {
                 foreach ($data['properties'] as $name => $property) {
@@ -166,7 +166,7 @@ class Parameter
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->sentAs ?: $this->name;
     }
@@ -176,7 +176,7 @@ class Parameter
      *
      * @return bool
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->required === true;
     }
@@ -189,7 +189,7 @@ class Parameter
      * @return bool       TRUE if the validation passes
      * @throws \Exception If validation fails
      */
-    public function validate($userValues)
+    public function validate($userValues): bool
     {
         $this->validateEnums($userValues);
         $this->validateType($userValues);
@@ -245,9 +245,9 @@ class Parameter
      * @returns Parameter
      * @throws \Exception
      */
-    private function getNestedProperty($key)
+    private function getNestedProperty($key): Parameter
     {
-        if (stripos($this->name, 'metadata') !== false && $this->properties instanceof Parameter) {
+        if ($this->name && stripos($this->name, 'metadata') !== false && $this->properties instanceof Parameter) {
             return $this->properties;
         } elseif (isset($this->properties[$key])) {
             return $this->properties[$key];
@@ -264,7 +264,7 @@ class Parameter
      *
      * @return bool
      */
-    private function hasCorrectType($userValue)
+    private function hasCorrectType($userValue): bool
     {
         // Helper fn to see whether an array is associative (i.e. a JSON object)
         $isAssociative = function ($value) {
@@ -293,7 +293,7 @@ class Parameter
      *
      * @return bool
      */
-    public function isArray()
+    public function isArray(): bool
     {
         return $this->type == 'array' && $this->itemSchema instanceof Parameter;
     }
@@ -303,12 +303,12 @@ class Parameter
      *
      * @return bool
      */
-    public function isObject()
+    public function isObject(): bool
     {
         return $this->type == 'object' && !empty($this->properties);
     }
 
-    public function getLocation()
+    public function getLocation(): string
     {
         return $this->location;
     }
@@ -320,7 +320,7 @@ class Parameter
      *
      * @return bool
      */
-    public function hasLocation($value)
+    public function hasLocation($value): bool
     {
         return $this->location == $value;
     }
@@ -330,7 +330,7 @@ class Parameter
      *
      * @return string|null
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -340,7 +340,7 @@ class Parameter
      *
      * @return Parameter
      */
-    public function getItemSchema()
+    public function getItemSchema(): Parameter
     {
         return $this->itemSchema;
     }
@@ -350,7 +350,7 @@ class Parameter
      *
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -362,7 +362,7 @@ class Parameter
      *
      * @return null|Parameter
      */
-    public function getProperty($name)
+    public function getProperty(string $name)
     {
         if ($this->properties instanceof Parameter) {
             $this->properties->setName($name);
@@ -377,12 +377,12 @@ class Parameter
      *
      * @return string|null
      */
-    public function getPrefix()
+    public function getPrefix(): string
     {
         return $this->prefix;
     }
 
-    public function getPrefixedName()
+    public function getPrefixedName(): string
     {
         return $this->prefix . $this->getName();
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Transport;
 
@@ -8,7 +8,7 @@ use Psr\Http\Message\UriInterface;
 
 class Utils
 {
-    public static function jsonDecode(ResponseInterface $response, $assoc = true)
+    public static function jsonDecode(ResponseInterface $response, bool $assoc = true)
     {
         $jsonErrors = [
             JSON_ERROR_DEPTH => 'JSON_ERROR_DEPTH - Maximum stack depth exceeded',
@@ -40,11 +40,11 @@ class Utils
      * Method for flattening a nested array.
      *
      * @param array $data The nested array
-     * @param null  $key  The key to extract
+     * @param string  $key  The key to extract
      *
      * @return array
      */
-    public static function flattenJson($data, $key = null)
+    public static function flattenJson($data, string $key = null)
     {
         return (!empty($data) && $key && isset($data[$key])) ? $data[$key] : $data;
     }
@@ -59,7 +59,7 @@ class Utils
      *
      * @return string
      */
-    public static function normalizeUrl($url)
+    public static function normalizeUrl(string $url): string
     {
         if (strpos($url, 'http') === false) {
             $url = 'http://' . $url;
@@ -76,12 +76,12 @@ class Utils
      *
      * @return UriInterface
      */
-    public static function addPaths(UriInterface $uri, ...$paths)
+    public static function addPaths(UriInterface $uri, ...$paths): UriInterface
     {
         return uri_for(rtrim((string) $uri, '/') . '/' . implode('/', $paths));
     }
 
-    public static function appendPath(UriInterface $uri, $path)
+    public static function appendPath(UriInterface $uri, $path): UriInterface
     {
         return uri_for(rtrim((string) $uri, '/') . '/' . $path);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Resource;
 
@@ -15,5 +15,5 @@ interface Creatable
      * @param array $userOptions
      * @return self
      */
-    public function create(array $userOptions);
+    public function create(array $userOptions): self;
 }

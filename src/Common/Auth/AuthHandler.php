@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Auth;
 
@@ -14,10 +14,13 @@ use Psr\Http\Message\RequestInterface;
  */
 class AuthHandler
 {
+    /** @var callable */
     private $nextHandler;
 
+    /** @var callable */
     private $tokenGenerator;
 
+    /** @var Token */
     private $token;
 
     /**
@@ -66,7 +69,7 @@ class AuthHandler
      *
      * @return bool
      */
-    private function shouldIgnore(RequestInterface $request)
+    private function shouldIgnore(RequestInterface $request): bool
     {
         return strpos((string) $request->getUri(), 'tokens') !== false && $request->getMethod() == 'POST';
     }

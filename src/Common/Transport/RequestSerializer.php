@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Transport;
 
@@ -17,7 +17,7 @@ class RequestSerializer
         $this->jsonSerializer = $jsonSerializer ?: new JsonSerializer();
     }
 
-    public function serializeOptions(Operation $operation, array $userValues = [])
+    public function serializeOptions(Operation $operation, array $userValues = []): array
     {
         $options = ['headers' => []];
 

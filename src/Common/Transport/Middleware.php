@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Transport;
 
@@ -9,13 +9,15 @@ use OpenCloud\Common\Auth\AuthHandler;
 use OpenCloud\Common\Auth\Token;
 use OpenCloud\Common\Error\Builder;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 final class Middleware
 {
     /**
      * @return callable
      */
-    public static function httpErrors()
+    public static function httpErrors(): callable
     {
         return function (callable $handler) {
             return function ($request, array $options) use ($handler) {
@@ -37,7 +39,7 @@ final class Middleware
      *
      * @return callable
      */
-    public static function authHandler(callable $tokenGenerator, Token $token = null)
+    public static function authHandler(callable $tokenGenerator, Token $token = null): callable
     {
         return function (callable $handler) use ($tokenGenerator, $token) {
             return new AuthHandler($handler, $tokenGenerator, $token);
@@ -47,7 +49,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function history(array &$container)
+    public static function history(array &$container): callable
     {
         return GuzzleMiddleware::history($container);
     }
@@ -55,7 +57,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function retry(callable $decider, callable $delay = null)
+    public static function retry(callable $decider, callable $delay = null): callable
     {
         return GuzzleMiddleware::retry($decider, $delay);
     }
@@ -63,7 +65,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function log(LoggerInterface $logger, MessageFormatter $formatter, $logLevel = LogLevel::INFO)
+    public static function log(LoggerInterface $logger, MessageFormatter $formatter, $logLevel = LogLevel::INFO): callable
     {
         return GuzzleMiddleware::log($logger, $formatter, $logLevel);
     }
@@ -71,7 +73,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function prepareBody()
+    public static function prepareBody(): callable
     {
         return GuzzleMiddleware::prepareBody();
     }
@@ -79,7 +81,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function mapRequest(callable $fn)
+    public static function mapRequest(callable $fn): callable
     {
         return GuzzleMiddleware::mapRequest($fn);
     }
@@ -87,7 +89,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function mapResponse(callable $fn)
+    public static function mapResponse(callable $fn): callable
     {
         return GuzzleMiddleware::mapResponse($fn);
     }

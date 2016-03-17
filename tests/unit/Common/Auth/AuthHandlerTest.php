@@ -53,7 +53,11 @@ class AuthHandlerTest extends TestCase
     }
 }
 
-class FakeToken implements Token {
-    public function getId() {}
-    public function hasExpired() {}
+class FakeToken implements Token
+{
+    public function getId(): string
+    {}
+
+    public function hasExpired(): bool
+    {}
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Resource;
 
@@ -24,7 +24,7 @@ trait HasWaiterTrait
      *                            or exceed this timeout, the blocking operation will immediately cease.
      * @param int    $sleepPeriod The amount of time to pause between each HTTP request.
      */
-    public function waitUntil($status, $timeout = 60, $sleepPeriod = 1)
+    public function waitUntil(string $status, int $timeout = 60, int $sleepPeriod = 1)
     {
         $startTime = time();
 
@@ -53,7 +53,7 @@ trait HasWaiterTrait
      *                              is provided, the timeout will never be considered.
      * @param int      $sleepPeriod The amount of time to pause between each HTTP request.
      */
-    public function waitWithCallback(callable $fn, $timeout = 60, $sleepPeriod = 1)
+    public function waitWithCallback(callable $fn, int $timeout = 60, int $sleepPeriod = 1)
     {
         $startTime = time();
 
@@ -78,7 +78,7 @@ trait HasWaiterTrait
      *
      * @return bool
      */
-    private function shouldHalt($timeout, $startTime)
+    private function shouldHalt(int $timeout, int $startTime)
     {
         if ($timeout === false) {
             return false;
@@ -95,12 +95,12 @@ trait HasWaiterTrait
      *                          or exceed this timeout, the blocking operation will immediately cease. If FALSE
      *                          is provided, the timeout will never be considered.
      */
-    public function waitUntilActive($timeout = false)
+    public function waitUntilActive(bool $timeout = false)
     {
         $this->waitUntil('ACTIVE', $timeout);
     }
 
-    public function waitUntilDeleted($timeout = 60, $sleepPeriod = 1)
+    public function waitUntilDeleted(int $timeout = 60, int $sleepPeriod = 1)
     {
         $startTime = time();
 

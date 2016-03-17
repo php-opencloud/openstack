@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\JsonSchema;
 
@@ -6,7 +6,10 @@ use JsonSchema\Validator;
 
 class Schema
 {
+    /** @var object */
     private $body;
+
+    /** @var Validator */
     private $validator;
 
     public function __construct($body, Validator $validator = null)
@@ -15,7 +18,7 @@ class Schema
         $this->validator = $validator ?: new Validator();
     }
 
-    public function getPropertyPaths()
+    public function getPropertyPaths(): array
     {
         $paths = [];
 
@@ -26,7 +29,7 @@ class Schema
         return $paths;
     }
 
-    public function normalizeObject($subject, array $aliases)
+    public function normalizeObject($subject, array $aliases): \stdClass
     {
         $out = new \stdClass;
 
@@ -49,17 +52,17 @@ class Schema
         $this->validator->check($data, $this->body);
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->validator->isValid();
     }
 
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->validator->getErrors();
     }
 
-    public function getErrorString()
+    public function getErrorString(): string
     {
         $msg = "Provided values do not validate. Errors:\n";
 

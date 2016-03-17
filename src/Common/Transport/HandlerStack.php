@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Transport;
 
@@ -7,7 +7,7 @@ use GuzzleHttp\HandlerStack as GuzzleStack;
 
 class HandlerStack extends GuzzleStack
 {
-    public static function create(callable $handler = null)
+    public static function create(callable $handler = null): self
     {
         $stack = new self($handler ?: choose_handler());
 

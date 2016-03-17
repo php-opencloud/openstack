@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace OpenCloud\Common\Service;
 
@@ -54,7 +54,7 @@ class Builder
      *
      * @return array
      */
-    private function getClasses($serviceName, $serviceVersion)
+    private function getClasses(string $serviceName, string $serviceVersion)
     {
         $rootNamespace = sprintf("%s\\%s\\v%d", $this->rootNamespace, $serviceName, $serviceVersion);
 
@@ -70,15 +70,15 @@ class Builder
      * directly - this setup includes the configuration of the HTTP client's base URL, and the
      * attachment of an authentication handler.
      *
-     * @param $serviceName          The name of the service as it appears in the OpenCloud\* namespace
-     * @param $serviceVersion       The major version of the service
-     * @param array $serviceOptions The service-specific options to use
+     * @param string $serviceName    The name of the service as it appears in the OpenCloud\* namespace
+     * @param int    $serviceVersion The major version of the service
+     * @param array  $serviceOptions The service-specific options to use
      *
      * @return \OpenCloud\Common\Service\ServiceInterface
      *
      * @throws \Exception
      */
-    public function createService($serviceName, $serviceVersion, array $serviceOptions = [])
+    public function createService(string $serviceName, int $serviceVersion, array $serviceOptions = []): ServiceInterface
     {
         $options = $this->mergeOptions($serviceOptions);
 
@@ -91,7 +91,7 @@ class Builder
         return new $serviceClass($options['httpClient'], new $apiClass());
     }
 
-    private function stockHttpClient(array &$options, $serviceName)
+    private function stockHttpClient(array &$options, string $serviceName)
     {
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
             if (strcasecmp($serviceName, 'identity') === 0) {
@@ -131,6 +131,7 @@ class Builder
 
     /**
      * @param array $options
+     *
      * @codeCoverageIgnore
      */
     private function stockAuthHandler(array &$options)
@@ -142,14 +143,14 @@ class Builder
         }
     }
 
-    private function getStack(callable $authHandler, Token $token = null)
+    private function getStack(callable $authHandler, Token $token = null): HandlerStack
     {
         $stack = HandlerStack::create();
         $stack->push(Middleware::authHandler($authHandler, $token));
         return $stack;
     }
 
-    private function httpClient($baseUrl, HandlerStack $stack)
+    private function httpClient(string $baseUrl, HandlerStack $stack): ClientInterface
     {
         return new Client([
             'base_uri' => Utils::normalizeUrl($baseUrl),
@@ -157,7 +158,7 @@ class Builder
         ]);
     }
 
-    private function mergeOptions(array $serviceOptions)
+    private function mergeOptions(array $serviceOptions): array
     {
         $options = array_merge($this->defaults, $this->globalOptions, $serviceOptions);
 

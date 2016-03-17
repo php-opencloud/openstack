@@ -10,7 +10,6 @@ use GuzzleHttp\Psr7\Uri;
 use OpenCloud\Common\Api\Operator;
 use OpenCloud\Common\Resource\AbstractResource;
 use OpenCloud\Common\Resource\ResourceInterface;
-use OpenCloud\Compute\v2\Models\Server;
 use OpenCloud\Test\Fixtures\ComputeV2Api;
 use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
@@ -45,7 +44,7 @@ class OperatorTest extends TestCase
 
     public function test_it_sends_a_request_when_operations_are_executed()
     {
-        $this->client->request('GET', 'test', ['headers' => []])->willReturn(new Request('GET', 'test'));
+        $this->client->request('GET', 'test', ['headers' => []])->willReturn(new Response());
 
         $this->operator->execute($this->def, []);
     }

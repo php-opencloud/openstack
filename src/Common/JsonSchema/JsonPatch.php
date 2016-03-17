@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\JsonSchema;
 
@@ -13,7 +13,7 @@ class JsonPatch
         return (new static)->makeDiff($src, $dest);
     }
 
-    public function makeDiff($srcStruct, $desStruct, $path = '')
+    public function makeDiff($srcStruct, $desStruct, string $path = ''): array
     {
         $changes = [];
 
@@ -28,7 +28,7 @@ class JsonPatch
         return $changes;
     }
 
-    protected function handleArray($srcStruct, $desStruct, $path)
+    protected function handleArray(array $srcStruct, array $desStruct, string $path): array
     {
         $changes = [];
 
@@ -53,7 +53,7 @@ class JsonPatch
         return $changes;
     }
 
-    protected function handleObject($srcStruct, $desStruct, $path)
+    protected function handleObject(\stdClass $srcStruct, \stdClass $desStruct, string $path): array
     {
         $changes = [];
 
@@ -76,12 +76,12 @@ class JsonPatch
         return $changes;
     }
 
-    protected function shouldPartiallyReplace($o1, $o2)
+    protected function shouldPartiallyReplace(\stdClass $o1, \stdClass $o2): bool
     {
         return count(array_diff_key((array) $o1, (array) $o2)) < count($o1);
     }
 
-    protected function arrayDiff(array $a1, array $a2)
+    protected function arrayDiff(array $a1, array $a2): array
     {
         $result = [];
 
@@ -94,8 +94,10 @@ class JsonPatch
         return $result;
     }
 
-    protected function path($root, $path)
+    protected function path(string $root, $path): string
     {
+        $path = (string) $path;
+
         if ($path === '_empty_') {
             $path = '';
         }
@@ -103,7 +105,7 @@ class JsonPatch
         return rtrim($root, '/') . '/' . ltrim($path, '/');
     }
 
-    protected function makePatch($op, $path, $val = null)
+    protected function makePatch(string $op, string $path, $val = null): array
     {
         switch ($op) {
             default:

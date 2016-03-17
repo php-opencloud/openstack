@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Transport;
 
@@ -22,7 +22,7 @@ class JsonSerializer
      *
      * @return array|mixed
      */
-    private function stockValue(Parameter $param, $userValue, $json)
+    private function stockValue(Parameter $param, $userValue, array $json): array
     {
         $name = $param->getName();
         if ($path = $param->getPath()) {
@@ -46,7 +46,7 @@ class JsonSerializer
      *
      * @return array|mixed
      */
-    private function stockArrayJson(Parameter $param, $userValue)
+    private function stockArrayJson(Parameter $param, array $userValue): array
     {
         $elems = [];
         foreach ($userValue as $item) {
@@ -63,7 +63,7 @@ class JsonSerializer
      *
      * @return array
      */
-    private function stockObjectJson(Parameter $param, $userValue)
+    private function stockObjectJson(Parameter $param, \stdClass $userValue): array
     {
         $object = [];
         foreach ($userValue as $key => $val) {
@@ -82,7 +82,7 @@ class JsonSerializer
      *
      * @return array
      */
-    public function stockJson(Parameter $param, $userValue, $json)
+    public function stockJson(Parameter $param, $userValue, array $json): array
     {
         if ($param->isArray()) {
             $userValue = $this->stockArrayJson($param, $userValue);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Api;
 
@@ -21,12 +21,12 @@ abstract class AbstractParams
     const INT_TYPE = 'integer';
     const INTEGER_TYPE = self::INT_TYPE;
 
-    public static function isSupportedLocation($val)
+    public static function isSupportedLocation(string $val): bool
     {
         return in_array($val, [self::QUERY, self::HEADER, self::URL, self::JSON, self::RAW]);
     }
 
-    public function limit()
+    public function limit(): array
     {
         return [
             'type'        => self::INT_TYPE,
@@ -38,7 +38,7 @@ DESC
         ];
     }
 
-    public function marker()
+    public function marker(): array
     {
         return [
             'type'        => 'string',
@@ -51,7 +51,7 @@ DESC
         ];
     }
 
-    public function id($type)
+    public function id(string $type): array
     {
         return [
             'description' => sprintf("The unique ID, or identifier, for the %s", $type),
@@ -60,7 +60,7 @@ DESC
         ];
     }
 
-    public function idPath()
+    public function idPath(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -69,7 +69,7 @@ DESC
         ];
     }
 
-    public function name($resource)
+    public function name(string $resource): array
     {
         return [
             'description' => sprintf("The name of the %s", $resource),
@@ -79,7 +79,7 @@ DESC
     }
 
 
-    public function sortDir()
+    public function sortDir(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -89,7 +89,7 @@ DESC
         ];
     }
 
-    public function sortKey()
+    public function sortKey(): array
     {
         return [
             'type'     => self::STRING_TYPE,

@@ -95,7 +95,7 @@ class SchemaTest extends TestCase
 
     public function test_it_checks_validity()
     {
-        $this->validator->isValid()->shouldBeCalled();
+        $this->validator->isValid()->shouldBeCalled()->willReturn(true);
 
         $this->schema->isValid();
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Error;
 
@@ -48,7 +48,7 @@ class Builder
      *
      * @return string
      */
-    private function header($name)
+    private function header(string $name): string
     {
         return sprintf("%s\n%s\n", $name, str_repeat('~', strlen($name)));
     }
@@ -61,7 +61,7 @@ class Builder
      *
      * @return bool
      */
-    private function linkIsValid($link)
+    private function linkIsValid(string $link): bool
     {
         $link = $this->docDomain . $link;
 
@@ -78,7 +78,7 @@ class Builder
      * @codeCoverageIgnore
      * @return string
      */
-    public function str(MessageInterface $message)
+    public function str(MessageInterface $message): string
     {
         if ($message instanceof RequestInterface) {
             $msg = trim($message->getMethod() . ' '
@@ -112,7 +112,7 @@ class Builder
      *
      * @return BadResponseError
      */
-    public function httpError(RequestInterface $request, ResponseInterface $response)
+    public function httpError(RequestInterface $request, ResponseInterface $response): BadResponseError
     {
         $message = $this->header('HTTP Error');
 
@@ -138,7 +138,7 @@ class Builder
         return $e;
     }
 
-    private function getStatusCodeMessage($statusCode)
+    private function getStatusCodeMessage(int $statusCode): string
     {
         $errors = [
             400 => 'Please ensure that your input values are valid and well-formed. ',
@@ -159,7 +159,7 @@ class Builder
      *
      * @return UserInputError
      */
-    public function userInputError($expectedType, $userValue, $furtherLink = null)
+    public function userInputError(string $expectedType, $userValue, string $furtherLink = null): UserInputError
     {
         $message = $this->header('User Input Error');
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Resource;
 
@@ -12,7 +12,7 @@ interface HasMetadata
      *
      * @return array
      */
-    public function getMetadata();
+    public function getMetadata(): array;
 
     /**
      * Merges a set of new values with those which already exist (on the remote API) for a resource. For example, if
@@ -34,7 +34,7 @@ interface HasMetadata
      *
      * @return mixed
      */
-    public function mergeMetadata(array $metadata);
+    public function mergeMetadata(array $metadata): array;
 
     /**
      * Replaces all of the existing metadata items for a resource with a new set of values. Any metadata items which
@@ -54,7 +54,7 @@ interface HasMetadata
      *
      * @return mixed
      */
-    public function resetMetadata(array $metadata);
+    public function resetMetadata(array $metadata): array;
 
     /**
      * Extracts metadata from a response object and returns it in the form of an associative array.
@@ -63,5 +63,5 @@ interface HasMetadata
      *
      * @return array
      */
-    public function parseMetadata(ResponseInterface $response);
+    public function parseMetadata(ResponseInterface $response): array;
 }

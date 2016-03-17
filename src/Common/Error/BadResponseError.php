@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenCloud\Common\Error;
 
@@ -28,12 +28,12 @@ class BadResponseError extends BaseError
         $this->response = $response;
     }
 
-    public function getRequest()
+    public function getRequest(): RequestInterface
     {
         return $this->request;
     }
 
-    public function getResponse()
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }
