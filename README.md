@@ -27,19 +27,6 @@ OpenStack services, and versions of services, are supported.
 composer require php-opencloud/openstack
 ```
 
-This will automatically add the following lines to your local `composer.json` file:
-
-```json
-{
-    "require": {
-        "php-opencloud/openstack": "X.Y.Z"
-    }
-}
-```
-
-where `X.Y.Z` is the most recent release version. For a more comprehensive installation guide, please consult our 
-[official documentation]().
-
 ## Help and feedback
 
 If you're struggling with something or have spotted a potential bug, feel free to submit an issue to our 
