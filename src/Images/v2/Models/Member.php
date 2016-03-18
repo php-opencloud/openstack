@@ -7,7 +7,6 @@ use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Retrievable;
-use OpenCloud\Common\Resource\Updateable;
 
 /**
  * @property \OpenStack\Images\v2\Api $api
@@ -43,7 +42,7 @@ class Member extends AbstractResource implements Creatable, Listable, Retrievabl
         'image_id'   => 'imageId',
     ];
 
-    public function create(array $userOptions)
+    public function create(array $userOptions): Creatable
     {
         $response = $this->executeWithState($this->api->postImageMembers());
         return $this->populateFromResponse($response);

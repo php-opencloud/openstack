@@ -20,7 +20,6 @@ class Port extends AbstractResource implements Creatable, Updateable, Deletable,
      */
     public $status;
 
-
     /**
      * The port name.
      *
@@ -118,13 +117,13 @@ class Port extends AbstractResource implements Creatable, Updateable, Deletable,
     /**
      * {@inheritDoc}
      */
-    public function create(array $userOptions)
+    public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSinglePort(), $userOptions);
         return $this->populateFromResponse($response);
     }
 
-    public function bulkCreate(array $userOptions)
+    public function bulkCreate(array $userOptions): array
     {
         $response = $this->execute($this->api->postMultiplePorts(), ['ports' => $userOptions]);
         return $this->extractMultipleInstances($response);

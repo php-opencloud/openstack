@@ -57,7 +57,7 @@ class ServerTest extends TestCase
 
         $this->setupMock('PUT', 'servers/serverId', $expectedJson, [], 'server-put');
 
-        $this->assertInstanceOf(Server::class, $this->server->update());
+        $this->server->update();
     }
 
     public function test_it_deletes()
@@ -71,7 +71,8 @@ class ServerTest extends TestCase
     {
         $this->setupMock('GET', 'servers/serverId', null, [], 'server-get');
 
-        $this->assertInstanceOf(Server::class, $this->server->retrieve());
+        $this->server->retrieve();
+
         $this->assertInstanceOf(Flavor::class, $this->server->flavor);
         $this->assertEquals("1", $this->server->flavor->id);
     }
@@ -210,9 +211,9 @@ class ServerTest extends TestCase
         $response = $this->createResponse(200, [], $expectedJson);
         $this->setupMock('PUT', 'servers/serverId/metadata', $expectedJson, [], $response);
 
-        $metadata = $this->server->resetMetadata($metadata);
+        $this->server->resetMetadata($metadata);
 
-        $this->assertEquals('1', $metadata['foo']);
+        $this->assertEquals('1', $this->server->metadata['foo']);
     }
 
     public function test_it_updates_metadata()
@@ -223,10 +224,10 @@ class ServerTest extends TestCase
         $response = $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']]));
         $this->setupMock('POST', 'servers/serverId/metadata', $expectedJson, [], $response);
 
-        $metadata = $this->server->mergeMetadata($metadata);
+        $this->server->mergeMetadata($metadata);
 
-        $this->assertEquals('1', $metadata['foo']);
-        $this->assertEquals('2', $metadata['bar']);
+        $this->assertEquals('1', $this->server->metadata['foo']);
+        $this->assertEquals('2', $this->server->metadata['bar']);
     }
 
     public function test_it_retrieves_a_metadata_item()

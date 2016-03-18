@@ -10,12 +10,12 @@ use OpenStack\Images\v2\Models\Image;
  */
 class Service extends AbstractService
 {
-    public function createImage(array $data)
+    public function createImage(array $data): Image
     {
         return $this->model(Image::class)->create($data);
     }
 
-    public function listImages(array $data = [])
+    public function listImages(array $data = []): \Generator
     {
         return $this->model(Image::class)->enumerate($this->api->getImages(), $data);
     }
@@ -25,7 +25,7 @@ class Service extends AbstractService
      *
      * @return Image
      */
-    public function getImage($id = null)
+    public function getImage($id = null): Image
     {
         $image = $this->model(Image::class);
         $image->populateFromArray(['id' => $id]);

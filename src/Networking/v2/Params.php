@@ -6,7 +6,7 @@ use OpenCloud\Common\Api\AbstractParams;
 
 class Params extends AbstractParams
 {
-    public function urlId($type)
+    public function urlId($type): array
     {
         return array_merge(parent::id($type), [
             'required' => true,
@@ -14,7 +14,7 @@ class Params extends AbstractParams
         ]);
     }
 
-    public function shared()
+    public function shared(): array
     {
         return [
             'type'        => self::BOOL_TYPE,
@@ -23,7 +23,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function adminStateUp()
+    public function adminStateUp(): array
     {
         return [
             'type'        => self::BOOL_TYPE,
@@ -33,7 +33,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function networkId()
+    public function networkId(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -43,7 +43,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function ipVersion()
+    public function ipVersion(): array
     {
         return [
             'type'        => self::INT_TYPE,
@@ -53,7 +53,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function cidr()
+    public function cidr(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -63,7 +63,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function tenantId()
+    public function tenantId(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -72,7 +72,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function gatewayIp()
+    public function gatewayIp(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -81,7 +81,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function enableDhcp()
+    public function enableDhcp(): array
     {
         return [
             'type'        => self::BOOL_TYPE,
@@ -90,7 +90,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function dnsNameservers()
+    public function dnsNameservers(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -99,7 +99,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function allocationPools()
+    public function allocationPools(): array
     {
         return [
             'type'        => self::ARRAY_TYPE,
@@ -121,7 +121,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function hostRoutes()
+    public function hostRoutes(): array
     {
         return [
             'type'        => self::ARRAY_TYPE,
@@ -143,7 +143,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function statusQuery()
+    public function statusQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -153,7 +153,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function displayNameQuery()
+    public function displayNameQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -163,7 +163,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function adminStateQuery()
+    public function adminStateQuery(): array
     {
         return [
             'type'        => self::BOOL_TYPE,
@@ -173,7 +173,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function networkIdQuery()
+    public function networkIdQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -183,7 +183,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function tenantIdQuery()
+    public function tenantIdQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -193,7 +193,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function deviceOwnerQuery()
+    public function deviceOwnerQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -203,7 +203,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function macAddrQuery()
+    public function macAddrQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -213,7 +213,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function portIdQuery()
+    public function portIdQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -223,7 +223,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function secGroupsQuery()
+    public function secGroupsQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -233,7 +233,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function deviceIdQuery()
+    public function deviceIdQuery(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -243,7 +243,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function macAddr()
+    public function macAddr(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -253,7 +253,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function fixedIps()
+    public function fixedIps(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -263,7 +263,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function subnetId()
+    public function subnetId(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -273,7 +273,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function ipAddress()
+    public function ipAddress(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -283,7 +283,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function secGroupIds()
+    public function secGroupIds(): array
     {
         return [
             'type'     => self::ARRAY_TYPE,
@@ -295,7 +295,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function allowedAddrPairs()
+    public function allowedAddrPairs(): array
     {
         return [
             'type'        => self::ARRAY_TYPE,
@@ -321,7 +321,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function deviceOwner()
+    public function deviceOwner(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -331,7 +331,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function deviceId()
+    public function deviceId(): array
     {
         return [
             'type'        => self::STRING_TYPE,

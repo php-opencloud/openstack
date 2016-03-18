@@ -17,7 +17,7 @@ class Service extends AbstractService
      *
      * @return Account
      */
-    public function getAccount()
+    public function getAccount(): Account
     {
         return $this->model(Account::class);
     }
@@ -30,7 +30,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listContainers(array $options = [], callable $mapFn = null)
+    public function listContainers(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['format' => 'json']);
         return $this->model(Container::class)->enumerate($this->api->getAccount(), $options, $mapFn);
@@ -44,7 +44,7 @@ class Service extends AbstractService
      *
      * @return Container
      */
-    public function getContainer($name = null)
+    public function getContainer(string $name = null): Container
     {
         return $this->model(Container::class, ['name' => $name]);
     }
@@ -56,7 +56,7 @@ class Service extends AbstractService
      *
      * @return Container
      */
-    public function createContainer(array $data)
+    public function createContainer(array $data): Container
     {
         return $this->getContainer()->create($data);
     }
@@ -69,7 +69,7 @@ class Service extends AbstractService
      * @return bool             TRUE if exists, FALSE if it doesn't
      * @throws BadResponseError Thrown for any non 404 status error
      */
-    public function containerExists($name)
+    public function containerExists(string $name): bool
     {
         try {
             $this->execute($this->api->headContainer(), ['name' => $name]);

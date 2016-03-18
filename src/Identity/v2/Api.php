@@ -11,7 +11,7 @@ use OpenCloud\Common\Api\ApiInterface;
  */
 class Api implements ApiInterface
 {
-    public function postToken()
+    public function postToken(): array
     {
         return [
             'method' => 'POST',

@@ -15,7 +15,7 @@ use OpenStack\Identity\v3\Models;
  */
 class Service extends AbstractService implements IdentityService
 {
-    public static function factory(ClientInterface $client)
+    public static function factory(ClientInterface $client): self
     {
         return new static($client, new Api());
     }
@@ -27,7 +27,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return array Returns a {@see Models\Token} as the first element, a string base URL as the second
      */
-    public function authenticate(array $options)
+    public function authenticate(array $options): array
     {
         $authOptions = array_intersect_key($options, $this->api->postTokens()['params']);
 
@@ -53,7 +53,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Token
      */
-    public function generateToken(array $options)
+    public function generateToken(array $options): Models\Token
     {
         return $this->model(Models\Token::class)->create($options);
     }
@@ -66,7 +66,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Token
      */
-    public function getToken($id)
+    public function getToken(string $id): Models\Token
     {
         return $this->model(Models\Token::class, ['id' => $id]);
     }
@@ -78,7 +78,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return bool
      */
-    public function validateToken($id)
+    public function validateToken(string $id): bool
     {
         try {
             $this->execute($this->api->headTokens(), ['tokenId' => $id]);
@@ -93,10 +93,8 @@ class Service extends AbstractService implements IdentityService
      * again for authentication.
      *
      * @param string $id The unique ID of the token
-     *
-     * @return Models\Token
      */
-    public function revokeToken($id)
+    public function revokeToken(string $id)
     {
         $this->execute($this->api->deleteTokens(), ['tokenId' => $id]);
     }
@@ -108,7 +106,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Service
      */
-    public function createService(array $options)
+    public function createService(array $options): Models\Service
     {
         return $this->model(Models\Service::class)->create($options);
     }
@@ -122,7 +120,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listServices(array $options = [])
+    public function listServices(array $options = []): \Generator
     {
         return $this->model(Models\Service::class)->enumerate($this->api->getServices(), $options);
     }
@@ -135,7 +133,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Service
      */
-    public function getService($id)
+    public function getService(string $id): Models\Service
     {
         return $this->model(Models\Service::class, ['id' => $id]);
     }
@@ -147,7 +145,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Endpoint
      */
-    public function createEndpoint(array $options)
+    public function createEndpoint(array $options): Models\Endpoint
     {
         return $this->model(Models\Endpoint::class)->create($options);
     }
@@ -160,7 +158,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Endpoint
      */
-    public function getEndpoint($id)
+    public function getEndpoint(string $id): Models\Endpoint
     {
         return $this->model(Models\Endpoint::class, ['id' => $id]);
     }
@@ -174,7 +172,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listEndpoints(array $options = [])
+    public function listEndpoints(array $options = []): \Generator
     {
         return $this->model(Models\Endpoint::class)->enumerate($this->api->getEndpoints(), $options);
     }
@@ -186,7 +184,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Domain
      */
-    public function createDomain(array $options)
+    public function createDomain(array $options): Models\Domain
     {
         return $this->model(Models\Domain::class)->create($options);
     }
@@ -200,7 +198,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listDomains(array $options = [])
+    public function listDomains(array $options = []): \Generator
     {
         return $this->model(Models\Domain::class)->enumerate($this->api->getDomains(), $options);
     }
@@ -213,7 +211,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Domain
      */
-    public function getDomain($id)
+    public function getDomain(string $id): Models\Domain
     {
         return $this->model(Models\Domain::class, ['id' => $id]);
     }
@@ -225,7 +223,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Project
      */
-    public function createProject(array $options)
+    public function createProject(array $options): Models\Project
     {
         return $this->model(Models\Project::class)->create($options);
     }
@@ -239,7 +237,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listProjects(array $options = [])
+    public function listProjects(array $options = []): \Generator
     {
         return $this->model(Models\Project::class)->enumerate($this->api->getProjects(), $options);
     }
@@ -252,7 +250,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Project
      */
-    public function getProject($id)
+    public function getProject(string $id): Models\Project
     {
         return $this->model(Models\Project::class, ['id' => $id]);
     }
@@ -264,7 +262,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\User
      */
-    public function createUser(array $options)
+    public function createUser(array $options): Models\User
     {
         return $this->model(Models\User::class)->create($options);
     }
@@ -278,7 +276,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listUsers(array $options = [])
+    public function listUsers(array $options = []): \Generator
     {
         return $this->model(Models\User::class)->enumerate($this->api->getUsers(), $options);
     }
@@ -291,7 +289,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\User
      */
-    public function getUser($id)
+    public function getUser(string $id): Models\User
     {
         return $this->model(Models\User::class, ['id' => $id]);
     }
@@ -303,7 +301,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Group
      */
-    public function createGroup(array $options)
+    public function createGroup(array $options): Models\Group
     {
         return $this->model(Models\Group::class)->create($options);
     }
@@ -317,7 +315,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listGroups(array $options = [])
+    public function listGroups(array $options = []): \Generator
     {
         return $this->model(Models\Group::class)->enumerate($this->api->getGroups(), $options);
     }
@@ -330,7 +328,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Group
      */
-    public function getGroup($id)
+    public function getGroup($id): Models\Group
     {
         return $this->model(Models\Group::class, ['id' => $id]);
     }
@@ -342,7 +340,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Credential
      */
-    public function createCredential(array $options)
+    public function createCredential(array $options): Models\Credential
     {
         return $this->model(Models\Credential::class)->create($options);
     }
@@ -354,7 +352,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listCredentials()
+    public function listCredentials(): \Generator
     {
         return $this->model(Models\Credential::class)->enumerate($this->api->getCredentials());
     }
@@ -367,7 +365,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Credential
      */
-    public function getCredential($id)
+    public function getCredential(string $id): Models\Credential
     {
         return $this->model(Models\Credential::class, ['id' => $id]);
     }
@@ -379,7 +377,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Role
      */
-    public function createRole(array $options)
+    public function createRole(array $options): Models\Role
     {
         return $this->model(Models\Role::class)->create($options);
     }
@@ -393,7 +391,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listRoles(array $options = [])
+    public function listRoles(array $options = []): \Generator
     {
         return $this->model(Models\Role::class)->enumerate($this->api->getRoles(), $options);
     }
@@ -407,7 +405,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listRoleAssignments(array $options = [])
+    public function listRoleAssignments(array $options = []): \Generator
     {
         return $this->model(Models\Assignment::class)->enumerate($this->api->getRoleAssignments(), $options);
     }
@@ -419,7 +417,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Policy
      */
-    public function createPolicy(array $options)
+    public function createPolicy(array $options): Models\Policy
     {
         return $this->model(Models\Policy::class)->create($options);
     }
@@ -433,7 +431,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return \Generator
      */
-    public function listPolicies(array $options = [])
+    public function listPolicies(array $options = []): \Generator
     {
         return $this->model(Models\Policy::class)->enumerate($this->api->getPolicies(), $options);
     }
@@ -446,7 +444,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Policy
      */
-    public function getPolicy($id)
+    public function getPolicy(string $id): Models\Policy
     {
         return $this->model(Models\Policy::class, ['id' => $id]);
     }

@@ -53,7 +53,7 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
         'volume_id'  => 'volumeId',
     ];
 
-    public function populateFromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response): self
     {
         parent::populateFromResponse($response);
         $this->metadata = $this->parseMetadata($response);
@@ -63,15 +63,15 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getSnapshot());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postSnapshots}
      *
-     * @return self
+     * @return Creatable
      */
-    public function create(array $userOptions)
+    public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSnapshots(), $userOptions);
         return $this->populateFromResponse($response);
@@ -87,7 +87,7 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
         $this->executeWithState($this->api->deleteSnapshot());
     }
 
-    public function getMetadata()
+    public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->getSnapshotMetadata());
         $this->metadata = $this->parseMetadata($response);
@@ -107,7 +107,7 @@ class Snapshot extends AbstractResource implements Listable, Creatable, Updateab
         $this->executeWithState($this->api->putSnapshotMetadata());
     }
 
-    public function parseMetadata(ResponseInterface $response)
+    public function parseMetadata(ResponseInterface $response): array
     {
         $json = Utils::jsonDecode($response);
         return isset($json['metadata']) ? $json['metadata'] : [];

@@ -133,7 +133,7 @@ class ServiceTest extends TestCase
 
     public function test_false_is_returned_when_token_validation_returns_204()
     {
-        $this->setupMock('HEAD', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId'], [], new Response(204));
+        $this->setupMock('HEAD', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId'], new Response(204));
 
         $this->assertTrue($this->service->validateToken('tokenId'));
     }

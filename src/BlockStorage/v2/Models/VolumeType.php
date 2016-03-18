@@ -25,9 +25,9 @@ class VolumeType extends AbstractResource implements Listable, Creatable, Update
     /**
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postTypes}
      *
-     * @return self
+     * @return Creatable
      */
-    public function create(array $userOptions)
+    public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postTypes(), $userOptions);
         return $this->populateFromResponse($response);

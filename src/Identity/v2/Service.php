@@ -15,12 +15,12 @@ use OpenStack\Identity\v2\Models\Token;
  */
 class Service extends AbstractService implements IdentityService
 {
-    public static function factory(ClientInterface $client)
+    public static function factory(ClientInterface $client): self
     {
         return new static($client, new Api());
     }
 
-    public function authenticate(array $options = [])
+    public function authenticate(array $options = []): array
     {
         $definition = $this->api->postToken();
 
@@ -45,7 +45,7 @@ class Service extends AbstractService implements IdentityService
      *
      * @return Models\Token
      */
-    public function generateToken(array $options = [])
+    public function generateToken(array $options = []): Token
     {
         $response = $this->execute($this->api->postToken(), $options);
         return $this->model(Token::class, $response);

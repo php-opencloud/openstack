@@ -3,6 +3,7 @@
 namespace OpenStack\Images\v2\Models;
 
 use function GuzzleHttp\Psr7\uri_for;
+use OpenCloud\Common\JsonSchema\Schema;
 use OpenCloud\Common\Resource\AbstractResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
@@ -84,7 +85,7 @@ class Image extends AbstractResource implements Creatable, Listable, Retrievable
         'virtual_size'     => 'virtualSize',
     ];
 
-    public function populateFromArray(array $data)
+    public function populateFromArray(array $data): self
     {
         parent::populateFromArray($data);
 
@@ -97,9 +98,11 @@ class Image extends AbstractResource implements Creatable, Listable, Retrievable
         if (isset($data['schema'])) {
             $this->schemaUri = Utils::appendPath($baseUri, $data['schema']);
         }
+
+        return $this;
     }
 
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postImages(), $data);
         return $this->populateFromResponse($response);
@@ -108,10 +111,10 @@ class Image extends AbstractResource implements Creatable, Listable, Retrievable
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getImage());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
-    private function getSchema()
+    private function getSchema(): Schema
     {
         if (null === $this->jsonSchema) {
             $response = $this->execute($this->api->getImageSchema());
@@ -151,7 +154,7 @@ class Image extends AbstractResource implements Creatable, Listable, Retrievable
             'contentType' => 'application/openstack-images-v2.1-json-patch'
         ]);
 
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     public function delete()
@@ -178,23 +181,23 @@ class Image extends AbstractResource implements Creatable, Listable, Retrievable
         ]);
     }
 
-    public function downloadData()
+    public function downloadData(): StreamInterface
     {
         $response = $this->executeWithState($this->api->getImageData());
         return $response->getBody();
     }
 
-    public function addMember($memberId)
+    public function addMember($memberId): Member
     {
         return $this->model(Member::class, ['imageId' => $this->id, 'id' => $memberId])->create([]);
     }
 
-    public function listMembers()
+    public function listMembers(): \Generator
     {
         return $this->model(Member::class)->enumerate($this->api->getImageMembers(), ['imageId' => $this->id]);
     }
 
-    public function getMember($memberId)
+    public function getMember($memberId): Member
     {
         return $this->model(Member::class, ['imageId' => $this->id, 'id' => $memberId]);
     }

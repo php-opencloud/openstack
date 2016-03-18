@@ -2,6 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
+use GuzzleHttp\Psr7\Uri;
 use OpenCloud\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -46,7 +47,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
     /**
      * {@inheritdoc}
      */
-    public function populateFromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response): self
     {
         parent::populateFromResponse($response);
 
@@ -55,6 +56,8 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         $this->lastModified = $response->getHeaderLine('Last-Modified');
         $this->contentType = $response->getHeaderLine('Content-Type');
         $this->metadata = $this->parseMetadata($response);
+
+        return $this;
     }
 
     /**
@@ -62,7 +65,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
      *
      * @return \GuzzleHttp\Psr7\Uri
      */
-    public function getPublicUri()
+    public function getPublicUri(): Uri
     {
         return Utils::addPaths($this->getHttpBaseUrl(), $this->containerName, $this->name);
     }
@@ -72,7 +75,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
      *
      * @return $this
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->putObject(), $data + ['containerName' => $this->containerName]);
         return $this->populateFromResponse($response);
@@ -95,7 +98,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
      *
      * @return StreamInterface
      */
-    public function download()
+    public function download(): StreamInterface
     {
         $response = $this->executeWithState($this->api->getObject());
         return $response->getBody();
@@ -130,7 +133,7 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         ];
 
         $response = $this->execute($this->api->postObject(), $options);
-        return $this->parseMetadata($response);
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
@@ -145,13 +148,13 @@ class Object extends AbstractResource implements Creatable, Deletable, HasMetada
         ];
 
         $response = $this->execute($this->api->postObject(), $options);
-        return $this->parseMetadata($response);
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->headObject());
         return $this->parseMetadata($response);

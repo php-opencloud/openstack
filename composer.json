@@ -25,7 +25,7 @@
         }
     ],
     "require": {
-        "php-opencloud/common": "dev-master"
+        "php-opencloud/common": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

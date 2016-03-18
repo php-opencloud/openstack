@@ -51,7 +51,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postUsers}
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postUsers(), $data);
         return $this->populateFromResponse($response);
@@ -63,7 +63,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     public function retrieve()
     {
         $response = $this->execute($this->api->getUser(), ['id' => $this->id]);
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -72,7 +72,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     public function update()
     {
         $response = $this->executeWithState($this->api->patchUser());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -86,7 +86,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     /**
      * @return \Generator
      */
-    public function listGroups()
+    public function listGroups(): \Generator
     {
         $options['id'] = $this->id;
         return $this->model(Group::class)->enumerate($this->api->getUserGroups(), $options);
@@ -95,7 +95,7 @@ class User extends AbstractResource implements Creatable, Listable, Retrievable,
     /**
      * @return \Generator
      */
-    public function listProjects()
+    public function listProjects(): \Generator
     {
         return $this->model(Project::class)->enumerate($this->api->getUserProjects(), ['id' => $this->id]);
     }

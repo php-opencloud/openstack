@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -34,13 +34,13 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
 
     protected $aliases = [
         'project_id' => 'projectId',
-        'user_id' => 'userId'
+        'user_id'    => 'userId',
     ];
 
     /**
      * {@inheritDoc}
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postCredentials(), $data);
         return $this->populateFromResponse($response);
@@ -52,7 +52,7 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getCredential());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -61,7 +61,7 @@ class Credential extends AbstractResource implements Creatable, Updateable, Retr
     public function update()
     {
         $response = $this->executeWithState($this->api->patchCredential());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**

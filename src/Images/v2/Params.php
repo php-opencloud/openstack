@@ -7,7 +7,7 @@ use Psr\Http\Message\StreamInterface;
 
 class Params extends AbstractParams
 {
-    public function imageName()
+    public function imageName(): array
     {
         return array_merge($this->name('image'), [
             'description' => 'Name for the image. The name of an image is not unique to an Image service node. The ' .
@@ -16,7 +16,7 @@ class Params extends AbstractParams
         ]);
     }
 
-    public function visibility()
+    public function visibility(): array
     {
         return [
             'location'    => self::JSON,
@@ -26,7 +26,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function tags()
+    public function tags(): array
     {
         return [
             'location'    => self::JSON,
@@ -36,7 +36,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function containerFormat()
+    public function containerFormat(): array
     {
         return [
             'location'    => self::JSON,
@@ -47,7 +47,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function diskFormat()
+    public function diskFormat(): array
     {
         return [
             'location'    => self::JSON,
@@ -58,7 +58,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function minDisk()
+    public function minDisk(): array
     {
         return [
             'location'    => self::JSON,
@@ -68,7 +68,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function minRam()
+    public function minRam(): array
     {
         return [
             'location'    => self::JSON,
@@ -78,7 +78,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function protectedParam()
+    public function protectedParam(): array
     {
         return [
             'location'    => self::JSON,
@@ -87,7 +87,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function queryName()
+    public function queryName(): array
     {
         return [
             'location'    => self::QUERY,
@@ -96,7 +96,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function queryVisibility()
+    public function queryVisibility(): array
     {
         return [
             'location'    => self::QUERY,
@@ -106,7 +106,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function queryMemberStatus()
+    public function queryMemberStatus(): array
     {
         return [
             'location'    => self::QUERY,
@@ -116,7 +116,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function queryOwner()
+    public function queryOwner(): array
     {
         return [
             'location'    => self::QUERY,
@@ -125,7 +125,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function queryStatus()
+    public function queryStatus(): array
     {
         return [
             'location'    => self::QUERY,
@@ -135,7 +135,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function querySizeMin()
+    public function querySizeMin(): array
     {
         return [
             'location'    => self::QUERY,
@@ -144,7 +144,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function querySizeMax()
+    public function querySizeMax(): array
     {
         return [
             'location'    => self::QUERY,
@@ -153,7 +153,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function queryTag()
+    public function queryTag(): array
     {
         return [
             'location'    => self::QUERY,
@@ -162,7 +162,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function contentType()
+    public function contentType(): array
     {
         return [
             'location' => self::HEADER,
@@ -171,7 +171,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function patchDoc()
+    public function patchDoc(): array
     {
         return [
             'location'   => self::RAW,
@@ -181,7 +181,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function data()
+    public function data(): array
     {
         return [
             'location'   => self::RAW,
@@ -191,7 +191,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function memberId()
+    public function memberId(): array
     {
         return [
             'location'  => self::JSON,
@@ -201,7 +201,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function status()
+    public function status(): array
     {
         return [
             'location' => self::JSON,

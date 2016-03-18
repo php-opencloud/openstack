@@ -31,19 +31,19 @@ class Token extends AbstractResource implements \OpenCloud\Common\Auth\Token
     /**
      * {@inheritDoc}
      */
-    public function populateFromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response): self
     {
         $this->populateFromArray(Utils::jsonDecode($response)['access']['token']);
 
         return $this;
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function hasExpired()
+    public function hasExpired(): bool
     {
         return $this->expires <= new \DateTimeImmutable('now', $this->expires->getTimezone());
     }

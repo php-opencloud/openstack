@@ -11,7 +11,7 @@ class Api extends AbstractApi
         $this->params = new Params;
     }
 
-    public function getAccount()
+    public function getAccount(): array
     {
         return [
             'method' => 'GET',
@@ -28,7 +28,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postAccount()
+    public function postAccount(): array
     {
         return [
             'method' => 'POST',
@@ -42,7 +42,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function headAccount()
+    public function headAccount(): array
     {
         return [
             'method' => 'HEAD',
@@ -51,7 +51,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getContainer()
+    public function getContainer(): array
     {
         return [
             'method' => 'GET',
@@ -70,7 +70,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putContainer()
+    public function putContainer(): array
     {
         return [
             'method' => 'PUT',
@@ -91,7 +91,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteContainer()
+    public function deleteContainer(): array
     {
         return [
             'method' => 'DELETE',
@@ -102,7 +102,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postContainer()
+    public function postContainer(): array
     {
         return [
             'method' => 'POST',
@@ -125,7 +125,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function headContainer()
+    public function headContainer(): array
     {
         return [
             'method' => 'HEAD',
@@ -134,7 +134,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getObject()
+    public function getObject(): array
     {
         return [
             'method' => 'GET',
@@ -151,7 +151,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putObject()
+    public function putObject(): array
     {
         return [
             'method' => 'PUT',
@@ -176,7 +176,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function copyObject()
+    public function copyObject(): array
     {
         return [
             'method' => 'COPY',
@@ -194,7 +194,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteObject()
+    public function deleteObject(): array
     {
         return [
             'method' => 'DELETE',
@@ -206,7 +206,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function headObject()
+    public function headObject(): array
     {
         return [
             'method' => 'HEAD',
@@ -218,7 +218,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postObject()
+    public function postObject(): array
     {
         return [
             'method' => 'POST',

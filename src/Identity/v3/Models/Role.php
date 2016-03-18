@@ -29,7 +29,7 @@ class Role extends AbstractResource implements Creatable, Listable, Deletable
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postRoles}
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postRoles(), $data);
         return $this->populateFromResponse($response);

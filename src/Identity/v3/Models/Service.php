@@ -40,7 +40,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postServices}
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postServices(), $data);
         return $this->populateFromResponse($response);
@@ -52,7 +52,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getService());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -61,7 +61,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
     public function update()
     {
         $response = $this->executeWithState($this->api->patchService());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -72,12 +72,12 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
         $this->executeWithState($this->api->deleteService());
     }
 
-    private function nameMatches($value)
+    private function nameMatches(string $value): bool
     {
         return $this->name && $this->name == $value;
     }
 
-    private function typeMatches($value)
+    private function typeMatches(string $value): bool
     {
         return $this->type && $this->type = $value;
     }
@@ -92,7 +92,7 @@ class Service extends AbstractResource implements Creatable, Listable, Retrievab
      *
      * @return string|false
      */
-    public function getUrl($name, $type, $region, $interface)
+    public function getUrl(string $name, string $type, string $region, string $interface)
     {
         if (!$this->nameMatches($name) || !$this->typeMatches($type)) {
             return false;

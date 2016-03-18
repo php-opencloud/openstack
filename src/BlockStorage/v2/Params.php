@@ -1,11 +1,12 @@
 <?php declare (strict_types=1);
+
 namespace OpenStack\BlockStorage\v2;
 
 use OpenCloud\Common\Api\AbstractParams;
 
 class Params extends AbstractParams
 {
-    public function availabilityZone()
+    public function availabilityZone(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -15,7 +16,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function sourceVolId()
+    public function sourceVolId(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -26,7 +27,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function desc()
+    public function desc(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -35,7 +36,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function snapshotId()
+    public function snapshotId(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -46,7 +47,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function size()
+    public function size(): array
     {
         return [
             'type'        => self::INT_TYPE,
@@ -56,7 +57,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function imageRef()
+    public function imageRef(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -67,7 +68,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function volumeType()
+    public function volumeType(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -77,7 +78,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function metadata()
+    public function metadata(): array
     {
         return [
             'type'        => self::OBJECT_TYPE,
@@ -92,7 +93,7 @@ TYPEOTHER
         ];
     }
 
-    public function sort()
+    public function sort(): array
     {
         return [
             'type'     => self::STRING_TYPE,
@@ -102,15 +103,15 @@ TYPEOTHER
         ];
     }
 
-    public function name($type)
+    public function name(string $resource): array
     {
-        return parent::name($type) + [
+        return parent::name($resource) + [
             'type'     => self::STRING_TYPE,
             'location' => self::JSON,
         ];
     }
 
-    public function idPath()
+    public function idPath(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -120,7 +121,7 @@ TYPEOTHER
         ];
     }
 
-    public function typeSpecs()
+    public function typeSpecs(): array
     {
         return [
             'type' => self::OBJECT_TYPE,
@@ -131,7 +132,7 @@ TYPEOTHER
         ];
     }
 
-    public function volId()
+    public function volId(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -142,7 +143,7 @@ TYPEOTHER
         ];
     }
 
-    public function force()
+    public function force(): array
     {
         return [
             'type'        => self::BOOL_TYPE,
@@ -151,7 +152,7 @@ TYPEOTHER
         ];
     }
 
-    public function snapshotName()
+    public function snapshotName(): array
     {
         return parent::name('snapshot') + [
             'type'     => self::STRING_TYPE,

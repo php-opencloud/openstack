@@ -28,7 +28,7 @@ class Entry extends AbstractResource
      *
      * @return bool TRUE if it's a match, FALSE if not
      */
-    public function matches($name, $type)
+    public function matches(string $name, string $type): bool
     {
         return $this->name == $name && $this->type == $type;
     }
@@ -39,9 +39,9 @@ class Entry extends AbstractResource
      * @param string $region
      * @param string $urlType
      *
-     * @return string|null
+     * @return string
      */
-    public function getEndpointUrl($region, $urlType)
+    public function getEndpointUrl(string $region, string $urlType): string
     {
         foreach ($this->endpoints as $endpoint) {
             if ($endpoint->supportsRegion($region) && $endpoint->supportsUrlType($urlType)) {
@@ -49,6 +49,6 @@ class Entry extends AbstractResource
             }
         }
 
-        return null;
+        return "";
     }
 }

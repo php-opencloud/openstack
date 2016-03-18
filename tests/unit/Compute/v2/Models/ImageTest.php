@@ -72,9 +72,9 @@ class ImageTest extends TestCase
         $response = $this->createResponse(200, [], $expectedJson);
         $this->setupMock('PUT', 'images/imageId/metadata', $expectedJson, [], $response);
 
-        $metadata = $this->image->resetMetadata($metadata);
+        $this->image->resetMetadata($metadata);
 
-        $this->assertEquals('1', $metadata['foo']);
+        $this->assertEquals('1', $this->image->metadata['foo']);
     }
 
     public function test_it_updates_metadata()
@@ -86,10 +86,10 @@ class ImageTest extends TestCase
         $response = $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']]));
         $this->setupMock('POST', 'images/imageId/metadata', $expectedJson, [], $response);
 
-        $metadata = $this->image->mergeMetadata($metadata);
+        $this->image->mergeMetadata($metadata);
 
-        $this->assertEquals('1', $metadata['foo']);
-        $this->assertEquals('2', $metadata['bar']);
+        $this->assertEquals('1', $this->image->metadata['foo']);
+        $this->assertEquals('2', $this->image->metadata['bar']);
     }
 
     public function test_it_retrieves_a_metadata_item()

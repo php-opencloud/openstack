@@ -19,6 +19,6 @@ class EntryTest extends TestCase
 
     public function test_null_is_returned_when_no_endpoints_are_found()
     {
-        $this->assertNull($this->entry->getEndpointUrl('foo', 'bar'));
+        $this->assertEmpty($this->entry->getEndpointUrl('foo', 'bar'));
     }
 }

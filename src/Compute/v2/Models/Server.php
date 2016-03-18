@@ -7,11 +7,11 @@ use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Retrievable;
-use OpenCloud\Common\Resource\RetrievableInterface;
 use OpenCloud\Common\Resource\Updateable;
 use OpenCloud\Common\Resource\AbstractResource;
 use OpenCloud\Common\Transport\Utils;
 use OpenStack\Compute\v2\Enum;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \OpenStack\Compute\v2\Api $api
@@ -98,7 +98,7 @@ class Server extends AbstractResource implements
      *
      * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postServer}
      */
-    public function create(array $userOptions)
+    public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postServer(), $userOptions);
         return $this->populateFromResponse($response);
@@ -110,8 +110,7 @@ class Server extends AbstractResource implements
     public function update()
     {
         $response = $this->execute($this->api->putServer(), $this->getAttrs(['id', 'name', 'ipv4', 'ipv6']));
-
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -128,8 +127,7 @@ class Server extends AbstractResource implements
     public function retrieve()
     {
         $response = $this->execute($this->api->getServer(), $this->getAttrs(['id']));
-
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -137,7 +135,7 @@ class Server extends AbstractResource implements
      *
      * @param string $newPassword The new root password
      */
-    public function changePassword($newPassword)
+    public function changePassword(string $newPassword)
     {
         $this->execute($this->api->changeServerPassword(), [
             'id'       => $this->id,
@@ -150,7 +148,7 @@ class Server extends AbstractResource implements
      *
      * @param string $type The type of reboot that will be performed. Either SOFT or HARD is supported.
      */
-    public function reboot($type = Enum::REBOOT_SOFT)
+    public function reboot(string $type = Enum::REBOOT_SOFT)
     {
         if (!in_array($type, ['SOFT', 'HARD'])) {
             throw new \RuntimeException('Reboot type must either be SOFT or HARD');
@@ -181,7 +179,7 @@ class Server extends AbstractResource implements
      *
      * @param string $flavorId The UUID of the new flavor your server will be based on.
      */
-    public function resize($flavorId)
+    public function resize(string $flavorId)
     {
         $response = $this->execute($this->api->resizeServer(), [
             'id'       => $this->id,
@@ -225,7 +223,7 @@ class Server extends AbstractResource implements
      *
      * @return array An array containing to two keys: "public" and "private"
      */
-    public function listAddresses(array $options = [])
+    public function listAddresses(array $options = []): array
     {
         $options['id'] = $this->id;
 
@@ -239,10 +237,10 @@ class Server extends AbstractResource implements
      *
      * @return array
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         $response = $this->execute($this->api->getServerMetadata(), ['id' => $this->id]);
-        return Utils::jsonDecode($response)['metadata'];
+        return $this->parseMetadata($response);
     }
 
     /**
@@ -250,13 +248,11 @@ class Server extends AbstractResource implements
      * will either be replaced or removed.
      *
      * @param array $metadata {@see \OpenStack\Compute\v2\Api::putServerMetadata}
-     *
-     * @return mixed
      */
     public function resetMetadata(array $metadata)
     {
         $response = $this->execute($this->api->putServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return Utils::jsonDecode($response)['metadata'];
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
@@ -266,12 +262,12 @@ class Server extends AbstractResource implements
      *
      * @param array $metadata {@see \OpenStack\Compute\v2\Api::postServerMetadata}
      *
-     * @return mixed
+     * @return array
      */
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return Utils::jsonDecode($response)['metadata'];
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
@@ -281,10 +277,12 @@ class Server extends AbstractResource implements
      *
      * @return mixed
      */
-    public function getMetadataItem($key)
+    public function getMetadataItem(string $key)
     {
         $response = $this->execute($this->api->getServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
-        return Utils::jsonDecode($response)['metadata'][$key];
+        $value = $this->parseMetadata($response)[$key];
+        $this->metadata[$key] = $value;
+        return $value;
     }
 
     /**
@@ -292,8 +290,17 @@ class Server extends AbstractResource implements
      *
      * @param string $key {@see \OpenStack\Compute\v2\Api::deleteServerMetadataKey}
      */
-    public function deleteMetadataItem($key)
+    public function deleteMetadataItem(string $key)
     {
+        if (isset($this->metadata[$key])) {
+            unset($this->metadata[$key]);
+        }
+
         $this->execute($this->api->deleteServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
+    }
+
+    public function parseMetadata(ResponseInterface $response): array
+    {
+        return Utils::jsonDecode($response)['metadata'];
     }
 }

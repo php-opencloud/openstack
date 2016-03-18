@@ -39,13 +39,15 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     /**
      * {@inheritdoc}
      */
-    public function populateFromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response): self
     {
         parent::populateFromResponse($response);
 
         $this->objectCount = $response->getHeaderLine('X-Container-Object-Count');
         $this->bytesUsed = $response->getHeaderLine('X-Container-Bytes-Used');
         $this->metadata = $this->parseMetadata($response);
+
+        return $this;
     }
 
     /**
@@ -56,7 +58,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      *
      * @return \Generator
      */
-    public function listObjects(array $options = [], callable $mapFn = null)
+    public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
         return $this->model(Object::class)->enumerate($this->api->getContainer(), $options, $mapFn);
@@ -76,7 +78,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      *
      * @return $this
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->putContainer(), $data);
 
@@ -100,7 +102,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postContainer(), ['name' => $this->name, 'metadata' => $metadata]);
-        return $this->parseMetadata($response);
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
@@ -121,13 +123,13 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
         }
 
         $response = $this->execute($this->api->postContainer(), $options);
-        return $this->parseMetadata($response);
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->headContainer());
         return $this->parseMetadata($response);
@@ -142,7 +144,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      *
      * @return Object
      */
-    public function getObject($name)
+    public function getObject($name): Object
     {
         return $this->model(Object::class, ['containerName' => $this->name, 'name' => $name]);
     }
@@ -157,7 +159,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      * @throws BadResponseError For any other HTTP error which does not have a 404 Not Found status.
      * @throws \Exception       For any other type of fatal error.
      */
-    public function objectExists($name)
+    public function objectExists(string $name): bool
     {
         try {
             $this->getObject($name)->retrieve();
@@ -177,7 +179,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      *
      * @return Object
      */
-    public function createObject(array $data)
+    public function createObject(array $data): Object
     {
         return $this->model(Object::class)->create($data + ['containerName' => $this->name]);
     }
@@ -195,7 +197,7 @@ class Container extends AbstractResource implements Creatable, Deletable, Retrie
      *
      * @return Object
      */
-    public function createLargeObject(array $data)
+    public function createLargeObject(array $data): Object
     {
         /** @var \Psr\Http\Message\StreamInterface $stream */
         $stream = $data['stream'];

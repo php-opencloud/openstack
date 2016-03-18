@@ -12,11 +12,13 @@ class Catalog extends AbstractResource implements \OpenCloud\Common\Auth\Catalog
     /** @var []Service */
     public $services;
 
-    public function populateFromArray(array $data)
+    public function populateFromArray(array $data): self
     {
         foreach ($data as $service) {
             $this->services[] = $this->model(Service::class, $service);
         }
+
+        return $this;
     }
 
     /**
@@ -29,10 +31,10 @@ class Catalog extends AbstractResource implements \OpenCloud\Common\Auth\Catalog
      *
      * @return false|string   FALSE if no URL found
      */
-    public function getServiceUrl($name, $type, $region, $urlType)
+    public function getServiceUrl(string $name, string $type, string $region, string $urlType): string
     {
         if (empty($this->services)) {
-            return false;
+            throw new \RuntimeException('No services are defined');
         }
 
         foreach ($this->services as $service) {
@@ -41,6 +43,9 @@ class Catalog extends AbstractResource implements \OpenCloud\Common\Auth\Catalog
             }
         }
 
-        return false;
+        throw new \RuntimeException(sprintf(
+            "Endpoint URL could not be found in the catalog for this service.\nName: %s\nType: %s\nRegion: %s\nURL type: %s",
+            $name, $type, $region, $urlType
+        ));
     }
 }

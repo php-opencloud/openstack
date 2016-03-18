@@ -19,7 +19,7 @@ class Api extends AbstractApi
         $this->params = new Params();
     }
 
-    public function getNetwork()
+    public function getNetwork(): array
     {
         return [
             'method' => 'GET',
@@ -28,7 +28,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getNetworks()
+    public function getNetworks(): array
     {
         return [
             'method' => 'GET',
@@ -37,7 +37,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postNetwork()
+    public function postNetwork(): array
     {
         return [
             'path'    => $this->pathPrefix . '/networks',
@@ -51,7 +51,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postNetworks()
+    public function postNetworks(): array
     {
         return [
             'path'    => $this->pathPrefix . '/networks',
@@ -74,7 +74,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putNetwork()
+    public function putNetwork(): array
     {
         return [
             'method'  => 'PUT',
@@ -89,7 +89,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteNetwork()
+    public function deleteNetwork(): array
     {
         return [
             'method' => 'DELETE',
@@ -98,7 +98,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getSubnet()
+    public function getSubnet(): array
     {
         return [
             'method' => 'GET',
@@ -107,7 +107,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getSubnets()
+    public function getSubnets(): array
     {
         return [
             'method' => 'GET',
@@ -116,7 +116,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postSubnet()
+    public function postSubnet(): array
     {
         return [
             'path'    => $this->pathPrefix . '/subnets',
@@ -137,7 +137,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postSubnets()
+    public function postSubnets(): array
     {
         return [
             'path'   => $this->pathPrefix . '/subnets',
@@ -155,7 +155,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putSubnet()
+    public function putSubnet(): array
     {
         return [
             'method'  => 'PUT',
@@ -172,7 +172,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteSubnet()
+    public function deleteSubnet(): array
     {
         return [
             'method' => 'DELETE',
@@ -181,7 +181,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getPorts()
+    public function getPorts(): array
     {
         return [
             'method' => 'GET',
@@ -201,7 +201,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postSinglePort()
+    public function postSinglePort(): array
     {
         return [
             'method'  => 'POST',
@@ -224,7 +224,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postMultiplePorts()
+    public function postMultiplePorts(): array
     {
         return [
             'method' => 'POST',
@@ -241,7 +241,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getPort()
+    public function getPort(): array
     {
         return [
             'method' => 'GET',
@@ -250,7 +250,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putPort()
+    public function putPort(): array
     {
         return [
             'method'  => 'PUT',
@@ -274,7 +274,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deletePort()
+    public function deletePort(): array
     {
         return [
             'method' => 'DELETE',

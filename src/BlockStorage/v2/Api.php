@@ -1,4 +1,5 @@
 <?php declare (strict_types=1);
+
 namespace OpenStack\BlockStorage\v2;
 
 use OpenCloud\Common\Api\AbstractApi;
@@ -10,7 +11,7 @@ class Api extends AbstractApi
         $this->params = new Params;
     }
 
-    public function postVolumes()
+    public function postVolumes(): array
     {
         return [
             'method'  => 'POST',
@@ -30,7 +31,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getVolumes()
+    public function getVolumes(): array
     {
         return [
             'method' => 'GET',
@@ -43,7 +44,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getVolumesDetail()
+    public function getVolumesDetail(): array
     {
         return [
             'method' => 'GET',
@@ -56,7 +57,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getVolume()
+    public function getVolume(): array
     {
         return [
             'method' => 'GET',
@@ -65,7 +66,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putVolume()
+    public function putVolume(): array
     {
         return [
             'method'  => 'PUT',
@@ -79,7 +80,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteVolume()
+    public function deleteVolume(): array
     {
         return [
             'method' => 'DELETE',
@@ -88,7 +89,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getVolumeMetadata()
+    public function getVolumeMetadata(): array
     {
         return [
             'method' => 'GET',
@@ -97,7 +98,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putVolumeMetadata()
+    public function putVolumeMetadata(): array
     {
         return [
             'method' => 'PUT',
@@ -109,7 +110,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getTypes()
+    public function getTypes(): array
     {
         return [
             'method' => 'GET',
@@ -118,7 +119,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postTypes()
+    public function postTypes(): array
     {
         return [
             'method'  => 'POST',
@@ -131,7 +132,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putType()
+    public function putType(): array
     {
         return [
             'method' => 'PUT',
@@ -145,7 +146,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getType()
+    public function getType(): array
     {
         return [
             'method' => 'GET',
@@ -154,7 +155,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteType()
+    public function deleteType(): array
     {
         return [
             'method' => 'DELETE',
@@ -163,7 +164,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postSnapshots()
+    public function postSnapshots(): array
     {
         return [
             'method' => 'POST',
@@ -178,7 +179,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getSnapshots()
+    public function getSnapshots(): array
     {
         return [
             'method' => 'GET',
@@ -192,7 +193,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getSnapshotsDetail()
+    public function getSnapshotsDetail(): array
     {
         return [
             'method' => 'GET',
@@ -201,7 +202,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getSnapshot()
+    public function getSnapshot(): array
     {
         return [
             'method' => 'GET',
@@ -210,7 +211,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putSnapshot()
+    public function putSnapshot(): array
     {
         return [
             'method' => 'PUT',
@@ -224,7 +225,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function deleteSnapshot()
+    public function deleteSnapshot(): array
     {
         return [
             'method' => 'DELETE',
@@ -233,7 +234,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getSnapshotMetadata()
+    public function getSnapshotMetadata(): array
     {
         return [
             'method' => 'GET',
@@ -242,7 +243,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putSnapshotMetadata()
+    public function putSnapshotMetadata(): array
     {
         return [
             'method' => 'PUT',

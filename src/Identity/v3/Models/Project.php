@@ -49,7 +49,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postProjects}
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postProjects(), $data);
         $this->populateFromResponse($response);
@@ -62,7 +62,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getProject());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -71,7 +71,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
     public function update()
     {
         $response = $this->executeWithState($this->api->patchProject());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**
@@ -87,7 +87,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      *
      * @return \Generator
      */
-    public function listUserRoles(array $options = [])
+    public function listUserRoles(array $options = []): \Generator
     {
         $options['projectId'] = $this->id;
         return $this->model(Role::class)->enumerate($this->api->getProjectUserRoles(), $options);
@@ -106,7 +106,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      *
      * @return bool
      */
-    public function checkUserRole(array $options)
+    public function checkUserRole(array $options): bool
     {
         try {
             $this->execute($this->api->headProjectUserRole(), ['projectId' => $this->id] + $options);
@@ -129,7 +129,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      *
      * @return \Generator
      */
-    public function listGroupRoles(array $options = [])
+    public function listGroupRoles(array $options = []): \Generator
     {
         $options['projectId'] = $this->id;
         return $this->model(Role::class)->enumerate($this->api->getProjectGroupRoles(), $options);
@@ -148,7 +148,7 @@ class Project extends AbstractResource implements Creatable, Retrievable, Listab
      *
      * @return bool
      */
-    public function checkGroupRole(array $options)
+    public function checkGroupRole(array $options): bool
     {
         try {
             $this->execute($this->api->headProjectGroupRole(), ['projectId' => $this->id] + $options);

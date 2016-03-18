@@ -39,7 +39,7 @@ class Endpoint extends AbstractResource
      *
      * @return bool
      */
-    public function supportsRegion($region)
+    public function supportsRegion(string $region): bool
     {
         return $this->region == $region;
     }
@@ -51,7 +51,7 @@ class Endpoint extends AbstractResource
      *
      * @return bool
      */
-    public function supportsUrlType($urlType)
+    public function supportsUrlType(string $urlType): bool
     {
         $supported = false;
 
@@ -73,7 +73,7 @@ class Endpoint extends AbstractResource
      *
      * @return bool|string
      */
-    public function getUrl($urlType)
+    public function getUrl(string $urlType): string
     {
         $url = false;
 

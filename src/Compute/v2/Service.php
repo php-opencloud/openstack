@@ -22,7 +22,7 @@ class Service extends AbstractService
      *
      * @return \OpenStack\Compute\v2\Models\Server
      */
-    public function createServer(array $options)
+    public function createServer(array $options): Server
     {
         return $this->model(Server::class)->create($options);
     }
@@ -37,7 +37,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listServers($detailed = false, array $options = [], callable $mapFn = null)
+    public function listServers(bool $detailed = false, array $options = [], callable $mapFn = null): \Generator
     {
         $def = ($detailed === true) ? $this->api->getServersDetail() : $this->api->getServers();
         return $this->model(Server::class)->enumerate($def, $options, $mapFn);
@@ -55,7 +55,7 @@ class Service extends AbstractService
      *
      * @return \OpenStack\Compute\v2\Models\Server
      */
-    public function getServer(array $options = [])
+    public function getServer(array $options = []): Server
     {
         $server = $this->model(Server::class);
         $server->populateFromArray($options);
@@ -70,7 +70,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listFlavors(array $options = [], callable $mapFn = null)
+    public function listFlavors(array $options = [], callable $mapFn = null): \Generator
     {
         return $this->model(Flavor::class)->enumerate($this->api->getFlavors(), $options, $mapFn);
     }
@@ -85,7 +85,7 @@ class Service extends AbstractService
      *
      * @return \OpenStack\Compute\v2\Models\Flavor
      */
-    public function getFlavor(array $options = [])
+    public function getFlavor(array $options = []): Flavor
     {
         $flavor = $this->model(Flavor::class);
         $flavor->populateFromArray($options);
@@ -100,7 +100,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listImages(array $options = [], callable $mapFn = null)
+    public function listImages(array $options = [], callable $mapFn = null): \Generator
     {
         return $this->model(Image::class)->enumerate($this->api->getImages(), $options, $mapFn);
     }
@@ -115,7 +115,7 @@ class Service extends AbstractService
      *
      * @return \OpenStack\Compute\v2\Models\Image
      */
-    public function getImage(array $options = [])
+    public function getImage(array $options = []): Image
     {
         $image = $this->model(Image::class);
         $image->populateFromArray($options);

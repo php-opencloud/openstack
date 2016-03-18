@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 trait MetadataTrait
 {
-    public function parseMetadata(ResponseInterface $response)
+    public function parseMetadata(ResponseInterface $response): array
     {
         $metadata = [];
 

@@ -7,7 +7,6 @@ use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Retrievable;
-use OpenCloud\Common\Transport\Utils;
 
 /**
  * Represents a Networking v2 Network.
@@ -57,7 +56,7 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
      *
      * @return Network[]
      */
-    public function bulkCreate(array $data)
+    public function bulkCreate(array $data): array
     {
         $response = $this->execute($this->api->postNetworks(), ['networks' => $data]);
         return $this->extractMultipleInstances($response);
@@ -68,7 +67,7 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
      *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postNetwork}
      */
-    public function create(array $data)
+    public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postNetwork(), $data);
         return $this->populateFromResponse($response);
@@ -80,7 +79,7 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
     public function update()
     {
         $response = $this->executeWithState($this->api->putNetwork());
-        return $this->populateFromResponse($response);
+        $this->populateFromResponse($response);
     }
 
     /**

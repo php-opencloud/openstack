@@ -1,4 +1,5 @@
 <?php declare (strict_types=1);
+
 namespace OpenStack\BlockStorage\v2;
 
 use OpenStack\BlockStorage\v2\Models\Snapshot;
@@ -19,7 +20,7 @@ class Service extends AbstractService
      *
      * @return Volume
      */
-    public function createVolume(array $userOptions)
+    public function createVolume(array $userOptions): Volume
     {
         return $this->model(Volume::class)->create($userOptions);
     }
@@ -32,7 +33,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listVolumes($detail = false, array $userOptions = [])
+    public function listVolumes(bool $detail = false, array $userOptions = []): \Generator
     {
         $def = ($detail === true) ? $this->api->getVolumesDetail() : $this->api->getVolumes();
         return $this->model(Volume::class)->enumerate($def, $userOptions);
@@ -43,7 +44,7 @@ class Service extends AbstractService
      *
      * @return Volume
      */
-    public function getVolume($volumeId)
+    public function getVolume(string $volumeId): Volume
     {
         $volume = $this->model(Volume::class);
         $volume->populateFromArray(['id' => $volumeId]);
@@ -55,7 +56,7 @@ class Service extends AbstractService
      *
      * @return VolumeType
      */
-    public function createVolumeType(array $userOptions)
+    public function createVolumeType(array $userOptions): VolumeType
     {
         return $this->model(VolumeType::class)->create($userOptions);
     }
@@ -63,7 +64,7 @@ class Service extends AbstractService
     /**
      * @return \Generator
      */
-    public function listVolumeTypes()
+    public function listVolumeTypes(): \Generator
     {
         return $this->model(VolumeType::class)->enumerate($this->api->getTypes(), []);
     }
@@ -73,7 +74,7 @@ class Service extends AbstractService
      *
      * @return VolumeType
      */
-    public function getVolumeType($typeId)
+    public function getVolumeType(string $typeId): VolumeType
     {
         $type = $this->model(VolumeType::class);
         $type->populateFromArray(['id' => $typeId]);
@@ -85,7 +86,7 @@ class Service extends AbstractService
      *
      * @return Snapshot
      */
-    public function createSnapshot(array $userOptions)
+    public function createSnapshot(array $userOptions): Snapshot
     {
         return $this->model(Snapshot::class)->create($userOptions);
     }
@@ -93,7 +94,7 @@ class Service extends AbstractService
     /**
      * @return \Generator
      */
-    public function listSnapshots($detail = false, array $userOptions = [])
+    public function listSnapshots(bool $detail = false, array $userOptions = []): \Generator
     {
         $def = ($detail === true) ? $this->api->getSnapshotsDetail() : $this->api->getSnapshots();
         return $this->model(Snapshot::class)->enumerate($def, $userOptions);
@@ -104,7 +105,7 @@ class Service extends AbstractService
      *
      * @return Snapshot
      */
-    public function getSnapshot($snapshotId)
+    public function getSnapshot(string $snapshotId): Snapshot
     {
         $snapshot = $this->model(Snapshot::class);
         $snapshot->populateFromArray(['id' => $snapshotId]);

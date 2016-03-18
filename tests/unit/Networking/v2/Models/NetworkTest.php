@@ -93,7 +93,7 @@ class NetworkTest extends TestCase
 
         $this->setupMock('PUT', 'v2.0/networks/networkId', $expectedJson, [], 'network-put');
 
-        $this->assertInstanceOf(Network::class, $this->network->update());
+        $this->network->update();
     }
 
     public function test_it_retrieves()

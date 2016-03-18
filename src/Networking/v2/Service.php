@@ -21,7 +21,7 @@ class Service extends AbstractService
      *
      * @return Network
      */
-    public function createNetwork(array $options)
+    public function createNetwork(array $options): Network
     {
         return $this->model(Network::class)->create($options);
     }
@@ -33,7 +33,7 @@ class Service extends AbstractService
      *
      * @return array
      */
-    public function createNetworks(array $options)
+    public function createNetworks(array $options): array
     {
         return $this->model(Network::class)->bulkCreate($options);
     }
@@ -47,7 +47,7 @@ class Service extends AbstractService
      *
      * @return Network
      */
-    public function getNetwork($id)
+    public function getNetwork(string $id): Network
     {
         return $this->model(Network::class, ['id' => $id]);
     }
@@ -59,7 +59,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listNetworks(array $options = [])
+    public function listNetworks(array $options = []): \Generator
     {
         return $this->model(Network::class)->enumerate($this->api->getNetworks(), $options);
     }
@@ -71,7 +71,7 @@ class Service extends AbstractService
      *
      * @return Subnet
      */
-    public function createSubnet(array $options)
+    public function createSubnet(array $options): Subnet
     {
         return $this->model(Subnet::class)->create($options);
     }
@@ -83,7 +83,7 @@ class Service extends AbstractService
      *
      * @return []Subnet
      */
-    public function createSubnets(array $options)
+    public function createSubnets(array $options): array
     {
         return $this->model(Subnet::class)->bulkCreate($options);
     }
@@ -97,7 +97,7 @@ class Service extends AbstractService
      *
      * @return Subnet
      */
-    public function getSubnet($id)
+    public function getSubnet(string $id): Subnet
     {
         return $this->model(Subnet::class, ['id' => $id]);
     }
@@ -109,7 +109,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listSubnets(array $options = [])
+    public function listSubnets(array $options = []): \Generator
     {
         return $this->model(Subnet::class)->enumerate($this->api->getSubnets(), $options);
     }
@@ -121,7 +121,7 @@ class Service extends AbstractService
      *
      * @return Port
      */
-    public function createPort(array $options)
+    public function createPort(array $options): Port
     {
         return $this->model(Port::class)->create($options);
     }
@@ -133,7 +133,7 @@ class Service extends AbstractService
      *
      * @return []Port
      */
-    public function createPorts(array $options)
+    public function createPorts(array $options): array
     {
         return $this->model(Port::class)->bulkCreate($options);
     }
@@ -147,7 +147,7 @@ class Service extends AbstractService
      *
      * @return Port
      */
-    public function getPort($id)
+    public function getPort(string $id): Port
     {
         return $this->model(Port::class, ['id' => $id]);
     }
@@ -159,7 +159,7 @@ class Service extends AbstractService
      *
      * @return \Generator
      */
-    public function listPorts(array $options = [])
+    public function listPorts(array $options = []): \Generator
     {
         return $this->model(Port::class)->enumerate($this->api->getPorts(), $options);
     }

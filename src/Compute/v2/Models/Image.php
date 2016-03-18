@@ -1,19 +1,21 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace OpenStack\Compute\v2\Models;
 
 use OpenCloud\Common\Resource\AbstractResource;
 use OpenCloud\Common\Resource\Deletable;
+use OpenCloud\Common\Resource\HasMetadata;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Retrievable;
 use OpenCloud\Common\Transport\Utils;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents a Compute v2 Image
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Image extends AbstractResource implements Listable, Retrievable, Deletable
+class Image extends AbstractResource implements Listable, Retrievable, Deletable, HasMetadata
 {
     /** @var string */
     public $id;
@@ -53,7 +55,7 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getImage(), ['id' => (string) $this->id]);
+        $response = $this->execute($this->api->getImage(), ['id' => (string)$this->id]);
         $this->populateFromResponse($response);
     }
 
@@ -62,7 +64,7 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
      */
     public function delete()
     {
-        $this->execute($this->api->deleteImage(), ['id' => (string) $this->id]);
+        $this->execute($this->api->deleteImage(), ['id' => (string)$this->id]);
     }
 
     /**
@@ -70,10 +72,10 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
      *
      * @return array
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         $response = $this->execute($this->api->getImageMetadata(), ['id' => $this->id]);
-        return Utils::jsonDecode($response)['metadata'];
+        return $this->parseMetadata($response);
     }
 
     /**
@@ -81,13 +83,11 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
      * will either be replaced or removed.
      *
      * @param array $metadata {@see \OpenStack\Compute\v2\Api::putImageMetadata}
-     *
-     * @return array
      */
     public function resetMetadata(array $metadata)
     {
         $response = $this->execute($this->api->putImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return Utils::jsonDecode($response)['metadata'];
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
@@ -96,13 +96,11 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
      * existing keys will remain unaffected.
      *
      * @param array $metadata {@see \OpenStack\Compute\v2\Api::postImageMetadata}
-     *
-     * @return array
      */
     public function mergeMetadata(array $metadata)
     {
         $response = $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
-        return Utils::jsonDecode($response)['metadata'];
+        $this->metadata = $this->parseMetadata($response);
     }
 
     /**
@@ -112,10 +110,12 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
      *
      * @return mixed
      */
-    public function getMetadataItem($key)
+    public function getMetadataItem(string $key)
     {
         $response = $this->execute($this->api->getImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
-        return Utils::jsonDecode($response)['metadata'][$key];
+        $value = $this->parseMetadata($response)[$key];
+        $this->metadata[$key] = $value;
+        return $value;
     }
 
     /**
@@ -123,8 +123,17 @@ class Image extends AbstractResource implements Listable, Retrievable, Deletable
      *
      * @param string $key {@see \OpenStack\Compute\v2\Api::deleteImageMetadataKey}
      */
-    public function deleteMetadataItem($key)
+    public function deleteMetadataItem(string $key)
     {
+        if (isset($this->metadata[$key])) {
+            unset($this->metadata[$key]);
+        }
+
         $this->execute($this->api->deleteImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
+    }
+
+    public function parseMetadata(ResponseInterface $response): array
+    {
+        return Utils::jsonDecode($response)['metadata'];
     }
 }
