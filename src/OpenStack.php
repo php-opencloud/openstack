@@ -2,7 +2,11 @@
 
 namespace OpenStack;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use OpenCloud\Common\Service\Builder;
+use OpenCloud\Common\Transport\Utils;
+use OpenStack\Identity\v3\Service;
 
 /**
  * This class is the primary entry point for working with the SDK. It allows for the easy creation
@@ -27,7 +31,28 @@ class OpenStack
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
+        if (!isset($options['identityService'])) {
+            $options['identityService'] = $this->getDefaultIdentityService($options);
+        }
+
         $this->builder = $builder ?: new Builder($options, 'OpenStack');
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return Service
+     */
+    private function getDefaultIdentityService(array $options): Service
+    {
+        if (!isset($options['authUrl'])) {
+            throw new \InvalidArgumentException("'authUrl' is a required option");
+        }
+
+        return Service::factory(new Client([
+            'base_uri' => Utils::normalizeUrl($options['authUrl']),
+            'handler'  => HandlerStack::create(),
+        ]));
     }
 
     /**
