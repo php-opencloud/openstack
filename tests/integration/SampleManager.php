@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Integration;
+namespace OpenStack\integration;
 
 use OpenCloud\Integration\SampleManagerInterface;
 
