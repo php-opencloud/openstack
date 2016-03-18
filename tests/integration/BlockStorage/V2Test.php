@@ -6,8 +6,7 @@ use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
 use OpenCloud\Integration\TestCase;
-use OpenCloud\Integration\Utils;
-use OpenStack\OpenStack;
+use OpenStack\Integration\Utils;
 
 class V2Test extends TestCase
 {
@@ -19,7 +18,7 @@ class V2Test extends TestCase
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->blockStorageV2(Utils::getAuthOpts());
+            $this->service = Utils::getOpenStack()->blockStorageV2();
         }
 
         return $this->service;

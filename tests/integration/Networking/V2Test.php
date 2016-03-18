@@ -2,11 +2,11 @@
 
 namespace OpenStack\integration\Networking;
 
+use OpenStack\Integration\Utils;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Subnet;
 use OpenCloud\Integration\TestCase;
-use OpenStack\OpenStack;
 
 class V2Test extends TestCase
 {
@@ -15,7 +15,7 @@ class V2Test extends TestCase
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->networkingV2(['region' => getenv('OS_REGION')]);
+            $this->service = Utils::getOpenStack()->networkingV2();
         }
 
         return $this->service;

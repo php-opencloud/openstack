@@ -6,8 +6,7 @@ use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Server;
 use OpenCloud\Integration\TestCase;
-use OpenCloud\Integration\Utils;
-use OpenStack\OpenStack;
+use OpenStack\Integration\Utils;
 
 class V2Test extends TestCase
 {
@@ -19,7 +18,7 @@ class V2Test extends TestCase
     private function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->computeV2(Utils::getAuthOpts());
+            $this->service = Utils::getOpenStack()->computeV2();
         }
 
         return $this->service;

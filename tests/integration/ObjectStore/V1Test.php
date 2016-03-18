@@ -3,8 +3,7 @@
 namespace OpenStack\integration\ObjectStore;
 
 use OpenCloud\Integration\TestCase;
-use OpenCloud\Integration\Utils;
-use OpenStack\OpenStack;
+use OpenStack\Integration\Utils;
 use Psr\Http\Message\StreamInterface;
 
 class V1Test extends TestCase
@@ -17,7 +16,7 @@ class V1Test extends TestCase
     protected function getService()
     {
         if (null === $this->service) {
-            $this->service = (new OpenStack())->objectStoreV1(Utils::getAuthOpts());
+            $this->service = Utils::getOpenStack()->objectStoreV1();
         }
 
         return $this->service;

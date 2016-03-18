@@ -16,7 +16,7 @@ class OpenStackTest extends TestCase
     public function setUp()
     {
         $this->builder = $this->prophesize(Builder::class);
-        $this->openstack = new OpenStack([], $this->builder->reveal());
+        $this->openstack = new OpenStack(['authUrl' => ''], $this->builder->reveal());
     }
 
     public function test_it_supports_compute_v2()
