@@ -87,7 +87,7 @@ class JsonSerializer
         if ($param->isArray()) {
             $userValue = $this->stockArrayJson($param, $userValue);
         } elseif ($param->isObject()) {
-            $userValue = $this->stockObjectJson($param, $userValue);
+            $userValue = $this->stockObjectJson($param, (object) $userValue);
         }
         // Populate the final value
         return $this->stockValue($param, $userValue, $json);

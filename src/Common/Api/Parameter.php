@@ -338,9 +338,9 @@ class Parameter
     /**
      * Retrieves the common schema that an array parameter applies to all its child elements.
      *
-     * @return Parameter
+     * @return Parameter|null
      */
-    public function getItemSchema(): Parameter
+    public function getItemSchema()
     {
         return $this->itemSchema;
     }

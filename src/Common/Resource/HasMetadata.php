@@ -32,9 +32,9 @@ interface HasMetadata
      *
      * @param array $metadata The new metadata items
      *
-     * @return mixed
+     * @return void
      */
-    public function mergeMetadata(array $metadata): array;
+    public function mergeMetadata(array $metadata);
 
     /**
      * Replaces all of the existing metadata items for a resource with a new set of values. Any metadata items which
@@ -52,9 +52,9 @@ interface HasMetadata
      *
      * @param array $metadata The new metadata items
      *
-     * @return mixed
+     * @return void
      */
-    public function resetMetadata(array $metadata): array;
+    public function resetMetadata(array $metadata);
 
     /**
      * Extracts metadata from a response object and returns it in the form of an associative array.

@@ -15,5 +15,5 @@ interface Creatable
      * @param array $userOptions
      * @return self
      */
-    public function create(array $userOptions): self;
+    public function create(array $userOptions): Creatable;
 }

@@ -129,9 +129,9 @@ abstract class Operator implements OperatorInterface
     }
 
     /**
-     * @return \GuzzleHttp\Psr7\Uri
+     * @return \GuzzleHttp\Psr7\Uri:null
      */
-    protected function getHttpBaseUrl(): Uri
+    protected function getHttpBaseUrl()
     {
         return $this->client->getConfig('base_uri');
     }

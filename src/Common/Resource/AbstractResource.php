@@ -84,7 +84,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         $reflClass = new \ReflectionClass($this);
 
         foreach ($array as $key => $val) {
-            $propertyName = isset($this->aliases[$key]) ? $this->aliases[$key] : $key;
+            $propertyName = (string) (isset($this->aliases[$key]) ? $this->aliases[$key] : $key);
 
             if (property_exists($this, $propertyName)) {
                 if ($type = $this->extractTypeFromDocBlock($reflClass, $propertyName)) {
