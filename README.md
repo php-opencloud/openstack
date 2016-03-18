@@ -1,6 +1,6 @@
 # PHP OpenStack SDK
 
-[![Build Status](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/build.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/build-status/master)
+[![Build Status](https://travis-ci.org/php-opencloud/openstack.svg?branch=master)](https://travis-ci.org/php-opencloud/openstack)
 [![Code Coverage](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
 
