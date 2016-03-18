@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenCloud\integration;
+namespace OpenCloud\Integration;
 
 interface SampleManagerInterface
 {

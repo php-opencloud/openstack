@@ -5,11 +5,11 @@ namespace OpenCloud\Common\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
+use OpenCloud\Common\Auth\IdentityService;
 use OpenCloud\Common\Auth\Token;
 use OpenCloud\Common\Transport\HandlerStack;
 use OpenCloud\Common\Transport\Middleware;
 use OpenCloud\Common\Transport\Utils;
-use OpenCloud\Identity\v3\Service;
 
 /**
  * A Builder for easily creating OpenCloud services.
@@ -54,7 +54,7 @@ class Builder
      *
      * @return array
      */
-    private function getClasses(string $serviceName, string $serviceVersion)
+    private function getClasses(string $serviceName, int $serviceVersion)
     {
         $rootNamespace = sprintf("%s\\%s\\v%d", $this->rootNamespace, $serviceName, $serviceVersion);
 
@@ -82,7 +82,6 @@ class Builder
     {
         $options = $this->mergeOptions($serviceOptions);
 
-        $this->stockIdentityService($options);
         $this->stockAuthHandler($options);
         $this->stockHttpClient($options, $serviceName);
 
@@ -121,14 +120,6 @@ class Builder
         }
     }
 
-    private function stockIdentityService(array &$options)
-    {
-        if (!isset($options['identityService'])) {
-            $httpClient = $this->httpClient($options['authUrl'], HandlerStack::create());
-            $options['identityService'] = Service::factory($httpClient);
-        }
-    }
-
     /**
      * @param array $options
      *
@@ -164,6 +155,12 @@ class Builder
 
         if (!isset($options['authUrl'])) {
             throw new \InvalidArgumentException('"authUrl" is a required option');
+        }
+
+        if (!isset($options['identityService']) || !($options['identityService'] instanceof IdentityService)) {
+            throw new \InvalidArgumentException(sprintf(
+                '"identityService" must be specified and implement %s', IdentityService::class
+            ));
         }
 
         return $options;

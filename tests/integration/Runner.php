@@ -1,16 +1,19 @@
 <?php
 
-namespace OpenCloud\integration;
+namespace OpenCloud\Integration;
 
 class Runner
 {
     private $basePath;
     private $logger;
     private $services = [];
+    private $namespace;
 
-    public function __construct($basePath)
+    public function __construct($basePath, $testNamespace)
     {
         $this->basePath = $basePath;
+        $this->namespace = $testNamespace;
+
         $this->logger = new DefaultLogger();
         $this->assembleServicesFromSamples();
     }
@@ -73,15 +76,14 @@ class Runner
      */
     private function getTest($serviceName, $version, $verbosity)
     {
-        $namespace = (new \ReflectionClass($this))->getNamespaceName();
-        $className = sprintf("%s\\%s\\%sTest", $namespace, Utils::toCamelCase($serviceName), ucfirst($version));
+        $className = sprintf("%s\\%s\\%sTest", $this->namespace, Utils::toCamelCase($serviceName), ucfirst($version));
 
         if (!class_exists($className)) {
             throw new \RuntimeException(sprintf("%s does not exist", $className));
         }
 
         $basePath = $this->basePath . DIRECTORY_SEPARATOR . $serviceName . DIRECTORY_SEPARATOR . $version;
-        $smClass = sprintf("%s\\SampleManager", $namespace);
+        $smClass = sprintf("%s\\SampleManager", $this->namespace);
         $class = new $className($this->logger, new $smClass($basePath, $verbosity));
 
         if (!($class instanceof TestInterface)) {
