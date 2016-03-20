@@ -22,12 +22,14 @@ class OpenStack
     /**
      * @param array $options User-defined options
      *
-     * $options['username']   = (string) Your OpenStack username        [REQUIRED]
-     *         ['password']   = (string) Your OpenStack password        [REQUIRED]
-     *         ['tenantId']   = (string) Your tenant ID                 [REQUIRED if tenantName omitted]
-     *         ['tenantName'] = (string) Your tenant name               [REQUIRED if tenantId omitted]
-     *         ['authUrl']    = (string) The Keystone URL               [REQUIRED]
-     *         ['debug']      = (bool)   Whether to enable HTTP logging [OPTIONAL]
+     * $options['username']         = (string)            Your OpenStack username        [REQUIRED]
+     *         ['password']         = (string)            Your OpenStack password        [REQUIRED]
+     *         ['tenantId']         = (string)            Your tenant ID                 [REQUIRED if tenantName omitted]
+     *         ['tenantName']       = (string)            Your tenant name               [REQUIRED if tenantId omitted]
+     *         ['authUrl']          = (string)            The Keystone URL               [REQUIRED]
+     *         ['debugLog']         = (bool)              Whether to enable HTTP logging [OPTIONAL]
+     *         ['logger']           = (LoggerInterface)   Must set if debugLog is true   [OPTIONAL]
+     *         ['messageFormatter'] = (MessageFormatter)  Must set if debugLog is true   [OPTIONAL]
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
