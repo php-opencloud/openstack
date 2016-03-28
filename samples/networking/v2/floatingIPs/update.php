@@ -12,14 +12,8 @@ $openstack = new OpenStack\OpenStack([
     'scope' => ['project' => ['id' => '{projectId}']]
 ]);
 
-$networking = $openstack->networkingV2();
+$floatingIp = $openstack->networkingV2ExtLayer3()
+                        ->getFloatingIp('{id}');
 
-$options = [
-    'name'      => '{subnetName}',
-    'networkId' => '{networkId}',
-    'ipVersion' => 4,
-    'cidr'      => '192.168.199.0/24'
-];
-
-// Create the subnet
-$subnet = $networking->createSubnet($options);
+$floatingIp->portId = '{newPortId}';
+$floatingIp->update();

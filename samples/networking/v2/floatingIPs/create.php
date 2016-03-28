@@ -12,14 +12,10 @@ $openstack = new OpenStack\OpenStack([
     'scope' => ['project' => ['id' => '{projectId}']]
 ]);
 
-$networking = $openstack->networkingV2();
+$networking = $openstack->networkingV2ExtLayer3();
 
-$options = [
-    'name'      => '{subnetName}',
-    'networkId' => '{networkId}',
-    'ipVersion' => 4,
-    'cidr'      => '192.168.199.0/24'
-];
-
-// Create the subnet
-$subnet = $networking->createSubnet($options);
+/** @var \OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp $ip */
+$ip = $networking->createFloatingIp([
+    "floatingNetworkId" => "{networkId}",
+    "portId"            => "{portId}",
+]);

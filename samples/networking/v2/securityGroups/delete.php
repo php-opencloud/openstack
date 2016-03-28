@@ -12,14 +12,8 @@ $openstack = new OpenStack\OpenStack([
     'scope' => ['project' => ['id' => '{projectId}']]
 ]);
 
-$networking = $openstack->networkingV2();
+$networking = $openstack->networkingV2ExtSecGroups();
 
-$options = [
-    'name'      => '{subnetName}',
-    'networkId' => '{networkId}',
-    'ipVersion' => 4,
-    'cidr'      => '192.168.199.0/24'
-];
-
-// Create the subnet
-$subnet = $networking->createSubnet($options);
+/** @var \OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup $secGroup */
+$secGroup = $networking->getSecurityGroup('{id}');
+$secGroup->delete();
