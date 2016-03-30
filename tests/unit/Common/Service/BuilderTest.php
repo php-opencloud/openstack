@@ -2,13 +2,10 @@
 
 namespace OpenCloud\Test\Common\Service;
 
-use GuzzleHttp\ClientInterface;
+use OpenCloud\Common\Auth\IdentityService;
+use OpenCloud\Common\Auth\Token;
 use OpenCloud\Common\Service\Builder;
-use OpenCloud\Identity\v2\Models\Token;
-use OpenCloud\Identity\v2\Service as IdentityV2;
-use OpenCloud\Identity\v3\Service as IdentityV3;
-use OpenCloud\Compute\v2\Service as ComputeV2;
-use OpenCloud\Test\Common\Auth\FakeToken;
+use OpenCloud\Test\Common\Service\Fixtures;
 use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
@@ -22,11 +19,11 @@ class BuilderTest extends TestCase
         $this->builder = new Builder([]);
 
         $this->opts = [
-            'username' => '1',
-            'password' => '2',
-            'tenantId' => '3',
-            'authUrl' => '4',
-            'region' => '5',
+            'username'    => '1',
+            'password'    => '2',
+            'tenantId'    => '3',
+            'authUrl'     => '4',
+            'region'      => '5',
             'catalogName' => '6',
             'catalogType' => '7',
         ];
@@ -37,7 +34,7 @@ class BuilderTest extends TestCase
      */
     public function test_it_throws_exception_if_username_is_missing()
     {
-        $this->builder->createService('Compute', 2, []);
+        $this->builder->createService('Compute\\v2', []);
     }
 
     /**
@@ -45,7 +42,7 @@ class BuilderTest extends TestCase
      */
     public function test_it_throws_exception_if_password_is_missing()
     {
-        $this->builder->createService('Compute', 2, ['username' => 1]);
+        $this->builder->createService('Compute\\v2', ['username' => 1]);
     }
 
     /**
@@ -53,7 +50,7 @@ class BuilderTest extends TestCase
      */
     public function test_it_throws_exception_if_both_tenantId_and_tenantName_is_missing()
     {
-        $this->builder->createService('Compute', 2, [
+        $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'authUrl' => 4, 'region' => 5, 'catalogName' => 6, 'catalogType' => 7,
         ]);
     }
@@ -63,7 +60,7 @@ class BuilderTest extends TestCase
      */
     public function test_it_throws_exception_if_authUrl_is_missing()
     {
-        $this->builder->createService('Compute', 2, ['username' => 1, 'password' => 2, 'tenantId' => 3]);
+        $this->builder->createService('Compute\\v2', ['username' => 1, 'password' => 2, 'tenantId' => 3]);
     }
 
     /**
@@ -71,7 +68,7 @@ class BuilderTest extends TestCase
      */
     public function test_it_throws_exception_if_region_is_missing()
     {
-        $this->builder->createService('Compute', 2, [
+        $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'tenantId' => 3, 'authUrl' => 4,
         ]);
     }
@@ -81,7 +78,7 @@ class BuilderTest extends TestCase
      */
     public function test_it_throws_exception_if_catalogName_is_missing()
     {
-        $this->builder->createService('Compute', 2, [
+        $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'tenantId' => 3, 'authUrl' => 4,
         ]);
     }
@@ -91,74 +88,53 @@ class BuilderTest extends TestCase
      */
     public function test_it_throws_exception_if_catalogType_is_missing()
     {
-        $this->builder->createService('Compute', 2, [
+        $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'tenantId' => 3, 'authUrl' => 4, 'region' => 5, 'catalogName' => 6,
         ]);
     }
 
-//    public function test_it_builds_services_with_custom_identity_service()
-//    {
-//        $this->rootFixturesDir = dirname(dirname(__DIR__)) . '/Identity/v2/';
-//
-//        $token = $this->prophesize(FakeToken::class)->reveal();
-//        $service = $this->prophesize(IdentityService::class);
-//        $service->authenticate(Argument::type('array'))->shouldBeCalled()->willReturn([$token, '']);
-//
-//        $this->opts += [
-//            'identityService' => $service->reveal(),
-//            'catalogName'     => 'nova',
-//            'catalogType'     => 'compute',
-//            'region'          => 'RegionOne',
-//        ];
-//
-//        $service = $this->builder->createService('Compute', 2, $this->opts);
-//        $this->assertInstanceOf(ComputeV2::class, $service);
-//    }
-
-    private function setupHttpClient()
+    public function test_it_creates_service()
     {
-        $this->rootFixturesDir = dirname(dirname(__DIR__)) . '/Identity/v3/';
+        $is = $this->prophesize(TestIdentity::class);
+        $is->authenticate(Argument::any())->willReturn([new FakeToken(), '']);
 
-        $response = $this->getFixture('token-get');
+        $s = $this->builder->createService('Test\\Common\\Service\\Fixtures', $this->opts + [
+            'identityService' => $is->reveal(),
+        ]);
 
-        $expectedJson = [
-            'auth' => [
-                'identity' => [
-                    'methods'  => ['password'],
-                    'password' => ['user' => ['id' => '0ca8f6', 'password' => 'secretsecret']]
-                ]
-            ]
-        ];
-
-        $httpClient = $this->prophesize(ClientInterface::class);
-        $httpClient->request('POST', 'tokens', ['json' => $expectedJson])->shouldBeCalled()->willReturn($response);
-
-        return $httpClient;
+        $this->assertInstanceOf(Fixtures\Service::class, $s);
     }
 
-    public function it_builds_services_with_default_identity()
+    public function test_it_does_not_authenticate_for_identity_services()
     {
-        $httpClient = $this->setupHttpClient();
+        $is = $this->prophesize(TestIdentity::class);
+        $is->authenticate(Argument::any())->willReturn([new FakeToken(), '']);
 
-        $options = [
-            'httpClient'  => $httpClient->reveal(),
-            'catalogName' => 'nova',
-            'catalogType' => 'compute',
-            'region'      => 'RegionOne',
-            'user'        => [
-                'id'       => '0ca8f6',
-                'password' => 'secretsecret',
-            ]
-        ];
+        $s = $this->builder->createService('Test\\Common\\Service\\Fixtures\\Identity', $this->opts + [
+            'identityService' => $is->reveal(),
+        ]);
 
-        $service = $this->builder->createService('Compute', 2, $options);
-        $this->assertInstanceOf(ComputeV2::class, $service);
+        $this->assertInstanceOf(Fixtures\Identity\Service::class, $s);
+    }
+}
+
+class FakeToken implements Token
+{
+    public function getId(): string
+    {
+        return '';
     }
 
-//    public function test_it_does_not_authenticate_when_creating_identity_services()
-//    {
-//        $this->assertInstanceOf(IdentityV3::class, $this->builder->createService('Identity', 3, [
-//            'authUrl'    => 'foo.com',
-//        ]));
-//    }
+    public function hasExpired(): bool
+    {
+        return false;
+    }
+}
+
+class TestIdentity implements IdentityService
+{
+    public function authenticate(array $options): array
+    {
+        return [];
+    }
 }

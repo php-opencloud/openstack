@@ -4,19 +4,19 @@ namespace OpenCloud\Test\Common\Api;
 
 use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Promise\Promise;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Uri;
-use OpenCloud\Common\Api\Operator;
+use OpenCloud\Common\Api\OperatorTrait;
 use OpenCloud\Common\Resource\AbstractResource;
 use OpenCloud\Common\Resource\ResourceInterface;
 use OpenCloud\Test\Fixtures\ComputeV2Api;
 use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
-class OperatorTest extends TestCase
+class OperatorTraitTest extends TestCase
 {
+    /** @var TestOperator */
     private $operator;
+
     private $def;
 
     public function setUp()
@@ -56,22 +56,6 @@ class OperatorTest extends TestCase
         $this->operator->executeAsync($this->def, []);
     }
 
-    public function test_it_returns_a_model_instance()
-    {
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class));
-    }
-
-    public function test_it_populates_models_from_response()
-    {
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, new Response(200)));
-    }
-
-    public function test_it_populates_models_from_arrays()
-    {
-        $data = ['flavor' => [], 'image' => []];
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, $data));
-    }
-
     public function test_it_wraps_sequential_ops_in_promise_when_async_is_appended_to_method_name()
     {
         $promise = $this->operator->createAsync('something');
@@ -93,18 +77,6 @@ class OperatorTest extends TestCase
         $this->operator->fooAsync();
     }
 
-    public function test_it_retrieves_base_http_url()
-    {
-        $returnedUri = uri_for('http://foo.com');
-
-        $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn($returnedUri);
-
-        $uri = $this->operator->testBaseUri();
-
-        $this->assertInstanceOf(Uri::class, $uri);
-        $this->assertEquals($returnedUri, $uri);
-    }
-
     /**
      * @expectedException \Exception
      */
@@ -112,18 +84,29 @@ class OperatorTest extends TestCase
     {
         $this->operator->foo();
     }
+
+    public function test_it_returns_a_model_instance()
+    {
+        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class));
+    }
+    public function test_it_populates_models_from_response()
+    {
+        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, new Response(200)));
+    }
+    public function test_it_populates_models_from_arrays()
+    {
+        $data = ['flavor' => [], 'image' => []];
+        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, $data));
+    }
 }
 
 class TestResource extends AbstractResource
 {
 }
 
-class TestOperator extends Operator
+class TestOperator
 {
-    public function testBaseUri()
-    {
-        return $this->getHttpBaseUrl();
-    }
+    use OperatorTrait;
 
     public function create($str)
     {

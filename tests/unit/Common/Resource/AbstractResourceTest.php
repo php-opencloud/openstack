@@ -5,13 +5,13 @@ namespace OpenCloud\Test\Common\Resource;
 use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\Psr7\Response;
 use OpenCloud\Common\Resource\AbstractResource;
-use OpenCloud\Common\Resource\Generator;
-use OpenCloud\Test\Fixtures\ComputeV2Api;
+use OpenCloud\Common\Resource\ResourceInterface;
 use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
 class AbstractResourceTest extends TestCase
 {
+    /** @var TestResource */
     private $resource;
 
     public function setUp()
@@ -19,7 +19,8 @@ class AbstractResourceTest extends TestCase
         parent::setUp();
 
         $this->rootFixturesDir = __DIR__;
-        $this->resource = new TestResource($this->client->reveal(), new ComputeV2Api());
+
+        $this->resource = new TestResource();
     }
 
     public function test_it_populates_from_response()
@@ -42,6 +43,14 @@ class AbstractResourceTest extends TestCase
         $this->assertEquals($this->resource->created, $dt);
     }
 
+    public function test_it_populates_model_objects_from_arrays()
+    {
+        $tr = new TestResource();
+        $this->resource->populateFromArray(['child' => $tr]);
+
+        $this->assertEquals($this->resource->child, $tr);
+    }
+
     public function test_it_populates_arrays_from_arrays()
     {
         $this->resource->populateFromArray(['children' => [$this->resource, $this->resource]]);
@@ -56,92 +65,26 @@ class AbstractResourceTest extends TestCase
         $this->assertEquals(['bar' => 'foo'], $this->resource->getAttrs(['bar']));
     }
 
-    public function test_it_executes_with_state()
+    public function test_it_returns_a_model_instance()
     {
-        $this->resource->id = 'foo';
-        $this->resource->bar = 'bar';
-
-        $expectedJson = ['id' => 'foo', 'bar' => 'bar'];
-
-        $this->setupMock('GET', 'foo', $expectedJson, [], new Response(204));
-
-        $this->resource->executeWithState((new ComputeV2Api())->test());
+        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
     }
 
-    public function test_it_executes_operations_until_a_204_is_received()
+    public function test_it_populates_models_from_response()
     {
-        $this->client
-            ->request('GET', 'servers', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
-
-        $this->client
-            ->request('GET', 'servers', ['query' => ['marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
-
-        $count = 0;
-
-        $api = new ComputeV2Api();
-
-        foreach ($this->resource->enumerate($api->getServers()) as $item) {
-            $count++;
-            $this->assertInstanceOf(TestResource::class, $item);
-        }
-
-        $this->assertEquals(5, $count);
+        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
     }
 
-    public function test_it_invokes_function_if_provided()
+    public function test_it_populates_models_from_arrays()
     {
-        $this->client
-            ->request('GET', 'servers', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
-
-        $this->client
-            ->request('GET', 'servers', ['query' => ['marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
-
-        $api = new ComputeV2Api();
-
-        $count = 0;
-
-        $fn = function () use (&$count) {
-            $count++;
-        };
-
-        foreach ($this->resource->enumerate($api->getServers(), [], $fn) as $item) {
-        }
-
-        $this->assertEquals(5, $count);
-    }
-
-    public function test_it_halts_when_user_provided_limit_is_reached()
-    {
-        $this->client
-            ->request('GET', 'servers', ['query' => ['limit' => 2], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
-
-        $count = 0;
-
-        $api = new ComputeV2Api();
-
-        foreach ($this->resource->enumerate($api->getServers(), ['limit' => 2]) as $item) {
-            $count++;
-        }
-
-        $this->assertEquals(2, $count);
+        $data = ['flavor' => [], 'image' => []];
+        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, $data));
     }
 }
 
 class TestResource extends AbstractResource
 {
     protected $resourceKey = 'foo';
-    protected $resourcesKey = 'servers';
-    protected $markerKey = 'id';
 
     /** @var string */
     public $bar;
@@ -153,6 +96,9 @@ class TestResource extends AbstractResource
 
     /** @var []TestResource */
     public $children;
+
+    /** @var TestResource */
+    public $child;
 
     public function getAttrs(array $keys)
     {
