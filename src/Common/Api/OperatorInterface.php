@@ -44,11 +44,21 @@ interface OperatorInterface
     public function executeAsync(array $definition, array $userValues = []): PromiseInterface;
 
     /**
-     * @param string $name The name of the model class.
+     * Retrieves a populated Operation according to the definition and values provided. A
+     * HTTP client is also injected into the object to allow it to communicate with the remote API.
+     *
+     * @param array $definition The data that dictates how the operation works
+     *
+     * @return Operation
+     */
+    public function getOperation(array $definition): Operation;
+
+    /**
+     * @param string $class The name of the model class.
      * @param mixed  $data Either a {@see ResponseInterface} or data array that will populate the newly
      *                     created model class.
      *
      * @return \OpenCloud\Common\Resource\ResourceInterface
      */
-    public function model(string $name, $data = null): ResourceInterface;
+    public function model(string $class, $data = null): ResourceInterface;
 }

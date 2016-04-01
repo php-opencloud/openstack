@@ -2,7 +2,7 @@
 
 namespace OpenCloud\Common\Resource;
 
-use OpenCloud\Common\Api\Operator;
+use OpenCloud\Common\Transport\Serializable;
 use OpenCloud\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 
@@ -13,10 +13,8 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @package OpenCloud\Common\Resource
  */
-abstract class AbstractResource extends Operator implements ResourceInterface
+abstract class AbstractResource implements ResourceInterface, Serializable
 {
-    const DEFAULT_MARKER_KEY = 'id';
-
     /**
      * The JSON key that indicates how the API nests singular resources. For example, when
      * performing a GET, it could respond with ``{"server": {"id": "12345"}}``. In this case,
@@ -25,22 +23,6 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      * @var string
      */
     protected $resourceKey;
-
-    /**
-     * The key that indicates how the API nests resource collections. For example, when
-     * performing a GET, it could respond with ``{"servers": [{}, {}]}``. In this case, "servers"
-     * is the resources key, since the array of servers is nested inside.
-     *
-     * @var string
-     */
-    protected $resourcesKey;
-
-    /**
-     * Indicates which attribute of the current resource should be used for pagination markers.
-     *
-     * @var string
-     */
-    protected $markerKey;
 
     /**
      * An array of aliases that will be checked when the resource is being populated. For example,
@@ -58,7 +40,7 @@ abstract class AbstractResource extends Operator implements ResourceInterface
      *
      * @param ResponseInterface $response
      *
-     * @return $this|ResourceInterface
+     * @return AbstractResource
      */
     public function populateFromResponse(ResponseInterface $response): self
     {
@@ -166,80 +148,46 @@ abstract class AbstractResource extends Operator implements ResourceInterface
         return $output;
     }
 
-    /**
-     * @param array $definition
-     *
-     * @return mixed
-     */
-    public function executeWithState(array $definition)
+    public function model(string $class, $data = null): ResourceInterface
     {
-        return $this->execute($definition, $this->getAttrs(array_keys($definition['params'])));
-    }
+        $model = new $class();
 
-    private function getResourcesKey(): string
-    {
-        $resourcesKey = $this->resourcesKey;
+        // @codeCoverageIgnoreStart
+        if (!$model instanceof ResourceInterface) {
+            throw new \RuntimeException(sprintf('%s does not implement %s', $class, ResourceInterface::class));
+        }
+        // @codeCoverageIgnoreEnd
 
-        if (!$resourcesKey) {
-            $class = substr(static::class, strrpos(static::class, '\\') + 1);
-            $resourcesKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $class)) . 's';
+        if ($data instanceof ResponseInterface) {
+            $model->populateFromResponse($data);
+        } elseif (is_array($data)) {
+            $model->populateFromArray($data);
         }
 
-        return $resourcesKey;
+        return $model;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function enumerate(array $def, array $userVals = [], callable $mapFn = null): \Generator
+    public function serialize(): \stdClass
     {
-        $operation = $this->getOperation($def);
+        $output = new \stdClass();
 
-        $requestFn = function ($marker) use ($operation, $userVals) {
-            if ($marker) {
-                $userVals['marker'] = $marker;
+        foreach ((new \ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
+            $name = $property->getName();
+            $val = $this->{$name};
+
+            $fn = function ($val) {
+                return ($val instanceof Serializable) ? $val->serialize() : $val;
+            };
+
+            if (is_array($val)) {
+                foreach ($val as $sk => $sv) {
+                    $val[$sk] = $fn($sv);
+                }
             }
-            return $this->sendRequest($operation, $userVals);
-        };
 
-        $resourceFn = function (array $data) {
-            $resource = $this->newInstance();
-            $resource->populateFromArray($data);
-            return $resource;
-        };
-
-        $opts = [
-            'limit'        => isset($userVals['limit']) ? $userVals['limit'] : null,
-            'resourcesKey' => $this->getResourcesKey(),
-            'markerKey'    => $this->markerKey,
-            'mapFn'        => $mapFn,
-        ];
-
-        $iterator = new Iterator($opts, $requestFn, $resourceFn);
-        return $iterator();
-    }
-
-    public function extractMultipleInstances(ResponseInterface $response, string $key = null): array
-    {
-        $key = $key ?: $this->getResourcesKey();
-        $resourcesData = Utils::jsonDecode($response)[$key];
-
-        $resources = [];
-
-        foreach ($resourcesData as $resourceData) {
-            $resource = $this->newInstance();
-            $resource->populateFromArray($resourceData);
-            $resources[] = $resource;
+            $output->{$name} = $fn($val);
         }
 
-        return $resources;
-    }
-
-    protected function getService()
-    {
-        $class = static::class;
-        $service = substr($class, 0, strpos($class, 'Models') - 1) . '\\Service';
-
-        return new $service($this->client, $this->api);
+        return $output;
     }
 }

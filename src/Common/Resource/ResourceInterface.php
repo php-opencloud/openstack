@@ -26,4 +26,13 @@ interface ResourceInterface
      * @return mixed
      */
     public function populateFromArray(array $data);
+
+    /**
+     * @param string $name The name of the model class.
+     * @param mixed  $data Either a {@see ResponseInterface} or data array that will populate the newly
+     *                     created model class.
+     *
+     * @return \OpenCloud\Common\Resource\ResourceInterface
+     */
+    public function model(string $class, $data = null): ResourceInterface;
 }

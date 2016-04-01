@@ -240,7 +240,7 @@ class Parameter
     /**
      * Internal method which retrieves a nested property for object parameters.
      *
-     * @param $key The name of the child parameter
+     * @param string $key The name of the child parameter
      *
      * @returns Parameter
      * @throws \Exception
