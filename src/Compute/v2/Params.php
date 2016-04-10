@@ -368,17 +368,7 @@ EOL
             'required' => true,
         ];
     }
-
-    public function keyName(): array
-    {
-        return [
-            'type'        => self::STRING_TYPE,
-            'required'    => false,
-            'sentAs'      => 'key_name',
-            'description' => 'The key name',
-        ];
-    }
-
+    
     public function keypairPublicKey(): array
     {
         return [
@@ -387,20 +377,6 @@ EOL
             'sentAs'      => 'public_key',
             'location'    => self::JSON,
             'description' => 'The public ssh key to import. If you omit this value, a key is generated.',
-        ];
-    }
-
-    public function keypair(): array
-    {
-        return [
-            'type'       => self::OBJECT_TYPE,
-            'sentAs'     => 'keypair',
-            'properties' => [
-                'publicKey' => $this->keypairPublicKey(),
-                'name'      => [
-                    'type' => self::STRING_TYPE
-                ]
-            ],
         ];
     }
 

@@ -19,9 +19,7 @@ $data = [
     'publicKey' => 'ssh-rsa AAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3N'
 ];
 
-$keypair = $compute->createKeypair([
-    'keypair' =>  $keypair
-]);
+$keypair = $compute->createKeypair($data);
 
 $keypair->delete();
 

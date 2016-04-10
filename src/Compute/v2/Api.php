@@ -425,9 +425,11 @@ class Api extends AbstractApi
         return [
             'method' => 'POST',
             'path'   => 'os-keypairs',
+            'jsonKey' => 'keypair',
             'params' => [
-                'keypair'   => $this->params->keypair()
-            ],
+                'name'  => $this->isRequired($this->params->name('keypair')),
+                'publicKey' => $this->params->keypairPublicKey(),
+            ]
         ];
     }
 
