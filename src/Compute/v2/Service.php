@@ -5,6 +5,7 @@ namespace OpenStack\Compute\v2;
 use OpenCloud\Common\Service\AbstractService;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
+use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Server;
 
 /**
@@ -120,5 +121,23 @@ class Service extends AbstractService
         $image = $this->model(Image::class);
         $image->populateFromArray($options);
         return $image;
+    }
+
+    /**
+     * List key pairs.
+     *
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getKeyPairs}
+     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listKeypairs(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(Keypair::class)->enumerate($this->api->getKeypairs(), $options, $mapFn);
+    }
+
+    public function createKeypair(array $options): Keypair
+    {
+        return $this->model(Keypair::class)->create($options);
     }
 }

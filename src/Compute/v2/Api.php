@@ -399,4 +399,36 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getKeypairs(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-keypairs',
+            'params' => [],
+        ];
+    }
+
+    public function postKeypair(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'os-keypairs',
+            'params' => [
+                'keypair'   => $this->params->keypair()
+            ],
+        ];
+    }
+
+    public function deleteKeypair(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'os-keypairs/{name}',
+            'params' => [
+                'name' => $this->isRequired($this->params->keypairName())
+            ]
+        ];
+    }
+
 }
