@@ -64,6 +64,17 @@ class Api extends AbstractApi
         ];
     }
 
+    public function deleteFlavor(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'flavors/{id}',
+            'params' => [
+                'id' => $this->params->idPath()
+            ]
+        ];
+    }
+
     public function getImages(): array
     {
         return [
