@@ -25,8 +25,19 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     /** @var string */
     public $publicKey;
 
+    /** @var  boolean */
+    public $deleted;
+
+    /** @var  string */
+    public $userId;
+
+    /** @var \DateTimeImmutable */
+    public $createdAt;
+    
     protected $aliases = [
-        'public_key' => 'publicKey'
+        'public_key' => 'publicKey',
+        'user_id'    => 'userId',
+        'created_at' => 'createdAt',
     ];
 
     protected $resourceKey = 'keypair';
@@ -37,7 +48,7 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getKeypair(), ['keypair_name' => (string) $this->name]);
+        $response = $this->execute($this->api->getKeypair(), ['name' => (string) $this->name]);
         $this->populateFromResponse($response);
     }
 

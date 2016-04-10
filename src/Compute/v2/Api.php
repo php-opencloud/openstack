@@ -400,6 +400,17 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getKeypair(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-keypairs/{name}',
+            'params' => [
+                'name' => $this->isRequired($this->params->keypairName())
+            ],
+        ];
+    }
+
     public function getKeypairs(): array
     {
         return [

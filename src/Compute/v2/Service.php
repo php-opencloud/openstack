@@ -140,4 +140,11 @@ class Service extends AbstractService
     {
         return $this->model(Keypair::class)->create($options);
     }
+
+    public function getKeypair(array $options = []): Keypair
+    {
+        $keypair = $this->model(Keypair::class);
+        $keypair->populateFromArray($options);
+        return $keypair;
+    }
 }
