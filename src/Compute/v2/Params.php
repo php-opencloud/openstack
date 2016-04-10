@@ -368,7 +368,7 @@ EOL
             'required' => true,
         ];
     }
-    
+
     public function keypairPublicKey(): array
     {
         return [
@@ -384,6 +384,38 @@ EOL
     {
         return [
             'location'   => self::URL,
+        ];
+    }
+
+    public function flavorRam(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
+        ];
+    }
+
+    public function flavorVcpus(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
+        ];
+    }
+
+    public function flavorDisk(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
+        ];
+    }
+
+    public function flavorSwap(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
         ];
     }
 

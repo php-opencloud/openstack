@@ -47,6 +47,23 @@ class Api extends AbstractApi
         ];
     }
 
+    public function postFlavor(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'flavors',
+            'jsonKey' => 'flavor',
+            'params' => [
+                'id'    => $this->notRequired($this->params->id('flavor')),
+                'name'  => $this->isRequired($this->params->name('flavor')),
+                'ram'   => $this->params->flavorRam(),
+                'vcpus' => $this->params->flavorVcpus(),
+                'swap'  => $this->params->flavorSwap(),
+                'disk'  => $this->params->flavorDisk(),
+            ]
+        ];
+    }
+
     public function getImages(): array
     {
         return [

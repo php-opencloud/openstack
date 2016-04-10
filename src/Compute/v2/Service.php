@@ -93,6 +93,11 @@ class Service extends AbstractService
         return $flavor;
     }
 
+    public function createFlavor(array $options = []): Flavor
+    {
+        return $this->model(Flavor::class)->create($options);
+    }
+
     /**
      * List images.
      *
