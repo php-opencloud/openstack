@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Updateable;
@@ -10,7 +10,7 @@ use OpenCloud\Common\Resource\Updateable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Endpoint extends AbstractResource implements Creatable, Updateable, Deletable
+class Endpoint extends OperatorResource implements Creatable, Updateable, Deletable
 {
     /** @var string */
     public $id;

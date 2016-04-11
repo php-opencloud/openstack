@@ -3,7 +3,7 @@
 namespace OpenStack\Identity\v3\Models;
 
 use OpenCloud\Common\Error\BadResponseError;
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
@@ -13,7 +13,7 @@ use OpenCloud\Common\Resource\Updateable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Group extends AbstractResource implements Creatable, Listable, Retrievable, Updateable, Deletable
+class Group extends OperatorResource implements Creatable, Listable, Retrievable, Updateable, Deletable
 {
     /** @var string */
     public $domainId;

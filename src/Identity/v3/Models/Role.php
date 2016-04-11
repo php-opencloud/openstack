@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
@@ -10,7 +10,7 @@ use OpenCloud\Common\Resource\Listable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Role extends AbstractResource implements Creatable, Listable, Deletable
+class Role extends OperatorResource implements Creatable, Listable, Deletable
 {
     /** @var string */
     public $id;

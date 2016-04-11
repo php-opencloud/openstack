@@ -9,11 +9,7 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
+    'scope' => ['project' => ['id' => '{projectId}']]
 ]);
 
 $networking = $openstack->networkingV2();

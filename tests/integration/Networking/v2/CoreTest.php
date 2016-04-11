@@ -1,31 +1,14 @@
 <?php
 
-namespace OpenStack\integration\Networking;
+namespace OpenStack\Integration\Networking\v2;
 
-use OpenStack\Integration\Utils;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Subnet;
 use OpenCloud\Integration\TestCase;
 
-class V2Test extends TestCase
+class CoreTest extends TestCase
 {
-    private $service;
-
-    private function getService()
-    {
-        if (null === $this->service) {
-            $this->service = Utils::getOpenStack()->networkingV2();
-        }
-
-        return $this->service;
-    }
-
-    protected function getBasePath()
-    {
-        return __DIR__ . '/../../../samples/networking/v2/';
-    }
-
     public function runTests()
     {
         $this->startTimer();
@@ -40,7 +23,6 @@ class V2Test extends TestCase
     public function subnets()
     {
         $this->createSubnetsAndDelete();
-        //$this->createSubnetWithGatewayIp();
         $this->createSubnetWithHostRoutes();
 
         list($subnetId, $networkId) = $this->createSubnet();

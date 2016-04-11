@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\integration\Compute;
+namespace OpenStack\Integration\Compute\v2;
 
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
@@ -8,7 +8,7 @@ use OpenStack\Compute\v2\Models\Server;
 use OpenCloud\Integration\TestCase;
 use OpenStack\Integration\Utils;
 
-class V2Test extends TestCase
+class CoreTest extends TestCase
 {
     private $service;
     private $serverId;
@@ -22,11 +22,6 @@ class V2Test extends TestCase
         }
 
         return $this->service;
-    }
-
-    protected function getBasePath()
-    {
-        return __DIR__ . '/../../../samples/compute/v2/';
     }
 
     private function searchImages($name)

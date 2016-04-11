@@ -6,7 +6,7 @@ use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\LimitStream;
 use Psr\Http\Message\ResponseInterface;
 use OpenCloud\Common\Error\BadResponseError;
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\HasMetadata;
@@ -16,7 +16,7 @@ use OpenCloud\Common\Resource\Retrievable;
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
  */
-class Container extends AbstractResource implements Creatable, Deletable, Retrievable, Listable, HasMetadata
+class Container extends OperatorResource implements Creatable, Deletable, Retrievable, Listable, HasMetadata
 {
     use MetadataTrait;
 

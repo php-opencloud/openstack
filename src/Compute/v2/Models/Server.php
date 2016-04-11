@@ -8,7 +8,7 @@ use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Retrievable;
 use OpenCloud\Common\Resource\Updateable;
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Transport\Utils;
 use OpenStack\Compute\v2\Enum;
 use Psr\Http\Message\ResponseInterface;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Server extends AbstractResource implements
+class Server extends OperatorResource implements
     Creatable,
     Updateable,
     Deletable,

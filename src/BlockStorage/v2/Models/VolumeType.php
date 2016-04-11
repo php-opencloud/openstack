@@ -2,7 +2,7 @@
 
 namespace OpenStack\BlockStorage\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
@@ -11,7 +11,7 @@ use OpenCloud\Common\Resource\Updateable;
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api
  */
-class VolumeType extends AbstractResource implements Listable, Creatable, Updateable, Deletable
+class VolumeType extends OperatorResource implements Listable, Creatable, Updateable, Deletable
 {
     /** @var string */
     public $id;

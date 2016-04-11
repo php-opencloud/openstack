@@ -1,7 +1,7 @@
 <?php declare (strict_types=1);
 namespace OpenStack\BlockStorage\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\HasMetadata;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api
  */
-class Volume extends AbstractResource implements Creatable, Listable, Updateable, Deletable, Retrievable, HasMetadata
+class Volume extends OperatorResource implements Creatable, Listable, Updateable, Deletable, Retrievable, HasMetadata
 {
     use HasWaiterTrait;
 
