@@ -40,12 +40,12 @@ class FloatingIp extends OperatorResource implements Listable, Creatable, Retrie
     public $portId;
 
     protected $aliases = [
-        "floating_network_id" => 'floatingNetworkId',
-        "router_id"           => 'routerId',
-        "fixed_ip_address"    => 'fixedIpAddress',
-        "floating_ip_address" => 'floatingIpAddress',
-        "tenant_id"           => 'tenantId',
-        "port_id"             => 'portId',
+        'floating_network_id' => 'floatingNetworkId',
+        'router_id'           => 'routerId',
+        'fixed_ip_address'    => 'fixedIpAddress',
+        'floating_ip_address' => 'floatingIpAddress',
+        'tenant_id'           => 'tenantId',
+        'port_id'             => 'portId',
     ];
 
     protected $resourceKey = 'floatingip';
