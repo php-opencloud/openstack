@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare (strict_types=1);
 
 namespace OpenCloud\Common\Transport;
 
@@ -26,8 +26,7 @@ class RequestSerializer
                 continue;
             }
 
-            $method = sprintf('stock%s', ucfirst($schema->getLocation()));
-            $this->$method($schema, $paramValue, $options);
+            $this->callStockingMethod($schema, $paramValue, $options);
         }
 
         if (!empty($options['json'])) {
@@ -44,8 +43,17 @@ class RequestSerializer
         return $options;
     }
 
-    private function stockUrl()
+    private function callStockingMethod(Parameter $schema, $paramValue, array &$options)
     {
+        $location = $schema->getLocation();
+
+        $methods = ['query', 'header', 'json', 'raw'];
+        if (!in_array($location, $methods)) {
+            return;
+        }
+
+        $method = sprintf('stock%s', ucfirst($location));
+        $this->$method($schema, $paramValue, $options);
     }
 
     private function stockQuery(Parameter $schema, $paramValue, array &$options)

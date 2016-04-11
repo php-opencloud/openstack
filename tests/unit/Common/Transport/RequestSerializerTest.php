@@ -96,6 +96,23 @@ class RequestSerializerTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function test_it_serializes_unescaped_json()
+    {
+        $sch = $this->prophesize(Parameter::class);
+        $sch->getLocation()->shouldBeCalled()->willReturn('json');
+
+        $op = $this->prophesize(Operation::class);
+        $op->getParam('foo')->shouldBeCalled()->willReturn($sch);
+        $op->getJsonKey()->shouldBeCalled()->willReturn('');
+
+        $this->js->stockJson($sch, 'bar/baz', [])->shouldBeCalled()->willReturn(['foo' => 'bar/baz']);
+
+        $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar/baz']);
+        $expected = ['body' => '{"foo":"bar/baz"}', 'headers' => ['Content-Type' => 'application/json']];
+
+        $this->assertEquals($expected, $actual);
+    }
+
     public function test_it_serializes_raw_vals()
     {
         $sch = $this->prophesize(Parameter::class);
@@ -106,6 +123,20 @@ class RequestSerializerTest extends TestCase
 
         $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']);
         $expected = ['body' => 'bar', 'headers' => []];
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_it_does_serialize_unknown_locations()
+    {
+        $sch = $this->prophesize(Parameter::class);
+        $sch->getLocation()->shouldBeCalled()->willReturn('foo');
+
+        $op = $this->prophesize(Operation::class);
+        $op->getParam('foo')->shouldBeCalled()->willReturn($sch);
+
+        $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']);
+        $expected = ['headers' => []];
 
         $this->assertEquals($expected, $actual);
     }

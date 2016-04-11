@@ -2,6 +2,7 @@
 
 namespace OpenCloud\Integration;
 
+use OpenCloud\Common\Resource\Deletable;
 use Psr\Log\LoggerInterface;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase implements TestInterface
@@ -10,6 +11,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase implements TestInter
     private $startPoint;
     private $lastPoint;
     private $sampleManager;
+    private $namePrefix = 'phptest_';
 
     public function __construct(LoggerInterface $logger, SampleManagerInterface $sampleManager)
     {
@@ -75,7 +77,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase implements TestInter
             $randomString .= $chars[rand(0, $charsLen - 1)];
         }
 
-        return 'phptest_' . $randomString;
+        return $this->namePrefix . $randomString;
     }
 
     private function formatMinDifference($duration)
@@ -111,5 +113,22 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase implements TestInter
     protected function sampleFile(array $replacements, $path)
     {
         return $this->sampleManager->write($path, $replacements);
+    }
+
+    protected function getBaseClient()
+    {
+        return eval($this->sampleManager->getConnectionStr());
+    }
+
+    protected function deleteItems(\Generator $items)
+    {
+        foreach ($items as $item) {
+            if ($item instanceof Deletable
+                && property_exists($item, 'name')
+                && strpos($item->name, $this->namePrefix) === 0
+            ) {
+                $item->delete();
+            }
+        }
     }
 }

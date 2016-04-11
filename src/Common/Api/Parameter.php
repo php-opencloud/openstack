@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare (strict_types=1);
 
 namespace OpenCloud\Common\Api;
 
@@ -240,7 +240,7 @@ class Parameter
     /**
      * Internal method which retrieves a nested property for object parameters.
      *
-     * @param $key The name of the child parameter
+     * @param string $key The name of the child parameter
      *
      * @returns Parameter
      * @throws \Exception

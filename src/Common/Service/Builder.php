@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare (strict_types = 1);
 
 namespace OpenCloud\Common\Service;
 
@@ -46,22 +46,18 @@ class Builder
         $this->rootNamespace = $rootNamespace;
     }
 
-    /**
-     * Internal method which resolves the API and Service classes for a service.
-     *
-     * @param string $serviceName    The name of the service, e.g. Compute
-     * @param int    $serviceVersion The major version of the service, e.g. 2
-     *
-     * @return array
-     */
-    private function getClasses(string $serviceName, int $serviceVersion)
+    private function getClasses($namespace)
     {
-        $rootNamespace = sprintf("%s\\%s\\v%d", $this->rootNamespace, $serviceName, $serviceVersion);
+        $namespace = $this->rootNamespace . '\\' . $namespace;
+        $classes   = [$namespace.'\\Api', $namespace.'\\Service'];
 
-        return [
-            sprintf("%s\\Api", $rootNamespace),
-            sprintf("%s\\Service", $rootNamespace),
-        ];
+        foreach ($classes as $class) {
+            if (!class_exists($class)) {
+                throw new \RuntimeException(sprintf("%s does not exist", $class));
+            }
+        }
+
+        return $classes;
     }
 
     /**
@@ -70,22 +66,21 @@ class Builder
      * directly - this setup includes the configuration of the HTTP client's base URL, and the
      * attachment of an authentication handler.
      *
-     * @param string $serviceName    The name of the service as it appears in the OpenCloud\* namespace
-     * @param int    $serviceVersion The major version of the service
+     * @param string $namespace      The namespace of the service
      * @param array  $serviceOptions The service-specific options to use
      *
      * @return \OpenCloud\Common\Service\ServiceInterface
      *
      * @throws \Exception
      */
-    public function createService(string $serviceName, int $serviceVersion, array $serviceOptions = []): ServiceInterface
+    public function createService(string $namespace, array $serviceOptions = []): ServiceInterface
     {
         $options = $this->mergeOptions($serviceOptions);
 
         $this->stockAuthHandler($options);
-        $this->stockHttpClient($options, $serviceName);
+        $this->stockHttpClient($options, $namespace);
 
-        list($apiClass, $serviceClass) = $this->getClasses($serviceName, $serviceVersion);
+        list($apiClass, $serviceClass) = $this->getClasses($namespace);
 
         return new $serviceClass($options['httpClient'], new $apiClass());
     }
@@ -93,7 +88,7 @@ class Builder
     private function stockHttpClient(array &$options, string $serviceName)
     {
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
-            if (strcasecmp($serviceName, 'identity') === 0) {
+            if (stripos($serviceName, 'identity') !== false) {
                 $baseUrl = $options['authUrl'];
                 $stack = $this->getStack($options['authHandler']);
             } else {
@@ -129,7 +124,7 @@ class Builder
     {
         if (!isset($options['authHandler'])) {
             $options['authHandler'] = function () use ($options) {
-                return $options['identityService']->generateToken($options);
+                return $options['identityService']->authenticate($options)[0];
             };
         }
     }

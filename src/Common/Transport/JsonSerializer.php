@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare (strict_types=1);
 
 namespace OpenCloud\Common\Transport;
 
@@ -87,9 +87,25 @@ class JsonSerializer
         if ($param->isArray()) {
             $userValue = $this->stockArrayJson($param, $userValue);
         } elseif ($param->isObject()) {
-            $userValue = $this->stockObjectJson($param, (object) $userValue);
+            $userValue = $this->stockObjectJson($param, $this->serializeObjectValue($userValue));
         }
         // Populate the final value
         return $this->stockValue($param, $userValue, $json);
+    }
+
+    private function serializeObjectValue($value)
+    {
+        if (is_object($value)) {
+            if ($value instanceof Serializable) {
+                $value = $value->serialize();
+            } elseif (!($value instanceof \stdClass)) {
+                throw new \InvalidArgumentException(sprintf(
+                    'When an object value is provided, it must either be \stdClass or implement the Serializable '
+                    . 'interface, you provided %s', print_r($value, true)
+                ));
+            }
+        }
+
+        return (object) $value;
     }
 }

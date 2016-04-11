@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare (strict_types=1);
 
 namespace OpenCloud\Common\Api;
 
@@ -11,10 +11,7 @@ use OpenCloud\Common\Resource\ResourceInterface;
 use OpenCloud\Common\Transport\RequestSerializer;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * {@inheritDoc}
- */
-abstract class Operator implements OperatorInterface
+trait OperatorTrait
 {
     /** @var ClientInterface */
     protected $client;
@@ -55,88 +52,6 @@ abstract class Operator implements OperatorInterface
     }
 
     /**
-     * Retrieves a populated Operation according to the definition and values provided. A
-     * HTTP client is also injected into the object to allow it to communicate with the remote API.
-     *
-     * @param array $definition The data that dictates how the operation works
-     *
-     * @return Operation
-     */
-    public function getOperation(array $definition): Operation
-    {
-        return new Operation($definition);
-    }
-
-    protected function sendRequest(Operation $operation, array $userValues = [], bool $async = false)
-    {
-        $operation->validate($userValues);
-
-        $options = (new RequestSerializer)->serializeOptions($operation, $userValues);
-        $method = $async ? 'requestAsync' : 'request';
-        $uri = uri_template($operation->getPath(), $userValues);
-
-        return $this->client->$method($operation->getMethod(), $uri, $options);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function execute(array $definition, array $userValues = []): ResponseInterface
-    {
-        return $this->sendRequest($this->getOperation($definition), $userValues);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function executeAsync(array $definition, array $userValues = []): PromiseInterface
-    {
-        return $this->sendRequest($this->getOperation($definition), $userValues, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function model(string $class, $data = null): ResourceInterface
-    {
-        $model = new $class($this->client, $this->api);
-
-        // @codeCoverageIgnoreStart
-        if (!$model instanceof ResourceInterface) {
-            throw new \RuntimeException(sprintf('%s does not implement %s', $class, ResourceInterface::class));
-        }
-        // @codeCoverageIgnoreEnd
-
-        if ($data instanceof ResponseInterface) {
-            $model->populateFromResponse($data);
-        } elseif (is_array($data)) {
-            $model->populateFromArray($data);
-        }
-
-        return $model;
-    }
-
-    /**
-     * Will create a new instance of this class with the current HTTP client and API injected in. This
-     * is useful when enumerating over a collection since multiple copies of the same resource class
-     * are needed.
-     *
-     * @return static
-     */
-    public function newInstance(): self
-    {
-        return new static($this->client, $this->api);
-    }
-
-    /**
-     * @return \GuzzleHttp\Psr7\Uri:null
-     */
-    protected function getHttpBaseUrl()
-    {
-        return $this->client->getConfig('base_uri');
-    }
-
-    /**
      * Magic method which intercepts async calls, finds the sequential version, and wraps it in a
      * {@see Promise} object. In order for this to happen, the called methods need to be in the
      * following format: `createAsync`, where `create` is the sequential method being wrapped.
@@ -171,5 +86,67 @@ abstract class Operator implements OperatorInterface
         }
 
         throw $e($methodName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOperation(array $definition): Operation
+    {
+        return new Operation($definition);
+    }
+
+    /**
+     * @param Operation $operation
+     * @param array     $userValues
+     * @param bool      $async
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function sendRequest(Operation $operation, array $userValues = [], bool $async = false)
+    {
+        $operation->validate($userValues);
+
+        $options = (new RequestSerializer)->serializeOptions($operation, $userValues);
+        $method = $async ? 'requestAsync' : 'request';
+        $uri = uri_template($operation->getPath(), $userValues);
+
+        return $this->client->$method($operation->getMethod(), $uri, $options);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function execute(array $definition, array $userValues = []): ResponseInterface
+    {
+        return $this->sendRequest($this->getOperation($definition), $userValues);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function executeAsync(array $definition, array $userValues = []): PromiseInterface
+    {
+        return $this->sendRequest($this->getOperation($definition), $userValues, true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function model(string $class, $data = null): ResourceInterface
+    {
+        $model = new $class($this->client, $this->api);
+        // @codeCoverageIgnoreStart
+        if (!$model instanceof ResourceInterface) {
+            throw new \RuntimeException(sprintf('%s does not implement %s', $class, ResourceInterface::class));
+        }
+        // @codeCoverageIgnoreEnd
+        if ($data instanceof ResponseInterface) {
+            $model->populateFromResponse($data);
+        } elseif (is_array($data)) {
+            $model->populateFromArray($data);
+        }
+        return $model;
     }
 }
