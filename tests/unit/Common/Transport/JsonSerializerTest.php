@@ -153,15 +153,11 @@ class JsonSerializerTest extends \PHPUnit_Framework_TestCase
         $subParam = $this->prophesize(Parameter::class);
         $subParam->isArray()->shouldBeCalled()->willReturn(false);
         $subParam->isObject()->shouldBeCalled()->willReturn(true);
-        $subParam->getName()->shouldBeCalled()->willReturn('sub_resource');
-        $subParam->getPath()->shouldBeCalled()->willReturn('');
 
         $param = $this->prophesize(Parameter::class);
         $param->isArray()->shouldBeCalled()->willReturn(false);
         $param->isObject()->shouldBeCalled()->willReturn(true);
         $param->getProperty('subResource')->shouldBeCalled()->willReturn($subParam);
-        $param->getName()->shouldBeCalled()->willReturn('resource');
-        $param->getPath()->shouldBeCalled()->willReturn('');
 
         $userValues = ['subResource' => new NonSerializableResource()];
 
