@@ -369,6 +369,16 @@ EOL
         ];
     }
 
+    public function keyName(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => false,
+            'sentAs'      => 'key_name',
+            'description' => 'The key name',
+        ];
+    }
+
     public function keypairPublicKey(): array
     {
         return [
