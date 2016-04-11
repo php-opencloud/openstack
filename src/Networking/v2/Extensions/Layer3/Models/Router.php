@@ -2,6 +2,7 @@
 
 namespace OpenStack\Networking\v2\Extensions\Layer3\Models;
 
+use OpenCloud\Common\Resource\HasWaiterTrait;
 use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
@@ -15,6 +16,8 @@ use OpenStack\Networking\v2\Extensions\Layer3\Api;
  */
 class Router extends OperatorResource implements Listable, Creatable, Retrievable, Updateable, Deletable
 {
+    use HasWaiterTrait;
+
     /** @var string */
     public $status;
 
@@ -35,6 +38,8 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
 
     /** @var string */
     public $id;
+
+    protected $resourceKey = 'router';
 
     protected $aliases = [
         'external_gateway_info' => 'externalGatewayInfo',
