@@ -188,4 +188,5 @@ class SubResource extends AbstractResource
 }
 
 class NonSerializableResource
-{}
+{
+}

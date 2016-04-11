@@ -195,4 +195,5 @@ class TestOperatorResource extends OperatorResource
 }
 
 class Server extends OperatorResource
-{}
+{
+}

@@ -128,12 +128,11 @@ class Runner
 
     public function runServices()
     {
-        list ($serviceOpt, $versionOpt, $moduleOpt, $testMethodOpt, $verbosityOpt) = $this->getOpts();
+        list($serviceOpt, $versionOpt, $moduleOpt, $testMethodOpt, $verbosityOpt) = $this->getOpts();
 
         foreach ($this->getRunnableServices($serviceOpt, $versionOpt, $moduleOpt) as $serviceName => $serviceArray) {
             foreach ($serviceArray as $versionName => $versionArray) {
                 foreach ($versionArray as $testName) {
-
                     $this->logger->info(str_repeat('=', 49));
                     $this->logger->info("Starting %s %v %m integration test(s)", [
                         '%s' => $serviceName,
