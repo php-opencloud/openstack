@@ -46,7 +46,7 @@ class Api extends AbstractApi
             'jsonKey' => 'floatingip',
             'params'  => [
                 'id'                => $this->params->idPath(),
-                'floatingNetworkId' => $this->params->floatingNetworkIdJson(),
+                'floatingNetworkId' => $this->notRequired($this->params->floatingNetworkIdJson()),
                 'fixedIpAddress'    => $this->params->fixedIpAddressJson(),
                 'floatingIpAddress' => $this->params->floatingIpAddressJson(),
                 'portId'            => $this->params->portIdJson(),

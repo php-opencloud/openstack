@@ -7,9 +7,9 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope' => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
 $networking = $openstack->networkingV2ExtLayer3();
@@ -18,4 +18,5 @@ $networking = $openstack->networkingV2ExtLayer3();
 $ip = $networking->createFloatingIp([
     "floatingNetworkId" => "{networkId}",
     "portId"            => "{portId}",
+    'fixedIpAddress'    => '{fixedIpAddress}',
 ]);
