@@ -20,11 +20,16 @@ $openstack = new OpenStack\OpenStack([
 
 $networkingExtSecGroup = $openstack->networkingV2ExtSecGroups();
 
-/** @var SecurityGroup $securityGroup */
-$securityGroup = $networkingExtSecGroup->createSecurityGroupRule([
-    'name' => 'New SecGroup',
-    'description' => 'Foo Barrr'
-]);
+//List rules belong to a security group
+$securityGroup = $networkingExtSecGroup->getSecurityGroup(['id' => '{uuid}']);
+foreach($securityGroup->securityGroupRules as $rule)
+{
+
+}
 
 
-$networkingExtSecGroup->listSecurityGroups();
+//All rules
+foreach($networkingExtSecGroup->listSecurityGroupRules() as $group)
+{
+
+}

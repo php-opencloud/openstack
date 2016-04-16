@@ -20,11 +20,7 @@ $openstack = new OpenStack\OpenStack([
 
 $networkingExtSecGroup = $openstack->networkingV2ExtSecGroups();
 
-/** @var SecurityGroup $securityGroup */
-$securityGroup = $networkingExtSecGroup->createSecurityGroupRule([
-    'name' => 'New SecGroup',
-    'description' => 'Foo Barrr'
-]);
+foreach($networkingExtSecGroup->listSecurityGroups() as $group)
+{
 
-
-$networkingExtSecGroup->listSecurityGroups();
+}
