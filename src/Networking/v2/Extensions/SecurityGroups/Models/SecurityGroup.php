@@ -7,13 +7,14 @@ use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Retrievable;
+use OpenCloud\Common\Resource\Updateable;
 
 /**
  * Represents a SecurityGroup resource in the Network v2 service
  *
  * @property \OpenStack\Networking\v2\Extensions\SecurityGroups\Api $api
  */
-class SecurityGroup extends OperatorResource implements Creatable, Listable, Deletable, Retrievable
+class SecurityGroup extends OperatorResource implements Creatable, Listable, Deletable, Retrievable, Updateable
 {
     /**
      * @var string
@@ -72,6 +73,12 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getSecurityGroup());
+        $this->populateFromResponse($response);
+    }
+
+    public function update()
+    {
+        $response = $this->executeWithState($this->api->putSecurityGroups());
         $this->populateFromResponse($response);
     }
 }

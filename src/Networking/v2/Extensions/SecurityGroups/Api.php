@@ -47,6 +47,25 @@ class Api extends AbstractApi
     }
 
     /**
+     * Returns information about PUT security-groups HTTP operation
+     *
+     * @return array
+     */
+    public function putSecurityGroups()
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => $this->pathPrefix . 'security-groups/{id}',
+            'jsonKey' => 'security_group',
+            'params'  => [
+                'id'          => $this->params->idPath(),
+                'description' => $this->params->descriptionJson(),
+                'name'        => $this->params->nameJson(),
+            ],
+        ];
+    }
+
+    /**
      * Returns information about GET security-groups/{security_group_id} HTTP
      * operation
      *
