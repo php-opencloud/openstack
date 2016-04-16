@@ -472,4 +472,42 @@ class Api extends AbstractApi
         ];
     }
 
+    public function addSecurityGroup(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'jsonKey' => 'addSecurityGroup',
+            'params' => [
+                'id'   => $this->params->urlId('server'),
+                'name' => $this->isRequired($this->params->name('securityGroup')),
+            ],
+        ];
+    }
+
+    public function removeSecurityGroup(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'jsonKey' => 'removeSecurityGroup',
+            'params' => [
+                'id'   => $this->params->urlId('server'),
+                'name' => $this->isRequired($this->params->name('securityGroup')),
+            ],
+        ];
+    }
+
+    public function listSecurityGroupByServer(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'servers/{id}/os-security-groups',
+            'jsonKey' => 'security_groups',
+            'params'  => [
+                'id' => $this->params->urlId('server')
+            ],
+        ];
+    }
+
 }

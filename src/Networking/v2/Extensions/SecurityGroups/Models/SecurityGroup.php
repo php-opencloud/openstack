@@ -42,6 +42,7 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
 
     protected $aliases = [
         'security_group_rules' => 'securityGroupRules',
+        'rules'                => 'securityGroupRules',
         'tenant_id'            => 'tenantId',
     ];
 

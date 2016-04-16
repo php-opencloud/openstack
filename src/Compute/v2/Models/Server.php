@@ -11,7 +11,9 @@ use OpenCloud\Common\Resource\Updateable;
 use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Transport\Utils;
 use OpenStack\Compute\v2\Enum;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @property \OpenStack\Compute\v2\Api $api
@@ -299,8 +301,41 @@ class Server extends OperatorResource implements
         $this->execute($this->api->deleteServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
     }
 
+
+    /**
+     * Add security group to a server (addSecurityGroup action)
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::addSecurityGroup}
+     */
+    public function addSecurityGroup(array $options)
+    {
+        $options['id'] = $this->id;
+        $this->execute($this->api->addSecurityGroup(), $options);
+    }
+
+    /**
+     * Add security group to a server (addSecurityGroup action)
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::removeSecurityGroup}
+     */
+    public function removeSecurityGroup(array $options)
+    {
+        $options['id'] = $this->id;
+        $this->execute($this->api->removeSecurityGroup(), $options);
+    }
+
     public function parseMetadata(ResponseInterface $response): array
     {
         return Utils::jsonDecode($response)['metadata'];
+    }
+
+    /**
+     * Returns Generator for SecurityGroups
+     *
+     * @return \Generator
+     */
+    public function listSecurityGroups()
+    {
+        return $this->model(SecurityGroup::class)->enumerate($this->api->listSecurityGroupByServer(), ['id' => $this->id]);
     }
 }
