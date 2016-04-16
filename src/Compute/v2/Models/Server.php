@@ -10,6 +10,8 @@ use OpenCloud\Common\Resource\Retrievable;
 use OpenCloud\Common\Resource\Updateable;
 use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Transport\Utils;
+use OpenStack\BlockStorage\v2\Models\Volume;
+use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
 use OpenStack\Compute\v2\Enum;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use Psr\Http\Message\ResponseInterface;
@@ -337,5 +339,33 @@ class Server extends OperatorResource implements
     public function listSecurityGroups()
     {
         return $this->model(SecurityGroup::class)->enumerate($this->api->listSecurityGroupByServer(), ['id' => $this->id]);
+    }
+
+
+    /**
+     * Returns Generator for SecurityGroups
+     *
+     * @return \Generator
+     */
+    public function listVolumeAttachments()
+    {
+        return $this->model(VolumeAttachment::class)->enumerate($this->api->listVolumeAttachments(),['id' => $this->id]);
+    }
+
+    /**
+     * @param $volumeId
+     *
+     * @return VolumeAttachment
+     */
+    public function attachVolume($volumeId)
+    {
+        $response =  $this->execute($this->api->attachVolume(), ['id' => $this->id, 'volumeId' => $volumeId]);
+
+        return $this->model(VolumeAttachment::class)->populateFromResponse($response);
+    }
+
+    public function detachVolume($attachmentId)
+    {
+        return $this->execute($this->api->detachVolume(), ['id' => $this->id, 'attachmentId' => $attachmentId]);
     }
 }

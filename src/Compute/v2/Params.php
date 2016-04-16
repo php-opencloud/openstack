@@ -429,4 +429,21 @@ EOL
         ];
     }
 
+    public function volumeId(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::JSON,
+        ];
+    }
+
+    public function attachmentId(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::URL,
+            'required' => true,
+        ];
+    }
+
 }

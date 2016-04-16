@@ -510,4 +510,41 @@ class Api extends AbstractApi
         ];
     }
 
+    public function listVolumeAttachments(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'servers/{id}/os-volume_attachments',
+            'jsonKey' => 'volumeAttachments',
+            'params' => [
+                'id' => $this->params->urlId('server')
+            ]
+        ];
+    }
+
+    public function attachVolume(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'servers/{id}/os-volume_attachments',
+            'jsonKey' => 'volumeAttachment',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'volumeId' => $this->params->volumeId()
+            ]
+        ];
+    }
+
+    public function detachVolume(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path' => 'servers/{id}/os-volume_attachments/{attachmentId}',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'attachmentId' => $this->params->attachmentId()
+            ]
+        ];
+    }
+
 }
