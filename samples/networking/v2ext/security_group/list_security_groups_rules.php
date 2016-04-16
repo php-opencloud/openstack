@@ -22,14 +22,10 @@ $networkingExtSecGroup = $openstack->networkingV2ExtSecGroups();
 
 //List rules belong to a security group
 $securityGroup = $networkingExtSecGroup->getSecurityGroup(['id' => '{uuid}']);
-foreach($securityGroup->securityGroupRules as $rule)
-{
-
+foreach ($securityGroup->securityGroupRules as $rule) {
 }
 
 
 //All rules
-foreach($networkingExtSecGroup->listSecurityGroupRules() as $group)
-{
-
+foreach ($networkingExtSecGroup->listSecurityGroupRules() as $group) {
 }

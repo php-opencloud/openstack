@@ -20,4 +20,3 @@ $server = $compute->getServer([
 
 $server->addSecurityGroup(['name' => 'secgroup name']);
 $server->removeSecurityGroup(['name' => 'default']);
-

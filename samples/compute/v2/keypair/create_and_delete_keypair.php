@@ -22,4 +22,3 @@ $data = [
 $keypair = $compute->createKeypair($data);
 
 $keypair->delete();
-

@@ -445,5 +445,4 @@ EOL
             'required' => true,
         ];
     }
-
 }

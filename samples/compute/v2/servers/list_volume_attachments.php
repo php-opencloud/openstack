@@ -20,8 +20,7 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 
 $server = $compute->getServer(['id' => 'uuid']);
 
-foreach($server->listVolumeAttachments() as $volumeAttachment)
-{
+foreach ($server->listVolumeAttachments() as $volumeAttachment) {
     /**@var VolumeAttachment $volumeAttachment*/
     print_r($volumeAttachment);
 }

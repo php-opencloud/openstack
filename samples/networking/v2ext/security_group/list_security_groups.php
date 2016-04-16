@@ -20,7 +20,5 @@ $openstack = new OpenStack\OpenStack([
 
 $networkingExtSecGroup = $openstack->networkingV2ExtSecGroups();
 
-foreach($networkingExtSecGroup->listSecurityGroups() as $group)
-{
-
+foreach ($networkingExtSecGroup->listSecurityGroups() as $group) {
 }

@@ -349,7 +349,7 @@ class Server extends OperatorResource implements
      */
     public function listVolumeAttachments()
     {
-        return $this->model(VolumeAttachment::class)->enumerate($this->api->listVolumeAttachments(),['id' => $this->id]);
+        return $this->model(VolumeAttachment::class)->enumerate($this->api->listVolumeAttachments(), ['id' => $this->id]);
     }
 
     /**

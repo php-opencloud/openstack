@@ -18,13 +18,11 @@ $openstack = new OpenStack\OpenStack([
 $compute = $openstack->computeV2(['region' => '{region}']);
 
 $server = $compute->getServer(['id' => 'uuid']);
-foreach($server->listSecurityGroups() as $securityGroup)
-{
+foreach ($server->listSecurityGroups() as $securityGroup) {
     /**@var SecurityGroup $securityGroup */
     $rules = $securityGroup->securityGroupRules;
 
-    foreach($rules as $rule)
-    {
+    foreach ($rules as $rule) {
         /**@var SecurityGroupRule $rule */
         $rule->direction;
     }
