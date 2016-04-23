@@ -6,6 +6,7 @@ use OpenCloud\Common\Service\AbstractService;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
+use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
 
 /**
@@ -151,5 +152,17 @@ class Service extends AbstractService
         $keypair = $this->model(Keypair::class);
         $keypair->populateFromArray($options);
         return $keypair;
+    }
+
+    /**
+     * Shows rate and absolute limits for the tenant
+     *
+     * @return Limit
+     */
+    public function getLimits(): Limit
+    {
+        $limits = $this->model(Limit::class);
+        $limits->populateFromResponse($this->execute($this->api->getLimits(), []));
+        return $limits;
     }
 }
