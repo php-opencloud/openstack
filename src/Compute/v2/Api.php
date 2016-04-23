@@ -546,4 +546,13 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getLimits(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'limits',
+            'params' => []
+        ];
+    }
 }
