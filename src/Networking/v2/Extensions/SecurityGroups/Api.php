@@ -6,7 +6,7 @@ use OpenCloud\Common\Api\AbstractApi;
 
 class Api extends AbstractApi
 {
-    private $pathPrefix = '/v2.0/';
+    private $pathPrefix = 'v2.0';
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . 'security-groups',
+            'path'   => $this->pathPrefix . '/security-groups',
             'params' => [],
         ];
     }
@@ -37,7 +37,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . 'security-groups',
+            'path'    => $this->pathPrefix . '/security-groups',
             'jsonKey' => 'security_group',
             'params'  => [
                 'description' => $this->params->descriptionJson(),
@@ -55,7 +55,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . 'security-groups/{id}',
+            'path'    => $this->pathPrefix . '/security-groups/{id}',
             'jsonKey' => 'security_group',
             'params'  => [
                 'id'          => $this->params->idPath(),
@@ -75,7 +75,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . 'security-groups/{id}',
+            'path'   => $this->pathPrefix . '/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -92,7 +92,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . 'security-groups/{id}',
+            'path'   => $this->pathPrefix . '/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -108,7 +108,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . 'security-group-rules',
+            'path'   => $this->pathPrefix . '/security-group-rules',
             'params' => [],
         ];
     }
@@ -122,7 +122,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . 'security-group-rules',
+            'path'    => $this->pathPrefix . '/security-group-rules',
             'jsonKey' => 'security_group_rule',
             'params'  => [
                 'direction'       => $this->params->directionJson(),
@@ -147,7 +147,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . 'security-group-rules/{id}',
+            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -164,7 +164,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . 'security-group-rules/{id}',
+            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
