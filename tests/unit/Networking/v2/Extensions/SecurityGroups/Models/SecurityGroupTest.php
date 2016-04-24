@@ -26,7 +26,7 @@ class SecurityGroupTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID , null, [], new Response(202));
+        $this->setupMock('DELETE', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, null, [], new Response(202));
 
         $this->securityGroup->delete();
     }
