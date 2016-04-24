@@ -26,7 +26,7 @@ class ServiceTest extends TestCase
     public function test_it_lists_secgroups()
     {
         $this->client
-            ->request('GET', 'security-groups', ['headers' => []])
+            ->request('GET', 'v2.0/security-groups', ['headers' => []])
             ->shouldBeCalled()
             ->willReturn($this->getFixture('SecurityGroups'));
 
@@ -50,7 +50,7 @@ class ServiceTest extends TestCase
 
         $expectedJson = ['security_group' => $options];
 
-        $this->setupMock('POST', 'security-groups', $expectedJson, [], new Response(201));
+        $this->setupMock('POST', 'v2.0/security-groups', $expectedJson, [], new Response(201));
 
         $n = $this->service->createSecurityGroup($options);
         $this->assertInstanceOf(SecurityGroup::class, $n);
@@ -64,7 +64,7 @@ class ServiceTest extends TestCase
     public function test_it_lists_secgrouprules()
     {
         $this->client
-            ->request('GET', 'security-group-rules', ['headers' => []])
+            ->request('GET', 'v2.0/security-group-rules', ['headers' => []])
             ->shouldBeCalled()
             ->willReturn($this->getFixture('SecurityGroupRules'));
 
@@ -102,7 +102,7 @@ class ServiceTest extends TestCase
             "security_group_id" => "a7734e61-b545-452d-a3cd-0189cbd9747a",
         ]];
 
-        $this->setupMock('POST', 'security-group-rules', $expectedJson, [], new Response(201));
+        $this->setupMock('POST', 'v2.0/security-group-rules', $expectedJson, [], new Response(201));
 
         $n = $this->service->createSecurityGroupRule($options);
         $this->assertInstanceOf(SecurityGroupRule::class, $n);
