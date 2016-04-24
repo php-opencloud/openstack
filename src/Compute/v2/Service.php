@@ -94,6 +94,13 @@ class Service extends AbstractService
         return $flavor;
     }
 
+    /**
+     * Create a new flavor resource.
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::postFlavor}
+     *
+     * @return Flavor
+     */
     public function createFlavor(array $options = []): Flavor
     {
         return $this->model(Flavor::class)->create($options);

@@ -3,9 +3,9 @@ Content-Type: application/json
 
 {
   "security_group":{
-    "description":"default",
+    "description":"test_security_group_description",
     "id":"85cc3048-abc3-43cc-89b3-377341426ac5",
-    "name":"default",
+    "name":"test_security_group",
     "security_group_rules":[
       {
         "direction":"ingress",
