@@ -22,7 +22,4 @@ class VolumeAttachment extends OperatorResource
 
     protected $resourceKey = 'volumeAttachment';
     protected $resourcesKey = 'volumeAttachments';
-
-    protected $aliases = [
-    ];
 }

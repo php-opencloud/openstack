@@ -14,7 +14,10 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-/**@var OpenStack\Compute\v2\Models\Server $server */
-$server = $compute->getServer(['id' => '{serverId}']);
+$data = [
+    'name'      => 'created_by_api',
+    'publicKey' => 'ssh-rsa AAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3N'
+];
 
-$server->delete();
+/** @var \OpenStack\Compute\v2\Models\Keypair $keypair */
+$keypair = $compute->createKeypair($data);

@@ -2,16 +2,16 @@
 
 namespace OpenStack\Compute\v2\Models;
 
-use OpenCloud\Common\Resource\OperatorResource;
+use OpenCloud\Common\Resource\AbstractResource;
 
 /**
  * Represents a Compute v2 Limit
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Limit extends OperatorResource
+class Limit extends AbstractResource
 {
-    /** @var string */
+    /** @var object */
     public $rate;
 
     /** @var object */

@@ -24,6 +24,5 @@ foreach ($server->listSecurityGroups() as $securityGroup) {
 
     foreach ($rules as $rule) {
         /**@var SecurityGroupRule $rule */
-        $rule->direction;
     }
 }

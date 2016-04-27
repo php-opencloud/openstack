@@ -149,11 +149,25 @@ class Service extends AbstractService
         return $this->model(Keypair::class)->enumerate($this->api->getKeypairs(), $options, $mapFn);
     }
 
+    /**
+     * Create or import keypair
+     *
+     * @param array $options
+     *
+     * @return Keypair
+     */
     public function createKeypair(array $options): Keypair
     {
         return $this->model(Keypair::class)->create($options);
     }
 
+    /**
+     * Get keypair
+     *
+     * @param array $options
+     *
+     * @return Keypair
+     */
     public function getKeypair(array $options = []): Keypair
     {
         $keypair = $this->model(Keypair::class);

@@ -14,9 +14,7 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-$server = $compute->getServer([
-    'id' => '{serverId}',
-]);
+/** @var \OpenStack\Compute\v2\Models\Keypair $keypair */
+$keypair = $compute->getKeypair(['name' => 'name_of_keypair']);
 
-$server->addSecurityGroup(['name' => 'secgroup name']);
-$server->removeSecurityGroup(['name' => 'default']);
+$keypair->delete();

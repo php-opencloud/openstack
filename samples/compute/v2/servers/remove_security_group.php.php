@@ -14,17 +14,9 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-$options = [
-    // Required
-    'name'     => '{serverName}',
-    'imageId'  => '{imageId}',
-    'flavorId' => '{flavorId}',
-
-    // Optional
-    'metadata' => ['foo' => 'bar'],
-    'userData' => base64_encode('echo "Hello World. The time is now $(date -R)!" | tee /root/output.txt')
-];
-
-// Create the server
 /**@var OpenStack\Compute\v2\Models\Server $server */
-$server = $compute->createServer($options);
+$server = $compute->getServer([
+    'id' => '{serverId}',
+]);
+
+$server->removeSecurityGroup(['name' => 'security group name']);

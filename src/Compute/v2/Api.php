@@ -17,6 +17,15 @@ class Api extends AbstractApi
         $this->params = new Params();
     }
 
+    public function getLimits(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'limits',
+            'params' => []
+        ];
+    }
+
     public function getFlavors(): array
     {
         return [
@@ -47,7 +56,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postFlavor(): array
+    public function postFlavors(): array
     {
         return [
             'method' => 'POST',
@@ -472,7 +481,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function addSecurityGroup(): array
+    public function postSecurityGroup(): array
     {
         return [
             'method' => 'POST',
@@ -485,7 +494,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function removeSecurityGroup(): array
+    public function deleteSecurityGroup(): array
     {
         return [
             'method' => 'POST',
@@ -498,7 +507,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function listSecurityGroupByServer(): array
+    public function getSecurityGroups(): array
     {
         return [
             'method'  => 'GET',
@@ -510,7 +519,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function listVolumeAttachments(): array
+    public function getVolumeAttachments(): array
     {
         return [
             'method' => 'GET',
@@ -522,7 +531,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function attachVolume(): array
+    public function postVolumeAttachments(): array
     {
         return [
             'method' => 'POST',
@@ -535,7 +544,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function detachVolume(): array
+    public function deleteVolumeAttachments(): array
     {
         return [
             'method' => 'DELETE',
@@ -544,15 +553,6 @@ class Api extends AbstractApi
                 'id' => $this->params->urlId('server'),
                 'attachmentId' => $this->params->attachmentId()
             ]
-        ];
-    }
-
-    public function getLimits(): array
-    {
-        return [
-            'method' => 'GET',
-            'path' => 'limits',
-            'params' => []
         ];
     }
 }

@@ -14,11 +14,9 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-$data = [
-    'name'      => 'created_by_api',
-    'publicKey' => 'ssh-rsa AAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3N'
-];
+/**@var OpenStack\Compute\v2\Models\Server $server */
+$server = $compute->getServer([
+    'id' => '{serverId}',
+]);
 
-$keypair = $compute->createKeypair($data);
-
-$keypair->delete();
+$server->addSecurityGroup(['name' => 'secgroup name']);

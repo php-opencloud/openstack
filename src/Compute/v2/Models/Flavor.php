@@ -53,7 +53,7 @@ class Flavor extends OperatorResource implements Listable, Retrievable, Creatabl
      */
     public function create(array $userOptions): Creatable
     {
-        $response = $this->execute($this->api->postFlavor(), $userOptions);
+        $response = $this->execute($this->api->postFlavors(), $userOptions);
         return $this->populateFromResponse($response);
     }
 
