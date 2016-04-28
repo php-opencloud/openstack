@@ -82,7 +82,9 @@ abstract class AbstractResource implements ResourceInterface, Serializable
 
     private function parseDocBlockValue(string $type, $val)
     {
-        if (strpos($type, '[]') === 0 && is_array($val)) {
+        if (is_null($val)) {
+            return $val;
+        } elseif (strpos($type, '[]') === 0 && is_array($val)) {
             $array = [];
             foreach ($val as $subVal) {
                 $array[] = $this->model($this->normalizeModelClass(substr($type, 2)), $subVal);
