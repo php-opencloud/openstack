@@ -1,12 +1,13 @@
 <?php declare (strict_types=1);
 namespace OpenStack\BlockStorage\v2\Models;
 
+use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\OperatorResource;
 
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api
  */
-class VolumeAttachment extends OperatorResource
+class VolumeAttachment extends OperatorResource implements Listable
 {
     /** @var string */
     public $id;
