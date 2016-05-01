@@ -47,6 +47,13 @@ class PortTest extends TestCase
         $this->port->update();
     }
 
+    public function test_it_retrieves()
+    {
+        $this->setupMock('GET', 'v2.0/ports/' . self::PORT_ID, null, [], new Response(204));
+
+        $this->port->retrieve();
+    }
+
     public function test_it_deletes()
     {
         $this->setupMock('DELETE', 'v2.0/ports/' . self::PORT_ID, null, [], new Response(204));

@@ -1,18 +1,22 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace OpenStack\Networking\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
+use OpenCloud\Common\Resource\HasWaiterTrait;
 use OpenCloud\Common\Resource\Listable;
+use OpenCloud\Common\Resource\Retrievable;
 use OpenCloud\Common\Resource\Updateable;
 
 /**
  * @property \OpenStack\Networking\v2\Api $api
  */
-class Port extends AbstractResource implements Creatable, Updateable, Deletable, Listable
+class Port extends OperatorResource implements Creatable, Updateable, Deletable, Listable, Retrievable
 {
+    use HasWaiterTrait;
+
     /**
      * The port status. Value is ACTIVE or DOWN.
      *
@@ -112,6 +116,19 @@ class Port extends AbstractResource implements Creatable, Updateable, Deletable,
      */
     public $portSecurityEnabled;
 
+    protected $aliases = [
+        'admin_state_up'  => 'adminStateUp',
+        'display_name'    => 'displayName',
+        'network_id'      => 'networkId',
+        'tenant_id'       => 'tenantId',
+        'device_owner'    => 'deviceOwner',
+        'mac_address'     => 'macAddress',
+        'port_id'         => 'portId',
+        'security_groups' => 'securityGroups',
+        'device_id'       => 'deviceId',
+        'fixed_ips'       => 'fixedIps',
+    ];
+
     protected $resourceKey = 'port';
 
     /**
@@ -127,6 +144,11 @@ class Port extends AbstractResource implements Creatable, Updateable, Deletable,
     {
         $response = $this->execute($this->api->postMultiplePorts(), ['ports' => $userOptions]);
         return $this->extractMultipleInstances($response);
+    }
+
+    public function retrieve()
+    {
+        $this->executeWithState($this->api->getPort());
     }
 
     public function update()

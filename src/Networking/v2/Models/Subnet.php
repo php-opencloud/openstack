@@ -2,7 +2,7 @@
 
 namespace OpenStack\Networking\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
@@ -13,7 +13,7 @@ use OpenCloud\Common\Resource\Retrievable;
  *
  * @property \OpenStack\Networking\v2\Api $api
  */
-class Subnet extends AbstractResource implements Listable, Retrievable, Creatable, Deletable
+class Subnet extends OperatorResource implements Listable, Retrievable, Creatable, Deletable
 {
     /** @var string */
     public $id;
