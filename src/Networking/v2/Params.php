@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace OpenStack\Networking\v2;
 
@@ -6,6 +6,32 @@ use OpenCloud\Common\Api\AbstractParams;
 
 class Params extends AbstractParams
 {
+    /**
+     * Returns information about description parameter
+     *
+     * @return array
+     */
+    public function descriptionJson(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::JSON,
+        ];
+    }
+
+    /**
+     * Returns information about name parameter
+     *
+     * @return array
+     */
+    public function nameJson(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::JSON,
+        ];
+    }
+
     public function urlId($type): array
     {
         return array_merge(parent::id($type), [
@@ -338,6 +364,16 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'sentAs'      => 'device_id',
             'description' => 'The UUID of the device that uses this port. For example, a virtual server.',
+        ];
+    }
+
+    public function routerAccessibleJson(): array
+    {
+        return [
+            'type'        => self::BOOL_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'router:external',
+            'description' => 'Indicates whether this network is externally accessible.',
         ];
     }
 }

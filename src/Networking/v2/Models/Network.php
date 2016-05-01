@@ -1,8 +1,9 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace OpenStack\Networking\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
+use OpenCloud\Common\Resource\HasWaiterTrait;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
@@ -13,8 +14,10 @@ use OpenCloud\Common\Resource\Retrievable;
  *
  * @property \OpenStack\Networking\v2\Api $api
  */
-class Network extends AbstractResource implements Listable, Retrievable, Creatable, Deletable
+class Network extends OperatorResource implements Listable, Retrievable, Creatable, Deletable
 {
+    use HasWaiterTrait;
+
     /** @var string */
     public $id;
 
@@ -33,8 +36,12 @@ class Network extends AbstractResource implements Listable, Retrievable, Creatab
     /** @var string */
     public $adminStateUp;
 
+    /** @var string */
+    public $tenantId;
+
     protected $aliases = [
         'admin_state_up' => 'adminStateUp',
+        'tenant_id'      => 'tenantId',
     ];
 
     protected $resourceKey = 'network';

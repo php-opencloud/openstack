@@ -1,4 +1,4 @@
-<?php declare (strict_types=1);
+<?php declare (strict_types = 1);
 
 namespace OpenStack\Networking\v2;
 
@@ -44,9 +44,11 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'jsonKey' => 'network',
             'params'  => [
-                'name'         => $this->params->name('network'),
-                'shared'       => $this->params->shared(),
-                'adminStateUp' => $this->params->adminStateUp(),
+                'name'             => $this->params->name('network'),
+                'shared'           => $this->params->shared(),
+                'adminStateUp'     => $this->params->adminStateUp(),
+                'routerAccessible' => $this->params->routerAccessibleJson(),
+                'tenantId'         => $this->params->tenantId(),
             ],
         ];
     }
