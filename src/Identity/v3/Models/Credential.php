@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
@@ -12,7 +12,7 @@ use OpenCloud\Common\Resource\Updateable;
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Credential extends AbstractResource implements Creatable, Updateable, Retrievable, Listable, Deletable
+class Credential extends OperatorResource implements Creatable, Updateable, Retrievable, Listable, Deletable
 {
     /** @var string */
     public $blob;

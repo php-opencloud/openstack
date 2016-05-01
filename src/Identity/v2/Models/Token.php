@@ -4,7 +4,7 @@ namespace OpenStack\Identity\v2\Models;
 
 use OpenCloud\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\ValueResource;
 
 /**
@@ -12,7 +12,7 @@ use OpenCloud\Common\Resource\ValueResource;
  *
  * @package OpenStack\Identity\v2\Models
  */
-class Token extends AbstractResource implements \OpenCloud\Common\Auth\Token
+class Token extends OperatorResource implements \OpenCloud\Common\Auth\Token
 {
     /** @var \DateTimeImmutable */
     public $issuedAt;

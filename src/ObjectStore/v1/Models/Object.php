@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Uri;
 use OpenCloud\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\HasMetadata;
@@ -14,7 +14,7 @@ use OpenCloud\Common\Resource\HasMetadata;
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
  */
-class Object extends AbstractResource implements Creatable, Deletable, HasMetadata
+class Object extends OperatorResource implements Creatable, Deletable, HasMetadata
 {
     use MetadataTrait;
 

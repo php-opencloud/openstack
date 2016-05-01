@@ -40,6 +40,11 @@ class SampleManager implements SampleManagerInterface
         ];
     }
 
+    public function getConnectionStr()
+    {
+        return str_replace('$openstack =', 'return', $this->getConnectionTemplate());
+    }
+
     protected function getConnectionTemplate()
     {
         if ($this->verbosity === 1) {

@@ -1,12 +1,12 @@
 <?php
 
-namespace OpenStack\integration\ObjectStore;
+namespace OpenStack\integration\ObjectStore\v1;
 
 use OpenCloud\Integration\TestCase;
 use OpenStack\Integration\Utils;
 use Psr\Http\Message\StreamInterface;
 
-class V1Test extends TestCase
+class CoreTest extends TestCase
 {
     private $service;
 
@@ -20,11 +20,6 @@ class V1Test extends TestCase
         }
 
         return $this->service;
-    }
-
-    protected function getBasePath()
-    {
-        return __DIR__ . '/../../../samples/object_store/v1/';
     }
 
     public function runTests()

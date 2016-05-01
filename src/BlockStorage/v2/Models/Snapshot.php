@@ -2,7 +2,7 @@
 
 namespace OpenStack\BlockStorage\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\HasMetadata;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api
  */
-class Snapshot extends AbstractResource implements Listable, Creatable, Updateable, Deletable, Retrievable, HasMetadata
+class Snapshot extends OperatorResource implements Listable, Creatable, Updateable, Deletable, Retrievable, HasMetadata
 {
     use HasWaiterTrait;
 

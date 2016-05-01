@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "router": {
+        "status": "ACTIVE",
+        "external_gateway_info": {
+            "network_id": "85d76829-6415-48ff-9c63-5c5ca8c61ac6",
+            "enable_snat": true,
+            "external_fixed_ips": [
+                {
+                    "subnet_id": "255.255.255.0",
+                    "ip": "192.168.10.2"
+                }
+            ]
+        },
+        "name": "router1",
+        "admin_state_up": true,
+        "tenant_id": "d6554fe62e2f41efbb6e026fad5c1542",
+        "routes": [],
+        "id": "a07eea83-7710-4860-931b-5fe220fae533"
+    }
+}

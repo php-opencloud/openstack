@@ -1,33 +1,13 @@
 <?php
 
-namespace OpenStack\integration\Images;
+namespace OpenStack\integration\Images\v2;
 
 use OpenStack\Images\v2\Models\Image;
 use OpenStack\Images\v2\Models\Member;
 use OpenCloud\Integration\TestCase;
-use OpenStack\Integration\Utils;
 
-class V2Test extends TestCase
+class CoreTest extends TestCase
 {
-    private $service;
-
-    /**
-     * @return \OpenStack\BlockStorage\v2\Service
-     */
-    private function getService()
-    {
-        if (null === $this->service) {
-            $this->service = Utils::getOpenStack()->imagesV2();
-        }
-
-        return $this->service;
-    }
-
-    protected function getBasePath()
-    {
-        return __DIR__ . '/../../../samples/images/v2/';
-    }
-
     public function runTests()
     {
         $this->startTimer();

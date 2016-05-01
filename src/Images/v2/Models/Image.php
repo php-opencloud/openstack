@@ -4,7 +4,7 @@ namespace OpenStack\Images\v2\Models;
 
 use function GuzzleHttp\Psr7\uri_for;
 use OpenCloud\Common\JsonSchema\Schema;
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
@@ -16,7 +16,7 @@ use Psr\Http\Message\StreamInterface;
 /**
  * @property \OpenStack\Images\v2\Api $api
  */
-class Image extends AbstractResource implements Creatable, Listable, Retrievable, Deletable
+class Image extends OperatorResource implements Creatable, Listable, Retrievable, Deletable
 {
     /** @var string */
     public $status;

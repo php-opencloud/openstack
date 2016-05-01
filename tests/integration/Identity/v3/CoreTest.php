@@ -1,13 +1,12 @@
 <?php
 
-namespace OpenStack\integration\Identity;
+namespace OpenStack\integration\Identity\v3;
 
 use OpenStack\Identity\v3\Models;
 use OpenCloud\Integration\TestCase;
 use OpenStack\Integration\Utils;
-use OpenStack\OpenStack;
 
-class V3Test extends TestCase
+class CoreTest extends TestCase
 {
     private $service;
 
@@ -21,11 +20,6 @@ class V3Test extends TestCase
         }
 
         return $this->service;
-    }
-
-    protected function getBasePath()
-    {
-        return __DIR__ . '/../../../samples/identity/v3/';
     }
 
     public function runTests()

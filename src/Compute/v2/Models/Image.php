@@ -2,7 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\HasMetadata;
 use OpenCloud\Common\Resource\Listable;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Image extends AbstractResource implements Listable, Retrievable, Deletable, HasMetadata
+class Image extends OperatorResource implements Listable, Retrievable, Deletable, HasMetadata
 {
     /** @var string */
     public $id;

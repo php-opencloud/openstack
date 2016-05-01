@@ -2,7 +2,7 @@
 
 namespace OpenStack\Images\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\Listable;
@@ -11,7 +11,7 @@ use OpenCloud\Common\Resource\Retrievable;
 /**
  * @property \OpenStack\Images\v2\Api $api
  */
-class Member extends AbstractResource implements Creatable, Listable, Retrievable, Deletable
+class Member extends OperatorResource implements Creatable, Listable, Retrievable, Deletable
 {
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_PENDING  = 'pending';
