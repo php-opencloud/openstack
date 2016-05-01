@@ -22,7 +22,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_compute_v2()
     {
         $this->builder
-            ->createService('Compute', 2, ['catalogName' => 'nova', 'catalogType' => 'compute'])
+            ->createService('Compute\\v2', ['catalogName' => 'nova', 'catalogType' => 'compute'])
             ->shouldBeCalled()
             ->willReturn($this->service('Compute', 2));
 
@@ -32,7 +32,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_identity_v2()
     {
         $this->builder
-            ->createService('Identity', 2, ['catalogName' => false, 'catalogType' => false])
+            ->createService('Identity\\v2', ['catalogName' => false, 'catalogType' => false])
             ->shouldBeCalled()
             ->willReturn($this->service('Identity', 2));
 
@@ -42,7 +42,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_identity_v3()
     {
         $this->builder
-            ->createService('Identity', 3, ['catalogName' => false, 'catalogType' => false])
+            ->createService('Identity\\v3', ['catalogName' => false, 'catalogType' => false])
             ->shouldBeCalled()
             ->willReturn($this->service('Identity', 3));
 
@@ -52,7 +52,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_networking_v2()
     {
         $this->builder
-            ->createService('Networking', 2, ['catalogName' => 'neutron', 'catalogType' => 'network'])
+            ->createService('Networking\\v2', ['catalogName' => 'neutron', 'catalogType' => 'network'])
             ->shouldBeCalled()
             ->willReturn($this->service('Networking', 2));
 
@@ -62,7 +62,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_object_store_v1()
     {
         $this->builder
-            ->createService('ObjectStore', 1, ['catalogName' => 'swift', 'catalogType' => 'object-store'])
+            ->createService('ObjectStore\\v1', ['catalogName' => 'swift', 'catalogType' => 'object-store'])
             ->shouldBeCalled()
             ->willReturn($this->service('ObjectStore', 1));
 
@@ -72,7 +72,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_block_storage_v2()
     {
         $this->builder
-            ->createService('BlockStorage', 2, ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'])
+            ->createService('BlockStorage\\v2', ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'])
             ->shouldBeCalled()
             ->willReturn($this->service('BlockStorage', 2));
 
@@ -82,7 +82,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_images_v2()
     {
         $this->builder
-            ->createService('Images', 2, ['catalogName' => 'glance', 'catalogType' => 'image'])
+            ->createService('Images\\v2', ['catalogName' => 'glance', 'catalogType' => 'image'])
             ->shouldBeCalled()
             ->willReturn($this->service('Images', 2));
 

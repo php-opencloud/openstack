@@ -2,7 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Retrievable;
 
@@ -11,7 +11,7 @@ use OpenCloud\Common\Resource\Retrievable;
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Flavor extends AbstractResource implements Listable, Retrievable
+class Flavor extends OperatorResource implements Listable, Retrievable
 {
     /** @var int */
     public $disk;

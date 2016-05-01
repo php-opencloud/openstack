@@ -2,7 +2,7 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\HasMetadata;
 use OpenCloud\Common\Resource\Retrievable;
 use Psr\Http\Message\ResponseInterface;
@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
  */
-class Account extends AbstractResource implements Retrievable, HasMetadata
+class Account extends OperatorResource implements Retrievable, HasMetadata
 {
     use MetadataTrait;
 

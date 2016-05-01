@@ -2,13 +2,13 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 
 /**
  * Represents an Identity v2 Tenant.
  *
  * @package OpenStack\Identity\v2\Models
  */
-class Tenant extends AbstractResource
+class Tenant extends OperatorResource
 {
 }

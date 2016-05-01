@@ -3,14 +3,14 @@
 namespace OpenStack\Identity\v3\Models;
 
 use Psr\Http\Message\ResponseInterface;
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Creatable;
 use OpenCloud\Common\Resource\Retrievable;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Token extends AbstractResource implements Creatable, Retrievable, \OpenCloud\Common\Auth\Token
+class Token extends OperatorResource implements Creatable, Retrievable, \OpenCloud\Common\Auth\Token
 {
     /** @var array */
     public $methods;
