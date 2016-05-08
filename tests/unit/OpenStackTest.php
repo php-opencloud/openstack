@@ -32,7 +32,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_identity_v2()
     {
         $this->builder
-            ->createService('Identity\\v2', ['catalogName' => false, 'catalogType' => false])
+            ->createService('Identity\\v2', ['catalogName' => 'keystone', 'catalogType' => 'identity'])
             ->shouldBeCalled()
             ->willReturn($this->service('Identity', 2));
 
@@ -42,7 +42,7 @@ class OpenStackTest extends TestCase
     public function test_it_supports_identity_v3()
     {
         $this->builder
-            ->createService('Identity\\v3', ['catalogName' => false, 'catalogType' => false])
+            ->createService('Identity\\v3', ['catalogName' => 'keystone', 'catalogType' => 'identity'])
             ->shouldBeCalled()
             ->willReturn($this->service('Identity', 3));
 

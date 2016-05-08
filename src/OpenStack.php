@@ -118,7 +118,7 @@ class OpenStack
      */
     public function identityV2(array $options = []): \OpenStack\Identity\v2\Service
     {
-        $defaults = ['catalogName' => false, 'catalogType' => false];
+        $defaults = ['catalogName' => 'keystone', 'catalogType' => 'identity'];
         return $this->builder->createService('Identity\\v2', array_merge($defaults, $options));
     }
 
@@ -131,7 +131,7 @@ class OpenStack
      */
     public function identityV3(array $options = []): \OpenStack\Identity\v3\Service
     {
-        $defaults = ['catalogName' => false, 'catalogType' => false];
+        $defaults = ['catalogName' => 'keystone', 'catalogType' => 'identity'];
         return $this->builder->createService('Identity\\v3', array_merge($defaults, $options));
     }
 
