@@ -555,4 +555,14 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getHypervisorStatistics(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'os-hypervisors/statistics',
+            'params' => [
+            ]
+        ];
+    }
 }
