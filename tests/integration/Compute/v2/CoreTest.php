@@ -4,6 +4,7 @@ namespace OpenStack\Integration\Compute\v2;
 
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\Compute\v2\Models\Flavor;
+use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
@@ -170,6 +171,7 @@ class CoreTest extends TestCase
 
             // Limits
             $this->getLimits();
+            $this->getHypervisorsStatistics();
         } finally {
             // Teardown
             $this->deleteServer();
@@ -504,6 +506,16 @@ class CoreTest extends TestCase
 
         require_once $this->sampleFile($replacements, 'keypairs/delete_keypair.php');
         $this->logStep('Deleted keypair name {name}', ['{name}' => $this->keypairName]);
+    }
+
+    private function getHypervisorsStatistics()
+    {
+        require_once  $this->sampleFile([], 'hypervisors/get_hypervisors_statistics.php');
+
+        /**@var HypervisorStatistic $hypervisorStatistics */
+        $this->assertInstanceOf(HypervisorStatistic::class, $hypervisorStatistics);
+
+        $this->logStep('Retrieved hypervisors statistics');
     }
 
     private function getLimits()
