@@ -19,7 +19,7 @@ $openstack = new OpenStack\OpenStack([
 $compute = $openstack->computeV2(['region' => '{region}']);
 
 /**@var OpenStack\Compute\v2\Models\Server $server */
-$server = $compute->getServer(['id' => 'uuid']);
+$server = $compute->getServer(['id' => '{serverId}']);
 
 /**@var VolumeAttachment $volumeAttachment*/
-$volumeAttachment = $server->attachVolume('{volume_uuid}');
+$volumeAttachment = $server->attachVolume('{volumeId}');

@@ -14,10 +14,6 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-$data = [
-    'name'      => 'created_by_api',
-    'publicKey' => 'ssh-rsa AAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3NAAAAB3N'
-];
 
-/** @var \OpenStack\Compute\v2\Models\Keypair $keypair */
-$keypair = $compute->createKeypair($data);
+$flavor = $compute->getFlavor(['id' => '{flavorId}']);
+$flavor->delete();

@@ -1,5 +1,7 @@
 <?php
 
+use OpenStack\Compute\v2\Models\Keypair;
+
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
@@ -14,9 +16,9 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-/**@var OpenStack\Compute\v2\Models\Server $server */
-$server = $compute->getServer([
-    'id' => '{serverId}',
-]);
+$keypairs = $compute->listKeypairs();
 
-$server->addSecurityGroup(['name' => '{secGroupName}']);
+foreach($keypairs as $keypair)
+{
+    /**@var Keypair $keypair */
+}

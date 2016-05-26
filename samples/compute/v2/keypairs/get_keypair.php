@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
-    'region'  => '{region}',
+    'region'  => '{region}',    
     'user'    => [
         'id'       => '{userId}',
         'password' => '{password}'
@@ -14,9 +14,7 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-/**@var OpenStack\Compute\v2\Models\Server $server */
-$server = $compute->getServer([
-    'id' => '{serverId}',
-]);
+/** @var \OpenStack\Compute\v2\Models\Keypair $keypair */
+$keypair = $compute->getKeypair(['name' => '{name}']);
 
-$server->addSecurityGroup(['name' => '{secGroupName}']);
+$keypair->retrieve();

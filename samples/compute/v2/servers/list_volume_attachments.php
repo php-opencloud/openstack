@@ -18,7 +18,7 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-$server = $compute->getServer(['id' => 'uuid']);
+$server = $compute->getServer(['id' => '{serverId}']);
 
 foreach ($server->listVolumeAttachments() as $volumeAttachment) {
     /**@var VolumeAttachment $volumeAttachment*/
