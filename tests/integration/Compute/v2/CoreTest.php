@@ -2,18 +2,49 @@
 
 namespace OpenStack\Integration\Compute\v2;
 
+use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Image;
+use OpenStack\Compute\v2\Models\Keypair;
+use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
 use OpenCloud\Integration\TestCase;
 use OpenStack\Integration\Utils;
+use OpenStack\Networking\v2\Models\Network;
+use OpenStack\Networking\v2\Models\Subnet;
+use OpenStack\Networking\v2\Service as NetworkService;
+use OpenStack\BlockStorage\v2\Service as BlockStorageService;
 
 class CoreTest extends TestCase
 {
+    // Test environment constants
+    const NETWORK = 'phptest_network';
+    const SUBNET = 'phptest_subnet';
+    const VOLUME = 'phptest_volume';
+
+    /** @var NetworkService */
+    private $networkService;
+
+    /** @var BlockStorageService */
+    private $blockStorageService;
+
+    /** @var  Network */
+    private $network;
+
+    /** @var  Subnet */
+    private $subnet;
+
+    /** @var  Volume */
+    private $volume;
+
+    // Core test
     private $service;
     private $serverId;
     private $adminPass;
     private $imageId;
+    private $flavorId;
+    private $keypairName;
+    private $volumeAttachmentId;
 
     private function getService()
     {
@@ -22,6 +53,26 @@ class CoreTest extends TestCase
         }
 
         return $this->service;
+    }
+
+    private function getNetworkService()
+    {
+        if(!$this->networkService)
+        {
+            $this->networkService = Utils::getOpenStack()->networkingV2();
+        }
+
+        return $this->networkService;
+    }
+    
+    private function getBlockStorageService()
+    {
+        if(!$this->blockStorageService)
+        {
+            $this->blockStorageService = Utils::getOpenStack()->blockStorageV2();
+        }
+
+        return $this->blockStorageService;
     }
 
     private function searchImages($name)
@@ -36,10 +87,45 @@ class CoreTest extends TestCase
         $this->logger->emergency('No image found');
     }
 
+    protected function setUp()
+    {
+        $this->network = $this->getNetworkService()->createNetwork(
+            [
+                'name'         => self::NETWORK,
+                'adminStateUp' => true,
+            ]
+        );
+
+        $this->subnet = $this->getNetworkService()->createSubnet(
+            [
+                'name'      => self::SUBNET,
+                'networkId' => $this->network->id,
+                'ipVersion' => 4,
+                'cidr'      => '10.20.30.0/24',
+            ]
+        );
+
+        $this->volume = $this->getBlockStorageService()->createVolume(
+            [
+                'name' => self::VOLUME,
+                'description' => '',
+                'size' => 1
+            ]
+        );
+        
+        $this->logger->info(sprintf('Created network %s with id %s', $this->network->name, $this->network->id));
+        $this->logger->info(sprintf('Created subnet %s with id %s', $this->subnet->name, $this->subnet->id));
+        $this->logger->info(sprintf('Created volume %s with id %s', $this->volume->name, $this->volume->id));
+    }
+
     public function runTests()
     {
-        $this->searchImages('cirros');
         $this->startTimer();
+
+        // Manually trigger setUp
+        $this->setUp();
+
+        $this->searchImages('cirros');
 
         // Servers
         $this->createServer();
@@ -57,7 +143,18 @@ class CoreTest extends TestCase
             $this->createServerImage();
             $this->rebootServer();
 
+            // Security groups
+            $this->addSecurityGroupToServer();
+            $this->listServerSecurityGroups();
+            $this->removeServerSecurityGroup();
+
+            // Volume attachments
+            $this->attachVolumeToServer();
+            $this->listVolumeAttachmentsForServer();
+            $this->detachVolumeFromServer();
+
             // Flavors
+            $this->createFlavor();
             $this->listFlavors();
             $this->getFlavor();
 
@@ -66,9 +163,24 @@ class CoreTest extends TestCase
             $this->getImage();
             $this->imageMetadata();
             $this->deleteServerImage();
+
+            // Keypairs
+            $this->listKeypairs();
+            $this->createKeypair();
+            $this->getKeypair();
+            $this->deleteKeypair();
+
+            // Limits
+            $this->getLimits();
+
+
         } finally {
             // Teardown
             $this->deleteServer();
+            $this->deleteFlavor();
+            $this->subnet->delete();
+            $this->network->delete();
+            $this->volume->delete();
         }
 
         $this->outputTimeTaken();
@@ -76,10 +188,12 @@ class CoreTest extends TestCase
 
     private function createServer()
     {
+        
         $replacements = [
             '{serverName}' => $this->randomStr(),
             '{imageId}'    => $this->imageId,
             '{flavorId}'   => 1,
+            '{networkId}'  => $this->network->id
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
@@ -127,6 +241,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'servers/delete_server.php');
         require_once $path;
 
+        // Needed so that subnet and network can be removed
+        $server->waitUntilDeleted();
         $this->logStep('Deleted server ID', ['ID' => $this->serverId]);
     }
 
@@ -240,6 +356,32 @@ class CoreTest extends TestCase
         $this->logStep('Rebooted server {serverId}', $replacements);
     }
 
+    private function createFlavor()
+    {
+        $replacements = [
+            '{flavorName}' => $this->randomStr()
+        ];
+
+        /** @var $flavor \OpenStack\Compute\v2\Models\Flavor */
+        $path = $this->sampleFile($replacements, 'flavors/create_flavor.php');
+        require_once $path;
+
+        $this->assertInstanceOf('\OpenStack\Compute\v2\Models\Flavor', $flavor);
+
+        $this->flavorId = $flavor->id;
+        $this->logStep('Created flavor {id}', ['{id}' => $flavor->id]);
+    }
+
+    private function deleteFlavor()
+    {
+        $replacements = ['{flavorId}' => $this->flavorId];
+
+        $path = $this->sampleFile($replacements, 'flavors/delete_flavor.php');
+        require_once $path;
+
+        $this->logStep('Deleted flavor ID', ['ID' => $this->flavorId]);
+    }
+
     private function listFlavors()
     {
         require_once $this->sampleFile([], 'flavors/list_flavors.php');
@@ -313,5 +455,153 @@ class CoreTest extends TestCase
         $replacements = ['{imageId}' => $this->imageId];
         require_once $this->sampleFile($replacements, 'images/delete_image.php');
         $this->logStep('Deleted image {imageId}', $replacements);
+    }
+
+    private function listKeypairs()
+    {
+        /** @var $keypairs \Generator */
+        require_once $this->sampleFile([], 'keypairs/list_keypairs.php');
+
+        $this->assertInstanceOf(\Generator::class, $keypairs);
+
+        $this->logStep('Listed all keypairs');
+    }
+
+    private function createKeypair()
+    {
+        $replacements = [
+            '{name}'      => $this->randomStr(),
+            '{publicKey}' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCp4H/vDGnLi0QgWgMsQkv//FEz0xgv/mujVX+XCh6fHXxc/PbaASY+MsoI2Xr238cG9eaeAAUvbpJuEuHQ0M9WX97bvsWaWzLQ9F6hzLAwUBGxcG8cSh1nB3Ah7alR2nbIZ1N94yE72hXLb1AGogJ97NBVIph438BCXUNejqoOBsXL8UBP3RGdPnTHJ/6XSMaNTQAJruQMoQwecyGFQmuS2IEy2mBOmSldD6JZirHpj7PTCKJY4CS89QChGpKIeOymKn4tEQQVVtNFUyULEMdin88H1yMftPfq7QqH+ULFT2X2XvP3CI+sESq84lrIcVu7LjJCRIwlKsnMu2ESYCdz foo@bar.com'
+        ];
+
+        require_once $this->sampleFile($replacements, 'keypairs/create_keypair.php');
+        /**@var Keypair $keypair */
+
+        $this->assertInstanceOf(Keypair::class, $keypair);
+        $this->assertEquals($replacements['{name}'], $keypair->name);
+        $this->assertEquals($replacements['{publicKey}'], $keypair->publicKey);
+
+        $this->keypairName = $keypair->name;
+        $this->logStep('Created keypair name {name}', ['{name}' => $keypair->name]);
+    }
+
+    private function getKeypair()
+    {
+        $replacements = [
+            '{name}' => $this->keypairName,
+        ];
+
+        require_once $this->sampleFile($replacements, 'keypairs/get_keypair.php');
+
+        /**@var Keypair $keypair */
+        $this->assertInstanceOf(Keypair::class, $keypair);
+
+        $this->assertEquals($replacements['{name}'], $keypair->name);
+
+        $this->logStep('Retrieved details for keypair {name}', $replacements);
+    }
+
+    private function deleteKeypair()
+    {
+        $replacements = [
+            '{name}' => $this->keypairName,
+        ];
+
+        require_once $this->sampleFile($replacements, 'keypairs/delete_keypair.php');
+        $this->logStep('Deleted keypair name {name}', ['{name}' => $this->keypairName]);
+    }
+
+    private function getLimits()
+    {
+        require_once $this->sampleFile([], 'limits/get_limits.php');
+
+        /**@var Limit $limit */
+        $this->assertInstanceOf(Limit::class, $limit);
+
+        $this->logStep('Retrieved tenant limit');
+    }
+
+    private function addSecurityGroupToServer()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId,
+            '{secGroupName}' => 'default'
+        ];
+        
+        require_once  $this->sampleFile($replacements, 'servers/add_security_group.php');
+
+        /**@var Server $server*/
+        $this->logStep('Added security group {secGroupName} to server {serverId}', $replacements);
+
+    }
+
+    private function listServerSecurityGroups()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId
+        ];
+
+        require_once  $this->sampleFile($replacements, 'servers/list_security_groups.php');
+
+        /**@var \Generator $securityGroups */
+        $this->assertInstanceOf(\Generator::class, $securityGroups);
+
+        $this->logStep('Listed all security groups attached to server {serverId}', $replacements);
+    }
+
+    private function removeServerSecurityGroup()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId,
+            '{secGroupName}' => 'default'
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/remove_security_group.php');
+
+        $this->logStep('Delete security group {secGroupName} from server {serverId}', $replacements);
+    }
+
+    private function attachVolumeToServer()
+    {
+
+        $replacements = [
+            '{serverId}' => $this->serverId,
+            '{volumeId}' => $this->volume->id
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/attach_volume_attachment.php');
+        /**@var VolumeAttachment $volumeAttachment */
+        $this->volumeAttachmentId = $volumeAttachment->id;
+
+        $this->volume->waitUntil('in-use');
+
+        $this->logStep('Attached volume {volumeId} to server {serverId} with volume attachment id {volumeAttachmentId}',
+            array_merge($replacements, ['{volumeAttachmentId}' => $volumeAttachment->id])
+        );
+    }
+
+    private function listVolumeAttachmentsForServer()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/list_volume_attachments.php');
+
+        $this->logStep('Retrieved volume attachments for server {serverId}', $replacements);
+    }
+
+    private function detachVolumeFromServer()
+    {
+        $replacements = [
+            '{serverId}'           => $this->serverId,
+            '{volumeAttachmentId}' => $this->volumeAttachmentId,
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/detach_volume_attachment.php');
+
+        $this->volume->waitUntil('available');
+
+        $this->logStep('Detached volume attachments for server {serverId}', $replacements);
     }
 }
