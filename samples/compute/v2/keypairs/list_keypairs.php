@@ -18,7 +18,6 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 
 $keypairs = $compute->listKeypairs();
 
-foreach($keypairs as $keypair)
-{
+foreach ($keypairs as $keypair) {
     /**@var Keypair $keypair */
 }

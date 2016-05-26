@@ -57,8 +57,7 @@ class CoreTest extends TestCase
 
     private function getNetworkService()
     {
-        if(!$this->networkService)
-        {
+        if (!$this->networkService) {
             $this->networkService = Utils::getOpenStack()->networkingV2();
         }
 
@@ -67,8 +66,7 @@ class CoreTest extends TestCase
     
     private function getBlockStorageService()
     {
-        if(!$this->blockStorageService)
-        {
+        if (!$this->blockStorageService) {
             $this->blockStorageService = Utils::getOpenStack()->blockStorageV2();
         }
 
@@ -172,8 +170,6 @@ class CoreTest extends TestCase
 
             // Limits
             $this->getLimits();
-
-
         } finally {
             // Teardown
             $this->deleteServer();
@@ -188,7 +184,6 @@ class CoreTest extends TestCase
 
     private function createServer()
     {
-        
         $replacements = [
             '{serverName}' => $this->randomStr(),
             '{imageId}'    => $this->imageId,
@@ -532,7 +527,6 @@ class CoreTest extends TestCase
 
         /**@var Server $server*/
         $this->logStep('Added security group {secGroupName} to server {serverId}', $replacements);
-
     }
 
     private function listServerSecurityGroups()
@@ -563,7 +557,6 @@ class CoreTest extends TestCase
 
     private function attachVolumeToServer()
     {
-
         $replacements = [
             '{serverId}' => $this->serverId,
             '{volumeId}' => $this->volume->id
