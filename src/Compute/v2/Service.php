@@ -98,7 +98,7 @@ class Service extends AbstractService
     /**
      * Create a new flavor resource.
      *
-     * @param array $options {@see \OpenStack\Compute\v2\Api::postFlavor}
+     * @param array $options {@see \OpenStack\Compute\v2\Api::postFlavors}
      *
      * @return Flavor
      */
