@@ -30,7 +30,10 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
 
     /** @var  string */
     public $userId;
-    
+
+    /** @var  string */
+    public $id;
+
     /** @var \DateTimeImmutable */
     public $createdAt;
     
