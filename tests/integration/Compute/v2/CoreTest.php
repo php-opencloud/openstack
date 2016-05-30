@@ -95,6 +95,8 @@ class CoreTest extends TestCase
             ]
         );
 
+        $this->logStep('Created network {name} with id {id}', ['name' => $this->network->name, 'id' => $this->network->id]);
+
         $this->subnet = $this->getNetworkService()->createSubnet(
             [
                 'name'      => self::SUBNET,
@@ -104,6 +106,8 @@ class CoreTest extends TestCase
             ]
         );
 
+        $this->logStep('Created subnet {name} with id {id}', ['name' => $this->subnet->name, 'id' => $this->subnet->id]);
+
         $this->volume = $this->getBlockStorageService()->createVolume(
             [
                 'name' => self::VOLUME,
@@ -111,10 +115,8 @@ class CoreTest extends TestCase
                 'size' => 1
             ]
         );
-        
-        $this->logger->info(sprintf('Created network %s with id %s', $this->network->name, $this->network->id));
-        $this->logger->info(sprintf('Created subnet %s with id %s', $this->subnet->name, $this->subnet->id));
-        $this->logger->info(sprintf('Created volume %s with id %s', $this->volume->name, $this->volume->id));
+
+        $this->logStep('Created volume {name} with id {id}', ['name' => $this->volume->name, 'id' => $this->volume->id]);
     }
 
     public function runTests()
