@@ -24,14 +24,14 @@ class SecurityGroupRuleTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'security-group-rules/id', null, [], new Response(202));
+        $this->setupMock('DELETE', 'v2.0/security-group-rules/id', null, [], new Response(202));
 
         $this->securityGroupRule->delete();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'security-group-rules/id', null, [], 'SecurityGroupRule');
+        $this->setupMock('GET', 'v2.0/security-group-rules/id', null, [], 'SecurityGroupRule');
 
         $this->securityGroupRule->retrieve();
     }

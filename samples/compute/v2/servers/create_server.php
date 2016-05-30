@@ -20,10 +20,16 @@ $options = [
     'imageId'  => '{imageId}',
     'flavorId' => '{flavorId}',
 
+    // Required if multiple network is defined
+    'networks'  => [
+        ['uuid' => '{networkId}']
+    ],
+
     // Optional
     'metadata' => ['foo' => 'bar'],
     'userData' => base64_encode('echo "Hello World. The time is now $(date -R)!" | tee /root/output.txt')
 ];
 
 // Create the server
+/**@var OpenStack\Compute\v2\Models\Server $server */
 $server = $compute->createServer($options);

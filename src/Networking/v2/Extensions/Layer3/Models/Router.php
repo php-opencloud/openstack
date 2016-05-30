@@ -55,12 +55,14 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
 
     public function update()
     {
-        $this->executeWithState($this->api->putRouter());
+        $response = $this->executeWithState($this->api->putRouter());
+        $this->populateFromResponse($response);
     }
 
     public function retrieve()
     {
-        $this->executeWithState($this->api->getRouter());
+        $response = $this->executeWithState($this->api->getRouter());
+        $this->populateFromResponse($response);
     }
 
     public function delete()

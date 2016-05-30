@@ -4,7 +4,10 @@ namespace OpenStack\Compute\v2;
 
 use OpenCloud\Common\Service\AbstractService;
 use OpenStack\Compute\v2\Models\Flavor;
+use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;
+use OpenStack\Compute\v2\Models\Keypair;
+use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
 
 /**
@@ -93,6 +96,18 @@ class Service extends AbstractService
     }
 
     /**
+     * Create a new flavor resource.
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::postFlavors}
+     *
+     * @return Flavor
+     */
+    public function createFlavor(array $options = []): Flavor
+    {
+        return $this->model(Flavor::class)->create($options);
+    }
+
+    /**
      * List images.
      *
      * @param array    $options {@see \OpenStack\Compute\v2\Api::getImages}
@@ -120,5 +135,68 @@ class Service extends AbstractService
         $image = $this->model(Image::class);
         $image->populateFromArray($options);
         return $image;
+    }
+
+    /**
+     * List key pairs.
+     *
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getKeyPairs}
+     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listKeypairs(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(Keypair::class)->enumerate($this->api->getKeypairs(), $options, $mapFn);
+    }
+
+    /**
+     * Create or import keypair
+     *
+     * @param array $options
+     *
+     * @return Keypair
+     */
+    public function createKeypair(array $options): Keypair
+    {
+        return $this->model(Keypair::class)->create($options);
+    }
+
+    /**
+     * Get keypair
+     *
+     * @param array $options
+     *
+     * @return Keypair
+     */
+    public function getKeypair(array $options = []): Keypair
+    {
+        $keypair = $this->model(Keypair::class);
+        $keypair->populateFromArray($options);
+        return $keypair;
+    }
+
+    /**
+     * Shows rate and absolute limits for the tenant
+     *
+     * @return Limit
+     */
+    public function getLimits(): Limit
+    {
+        $limits = $this->model(Limit::class);
+        $limits->populateFromResponse($this->execute($this->api->getLimits(), []));
+        return $limits;
+    }
+
+    /**
+     * Shows summary statistics for all hypervisors over all compute nodes.
+     *
+     * @return HypervisorStatistic
+     */
+    public function getHypervisorStatistics(): HypervisorStatistic
+    {
+        $statistics = $this->model(HypervisorStatistic::class);
+        $statistics->populateFromResponse($this->execute($this->api->getHypervisorStatistics(), []));
+        return $statistics;
     }
 }

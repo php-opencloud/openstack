@@ -1,5 +1,7 @@
 <?php
 
+use OpenStack\Compute\v2\Models\HypervisorStatistic;
+
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
@@ -14,7 +16,5 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-/**@var OpenStack\Compute\v2\Models\Server $server */
-$server = $compute->getServer(['id' => '{serverId}']);
-
-$server->delete();
+/** @var HypervisorStatistic $hypervisorStatistics */
+$hypervisorStatistics = $compute->getHypervisorStatistics();

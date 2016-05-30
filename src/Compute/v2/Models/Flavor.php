@@ -2,6 +2,8 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenCloud\Common\Resource\Creatable;
+use OpenCloud\Common\Resource\Deletable;
 use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Resource\Listable;
 use OpenCloud\Common\Resource\Retrievable;
@@ -11,7 +13,7 @@ use OpenCloud\Common\Resource\Retrievable;
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Flavor extends OperatorResource implements Listable, Retrievable
+class Flavor extends OperatorResource implements Listable, Retrievable, Creatable, Deletable
 {
     /** @var int */
     public $disk;
@@ -24,6 +26,9 @@ class Flavor extends OperatorResource implements Listable, Retrievable
 
     /** @var int */
     public $ram;
+
+    /** @var int */
+    public $swap;
 
     /** @var int */
     public $vcpus;
@@ -41,5 +46,22 @@ class Flavor extends OperatorResource implements Listable, Retrievable
     {
         $response = $this->execute($this->api->getFlavor(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function create(array $userOptions): Creatable
+    {
+        $response = $this->execute($this->api->postFlavors(), $userOptions);
+        return $this->populateFromResponse($response);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete()
+    {
+        $this->execute($this->api->deleteFlavor(), ['id' => (string) $this->id]);
     }
 }

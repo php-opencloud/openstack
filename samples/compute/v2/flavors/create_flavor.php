@@ -14,7 +14,10 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-/**@var OpenStack\Compute\v2\Models\Server $server */
-$server = $compute->getServer(['id' => '{serverId}']);
-
-$server->delete();
+$flavor = $compute->createFlavor([
+    'name'  => '{flavorName}',
+    'ram'   => 128,
+    'vcpus' => 1,
+    'swap'  => 0,
+    'disk'  => 1,
+]);

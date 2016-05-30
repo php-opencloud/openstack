@@ -378,4 +378,71 @@ EOL
             'description' => 'The key name',
         ];
     }
+
+    public function keypairPublicKey(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => true,
+            'sentAs'      => 'public_key',
+            'location'    => self::JSON,
+            'description' => 'The public ssh key to import. If you omit this value, a key is generated.',
+        ];
+    }
+
+    public function keypairName(): array
+    {
+        return [
+            'location'   => self::URL,
+        ];
+    }
+
+    public function flavorRam(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
+        ];
+    }
+
+    public function flavorVcpus(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
+        ];
+    }
+
+    public function flavorDisk(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
+        ];
+    }
+
+    public function flavorSwap(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON
+        ];
+    }
+
+    public function volumeId(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::JSON,
+        ];
+    }
+
+    public function attachmentId(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::URL,
+            'required' => true,
+        ];
+    }
 }

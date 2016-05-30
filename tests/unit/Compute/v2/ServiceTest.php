@@ -5,7 +5,9 @@ namespace OpenStack\Test\Compute\v2;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
+use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;
+use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Service;
 use OpenCloud\Test\TestCase;
@@ -112,5 +114,29 @@ class ServiceTest extends TestCase
 
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals('imageId', $image->id);
+    }
+
+    public function test_it_lists_keypairs()
+    {
+        $this->client
+            ->request('GET', 'os-keypairs', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('keypairs-get'));
+
+        foreach ($this->service->listKeypairs() as $keypair) {
+            $this->assertInstanceOf(Keypair::class, $keypair);
+        }
+    }
+    
+    public function test_it_gets_hypervisor_statistics()
+    {
+        $this->client
+            ->request('GET', 'os-hypervisors/statistics', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hypervisor-get'));
+
+        $hypervisorStats = $this->service->getHypervisorStatistics();
+
+        $this->assertInstanceOf(HypervisorStatistic::class, $hypervisorStats);
     }
 }
