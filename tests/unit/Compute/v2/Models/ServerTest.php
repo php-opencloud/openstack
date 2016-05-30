@@ -3,14 +3,17 @@
 namespace OpenStack\Test\Compute\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
+use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Server;
 use OpenCloud\Test\TestCase;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use Prophecy\Argument;
 
 class ServerTest extends TestCase
 {
+    /** @var Server */
     private $server;
 
     public function setUp()
@@ -245,5 +248,80 @@ class ServerTest extends TestCase
         $this->setupMock('DELETE', 'servers/serverId/metadata/fooKey', null, [], new Response(204));
 
         $this->assertNull($this->server->deleteMetadataItem('fooKey'));
+    }
+
+    public function test_it_lists_security_groups()
+    {
+        $this->setupMock('GET', 'servers/serverId/os-security-groups', null, [], 'server-security-groups-get');
+
+        $securityGroups = iterator_to_array($this->server->listSecurityGroups());
+
+        $this->assertInstanceOf(SecurityGroup::class, $securityGroups[0]);
+    }
+
+    public function test_it_lists_volume_attachments()
+    {
+        $this->setupMock('GET', 'servers/serverId/os-volume_attachments', null, [], 'server-volume-attachments-get');
+
+        $volumeAttachments = iterator_to_array($this->server->listVolumeAttachments());
+
+        $this->assertInstanceOf(VolumeAttachment::class, $volumeAttachments[0]);
+    }
+
+    public function test_it_remove_security_group()
+    {
+        $opt = [
+            'name' => 'secgroup_to_remove'
+        ];
+
+        $expectedJson = [
+            'removeSecurityGroup' => $opt
+        ];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+
+        $this->server->removeSecurityGroup($opt);
+    }
+
+    public function test_it_add_security_group()
+    {
+        $opt = [
+            'name' => 'secgroup_to_add'
+        ];
+
+        $expectedJson = [
+            'addSecurityGroup' => $opt
+        ];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+
+        $this->server->addSecurityGroup($opt);
+    }
+
+    public function test_it_attaches_volume()
+    {
+        $volumeId = 'fooooobarrrr';
+
+        $expectedJson = [
+            'volumeAttachment' => ['volumeId' => $volumeId]
+        ];
+
+        $this->setupMock('POST', 'servers/serverId/os-volume_attachments', $expectedJson, [], 'server-volume-attach-post');
+
+        $volumeAttachment = $this->server->attachVolume($volumeId);
+        $this->assertInstanceOf(VolumeAttachment::class, $volumeAttachment);
+        $this->assertEquals('serverId', $volumeAttachment->serverId);
+        $this->assertEquals('a26887c6-c47b-4654-abb5-dfadf7d3f803', $volumeAttachment->id);
+        $this->assertEquals($volumeId, $volumeAttachment->volumeId);
+        $this->assertEquals('/dev/vdd', $volumeAttachment->device);
+    }
+
+    public function test_it_detaches_volume()
+    {
+        $attachmentId = 'a-dummy-attachment-id';
+
+        $this->setupMock('DELETE', 'servers/serverId/os-volume_attachments/' . $attachmentId, null, [], new Response(202));
+
+        $this->server->detachVolume($attachmentId);
     }
 }

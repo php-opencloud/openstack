@@ -367,6 +367,32 @@ class Params extends AbstractParams
         ];
     }
 
+    public function queryName(): array
+    {
+        return $this->queryFilter('name');
+    }
+
+    public function queryTenantId(): array
+    {
+        return $this->queryFilter('tenant_id');
+    }
+
+    public function queryStatus(): array
+    {
+        return $this->queryFilter('status');
+    }
+
+    private function queryFilter($field): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::QUERY,
+            'sentAs'      => $field,
+            'description' => 'The Neutron API supports filtering based on all top level attributes of a resource.
+            Filters are applicable to all list requests.',
+        ];
+    }
+
     public function routerAccessibleJson(): array
     {
         return [

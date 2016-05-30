@@ -22,12 +22,14 @@ class OpenStack
     /**
      * @param array $options User-defined options
      *
-     * $options['username']   = (string) Your OpenStack username        [REQUIRED]
-     *         ['password']   = (string) Your OpenStack password        [REQUIRED]
-     *         ['tenantId']   = (string) Your tenant ID                 [REQUIRED if tenantName omitted]
-     *         ['tenantName'] = (string) Your tenant name               [REQUIRED if tenantId omitted]
-     *         ['authUrl']    = (string) The Keystone URL               [REQUIRED]
-     *         ['debug']      = (bool)   Whether to enable HTTP logging [OPTIONAL]
+     * $options['username']         = (string)            Your OpenStack username        [REQUIRED]
+     *         ['password']         = (string)            Your OpenStack password        [REQUIRED]
+     *         ['tenantId']         = (string)            Your tenant ID                 [REQUIRED if tenantName omitted]
+     *         ['tenantName']       = (string)            Your tenant name               [REQUIRED if tenantId omitted]
+     *         ['authUrl']          = (string)            The Keystone URL               [REQUIRED]
+     *         ['debugLog']         = (bool)              Whether to enable HTTP logging [OPTIONAL]
+     *         ['logger']           = (LoggerInterface)   Must set if debugLog is true   [OPTIONAL]
+     *         ['messageFormatter'] = (MessageFormatter)  Must set if debugLog is true   [OPTIONAL]
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
@@ -116,7 +118,7 @@ class OpenStack
      */
     public function identityV2(array $options = []): \OpenStack\Identity\v2\Service
     {
-        $defaults = ['catalogName' => false, 'catalogType' => false];
+        $defaults = ['catalogName' => 'keystone', 'catalogType' => 'identity'];
         return $this->builder->createService('Identity\\v2', array_merge($defaults, $options));
     }
 
@@ -129,7 +131,7 @@ class OpenStack
      */
     public function identityV3(array $options = []): \OpenStack\Identity\v3\Service
     {
-        $defaults = ['catalogName' => false, 'catalogType' => false];
+        $defaults = ['catalogName' => 'keystone', 'catalogType' => 'identity'];
         return $this->builder->createService('Identity\\v3', array_merge($defaults, $options));
     }
 

@@ -10,7 +10,9 @@ use OpenCloud\Common\Resource\Retrievable;
 use OpenCloud\Common\Resource\Updateable;
 use OpenCloud\Common\Resource\OperatorResource;
 use OpenCloud\Common\Transport\Utils;
+use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
 use OpenStack\Compute\v2\Enum;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -299,8 +301,83 @@ class Server extends OperatorResource implements
         $this->execute($this->api->deleteServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
     }
 
+
+    /**
+     * Add security group to a server (addSecurityGroup action)
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::postSecurityGroup}
+     *
+     * @return SecurityGroup
+     */
+    public function addSecurityGroup(array $options) : SecurityGroup
+    {
+        $options['id'] = $this->id;
+
+        $response = $this->execute($this->api->postSecurityGroup(), $options);
+
+        return $this->model(SecurityGroup::class)->populateFromResponse($response);
+    }
+
+    /**
+     * Add security group to a server (addSecurityGroup action)
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::deleteSecurityGroup}
+     */
+    public function removeSecurityGroup(array $options)
+    {
+        $options['id'] = $this->id;
+        $this->execute($this->api->deleteSecurityGroup(), $options);
+    }
+
     public function parseMetadata(ResponseInterface $response): array
     {
         return Utils::jsonDecode($response)['metadata'];
+    }
+
+    /**
+     * Returns Generator for SecurityGroups
+     *
+     * @return \Generator
+     */
+    public function listSecurityGroups(): \Generator
+    {
+        return $this->model(SecurityGroup::class)->enumerate($this->api->getSecurityGroups(), ['id' => $this->id]);
+    }
+
+
+    /**
+     * Returns Generator for VolumeAttachment
+     *
+     * @return \Generator
+     */
+    public function listVolumeAttachments(): \Generator
+    {
+        return $this->model(VolumeAttachment::class)->enumerate($this->api->getVolumeAttachments(), ['id' => $this->id]);
+    }
+
+    /**
+     * Attach a volume and returns volume that was attached
+     *
+     * @param $volumeId
+     *
+     * @return VolumeAttachment
+     */
+    public function attachVolume(string $volumeId): VolumeAttachment
+    {
+        $response =  $this->execute($this->api->postVolumeAttachments(), ['id' => $this->id, 'volumeId' => $volumeId]);
+
+        return $this->model(VolumeAttachment::class)->populateFromResponse($response);
+    }
+
+    /**
+     * Detach a volume
+     *
+     * @param $attachmentId
+     *
+     * @return void
+     */
+    public function detachVolume(string $attachmentId)
+    {
+        $this->execute($this->api->deleteVolumeAttachments(), ['id' => $this->id, 'attachmentId' => $attachmentId]);
     }
 }

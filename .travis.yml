@@ -15,12 +15,15 @@ matrix:
   fast_finish: true
 
 before_install:
+  - cat $HOME/.phpenv/versions/$TRAVIS_PHP_VERSION/etc/conf.d/xdebug.ini > ./xdebug.ini
+  - phpenv config-rm xdebug.ini || true
   - composer self-update
 
 before_script:
   - composer install --prefer-source
   - vendor/bin/parallel-lint --exclude vendor .
   - vendor/bin/php-cs-fixer fix --dry-run --diff --level psr2 .
+  - phpenv config-add ./xdebug.ini
 
 after_script:
   - php vendor/bin/coveralls -v

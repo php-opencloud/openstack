@@ -7,5 +7,6 @@ use OpenCloud\Integration\TestCase;
 class SecGroupTest extends TestCase
 {
     public function runTests()
-    {}
+    {
+    }
 }
