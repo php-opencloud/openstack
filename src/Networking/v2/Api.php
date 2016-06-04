@@ -118,7 +118,10 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => $this->pathPrefix . '/subnets',
-            'params' => [],
+            'params' => [
+                'name' => $this->params->queryName(),
+                'tenantId' => $this->params->queryTenantId()
+            ],
         ];
     }
 
