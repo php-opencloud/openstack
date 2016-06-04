@@ -66,10 +66,12 @@ class Service extends AbstractService
     }
 
     /**
+     * @param array $options
+     *
      * @return \Generator
      */
-    public function listRouters(): \Generator
+    public function listRouters(array $options = []): \Generator
     {
-        return $this->router()->enumerate($this->api->getRouters());
+        return $this->router()->enumerate($this->api->getRouters(), $options);
     }
 }

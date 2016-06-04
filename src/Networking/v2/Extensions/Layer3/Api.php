@@ -99,7 +99,10 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => $this->pathPrefix . '/routers',
-            'params' => [],
+            'params' => [
+                'name' => $this->params->queryName(),
+                'tenantId' => $this->params->queryTenantId()
+            ],
         ];
     }
 
