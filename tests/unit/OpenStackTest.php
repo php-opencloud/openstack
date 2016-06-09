@@ -7,10 +7,20 @@ use OpenCloud\Test\TestCase;
 use OpenCloud\Common\Service\Builder;
 use OpenStack\Identity\v3\Api;
 use OpenStack\OpenStack;
+use OpenStack\Compute\v2\Service as ComputeServiceV2;
+use OpenStack\Identity\v2\Service as IdentityServiceV2;
+use OpenStack\Identity\v3\Service as IdentityServiceV3;
+use OpenStack\Networking\v2\Service as NetworkingServiceV2;
+use OpenStack\Networking\v2\Extensions\Layer3\Service as NetworkingServiceV2ExtLayer3;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\Service as NetworkingServiceV2ExtSecGroup;
+use OpenStack\ObjectStore\v1\Service as ObjectStoreServiceV1;
+use OpenStack\BlockStorage\v2\Service as BlockStorageServiceV2;
+use OpenStack\Images\v2\Service as ImageServiceV2;
 
 class OpenStackTest extends TestCase
 {
     private $builder;
+    /** @var OpenStack */
     private $openstack;
 
     public function setUp()
@@ -24,7 +34,7 @@ class OpenStackTest extends TestCase
         $this->builder
             ->createService('Compute\\v2', ['catalogName' => 'nova', 'catalogType' => 'compute'])
             ->shouldBeCalled()
-            ->willReturn($this->service('Compute', 2));
+            ->willReturn($this->service(ComputeServiceV2::class));
 
         $this->openstack->computeV2();
     }
@@ -34,7 +44,7 @@ class OpenStackTest extends TestCase
         $this->builder
             ->createService('Identity\\v2', ['catalogName' => 'keystone', 'catalogType' => 'identity'])
             ->shouldBeCalled()
-            ->willReturn($this->service('Identity', 2));
+            ->willReturn($this->service(IdentityServiceV2::class));
 
         $this->openstack->identityV2();
     }
@@ -44,7 +54,7 @@ class OpenStackTest extends TestCase
         $this->builder
             ->createService('Identity\\v3', ['catalogName' => 'keystone', 'catalogType' => 'identity'])
             ->shouldBeCalled()
-            ->willReturn($this->service('Identity', 3));
+            ->willReturn($this->service(IdentityServiceV3::class));
 
         $this->openstack->identityV3();
     }
@@ -54,9 +64,29 @@ class OpenStackTest extends TestCase
         $this->builder
             ->createService('Networking\\v2', ['catalogName' => 'neutron', 'catalogType' => 'network'])
             ->shouldBeCalled()
-            ->willReturn($this->service('Networking', 2));
+            ->willReturn($this->service(NetworkingServiceV2::class));
 
         $this->openstack->networkingV2();
+    }
+
+    public function test_it_supports_networking_v2_ext_layer3()
+    {
+        $this->builder
+            ->createService('Networking\\v2\\Extensions\\Layer3', ['catalogName' => 'neutron', 'catalogType' => 'network'])
+            ->shouldBeCalled()
+            ->willReturn($this->service(NetworkingServiceV2ExtLayer3::class));
+
+        $this->openstack->networkingV2ExtLayer3();
+    }
+
+    public function test_it_supports_networking_v2_ext_security_group()
+    {
+        $this->builder
+            ->createService('Networking\\v2\\Extensions\\SecurityGroups', ['catalogName' => 'neutron', 'catalogType' => 'network'])
+            ->shouldBeCalled()
+            ->willReturn($this->service(NetworkingServiceV2ExtSecGroup::class));
+
+        $this->openstack->networkingV2ExtSecGroups();
     }
 
     public function test_it_supports_object_store_v1()
@@ -64,7 +94,7 @@ class OpenStackTest extends TestCase
         $this->builder
             ->createService('ObjectStore\\v1', ['catalogName' => 'swift', 'catalogType' => 'object-store'])
             ->shouldBeCalled()
-            ->willReturn($this->service('ObjectStore', 1));
+            ->willReturn($this->service(ObjectStoreServiceV1::class));
 
         $this->openstack->objectStoreV1();
     }
@@ -74,7 +104,7 @@ class OpenStackTest extends TestCase
         $this->builder
             ->createService('BlockStorage\\v2', ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'])
             ->shouldBeCalled()
-            ->willReturn($this->service('BlockStorage', 2));
+            ->willReturn($this->service(BlockStorageServiceV2::class));
 
         $this->openstack->blockStorageV2();
     }
@@ -84,15 +114,13 @@ class OpenStackTest extends TestCase
         $this->builder
             ->createService('Images\\v2', ['catalogName' => 'glance', 'catalogType' => 'image'])
             ->shouldBeCalled()
-            ->willReturn($this->service('Images', 2));
+            ->willReturn($this->service(ImageServiceV2::class));
 
         $this->openstack->imagesV2();
     }
 
-    private function service($service, $version)
+    private function service($class)
     {
-        $class = sprintf("OpenStack\\%s\\v%d\\Service", $service, $version);
-
         return new $class($this->prophesize(ClientInterface::class)->reveal(), new Api());
     }
 }
