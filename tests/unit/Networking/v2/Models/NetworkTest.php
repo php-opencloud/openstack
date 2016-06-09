@@ -9,6 +9,7 @@ use OpenCloud\Test\TestCase;
 
 class NetworkTest extends TestCase
 {
+    /** @var Network */
     private $network;
 
     public function setUp()
@@ -105,6 +106,8 @@ class NetworkTest extends TestCase
         $this->assertEquals('networkId', $this->network->id);
         $this->assertEquals('fakenetwork', $this->network->name);
         $this->assertEquals('ACTIVE', $this->network->status);
+        $this->assertEquals(true, $this->network->routerExternal);
+        $this->assertEquals(false, $this->network->adminStateUp);
     }
 
     public function test_it_deletes()
