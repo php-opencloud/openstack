@@ -20,7 +20,7 @@ class OpenStack
     private $builder;
 
     /**
-     * @param array $options User-defined options
+     * @param array    $options User-defined options
      *
      * $options['username']         = (string)            Your OpenStack username        [REQUIRED]
      *         ['password']         = (string)            Your OpenStack password        [REQUIRED]
@@ -30,6 +30,9 @@ class OpenStack
      *         ['debugLog']         = (bool)              Whether to enable HTTP logging [OPTIONAL]
      *         ['logger']           = (LoggerInterface)   Must set if debugLog is true   [OPTIONAL]
      *         ['messageFormatter'] = (MessageFormatter)  Must set if debugLog is true   [OPTIONAL]
+     *         ['requestOptions']   = (array)             Guzzle Http request options    [OPTIONAL]
+     *
+     * @param Builder $builder
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
@@ -51,10 +54,16 @@ class OpenStack
             throw new \InvalidArgumentException("'authUrl' is a required option");
         }
 
-        return Service::factory(new Client([
+        $clientOptions = [
             'base_uri' => Utils::normalizeUrl($options['authUrl']),
             'handler'  => HandlerStack::create(),
-        ]));
+        ];
+
+        if (isset($options['requestOptions'])) {
+            $clientOptions = array_merge($options['requestOptions'], $clientOptions);
+        }
+
+        return Service::factory(new Client($clientOptions));
     }
 
     /**
