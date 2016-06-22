@@ -10,7 +10,7 @@ use OpenCloud\Test\Common\Service\Fixtures\Api;
 use OpenCloud\Test\Common\Service\Fixtures\Models\Foo;
 use OpenCloud\Test\Common\Service\Fixtures\Service;
 use OpenCloud\Test\TestCase;
-use OpenCloud\Test\Fixtures\ComputeV2Api;
+use OpenStack\Test\Fixtures\ComputeV2Api;
 
 class OperatorResourceTest extends TestCase
 {

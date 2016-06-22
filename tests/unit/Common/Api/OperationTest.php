@@ -4,7 +4,7 @@ namespace OpenCloud\Test\Common\Api;
 
 use OpenCloud\Common\Api\Operation;
 use OpenCloud\Common\Api\Parameter;
-use OpenCloud\Test\Fixtures\ComputeV2Api;
+use OpenStack\Test\Fixtures\ComputeV2Api;
 
 class OperationTest extends \PHPUnit_Framework_TestCase
 {

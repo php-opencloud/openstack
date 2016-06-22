@@ -4,7 +4,7 @@ namespace OpenCloud\Integration;
 
 use GuzzleHttp\Client;
 
-class Utils
+class CommonUtils
 {
     public static function toCamelCase($word, $separator = '_')
     {

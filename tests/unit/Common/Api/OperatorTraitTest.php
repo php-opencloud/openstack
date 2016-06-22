@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use OpenCloud\Common\Api\OperatorTrait;
 use OpenCloud\Common\Resource\AbstractResource;
 use OpenCloud\Common\Resource\ResourceInterface;
-use OpenCloud\Test\Fixtures\ComputeV2Api;
+use OpenStack\Test\Fixtures\ComputeV2Api;
 use OpenCloud\Test\TestCase;
 use Prophecy\Argument;
 
