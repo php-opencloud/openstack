@@ -97,7 +97,7 @@ class Builder
             $msg .= "\r\n{$name}: " . implode(', ', $values);
         }
 
-        if ($message->getBody()->getSize() < ini_get('memory_limit')) {
+        if (ini_get('memory_limit') < 0 || $message->getBody()->getSize() < ini_get('memory_limit')) {
             $msg .= "\r\n\r\n" . $message->getBody();
         }
 
