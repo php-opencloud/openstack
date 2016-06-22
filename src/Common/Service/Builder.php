@@ -35,21 +35,16 @@ class Builder
      */
     private $defaults = ['urlType' => 'publicURL'];
 
-    /** @var array */
-    private $requestOptions;
-
     /**
      * @param array  $globalOptions  Options that will be applied to every service created by this builder.
      *                               Eventually they will be merged (and if necessary overridden) by the
      *                               service-specific options passed in.
      * @param string $rootNamespace  API classes' root namespace
-     * @param array  $requestOptions Guzzle client default request option
      */
-    public function __construct(array $globalOptions = [], $rootNamespace = 'OpenCloud', $requestOptions = [])
+    public function __construct(array $globalOptions = [], $rootNamespace = 'OpenCloud')
     {
         $this->globalOptions = $globalOptions;
         $this->rootNamespace = $rootNamespace;
-        $this->requestOptions = $requestOptions;
     }
 
     private function getClasses($namespace)
@@ -144,12 +139,16 @@ class Builder
 
     private function httpClient(string $baseUrl, HandlerStack $stack): ClientInterface
     {
-        $options = array_merge($this->requestOptions, [
+        $clientOptions = [
             'base_uri' => Utils::normalizeUrl($baseUrl),
             'handler'  => $stack,
-        ]);
+        ];
 
-        return new Client($options);
+        if (isset($this->globalOptions['requestOptions'])) {
+            $clientOptions = array_merge($this->globalOptions['requestOptions'], $clientOptions);
+        }
+
+        return new Client($clientOptions);
     }
 
     private function mergeOptions(array $serviceOptions): array
