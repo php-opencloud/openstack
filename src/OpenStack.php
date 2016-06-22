@@ -30,7 +30,7 @@ class OpenStack
      *         ['debugLog']         = (bool)              Whether to enable HTTP logging [OPTIONAL]
      *         ['logger']           = (LoggerInterface)   Must set if debugLog is true   [OPTIONAL]
      *         ['messageFormatter'] = (MessageFormatter)  Must set if debugLog is true   [OPTIONAL]
-     *         ['requestOption']    = (array)             Guzzle Http request options    [OPTIONAL]
+     *         ['requestOptions']   = (array)             Guzzle Http request options    [OPTIONAL]
      *
      * @param Builder $builder
      */
