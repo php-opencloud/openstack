@@ -5,7 +5,7 @@ namespace OpenStack\Test\Subneting\v2\Models;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Networking\v2\Api;
 use OpenStack\Networking\v2\Models\Subnet;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class SubnetTest extends TestCase
 {

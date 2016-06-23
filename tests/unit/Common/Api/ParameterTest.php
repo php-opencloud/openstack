@@ -1,14 +1,12 @@
 <?php
 
-namespace OpenCloud\Test\Common\Api;
+namespace OpenStack\Test\Common\Api;
 
-use OpenCloud\Common\Api\Parameter;
+use OpenStack\Common\Api\Parameter;
 use OpenStack\Test\Fixtures\ComputeV2Api;
 
 class ParameterTest extends \PHPUnit_Framework_TestCase
 {
-    const PARAMETER_CLASS = 'OpenCloud\Common\Api\Parameter';
-
     private $param;
     private $data;
     private $api;
@@ -54,7 +52,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $data = $this->api->postServer()['params']['networks'] + ['name' => 'networks'];
         $param = new Parameter($data);
 
-        $this->assertInstanceOf(self::PARAMETER_CLASS, $param->getItemSchema());
+        $this->assertInstanceOf(Parameter::class, $param->getItemSchema());
     }
 
     public function test_it_allows_property_retrieval()
@@ -62,7 +60,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $definition = $this->api->postServer()['params']['networks']['items'] + ['name' => 'network'];
         $param = new Parameter($definition);
 
-        $this->assertInstanceOf(self::PARAMETER_CLASS, $param->getProperty('uuid'));
+        $this->assertInstanceOf(Parameter::class, $param->getProperty('uuid'));
     }
 
     public function test_it_indicates_its_path()

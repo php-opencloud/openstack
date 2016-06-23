@@ -1,6 +1,6 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Transport;
+namespace OpenStack\Common\Transport;
 
 use function GuzzleHttp\choose_handler;
 use GuzzleHttp\HandlerStack as GuzzleStack;

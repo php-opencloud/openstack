@@ -1,8 +1,8 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Resource;
+namespace OpenStack\Common\Resource;
 
-use OpenCloud\Common\Error\BadResponseError;
+use OpenStack\Common\Error\BadResponseError;
 
 /**
  * Contains reusable functionality for resources that have long operations which require waiting in
@@ -10,7 +10,7 @@ use OpenCloud\Common\Error\BadResponseError;
  *
  * @codeCoverageIgnore
  *
- * @package OpenCloud\Common\Resource
+ * @package OpenStack\Common\Resource
  */
 trait HasWaiterTrait
 {

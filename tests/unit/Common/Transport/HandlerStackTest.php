@@ -1,10 +1,10 @@
 <?php
 
-namespace OpenCloud\Test\Common\Transport;
+namespace OpenStack\Test\Common\Transport;
 
 use GuzzleHttp\Handler\MockHandler;
-use OpenCloud\Common\Transport\HandlerStack;
-use OpenCloud\Test\TestCase;
+use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Test\TestCase;
 
 class HandlerStackTest extends TestCase
 {

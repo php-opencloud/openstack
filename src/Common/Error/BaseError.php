@@ -1,11 +1,11 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Error;
+namespace OpenStack\Common\Error;
 
 /**
  * Base error class.
  *
- * @package OpenCloud\Common\Error
+ * @package OpenStack\Common\Error
  */
 class BaseError extends \Exception
 {

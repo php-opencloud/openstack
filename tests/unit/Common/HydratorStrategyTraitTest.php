@@ -1,9 +1,9 @@
 <?php
 
-namespace OpenCloud\Test\Common;
+namespace OpenStack\Test\Common;
 
-use OpenCloud\Common\HydratorStrategyTrait;
-use OpenCloud\Test\TestCase;
+use OpenStack\Common\HydratorStrategyTrait;
+use OpenStack\Test\TestCase;
 
 class HydratorStrategyTraitTest extends TestCase
 {

@@ -1,13 +1,13 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Transport;
+namespace OpenStack\Common\Transport;
 
 use function GuzzleHttp\Psr7\modify_request;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
-use OpenCloud\Common\Auth\AuthHandler;
-use OpenCloud\Common\Auth\Token;
-use OpenCloud\Common\Error\Builder;
+use OpenStack\Common\Auth\AuthHandler;
+use OpenStack\Common\Auth\Token;
+use OpenStack\Common\Error\Builder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

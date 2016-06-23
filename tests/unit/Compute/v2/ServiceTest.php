@@ -10,7 +10,7 @@ use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Service;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
 class ServiceTest extends TestCase

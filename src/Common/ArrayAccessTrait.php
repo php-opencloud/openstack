@@ -1,11 +1,11 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common;
+namespace OpenStack\Common;
 
 /**
  * Encapsulates common logic for classes which implement the SPL \ArrayAccess interface.
  *
- * @package OpenCloud\Common
+ * @package OpenStack\Common
  */
 trait ArrayAccessTrait
 {

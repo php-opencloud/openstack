@@ -1,6 +1,6 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Auth;
+namespace OpenStack\Common\Auth;
 
 use function GuzzleHttp\Psr7\modify_request;
 use Psr\Http\Message\RequestInterface;
@@ -8,7 +8,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * This class is responsible for three tasks:
  *
- * 1. performing the initial authentication for OpenCloud services
+ * 1. performing the initial authentication for OpenStack services
  * 2. populating the ``X-Auth-Token`` header for every HTTP request
  * 3. checking the token expiry before each request, and re-authenticating if necessary
  */

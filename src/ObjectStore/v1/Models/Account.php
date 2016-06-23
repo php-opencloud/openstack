@@ -2,9 +2,9 @@
 
 namespace OpenStack\ObjectStore\v1\Models;
 
-use OpenCloud\Common\Resource\OperatorResource;
-use OpenCloud\Common\Resource\HasMetadata;
-use OpenCloud\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\Retrievable;
 use Psr\Http\Message\ResponseInterface;
 
 /**

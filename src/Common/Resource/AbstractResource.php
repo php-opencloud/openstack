@@ -1,9 +1,9 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Resource;
+namespace OpenStack\Common\Resource;
 
-use OpenCloud\Common\Transport\Serializable;
-use OpenCloud\Common\Transport\Utils;
+use OpenStack\Common\Transport\Serializable;
+use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  * entity such as a Server, Container, Load Balancer. Apart from a representation of state, a resource can
  * also execute RESTFul operations on itself (updating, deleting, listing) or on other models.
  *
- * @package OpenCloud\Common\Resource
+ * @package OpenStack\Common\Resource
  */
 abstract class AbstractResource implements ResourceInterface, Serializable
 {

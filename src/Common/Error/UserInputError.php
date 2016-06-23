@@ -1,11 +1,11 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Error;
+namespace OpenStack\Common\Error;
 
 /**
  * Represents a user input error, caused by an incorrect type or malformed value.
  *
- * @package OpenCloud\Common\Error
+ * @package OpenStack\Common\Error
  */
 class UserInputError extends BaseError
 {

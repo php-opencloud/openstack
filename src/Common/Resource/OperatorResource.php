@@ -1,10 +1,10 @@
 <?php
 
-namespace OpenCloud\Common\Resource;
+namespace OpenStack\Common\Resource;
 
-use OpenCloud\Common\Api\OperatorInterface;
-use OpenCloud\Common\Api\OperatorTrait;
-use OpenCloud\Common\Transport\Utils;
+use OpenStack\Common\Api\OperatorInterface;
+use OpenStack\Common\Api\OperatorTrait;
+use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class OperatorResource extends AbstractResource implements OperatorInterface

@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Uri;
 use OpenStack\Images\v2\Api;
 use OpenStack\Images\v2\Models\Member;
 use OpenStack\Images\v2\Models\Image;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class ImageTest extends TestCase
 {

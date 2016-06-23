@@ -4,8 +4,8 @@ namespace OpenStack;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use OpenCloud\Common\Service\Builder;
-use OpenCloud\Common\Transport\Utils;
+use OpenStack\Common\Service\Builder;
+use OpenStack\Common\Transport\Utils;
 use OpenStack\Identity\v3\Service;
 
 /**

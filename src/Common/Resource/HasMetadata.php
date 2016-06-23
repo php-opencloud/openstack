@@ -1,6 +1,6 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Resource;
+namespace OpenStack\Common\Resource;
 
 use Psr\Http\Message\ResponseInterface;
 

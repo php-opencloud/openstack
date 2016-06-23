@@ -5,7 +5,7 @@ namespace OpenStack\Test\Compute\v2\Models;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Image;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class ImageTest extends TestCase
 {

@@ -2,7 +2,7 @@
 
 namespace OpenStack\Compute\v2;
 
-use OpenCloud\Common\Service\AbstractService;
+use OpenStack\Common\Service\AbstractService;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;

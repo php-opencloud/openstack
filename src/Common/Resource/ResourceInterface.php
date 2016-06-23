@@ -1,13 +1,13 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Resource;
+namespace OpenStack\Common\Resource;
 
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents an API resource.
  *
- * @package OpenCloud\Common\Resource
+ * @package OpenStack\Common\Resource
  */
 interface ResourceInterface
 {
@@ -32,7 +32,7 @@ interface ResourceInterface
      * @param mixed  $data Either a {@see ResponseInterface} or data array that will populate the newly
      *                     created model class.
      *
-     * @return \OpenCloud\Common\Resource\ResourceInterface
+     * @return \OpenStack\Common\Resource\ResourceInterface
      */
     public function model(string $class, $data = null): ResourceInterface;
 }

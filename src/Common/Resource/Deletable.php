@@ -1,11 +1,11 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Resource;
+namespace OpenStack\Common\Resource;
 
 /**
  * Represents a resource that can be deleted.
  *
- * @package OpenCloud\Common\Resource
+ * @package OpenStack\Common\Resource
  */
 interface Deletable
 {

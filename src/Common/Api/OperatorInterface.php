@@ -1,10 +1,10 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Api;
+namespace OpenStack\Common\Api;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
-use OpenCloud\Common\Resource\ResourceInterface;
+use OpenStack\Common\Resource\ResourceInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
  * it needs two things: a {@see ClientInterface} for handling HTTP transactions and an {@see ApiInterface}
  * for handling how operations are created.
  *
- * @package OpenCloud\Common\Api
+ * @package OpenStack\Common\Api
  */
 interface OperatorInterface
 {
@@ -58,7 +58,7 @@ interface OperatorInterface
      * @param mixed  $data Either a {@see ResponseInterface} or data array that will populate the newly
      *                     created model class.
      *
-     * @return \OpenCloud\Common\Resource\ResourceInterface
+     * @return \OpenStack\Common\Resource\ResourceInterface
      */
     public function model(string $class, $data = null): ResourceInterface;
 }

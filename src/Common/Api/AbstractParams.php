@@ -1,6 +1,6 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Api;
+namespace OpenStack\Common\Api;
 
 abstract class AbstractParams
 {

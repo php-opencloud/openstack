@@ -1,10 +1,10 @@
 <?php
 
-namespace OpenCloud\Test\Common\JsonSchema;
+namespace OpenStack\Test\Common\JsonSchema;
 
 use JsonSchema\Validator;
-use OpenCloud\Common\JsonSchema\Schema;
-use OpenCloud\Test\TestCase;
+use OpenStack\Common\JsonSchema\Schema;
+use OpenStack\Test\TestCase;
 
 class SchemaTest extends TestCase
 {

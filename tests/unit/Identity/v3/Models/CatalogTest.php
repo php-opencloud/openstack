@@ -5,7 +5,7 @@ namespace OpenStack\Test\Identity\v3\Models;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Catalog;
 use OpenStack\Identity\v3\Models\Service;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
 class CatalogTest extends TestCase

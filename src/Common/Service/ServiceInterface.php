@@ -1,13 +1,13 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Service;
+namespace OpenStack\Common\Service;
 
-use OpenCloud\Common\Api\OperatorInterface;
+use OpenStack\Common\Api\OperatorInterface;
 
 /**
  * Service interface.
  *
- * @package OpenCloud\Common\Service
+ * @package OpenStack\Common\Service
  */
 interface ServiceInterface extends OperatorInterface
 {

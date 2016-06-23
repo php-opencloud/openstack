@@ -1,11 +1,11 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common;
+namespace OpenStack\Common;
 
 /**
  * Represents common functionality for populating, or "hydrating", an object with arbitrary data.
  *
- * @package OpenCloud\Common
+ * @package OpenStack\Common
  */
 trait HydratorStrategyTrait
 {

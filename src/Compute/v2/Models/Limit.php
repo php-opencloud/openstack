@@ -2,7 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
-use OpenCloud\Common\Resource\AbstractResource;
+use OpenStack\Common\Resource\AbstractResource;
 
 /**
  * Represents a Compute v2 Limit

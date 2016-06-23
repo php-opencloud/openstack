@@ -3,7 +3,7 @@
 namespace unit\Networking\v2\Extensions\Layer3\Models;
 
 use GuzzleHttp\Psr7\Response;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use OpenStack\Networking\v2\Extensions\Layer3\Api;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\FixedIp;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\GatewayInfo;

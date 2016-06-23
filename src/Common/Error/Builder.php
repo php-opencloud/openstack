@@ -1,6 +1,6 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Error;
+namespace OpenStack\Common\Error;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
  * {@see UserInputError} exception. For both, the problem is described, a potential solution is offered and
  * a link to further information is included.
  *
- * @package OpenCloud\Common\Error
+ * @package OpenStack\Common\Error
  */
 class Builder
 {

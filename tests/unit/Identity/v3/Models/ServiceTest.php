@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Endpoint;
 use OpenStack\Identity\v3\Models\Service;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class ServiceTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenCloud\Test\Common\Service\Fixtures\Identity;
+namespace OpenStack\Test\Common\Service\Fixtures\Identity;
 
-use OpenCloud\Common\Api\AbstractApi;
+use OpenStack\Common\Api\AbstractApi;
 
 class Api extends AbstractApi
 {

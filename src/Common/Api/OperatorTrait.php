@@ -1,14 +1,14 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Api;
+namespace OpenStack\Common\Api;
 
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Uri;
 use function GuzzleHttp\uri_template;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
-use OpenCloud\Common\Resource\ResourceInterface;
-use OpenCloud\Common\Transport\RequestSerializer;
+use OpenStack\Common\Resource\ResourceInterface;
+use OpenStack\Common\Transport\RequestSerializer;
 use Psr\Http\Message\ResponseInterface;
 
 trait OperatorTrait

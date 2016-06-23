@@ -1,9 +1,9 @@
 <?php
 
-namespace OpenCloud\Test\Common;
+namespace OpenStack\Test\Common;
 
-use OpenCloud\Common\ArrayAccessTrait;
-use OpenCloud\Test\TestCase;
+use OpenStack\Common\ArrayAccessTrait;
+use OpenStack\Test\TestCase;
 
 class ArrayAccessTraitTest extends TestCase
 {

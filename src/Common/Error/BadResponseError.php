@@ -1,6 +1,6 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Error;
+namespace OpenStack\Common\Error;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Represents a HTTP-specific error, caused by 4xx or 5xx response statuses.
  *
- * @package OpenCloud\Common\Error
+ * @package OpenStack\Common\Error
  */
 class BadResponseError extends BaseError
 {

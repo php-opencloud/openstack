@@ -1,14 +1,14 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Transport;
+namespace OpenStack\Common\Transport;
 
-use OpenCloud\Common\Api\Parameter;
-use OpenCloud\Common\JsonPath;
+use OpenStack\Common\Api\Parameter;
+use OpenStack\Common\JsonPath;
 
 /**
  * Class responsible for populating the JSON body of a {@see GuzzleHttp\Message\Request} object.
  *
- * @package OpenCloud\Common\Transport
+ * @package OpenStack\Common\Transport
  */
 class JsonSerializer
 {

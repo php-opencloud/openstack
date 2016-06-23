@@ -1,15 +1,15 @@
 <?php
 
-namespace OpenCloud\Test\Common\Resource;
+namespace OpenStack\Test\Common\Resource;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Uri;
-use OpenCloud\Common\Resource\OperatorResource;
-use OpenCloud\Common\Resource\ResourceInterface;
-use OpenCloud\Test\Common\Service\Fixtures\Api;
-use OpenCloud\Test\Common\Service\Fixtures\Models\Foo;
-use OpenCloud\Test\Common\Service\Fixtures\Service;
-use OpenCloud\Test\TestCase;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\ResourceInterface;
+use OpenStack\Test\Common\Service\Fixtures\Api;
+use OpenStack\Test\Common\Service\Fixtures\Models\Foo;
+use OpenStack\Test\Common\Service\Fixtures\Service;
+use OpenStack\Test\TestCase;
 use OpenStack\Test\Fixtures\ComputeV2Api;
 
 class OperatorResourceTest extends TestCase

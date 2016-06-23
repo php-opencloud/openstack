@@ -1,13 +1,13 @@
 <?php
 
-namespace OpenCloud\Test\Common\Error;
+namespace OpenStack\Test\Common\Error;
 
 use function GuzzleHttp\Psr7\{stream_for,str};
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\{Request,Response};
-use OpenCloud\Common\Error\{BadResponseError,Builder,UserInputError};
+use OpenStack\Common\Error\{BadResponseError,Builder,UserInputError};
 
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {

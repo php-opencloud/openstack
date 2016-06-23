@@ -3,7 +3,7 @@
 namespace OpenStack\Test\Networking\v2\Extensions\Layer3;
 
 use GuzzleHttp\Psr7\Response;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use OpenStack\Networking\v2\Extensions\Layer3\Api;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\Router;

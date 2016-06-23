@@ -4,7 +4,7 @@ namespace OpenStack\Test\Identity\v2\Models;
 
 use OpenStack\Identity\v2\Api;
 use OpenStack\Identity\v2\Models\Entry;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class EntryTest extends TestCase
 {

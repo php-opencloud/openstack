@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenCloud\Test\Common\Service\Fixtures\Identity;
+namespace OpenStack\Test\Common\Service\Fixtures\Identity;
 
-use OpenCloud\Common\Service\AbstractService;
+use OpenStack\Common\Service\AbstractService;
 
 class Service extends AbstractService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenCloud\Common\Transport;
+namespace OpenStack\Common\Transport;
 
 interface Serializable
 {

@@ -1,8 +1,8 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Resource;
+namespace OpenStack\Common\Resource;
 
-use OpenCloud\Common\Transport\Utils;
+use OpenStack\Common\Transport\Utils;
 
 class Iterator
 {

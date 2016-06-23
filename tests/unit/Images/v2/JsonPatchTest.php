@@ -3,7 +3,7 @@
 namespace OpenStack\Test\Images\v2;
 
 use OpenStack\Images\v2\JsonPatch;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class JsonPatchTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Api;
+namespace OpenStack\Common\Api;
 
 /**
- * This class represents an OpenCloud API operation. It encapsulates most aspects of the REST operation: its HTTP
+ * This class represents an OpenStack API operation. It encapsulates most aspects of the REST operation: its HTTP
  * method, the URL path, its top-level JSON key, and all of its {@see Parameter} objects.
  *
  * An operation not only represents a remote operation, but it also provides the mechanism for executing it
@@ -11,7 +11,7 @@ namespace OpenCloud\Common\Api;
  * to be created from the user values provided. Once this request is assembled, it is then sent to the
  * remote API and the response is returned to whoever first invoked the Operation class.
  *
- * @package OpenCloud\Common\Api
+ * @package OpenStack\Common\Api
  */
 class Operation
 {

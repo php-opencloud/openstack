@@ -4,7 +4,7 @@ namespace OpenStack\Test\Compute\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use OpenStack\Compute\v2\Models\Keypair;
 
 class KeypairTest extends TestCase

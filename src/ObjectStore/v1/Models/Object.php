@@ -3,13 +3,13 @@
 namespace OpenStack\ObjectStore\v1\Models;
 
 use GuzzleHttp\Psr7\Uri;
-use OpenCloud\Common\Transport\Utils;
+use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use OpenCloud\Common\Resource\OperatorResource;
-use OpenCloud\Common\Resource\Creatable;
-use OpenCloud\Common\Resource\Deletable;
-use OpenCloud\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\HasMetadata;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api

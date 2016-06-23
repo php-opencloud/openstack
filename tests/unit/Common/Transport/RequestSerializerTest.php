@@ -1,12 +1,12 @@
 <?php
 
-namespace OpenCloud\Test\Common\Transport;
+namespace OpenStack\Test\Common\Transport;
 
-use OpenCloud\Common\Api\Operation;
-use OpenCloud\Common\Api\Parameter;
-use OpenCloud\Common\Transport\JsonSerializer;
-use OpenCloud\Common\Transport\RequestSerializer;
-use OpenCloud\Test\TestCase;
+use OpenStack\Common\Api\Operation;
+use OpenStack\Common\Api\Parameter;
+use OpenStack\Common\Transport\JsonSerializer;
+use OpenStack\Common\Transport\RequestSerializer;
+use OpenStack\Test\TestCase;
 
 class RequestSerializerTest extends TestCase
 {

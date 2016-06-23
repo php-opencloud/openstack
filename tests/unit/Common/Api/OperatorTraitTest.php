@@ -1,15 +1,16 @@
 <?php
 
-namespace OpenCloud\Test\Common\Api;
+namespace OpenStack\Test\Common\Api;
 
 use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
-use OpenCloud\Common\Api\OperatorTrait;
-use OpenCloud\Common\Resource\AbstractResource;
-use OpenCloud\Common\Resource\ResourceInterface;
+use OpenStack\Common\Api\Operation;
+use OpenStack\Common\Api\OperatorTrait;
+use OpenStack\Common\Resource\AbstractResource;
+use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Test\Fixtures\ComputeV2Api;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
 class OperatorTraitTest extends TestCase
@@ -37,7 +38,7 @@ class OperatorTraitTest extends TestCase
     public function test_it_returns_operations()
     {
         $this->assertInstanceOf(
-            'OpenCloud\Common\Api\Operation',
+            Operation::class,
             $this->operator->getOperation($this->def, [])
         );
     }

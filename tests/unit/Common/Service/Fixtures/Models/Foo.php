@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenCloud\Test\Common\Service\Fixtures\Models;
+namespace OpenStack\Test\Common\Service\Fixtures\Models;
 
-use OpenCloud\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\OperatorResource;
 
 class Foo extends OperatorResource
 {

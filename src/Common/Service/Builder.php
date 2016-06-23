@@ -1,20 +1,20 @@
 <?php declare (strict_types = 1);
 
-namespace OpenCloud\Common\Service;
+namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
-use OpenCloud\Common\Auth\IdentityService;
-use OpenCloud\Common\Auth\Token;
-use OpenCloud\Common\Transport\HandlerStack;
-use OpenCloud\Common\Transport\Middleware;
-use OpenCloud\Common\Transport\Utils;
+use OpenStack\Common\Auth\IdentityService;
+use OpenStack\Common\Auth\Token;
+use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\Middleware;
+use OpenStack\Common\Transport\Utils;
 
 /**
- * A Builder for easily creating OpenCloud services.
+ * A Builder for easily creating OpenStack services.
  *
- * @package OpenCloud\Common\Service
+ * @package OpenStack\Common\Service
  */
 class Builder
 {
@@ -41,7 +41,7 @@ class Builder
      *                               service-specific options passed in.
      * @param string $rootNamespace  API classes' root namespace
      */
-    public function __construct(array $globalOptions = [], $rootNamespace = 'OpenCloud')
+    public function __construct(array $globalOptions = [], $rootNamespace = 'OpenStack')
     {
         $this->globalOptions = $globalOptions;
         $this->rootNamespace = $rootNamespace;
@@ -62,7 +62,7 @@ class Builder
     }
 
     /**
-     * This method will return an OpenCloud service ready fully built and ready for use. There is
+     * This method will return an OpenStack service ready fully built and ready for use. There is
      * some initial setup that may prohibit users from directly instantiating the service class
      * directly - this setup includes the configuration of the HTTP client's base URL, and the
      * attachment of an authentication handler.
@@ -70,7 +70,7 @@ class Builder
      * @param string $namespace      The namespace of the service
      * @param array  $serviceOptions The service-specific options to use
      *
-     * @return \OpenCloud\Common\Service\ServiceInterface
+     * @return \OpenStack\Common\Service\ServiceInterface
      *
      * @throws \Exception
      */

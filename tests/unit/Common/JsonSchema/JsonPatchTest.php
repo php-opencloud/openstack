@@ -1,9 +1,9 @@
 <?php
 
-namespace OpenCloud\Test\Common\JsonSchema;
+namespace OpenStack\Test\Common\JsonSchema;
 
-use OpenCloud\Common\JsonSchema\JsonPatch;
-use OpenCloud\Test\TestCase;
+use OpenStack\Common\JsonSchema\JsonPatch;
+use OpenStack\Test\TestCase;
 
 class JsonPatchTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Api;
+namespace OpenStack\Common\Api;
 
-use OpenCloud\Common\HydratorStrategyTrait;
+use OpenStack\Common\HydratorStrategyTrait;
 
 /**
  * Represents an individual request parameter in a RESTful operation. A parameter can take on many forms:
@@ -18,7 +18,7 @@ use OpenCloud\Common\HydratorStrategyTrait;
  *
  * * JSON parameters are those which populate a JSON request body. These are the most complex variety
  *   of Parameter, since there are so many different ways a JSON document can be constructed. The SDK
- *   supports deep-nesting according to a XPath syntax; for more information, see {@see \OpenCloud\Common\JsonPath}.
+ *   supports deep-nesting according to a XPath syntax; for more information, see {@see \OpenStack\Common\JsonPath}.
  *   Nested object and array properties are also supported since JSON is a recursive data type. What
  *   this means is that a Parameter can have an assortment of child Parameters, one for each object
  *   property or array element.
@@ -29,7 +29,7 @@ use OpenCloud\Common\HydratorStrategyTrait;
  * * Path parameters are those which populate a URL path. They are serialized according to URL
  *   placeholders.
  *
- * @package OpenCloud\Common\Api
+ * @package OpenStack\Common\Api
  */
 class Parameter
 {
@@ -98,7 +98,7 @@ class Parameter
 
     /**
      * Relevant to "json" location parameters only. This property allows for deep nesting through the use of
-     * {@see OpenCloud\Common\JsonPath}.
+     * {@see OpenStack\Common\JsonPath}.
      *
      * @var string
      */

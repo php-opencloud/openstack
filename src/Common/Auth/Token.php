@@ -1,6 +1,6 @@
 <?php declare (strict_types=1);
 
-namespace OpenCloud\Common\Auth;
+namespace OpenStack\Common\Auth;
 
 interface Token
 {

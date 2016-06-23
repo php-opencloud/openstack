@@ -3,8 +3,7 @@
 namespace OpenStack\Test;
 
 use GuzzleHttp\ClientInterface;
-use OpenCloud\Test\TestCase;
-use OpenCloud\Common\Service\Builder;
+use OpenStack\Common\Service\Builder;
 use OpenStack\Identity\v3\Api;
 use OpenStack\OpenStack;
 use OpenStack\Compute\v2\Service as ComputeServiceV2;

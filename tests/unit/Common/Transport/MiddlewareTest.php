@@ -5,14 +5,14 @@ namespace unit\Common\Transport;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use OpenCloud\Common\Transport\Middleware;
-use OpenCloud\Test\TestCase;
-use OpenCloud\Common\Auth\AuthHandler;
+use OpenStack\Common\Transport\Middleware;
+use OpenStack\Test\TestCase;
+use OpenStack\Common\Auth\AuthHandler;
 
 class MiddlewareTest extends TestCase
 {
     /**
-     * @expectedException \OpenCloud\Common\Error\BadResponseError
+     * @expectedException \OpenStack\Common\Error\BadResponseError
      */
     public function test_exception_is_thrown_for_4xx_statuses()
     {
