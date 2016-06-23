@@ -4,7 +4,7 @@ namespace OpenStack\integration\Images\v2;
 
 use OpenStack\Images\v2\Models\Image;
 use OpenStack\Images\v2\Models\Member;
-use OpenCloud\Integration\TestCase;
+use OpenStack\Integration\TestCase;
 
 class CoreTest extends TestCase
 {

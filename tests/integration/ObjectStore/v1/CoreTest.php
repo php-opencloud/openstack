@@ -2,7 +2,7 @@
 
 namespace OpenStack\integration\ObjectStore\v1;
 
-use OpenCloud\Integration\TestCase;
+use OpenStack\Integration\TestCase;
 use OpenStack\Integration\Utils;
 use Psr\Http\Message\StreamInterface;
 

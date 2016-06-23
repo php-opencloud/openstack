@@ -1,14 +1,14 @@
 <?php
 
-namespace OpenStack\integration;
+namespace OpenStack\Integration;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use OpenStack\Identity\v2\Service;
-use OpenCloud\Common\Transport\Utils as TransportUtils;
+use OpenStack\Common\Transport\Utils as TransportUtils;
 use OpenStack\OpenStack;
 
-class Utils extends \OpenCloud\Integration\Utils
+class Utils extends CommonUtils
 {
     public static function getOpenStack(): OpenStack
     {

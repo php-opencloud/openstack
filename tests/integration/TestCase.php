@@ -1,8 +1,8 @@
 <?php
 
-namespace OpenCloud\Integration;
+namespace OpenStack\Integration;
 
-use OpenCloud\Common\Resource\Deletable;
+use OpenStack\Common\Resource\Deletable;
 use Psr\Log\LoggerInterface;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase implements TestInterface

@@ -3,7 +3,7 @@
 namespace OpenStack\integration\Identity\v3;
 
 use OpenStack\Identity\v3\Models;
-use OpenCloud\Integration\TestCase;
+use OpenStack\Integration\TestCase;
 use OpenStack\Integration\Utils;
 
 class CoreTest extends TestCase
