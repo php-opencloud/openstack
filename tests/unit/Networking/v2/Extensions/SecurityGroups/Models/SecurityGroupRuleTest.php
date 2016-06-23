@@ -3,7 +3,7 @@
 namespace OpenStack\Test\Networking\v2\Extensions\SecurityGroups\Models;
 
 use GuzzleHttp\Psr7\Response;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Api;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroupRule;
 

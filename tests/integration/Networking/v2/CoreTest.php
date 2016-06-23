@@ -5,7 +5,7 @@ namespace OpenStack\Integration\Networking\v2;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Subnet;
-use OpenCloud\Integration\TestCase;
+use OpenStack\Integration\TestCase;
 
 class CoreTest extends TestCase
 {

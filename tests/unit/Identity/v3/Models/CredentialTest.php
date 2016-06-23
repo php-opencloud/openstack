@@ -5,7 +5,7 @@ namespace OpenStack\Test\Identity\v3\Models;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Credential;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class CredentialTest extends TestCase
 {

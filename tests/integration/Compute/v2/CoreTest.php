@@ -9,7 +9,7 @@ use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
-use OpenCloud\Integration\TestCase;
+use OpenStack\Integration\TestCase;
 use OpenStack\Integration\Utils;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Subnet;

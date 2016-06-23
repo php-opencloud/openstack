@@ -4,7 +4,7 @@ namespace OpenStack\Images\v2\Models;
 
 use JsonSchema\Validator;
 
-class Schema extends \OpenCloud\Common\JsonSchema\Schema
+class Schema extends \OpenStack\Common\JsonSchema\Schema
 {
     public function __construct($data, Validator $validator = null)
     {

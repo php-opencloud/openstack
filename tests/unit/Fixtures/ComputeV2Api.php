@@ -2,7 +2,7 @@
 
 namespace OpenStack\Test\Fixtures;
 
-use OpenCloud\Common\Api\ApiInterface;
+use OpenStack\Common\Api\ApiInterface;
 
 class ComputeV2Api implements ApiInterface
 {
@@ -53,7 +53,17 @@ class ComputeV2Api implements ApiInterface
                     ]
                 ],
                 'name' => ['type' => 'string', 'required' => true],
-                'metadata' => ['type' => 'object', 'location' => 'json'],
+                'metadata' => [
+                    'type'        => 'object',
+                    'location'    => 'json',
+                    'description' => 'An arbitrary key/value pairing that will be used for metadata.',
+                    'properties'  => [
+                        'type'        => 'string',
+                        'description' => <<<TYPEOTHER
+The value being set for your key. Bear in mind that "key" is just an example, you can name it anything.
+TYPEOTHER
+                    ]
+                ],
                 'personality' => ['type' => 'string'],
                 'blockDeviceMapping' => [
                     'type' => 'array',

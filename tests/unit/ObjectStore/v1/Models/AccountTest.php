@@ -4,7 +4,7 @@ namespace OpenStack\Test\ObjectStore\v1\Models;
 
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Account;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class AccountTest extends TestCase
 {

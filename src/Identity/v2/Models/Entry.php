@@ -2,7 +2,7 @@
 
 namespace OpenStack\Identity\v2\Models;
 
-use OpenCloud\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\OperatorResource;
 
 /**
  * Represents an Identity v2 Catalog Entry.

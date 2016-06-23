@@ -2,8 +2,8 @@
 
 namespace OpenStack\Identity\v3\Models;
 
-use OpenCloud\Common\Resource\OperatorResource;
-use OpenCloud\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Listable;
 
 class Assignment extends OperatorResource implements Listable
 {

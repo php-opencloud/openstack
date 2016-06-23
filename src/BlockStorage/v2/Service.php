@@ -5,7 +5,7 @@ namespace OpenStack\BlockStorage\v2;
 use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
-use OpenCloud\Common\Service\AbstractService;
+use OpenStack\Common\Service\AbstractService;
 
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api

@@ -3,12 +3,12 @@
 namespace OpenStack\Test\Identity\v3;
 
 use GuzzleHttp\Psr7\Response;
-use OpenCloud\Common\Error\BadResponseError;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Enum;
 use OpenStack\Identity\v3\Models;
 use OpenStack\Identity\v3\Service;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
 class ServiceTest extends TestCase

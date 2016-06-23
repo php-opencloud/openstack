@@ -4,7 +4,7 @@ namespace OpenStack\Test\Identity\v3\Models;
 
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Token;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class TokenTest extends TestCase
 {

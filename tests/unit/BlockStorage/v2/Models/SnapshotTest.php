@@ -5,7 +5,7 @@ namespace OpenStack\Test\BlockStorage\v2\Models;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\BlockStorage\v2\Api;
 use OpenStack\BlockStorage\v2\Models\Snapshot;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class SnapshotTest extends TestCase
 {

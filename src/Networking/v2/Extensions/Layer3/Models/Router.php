@@ -2,13 +2,13 @@
 
 namespace OpenStack\Networking\v2\Extensions\Layer3\Models;
 
-use OpenCloud\Common\Resource\HasWaiterTrait;
-use OpenCloud\Common\Resource\OperatorResource;
-use OpenCloud\Common\Resource\Creatable;
-use OpenCloud\Common\Resource\Deletable;
-use OpenCloud\Common\Resource\Listable;
-use OpenCloud\Common\Resource\Retrievable;
-use OpenCloud\Common\Resource\Updateable;
+use OpenStack\Common\Resource\HasWaiterTrait;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Extensions\Layer3\Api;
 
 /**

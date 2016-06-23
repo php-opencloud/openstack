@@ -1,8 +1,8 @@
 <?php declare (strict_types=1);
 namespace OpenStack\BlockStorage\v2\Models;
 
-use OpenCloud\Common\Resource\Listable;
-use OpenCloud\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api

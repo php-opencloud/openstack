@@ -3,10 +3,10 @@
 namespace OpenStack\Test\Identity\v3\Models;
 
 use GuzzleHttp\Psr7\Response;
-use OpenCloud\Common\Error\BadResponseError;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Api;
 use OpenStack\Identity\v3\Models\Group;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
 class GroupTest extends TestCase

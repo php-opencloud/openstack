@@ -3,7 +3,7 @@
 namespace OpenStack\Integration\Networking\v2;
 
 use Guzzle\Tests\Service\Mock\Command\Sub\Sub;
-use OpenCloud\Integration\TestCase;
+use OpenStack\Integration\TestCase;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;

@@ -8,7 +8,7 @@ use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
 use OpenStack\BlockStorage\v2\Service;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 
 class ServiceTest extends TestCase
 {

@@ -7,7 +7,7 @@ use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Server;
-use OpenCloud\Test\TestCase;
+use OpenStack\Test\TestCase;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use Prophecy\Argument;
 

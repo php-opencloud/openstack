@@ -5,6 +5,11 @@
             "name": "Jamie Hannaford",
             "email": "jamie.hannaford@rackspace.com",
             "homepage" : "https://github.com/jamiehannaford"
+        },
+        {
+            "name": "Ha Phan",
+            "email": "thanhha.work@gmail.com",
+            "homepage" : "https://github.com/haphan"
         }
     ],
     "autoload": {
@@ -25,7 +30,9 @@
         }
     ],
     "require": {
-        "php-opencloud/common": "^1.0.5"
+        "php": "~7.0",
+        "guzzlehttp/guzzle": "~6.1",
+        "justinrainbow/json-schema": "~1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

@@ -2,11 +2,11 @@
 
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups\Models;
 
-use OpenCloud\Common\Resource\OperatorResource;
-use OpenCloud\Common\Resource\Creatable;
-use OpenCloud\Common\Resource\Deletable;
-use OpenCloud\Common\Resource\Listable;
-use OpenCloud\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Retrievable;
 
 /**
  * Represents a SecurityGroupRule resource in the Network v2 service
