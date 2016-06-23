@@ -1,3 +1,3 @@
 #!/bin/bash
 
-php tests/integration/Runner.php -s identity -v v3
+php tests/integration/run.php -s identity -v v3
