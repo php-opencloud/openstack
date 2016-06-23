@@ -8,7 +8,7 @@ use OpenStack\Identity\v2\Service;
 use OpenStack\Common\Transport\Utils as TransportUtils;
 use OpenStack\OpenStack;
 
-class Utils extends CommonUtils
+class Utils
 {
     public static function getOpenStack(): OpenStack
     {
@@ -56,5 +56,10 @@ class Utils extends CommonUtils
             : self::getAuthOptsV3();
 
         return array_merge($authOptions, $options);
+    }
+
+    public static function toCamelCase($word, $separator = '_')
+    {
+        return str_replace($separator, '', ucwords($word, $separator));
     }
 }
