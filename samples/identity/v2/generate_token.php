@@ -8,13 +8,15 @@ use OpenStack\Identity\v2\Service;
 use OpenStack\Common\Transport\Utils as TransportUtils;
 use OpenStack\OpenStack;
 
+$authUrl = 'https://example.com:5000/v2.0';
+
 $httpClient = new Client([
-    'base_uri' => TransportUtils::normalizeUrl(getenv('OS_AUTH_URL')),
+    'base_uri' => TransportUtils::normalizeUrl($authUrl),
     'handler'  => HandlerStack::create(),
 ]);
         
 $options = [
-    'authUrl'         => 'https://example.com:5000/v2.0',
+    'authUrl'         => $authUrl,
     'region'          => 'RegionOne',
     'username'        => 'foo',
     'password'        => 'bar',
