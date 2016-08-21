@@ -2,12 +2,16 @@
 
 namespace OpenStack\Test\Common\Error;
 
-use function GuzzleHttp\Psr7\{stream_for,str};
+use function GuzzleHttp\Psr7\stream_for;
+use function GuzzleHttp\Psr7\str;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\{Request,Response};
-use OpenStack\Common\Error\{BadResponseError,Builder,UserInputError};
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use OpenStack\Common\Error\BadResponseError;
+use OpenStack\Common\Error\Builder;
+use OpenStack\Common\Error\UserInputError;
 
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
