@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase implements TestInterface
 {
-    private $logger;
+    protected $logger;
     private $startPoint;
     private $lastPoint;
     private $sampleManager;

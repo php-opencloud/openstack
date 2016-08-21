@@ -23,6 +23,8 @@ class CoreTest extends TestCase
     const SUBNET = 'phptest_subnet';
     const VOLUME = 'phptest_volume';
 
+    const IMAGE = 'cirros';
+
     /** @var NetworkService */
     private $networkService;
 
@@ -79,11 +81,13 @@ class CoreTest extends TestCase
         foreach ($this->getService()->listImages() as $image) {
             if (strpos($image->name, $name) !== false) {
                 $this->imageId = $image->id;
-                return;
+                break;
             }
         }
 
-        $this->logger->emergency('No image found');
+        if (!$this->imageId) {
+            throw new \RuntimeException(sprintf('Unable to find image "%s". Make sure this image is available for integration test.', $name));
+        }
     }
 
     protected function setUp()
@@ -126,7 +130,7 @@ class CoreTest extends TestCase
         // Manually trigger setUp
         $this->setUp();
 
-        $this->searchImages('cirros');
+        $this->searchImages(self::IMAGE);
 
         // Servers
         $this->createServer();
@@ -138,6 +142,8 @@ class CoreTest extends TestCase
 
             // Server actions
             //$this->changeServerPassword();
+            $this->stopServer();
+            $this->startServer();
             $this->resizeServer();
             $this->confirmServerResize();
             $this->rebuildServer();
@@ -188,10 +194,16 @@ class CoreTest extends TestCase
 
     private function createServer()
     {
+        $flavorId = getenv('OS_FLAVOR');
+
+        if (!$flavorId) {
+            throw new \RuntimeException('OS_FLAVOR env var must be set');
+        }
+
         $replacements = [
             '{serverName}' => $this->randomStr(),
             '{imageId}'    => $this->imageId,
-            '{flavorId}'   => 1,
+            '{flavorId}'   => $flavorId,
             '{networkId}'  => $this->network->id
         ];
 
@@ -353,6 +365,30 @@ class CoreTest extends TestCase
         $server->waitUntilActive(false);
 
         $this->logStep('Rebooted server {serverId}', $replacements);
+    }
+
+    private function stopServer()
+    {
+        $replacements = ['{serverId}' => $this->serverId];
+
+        /** @var $server \OpenStack\Compute\v2\Models\Server */
+        require_once $this->sampleFile($replacements, 'servers/stop_server.php');
+
+        $server->waitUntil('SHUTOFF', false);
+
+        $this->logStep('Stopped server {serverId}', $replacements);
+    }
+
+    private function startServer()
+    {
+        $replacements = ['{serverId}' => $this->serverId];
+
+        /** @var $server \OpenStack\Compute\v2\Models\Server */
+        require_once $this->sampleFile($replacements, 'servers/start_server.php');
+
+        $server->waitUntilActive(false);
+
+        $this->logStep('Started server {serverId}', $replacements);
     }
 
     private function createFlavor()
