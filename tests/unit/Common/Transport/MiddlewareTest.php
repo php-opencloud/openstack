@@ -47,7 +47,8 @@ class MiddlewareTest extends TestCase
 
     public function test_auth_handler_is_returned()
     {
-        $generator = function () {};
+        $generator = function () {
+        };
 
         $middleware = Middleware::authHandler($generator);
 
