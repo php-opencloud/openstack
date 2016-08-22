@@ -163,6 +163,28 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Starts server
+     */
+    public function start()
+    {
+        $this->execute($this->api->startServer(), [
+            'id' => $this->id,
+            'os-start' => null
+        ]);
+    }
+
+    /**
+     * Stops server
+     */
+    public function stop()
+    {
+        $this->execute($this->api->stopServer(), [
+            'id' => $this->id,
+            'os-stop' => null
+        ]);
+    }
+
+    /**
      * Rebuilds the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}

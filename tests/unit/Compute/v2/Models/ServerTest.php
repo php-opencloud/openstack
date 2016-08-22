@@ -9,7 +9,6 @@ use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Test\TestCase;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
-use Prophecy\Argument;
 
 class ServerTest extends TestCase
 {
@@ -136,6 +135,24 @@ class ServerTest extends TestCase
 
         $this->assertEquals($userOptions['imageId'], $this->server->image->id);
         $this->assertEquals($userOptions['name'], $this->server->name);
+    }
+
+    public function test_it_starts()
+    {
+        $expectedJson = ['os-start' => null];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+
+        $this->assertNull($this->server->start());
+    }
+
+    public function test_it_stops()
+    {
+        $expectedJson = ['os-stop' => null];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+
+        $this->assertNull($this->server->stop());
     }
 
     public function test_it_resizes()
