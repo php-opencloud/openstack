@@ -230,6 +230,59 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Gets a VNC console for a server.
+     *
+     * @param  string $type The type of VNC console: novnc|xvpvnc.
+     *                      Defaults to novnc.
+     *
+     * @return mixed
+     */
+    public function getVncConsole($type = Enum::CONSOLE_NOVNC)
+    {
+        $response = $this->execute($this->api->getVncConsole(), ['id' => $this->id, 'type' => $type]);
+        return Utils::jsonDecode($response)['console'];
+    }
+
+    /**
+     * Gets a RDP console for a server.
+     *
+     * @param  string $type The type of VNC console: rdp-html5 (default).
+     *
+     * @return mixed
+     */
+    public function getRDPConsole($type = Enum::CONSOLE_RDP_HTML5)
+    {
+        $response = $this->execute($this->api->getRDPConsole(), ['id' => $this->id, 'type' => $type]);
+        return Utils::jsonDecode($response)['console'];
+    }
+
+    /**
+     * Gets a Spice console for a server.
+     *
+     * @param  string $type The type of VNC console: spice-html5.
+     *
+     * @return mixed
+     */
+    public function getSpiceConsole($type = Enum::CONSOLE_SPICE_HTML5)
+    {
+        $response = $this->execute($this->api->getSpiceConsole(), ['id' => $this->id, 'type' => $type]);
+        return Utils::jsonDecode($response)['console'];
+    }
+
+    /**
+     * Gets a serial console for a server.
+     *
+     * @param  string $type The type of VNC console: serial.
+     *
+     * @return mixed
+     */
+    public function getSerialConsole($type = Enum::CONSOLE_SERIAL)
+    {
+        $response = $this->execute($this->api->getSerialConsole(), ['id' => $this->id, 'type' => $type]);
+        return Utils::jsonDecode($response)['console'];
+    }
+
+    /**
      * Creates an image for the current server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::createServerImage}
