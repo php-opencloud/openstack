@@ -206,23 +206,51 @@ deleted after the test suite finishes.
 We use all of our sample files as live integration tests, achieving the dual aim of reducing code duplication and 
 ensuring that our samples actually work.
 
+### Setting up environment variables
+
+Rename `env_test.sh.dist` as `env_test.sh` and replace values according to your OpenStack instance configuration.
+Completed file may look as following.
+
+
+```bash
+#!/usr/bin/env bash
+export OS_AUTH_URL="http://1.2.3.4:5000/v3"       
+export OS_REGION="RegionOne"
+export OS_REGION_NAME="RegionOne"
+export OS_USER_ID="536068bcb1b946ff8e2f10eff6543f9c"
+export OS_USERNAME="admin"
+export OS_PASSWORD="2251639ecaea442b"
+export OS_PROJECT_ID="b62b3bebf9e84e4eb11aafcd8c58db3f"
+export OS_PROJECT_NAME="admin"
+export OS_RESIZE_FLAVOR=2                                 #Must be a valid flavor ID
+export OS_FLAVOR=1                                        #Must be a valid flavor ID
+export OS_DOMAIN_ID="default"
+```
+
+To export environment variables, run
+ ```bash
+ $ . env_test.sh
+ ```
+
+Additionally, integration tests require image called `cirros` exists.
+
 ### Running integration tests
 
 You interact with integration tests through a runner script:
 
 ```bash
-php ./integration/Runner.php
+php ./tests/integration/run.php
 ```
 
 It supports these command-line flags:
 
 | Flag | Description | Example |
 | ---- | ----------- | ------- |
-| `-s` `--service` | Allows you to refine tests by a particular service. A service corresponds to top-level directories in the `./integration` directory, meaning that `compute` and `identity` are services because they exist as sub-directories there. If omitted, all services are run.|Run compute service: `php ./integration/Runner.php -s compute` Run all tests: `php ./integration/Runner.php`|
-| `-v` `--version` | Allows you to refine by a particular service version. A version corresponds to the sub-directories inside a service directory, meaning that `v2` is a supported version of `compute` because it exists as a sub-directory inside the `compute` directory. If omitted, all versions are run.|Run v2 Compute tests: `php ./integration/Runner.php -s compute -v v2` Run all compute tests: `php ./integration/Runner.php -s compute`|
-| `-t` `--test` | Allows you to refine by a particular test. Tests are defined in classes like `integration\OpenStack\Compute\v2`. Each test method manually references a sample file. To refine which tests are run, list the name of the method in this class. If omitted, all tests are run.|Run create server test: `php ./integration/Runner.php -s compute -v v2 -t createServer` Run all compute v2 tests: `php ./integration/Runner.php -s compute -v v2`|
+| `-s` `--service` | Allows you to refine tests by a particular service. A service corresponds to top-level directories in the `./integration` directory, meaning that `compute` and `identity` are services because they exist as sub-directories there. If omitted, all services are run.|Run compute service: `php ./tests/integration/run.php -s compute` Run all tests: `php ./tests/integration/run.php`|
+| `-v` `--version` | Allows you to refine by a particular service version. A version corresponds to the sub-directories inside a service directory, meaning that `v2` is a supported version of `compute` because it exists as a sub-directory inside the `compute` directory. If omitted, all versions are run.|Run v2 Compute tests: `php ./tests/integration/run.php -s compute -v v2` Run all compute tests: `php ./tests/integration/run.php -s compute`|
+| `-t` `--test` | Allows you to refine by a particular test. Tests are defined in classes like `integration\OpenStack\Compute\v2`. Each test method manually references a sample file. To refine which tests are run, list the name of the method in this class. If omitted, all tests are run.|Run create server test: `php ./tests/integration/run.php -s compute -v v2 -t createServer` Run all compute v2 tests: `php ./tests/integration/run.php -s compute -v v2`|
 | `--debug` |||
-| `--help` | A help screen is returned and no tests run | `php ./integration/Runner.php --help`
+| `--help` | A help screen is returned and no tests run | `php ./tests/integration/run.php --help`
 
 
 ## Style guide
