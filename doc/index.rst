@@ -4,7 +4,7 @@ Welcome to the OpenStack SDK for PHP!
 Requirements
 ------------
 
-* PHP 5.6
+* PHP 7
 * cURL extension
 
 Installation
