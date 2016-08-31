@@ -445,4 +445,13 @@ EOL
             'required' => true,
         ];
     }
+
+    public function consoleType(): array
+    {
+        return [
+            'type' => self::STRING_TYPE,
+            'location' => self::JSON,
+            'required' => true
+        ];
+    }
 }

@@ -179,6 +179,62 @@ class ServerTest extends TestCase
         $this->assertNull($this->server->revertResize());
     }
 
+    public function test_it_gets_vnc_console()
+    {
+        $type = 'novnc';
+        $expectedJson = ['os-getVNCConsole' => ['type' => $type]];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-vnc');
+
+        $response = $this->server->getVncConsole();
+
+        $this->assertArrayHasKey('url', $response);
+        $this->assertArrayHasKey('type', $response);
+        $this->assertEquals($type, $response['type']);
+    }
+
+    public function test_it_gets_rdp_console()
+    {
+        $type = 'rdp-html5';
+        $expectedJson = ['os-getRDPConsole' => ['type' => $type]];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-rdp');
+
+        $response = $this->server->getRDPConsole();
+
+        $this->assertArrayHasKey('url', $response);
+        $this->assertArrayHasKey('type', $response);
+        $this->assertEquals($type, $response['type']);
+    }
+
+    public function test_it_gets_spice_console()
+    {
+        $type = 'spice-html5';
+        $expectedJson = ['os-getSPICEConsole' => ['type' => $type]];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-spice');
+
+        $response = $this->server->getSpiceConsole();
+
+        $this->assertArrayHasKey('url', $response);
+        $this->assertArrayHasKey('type', $response);
+        $this->assertEquals($type, $response['type']);
+    }
+
+    public function test_it_gets_serial_console()
+    {
+        $type = 'serial';
+        $expectedJson = ['os-getSerialConsole' => ['type' => $type]];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-serial');
+
+        $response = $this->server->getSerialConsole();
+
+        $this->assertArrayHasKey('url', $response);
+        $this->assertArrayHasKey('type', $response);
+        $this->assertEquals($type, $response['type']);
+    }
+
     public function test_it_creates_images()
     {
         $userData = ['name' => 'newImage', 'metadata' => ['foo' => 'bar']];

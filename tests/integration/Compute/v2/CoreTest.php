@@ -180,6 +180,9 @@ class CoreTest extends TestCase
             // Limits
             $this->getLimits();
             $this->getHypervisorsStatistics();
+
+            // Console
+            $this->getVncConsole();
         } finally {
             // Teardown
             $this->deleteServer();
@@ -646,5 +649,16 @@ class CoreTest extends TestCase
         $this->volume->waitUntil('available');
 
         $this->logStep('Detached volume attachments for server {serverId}', $replacements);
+    }
+
+    private function getVncConsole()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/get_server_vnc_console.php');
+
+        $this->logStep('Get VNC console for server {serverId}', $replacements);
     }
 }

@@ -383,6 +383,58 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getVncConsole(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'servers/{id}/action',
+            'jsonKey' => 'os-getVNCConsole',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'type' => $this->params->consoleType()
+            ]
+        ];
+    }
+
+    public function getSpiceConsole(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'servers/{id}/action',
+            'jsonKey' => 'os-getSPICEConsole',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'type' => $this->params->consoleType()
+            ]
+        ];
+    }
+
+    public function getSerialConsole(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'servers/{id}/action',
+            'jsonKey' => 'os-getSerialConsole',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'type' => $this->params->consoleType()
+            ]
+        ];
+    }
+
+    public function getRDPConsole(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'servers/{id}/action',
+            'jsonKey' => 'os-getRDPConsole',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'type' => $this->params->consoleType()
+            ]
+        ];
+    }
+
     public function getAddresses(): array
     {
         return [
