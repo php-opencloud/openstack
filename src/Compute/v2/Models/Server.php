@@ -235,9 +235,9 @@ class Server extends OperatorResource implements
      * @param  string $type The type of VNC console: novnc|xvpvnc.
      *                      Defaults to novnc.
      *
-     * @return mixed
+     * @return array
      */
-    public function getVncConsole($type = Enum::CONSOLE_NOVNC)
+    public function getVncConsole($type = Enum::CONSOLE_NOVNC): array
     {
         $response = $this->execute($this->api->getVncConsole(), ['id' => $this->id, 'type' => $type]);
         return Utils::jsonDecode($response)['console'];
@@ -248,9 +248,9 @@ class Server extends OperatorResource implements
      *
      * @param  string $type The type of VNC console: rdp-html5 (default).
      *
-     * @return mixed
+     * @return array
      */
-    public function getRDPConsole($type = Enum::CONSOLE_RDP_HTML5)
+    public function getRDPConsole($type = Enum::CONSOLE_RDP_HTML5): array
     {
         $response = $this->execute($this->api->getRDPConsole(), ['id' => $this->id, 'type' => $type]);
         return Utils::jsonDecode($response)['console'];
@@ -261,9 +261,9 @@ class Server extends OperatorResource implements
      *
      * @param  string $type The type of VNC console: spice-html5.
      *
-     * @return mixed
+     * @return array
      */
-    public function getSpiceConsole($type = Enum::CONSOLE_SPICE_HTML5)
+    public function getSpiceConsole($type = Enum::CONSOLE_SPICE_HTML5): array
     {
         $response = $this->execute($this->api->getSpiceConsole(), ['id' => $this->id, 'type' => $type]);
         return Utils::jsonDecode($response)['console'];
@@ -274,9 +274,9 @@ class Server extends OperatorResource implements
      *
      * @param  string $type The type of VNC console: serial.
      *
-     * @return mixed
+     * @return array
      */
-    public function getSerialConsole($type = Enum::CONSOLE_SERIAL)
+    public function getSerialConsole($type = Enum::CONSOLE_SERIAL): array
     {
         $response = $this->execute($this->api->getSerialConsole(), ['id' => $this->id, 'type' => $type]);
         return Utils::jsonDecode($response)['console'];

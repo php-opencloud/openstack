@@ -16,4 +16,5 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 
 $server = $compute->getServer(['id' => '{serverId}']);
 
+/** @var array $console */
 $console = $server->getSpiceConsole();
