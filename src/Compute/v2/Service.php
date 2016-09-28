@@ -9,7 +9,7 @@ use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
-use OpenStack\Compute\v2\Models\Host;
+use OpenStack\Compute\v2\Models\Hypervisor;
 
 /**
  * Compute v2 service for OpenStack.
@@ -202,16 +202,19 @@ class Service extends AbstractService
     }
 
     /**
-     * List hosts.
+     * List hypervisors.
      *
-     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getHosts}
+     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     *                           the ID, name and links attributes are returned, saving bandwidth.
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getHypervisors}
      * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
      */
-    public function listHosts(array $options = [], callable $mapFn = null): \Generator
+    public function listHypervisors(bool $detailed = false, array $options = [], callable $mapFn = null): \Generator
     {
-        $def = $this->api->getHosts();
-        return $this->model(Host::class)->enumerate($def, $options, $mapFn);
+        $def = ($detailed === true) ? $this->api->getHypervisorsDetail() : $this->api->getHypervisors();
+        return $this->model(Hypervisor::class)->enumerate($def, $options, $mapFn);
     }
+
 }

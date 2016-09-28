@@ -642,23 +642,23 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getHosts(): array
+    public function getHypervisors(): array
     {
         return [
             'method' => 'GET',
-            'path'   => 'os-hosts',
+            'path'   => 'os-hypervisors',
             'params' => [
-                'name'         => $this->params->filterName()
+                'limit'  => $this->params->limit(),
+                'marker' => $this->params->marker()
             ],
         ];
     }
 
-    public function getHost(): array
+    public function getHypervisorsDetail(): array
     {
-        return [
-            'method' => 'GET',
-            'path'   => 'os-hosts/{name}',
-            'params' => ['name' => $this->params->urlId('host')]
-        ];
+        $definition = $this->getHypervisors();
+        $definition['path'] .= '/detail';
+        return $definition;
     }
+
 }
