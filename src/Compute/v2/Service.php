@@ -216,5 +216,4 @@ class Service extends AbstractService
         $def = ($detailed === true) ? $this->api->getHypervisorsDetail() : $this->api->getHypervisors();
         return $this->model(Hypervisor::class)->enumerate($def, $options, $mapFn);
     }
-
 }

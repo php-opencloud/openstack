@@ -8,8 +8,7 @@ use OpenStack\Common\Resource\OperatorResource;
 /**
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Hypervisor extends OperatorResource implements
-    Listable
+class Hypervisor extends OperatorResource implements Listable
 {
     /** @var string */
     public $id;
@@ -65,5 +64,4 @@ class Hypervisor extends OperatorResource implements
     protected $resourceKey = 'hypervisor';
     protected $resourcesKey = 'hypervisors';
     protected $markerKey = 'id';
-
 }

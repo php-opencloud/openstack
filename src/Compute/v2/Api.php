@@ -660,5 +660,4 @@ class Api extends AbstractApi
         $definition['path'] .= '/detail';
         return $definition;
     }
-
 }
