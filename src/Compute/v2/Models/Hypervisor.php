@@ -10,7 +10,7 @@ use OpenStack\Common\Resource\OperatorResource;
  */
 class Hypervisor extends OperatorResource implements Listable
 {
-    /** @var string */
+    /** @var int */
     public $id;
 
     /** @var string */
