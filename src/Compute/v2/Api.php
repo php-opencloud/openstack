@@ -641,4 +641,24 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getHosts(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hosts',
+            'params' => [
+                'name'         => $this->params->filterName()
+            ],
+        ];
+    }
+
+    public function getHost(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hosts/{name}',
+            'params' => ['name' => $this->params->urlId('host')]
+        ];
+    }
 }

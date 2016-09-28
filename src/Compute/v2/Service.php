@@ -199,4 +199,18 @@ class Service extends AbstractService
         $statistics->populateFromResponse($this->execute($this->api->getHypervisorStatistics(), []));
         return $statistics;
     }
+
+    /**
+     * List hosts.
+     *
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getHosts}
+     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listHosts(array $options = [], callable $mapFn = null): \Generator
+    {
+        $def = $this->api->getHosts();
+        return $this->model(Host::class)->enumerate($def, $options, $mapFn);
+    }
 }
