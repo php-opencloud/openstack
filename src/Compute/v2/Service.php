@@ -9,6 +9,7 @@ use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Host;
 
 /**
  * Compute v2 service for OpenStack.
