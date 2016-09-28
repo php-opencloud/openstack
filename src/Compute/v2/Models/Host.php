@@ -22,6 +22,8 @@ class Host extends OperatorResource implements
     Retrievable,
     Listable
 {
+    use HasWaiterTrait;
+
     /** @var string */
     public $id;
 
@@ -37,7 +39,8 @@ class Host extends OperatorResource implements
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getServer(), $this->getAttrs(['id']));
+      var_dump($this->execute($this->api->getHost(), $this->getAttrs(['name']));
+        $response = $this->execute($this->api->getHost(), $this->getAttrs(['name']));
         $this->populateFromResponse($response);
     }
 }
