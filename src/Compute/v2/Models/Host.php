@@ -18,15 +18,10 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Server extends OperatorResource implements
-    Creatable,
-    Updateable,
-    Deletable,
+class Host extends OperatorResource implements
     Retrievable,
     Listable
 {
-    use HasWaiterTrait;
-
     /** @var string */
     public $id;
 
@@ -36,34 +31,6 @@ class Server extends OperatorResource implements
     protected $resourceKey = 'os-host';
     protected $resourcesKey = 'os-hosts';
     protected $markerKey = 'id';
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postServer}
-     */
-    public function create(array $userOptions): Creatable
-    {
-        $response = $this->execute($this->api->postServer(), $userOptions);
-        return $this->populateFromResponse($response);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function update()
-    {
-        $response = $this->execute($this->api->putServer(), $this->getAttrs(['id', 'name', 'ipv4', 'ipv6']));
-        $this->populateFromResponse($response);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function delete()
-    {
-        $this->execute($this->api->deleteServer(), $this->getAttrs(['id']));
-    }
 
     /**
      * {@inheritDoc}
