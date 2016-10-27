@@ -645,7 +645,7 @@ class Api extends AbstractApi
     public function getHypervisors(): array
     {
         $marker = $this->params->marker();
-        $marker['type'] = Params::INT_TYPE;
+        $marker['type'] = Params::INT_STRING;
 
         return [
             'method' => 'GET',
