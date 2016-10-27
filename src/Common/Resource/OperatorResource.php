@@ -80,7 +80,7 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
 
         $requestFn = function ($marker) use ($operation, $userVals) {
             if ($marker) {
-                $userVals['marker'] = (string)$marker;
+                $userVals['marker'] = $marker;
             }
             return $this->sendRequest($operation, $userVals);
         };
