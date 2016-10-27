@@ -644,12 +644,15 @@ class Api extends AbstractApi
 
     public function getHypervisors(): array
     {
+        $marker = $this->params->marker();
+        $marker['type'] = Params::INT_TYPE;
+
         return [
             'method' => 'GET',
             'path'   => 'os-hypervisors',
             'params' => [
                 'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker()
+                'marker' => $marker
             ],
         ];
     }
