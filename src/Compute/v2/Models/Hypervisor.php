@@ -8,9 +8,11 @@ use OpenStack\Common\Resource\OperatorResource;
 /**
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Hypervisor extends OperatorResource implements Listable
+class Hypervisor extends OperatorResource implements
+    Retrievable,
+    Listable
 {
-    /** @var string */
+    /** @var int */
     public $id;
 
     /** @var string */
