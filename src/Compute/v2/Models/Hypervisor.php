@@ -67,4 +67,13 @@ class Hypervisor extends OperatorResource implements
     protected $resourceKey = 'hypervisor';
     protected $resourcesKey = 'hypervisors';
     protected $markerKey = 'id';
+
+    /**
+     * {@inheritDoc}
+     */
+    public function retrieve()
+    {
+        $response = $this->execute($this->api->getHypervisor(), $this->getAttrs(['id']));
+        $this->populateFromResponse($response);
+    }
 }

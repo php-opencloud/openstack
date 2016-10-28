@@ -663,4 +663,13 @@ class Api extends AbstractApi
         $definition['path'] .= '/detail';
         return $definition;
     }
+
+    public function getHypervisor(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hypervisor/{id}',
+            'params' => ['id' => $this->params->urlId('hypervisor')]
+        ];
+    }
 }
