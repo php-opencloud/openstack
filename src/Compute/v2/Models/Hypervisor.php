@@ -66,7 +66,6 @@ class Hypervisor extends OperatorResource implements
 
     protected $resourceKey = 'hypervisor';
     protected $resourcesKey = 'hypervisors';
-    protected $markerKey = 'id';
 
     /**
      * {@inheritDoc}
