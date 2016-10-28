@@ -3,6 +3,7 @@
 namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\OperatorResource;
 
 /**
