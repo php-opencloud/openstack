@@ -144,11 +144,11 @@ class ServiceTest extends TestCase
     public function test_it_lists_hypervisors()
     {
         $this->client
-            ->request('GET', 'os-hypervisors', ['query' => ['limit' => 2], 'headers' => []])
+            ->request('GET', 'os-hypervisors', ['headers' => []])
             ->shouldBeCalled()
             ->willReturn($this->getFixture('hypervisors-get'));
 
-        foreach ($this->service->listHypervisors(false, ['limit' => 2]) as $hypervisor) {
+        foreach ($this->service->listHypervisors(false) as $hypervisor) {
             $this->assertInstanceOf(Hypervisor::class, $hypervisor);
         }
     }
