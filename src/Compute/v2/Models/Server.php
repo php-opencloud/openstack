@@ -310,6 +310,19 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Iterates over all the ports for this server.
+     *
+     * @return array
+     */
+    public function listPorts(array $options = []): array
+    {
+        $options['id'] = $this->id;
+
+        $response = $this->execute($this->api->getPorts(), ['id' => $this->id]);
+        return Utils::jsonDecode($response)['interfaceAttachments'];
+    }
+
+    /**
      * Retrieves metadata from the API.
      *
      * @return array

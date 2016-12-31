@@ -456,6 +456,15 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getPorts(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-interface',
+            'params' => ['id' => $this->params->urlId('server')],
+        ];
+    }
+
     public function getServerMetadata(): array
     {
         return [
