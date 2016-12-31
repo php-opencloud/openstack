@@ -650,4 +650,65 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getAvailabilityZones(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-availability-zone',
+            'params' => [
+                'limit'   => $this->params->limit(),
+                'marker'  => $this->params->marker(),
+                'minDisk' => $this->params->minDisk(),
+                'minRam'  => $this->params->minRam(),
+            ],
+        ];
+    }
+
+    public function getAvailabilityZoneDetail(): array
+    {
+        $op = $this->getAll();
+        $op['path'] .= '/detail';
+        return $op;
+    }
+
+    public function getAvailabilityZone(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hosts/{id}',
+            'params' => ['id' => $this->params->urlId('host')]
+        ];
+    }
+
+    public function getHosts(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hosts',
+            'params' => [
+                'limit'   => $this->params->limit(),
+                'marker'  => $this->params->marker(),
+                'minDisk' => $this->params->minDisk(),
+                'minRam'  => $this->params->minRam(),
+            ],
+        ];
+    }
+
+    public function getHostsDetail(): array
+    {
+        $op = $this->getAll();
+        $op['path'] .= '/detail';
+        return $op;
+    }
+
+    public function getHost(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hosts/{id}',
+            'params' => ['id' => $this->params->urlId('host')]
+        ];
+    }
+
 }

@@ -9,6 +9,7 @@ use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Host;
 
 /**
  * Compute v2 service for OpenStack.
@@ -199,4 +200,18 @@ class Service extends AbstractService
         $statistics->populateFromResponse($this->execute($this->api->getHypervisorStatistics(), []));
         return $statistics;
     }
+
+    /**
+     * List hosts.
+     *
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getHosts}
+     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listHosts(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(Host::class)->enumerate($this->api->getHosts(), $options, $mapFn);
+    }
+
 }
