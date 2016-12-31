@@ -9,6 +9,7 @@ use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Hypervisor;
 use OpenStack\Compute\v2\Service;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
@@ -127,7 +128,7 @@ class ServiceTest extends TestCase
             $this->assertInstanceOf(Keypair::class, $keypair);
         }
     }
-    
+
     public function test_it_gets_hypervisor_statistics()
     {
         $this->client
@@ -138,5 +139,17 @@ class ServiceTest extends TestCase
         $hypervisorStats = $this->service->getHypervisorStatistics();
 
         $this->assertInstanceOf(HypervisorStatistic::class, $hypervisorStats);
+    }
+
+    public function test_it_lists_hypervisors()
+    {
+        $this->client
+            ->request('GET', 'os-hypervisors', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hypervisors-get'));
+
+        foreach ($this->service->listHypervisors(false) as $hypervisor) {
+            $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+        }
     }
 }

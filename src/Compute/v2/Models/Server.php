@@ -51,6 +51,9 @@ class Server extends OperatorResource implements
     /** @var string */
     public $hostId;
 
+    /** @var string */
+    public $hypervisorHostname;
+
     /** @var Image */
     public $image;
 
@@ -86,13 +89,14 @@ class Server extends OperatorResource implements
     protected $markerKey = 'id';
 
     protected $aliases = [
-        'block_device_mapping_v2' => 'blockDeviceMapping',
-        'accessIPv4'              => 'ipv4',
-        'accessIPv6'              => 'ipv6',
-        'tenant_id'               => 'tenantId',
-        'user_id'                 => 'userId',
-        'security_groups'         => 'securityGroups',
-        'OS-EXT-STS:task_state'   => 'taskState',
+        'block_device_mapping_v2'             => 'blockDeviceMapping',
+        'accessIPv4'                          => 'ipv4',
+        'accessIPv6'                          => 'ipv6',
+        'tenant_id'                           => 'tenantId',
+        'user_id'                             => 'userId',
+        'security_groups'                     => 'securityGroups',
+        'OS-EXT-STS:task_state'               => 'taskState',
+        'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
     ];
 
     /**

@@ -2,10 +2,9 @@
 .test/
 coverage/
 vendor/
-
 *.pyc
-
 phpunit.xml
 coverage.xml
 composer.lock
 test
+env_test.sh

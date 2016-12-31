@@ -651,6 +651,33 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getHypervisors(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'os-hypervisors',
+            'jsonKey' => 'hypervisors',
+            'params' => [
+            ],
+        ];
+    }
+
+    public function getHypervisorsDetail(): array
+    {
+        $definition = $this->getHypervisors();
+        $definition['path'] .= '/detail';
+        return $definition;
+    }
+
+    public function getHypervisor(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'os-hypervisors/{id}',
+            'params' => ['id' => $this->params->urlId('hypervisor')]
+        ];
+    }
+
     public function getAvailabilityZones(): array
     {
         return [
@@ -658,11 +685,9 @@ class Api extends AbstractApi
             'path'   => 'os-availability-zone',
             'params' => [
                 'limit'   => $this->params->limit(),
-                'marker'  => $this->params->marker(),
-                'minDisk' => $this->params->minDisk(),
-                'minRam'  => $this->params->minRam(),
-            ],
-        ];
+                'marker'  => $this->params->marker()
+            ]
+        ]
     }
 
     public function getAvailabilityZoneDetail(): array
@@ -688,10 +713,8 @@ class Api extends AbstractApi
             'path'   => 'os-hosts',
             'params' => [
                 'limit'   => $this->params->limit(),
-                'marker'  => $this->params->marker(),
-                'minDisk' => $this->params->minDisk(),
-                'minRam'  => $this->params->minRam(),
-            ],
+                'marker'  => $this->params->marker()
+            ]
         ];
     }
 
@@ -710,5 +733,4 @@ class Api extends AbstractApi
             'params' => ['id' => $this->params->urlId('host')]
         ];
     }
-
 }
