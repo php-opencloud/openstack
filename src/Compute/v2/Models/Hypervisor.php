@@ -62,6 +62,15 @@ class Hypervisor extends OperatorResource implements
     public $vcpus_used;
 
     /** @var array */
+    public $cpu_info;
+
+    /** @var int */
+    public $current_workload;
+
+    /** @var int */
+    public $disk_available_least;
+
+    /** @var array */
     public $service;
 
     protected $resourceKey = 'hypervisor';
@@ -72,6 +81,9 @@ class Hypervisor extends OperatorResource implements
      */
     public function retrieve()
     {
+        // weasel around the id === string assumption
+        $this->id = strval($this->id);
+
         $response = $this->execute($this->api->getHypervisor(), $this->getAttrs(['id']));
         $this->populateFromResponse($response);
     }

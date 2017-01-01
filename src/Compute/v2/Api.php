@@ -645,7 +645,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hypervisors/statistics',
+            'path'   => 'os-hypervisors/statistics',
             'params' => [
             ]
         ];
@@ -662,19 +662,12 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getHypervisorsDetail(): array
-    {
-        $definition = $this->getHypervisors();
-        $definition['path'] .= '/detail';
-        return $definition;
-    }
-
     public function getHypervisor(): array
     {
         return [
             'method' => 'GET',
             'path' => 'os-hypervisors/{id}',
-            'params' => ['id' => $this->params->urlId('hypervisor')]
+            'params' => ['id' => $this->params->urlId('id')]
         ];
     }
 
@@ -682,27 +675,11 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => 'os-availability-zone',
+            'path' => 'os-availability-zone/detail',
             'params' => [
-                'limit'   => $this->params->limit(),
-                'marker'  => $this->params->marker()
+                'limit' => $this->params->limit(),
+                'marker' => $this->params->marker()
             ]
-        ]
-    }
-
-    public function getAvailabilityZoneDetail(): array
-    {
-        $op = $this->getAll();
-        $op['path'] .= '/detail';
-        return $op;
-    }
-
-    public function getAvailabilityZone(): array
-    {
-        return [
-            'method' => 'GET',
-            'path'   => 'os-hosts/{id}',
-            'params' => ['id' => $this->params->urlId('host')]
         ];
     }
 
@@ -710,27 +687,20 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => 'os-hosts',
+            'path' => 'os-hosts',
             'params' => [
-                'limit'   => $this->params->limit(),
-                'marker'  => $this->params->marker()
+                'limit' => $this->params->limit(),
+                'marker' => $this->params->marker()
             ]
         ];
-    }
-
-    public function getHostsDetail(): array
-    {
-        $op = $this->getAll();
-        $op['path'] .= '/detail';
-        return $op;
     }
 
     public function getHost(): array
     {
         return [
             'method' => 'GET',
-            'path'   => 'os-hosts/{id}',
-            'params' => ['id' => $this->params->urlId('host')]
+            'path' => 'os-hosts/{name}',
+            'params' => ['name' => $this->params->urlId('name')]
         ];
     }
 }

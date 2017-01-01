@@ -13,11 +13,11 @@ use OpenStack\Common\Resource\Retrievable;
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Host extends OperatorResource implements Listable
+class Host extends OperatorResource implements Listable, Retrievable
 {
 
     /** @var string **/
-    public $host_name;
+    public $name;
 
     /** @var string **/
     public $service;
@@ -27,4 +27,17 @@ class Host extends OperatorResource implements Listable
 
     protected $resourceKey = 'host';
     protected $resourcesKey = 'hosts';
+
+    protected $aliases = [
+      'host_name' => 'name'
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    public function retrieve()
+    {
+        $response = $this->execute($this->api->getHost(), $this->getAttrs(['name']));
+        $this->populateFromResponse($response);
+    }
 }
