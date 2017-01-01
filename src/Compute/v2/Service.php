@@ -9,7 +9,9 @@ use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Host;
 use OpenStack\Compute\v2\Models\Hypervisor;
+use OpenStack\Compute\v2\Models\AvailabilityZone;
 
 /**
  * Compute v2 service for OpenStack.
@@ -216,4 +218,69 @@ class Service extends AbstractService
         $def = ($detailed === true) ? $this->api->getHypervisorsDetail() : $this->api->getHypervisors();
         return $this->model(Hypervisor::class)->enumerate($def, $options, $mapFn);
     }
+
+    /**
+     * Retrieve a hypervisor object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see Hypervisor::retrieve}. For example:
+     *
+     * <code>$server = $service->getHypervisor(['id' => '{id}']);</code>
+     *
+     * @param array $options An array of attributes that will be set on the {@see Hypervisor} object. The array keys need to
+     *                       correspond to the class public properties.
+     *
+     * @return \OpenStack\Compute\v2\Models\Hypervisor
+     */
+    public function getHypervisor(array $options = []): Hypervisor
+    {
+        $hypervisor = $this->model(Hypervisor::class);
+        $hypervisor->populateFromArray($options);
+        return $hypervisor;
+    }
+
+    /**
+     * List hosts.
+     *
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getHosts}
+     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listHosts(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(Host::class)->enumerate($this->api->getHosts(), $options, $mapFn);
+    }
+
+    /**
+     * Retrieve a host object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see Host::retrieve}. For example:
+     *
+     * <code>$server = $service->getHost(['name' => '{name}']);</code>
+     *
+     * @param array $options An array of attributes that will be set on the {@see Host} object. The array keys need to
+     *                       correspond to the class public properties.
+     *
+     * @return \OpenStack\Compute\v2\Models\Host
+     */
+    public function getHost(array $options = []): Host
+    {
+        $host = $this->model(Host::class);
+        $host->populateFromArray($options);
+        return $host;
+    }
+
+    /**
+     * List AZs
+     *
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getAvailabiltyZones}
+     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listAvailabilityZones(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(AvailabilityZone::class)->enumerate($this->api->getAvailabilityZones(), $options, $mapFn);
+    }
+
 }
