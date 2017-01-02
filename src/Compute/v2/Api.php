@@ -658,6 +658,21 @@ class Api extends AbstractApi
             'path' => 'os-hypervisors',
             'jsonKey' => 'hypervisors',
             'params' => [
+                'limit' => $this->params->limit(),
+                'marker' => $this->params->marker()
+            ],
+        ];
+    }
+
+    public function getHypervisorsDetail(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'os-hypervisors/detail',
+            'jsonKey' => 'hypervisors',
+            'params' => [
+                'limit' => $this->params->limit(),
+                'marker' => $this->params->marker()
             ],
         ];
     }
