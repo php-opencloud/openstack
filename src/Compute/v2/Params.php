@@ -114,7 +114,7 @@ class Params extends AbstractParams
     {
         return [
             'type'        => self::STRING_TYPE,
-            'required'    => true,
+            'required'    => false,
             'sentAs'      => 'imageRef',
             'description' => 'The unique ID of the image that this server will be based on',
         ];
