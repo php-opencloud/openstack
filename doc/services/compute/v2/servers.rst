@@ -273,7 +273,7 @@ Create server image
 This operation will create a new server image. The only required option is the new image's name. You may also specify
 additional metadata:
 
-.. sample:: compute/v2/servers/create_server_image.php
+.. sample:: compute/v2/images/create_server_image.php
 .. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_createImage
 
 List server IP addresses

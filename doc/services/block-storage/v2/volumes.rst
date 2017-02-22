@@ -7,7 +7,7 @@ List volumes
 .. sample:: block_storage/v2/volumes/list.php
 .. refdoc:: OpenStack/BlockStorage/v2/Service.html#method_listVolumes
 
-Each iteration will return a :apiref:`Volume instance <OpenStack/BlockStorage/v2/Models/Volume.html>`.
+Each iteration will return a php:class:`Volume` instance <OpenStack/BlockStorage/v2/Models/Volume.html>.
 
 .. include:: /common/generators.rst
 

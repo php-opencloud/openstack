@@ -3,11 +3,10 @@ Volume Types
 
 Listing volume types
 --------------------
-
 .. sample:: block_storage/v2/volume_types/list.php
 .. refdoc:: OpenStack/BlockStorage/v2/Service.html#method_listVolumeTypes
 
-Each iteration will return a :apiref:`VolumeType instance <OpenStack/BlockStorage/v2/Models/VolumeType.html>`.
+Each iteration will return a :php:class:`VolumeType` instance <OpenStack/BlockStorage/v2/Models/VolumeType.html>.
 
 .. include:: /common/generators.rst
 
