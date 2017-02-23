@@ -4,19 +4,19 @@ Groups
 Add group
 ---------
 
-.. sample:: identity/v3/groups/add_endpoint.php
+.. sample:: identity/v3/groups/add_group.php
 .. refdoc:: OpenStack/Identity/v3/Service.html#method_createGroup
 
 List groups
 -----------
 
-.. sample:: identity/v3/groups/add_endpoint.php
+.. sample:: identity/v3/groups/list_groups.php
 .. refdoc:: OpenStack/Identity/v3/Service.html#method_listGroups
 
 Show group details
 ------------------
 
-.. sample:: identity/v3/groups/add_endpoint.php
+.. sample:: identity/v3/groups/get_group.php
 .. refdoc:: OpenStack/Identity/v3/Service.html#method_getGroup
 
 Update group

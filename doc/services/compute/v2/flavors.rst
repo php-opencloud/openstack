@@ -7,7 +7,7 @@ List flavors
 .. sample:: compute/v2/flavors/list_flavors.php
 .. refdoc:: OpenStack/Compute/v2/Service.html#method_listFlavors
 
-Each iteration will return a :apiref:`Flavor instance <OpenStack/Compute/v2/Models/Flavor.html>`.
+Each iteration will return a :php:class:`Flavor` instance <OpenStack/Compute/v2/Models/Flavor.html>.
 
 .. include:: /common/generators.rst
 
