@@ -60,4 +60,30 @@ class PortTest extends TestCase
 
         $this->port->delete();
     }
+
+    public function test_it_creates()
+    {
+        $opts = [
+            'networkId' => self::NETWORK_ID,
+            'fixedIps' => [
+                [
+                    'ipAdress' => '192.168.254.20',
+                    'subnetId' => 'd8e52c33-b301-4feb-9856-a71b71f06c1d'
+                ]
+            ]
+        ];
+
+        $expectedJson = [
+            'port' => [
+                'network_id' => self::NETWORK_ID,
+                'fixed_ips' => [
+                    ['ip_address' => '192.168.254.20', 'subnet_id' => 'd8e52c33-b301-4feb-9856-a71b71f06c1d']
+                ]
+            ]
+        ];
+
+
+        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'port_post');
+
+        $this->port->create($opts);
 }
