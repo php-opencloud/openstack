@@ -40,7 +40,7 @@ class PortTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $this->setupMock('PUT', 'v2.0/ports/' . self::PORT_ID, $expectedJson, [], 'GET_port');
+        $this->setupMock('PUT', 'v2.0/ports/' . self::PORT_ID, $expectedJson, [], 'port_get');
 
         $this->port->adminStateUp = false;
         $this->port->name = 'newName';
@@ -86,4 +86,5 @@ class PortTest extends TestCase
         $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'port_post');
 
         $this->port->create($opts);
+    }
 }
