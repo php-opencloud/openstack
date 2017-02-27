@@ -18,6 +18,6 @@ $openstack = new OpenStack\OpenStack([
 
 $networking = $openstack->networkingV2();
 
-$network = $networking->getSubnet('{subnetId}');
+$subnet = $networking->getSubnet('{subnetId}');
 
-$network->delete();
+$subnet->delete();
