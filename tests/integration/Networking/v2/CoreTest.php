@@ -273,6 +273,8 @@ class CoreTest extends TestCase
 
     public function ports()
     {
+        $this->logStep('Test port');
+
         $replacements = ['{newName}' => $this->randomStr()];
 
         /** @var $network \OpenStack\Networking\v2\Models\Network */
@@ -284,7 +286,6 @@ class CoreTest extends TestCase
         /** @var $port \OpenStack\Networking\v2\Models\Port */
         $path = $this->sampleFile($replacements, 'ports/create.php');
         require_once $path;
-        $this->assertInstanceOf(Port::class, $port);
 
         $replacements['{portId}'] = $port->id;
         $port->networkId = $network->id;
@@ -316,5 +317,43 @@ class CoreTest extends TestCase
 
         $path = $this->sampleFile($replacements, 'networks/delete.php');
         require_once $path;
+
+        $this->createPortWithFixedIps();
+    }
+
+    private function createPortWithFixedIps()
+    {
+        $this->logStep('Test port with fixed IP');
+
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile(['{networkName}' => $this->randomStr()], 'networks/create.php');
+        require_once $path;
+        $this->logStep('Created network {id}', ['{id}' => $network->id]);
+
+
+        /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
+        $path = $this->sampleFile(['{subnetName}' => $this->randomStr(), '{networkId}' => $network->id], 'subnets/create.php');
+        require_once $path;
+        $this->logStep('Created subnet {id}', ['{id}' => $subnet->id]);
+
+        /** @var $port \OpenStack\Networking\v2\Models\Port */
+        $path = $this->sampleFile(['{networkId}' => $network->id], 'ports/create_with_fixed_ips.php');
+        require_once $path;
+        $this->logStep('Created port {id}', ['{id}' => $port->id]);
+
+        $path = $this->sampleFile(['{portId}' => $port->id], 'ports/delete.php');
+        require_once $path;
+
+        $this->logStep('Deleted port {id}', ['{id}' => $port->id]);
+
+        /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
+        $path = $this->sampleFile(['{subnetId}' => $subnet->id], 'subnets/delete.php');
+        require_once $path;
+        $this->logStep('Deleted subnet {id}', ['{id}' => $subnet->id]);
+
+        /** @var $network \OpenStack\Networking\v2\Models\Network */
+        $path = $this->sampleFile(['{networkId}' => $network->id], 'networks/delete.php');
+        require_once $path;
+        $this->logStep('Deleted network {id}', ['{id}' => $network->id]);
     }
 }

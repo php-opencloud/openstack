@@ -67,7 +67,7 @@ class PortTest extends TestCase
             'networkId' => self::NETWORK_ID,
             'fixedIps' => [
                 [
-                    'ipAdress' => '192.168.254.20',
+                    'ipAddress' => '192.168.254.20',
                     'subnetId' => 'd8e52c33-b301-4feb-9856-a71b71f06c1d'
                 ]
             ]
@@ -81,7 +81,6 @@ class PortTest extends TestCase
                 ]
             ]
         ];
-
 
         $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'port_post');
 
