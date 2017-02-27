@@ -291,7 +291,7 @@ class Params extends AbstractParams
             'items'       => [
                 'type'    => self::OBJECT_TYPE,
                 'properties' => [
-                    'ipAdress' => [
+                    'ipAddress' => [
                         'type' => self::STRING_TYPE,
                         'sentAs' => 'ip_address',
                         'description' => 'If you specify only an IP address, OpenStack Networking tries to allocate the IP address if the address is a valid IP for any of the subnets on the specified network.'
