@@ -203,7 +203,7 @@ class ServiceTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'POST_ports');
+        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'ports_post');
 
         $this->assertInstanceOf(Port::class, $this->service->createPort($opts));
     }
@@ -238,7 +238,7 @@ class ServiceTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'POST_multiple_ports');
+        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'ports_multiple_post');
 
         $ports = $this->service->createPorts($opts);
 
@@ -259,7 +259,7 @@ class ServiceTest extends TestCase
         $this->client
             ->request('GET', 'v2.0/ports', ['headers' => []])
             ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_ports'));
+            ->willReturn($this->getFixture('ports_get'));
 
         foreach ($this->service->listPorts() as $port) {
             $this->assertInstanceOf(Port::class, $port);

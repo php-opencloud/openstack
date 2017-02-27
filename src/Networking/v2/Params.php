@@ -282,10 +282,27 @@ class Params extends AbstractParams
     public function fixedIps(): array
     {
         return [
-            'type'        => self::STRING_TYPE,
+            'type'        => self::ARRAY_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'fixed_ips',
-            'description' => 'If you specify only a subnet UUID, OpenStack Networking allocates an available IP from that subnet to the port. If you specify both a subnet UUID and an IP address, OpenStack Networking tries to allocate the address to the port.',
+            'description' => 'The IP addresses for the port. If you would like to assign multiple IP addresses for the 
+                              port, specify multiple entries in this field. Each entry consists of IP address (ipAddress)
+                              and the subnet ID from which the IP address is assigned (subnetId)',
+            'items'       => [
+                'type'    => self::OBJECT_TYPE,
+                'properties' => [
+                    'ipAddress' => [
+                        'type' => self::STRING_TYPE,
+                        'sentAs' => 'ip_address',
+                        'description' => 'If you specify only an IP address, OpenStack Networking tries to allocate the IP address if the address is a valid IP for any of the subnets on the specified network.'
+                    ],
+                    'subnetId' => [
+                        'type' => self::STRING_TYPE,
+                        'sentAs' => 'subnet_id',
+                        'description' => 'Subnet id. If you specify only a subnet ID, OpenStack Networking allocates an available IP from that subnet to the port.'
+                    ]
+                ]
+            ]
         ];
     }
 
