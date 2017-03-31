@@ -148,12 +148,14 @@ class Port extends OperatorResource implements Creatable, Updateable, Deletable,
 
     public function retrieve()
     {
-        $this->executeWithState($this->api->getPort());
+        $response = $this->execute($this->api->postNetwork(), $data);
+        return $this->populateFromResponse($response);
     }
 
     public function update()
     {
-        $this->executeWithState($this->api->putPort());
+        i$response = $this->executeWithState($this->api->putPort());
+	$this->populateFromResponse($response);
     }
 
     public function delete()
