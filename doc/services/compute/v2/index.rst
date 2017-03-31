@@ -7,3 +7,4 @@ Compute v2
     servers
     flavors
     images
+    states
