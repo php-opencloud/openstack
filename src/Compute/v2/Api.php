@@ -641,4 +641,35 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getHypervisors(): array
+    {
+        $marker = $this->params->marker();
+        $marker['type'] = Params::INT_TYPE;
+
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hypervisors',
+            'params' => [
+                'limit'  => $this->params->limit(),
+                'marker' => $marker
+            ],
+        ];
+    }
+
+    public function getHypervisorsDetail(): array
+    {
+        $definition = $this->getHypervisors();
+        $definition['path'] .= '/detail';
+        return $definition;
+    }
+
+    public function getHypervisor(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hypervisor/{id}',
+            'params' => ['id' => $this->params->urlId('hypervisor')]
+        ];
+    }
 }
