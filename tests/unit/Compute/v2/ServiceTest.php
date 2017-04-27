@@ -152,4 +152,17 @@ class ServiceTest extends TestCase
             $this->assertInstanceOf(Hypervisor::class, $hypervisor);
         }
     }
+
+    public function test_it_gets_hypervisor()
+    {
+        $this->client
+            ->request('GET', 'os-hypervisors/1234', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hypervisor-get'));
+
+        $hypervisor = $this->service->getHypervisor(['id' => 1234]);
+        $hypervisor->retrieve();
+
+        $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+    }
 }
