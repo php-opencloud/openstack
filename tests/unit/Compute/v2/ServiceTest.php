@@ -134,7 +134,7 @@ class ServiceTest extends TestCase
         $this->client
             ->request('GET', 'os-hypervisors/statistics', ['headers' => []])
             ->shouldBeCalled()
-            ->willReturn($this->getFixture('hypervisor-get'));
+            ->willReturn($this->getFixture('hypervisor-statistic-get'));
 
         $hypervisorStats = $this->service->getHypervisorStatistics();
 
