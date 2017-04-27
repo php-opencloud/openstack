@@ -216,4 +216,17 @@ class Service extends AbstractService
         $def = ($detailed === true) ? $this->api->getHypervisorsDetail() : $this->api->getHypervisors();
         return $this->model(Hypervisor::class)->enumerate($def, $options, $mapFn);
     }
+
+    /**
+     * Shows details for a given hypervisor.
+     *
+     * @param array $options
+     *
+     * @return Hypervisor
+     */
+    public function getHypervisor(array $options = []): Hypervisor
+    {
+        $hypervisor = $this->model(Hypervisor::class);
+        return $hypervisor->populateFromArray($options);
+    }
 }

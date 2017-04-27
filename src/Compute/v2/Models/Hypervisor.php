@@ -72,7 +72,7 @@ class Hypervisor extends OperatorResource implements
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getHypervisor(), $this->getAttrs(['id']));
+        $response = $this->execute($this->api->getHypervisor(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 }
