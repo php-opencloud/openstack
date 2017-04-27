@@ -18,6 +18,6 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 
 $hypervisors = $compute->listHypervisors();
 
-foreach($hypervisors as $hypervisor) {
+foreach ($hypervisors as $hypervisor) {
     /**@var Hypervisor $hypervisor*/
 }
