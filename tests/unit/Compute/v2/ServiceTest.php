@@ -9,6 +9,7 @@ use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Hypervisor;
 use OpenStack\Compute\v2\Service;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
@@ -127,16 +128,41 @@ class ServiceTest extends TestCase
             $this->assertInstanceOf(Keypair::class, $keypair);
         }
     }
-    
+
     public function test_it_gets_hypervisor_statistics()
     {
         $this->client
             ->request('GET', 'os-hypervisors/statistics', ['headers' => []])
             ->shouldBeCalled()
-            ->willReturn($this->getFixture('hypervisor-get'));
+            ->willReturn($this->getFixture('hypervisor-statistic-get'));
 
         $hypervisorStats = $this->service->getHypervisorStatistics();
 
         $this->assertInstanceOf(HypervisorStatistic::class, $hypervisorStats);
+    }
+
+    public function test_it_lists_hypervisors()
+    {
+        $this->client
+            ->request('GET', 'os-hypervisors', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hypervisors-get'));
+
+        foreach ($this->service->listHypervisors(false) as $hypervisor) {
+            $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+        }
+    }
+
+    public function test_it_gets_hypervisor()
+    {
+        $this->client
+            ->request('GET', 'os-hypervisors/1234', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hypervisor-get'));
+
+        $hypervisor = $this->service->getHypervisor(['id' => 1234]);
+        $hypervisor->retrieve();
+
+        $this->assertInstanceOf(Hypervisor::class, $hypervisor);
     }
 }
