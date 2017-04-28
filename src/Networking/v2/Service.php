@@ -178,6 +178,12 @@ class Service extends AbstractService
     /**
      * Lists quotas for a project.
      *
+     * Retrieve a quota object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see Quota::retrieve}.
+     *
+     * @param string $tenantId
+     *
      * @return Quota
      */
     public function getQuota(string $tenantId): Quota

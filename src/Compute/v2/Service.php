@@ -8,6 +8,7 @@ use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
+use OpenStack\Compute\v2\Models\QuotaSet;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Models\Hypervisor;
 
@@ -34,10 +35,10 @@ class Service extends AbstractService
     /**
      * List servers.
      *
-     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     * @param bool $detailed Determines whether detailed information will be returned. If FALSE is specified, only
      *                           the ID, name and links attributes are returned, saving bandwidth.
-     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getServers}
-     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getServers}
+     * @param callable $mapFn A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
      */
@@ -69,8 +70,8 @@ class Service extends AbstractService
     /**
      * List flavors.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getFlavors}
-     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getFlavors}
+     * @param callable $mapFn A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
      */
@@ -111,8 +112,8 @@ class Service extends AbstractService
     /**
      * List images.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getImages}
-     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getImages}
+     * @param callable $mapFn A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
      */
@@ -141,8 +142,8 @@ class Service extends AbstractService
     /**
      * List key pairs.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getKeyPairs}
-     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getKeyPairs}
+     * @param callable $mapFn A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
      */
@@ -204,10 +205,10 @@ class Service extends AbstractService
     /**
      * List hypervisors.
      *
-     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     * @param bool $detailed Determines whether detailed information will be returned. If FALSE is specified, only
      *                           the ID, name and links attributes are returned, saving bandwidth.
-     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getHypervisors}
-     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getHypervisors}
+     * @param callable $mapFn A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
      */
@@ -228,5 +229,21 @@ class Service extends AbstractService
     {
         $hypervisor = $this->model(Hypervisor::class);
         return $hypervisor->populateFromArray($options);
+    }
+
+    /**
+     * Shows A Quota for a tenant
+     *
+     * @param string $tenantId
+     * @param bool $detailed
+     *
+     * @return QuotaSet
+     */
+    public function getQuotaSet(string $tenantId, bool $detailed = false): QuotaSet
+    {
+        $quotaSet = $this->model(QuotaSet::class);
+        $quotaSet->populateFromResponse($this->execute($detailed ? $this->api->getQuotaSetDetail() : $this->api->getQuotaSet(), ['tenantId' => $tenantId]));
+
+        return $quotaSet;
     }
 }

@@ -668,4 +668,52 @@ class Api extends AbstractApi
             'params' => ['id' => $this->params->urlId('hypervisor')]
         ];
     }
+
+    public function getQuotaSet()
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-quota-sets/{tenantId}',
+            'params' => [
+                'tenantId' => $this->params->urlId('quota-sets')
+            ]
+        ];
+    }
+
+    public function getQuotaSetDetail()
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'os-quota-sets/{tenantId}/detail',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId' => $this->params->urlId('quota-sets')
+            ]
+        ];
+    }
+
+    public function deleteQuotaSet()
+    {
+        return [
+            'method'  => 'DELETE',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId' => $this->params->urlId('quota-sets')
+            ]
+        ];
+    }
+
+    public function putQuotaSet()
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId'  => $this->params->idPath(),
+                'instances' => $this->params->quotaSetLimitInstances()
+            ]
+        ];
+    }
 }

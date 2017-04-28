@@ -454,4 +454,19 @@ EOL
             'required' => true
         ];
     }
+
+    protected function quotaSetLimit($sentAs, $description): array
+    {
+        return [
+            'type' => self::INT_TYPE,
+            'location' => self::JSON,
+            'sentAs' => $sentAs,
+            'description' => $description
+        ];
+    }
+
+    public function quotaSetLimitInstances(): array
+    {
+        return $this->quotaSetLimit('instances', 'The number of allowed instance cores for each tenant.');
+    }
 }
