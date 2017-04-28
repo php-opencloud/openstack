@@ -669,7 +669,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getQuotaSet()
+    public function getQuotaSet(): array
     {
         return [
             'method' => 'GET',
@@ -680,19 +680,15 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getQuotaSetDetail()
+    public function getQuotaSetDetail(): array
     {
-        return [
-            'method'  => 'GET',
-            'path'    => 'os-quota-sets/{tenantId}/detail',
-            'jsonKey' => 'quota_set',
-            'params'  => [
-                'tenantId' => $this->params->urlId('quota-sets')
-            ]
-        ];
+        $data = $this->getQuotaSet();
+        $data['path'] += '/detail';
+
+        return $data;
     }
 
-    public function deleteQuotaSet()
+    public function deleteQuotaSet(): array
     {
         return [
             'method'  => 'DELETE',
@@ -704,7 +700,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putQuotaSet()
+    public function putQuotaSet(): array
     {
         return [
             'method'  => 'PUT',

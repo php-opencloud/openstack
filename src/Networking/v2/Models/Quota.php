@@ -40,7 +40,6 @@ class Quota extends OperatorResource implements Retrievable, Updateable, Deletab
      */
     public $subnetpool;
 
-
     /**
      * @var int
      */
