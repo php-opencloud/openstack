@@ -50,7 +50,7 @@ class QuotaSetTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'os-quota-sets/fake-tenant-id', null, [], new Response(204));
+        $this->setupMock('DELETE', 'os-quota-sets/fake-tenant-id', null, [], new Response(202));
 
         $this->quotaSet->delete();
     }
