@@ -9,7 +9,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Api;
 
 /**
- * Represents a Nova v2 Quota
+ * Represents a Neutron v2 Quota
  *
  * @property Api $api
  */
