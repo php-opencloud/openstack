@@ -279,13 +279,6 @@ EOT
         ];
     }
 
-    public function userPassword(): array
-    {
-        return [
-            'description' => 'The new password for the user.'
-        ];
-    }
-
     public function defaultProjectId(): array
     {
         return [
