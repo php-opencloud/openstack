@@ -5,6 +5,7 @@ namespace OpenStack\Test\Networking\v2;
 use OpenStack\Networking\v2\Api;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
+use OpenStack\Networking\v2\Models\Quota;
 use OpenStack\Networking\v2\Models\Subnet;
 use OpenStack\Networking\v2\Service;
 use OpenStack\Test\TestCase;
@@ -12,6 +13,7 @@ use Prophecy\Argument;
 
 class ServiceTest extends TestCase
 {
+    /** @var  Service */
     private $service;
 
     public function setUp()
@@ -264,5 +266,40 @@ class ServiceTest extends TestCase
         foreach ($this->service->listPorts() as $port) {
             $this->assertInstanceOf(Port::class, $port);
         }
+    }
+
+    public function test_it_list_quotas()
+    {
+        $this->client
+            ->request('GET', 'v2.0/quotas', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('quotas-get'));
+
+        foreach ($this->service->listQuotas() as $quota) {
+            $this->assertInstanceOf(Quota::class, $quota);
+        }
+    }
+
+    public function test_it_gets_quotas()
+    {
+        $this->client
+            ->request('GET', 'v2.0/quotas/fake_tenant_id', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('quota-get'));
+
+        $quota = $this->service->getQuota('fake_tenant_id');
+        $quota->retrieve();
+
+        $this->assertInstanceOf(Quota::class, $quota);
+    }
+
+    public function test_it_gets_default_quotas()
+    {
+        $this->client
+            ->request('GET', 'v2.0/quotas/fake_tenant_id/default', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('quota-get'));
+
+        $this->service->getDefaultQuota('fake_tenant_id');
     }
 }

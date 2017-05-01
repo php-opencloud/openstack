@@ -419,4 +419,59 @@ class Params extends AbstractParams
             'description' => 'Indicates whether this network is externally accessible.',
         ];
     }
+
+    protected function quotaLimit(string $sentAs, string $description): array
+    {
+        return [
+            'type' => self::INT_TYPE,
+            'location' => self::JSON,
+            'sentAs' => $sentAs,
+            'description' => $description
+        ];
+    }
+
+    public function quotaLimitFloatingIp(): array
+    {
+        return $this->quotaLimit('floatingip', 'The number of floating IP addresses allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitNetwork(): array
+    {
+        return $this->quotaLimit('network', 'The number of networks allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitPort(): array
+    {
+        return $this->quotaLimit('port', 'The number of ports allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitRbacPolicy(): array
+    {
+        return $this->quotaLimit('rbac_policy', 'The number of role-based access control (RBAC) policies for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitRouter(): array
+    {
+        return $this->quotaLimit('router', 'The number of routers allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSecurityGroup(): array
+    {
+        return $this->quotaLimit('security_group', 'The number of security groups allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSecurityGroupRule(): array
+    {
+        return $this->quotaLimit('security_group_rule', 'The number of security group rules allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSubnet(): array
+    {
+        return $this->quotaLimit('subnet', 'The number of subnets allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSubnetPool(): array
+    {
+        return $this->quotaLimit('subnetpool', 'The number of subnet pools allowed for each project. A value of -1 means no limit.');
+    }
 }

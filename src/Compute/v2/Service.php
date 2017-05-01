@@ -10,6 +10,7 @@ use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Models\Hypervisor;
+use OpenStack\Compute\v2\Models\QuotaSet;
 
 /**
  * Compute v2 service for OpenStack.
@@ -228,5 +229,21 @@ class Service extends AbstractService
     {
         $hypervisor = $this->model(Hypervisor::class);
         return $hypervisor->populateFromArray($options);
+    }
+
+    /**
+     * Shows A Quota for a tenant
+     *
+     * @param string $tenantId
+     * @param bool $detailed
+     *
+     * @return QuotaSet
+     */
+    public function getQuotaSet(string $tenantId, bool $detailed = false): QuotaSet
+    {
+        $quotaSet = $this->model(QuotaSet::class);
+        $quotaSet->populateFromResponse($this->execute($detailed ? $this->api->getQuotaSetDetail() : $this->api->getQuotaSet(), ['tenantId' => $tenantId]));
+
+        return $quotaSet;
     }
 }

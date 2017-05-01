@@ -668,4 +668,62 @@ class Api extends AbstractApi
             'params' => ['id' => $this->params->urlId('hypervisor')]
         ];
     }
+
+    public function getQuotaSet(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-quota-sets/{tenantId}',
+            'params' => [
+                'tenantId' => $this->params->urlId('quota-sets')
+            ]
+        ];
+    }
+
+    public function getQuotaSetDetail(): array
+    {
+        $data = $this->getQuotaSet();
+        $data['path'] += '/detail';
+
+        return $data;
+    }
+
+    public function deleteQuotaSet(): array
+    {
+        return [
+            'method'  => 'DELETE',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId' => $this->params->urlId('quota-sets')
+            ]
+        ];
+    }
+
+    public function putQuotaSet(): array
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId'                 => $this->params->idPath(),
+                'force'                    => $this->notRequired($this->params->quotaSetLimitForce()),
+                'instances'                => $this->notRequired($this->params->quotaSetLimitInstances()),
+                'cores'                    => $this->notRequired($this->params->quotaSetLimitCores()),
+                'fixedIps'                 => $this->notRequired($this->params->quotaSetLimitFixedIps()),
+                'floatingIps'              => $this->notRequired($this->params->quotaSetLimitFloatingIps()),
+                'injectedFileContentBytes' => $this->notRequired($this->params->quotaSetLimitInjectedFileContentBytes()),
+                'injectedFilePathBytes'    => $this->notRequired($this->params->quotaSetLimitInjectedFilePathBytes()),
+                'injectedFiles'            => $this->notRequired($this->params->quotaSetLimitInjectedFiles()),
+                'keyPairs'                 => $this->notRequired($this->params->quotaSetLimitKeyPairs()),
+                'metadataItems'            => $this->notRequired($this->params->quotaSetLimitMetadataItems()),
+                'ram'                      => $this->notRequired($this->params->quotaSetLimitRam()),
+                'securityGroupRules'       => $this->notRequired($this->params->quotaSetLimitSecurityGroupRules()),
+                'securityGroups'           => $this->notRequired($this->params->quotaSetLimitSecurityGroups()),
+                'serverGroups'             => $this->notRequired($this->params->quotaSetLimitServerGroups()),
+                'serverGroupMembers'       => $this->notRequired($this->params->quotaSetLimitServerGroupMembers()),
+            ]
+        ];
+    }
 }

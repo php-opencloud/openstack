@@ -253,7 +253,7 @@ EOL
             'items'       => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
-                    'uuid'         => [
+                    'uuid'                => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'The unique ID for the volume which the server is to be booted from.',
                     ],
@@ -393,7 +393,7 @@ EOL
     public function keypairName(): array
     {
         return [
-            'location'   => self::URL,
+            'location' => self::URL,
         ];
     }
 
@@ -449,9 +449,99 @@ EOL
     public function consoleType(): array
     {
         return [
-            'type' => self::STRING_TYPE,
+            'type'     => self::STRING_TYPE,
             'location' => self::JSON,
             'required' => true
         ];
+    }
+
+    protected function quotaSetLimit($sentAs, $description): array
+    {
+        return [
+            'type'        => self::INT_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => $sentAs,
+            'description' => $description
+        ];
+    }
+
+    public function quotaSetLimitForce(): array
+    {
+        return [
+            'type'        => self::BOOLEAN_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'force',
+            'description' => 'You can force the update even if the quota has already been used and the reserved quota exceeds the new quota'
+        ];
+    }
+
+    public function quotaSetLimitInstances(): array
+    {
+        return $this->quotaSetLimit('instances', 'The number of allowed instances for each tenant.');
+    }
+
+    public function quotaSetLimitCores(): array
+    {
+        return $this->quotaSetLimit('cores', 'The number of allowed instance cores for each tenant.');
+    }
+
+    public function quotaSetLimitFixedIps(): array
+    {
+        return $this->quotaSetLimit('fixed_ips', 'The number of allowed fixed IP addresses for each tenant. Must be equal to or greater than the number of allowed instances.');
+    }
+
+    public function quotaSetLimitFloatingIps(): array
+    {
+        return $this->quotaSetLimit('floating_ips', 'The number of allowed floating IP addresses for each tenant.');
+    }
+
+    public function quotaSetLimitInjectedFileContentBytes(): array
+    {
+        return $this->quotaSetLimit('injected_file_content_bytes', 'The number of allowed bytes of content for each injected file.');
+    }
+
+    public function quotaSetLimitInjectedFilePathBytes(): array
+    {
+        return $this->quotaSetLimit('injected_file_path_bytes', 'The number of allowed bytes for each injected file path.');
+    }
+
+    public function quotaSetLimitInjectedFiles(): array
+    {
+        return $this->quotaSetLimit('injected_files', 'The number of allowed injected files for each tenant.');
+    }
+
+    public function quotaSetLimitKeyPairs(): array
+    {
+        return $this->quotaSetLimit('key_pairs', 'The number of allowed key pairs for each user.');
+    }
+
+    public function quotaSetLimitMetadataItems(): array
+    {
+        return $this->quotaSetLimit('metadata_items', 'The number of allowed metadata items for each instance.');
+    }
+
+    public function quotaSetLimitRam(): array
+    {
+        return $this->quotaSetLimit('ram', 'The amount of allowed instance RAM (in MB) for each tenant.');
+    }
+
+    public function quotaSetLimitSecurityGroupRules(): array
+    {
+        return $this->quotaSetLimit('security_group_rules', 'The number of allowed rules for each security group.');
+    }
+
+    public function quotaSetLimitSecurityGroups(): array
+    {
+        return $this->quotaSetLimit('security_groups', 'The number of allowed security groups for each tenant.');
+    }
+
+    public function quotaSetLimitServerGroups(): array
+    {
+        return $this->quotaSetLimit('server_groups', 'The number of allowed server groups for each tenant.');
+    }
+
+    public function quotaSetLimitServerGroupMembers(): array
+    {
+        return $this->quotaSetLimit('server_group_members', 'The number of allowed members for each server group.');
     }
 }

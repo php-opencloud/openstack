@@ -291,4 +291,63 @@ class Api extends AbstractApi
             'params' => ['id' => $this->params->idPath()],
         ];
     }
+
+    public function getQuotas(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => $this->pathPrefix . '/quotas',
+            'params' => []
+        ];
+    }
+
+    public function getQuota(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => $this->pathPrefix . '/quotas/{tenantId}',
+            'params' => []
+        ];
+    }
+
+    public function getQuotaDefault(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => $this->pathPrefix . '/quotas/{tenantId}/default',
+            'params' => []
+        ];
+    }
+
+    public function putQuota(): array
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => $this->pathPrefix . '/quotas/{tenantId}',
+            'jsonKey' => 'quota',
+            'params'  => [
+                'tenantId'          => $this->params->idPath(),
+                'floatingip'        => $this->params->quotaLimitFloatingIp(),
+                'network'           => $this->params->quotaLimitNetwork(),
+                'port'              => $this->params->quotaLimitPort(),
+                'rbacPolicy'        => $this->params->quotaLimitRbacPolicy(),
+                'router'            => $this->params->quotaLimitRouter(),
+                'securityGroup'     => $this->params->quotaLimitSecurityGroup(),
+                'securityGroupRule' => $this->params->quotaLimitSecurityGroupRule(),
+                'subnet'            => $this->params->quotaLimitSubnet(),
+                'subnetpool'        => $this->params->quotaLimitSubnetPool(),
+            ]
+        ];
+    }
+
+    public function deleteQuota() : array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => $this->pathPrefix . '/quotas/{tenantId}',
+            'params' => [
+                'tenantId' => $this->params->idPath()
+            ]
+        ];
+    }
 }
