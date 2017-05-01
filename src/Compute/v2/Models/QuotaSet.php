@@ -25,7 +25,7 @@ class QuotaSet extends OperatorResource implements Retrievable, Updateable, Dele
      * The number of allowed fixed IP addresses for each tenant.
      * Must be equal to or greater than the number of allowed instances.
      *
-     * @deprecated Since 2.35
+     * @deprecated Since Nova v2.35. This attribute will eventually move to Neutron, it is advised you do not use this.
      * @var  int|object
      */
     public $fixedIps;
@@ -33,7 +33,7 @@ class QuotaSet extends OperatorResource implements Retrievable, Updateable, Dele
     /**
      * The number of allowed floating IP addresses for each tenant.
      *
-     * @deprecated Since 2.35
+     * @deprecated Since Nova v2.35. This attribute will eventually move to Neutron, it is advised you do not use this.
      * @var  int|array
      */
     public $floatingIps;
@@ -97,7 +97,7 @@ class QuotaSet extends OperatorResource implements Retrievable, Updateable, Dele
     /**
      * The number of allowed rules for each security group.
      *
-     * @deprecated Since 2.35
+     * @deprecated Since Nova v2.35. This attribute will eventually move to Neutron, it is advised you do not use this.
      * @var  int|array
      */
     public $securityGroupRules;
@@ -105,7 +105,7 @@ class QuotaSet extends OperatorResource implements Retrievable, Updateable, Dele
     /**
      * The number of allowed security groups for each tenant.
      *
-     * @deprecated Since 2.35
+     * @deprecated Since Nova v2.35. This attribute will eventually move to Neutron, it is advised you do not use this.
      * @var  int|array
      */
     public $securityGroups;
