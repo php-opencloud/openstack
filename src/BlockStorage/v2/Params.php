@@ -159,4 +159,69 @@ TYPEOTHER
             'location' => self::JSON,
         ];
     }
+    
+    protected function quotaSetLimit($sentAs, $description): array
+    {
+        return [
+            'type'        => self::INT_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => $sentAs,
+            'description' => $description,
+        ];
+    }
+
+    public function quotaSetLimitInstances(): array
+    {
+        return $this->quotaSetLimit('instances', 'The number of allowed instances for each tenant.');
+    }
+
+    public function quotaSetBackupGigabytes(): array
+    {
+        return $this->quotaSetLimit('backup_gigabytes', 'Total size of back-up storage (GiB)');
+    }
+
+    public function quotaSetBackups(): array
+    {
+        return $this->quotaSetLimit('backups', 'The number of allowed back-ups');
+    }
+
+    public function quotaSetGigabytes(): array
+    {
+        return $this->quotaSetLimit('gigabytes', 'Total Size of Volumes and Snapshots (GiB)');
+    }
+
+    public function quotaSetGigabytesIscsi(): array
+    {
+        return $this->quotaSetLimit('gigabytes_iscsi', 'Total Size of Volumes and Snapshots iscsi (GiB)');
+    }
+
+    public function quotaSetTenantId(): array
+    {
+        return $this->quotaSetLimit('id', 'Tenant Id');
+    }
+
+    public function quotaSetPerVolumeGigabytes(): array
+    {
+        return $this->quotaSetLimit('per_volume_gigabytes', 'Allowed size per Volume (GiB)');
+    }
+
+    public function quotaSetSnapshots(): array
+    {
+        return $this->quotaSetLimit('snapshots', 'The number of allowed snapshots');
+    }
+
+    public function quotaSetSnapshotsIscsi(): array
+    {
+        return $this->quotaSetLimit('snapshots_iscsi', 'The number of allowed snapshots iscsi');
+    }
+
+    public function quotaSetVolumes(): array
+    {
+        return $this->quotaSetLimit('volumes', 'The number of allowed volumes');
+    }
+
+    public function quotaSetVolumesIscsi(): array
+    {
+        return $this->quotaSetLimit('volumes_iscsi', 'The number of allowed volumes iscsi');
+    }
 }
