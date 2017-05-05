@@ -10,7 +10,7 @@ class Assignment extends OperatorResource implements Listable
     /** @var Role */
     public $role;
 
-    /** @var \stdClass */
+    /** @var array */
     public $scope;
 
     /** @var Group */
@@ -18,4 +18,7 @@ class Assignment extends OperatorResource implements Listable
 
     /** @var User */
     public $user;
+
+    protected $resourcesKey = 'role_assignments';
+    protected $resourceKey = 'role_assignment';
 }
