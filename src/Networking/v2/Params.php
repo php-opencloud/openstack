@@ -119,7 +119,7 @@ class Params extends AbstractParams
     public function dnsNameservers(): array
     {
         return [
-            'type'        => self::STRING_TYPE,
+            'type'        => self::ARRAY_TYPE,
             'sentAs'      => 'dns_nameservers',
             'description' => 'A list of DNS name servers for the subnet.',
         ];
