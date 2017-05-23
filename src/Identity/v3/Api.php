@@ -61,6 +61,7 @@ class Api extends AbstractApi
             'params'  => [
                 'name' => $this->params->name('service'),
                 'type' => $this->params->type('service'),
+                'description' => $this->params->desc('service'),
             ]
         ];
     }
