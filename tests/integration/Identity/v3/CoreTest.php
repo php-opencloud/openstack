@@ -147,7 +147,7 @@ class CoreTest extends TestCase
 
     public function endpoints()
     {
-        $service = $this->getService()->createService(['name' => $this->randomStr(), 'type' => 'volume']);
+        $service = $this->getService()->createService(['name' => $this->randomStr(), 'type' => 'volume', 'description' => $this->randomStr()]);
 
         $replacements = [
             '{endpointName}' => $this->randomStr(),
