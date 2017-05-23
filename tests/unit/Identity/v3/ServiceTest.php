@@ -157,7 +157,7 @@ class ServiceTest extends TestCase
 
     public function test_it_creates_service()
     {
-        $userOptions = ['name' => 'foo', 'type' => 'bar'];
+        $userOptions = ['name' => 'foo', 'type' => 'bar', 'description' => 'description'];
 
         $this->setupMock('POST', 'services', ['service' => $userOptions], [], 'service');
 
