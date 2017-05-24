@@ -6,6 +6,6 @@ Content-Type: application/json
         "id": "serviceId",
         "name": "foo",
         "type": "bar",
-        "description": "description",
+        "description": "description"
     }
 }
