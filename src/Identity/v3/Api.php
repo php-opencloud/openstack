@@ -772,6 +772,7 @@ class Api extends AbstractApi
         return [
             'method' => 'POST',
             'path'   => 'policies',
+            'jsonKey' => 'policy',
             'params' => [
                 'blob'      => $this->params->blob(),
                 'projectId' => $this->params->projectId('policy'),
