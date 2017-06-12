@@ -32,6 +32,9 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     /** @var string */
     public $userId;
 
+    protected $resourceKey = 'policy';
+    protected $resourcesKey = 'policies';
+    
     protected $aliases = [
         'project_id' => 'projectId',
         'user_id'    => 'userId'
