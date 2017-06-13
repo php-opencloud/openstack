@@ -770,8 +770,9 @@ class Api extends AbstractApi
     public function postPolicies(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'policies',
+            'method'  => 'POST',
+            'path'    => 'policies',
+            'jsonKey' => 'policy',
             'params' => [
                 'blob'      => $this->params->blob(),
                 'projectId' => $this->params->projectId('policy'),
