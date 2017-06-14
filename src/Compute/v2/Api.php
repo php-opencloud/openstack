@@ -683,7 +683,7 @@ class Api extends AbstractApi
     public function getQuotaSetDetail(): array
     {
         $data = $this->getQuotaSet();
-        $data['path'] += '/detail';
+        $data['path'] .= '/detail';
 
         return $data;
     }
