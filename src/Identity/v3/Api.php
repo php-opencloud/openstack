@@ -136,6 +136,17 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getEndpoint(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'endpoints/{id}',
+            'params' => [
+                'id' => $this->params->idUrl('service')
+            ]
+        ];
+    }
+
     public function patchEndpoint(): array
     {
         return [
