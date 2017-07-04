@@ -28,7 +28,12 @@ class Service extends AbstractService
         return $this->model(Resource::class)->enumerate($this->api->getResources(), $options);
     }
 
-    public function getResource(array $options = []): Resource
+    /**
+     * @param array $options
+     *
+     * @return \OpenStack\Metric\v1\Gnocchi\Models\Resource
+     */
+    public function getResource(array $options = []): \OpenStack\Metric\v1\Gnocchi\Models\Resource
     {
         $this->injectGenericType($options);
 
@@ -40,6 +45,8 @@ class Service extends AbstractService
 
     public function searchResources(array $options = []): \Generator
     {
+        $this->injectGenericType($options);
+
         /**
          * $options['criteria'] must send as STRING
          * This will check input $options and perform json_encode if needed.

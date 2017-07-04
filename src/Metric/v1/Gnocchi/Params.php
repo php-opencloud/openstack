@@ -58,8 +58,16 @@ class Params extends AbstractParams
     {
         return [
             'location'    => self::QUERY,
-            'type'        => self::STRING,
+            'type'        => self::STRING_TYPE,
             'description' => 'Specify the granularity to retrieve, rather than all the granularities available',
+        ];
+    }
+
+    public function aggregation()
+    {
+        return [
+            'location'    => self::QUERY,
+            'type'        => self::STRING_TYPE
         ];
     }
 }

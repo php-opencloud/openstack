@@ -121,6 +121,7 @@ class Api extends AbstractApi
                 'metric'      => $this->params->idUrl('metric'),
                 'type'        => $this->params->resourceType(),
                 'granularity' => $this->params->granularity(),
+                'aggregation' => $this->params->aggregation(),
             ],
         ];
     }
