@@ -182,4 +182,18 @@ class OpenStack
         $defaults = ['catalogName' => 'glance', 'catalogType' => 'image'];
         return $this->builder->createService('Images\\v2', array_merge($defaults, $options));
     }
+
+    /**
+     * Creates a new Gnocchi Metric service v1
+     *
+     * @param array $options
+     *
+     * @return \OpenStack\Metric\v1\Gnocchi\Service
+     */
+    public function metricGnocchiV1(array $options = []): \OpenStack\Metric\v1\Gnocchi\Service
+    {
+        $defaults = ['catalogName' => 'gnocchi', 'catalogType' => 'metric'];
+
+        return $this->builder->createService('Metric\\v1\\Gnocchi', array_merge($defaults, $options));
+    }
 }
