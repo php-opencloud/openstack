@@ -7,7 +7,6 @@ use OpenStack\Metric\v1\Gnocchi\Models\Metric;
 use OpenStack\Metric\v1\Gnocchi\Models\Resource;
 use OpenStack\Metric\v1\Gnocchi\Models\ResourceType;
 
-
 /**
  * Gnocci Metric v1 Service class
  *

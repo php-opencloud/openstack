@@ -6,7 +6,6 @@ use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Metric\v1\Gnocchi\Api;
 
-
 /**
  * @property Api $api
  */

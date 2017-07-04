@@ -50,7 +50,16 @@ class Params extends AbstractParams
         return [
             'required'    => true,
             'location'    => self::URL,
-            'description' => sprintf('The unique ID, or identifier, for the %s', $type)
+            'description' => sprintf('The unique ID, or identifier, for the %s', $type),
+        ];
+    }
+
+    public function granularity()
+    {
+        return [
+            'location'    => self::QUERY,
+            'type'        => self::STRING,
+            'description' => 'Specify the granularity to retrieve, rather than all the granularities available',
         ];
     }
 }

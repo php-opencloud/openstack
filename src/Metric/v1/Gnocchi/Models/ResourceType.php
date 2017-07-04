@@ -14,5 +14,4 @@ class ResourceType extends OperatorResource
 
     /** @var object */
     public $attributes;
-
 }

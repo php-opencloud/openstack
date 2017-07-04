@@ -30,11 +30,11 @@ class Api extends AbstractApi
     public function getResource(): array
     {
         return [
-            'path' => $this->pathPrefix.'/resource/{type}/{id}',
+            'path'   => $this->pathPrefix.'/resource/{type}/{id}',
             'method' => 'GET',
             'params' => [
                 'id' => $this->params->idUrl('resource'),
-            ]
+            ],
         ];
     }
 
@@ -82,7 +82,7 @@ class Api extends AbstractApi
             'params' => [
                 'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker(),
-                'sort'   => $this->params->sort()
+                'sort'   => $this->params->sort(),
             ],
         ];
     }
@@ -90,24 +90,38 @@ class Api extends AbstractApi
     public function getResourceMetrics(): array
     {
         return [
-            'path' => $this->pathPrefix.'/resource/generic/{resourceId}/metric',
+            'path'   => $this->pathPrefix.'/resource/generic/{resourceId}/metric',
             'method' => 'GET',
             'params' => [
                 'resourceId' => $this->params->idUrl('metric'),
-            ]
+            ],
         ];
     }
 
     public function getResourceMetric(): array
     {
         return [
-            'path' => $this->pathPrefix.'/resource/{type}/{resourceId}/metric/{metric}',
+            'path'   => $this->pathPrefix.'/resource/{type}/{resourceId}/metric/{metric}',
             'method' => 'GET',
             'params' => [
                 'resourceId' => $this->params->idUrl('resource'),
-                'metric' => $this->params->idUrl('metric'),
-                'type'   => $this->params->resourceType(),
-            ]
+                'metric'     => $this->params->idUrl('metric'),
+                'type'       => $this->params->resourceType(),
+            ],
+        ];
+    }
+
+    public function getResourceMetricMeasures(): array
+    {
+        return [
+            'path'   => $this->pathPrefix.'/resource/{type}/{resourceId}/metric/{metric}/measures',
+            'method' => 'GET',
+            'params' => [
+                'resourceId'  => $this->params->idUrl('resource'),
+                'metric'      => $this->params->idUrl('metric'),
+                'type'        => $this->params->resourceType(),
+                'granularity' => $this->params->granularity(),
+            ],
         ];
     }
 }

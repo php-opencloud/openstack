@@ -94,19 +94,37 @@ class Resource extends OperatorResource implements Retrievable
      */
     public function getMetric(string $metric): Metric
     {
-        $response = $this->execute($this->api->getResourceMetric(), [
-            'resourceId' => $this->id,
-            'metric' => $metric,
-            'type'=> $this->type
-        ]);
+        $response = $this->execute(
+            $this->api->getResourceMetric(),
+            [
+                'resourceId' => $this->id,
+                'metric'     => $metric,
+                'type'       => $this->type,
+            ]
+        );
         $metric = $this->model(Metric::class)->populateFromResponse($response);
 
         return $metric;
     }
 
-    public function getMetricMeasures()
+    /**
+     * @param array $options {@see \OpenStack\Metric\v1\Gnocchi\Api::getResourceMetricMeasures}
+     *
+     * @return array
+     */
+    public function getMetricMeasures(array $options = []): array
     {
+        $options = array_merge(
+            $options,
+            [
+                'resourceId' => $this->id,
+                'type'       => $this->type,
+            ]
+        );
 
+        $response = $this->execute($this->api->getResourceMetricMeasures(), $options);
+
+        return \GuzzleHttp\json_decode($response->getBody());
     }
 
     /**
@@ -121,5 +139,3 @@ class Resource extends OperatorResource implements Retrievable
         return $this->model(Metric::class)->enumerate($this->api->getResourceMetrics(), $options);
     }
 }
-
-
