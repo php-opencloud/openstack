@@ -12,6 +12,20 @@ use OpenStack\Metric\v1\Gnocchi\Api;
 class Resource extends OperatorResource implements Retrievable
 {
     const RESOURCE_TYPE_GENERIC = 'generic';
+    const RESOURCE_TYPE_CEPH_ACCOUNT = 'ceph_account';
+    const RESOURCE_TYPE_HOST = 'host';
+    const RESOURCE_TYPE_HOST_DISK = 'host_disk';
+    const RESOURCE_TYPE_HOST_NETWORK_INTERFACE = 'host_network_interface';
+    const RESOURCE_TYPE_IDENTITY = 'identity';
+    const RESOURCE_TYPE_IMAGE = 'image';
+    const RESOURCE_TYPE_INSTANCE = 'instance';
+    const RESOURCE_TYPE_INSTANCE_DISK = 'instance_disk';
+    const RESOURCE_TYPE_INSTANCE_NETWORK_INTERFACE = 'instance_network_interface';
+    const RESOURCE_TYPE_IPMI = 'ipmi';
+    const RESOURCE_TYPE_NETWORK = 'network';
+    const RESOURCE_TYPE_STACK = 'stack';
+    const RESOURCE_TYPE_SWIFT_ACCOUNT = 'swift_account';
+    const RESOURCE_TYPE_VOLUME = 'volume';
 
     /** @var string */
     public $createdByUserId;
