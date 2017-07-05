@@ -45,7 +45,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function idUrl($type)
+    public function idUrl($type): array
     {
         return [
             'required'    => true,
@@ -54,7 +54,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function granularity()
+    public function granularity(): array
     {
         return [
             'location'    => self::QUERY,
@@ -63,7 +63,7 @@ class Params extends AbstractParams
         ];
     }
 
-    public function aggregation()
+    public function aggregation(): array
     {
         return [
             'location'    => self::QUERY,

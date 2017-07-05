@@ -33,7 +33,8 @@ class Api extends AbstractApi
             'path'   => $this->pathPrefix.'/resource/{type}/{id}',
             'method' => 'GET',
             'params' => [
-                'id' => $this->params->idUrl('resource'),
+                'id'   => $this->params->idUrl('resource'),
+                'type' => $this->params->resourceType(),
             ],
         ];
     }

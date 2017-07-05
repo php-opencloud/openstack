@@ -86,7 +86,6 @@ class Resource extends OperatorResource implements Retrievable
         $this->populateFromResponse($response);
     }
 
-
     /**
      * @param string $metric
      *
