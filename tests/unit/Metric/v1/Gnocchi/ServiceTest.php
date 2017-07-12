@@ -28,8 +28,9 @@ class ServiceTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->getFixture('resourcetypes-get'));
 
-        $result = $this->service->listResourceTypes();
+        $result = iterator_to_array($this->service->listResourceTypes());
 
+        $this->assertEquals(15, count($result));
         $this->assertContainsOnlyInstancesOf(ResourceType::class, $result);
     }
 
@@ -40,14 +41,18 @@ class ServiceTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->getFixture('resources-get'));
 
-        $result = $this->service->listResources(['limit' => 3]);
+        $result = iterator_to_array($this->service->listResources(['limit' => 3]));
 
+        $this->assertEquals(3, count($result));
         $this->assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_get_resource()
     {
-        $this->assertInstanceOf(Resource::class, $this->service->getResource(['id' => '1']));
+        $resource = $this->service->getResource(['id' => '1']);
+
+        $this->assertEquals('1', $resource->id);
+        $this->assertInstanceOf(Resource::class, $resource);
     }
 
     public function test_it_search_resources()

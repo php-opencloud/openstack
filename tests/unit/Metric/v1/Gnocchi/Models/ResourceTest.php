@@ -2,7 +2,6 @@
 
 namespace OpenStack\Test\Metric\v1\Gnocchi\Models;
 
-use GuzzleHttp\Psr7\Response;
 use OpenStack\Metric\v1\Gnocchi\Models\Metric;
 use OpenStack\Metric\v1\Gnocchi\Models\Resource;
 use OpenStack\Metric\v1\Gnocchi\Api;
@@ -26,9 +25,13 @@ class ResourceTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v1/resource/generic/1111', null, [], new Response(204));
-
+        $this->setupMock('GET', 'v1/resource/generic/1111', null, [], 'resource-get');
         $this->resource->retrieve();
+        $this->assertEquals('fake-project-id', $this->resource->projectId);
+        $this->assertEquals('fake-created-by-user-id', $this->resource->createdByUserId);
+        $this->assertEquals('fake-type', $this->resource->type);
+        $this->assertInternalType('array', $this->resource->metrics);
+        $this->assertEquals(8, count($this->resource->metrics));
     }
 
 
@@ -47,16 +50,20 @@ class ResourceTest extends TestCase
     public function test_it_gets_metric_measures()
     {
         $this->setupMock('GET', sprintf('v1/resource/generic/1111/metric/storage.objects.outgoing.bytes/measures'), [], [], 'resource-metric-measures-get');
+        $measures = $this->resource->getMetricMeasures(['metric' => 'storage.objects.outgoing.bytes']);
 
-        $this->resource->getMetricMeasures(['metric' => 'storage.objects.outgoing.bytes']);
+        $this->assertInternalType('array', $measures);
+        $this->assertEquals(7, count($measures));
+        $this->assertEquals('2017-05-16T00:00:00+00:00', $measures[0][0]);
     }
 
     public function test_it_lists_resource_metrics()
     {
         $this->setupMock('GET', 'v1/resource/generic/1111/metric', [], [], 'resource-metrics-get');
 
-        $result = $this->resource->listResourceMetrics();
+        $result = iterator_to_array($this->resource->listResourceMetrics());
 
+        $this->assertEquals(23, count($result));
         $this->assertContainsOnlyInstancesOf(Metric::class, $result);
     }
 }
