@@ -123,6 +123,8 @@ class Api extends AbstractApi
                 'type'        => $this->params->resourceType(),
                 'granularity' => $this->params->granularity(),
                 'aggregation' => $this->params->aggregation(),
+                'start'       => $this->params->measureStart(),
+                'stop'        => $this->params->measureStop()
             ],
         ];
     }

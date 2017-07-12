@@ -70,4 +70,24 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE
         ];
     }
+
+    private function measureTimestamp(string $sentAs): array
+    {
+        return [
+            'location'  => self::QUERY,
+            'type'      => self::STRING_TYPE,
+            'sentAs'    => $sentAs,
+            'description' => 'Measure start timestamp which can be either a floating number (UNIX epoch) or an ISO8601 formatted timestamp'
+        ];
+    }
+
+    public function measureStart(): array
+    {
+        return $this->measureTimestamp('start');
+    }
+
+    public function measureStop(): array
+    {
+        return $this->measureTimestamp('stop');
+    }
 }
