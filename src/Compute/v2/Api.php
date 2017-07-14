@@ -219,6 +219,7 @@ class Api extends AbstractApi
                 'name'         => $this->params->filterName(),
                 'status'       => $this->params->filterStatus('server'),
                 'host'         => $this->params->filterHost(),
+                'allTenants'   => $this->params->allTenants()
             ],
         ];
     }
@@ -235,7 +236,9 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}',
-            'params' => ['id' => $this->params->urlId('server')]
+            'params' => [
+                'id' => $this->params->urlId('server'),
+            ],
         ];
     }
 
