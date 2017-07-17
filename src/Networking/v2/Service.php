@@ -3,7 +3,13 @@
 namespace OpenStack\Networking\v2;
 
 use OpenStack\Common\Service\AbstractService;
+use OpenStack\Networking\v2\Models\LoadBalancer;
+use OpenStack\Networking\v2\Models\LoadBalancerHealthMonitor;
+use OpenStack\Networking\v2\Models\LoadBalancerListener;
+use OpenStack\Networking\v2\Models\LoadBalancerMember;
+use OpenStack\Networking\v2\Models\LoadBalancerPool;
 use OpenStack\Networking\v2\Models\Network;
+use OpenStack\Networking\v2\Models\Pool;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Quota;
 use OpenStack\Networking\v2\Models\Subnet;
@@ -204,5 +210,177 @@ class Service extends AbstractService
         $quota->populateFromResponse($this->execute($this->api->getQuotaDefault(), ['tenantId' => $tenantId]));
 
         return $quota;
+    }
+
+    /**
+     * Lists loadbalancers for projects
+     *
+     * @return \Generator
+     */
+    public function listLoadBalancers(): \Generator
+    {
+        return $this->model(LoadBalancer::class)->enumerate($this->api->getLoadBalancers());
+    }
+
+    /**
+     * Retrieve an instance of a LoadBalancer object
+     *
+     * @param string $id
+     *
+     * @return LoadBalancer
+     */
+    public function getLoadBalancer(string $id): LoadBalancer
+    {
+        return $this->model(LoadBalancer::class, ['id' => $id]);
+    }
+
+    /**
+     * Create a new loadbalancer resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancer}
+     *
+     * @return LoadBalancer
+     */
+    public function createLoadBalancer(array $options): LoadBalancer
+    {
+        return $this->model(LoadBalancer::class)->create($options);
+    }
+
+    /**
+     * Lists loadbalancer listeners
+     *
+     * @return \Generator
+     */
+    public function listLoadBalancerListeners(): \Generator
+    {
+        return $this->model(LoadBalancerListener::class)->enumerate($this->api->getLoadBalancerListeners());
+    }
+
+    /**
+     * Retrieve an instance of a loadbalancer listener object
+     *
+     * @param string $id
+     *
+     * @return LoadBalancerListener
+     */
+    public function getLoadBalancerListener(string $id): LoadBalancerListener
+    {
+        return $this->model(LoadBalancerListener::class, ['id' => $id]);
+    }
+
+    /**
+     * Create a new loadbalancer Listener resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerListener}
+     *
+     * @return LoadBalancerListener
+     */
+    public function createLoadBalancerListener(array $options): LoadBalancerListener
+    {
+        return $this->model(LoadBalancerListener::class)->create($options);
+    }
+
+    /**
+     * Lists loadbalancer pools
+     *
+     * @return \Generator
+     */
+    public function listLoadBalancerPools(): \Generator
+    {
+        return $this->model(LoadBalancerPool::class)->enumerate($this->api->getLoadBalancerPools());
+    }
+
+    /**
+     * Retrieve an instance of a loadbalancer Pool object
+     *
+     * @param string $id
+     *
+     * @return LoadBalancerPool
+     */
+    public function getLoadBalancerPool(string $id): LoadBalancerPool
+    {
+        return $this->model(LoadBalancerPool::class, ['id' => $id]);
+    }
+
+    /**
+     * Create a new loadbalancer Pool resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerPool}
+     *
+     * @return LoadBalancerPool
+     */
+    public function createLoadBalancerPool(array $options): LoadBalancerPool
+    {
+        return $this->model(LoadBalancerPool::class)->create($options);
+    }
+
+    /**
+     * Lists loadbalancer members
+     *
+     * @param string $poolId
+     * @return \Generator
+     */
+    public function listLoadBalancerMembers(string $poolId): \Generator
+    {
+        return $this->model(LoadBalancerPool::class, ['poolId' => $poolId])->enumerate($this->api->getLoadBalancerMembers());
+    }
+
+    /**
+     * Retrieve an instance of a loadbalancer Member object
+     *
+     * @param string $poolId
+     * @param string $memberId
+     *
+     * @return LoadBalancerMember
+     */
+    public function getLoadBalancerMember(string $poolId, string $memberId): LoadBalancerMember
+    {
+        return $this->model(LoadBalancerMember::class, ['poolId' => $poolId, 'id' => $memberId]);
+    }
+
+    /**
+     * Create a new loadbalancer member resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerMember}
+     *
+     * @return LoadBalancerMember
+     */
+    public function createLoadBalancerMember(array $options): LoadBalancerMember
+    {
+        return $this->model(LoadBalancerMember::class)->create($options);
+    }
+
+    /**
+     * Lists loadbalancer healthmonitors
+     *
+     * @return \Generator
+     */
+    public function listLoadBalancerHealthMonitors(): \Generator
+    {
+        return $this->model(LoadBalancerHealthMonitor::class)->enumerate($this->api->getLoadBalancerHealthMonitors());
+    }
+
+    /**
+     * Retrieve an instance of a loadbalancer healthmonitor object
+     *
+     * @param string $id
+     *
+     * @return LoadBalancerHealthMonitor
+     */
+    public function getLoadBalancerHealthMonitor(string $id): LoadBalancerHealthMonitor
+    {
+        return $this->model(LoadBalancerHealthMonitor::class, ['id' => $id]);
+    }
+
+    /**
+     * Create a new loadbalancer healthmonitor resource.
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerHealthMonitor}
+     *
+     * @return LoadBalancerHealthMonitor
+     */
+    public function createLoadBalancerHealthMonitor(array $options): LoadBalancerHealthMonitor
+    {
+        return $this->model(LoadBalancerHealthMonitor::class)->create($options);
     }
 }
