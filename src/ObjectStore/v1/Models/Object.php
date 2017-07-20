@@ -51,6 +51,18 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
     {
         parent::populateFromResponse($response);
 
+        $this->populateHeaders($response);
+
+        return $this;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     *
+     * @return $this
+     */
+    private function populateHeaders(ResponseInterface $response): self
+    {
         $this->hash = $response->getHeaderLine('ETag');
         $this->contentLength = $response->getHeaderLine('Content-Length');
         $this->lastModified = $response->getHeaderLine('Last-Modified');
@@ -100,8 +112,9 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
      */
     public function download(): StreamInterface
     {
+        /** @var ResponseInterface $response */
         $response = $this->executeWithState($this->api->getObject());
-        $this->populateFromResponse($response);
+        $this->populateHeaders($response);
         return $response->getBody();
     }
 
