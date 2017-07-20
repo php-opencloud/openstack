@@ -108,13 +108,19 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
      * distinct from fetching its metadata (a `HEAD` request). The body of an object is not fetched by default to
      * improve performance when handling large objects.
      *
+     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::getObject}
+     *
      * @return StreamInterface
      */
-    public function download(): StreamInterface
+
+    public function download(array $data = []): StreamInterface
     {
+        $data += ['name' => $this->name, 'containerName' => $this->containerName];
+
         /** @var ResponseInterface $response */
-        $response = $this->executeWithState($this->api->getObject());
+        $response = $this->execute($this->api->getObject(), $data);
         $this->populateHeaders($response);
+
         return $response->getBody();
     }
 
