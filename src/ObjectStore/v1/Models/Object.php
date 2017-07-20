@@ -115,11 +115,14 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
 
     public function download(array $data = []): StreamInterface
     {
-        $response = $this->execute($this->api->getObject(), $data + ['containerName' => $this->containerName]);
+        $data += ['name' => $this->name, 'containerName' => $this->containerName];
+
+        /** @var ResponseInterface $response */
+        $response = $this->execute($this->api->getObject(), $data);
         $this->populateHeaders($response);
+
         return $response->getBody();
     }
-
 
     /**
      * {@inheritdoc}
