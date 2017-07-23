@@ -15,6 +15,7 @@ use OpenStack\Networking\v2\Extensions\SecurityGroups\Service as NetworkingServi
 use OpenStack\ObjectStore\v1\Service as ObjectStoreServiceV1;
 use OpenStack\BlockStorage\v2\Service as BlockStorageServiceV2;
 use OpenStack\Images\v2\Service as ImageServiceV2;
+use OpenStack\Metric\v1\Gnocchi\Service as MetricGnocchiV1;
 
 class OpenStackTest extends TestCase
 {
@@ -116,6 +117,16 @@ class OpenStackTest extends TestCase
             ->willReturn($this->service(ImageServiceV2::class));
 
         $this->openstack->imagesV2();
+    }
+
+    public function test_it_support_metrics_gnocchi_v1()
+    {
+        $this->builder
+            ->createService('Metric\\v1\\Gnocchi', ['catalogName' => 'gnocchi', 'catalogType' => 'metric'])
+            ->shouldBeCalled()
+            ->willReturn($this->service(MetricGnocchiV1::class));
+
+        $this->openstack->metricGnocchiV1();
     }
 
     private function service($class)
