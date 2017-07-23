@@ -42,7 +42,7 @@ class Api extends AbstractApi
 
     public function getFlavorsDetail(): array
     {
-        $op = $this->getAll();
+        $op = $this->getFlavors();
         $op['path'] .= '/detail';
         return $op;
     }
@@ -103,7 +103,7 @@ class Api extends AbstractApi
 
     public function getImagesDetail(): array
     {
-        $op = $this->getAll();
+        $op = $this->getImages();
         $op['path'] .= '/detail';
         return $op;
     }
