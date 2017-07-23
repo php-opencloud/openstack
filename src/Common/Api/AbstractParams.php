@@ -101,10 +101,10 @@ DESC
     public function allTenants(): array
     {
         return [
-            'type'        => self::STRING_TYPE,
+            'type'        => self::BOOL_TYPE,
             'location'    => self::QUERY,
             'sentAs'      => 'all_tenants',
-            'description' => '(Admin only) Set this to 1 to pull volumes information from all tenants.',
+            'description' => '(Admin only) Set this to true to pull volume information from all tenants.',
         ];
     }
 }

@@ -40,6 +40,7 @@ class Api extends AbstractApi
                 'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker(),
                 'sort'   => $this->params->sort(),
+                'allTenants' => $this->params->allTenants(),
             ],
         ];
     }
@@ -64,9 +65,8 @@ class Api extends AbstractApi
             'method'     => 'GET',
             'path'       => 'volumes/{id}',
             'params'     => [
-                'id' => $this->params->idPath(),
-            ],
-            'allTenants' => $this->params->allTenants(),
+                'id' => $this->params->idPath()
+            ]
         ];
     }
 
