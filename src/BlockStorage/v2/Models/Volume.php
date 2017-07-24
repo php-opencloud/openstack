@@ -52,6 +52,12 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     /** @var string */
     public $sourceVolumeId;
 
+    /** @var string */
+    public $tenantId;
+
+    /** @var string */
+    public $host;
+
     /** @var array */
     public $metadata = [];
 
@@ -60,11 +66,13 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     protected $markerKey = 'id';
 
     protected $aliases = [
-        'availability_zone' => 'availabilityZone',
-        'source_volid'      => 'sourceVolumeId',
-        'snapshot_id'       => 'snapshotId',
-        'created_at'        => 'createdAt',
-        'volume_type'       => 'volumeTypeName',
+        'availability_zone'            => 'availabilityZone',
+        'source_volid'                 => 'sourceVolumeId',
+        'snapshot_id'                  => 'snapshotId',
+        'created_at'                   => 'createdAt',
+        'volume_type'                  => 'volumeTypeName',
+        'os-vol-tenant-attr:tenant_id' => 'tenantId',
+        'os-vol-host-attr:host'        => 'host'
     ];
 
     public function populateFromResponse(ResponseInterface $response): self

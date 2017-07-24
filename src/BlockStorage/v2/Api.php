@@ -40,6 +40,7 @@ class Api extends AbstractApi
                 'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker(),
                 'sort'   => $this->params->sort(),
+                'allTenants' => $this->params->allTenants(),
             ],
         ];
     }
@@ -50,9 +51,10 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'volumes/detail',
             'params' => [
-                'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker(),
-                'sort'   => $this->params->sort(),
+                'limit'      => $this->params->limit(),
+                'marker'     => $this->params->marker(),
+                'sort'       => $this->params->sort(),
+                'allTenants' => $this->params->allTenants(),
             ],
         ];
     }
@@ -60,9 +62,11 @@ class Api extends AbstractApi
     public function getVolume(): array
     {
         return [
-            'method' => 'GET',
-            'path'   => 'volumes/{id}',
-            'params' => ['id' => $this->params->idPath()],
+            'method'     => 'GET',
+            'path'       => 'volumes/{id}',
+            'params'     => [
+                'id' => $this->params->idPath()
+            ]
         ];
     }
 

@@ -42,7 +42,7 @@ class Api extends AbstractApi
 
     public function getFlavorsDetail(): array
     {
-        $op = $this->getAll();
+        $op = $this->getFlavors();
         $op['path'] .= '/detail';
         return $op;
     }
@@ -103,7 +103,7 @@ class Api extends AbstractApi
 
     public function getImagesDetail(): array
     {
-        $op = $this->getAll();
+        $op = $this->getImages();
         $op['path'] .= '/detail';
         return $op;
     }
@@ -219,6 +219,7 @@ class Api extends AbstractApi
                 'name'         => $this->params->filterName(),
                 'status'       => $this->params->filterStatus('server'),
                 'host'         => $this->params->filterHost(),
+                'allTenants'   => $this->params->allTenants()
             ],
         ];
     }
@@ -235,7 +236,9 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}',
-            'params' => ['id' => $this->params->urlId('server')]
+            'params' => [
+                'id' => $this->params->urlId('server'),
+            ],
         ];
     }
 

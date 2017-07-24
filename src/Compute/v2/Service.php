@@ -70,14 +70,16 @@ class Service extends AbstractService
     /**
      * List flavors.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getFlavors}
-     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getFlavors}
+     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     * @param bool     $detailed Set to true to fetch flavors' details.
      *
      * @return \Generator
      */
-    public function listFlavors(array $options = [], callable $mapFn = null): \Generator
+    public function listFlavors(array $options = [], callable $mapFn = null, bool $detailed = false): \Generator
     {
-        return $this->model(Flavor::class)->enumerate($this->api->getFlavors(), $options, $mapFn);
+        $def = $detailed === true ? $this->api->getFlavorsDetail() : $this->api->getFlavors();
+        return $this->model(Flavor::class)->enumerate($def, $options, $mapFn);
     }
 
     /**
