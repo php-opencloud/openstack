@@ -97,4 +97,14 @@ DESC
             'description' => "Sorts by one or more sets of attribute and sort direction combinations.",
         ];
     }
+
+    public function allTenants(): array
+    {
+        return [
+            'type'        => self::BOOL_TYPE,
+            'location'    => self::QUERY,
+            'sentAs'      => 'all_tenants',
+            'description' => '(Admin only) Set this to true to pull volume information from all tenants.',
+        ];
+    }
 }

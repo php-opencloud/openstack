@@ -11,6 +11,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
+use OpenStack\Networking\v2\Models\InterfaceAttachment;
 use OpenStack\Compute\v2\Enum;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use Psr\Http\Message\ResponseInterface;
@@ -106,6 +107,10 @@ class Server extends OperatorResource implements
      */
     public function create(array $userOptions): Creatable
     {
+        if (!isset($userOptions['imageId']) && !isset($userOptions['blockDeviceMapping']['uuid'])) {
+            throw new \RuntimeException('imageId or blockDeviceMapping.uuid must be set.');
+        }
+
         $response = $this->execute($this->api->postServer(), $userOptions);
         return $this->populateFromResponse($response);
     }
@@ -314,16 +319,13 @@ class Server extends OperatorResource implements
     }
 
     /**
-     * Iterates over all the ports for this server.
+     * Returns Generator for InterfaceAttachment
      *
-     * @return array
+     * @return \Generator
      */
-    public function listPorts(array $options = []): array
+    public function listInterfaceAttachments(array $options = []): \Generator
     {
-        $options['id'] = $this->id;
-
-        $response = $this->execute($this->api->getPorts(), ['id' => $this->id]);
-        return Utils::jsonDecode($response)['interfaceAttachments'];
+        return $this->model(InterfaceAttachment::class)->enumerate($this->api->getInterfaceAttachments(), ['id' => $this->id]);
     }
 
     /**

@@ -157,7 +157,7 @@ class ServiceTest extends TestCase
 
     public function test_it_creates_service()
     {
-        $userOptions = ['name' => 'foo', 'type' => 'bar'];
+        $userOptions = ['name' => 'foo', 'type' => 'bar', 'description' => 'description'];
 
         $this->setupMock('POST', 'services', ['service' => $userOptions], [], 'service');
 
@@ -435,7 +435,7 @@ class ServiceTest extends TestCase
             'user_id'    => $userOptions['userId'],
         ];
 
-        $this->setupMock('POST', 'policies', $userJson, [], 'policy');
+        $this->setupMock('POST', 'policies', ['policy' => $userJson], [], 'policy');
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Policy */
         $policy = $this->service->createPolicy($userOptions);

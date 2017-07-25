@@ -40,6 +40,7 @@ class Api extends AbstractApi
                 'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker(),
                 'sort'   => $this->params->sort(),
+                'allTenants' => $this->params->allTenants(),
             ],
         ];
     }
@@ -50,9 +51,10 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'volumes/detail',
             'params' => [
-                'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker(),
-                'sort'   => $this->params->sort(),
+                'limit'      => $this->params->limit(),
+                'marker'     => $this->params->marker(),
+                'sort'       => $this->params->sort(),
+                'allTenants' => $this->params->allTenants(),
             ],
         ];
     }
@@ -60,9 +62,11 @@ class Api extends AbstractApi
     public function getVolume(): array
     {
         return [
-            'method' => 'GET',
-            'path'   => 'volumes/{id}',
-            'params' => ['id' => $this->params->idPath()],
+            'method'     => 'GET',
+            'path'       => 'volumes/{id}',
+            'params'     => [
+                'id' => $this->params->idPath()
+            ]
         ];
     }
 
@@ -252,6 +256,50 @@ class Api extends AbstractApi
                 'id'       => $this->params->idPath(),
                 'metadata' => $this->params->metadata(),
             ],
+        ];
+    }
+
+    public function getQuotaSet(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-quota-sets/{tenantId}',
+            'params' => [
+                'tenantId' => $this->params->idPath('quota-sets')
+            ]
+        ];
+    }
+
+    public function deleteQuotaSet(): array
+    {
+        return [
+            'method'  => 'DELETE',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId' => $this->params->idPath('quota-sets')
+            ]
+        ];
+    }
+
+    public function putQuotaSet(): array
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId'           => $this->params->idPath(),
+                'backupGigabytes'    => $this->params->quotaSetBackupGigabytes(),
+                'backups'            => $this->params->quotaSetBackups(),
+                'gigabytes'          => $this->params->quotaSetGigabytes(),
+                'gigabytesIscsi'     => $this->params->quotaSetGigabytesIscsi(),
+                'perVolumeGigabytes' => $this->params->quotaSetPerVolumeGigabytes(),
+                'snapshots'          => $this->params->quotaSetSnapshots(),
+                'snapshotsIscsi'     => $this->params->quotaSetSnapshotsIscsi(),
+                'volumes'            => $this->params->quotaSetVolumes(),
+                'volumesIscsi'       => $this->params->quotaSetVolumesIscsi(),
+            ]
         ];
     }
 }

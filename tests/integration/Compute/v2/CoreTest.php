@@ -184,6 +184,7 @@ class CoreTest extends TestCase
             // Hypervisors
             $this->listHypervisors();
             $this->getHypervisorsStatistics();
+            $this->getHypervisor();
 
             // Console
             $this->getVncConsole();
@@ -558,6 +559,21 @@ class CoreTest extends TestCase
         require_once $this->sampleFile([], 'hypervisors/list_hypervisors.php');
 
         $this->logStep('Listed all available hypervisors');
+    }
+
+    private function getHypervisor()
+    {
+        $replacements = [
+            '{hypervisorId}' => '1',
+        ];
+
+        require_once $this->sampleFile($replacements, 'hypervisors/get_hypervisor.php');
+
+        /**@var Hypervisor $hypervisor */
+        $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+        $this->assertEquals($replacements['{hypervisorId}'], $hypervisor->id);
+
+        $this->logStep('Retrieved details for hypervisor id {hypervisorId}', $replacements);
     }
 
     private function getHypervisorsStatistics()

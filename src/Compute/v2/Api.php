@@ -42,7 +42,7 @@ class Api extends AbstractApi
 
     public function getFlavorsDetail(): array
     {
-        $op = $this->getAll();
+        $op = $this->getFlavors();
         $op['path'] .= '/detail';
         return $op;
     }
@@ -103,7 +103,7 @@ class Api extends AbstractApi
 
     public function getImagesDetail(): array
     {
-        $op = $this->getAll();
+        $op = $this->getImages();
         $op['path'] .= '/detail';
         return $op;
     }
@@ -190,7 +190,7 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'jsonKey' => 'server',
             'params'  => [
-                'imageId'            => $this->params->imageId(),
+                'imageId'            => $this->notRequired($this->params->imageId()),
                 'flavorId'           => $this->params->flavorId(),
                 'personality'        => $this->params->personality(),
                 'metadata'           => $this->notRequired($this->params->metadata()),
@@ -219,6 +219,7 @@ class Api extends AbstractApi
                 'name'         => $this->params->filterName(),
                 'status'       => $this->params->filterStatus('server'),
                 'host'         => $this->params->filterHost(),
+                'allTenants'   => $this->params->allTenants()
             ],
         ];
     }
@@ -235,7 +236,9 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}',
-            'params' => ['id' => $this->params->urlId('server')]
+            'params' => [
+                'id' => $this->params->urlId('server'),
+            ],
         ];
     }
 
@@ -456,12 +459,15 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getPorts(): array
+    public function getInterfaceAttachments(): array
     {
         return [
-            'method' => 'GET',
-            'path'   => 'servers/{id}/os-interface',
-            'params' => ['id' => $this->params->urlId('server')],
+            'method'  => 'GET',
+            'path'    => 'servers/{id}/os-interface',
+            'jsonKey' => 'interfaceAttachments',
+            'params'  => [
+                'id'  => $this->params->urlId('server')
+            ]
         ];
     }
 
@@ -654,10 +660,14 @@ class Api extends AbstractApi
     public function getHypervisors(): array
     {
         return [
-            'method' => 'GET',
-            'path' => 'os-hypervisors',
+            'method'  => 'GET',
+            'path'    => 'os-hypervisors',
             'jsonKey' => 'hypervisors',
+<<<<<<< HEAD
             'params' => [
+=======
+            'params'  => [
+>>>>>>> upstream/master
                 'limit' => $this->params->limit(),
                 'marker' => $this->params->marker()
             ],
@@ -666,6 +676,7 @@ class Api extends AbstractApi
 
     public function getHypervisorsDetail(): array
     {
+<<<<<<< HEAD
         return [
             'method' => 'GET',
             'path' => 'os-hypervisors/detail',
@@ -675,13 +686,23 @@ class Api extends AbstractApi
                 'marker' => $this->params->marker()
             ],
         ];
+=======
+        $definition = $this->getHypervisors();
+        $definition['path'] .= '/detail';
+
+        return $definition;
+>>>>>>> upstream/master
     }
 
     public function getHypervisor(): array
     {
         return [
             'method' => 'GET',
+<<<<<<< HEAD
             'path' => 'os-hypervisors/{id}',
+=======
+            'path'   => 'os-hypervisors/{id}',
+>>>>>>> upstream/master
             'params' => ['id' => $this->params->urlId('id')]
         ];
     }
@@ -690,9 +711,9 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-availability-zone/detail',
+            'path'   => 'os-availability-zone/detail',
             'params' => [
-                'limit' => $this->params->limit(),
+                'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker()
             ]
         ];
@@ -702,9 +723,9 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hosts',
+            'path'   => 'os-hosts',
             'params' => [
-                'limit' => $this->params->limit(),
+                'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker()
             ]
         ];
@@ -714,8 +735,66 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hosts/{name}',
+            'path'   => 'os-hosts/{name}',
             'params' => ['name' => $this->params->urlId('name')]
+        ];
+    }
+
+    public function getQuotaSet(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-quota-sets/{tenantId}',
+            'params' => [
+                'tenantId' => $this->params->urlId('quota-sets')
+            ]
+        ];
+    }
+
+    public function getQuotaSetDetail(): array
+    {
+        $data = $this->getQuotaSet();
+        $data['path'] .= '/detail';
+
+        return $data;
+    }
+
+    public function deleteQuotaSet(): array
+    {
+        return [
+            'method'  => 'DELETE',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId' => $this->params->urlId('quota-sets')
+            ]
+        ];
+    }
+
+    public function putQuotaSet(): array
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => 'os-quota-sets/{tenantId}',
+            'jsonKey' => 'quota_set',
+            'params'  => [
+                'tenantId'                 => $this->params->idPath(),
+                'force'                    => $this->notRequired($this->params->quotaSetLimitForce()),
+                'instances'                => $this->notRequired($this->params->quotaSetLimitInstances()),
+                'cores'                    => $this->notRequired($this->params->quotaSetLimitCores()),
+                'fixedIps'                 => $this->notRequired($this->params->quotaSetLimitFixedIps()),
+                'floatingIps'              => $this->notRequired($this->params->quotaSetLimitFloatingIps()),
+                'injectedFileContentBytes' => $this->notRequired($this->params->quotaSetLimitInjectedFileContentBytes()),
+                'injectedFilePathBytes'    => $this->notRequired($this->params->quotaSetLimitInjectedFilePathBytes()),
+                'injectedFiles'            => $this->notRequired($this->params->quotaSetLimitInjectedFiles()),
+                'keyPairs'                 => $this->notRequired($this->params->quotaSetLimitKeyPairs()),
+                'metadataItems'            => $this->notRequired($this->params->quotaSetLimitMetadataItems()),
+                'ram'                      => $this->notRequired($this->params->quotaSetLimitRam()),
+                'securityGroupRules'       => $this->notRequired($this->params->quotaSetLimitSecurityGroupRules()),
+                'securityGroups'           => $this->notRequired($this->params->quotaSetLimitSecurityGroups()),
+                'serverGroups'             => $this->notRequired($this->params->quotaSetLimitServerGroups()),
+                'serverGroupMembers'       => $this->notRequired($this->params->quotaSetLimitServerGroupMembers()),
+            ]
         ];
     }
 }

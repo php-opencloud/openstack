@@ -23,43 +23,52 @@ class Hypervisor extends OperatorResource implements
     public $state;
 
     /** @var string */
-    public $host_ip;
+    public $hostIp;
 
     /** @var int */
-    public $free_disk_gb;
+    public $freeDiskGb;
 
     /** @var int */
-    public $free_ram_mb;
+    public $freeRamMb;
 
     /** @var string */
-    public $hypervisor_hostname;
+    public $hypervisorHostname;
 
     /** @var string */
-    public $hypervisor_type;
+    public $hypervisorType;
 
     /** @var string */
-    public $hypervisor_version;
+    public $hypervisorVersion;
 
     /** @var int */
-    public $local_gb;
+    public $localGb;
 
     /** @var int */
-    public $local_gb_used;
+    public $localGbUsed;
 
     /** @var int */
-    public $memory_mb;
+    public $memoryMb;
 
     /** @var int */
-    public $memory_mb_used;
+    public $memoryMbUsed;
 
     /** @var int */
-    public $running_vms;
+    public $runningVms;
 
     /** @var int */
     public $vcpus;
 
     /** @var int */
-    public $vcpus_used;
+    public $vcpusUsed;
+
+    /** @var array */
+    public $cpuInfo;
+
+    /** @var int */
+    public $currentWorkload;
+
+    /** @var int */
+    public $diskAvailableLeast;
 
     /** @var array */
     public $cpu_info;
@@ -76,15 +85,37 @@ class Hypervisor extends OperatorResource implements
     protected $resourceKey = 'hypervisor';
     protected $resourcesKey = 'hypervisors';
 
+    protected $aliases = [
+      'host_ip'              => 'hostIp',
+      'free_disk_gb'         => 'freeDiskGb',
+      'free_ram_mb'          => 'freeRamMb',
+      'hypervisor_hostname'  => 'hypervisorHostname',
+      'hypervisor_type'      => 'hypervisorType',
+      'hypervisor_version'   => 'hypervisorVersion',
+      'local_gb'             => 'localGb',
+      'local_gb_used'        => 'localGbUsed',
+      'memory_mb'            => 'memoryMb',
+      'memory_mb_used'       => 'memoryMbUsed',
+      'running_vms'          => 'runningVms',
+      'vcpus_used'           => 'vcpusUsed',
+      'cpu_info'             => 'cpuInfo',
+      'current_workload'     => 'currentWorkload',
+      'disk_available_least' => 'diskAvailableLeast'
+    ];
+
     /**
      * {@inheritDoc}
      */
     public function retrieve()
     {
+<<<<<<< HEAD
         // weasel around the id === string assumption
         $this->id = strval($this->id);
 
         $response = $this->execute($this->api->getHypervisor(), $this->getAttrs(['id']));
+=======
+        $response = $this->execute($this->api->getHypervisor(), ['id' => (string) $this->id]);
+>>>>>>> upstream/master
         $this->populateFromResponse($response);
     }
 }

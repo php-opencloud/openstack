@@ -121,12 +121,12 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
      */
     protected function getAttrs(array $keys)
     {
-      $output = parent::getAttrs($keys);
+        $output = parent::getAttrs($keys);
 
-      if ($this->gatewayIp === '') {
-        $output['gatewayIp'] = null;
-      }
+        if ($this->gatewayIp === '') {
+            $output['gatewayIp'] = null;
+        }
 
-      return $output;
+        return $output;
     }
 }

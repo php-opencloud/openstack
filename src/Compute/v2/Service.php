@@ -12,6 +12,7 @@ use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Models\Host;
 use OpenStack\Compute\v2\Models\Hypervisor;
 use OpenStack\Compute\v2\Models\AvailabilityZone;
+use OpenStack\Compute\v2\Models\QuotaSet;
 
 /**
  * Compute v2 service for OpenStack.
@@ -71,14 +72,16 @@ class Service extends AbstractService
     /**
      * List flavors.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getFlavors}
-     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getFlavors}
+     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     * @param bool     $detailed Set to true to fetch flavors' details.
      *
      * @return \Generator
      */
-    public function listFlavors(array $options = [], callable $mapFn = null): \Generator
+    public function listFlavors(array $options = [], callable $mapFn = null, bool $detailed = false): \Generator
     {
-        return $this->model(Flavor::class)->enumerate($this->api->getFlavors(), $options, $mapFn);
+        $def = $detailed === true ? $this->api->getFlavorsDetail() : $this->api->getFlavors();
+        return $this->model(Flavor::class)->enumerate($def, $options, $mapFn);
     }
 
     /**
@@ -283,4 +286,19 @@ class Service extends AbstractService
         return $this->model(AvailabilityZone::class)->enumerate($this->api->getAvailabilityZones(), $options, $mapFn);
     }
 
+    /**
+     * Shows A Quota for a tenant
+     *
+     * @param string $tenantId
+     * @param bool $detailed
+     *
+     * @return QuotaSet
+     */
+    public function getQuotaSet(string $tenantId, bool $detailed = false): QuotaSet
+    {
+        $quotaSet = $this->model(QuotaSet::class);
+        $quotaSet->populateFromResponse($this->execute($detailed ? $this->api->getQuotaSetDetail() : $this->api->getQuotaSet(), ['tenantId' => $tenantId]));
+
+        return $quotaSet;
+    }
 }

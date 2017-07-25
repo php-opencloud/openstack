@@ -287,7 +287,7 @@ class Parameter
 
         // allow string nulls
         if ($this->type == 'string' && $userValue === null) {
-          return true;
+            return true;
         }
 
         return gettype($userValue) == $this->type;
