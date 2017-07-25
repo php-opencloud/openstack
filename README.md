@@ -4,7 +4,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
 
-php-opencloud/openstack is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
+`php-opencloud/openstack` is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
 idiomatic way. This binding is specifically designed for OpenStack APIs, but other provider SDKs are available. Multiple 
 OpenStack services, and versions of services, are supported.
 
@@ -17,6 +17,11 @@ OpenStack services, and versions of services, are supported.
 * [Contributing guide](/CONTRIBUTING.md)
 * [Code of Conduct](/CODE_OF_CONDUCT.md)
 
+## Getting help
+   
+- Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://slackpass.io/phpopencloud))
+- Report and issue: https://github.com/php-opencloud/openstack/issues
+
 ## Requirements
 
 * PHP 7.0
@@ -26,14 +31,6 @@ OpenStack services, and versions of services, are supported.
 ```bash
 composer require php-opencloud/openstack
 ```
-
-## Help and feedback
-
-If you're struggling with something or have spotted a potential bug, feel free to submit an issue to our 
-[bug tracker](https://github.com/php-opencloud/openstack/issues). 
-
-For general feedback and support requests, contact us on the 
-[Rackspace Developer portal](https://developer.rackspace.com/support/).
 
 ## Contributing
 

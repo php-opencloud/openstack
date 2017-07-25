@@ -6,9 +6,12 @@ use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\HypervisorStatistic;
+use OpenStack\Compute\v2\Models\Host;
+use OpenStack\Compute\v2\Models\AvailabilityZone;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Hypervisor;
 use OpenStack\Compute\v2\Service;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
@@ -127,16 +130,78 @@ class ServiceTest extends TestCase
             $this->assertInstanceOf(Keypair::class, $keypair);
         }
     }
-    
+
     public function test_it_gets_hypervisor_statistics()
     {
         $this->client
             ->request('GET', 'os-hypervisors/statistics', ['headers' => []])
             ->shouldBeCalled()
-            ->willReturn($this->getFixture('hypervisor-get'));
+            ->willReturn($this->getFixture('hypervisor-statistic-get'));
 
         $hypervisorStats = $this->service->getHypervisorStatistics();
 
         $this->assertInstanceOf(HypervisorStatistic::class, $hypervisorStats);
+    }
+
+    public function test_it_lists_hypervisors()
+    {
+        $this->client
+            ->request('GET', 'os-hypervisors', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hypervisors-get'));
+
+        foreach ($this->service->listHypervisors(false) as $hypervisor) {
+            $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+        }
+    }
+
+    public function test_it_gets_hypervisor()
+    {
+        $this->client
+            ->request('GET', 'os-hypervisors/1234', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hypervisor-get'));
+
+        $hypervisor = $this->service->getHypervisor(['id' => 1234]);
+        $hypervisor->retrieve();
+
+        $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+    }
+
+    public function test_it_lists_hosts()
+    {
+        $this->client
+            ->request('GET', 'os-hosts', ['query' => ['limit' => 5], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('hosts-get'));
+
+        foreach ($this->service->listHosts(['limit' => 5]) as $host) {
+            $this->assertInstanceOf(Host::class, $host);
+        }
+    }
+
+    public function test_it_gets_host()
+    {
+        $this->client
+            ->request('GET', 'os-hosts/b6e4adbc193d428ea923899d07fb001e', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('host-get'));
+
+        $host = $this->service->getHost(['name' => 'b6e4adbc193d428ea923899d07fb001e']);
+        $host->retrieve();
+
+        $this->assertInstanceOf(Host::class, $host);
+    }
+
+    public function test_it_lists_availability_zones()
+    {
+        $this->client
+            ->request('GET', 'os-availability-zone/detail', ['query' => ['limit' => 5], 'headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('availability-zones-get'));
+
+        foreach ($this->service->listAvailabilityZones(['limit' => 5]) as $zone) {
+            $this->assertInstanceOf(AvailabilityZone::class, $zone);
+        }
     }
 }

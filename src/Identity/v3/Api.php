@@ -61,6 +61,7 @@ class Api extends AbstractApi
             'params'  => [
                 'name' => $this->params->name('service'),
                 'type' => $this->params->type('service'),
+                'description' => $this->params->desc('service'),
             ]
         ];
     }
@@ -131,6 +132,17 @@ class Api extends AbstractApi
             'params' => [
                 'interface' => $this->query($this->params->interf()),
                 'serviceId' => $this->query($this->params->serviceId()),
+            ]
+        ];
+    }
+
+    public function getEndpoint(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'endpoints/{id}',
+            'params' => [
+                'id' => $this->params->idUrl('service')
             ]
         ];
     }
@@ -540,6 +552,7 @@ class Api extends AbstractApi
                 'description'      => $this->params->desc('user'),
                 'email'            => $this->params->email(),
                 'enabled'          => $this->params->enabled('user'),
+                'password'         => $this->params->password(),
             ]
         ];
     }
@@ -768,8 +781,9 @@ class Api extends AbstractApi
     public function postPolicies(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'policies',
+            'method'  => 'POST',
+            'path'    => 'policies',
+            'jsonKey' => 'policy',
             'params' => [
                 'blob'      => $this->params->blob(),
                 'projectId' => $this->params->projectId('policy'),

@@ -119,9 +119,13 @@ class Params extends AbstractParams
     public function dnsNameservers(): array
     {
         return [
-            'type'        => self::STRING_TYPE,
+            'type'        => self::ARRAY_TYPE,
             'sentAs'      => 'dns_nameservers',
             'description' => 'A list of DNS name servers for the subnet.',
+            'items'    => [
+                'type'        => self::STRING_TYPE,
+                'description' => 'The nameserver',
+            ],
         ];
     }
 
@@ -282,10 +286,27 @@ class Params extends AbstractParams
     public function fixedIps(): array
     {
         return [
-            'type'        => self::STRING_TYPE,
+            'type'        => self::ARRAY_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'fixed_ips',
-            'description' => 'If you specify only a subnet UUID, OpenStack Networking allocates an available IP from that subnet to the port. If you specify both a subnet UUID and an IP address, OpenStack Networking tries to allocate the address to the port.',
+            'description' => 'The IP addresses for the port. If you would like to assign multiple IP addresses for the 
+                              port, specify multiple entries in this field. Each entry consists of IP address (ipAddress)
+                              and the subnet ID from which the IP address is assigned (subnetId)',
+            'items'       => [
+                'type'    => self::OBJECT_TYPE,
+                'properties' => [
+                    'ipAddress' => [
+                        'type' => self::STRING_TYPE,
+                        'sentAs' => 'ip_address',
+                        'description' => 'If you specify only an IP address, OpenStack Networking tries to allocate the IP address if the address is a valid IP for any of the subnets on the specified network.'
+                    ],
+                    'subnetId' => [
+                        'type' => self::STRING_TYPE,
+                        'sentAs' => 'subnet_id',
+                        'description' => 'Subnet id. If you specify only a subnet ID, OpenStack Networking allocates an available IP from that subnet to the port.'
+                    ]
+                ]
+            ]
         ];
     }
 
@@ -401,5 +422,60 @@ class Params extends AbstractParams
             'sentAs'      => 'router:external',
             'description' => 'Indicates whether this network is externally accessible.',
         ];
+    }
+
+    protected function quotaLimit(string $sentAs, string $description): array
+    {
+        return [
+            'type' => self::INT_TYPE,
+            'location' => self::JSON,
+            'sentAs' => $sentAs,
+            'description' => $description
+        ];
+    }
+
+    public function quotaLimitFloatingIp(): array
+    {
+        return $this->quotaLimit('floatingip', 'The number of floating IP addresses allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitNetwork(): array
+    {
+        return $this->quotaLimit('network', 'The number of networks allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitPort(): array
+    {
+        return $this->quotaLimit('port', 'The number of ports allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitRbacPolicy(): array
+    {
+        return $this->quotaLimit('rbac_policy', 'The number of role-based access control (RBAC) policies for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitRouter(): array
+    {
+        return $this->quotaLimit('router', 'The number of routers allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSecurityGroup(): array
+    {
+        return $this->quotaLimit('security_group', 'The number of security groups allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSecurityGroupRule(): array
+    {
+        return $this->quotaLimit('security_group_rule', 'The number of security group rules allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSubnet(): array
+    {
+        return $this->quotaLimit('subnet', 'The number of subnets allowed for each project. A value of -1 means no limit.');
+    }
+
+    public function quotaLimitSubnetPool(): array
+    {
+        return $this->quotaLimit('subnetpool', 'The number of subnet pools allowed for each project. A value of -1 means no limit.');
     }
 }

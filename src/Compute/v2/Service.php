@@ -9,6 +9,10 @@ use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Host;
+use OpenStack\Compute\v2\Models\Hypervisor;
+use OpenStack\Compute\v2\Models\AvailabilityZone;
+use OpenStack\Compute\v2\Models\QuotaSet;
 
 /**
  * Compute v2 service for OpenStack.
@@ -68,14 +72,16 @@ class Service extends AbstractService
     /**
      * List flavors.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getFlavors}
-     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getFlavors}
+     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     * @param bool     $detailed Set to true to fetch flavors' details.
      *
      * @return \Generator
      */
-    public function listFlavors(array $options = [], callable $mapFn = null): \Generator
+    public function listFlavors(array $options = [], callable $mapFn = null, bool $detailed = false): \Generator
     {
-        return $this->model(Flavor::class)->enumerate($this->api->getFlavors(), $options, $mapFn);
+        $def = $detailed === true ? $this->api->getFlavorsDetail() : $this->api->getFlavors();
+        return $this->model(Flavor::class)->enumerate($def, $options, $mapFn);
     }
 
     /**
@@ -198,5 +204,95 @@ class Service extends AbstractService
         $statistics = $this->model(HypervisorStatistic::class);
         $statistics->populateFromResponse($this->execute($this->api->getHypervisorStatistics(), []));
         return $statistics;
+    }
+
+    /**
+     * List hypervisors.
+     *
+     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     *                           the ID, name and links attributes are returned, saving bandwidth.
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getHypervisors}
+     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listHypervisors(bool $detailed = false, array $options = [], callable $mapFn = null): \Generator
+    {
+        $def = ($detailed === true) ? $this->api->getHypervisorsDetail() : $this->api->getHypervisors();
+        return $this->model(Hypervisor::class)->enumerate($def, $options, $mapFn);
+    }
+
+    /**
+     * Shows details for a given hypervisor.
+     *
+     * @param array $options
+     *
+     * @return Hypervisor
+     */
+    public function getHypervisor(array $options = []): Hypervisor
+    {
+        $hypervisor = $this->model(Hypervisor::class);
+        return $hypervisor->populateFromArray($options);
+    }
+
+    /**
+     * List hosts.
+     *
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getHosts}
+     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listHosts(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(Host::class)->enumerate($this->api->getHosts(), $options, $mapFn);
+    }
+
+    /**
+     * Retrieve a host object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see Host::retrieve}. For example:
+     *
+     * <code>$server = $service->getHost(['name' => '{name}']);</code>
+     *
+     * @param array $options An array of attributes that will be set on the {@see Host} object. The array keys need to
+     *                       correspond to the class public properties.
+     *
+     * @return \OpenStack\Compute\v2\Models\Host
+     */
+    public function getHost(array $options = []): Host
+    {
+        $host = $this->model(Host::class);
+        $host->populateFromArray($options);
+        return $host;
+    }
+
+    /**
+     * List AZs
+     *
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getAvailabiltyZones}
+     * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listAvailabilityZones(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(AvailabilityZone::class)->enumerate($this->api->getAvailabilityZones(), $options, $mapFn);
+    }
+
+    /**
+     * Shows A Quota for a tenant
+     *
+     * @param string $tenantId
+     * @param bool $detailed
+     *
+     * @return QuotaSet
+     */
+    public function getQuotaSet(string $tenantId, bool $detailed = false): QuotaSet
+    {
+        $quotaSet = $this->model(QuotaSet::class);
+        $quotaSet->populateFromResponse($this->execute($detailed ? $this->api->getQuotaSetDetail() : $this->api->getQuotaSet(), ['tenantId' => $tenantId]));
+
+        return $quotaSet;
     }
 }

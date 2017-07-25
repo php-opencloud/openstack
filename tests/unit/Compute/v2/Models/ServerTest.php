@@ -4,6 +4,7 @@ namespace OpenStack\Test\Compute\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
+use OpenStack\Networking\v2\Models\InterfaceAttachment;
 use OpenStack\Compute\v2\Api;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Server;
@@ -396,5 +397,21 @@ class ServerTest extends TestCase
         $this->setupMock('DELETE', 'servers/serverId/os-volume_attachments/' . $attachmentId, null, [], new Response(202));
 
         $this->server->detachVolume($attachmentId);
+    }
+
+    public function test_it_lists_interface_attachments()
+    {
+        $this->setupMock('GET', 'servers/serverId/os-interface', null, [], 'server-interface-attachments-get');
+
+        $interfaceAttachments = iterator_to_array($this->server->listInterfaceAttachments());
+
+        $this->assertEquals('ce531f90-199f-48c0-816c-13e38010b442', $interfaceAttachments[0]->portId);
+        $this->assertEquals('ACTIVE', $interfaceAttachments[0]->portState);
+        $this->assertEquals('3cb9bc59-5699-4588-a4b1-b87f96708bc6', $interfaceAttachments[0]->netId);
+        $this->assertEquals('fa:16:3e:4c:2c:30', $interfaceAttachments[0]->macAddr);
+        $this->assertEquals('192.168.1.3', $interfaceAttachments[0]->fixedIps[0]['ip_address']);
+        $this->assertEquals('f8a6e8f8-c2ec-497c-9f23-da9616de54ef', $interfaceAttachments[0]->fixedIps[0]['subnet_id']);
+
+        $this->assertInstanceOf(InterfaceAttachment::class, $interfaceAttachments[0]);
     }
 }

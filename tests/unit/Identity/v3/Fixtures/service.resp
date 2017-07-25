@@ -5,6 +5,7 @@ Content-Type: application/json
     "service": {
         "id": "serviceId",
         "name": "foo",
-        "type": "bar"
+        "type": "bar",
+        "description": "description"
     }
 }

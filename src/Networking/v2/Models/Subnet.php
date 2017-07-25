@@ -5,6 +5,7 @@ namespace OpenStack\Networking\v2\Models;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Retrievable;
 
@@ -13,7 +14,7 @@ use OpenStack\Common\Resource\Retrievable;
  *
  * @property \OpenStack\Networking\v2\Api $api
  */
-class Subnet extends OperatorResource implements Listable, Retrievable, Creatable, Deletable
+class Subnet extends OperatorResource implements Listable, Retrievable, Creatable, Deletable, Updateable
 {
     /** @var string */
     public $id;
@@ -113,5 +114,19 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
     public function delete()
     {
         $this->executeWithState($this->api->deleteSubnet());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getAttrs(array $keys)
+    {
+        $output = parent::getAttrs($keys);
+
+        if ($this->gatewayIp === '') {
+            $output['gatewayIp'] = null;
+        }
+
+        return $output;
     }
 }

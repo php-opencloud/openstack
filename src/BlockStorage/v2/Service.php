@@ -2,6 +2,7 @@
 
 namespace OpenStack\BlockStorage\v2;
 
+use OpenStack\BlockStorage\v2\Models\QuotaSet;
 use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
@@ -110,5 +111,20 @@ class Service extends AbstractService
         $snapshot = $this->model(Snapshot::class);
         $snapshot->populateFromArray(['id' => $snapshotId]);
         return $snapshot;
+    }
+
+    /**
+     * Shows A Quota for a tenant
+     *
+     * @param string $tenantId
+     *
+     * @return QuotaSet
+     */
+    public function getQuotaSet(string $tenantId): QuotaSet
+    {
+        $quotaSet = $this->model(QuotaSet::class);
+        $quotaSet->populateFromResponse($this->execute($this->api->getQuotaSet(), ['tenantId' => $tenantId]));
+
+        return $quotaSet;
     }
 }

@@ -5,6 +5,7 @@ namespace OpenStack\Integration\Compute\v2;
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\HypervisorStatistic;
+use OpenStack\Compute\v2\Models\Hypervisor;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
@@ -66,7 +67,7 @@ class CoreTest extends TestCase
 
         return $this->networkService;
     }
-    
+
     private function getBlockStorageService()
     {
         if (!$this->blockStorageService) {
@@ -179,7 +180,11 @@ class CoreTest extends TestCase
 
             // Limits
             $this->getLimits();
+
+            // Hypervisors
+            $this->listHypervisors();
             $this->getHypervisorsStatistics();
+            $this->getHypervisor();
 
             // Console
             $this->getVncConsole();
@@ -549,6 +554,28 @@ class CoreTest extends TestCase
         $this->logStep('Deleted keypair name {name}', ['{name}' => $this->keypairName]);
     }
 
+    private function listHypervisors()
+    {
+        require_once $this->sampleFile([], 'hypervisors/list_hypervisors.php');
+
+        $this->logStep('Listed all available hypervisors');
+    }
+
+    private function getHypervisor()
+    {
+        $replacements = [
+            '{hypervisorId}' => '1',
+        ];
+
+        require_once $this->sampleFile($replacements, 'hypervisors/get_hypervisor.php');
+
+        /**@var Hypervisor $hypervisor */
+        $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+        $this->assertEquals($replacements['{hypervisorId}'], $hypervisor->id);
+
+        $this->logStep('Retrieved details for hypervisor id {hypervisorId}', $replacements);
+    }
+
     private function getHypervisorsStatistics()
     {
         require_once  $this->sampleFile([], 'hypervisors/get_hypervisors_statistics.php');
@@ -575,7 +602,7 @@ class CoreTest extends TestCase
             '{serverId}' => $this->serverId,
             '{secGroupName}' => 'default'
         ];
-        
+
         require_once  $this->sampleFile($replacements, 'servers/add_security_group.php');
 
         /**@var Server $server*/

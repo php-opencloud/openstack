@@ -26,7 +26,7 @@ application’s PHP files:
 
     require 'vendor/autoload.php';
 
-This assumes your application’s PHP files are located in the same folder as ``vendor/``. If your files are located
+This assumes your application's PHP files are located in the same folder as ``vendor/``. If your files are located
 elsewhere, please supply the path to vendor/autoload.php in the require statement above.
 
 Supported services

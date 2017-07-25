@@ -37,7 +37,7 @@ class Params extends \OpenStack\Networking\v2\Params
         return [
             'type'        => self::STRING_TYPE,
             'description' => 'The floating IP address.',
-            'sentAs'      => 'fixed_ip_address',
+            'sentAs'      => 'floating_ip_address',
         ];
     }
 

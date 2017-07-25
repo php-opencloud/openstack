@@ -1,5 +1,14 @@
 {
     "name": "php-opencloud/openstack",
+    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi",
+    "keywords": [
+        "php",
+        "openstack",
+        "api",
+        "sdk"
+    ],
+    "homepage": "https://github.com/php-opencloud/openstack",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Jamie Hannaford",
@@ -32,7 +41,7 @@
     "require": {
         "php": "~7.0",
         "guzzlehttp/guzzle": "~6.1",
-        "justinrainbow/json-schema": "~1.3"
+        "justinrainbow/json-schema": "~3.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

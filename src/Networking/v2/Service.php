@@ -5,6 +5,7 @@ namespace OpenStack\Networking\v2;
 use OpenStack\Common\Service\AbstractService;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Port;
+use OpenStack\Networking\v2\Models\Quota;
 use OpenStack\Networking\v2\Models\Subnet;
 
 /**
@@ -162,5 +163,46 @@ class Service extends AbstractService
     public function listPorts(array $options = []): \Generator
     {
         return $this->model(Port::class)->enumerate($this->api->getPorts(), $options);
+    }
+
+    /**
+     * Lists quotas for projects with non-default quota values.
+     *
+     * @return \Generator
+     */
+    public function listQuotas(): \Generator
+    {
+        return $this->model(Quota::class)->enumerate($this->api->getQuotas(), []);
+    }
+
+    /**
+     * Lists quotas for a project.
+     *
+     * Retrieve a quota object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see Quota::retrieve}.
+     *
+     * @param string $tenantId
+     *
+     * @return Quota
+     */
+    public function getQuota(string $tenantId): Quota
+    {
+        return $this->model(Quota::class, ['tenantId' => $tenantId]);
+    }
+
+    /**
+     * Lists default quotas for a project
+     *
+     * @param string $tenantId
+     *
+     * @return Quota
+     */
+    public function getDefaultQuota(string $tenantId): Quota
+    {
+        $quota = $this->model(Quota::class, ['tenantId' => $tenantId]);
+        $quota->populateFromResponse($this->execute($this->api->getQuotaDefault(), ['tenantId' => $tenantId]));
+
+        return $quota;
     }
 }
