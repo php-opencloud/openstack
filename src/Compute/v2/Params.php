@@ -114,7 +114,7 @@ class Params extends AbstractParams
     {
         return [
             'type'        => self::STRING_TYPE,
-            'required'    => false,
+            'required'    => true,
             'sentAs'      => 'imageRef',
             'description' => 'The UUID of the image to use for your server instance. This is not required in case of boot from volume. In all other cases it is required and must be a valid UUID',
         ];

@@ -15,7 +15,6 @@ use OpenStack\Common\Resource\Retrievable;
  */
 class Host extends OperatorResource implements Listable, Retrievable
 {
-
     /** @var string **/
     public $name;
 
