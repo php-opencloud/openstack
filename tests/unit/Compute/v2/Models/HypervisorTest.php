@@ -32,19 +32,18 @@ class HypervisorTest extends TestCase
         $this->assertEquals('1', $this->hypervisor->id);
         $this->assertEquals('enabled', $this->hypervisor->status);
         $this->assertEquals('up', $this->hypervisor->state);
-
-        $this->assertEquals('146', $this->hypervisor->freeDiskGb);
-        $this->assertEquals('76917', $this->hypervisor->freeRamMb);
-        $this->assertEquals('localhost.localdomain', $this->hypervisor->hypervisorHostname);
-        $this->assertEquals('QEMU', $this->hypervisor->hypervisorType);
-        $this->assertEquals('2006000', $this->hypervisor->hypervisorVersion);
-        $this->assertEquals('266', $this->hypervisor->localGb);
-        $this->assertEquals('120', $this->hypervisor->localGbUsed);
-        $this->assertEquals('97909', $this->hypervisor->memoryMb);
-        $this->assertEquals('20992', $this->hypervisor->memoryMbUsed);
-        $this->assertEquals('4', $this->hypervisor->runningVms);
+        $this->assertEquals('146', $this->hypervisor->free_disk_gb);
+        $this->assertEquals('76917', $this->hypervisor->free_ram_mb);
+        $this->assertEquals('localhost.localdomain', $this->hypervisor->hypervisor_hostname);
+        $this->assertEquals('QEMU', $this->hypervisor->hypervisor_type);
+        $this->assertEquals('2006000', $this->hypervisor->hypervisor_version);
+        $this->assertEquals('266', $this->hypervisor->local_gb);
+        $this->assertEquals('120', $this->hypervisor->local_gb_used);
+        $this->assertEquals('97909', $this->hypervisor->memory_mb);
+        $this->assertEquals('20992', $this->hypervisor->memory_mb_used);
+        $this->assertEquals('4', $this->hypervisor->running_vms);
         $this->assertEquals('56', $this->hypervisor->vcpus);
-        $this->assertEquals('10', $this->hypervisor->vcpusUsed);
+        $this->assertEquals('10', $this->hypervisor->vcpus_used);
         $this->assertEquals(['host' => 'localhost.localdomain', 'id' => '8', 'disabled_reason' => null], $this->hypervisor->service);
     }
 }
