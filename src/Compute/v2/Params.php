@@ -116,7 +116,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'required'    => true,
             'sentAs'      => 'imageRef',
-            'description' => 'The unique ID of the image that this server will be based on',
+            'description' => 'The UUID of the image to use for your server instance. This is not required in case of boot from volume. In all other cases it is required and must be a valid UUID',
         ];
     }
 
@@ -286,6 +286,11 @@ EOL
                         'type'        => self::STRING_TYPE,
                         'sentAs'      => 'device_name',
                         'description' => 'Describes a path to the device for the volume you want to use to boot the server.',
+                    ],
+                    'volumeSize'          => [
+                        'type'        => self::INT_TYPE,
+                        'sentAs'      => 'volume_size',
+                        'description' => 'Size of the volume created if we are doing vol creation',
                     ],
                 ]
             ],

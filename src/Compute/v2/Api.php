@@ -190,7 +190,7 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'jsonKey' => 'server',
             'params'  => [
-                'imageId'            => $this->params->imageId(),
+                'imageId'            => $this->notRequired($this->params->imageId()),
                 'flavorId'           => $this->params->flavorId(),
                 'personality'        => $this->params->personality(),
                 'metadata'           => $this->notRequired($this->params->metadata()),
@@ -459,6 +459,18 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getInterfaceAttachments(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'servers/{id}/os-interface',
+            'jsonKey' => 'interfaceAttachments',
+            'params'  => [
+                'id'  => $this->params->urlId('server')
+            ]
+        ];
+    }
+
     public function getServerMetadata(): array
     {
         return [
@@ -639,7 +651,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hypervisors/statistics',
+            'path'   => 'os-hypervisors/statistics',
             'params' => [
             ]
         ];
@@ -648,10 +660,12 @@ class Api extends AbstractApi
     public function getHypervisors(): array
     {
         return [
-            'method' => 'GET',
-            'path' => 'os-hypervisors',
+            'method'  => 'GET',
+            'path'    => 'os-hypervisors',
             'jsonKey' => 'hypervisors',
-            'params' => [
+            'params'  => [
+                'limit' => $this->params->limit(),
+                'marker' => $this->params->marker()
             ],
         ];
     }
@@ -660,6 +674,7 @@ class Api extends AbstractApi
     {
         $definition = $this->getHypervisors();
         $definition['path'] .= '/detail';
+
         return $definition;
     }
 
@@ -667,8 +682,41 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hypervisors/{id}',
-            'params' => ['id' => $this->params->urlId('hypervisor')]
+            'path'   => 'os-hypervisors/{id}',
+            'params' => ['id' => $this->params->urlId('id')]
+        ];
+    }
+
+    public function getAvailabilityZones(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-availability-zone/detail',
+            'params' => [
+                'limit'  => $this->params->limit(),
+                'marker' => $this->params->marker()
+            ]
+        ];
+    }
+
+    public function getHosts(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hosts',
+            'params' => [
+                'limit'  => $this->params->limit(),
+                'marker' => $this->params->marker()
+            ]
+        ];
+    }
+
+    public function getHost(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-hosts/{name}',
+            'params' => ['name' => $this->params->urlId('name')]
         ];
     }
 

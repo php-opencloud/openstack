@@ -11,6 +11,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
+use OpenStack\Networking\v2\Models\InterfaceAttachment;
 use OpenStack\Compute\v2\Enum;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use Psr\Http\Message\ResponseInterface;
@@ -106,6 +107,10 @@ class Server extends OperatorResource implements
      */
     public function create(array $userOptions): Creatable
     {
+        if (!isset($userOptions['imageId']) && !isset($userOptions['blockDeviceMapping']['uuid'])) {
+            throw new \RuntimeException('imageId or blockDeviceMapping.uuid must be set.');
+        }
+
         $response = $this->execute($this->api->postServer(), $userOptions);
         return $this->populateFromResponse($response);
     }
@@ -311,6 +316,16 @@ class Server extends OperatorResource implements
         $data = (isset($options['networkLabel'])) ? $this->api->getAddressesByNetwork() : $this->api->getAddresses();
         $response = $this->execute($data, $options);
         return Utils::jsonDecode($response)['addresses'];
+    }
+
+    /**
+     * Returns Generator for InterfaceAttachment
+     *
+     * @return \Generator
+     */
+    public function listInterfaceAttachments(array $options = []): \Generator
+    {
+        return $this->model(InterfaceAttachment::class)->enumerate($this->api->getInterfaceAttachments(), ['id' => $this->id]);
     }
 
     /**
