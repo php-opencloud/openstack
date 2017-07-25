@@ -26,6 +26,9 @@ class ServerTest extends TestCase
         $this->server->id = 'serverId';
     }
 
+    /**
+     * @expectedException \RuntimeException
+     */
     public function test_it_creates()
     {
         $opts = [
@@ -41,8 +44,13 @@ class ServerTest extends TestCase
         ]];
 
         $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
-
         $this->assertInstanceOf(Server::class, $this->server->create($opts));
+
+        $opts = [
+            'name'     => 'foo',
+            'flavorId' => 'baz',
+        ];
+        $this->server->create($opts);
     }
 
     public function test_it_updates()

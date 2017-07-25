@@ -108,7 +108,7 @@ class Server extends OperatorResource implements
     public function create(array $userOptions): Creatable
     {
         if (!isset($userOptions['imageId']) && !isset($userOptions['blockDeviceMapping']['uuid'])) {
-            throw new \RuntimeException('Boot-from-volume UUID or image UUID is required');
+            throw new \RuntimeException('imageId or blockDeviceMapping.uuid must be set.');
         }
 
         $response = $this->execute($this->api->postServer(), $userOptions);

@@ -682,7 +682,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hypervisors/{id}',
+            'path'   => 'os-hypervisors/{id}',
             'params' => ['id' => $this->params->urlId('id')]
         ];
     }
@@ -691,9 +691,9 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-availability-zone/detail',
+            'path'   => 'os-availability-zone/detail',
             'params' => [
-                'limit' => $this->params->limit(),
+                'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker()
             ]
         ];
@@ -703,9 +703,9 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hosts',
+            'path'   => 'os-hosts',
             'params' => [
-                'limit' => $this->params->limit(),
+                'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker()
             ]
         ];
@@ -715,7 +715,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'os-hosts/{name}',
+            'path'   => 'os-hosts/{name}',
             'params' => ['name' => $this->params->urlId('name')]
         ];
     }
