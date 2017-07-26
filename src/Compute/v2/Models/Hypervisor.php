@@ -71,15 +71,6 @@ class Hypervisor extends OperatorResource implements
     public $diskAvailableLeast;
 
     /** @var array */
-    public $cpu_info;
-
-    /** @var int */
-    public $current_workload;
-
-    /** @var int */
-    public $disk_available_least;
-
-    /** @var array */
     public $service;
 
     protected $resourceKey = 'hypervisor';
@@ -108,14 +99,7 @@ class Hypervisor extends OperatorResource implements
      */
     public function retrieve()
     {
-<<<<<<< HEAD
-        // weasel around the id === string assumption
-        $this->id = strval($this->id);
-
-        $response = $this->execute($this->api->getHypervisor(), $this->getAttrs(['id']));
-=======
         $response = $this->execute($this->api->getHypervisor(), ['id' => (string) $this->id]);
->>>>>>> upstream/master
         $this->populateFromResponse($response);
     }
 }
