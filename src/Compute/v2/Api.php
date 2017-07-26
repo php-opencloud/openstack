@@ -664,7 +664,7 @@ class Api extends AbstractApi
             'path'    => 'os-hypervisors',
             'jsonKey' => 'hypervisors',
             'params'  => [
-                'limit' => $this->params->limit(),
+                'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker()
             ],
         ];
