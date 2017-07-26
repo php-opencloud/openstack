@@ -663,12 +663,8 @@ class Api extends AbstractApi
             'method'  => 'GET',
             'path'    => 'os-hypervisors',
             'jsonKey' => 'hypervisors',
-<<<<<<< HEAD
-            'params' => [
-=======
             'params'  => [
->>>>>>> upstream/master
-                'limit' => $this->params->limit(),
+                'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker()
             ],
         ];
@@ -676,33 +672,17 @@ class Api extends AbstractApi
 
     public function getHypervisorsDetail(): array
     {
-<<<<<<< HEAD
-        return [
-            'method' => 'GET',
-            'path' => 'os-hypervisors/detail',
-            'jsonKey' => 'hypervisors',
-            'params' => [
-                'limit' => $this->params->limit(),
-                'marker' => $this->params->marker()
-            ],
-        ];
-=======
         $definition = $this->getHypervisors();
         $definition['path'] .= '/detail';
 
         return $definition;
->>>>>>> upstream/master
     }
 
     public function getHypervisor(): array
     {
         return [
             'method' => 'GET',
-<<<<<<< HEAD
-            'path' => 'os-hypervisors/{id}',
-=======
             'path'   => 'os-hypervisors/{id}',
->>>>>>> upstream/master
             'params' => ['id' => $this->params->urlId('id')]
         ];
     }
