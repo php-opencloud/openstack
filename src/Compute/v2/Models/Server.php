@@ -107,7 +107,7 @@ class Server extends OperatorResource implements
      */
     public function create(array $userOptions): Creatable
     {
-        if (!isset($userOptions['imageId']) && !isset($userOptions['blockDeviceMapping']['uuid'])) {
+        if (!isset($userOptions['imageId']) && !isset($userOptions['blockDeviceMapping'][0]['uuid'])) {
             throw new \RuntimeException('imageId or blockDeviceMapping.uuid must be set.');
         }
 
