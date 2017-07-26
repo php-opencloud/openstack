@@ -223,22 +223,16 @@ class Service extends AbstractService
     }
 
     /**
-     * Retrieve a hypervisor object without calling the remote API. Any values provided in the array will populate the
-     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
-     * and have the response populate the object, call {@see Hypervisor::retrieve}. For example:
+     * Shows details for a given hypervisor.
      *
-     * <code>$server = $service->getHypervisor(['id' => '{id}']);</code>
+     * @param array $options
      *
-     * @param array $options An array of attributes that will be set on the {@see Hypervisor} object. The array keys need to
-     *                       correspond to the class public properties.
-     *
-     * @return \OpenStack\Compute\v2\Models\Hypervisor
+     * @return Hypervisor
      */
     public function getHypervisor(array $options = []): Hypervisor
     {
         $hypervisor = $this->model(Hypervisor::class);
-        $hypervisor->populateFromArray($options);
-        return $hypervisor;
+        return $hypervisor->populateFromArray($options);
     }
 
     /**
