@@ -43,15 +43,12 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
      */
     public $listeners;
 
-    /**
-     * @var LoadBalancer
-     */
-    public $loadbalancer;
-
     protected $resourceKey = 'statuses';
 
     protected $aliases = [
-        'loadbalancer_id' => 'loadbalancerId'
+        'loadbalancer_id'     => 'loadbalancerId',
+        'operating_status'    => 'operatingStatus',
+        'provisioning_status' => 'provisioningStatus'
     ];
 
     /**
@@ -60,22 +57,7 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
     public function retrieve()
     {
         $response = $this->execute($this->api->getLoadBalancerStatuses(), ['loadbalancerId' => (string)$this->loadbalancerId]);
-        $this->populateFromResponse($response);
-        $this->flattenStatus();
-    }
-
-    /**
-     * Flatten this class to something more usable
-     */
-    private function flattenStatus()
-    {
-        if ($this->loadbalancer instanceof LoadBalancer) {
-            $this->name = $this->loadbalancer->name;
-            $this->id = $this->loadbalancer->id;
-            $this->operatingStatus = $this->loadbalancer->operatingStatus;
-            $this->provisioningStatus = $this->loadbalancer->provisioningStatus;
-            $this->listeners = $this->loadbalancer->listeners;
-            unset($this->loadbalancer);
-        }
+        $json = Utils::jsonDecode($response);
+        $this->populateFromArray($json[$this->resourceKey]['loadbalancer']);
     }
 }

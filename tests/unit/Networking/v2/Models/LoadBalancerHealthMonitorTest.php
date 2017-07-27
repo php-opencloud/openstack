@@ -37,14 +37,14 @@ class LoadBalancerHealthMonitorTest extends TestCase
 
         $expectedJson = ['healthmonitor' => [
             'admin_state_up' => $opts['adminStateUp'],
-            'tenant_id' => $opts['tenantId'],
-            'delay' => $opts['delay'],
-            'type' => $opts['type'],
+            'tenant_id'      => $opts['tenantId'],
+            'delay'          => $opts['delay'],
+            'type'           => $opts['type'],
             'expected_codes' => $opts['expectedCodes'],
-            'max_retries' => $opts['maxRetries'],
-            'http_method' => $opts['httpMethod'],
-            'url_path' => $opts['urlPath'],
-            'timeout' => $opts['timeout']
+            'max_retries'    => $opts['maxRetries'],
+            'http_method'    => $opts['httpMethod'],
+            'url_path'       => $opts['urlPath'],
+            'timeout'        => $opts['timeout']
         ]];
 
         $this->setupMock('POST', 'v2.0/lbaas/healthmonitors', $expectedJson, [], 'loadbalancer-healthmonitor-post');
@@ -64,11 +64,11 @@ class LoadBalancerHealthMonitorTest extends TestCase
         $this->healthmonitor->adminStateUp = true;
 
         $expectedJson = ['healthmonitor' => [
-            'delay' => 48,
-            'timeout' => 54,
-            'max_retries' => 11,
-            'http_method' => 'POST',
-            'url_path' => 'test2',
+            'delay'          => 48,
+            'timeout'        => 54,
+            'max_retries'    => 11,
+            'http_method'    => 'POST',
+            'url_path'       => 'test2',
             'expected_codes' => '200,201,202',
             'admin_state_up' => true
         ]];

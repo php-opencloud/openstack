@@ -33,10 +33,10 @@ class LoadBalancerMemberTest extends TestCase
         ];
 
         $expectedJson = ['member' => [
-            'address' => $opts['address'],
-            'protocol_port' => $opts['protocolPort'],
-            'weight' => $opts['weight'],
-            'subnet_id' => $opts['subnetId'],
+            'address'        => $opts['address'],
+            'protocol_port'  => $opts['protocolPort'],
+            'weight'         => $opts['weight'],
+            'subnet_id'      => $opts['subnetId'],
             'admin_state_up' => $opts['adminStateUp']
         ]];
 
@@ -52,7 +52,7 @@ class LoadBalancerMemberTest extends TestCase
         $this->member->adminStateUp = false;
 
         $expectedJson = ['member' => [
-            'weight' => 154,
+            'weight'         => 154,
             'admin_state_up' => false
         ]];
 

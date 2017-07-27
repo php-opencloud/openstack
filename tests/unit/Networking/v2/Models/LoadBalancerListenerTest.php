@@ -34,12 +34,12 @@ class LoadBalancerListenerTest extends TestCase
         ];
 
         $expectedJson = ['listener' => [
-            'name' => $opts['name'],
-            'description' => $opts['description'],
-            'tenant_id' => $opts['tenantId'],
-            'protocol' => $opts['protocol'],
-            'protocol_port' => $opts['protocolPort'],
-            'admin_state_up' => $opts['adminStateUp'],
+            'name'             => $opts['name'],
+            'description'      => $opts['description'],
+            'tenant_id'        => $opts['tenantId'],
+            'protocol'         => $opts['protocol'],
+            'protocol_port'    => $opts['protocolPort'],
+            'admin_state_up'   => $opts['adminStateUp'],
             'connection_limit' => $opts['connectionLimit']
         ]];
 
@@ -57,10 +57,10 @@ class LoadBalancerListenerTest extends TestCase
         $this->listener->adminStateUp = false;
 
         $expectedJson = ['listener' => [
-            'name' => 'foo',
-            'description' => 'bar',
+            'name'             => 'foo',
+            'description'      => 'bar',
             'connection_limit' => 999,
-            'admin_state_up' => false
+            'admin_state_up'   => false
         ]];
 
         $this->setupMock('PUT', 'v2.0/lbaas/listeners/listenerId', $expectedJson, [], 'loadbalancer-listener-put');

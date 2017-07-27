@@ -355,7 +355,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/loadbalancers',
+            'path'   => $this->pathPrefix . '/lbaas/loadbalancers',
             'params' => []
         ];
     }
@@ -364,7 +364,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/loadbalancers/{id}',
+            'path'   => $this->pathPrefix . '/lbaas/loadbalancers/{id}',
             'params' => []
         ];
     }
@@ -417,7 +417,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/listeners',
+            'path'   => $this->pathPrefix . '/lbaas/listeners',
             'params' => []
         ];
     }
@@ -426,7 +426,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/listeners/{id}',
+            'path'   => $this->pathPrefix . '/lbaas/listeners/{id}',
             'params' => []
         ];
     }
@@ -481,7 +481,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/pools',
+            'path'   => $this->pathPrefix . '/lbaas/pools',
             'params' => []
         ];
     }
@@ -490,7 +490,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/pools/{id}',
+            'path'   => $this->pathPrefix . '/lbaas/pools/{id}',
             'params' => []
         ];
     }
@@ -545,7 +545,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/pools/{poolId}/members',
+            'path'   => $this->pathPrefix . '/lbaas/pools/{poolId}/members',
             'params' => [
               'poolId' => $this->params->poolId()
             ]
@@ -556,7 +556,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/pools/{poolId}/members/{id}',
+            'path'   => $this->pathPrefix . '/lbaas/pools/{poolId}/members/{id}',
             'params' => [
               'id'      => $this->params->idPath('member'),
               'poolId' => $this->params->poolId()
@@ -612,7 +612,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/loadbalancers/{loadbalancerId}/stats',
+            'path'   => $this->pathPrefix . '/lbaas/loadbalancers/{loadbalancerId}/stats',
             'params' => [
               'loadbalancerId' => $this->params->loadBalancerIdUrl()
             ]
@@ -623,7 +623,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/loadbalancers/{loadbalancerId}/statuses',
+            'path'   => $this->pathPrefix . '/lbaas/loadbalancers/{loadbalancerId}/statuses',
             'params' => [
               'loadbalancerId' => $this->params->loadBalancerIdUrl()
             ]
@@ -634,7 +634,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/healthmonitors',
+            'path'   => $this->pathPrefix . '/lbaas/healthmonitors',
             'params' => []
         ];
     }
@@ -643,7 +643,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/lbaas/healthmonitors/{id}',
+            'path'   => $this->pathPrefix . '/lbaas/healthmonitors/{id}',
             'params' => [
                 'id' => $this->params->idPath()
             ]
@@ -696,7 +696,7 @@ class Api extends AbstractApi
             'method' => 'DELETE',
             'path'   => $this->pathPrefix . '/lbaas/healthmonitors/{id}',
             'params' => [
-                'id' => $this->params->idPath()
+            'id'     => $this->params->idPath()
             ]
         ];
     }

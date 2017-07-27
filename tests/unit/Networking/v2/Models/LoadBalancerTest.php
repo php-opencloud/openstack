@@ -36,12 +36,12 @@ class LoadBalancerTest extends TestCase
         ];
 
         $expectedJson = ['loadbalancer' => [
-            'name' => $opts['name'],
-            'description' => $opts['description'],
-            'tenant_id' => $opts['tenantId'],
-            'vip_subnet_id' => $opts['vipSubnetId'],
-            'vip_address' => $opts['vipAddress'],
-            'admin_state_up' => $opts['adminStateUp'],
+            'name'           => $opts['name'],
+            'description'    => $opts['description'],
+            'tenant_id'      => $opts['tenantId'],
+            'vip_subnet_id'  => $opts['vipSubnetId'],
+            'vip_address'    => $opts['vipAddress'],
+            'admin_state_up' => $opts['adminStateUp']
         ]];
 
         $this->setupMock('POST', 'v2.0/lbaas/loadbalancers', $expectedJson, [], 'loadbalancer-post');
@@ -56,7 +56,7 @@ class LoadBalancerTest extends TestCase
         $this->loadbalancer->description = 'bar';
 
         $expectedJson = ['loadbalancer' => [
-            'name' => 'foo',
+            'name'        => 'foo',
             'description' => 'bar'
         ]];
 
@@ -96,14 +96,14 @@ class LoadBalancerTest extends TestCase
         ];
 
         $expectedJson = ['listener' => [
-            'name' => $opts['name'],
-            'description' => $opts['description'],
-            'tenant_id' => $opts['tenantId'],
-            'protocol' => $opts['protocol'],
-            'protocol_port' => $opts['protocolPort'],
+            'name'             => $opts['name'],
+            'description'      => $opts['description'],
+            'tenant_id'        => $opts['tenantId'],
+            'protocol'         => $opts['protocol'],
+            'protocol_port'    => $opts['protocolPort'],
             'connection_limit' => $opts['connectionLimit'],
-            'admin_state_up' => $opts['adminStateUp'],
-            'loadbalancer_id' => 'loadbalancerId'
+            'admin_state_up'   => $opts['adminStateUp'],
+            'loadbalancer_id'  => 'loadbalancerId'
         ]];
 
         $this->setupMock('POST', 'v2.0/lbaas/listeners', $expectedJson, [], 'loadbalancer-listener-post');

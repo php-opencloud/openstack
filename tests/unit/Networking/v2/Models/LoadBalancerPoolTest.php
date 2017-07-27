@@ -32,20 +32,20 @@ class LoadBalancerPoolTest extends TestCase
             'lbAlgorithm'     => 'ROUND_ROBIN',
             'listenerId'      => 'listener1',
             'sessionPersistence' => [
-              'type' => 'APP_COOKIE',
+              'type'        => 'APP_COOKIE',
               'cookie_name' => 'my_cookie'
             ],
             'adminStateUp'    => true
         ];
 
         $expectedJson = ['pool' => [
-            'name' => $opts['name'],
-            'description' => $opts['description'],
-            'protocol' => $opts['protocol'],
-            'lb_algorithm' => $opts['lbAlgorithm'],
-            'listener_id' => $opts['listenerId'],
+            'name'                => $opts['name'],
+            'description'         => $opts['description'],
+            'protocol'            => $opts['protocol'],
+            'lb_algorithm'        => $opts['lbAlgorithm'],
+            'listener_id'         => $opts['listenerId'],
             'session_persistence' => $opts['sessionPersistence'],
-            'admin_state_up' => $opts['adminStateUp']
+            'admin_state_up'      => $opts['adminStateUp']
         ]];
 
         $this->setupMock('POST', 'v2.0/lbaas/pools', $expectedJson, [], 'loadbalancer-pool-post');
@@ -60,20 +60,20 @@ class LoadBalancerPoolTest extends TestCase
         $this->pool->description = 'bar';
         $this->pool->lbAlgorithm = 'LEAST_CONNECTIONS';
         $this->pool->sessionPersistence = [
-            'type' => 'APP_COOKIE',
+            'type'        => 'APP_COOKIE',
             'cookie_name' => 'new_cookie'
         ];
         $this->pool->adminStateUp = false;
 
         $expectedJson = ['pool' => [
-            'name' => 'foo',
-            'description' => 'bar',
-            'lb_algorithm' => 'LEAST_CONNECTIONS',
+            'name'                => 'foo',
+            'description'         => 'bar',
+            'lb_algorithm'        => 'LEAST_CONNECTIONS',
             'session_persistence' => [
-                'type' => 'APP_COOKIE',
+                'type'        => 'APP_COOKIE',
                 'cookie_name' => 'new_cookie'
             ],
-            'admin_state_up' => false
+            'admin_state_up'      => false
         ]];
 
         $this->setupMock('PUT', 'v2.0/lbaas/pools/poolId', $expectedJson, [], 'loadbalancer-pool-put');
@@ -110,11 +110,11 @@ class LoadBalancerPoolTest extends TestCase
         ];
 
         $expectedJson = ['member' => [
-            'address' => $opts['address'],
-            'protocol_port' => $opts['protocolPort'],
-            'subnet_id' => $opts['subnetId'],
+            'address'        => $opts['address'],
+            'protocol_port'  => $opts['protocolPort'],
+            'subnet_id'      => $opts['subnetId'],
             'admin_state_up' => $opts['adminStateUp'],
-            'weight' => $opts['weight']
+            'weight'         => $opts['weight']
         ]];
 
         $this->setupMock('POST', 'v2.0/lbaas/pools/poolId/members', $expectedJson, [], 'loadbalancer-member-post');
@@ -152,15 +152,15 @@ class LoadBalancerPoolTest extends TestCase
 
         $expectedJson = ['healthmonitor' => [
             'admin_state_up' => $opts['adminStateUp'],
-            'tenant_id' => $opts['tenantId'],
-            'delay' => $opts['delay'],
-            'type' => $opts['type'],
+            'tenant_id'      => $opts['tenantId'],
+            'delay'          => $opts['delay'],
+            'type'           => $opts['type'],
             'expected_codes' => $opts['expectedCodes'],
-            'max_retries' => $opts['maxRetries'],
-            'http_method' => $opts['httpMethod'],
-            'url_path' => $opts['urlPath'],
-            'timeout' => $opts['timeout'],
-            'pool_id' => $this->pool->id
+            'max_retries'    => $opts['maxRetries'],
+            'http_method'    => $opts['httpMethod'],
+            'url_path'       => $opts['urlPath'],
+            'timeout'        => $opts['timeout'],
+            'pool_id'        => $this->pool->id
         ]];
 
         $this->setupMock('POST', 'v2.0/lbaas/healthmonitors', $expectedJson, [], 'loadbalancer-healthmonitor-post');
