@@ -26,9 +26,6 @@ class ServerTest extends TestCase
         $this->server->id = 'serverId';
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function test_it_creates()
     {
         $opts = [
@@ -45,12 +42,36 @@ class ServerTest extends TestCase
 
         $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
         $this->assertInstanceOf(Server::class, $this->server->create($opts));
+    }
 
+    public function test_it_creates_with_boot_from_volume()
+    {
         $opts = [
             'name'     => 'foo',
             'flavorId' => 'baz',
+            'blockDeviceMapping' => [['uuid' => 'aaaa-ddddd-bbbb-ccccc']]
         ];
-        $this->server->create($opts);
+
+        $expectedJson = ['server' => [
+            'name' => $opts['name'],
+            'flavorRef' => $opts['flavorId'],
+            'block_device_mapping_v2' => $opts['blockDeviceMapping']
+        ]];
+
+        $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
+        $this->assertInstanceOf(Server::class, $this->server->create($opts));
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage imageId or blockDeviceMapping.uuid must be set.
+     */
+    public function test_it_requires_image_id_or_volume_id_to_create_servers()
+    {
+        $this->server->create([
+            'name' => 'some-server-name',
+            'flavorId' => 'apple'
+        ]);
     }
 
     public function test_it_updates()

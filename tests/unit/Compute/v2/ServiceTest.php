@@ -18,6 +18,7 @@ use Prophecy\Argument;
 
 class ServiceTest extends TestCase
 {
+    /** @var Service */
     private $service;
 
     public function setUp()
