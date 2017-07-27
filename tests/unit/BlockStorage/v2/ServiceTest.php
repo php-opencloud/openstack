@@ -4,6 +4,7 @@ namespace unit\BlockStorage\v2;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\BlockStorage\v2\Api;
+use OpenStack\BlockStorage\v2\Models\QuotaSet;
 use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
@@ -178,5 +179,20 @@ class ServiceTest extends TestCase
 
         $this->assertInstanceOf(Snapshot::class, $snapshot);
         $this->assertEquals('snapshotId', $snapshot->id);
+    }
+
+    public function test_it_gets_quota_set()
+    {
+        $this->client
+            ->request('GET', 'os-quota-sets/tenant-id-1234', ['headers' => []])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('GET_quota_set'));
+
+        $quotaSet = $this->service->getQuotaSet('tenant-id-1234');
+
+        $this->assertInstanceOf(QuotaSet::class, $quotaSet);
+        $this->assertEquals(1, $quotaSet->gigabytes);
+        $this->assertEquals(2, $quotaSet->snapshots);
+        $this->assertEquals(3, $quotaSet->volumes);
     }
 }
