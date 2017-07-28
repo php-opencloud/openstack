@@ -19,5 +19,5 @@ $openstack = new OpenStack\OpenStack([
 $networking = $openstack->networkingV2();
 
 foreach ($networking->listLoadBalancerListeners() as $listener) {
-  // Do Stuff
+    // Do Stuff
 }
