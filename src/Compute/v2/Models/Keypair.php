@@ -25,6 +25,9 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     /** @var string */
     public $publicKey;
 
+    /** @var string */
+    public $privateKey;
+
     /** @var  boolean */
     public $deleted;
 
@@ -36,9 +39,10 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
 
     /** @var \DateTimeImmutable */
     public $createdAt;
-    
+
     protected $aliases = [
         'public_key' => 'publicKey',
+        'private_key' => 'privateKey',
         'user_id'    => 'userId',
         'created_at' => 'createdAt',
     ];

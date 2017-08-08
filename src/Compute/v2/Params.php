@@ -388,7 +388,6 @@ EOL
     {
         return [
             'type'        => self::STRING_TYPE,
-            'required'    => true,
             'sentAs'      => 'public_key',
             'location'    => self::JSON,
             'description' => 'The public ssh key to import. If you omit this value, a key is generated.',
