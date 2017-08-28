@@ -443,4 +443,21 @@ class ServerTest extends TestCase
 
         $this->assertInstanceOf(InterfaceAttachment::class, $interfaceAttachments[0]);
     }
+
+    /** @test */
+    public function test_it_creates_interface_attachments()
+    {
+        $networkId = 'fooooobarrrr';
+
+        $expectedJson = [
+            'interfaceAttachment' => ['net_id' => $networkId]
+        ];
+
+        $this->setupMock('POST', 'servers/serverId/os-interface', $expectedJson, [], 'server-interface-attachments-post');
+
+        $interfaceAttachment = $this->server->createInterfaceAttachment(['networkId' => $networkId]);
+
+        $this->assertEquals('ACTIVE', $interfaceAttachment->portState);
+        $this->assertEquals('10.0.0.1', $interfaceAttachment->fixedIps[0]['ip_address']);
+    }
 }

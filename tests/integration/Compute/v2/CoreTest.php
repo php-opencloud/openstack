@@ -188,6 +188,9 @@ class CoreTest extends TestCase
 
             // Console
             $this->getVncConsole();
+
+            // Interface attachments
+            $this->createInterfaceAttachment();
         } finally {
             // Teardown
             $this->deleteServer();
@@ -687,5 +690,17 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'servers/get_server_vnc_console.php');
 
         $this->logStep('Get VNC console for server {serverId}', $replacements);
+    }
+
+    private function createInterfaceAttachment()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId,
+            '{networkId}' => $this->network->id
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/create_interface_attachment.php');
+
+        $this->logStep('Create interface attachment for server {serverId}', $replacements);
     }
 }
