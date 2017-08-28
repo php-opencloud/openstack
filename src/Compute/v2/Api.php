@@ -471,6 +471,18 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getInterfaceAttachment(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'servers/{id}/os-interface/{portId}',
+            'params'  => [
+                'id'  => $this->params->urlId('server'),
+                'portId' => $this->params->portId()
+            ]
+        ];
+    }
+
     public function postInterfaceAttachment(): array
     {
         return [
@@ -494,7 +506,7 @@ class Api extends AbstractApi
             'path'   => 'servers/{id}/os-interface/{portId}',
             'params' => [
                 'id'  => $this->params->urlId('image'),
-                'portId' => $this->params->portId(),
+                'portId' => $this->params->portId()
             ]
         ];
     }
