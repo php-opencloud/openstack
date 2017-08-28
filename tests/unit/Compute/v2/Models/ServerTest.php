@@ -460,4 +460,13 @@ class ServerTest extends TestCase
         $this->assertEquals('ACTIVE', $interfaceAttachment->portState);
         $this->assertEquals('10.0.0.1', $interfaceAttachment->fixedIps[0]['ip_address']);
     }
+
+    public function test_it_detaches_interfaces()
+    {
+        $portId = 'a-dummy-port-id';
+
+        $this->setupMock('DELETE', 'servers/serverId/os-interface/' . $portId, ['port_id' => $portId], [], new Response(202));
+
+        $this->server->detachInterface($portId);
+    }
 }

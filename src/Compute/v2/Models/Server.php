@@ -353,6 +353,19 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Detaches an interface attachment.
+     *
+     * @param string $portId
+     */
+    public function detachInterface(string $portId)
+    {
+        $this->execute($this->api->deleteInterfaceAttachment(), [
+            'id' => $this->id,
+            'portId' => $portId,
+        ]);
+    }
+
+    /**
      * Retrieves metadata from the API.
      *
      * @return array
