@@ -487,6 +487,18 @@ class Api extends AbstractApi
         ];
     }
 
+    public function deleteInterfaceAttachment(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'servers/{id}/os-interface/{portId}',
+            'params' => [
+                'id'  => $this->params->urlId('image'),
+                'portId' => $this->params->portId(),
+            ]
+        ];
+    }
+
     public function getServerMetadata(): array
     {
         return [
