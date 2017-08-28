@@ -130,6 +130,46 @@ class Params extends AbstractParams
         ];
     }
 
+    public function networkId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => true,
+            'sentAs'      => 'net_id',
+            'description' => 'The unique ID of a network',
+        ];
+    }
+
+    public function portId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => true,
+            'sentAs'      => 'port_id',
+            'description' => 'The unique ID of a port',
+        ];
+    }
+
+    public function tag(): array
+    {
+        return [
+            'type' => self::STRING_TYPE,
+        ];
+    }
+
+    public function fixedIpAddresses(): array
+    {
+        return [
+            'type'        => self::ARRAY_TYPE,
+            'sentAs'      => 'fixed_ips',
+            'description' => 'A list of ip addresses which this interface will be associated with',
+            'items'       => [
+                'type'       => self::OBJECT_TYPE,
+                'properties' => ['ip_address' => ['type' => self::STRING_TYPE]]
+            ],
+        ];
+    }
+
     public function metadata(): array
     {
         return [

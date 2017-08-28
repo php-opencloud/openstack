@@ -471,6 +471,22 @@ class Api extends AbstractApi
         ];
     }
 
+    public function postInterfaceAttachment(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/os-interface',
+            'jsonKey' => 'interfaceAttachment',
+            'params'  => [
+                'id'  => $this->params->urlId('server'),
+                'portId' => $this->notRequired($this->params->portId()),
+                'networkId' => $this->notRequired($this->params->networkId()),
+                'fixedIpAddresses' => $this->notRequired($this->params->fixedIpAddresses()),
+                'tag' => $this->notRequired($this->params->tag()),
+            ]
+        ];
+    }
+
     public function getServerMetadata(): array
     {
         return [
