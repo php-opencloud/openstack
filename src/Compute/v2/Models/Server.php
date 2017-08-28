@@ -247,6 +247,22 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Gets the console output of the server.
+     *
+     * @param int $length The number of lines, by default all lines will be returned.
+     * @return string
+     */
+    public function getConsoleOutput(int $length = -1)
+    {
+        $response = $this->execute($this->api->getConsoleOutput(), [
+            'id' => $this->id,
+            'length' => $length
+        ]);
+
+        return Utils::jsonDecode($response)['output'];
+    }
+
+    /**
      * Gets a VNC console for a server.
      *
      * @param  string $type The type of VNC console: novnc|xvpvnc.

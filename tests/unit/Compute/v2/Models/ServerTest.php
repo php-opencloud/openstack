@@ -209,6 +209,14 @@ class ServerTest extends TestCase
         $this->assertNull($this->server->revertResize());
     }
 
+    public function test_it_gets_console_output()
+    {
+        $expectedJson = ["os-getConsoleOutput" => ["length" => 3]];
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-output');
+
+        $this->assertEquals("FAKE CONSOLE OUTPUT\nANOTHER\nLAST LINE", $this->server->getConsoleOutput(3));
+    }
+
     public function test_it_gets_vnc_console()
     {
         $type = 'novnc';

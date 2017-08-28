@@ -372,6 +372,19 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getConsoleOutput(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'jsonKey' => 'os-getConsoleOutput',
+            'params'  => [
+                'id'     => $this->params->urlId('server'),
+                'length' => $this->notRequired($this->params->consoleLogLength()),
+            ],
+        ];
+    }
+
     public function createServerImage(): array
     {
         return [
