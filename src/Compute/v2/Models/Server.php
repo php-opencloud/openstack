@@ -194,6 +194,28 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Suspend server
+     */
+    public function suspend()
+    {
+        $this->execute($this->api->suspendServer(), [
+            'id' => $this->id,
+            'suspend' => null
+        ]);
+    }
+
+    /**
+     * Resume server
+     */
+    public function resume()
+    {
+        $this->execute($this->api->resumeServer(), [
+            'id' => $this->id,
+            'resume' => null
+        ]);
+    }
+
+    /**
      * Rebuilds the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}
