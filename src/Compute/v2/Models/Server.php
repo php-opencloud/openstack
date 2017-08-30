@@ -252,7 +252,7 @@ class Server extends OperatorResource implements
      * @param int $length The number of lines, by default all lines will be returned.
      * @return string
      */
-    public function getConsoleOutput(int $length = -1)
+    public function getConsoleOutput(int $length = -1): string
     {
         $response = $this->execute($this->api->getConsoleOutput(), [
             'id' => $this->id,
