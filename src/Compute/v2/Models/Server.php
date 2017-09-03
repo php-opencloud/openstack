@@ -85,6 +85,12 @@ class Server extends OperatorResource implements
     /** @var string */
     public $taskState;
 
+    /** @var string */
+    public $powerState;
+
+    /** @var string */
+    public $vmState;
+
     protected $resourceKey = 'server';
     protected $resourcesKey = 'servers';
     protected $markerKey = 'id';
@@ -97,6 +103,8 @@ class Server extends OperatorResource implements
         'user_id'                             => 'userId',
         'security_groups'                     => 'securityGroups',
         'OS-EXT-STS:task_state'               => 'taskState',
+        'OS-EXT-STS:power_state'              => 'powerState',
+        'OS-EXT-STS:vm_state'                 => 'vmState',
         'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
     ];
 
