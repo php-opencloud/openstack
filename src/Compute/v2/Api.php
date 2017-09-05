@@ -242,6 +242,15 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getServerDiagnostics(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/diagnostics',
+            'params' => ['id' => $this->params->urlId('server')]
+        ];
+    }
+
     public function putServer(): array
     {
         return [
