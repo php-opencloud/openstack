@@ -311,7 +311,7 @@ class Api extends AbstractApi
             'jsonKey' => 'os-extend',
             'params'  => [
                 'id'       => $this->params->idPath(),
-                'new_size' => $this->params->name('size'),
+                'new_size' => $this->params->size(),
             ],
         ];
     }

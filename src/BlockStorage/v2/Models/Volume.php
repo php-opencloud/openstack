@@ -140,7 +140,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     {
         $response = $this->execute($this->api->extendVolume(), [
           'id' => $this->id,
-          'size' => $new_size,
+          'new_size' => $size_in_gb
         ]);
 
         $this->populateFromResponse($response);
