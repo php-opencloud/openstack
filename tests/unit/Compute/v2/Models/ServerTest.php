@@ -185,6 +185,24 @@ class ServerTest extends TestCase
         $this->assertNull($this->server->stop());
     }
 
+    public function test_it_suspends()
+    {
+        $expectedJson = ['suspend' => null];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+
+        $this->assertNull($this->server->suspend());
+    }
+
+    public function test_it_resumes()
+    {
+        $expectedJson = ['resume' => null];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+
+        $this->assertNull($this->server->resume());
+    }
+
     public function test_it_resizes()
     {
         $expectedJson = ['resize' => ['flavorRef' => 'flavorId']];

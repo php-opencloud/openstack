@@ -204,6 +204,17 @@ class Server extends OperatorResource implements
         ]);
     }
 
+    /*
+     * Suspend server
+     */
+    public function suspend()
+    {
+        $this->execute($this->api->suspendServer(), [
+            'id' => $this->id,
+            'suspend' => null
+        ]);
+    }
+
     /**
      * Shelf-offloads server
      */
@@ -223,6 +234,17 @@ class Server extends OperatorResource implements
         $this->execute($this->api->unshelveServer(), [
             'id' => $this->id,
             'unshelve' => null
+        ]);
+    }
+
+    /*
+     * Resume server
+     */
+    public function resume()
+    {
+        $this->execute($this->api->resumeServer(), [
+            'id' => $this->id,
+            'resume' => null
         ]);
     }
 

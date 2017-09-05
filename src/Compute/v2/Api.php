@@ -316,6 +316,30 @@ class Api extends AbstractApi
         ];
     }
 
+    public function resumeServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'      => $this->params->urlId('server'),
+                'resume' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function suspendServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'      => $this->params->urlId('server'),
+                'suspend' => $this->params->nullAction()
+            ],
+        ];
+    }
+
     public function shelveServer() : array
     {
         return [
@@ -323,7 +347,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/action',
             'params'  => [
                 'id'     => $this->params->urlId('server'),
-                'shelve' => $this->params->nullAction()
+                'shelve' => $this->params->nullAction(),
             ],
         ];
     }
