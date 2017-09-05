@@ -135,4 +135,14 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         $json = Utils::jsonDecode($response);
         return isset($json['metadata']) ? $json['metadata'] : [];
     }
+
+    public function extend(int $size_in_gb)
+    {
+        $response = $this->execute($this->api->extendVolume(), [
+          'id' => $this->id,
+          'size' => $new_size,
+        ]);
+
+        $this->populateFromResponse($response);
+    }
 }
