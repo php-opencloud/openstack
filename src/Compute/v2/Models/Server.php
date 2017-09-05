@@ -194,6 +194,39 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Shelves server
+     */
+    public function shelve()
+    {
+        $this->execute($this->api->shelveServer(), [
+            'id' => $this->id,
+            'shelve' => null
+        ]);
+    }
+
+    /**
+     * Shelf-offloads server
+     */
+    public function shelveOffload()
+    {
+        $this->execute($this->api->shelveOffloadServer(), [
+            'id' => $this->id,
+            'shelveOffload' => null
+        ]);
+    }
+
+    /**
+     * Unshelves server
+     */
+    public function unshelve()
+    {
+        $this->execute($this->api->unshelveServer(), [
+            'id' => $this->id,
+            'unshelve' => null
+        ]);
+    }
+
+    /**
      * Rebuilds the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}

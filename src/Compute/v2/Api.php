@@ -316,6 +316,42 @@ class Api extends AbstractApi
         ];
     }
 
+    public function shelveServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'     => $this->params->urlId('server'),
+                'shelve' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function shelveOffloadServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'            => $this->params->urlId('server'),
+                'shelveOffload' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function unshelveServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'       => $this->params->urlId('server'),
+                'unshelve' => $this->params->nullAction()
+            ],
+        ];
+    }
+
     public function rebuildServer(): array
     {
         return [
