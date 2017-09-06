@@ -347,6 +347,18 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Get the console log.
+     *
+     * @param int $length Number of lines of console log to grab.
+     *
+     * @return string - the console log output
+     */
+    public function getConsoleLog(int $length = 50): string {
+        $response = $this->execute($this->api->getConsoleLog(), ['id' => $this->id, 'length' => $length]);
+        return Utils::jsonDecode($response)['output'];
+    }
+
+    /**
      * Creates an image for the current server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::createServerImage}

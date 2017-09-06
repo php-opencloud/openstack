@@ -498,6 +498,19 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getConsoleLog(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'servers/{id}/action',
+            'jsonKey' => 'os-getConsoleOutput',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'length' => $this->params->consoleLogLength()
+            ]
+        ];
+    }
+
     public function getAddresses(): array
     {
         return [
