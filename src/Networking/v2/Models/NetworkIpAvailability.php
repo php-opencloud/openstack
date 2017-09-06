@@ -49,7 +49,6 @@ class NetworkIpAvailability extends OperatorResource implements Listable, Retrie
 
     protected $resourceKey = 'network_ip_availability';
     protected $resourcesKey = 'network_ip_availabilities';
-    protected $markerKey = 'network_id';
 
     /**
      * {@inheritDoc}
