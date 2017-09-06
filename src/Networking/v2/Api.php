@@ -705,8 +705,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/network-ip-availability/{id}',
-            'params' => ['id' => $this->params->idPath()],
+            'path'   => $this->pathPrefix . '/network-ip-availabilities/{id}',
+            'params' => ['id' => $this->params->urlId('network')],
         ];
     }
 
@@ -717,7 +717,7 @@ class Api extends AbstractApi
             'path'   => $this->pathPrefix . '/network-ip-availabilities',
             'params' => [
                 'tenantId' => $this->params->queryTenantId()
-            ],
+            ]
         ];
     }
 

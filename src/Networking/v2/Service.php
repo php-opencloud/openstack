@@ -390,13 +390,13 @@ class Service extends AbstractService
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
      * and have the response populate the object, call {@see NetworkIpAvailabilities::retrieve}.
      *
-     * @param string $network_id
+     * @param string $id
      *
      * @return NetworkIpAvailability
      */
-    public function getNetworkIpAvailability(string $network_id): NetworkIpAvailability
+    public function getNetworkIpAvailability(string $id): NetworkIpAvailability
     {
-        return $this->model(NetworkIpAvailability::class, ['network_id' => $network_id]);
+        return $this->model(NetworkIpAvailability::class, ['id' => $id]);
     }
 
     /**

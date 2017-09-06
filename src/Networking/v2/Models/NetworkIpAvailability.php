@@ -17,7 +17,7 @@ class NetworkIpAvailability extends OperatorResource implements Listable, Retrie
     use HasWaiterTrait;
 
     /** @var string */
-    public $networkId;
+    public $id;
 
     /** @var string */
     public $networkName;
@@ -38,7 +38,7 @@ class NetworkIpAvailability extends OperatorResource implements Listable, Retrie
     public $subnetIpAvailability;
 
     protected $aliases = [
-        'network_id'             => 'networkId',
+        'network_id'             => 'id',
         'network_name'           => 'networkName',
         'tenant_id'              => 'tenantId',
         'project_id'             => 'projectId',
@@ -56,7 +56,7 @@ class NetworkIpAvailability extends OperatorResource implements Listable, Retrie
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getNetworkIpAvailability(), ['newtork_id' => (string)$this->networkId]);
+        $response = $this->execute($this->api->getNetworkIpAvailability(), ['id' => (string)$this->id]);
         $this->populateFromResponse($response);
     }
 }
