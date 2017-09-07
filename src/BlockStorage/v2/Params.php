@@ -233,4 +233,14 @@ TYPEOTHER
             'required' => true
         ];
     }
+
+    public function status(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => true,
+            'description' => 'The new status of the volume',
+        ];
+    }
 }

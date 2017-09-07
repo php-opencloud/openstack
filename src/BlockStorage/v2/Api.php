@@ -316,4 +316,17 @@ class Api extends AbstractApi
         ];
     }
 
+    public function resetVolumeStatus(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-reset_status',
+            'params'  => [
+                'id'     => $this->params->idPath(),
+                'status' => $this->params->status()
+            ],
+        ];
+    }
+
 }
