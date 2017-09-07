@@ -249,6 +249,28 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Locks server
+     */
+    public function lock()
+    {
+        $this->execute($this->api->lockServer(), [
+            'id' => $this->id,
+            'lock' => null
+        ]);
+    }
+
+    /**
+     * Unlocks server
+     */
+    public function unlock()
+    {
+        $this->execute($this->api->unlockServer(), [
+            'id' => $this->id,
+            'unlock' => null
+        ]);
+    }
+
+    /**
      * Rebuilds the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}

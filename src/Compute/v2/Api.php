@@ -376,6 +376,30 @@ class Api extends AbstractApi
         ];
     }
 
+    public function lockServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'   => $this->params->urlId('server'),
+                'lock' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function unlockServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'     => $this->params->urlId('server'),
+                'unlock' => $this->params->nullAction()
+            ],
+        ];
+    }
+
     public function rebuildServer(): array
     {
         return [
