@@ -874,4 +874,28 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getInstanceActions(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-instance-actions',
+            'params' => [
+                'id' => $this->params->urlId('server')
+            ]
+        ];
+    }
+
+    public function getInstanceAction(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-instance-actions/{requestId}',
+            'params' => [
+              'id'        => $this->params->urlId('server'),
+              'requestId' => $this->params->urlId('request')
+            ]
+        ];
+    }
+
 }
