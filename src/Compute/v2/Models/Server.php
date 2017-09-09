@@ -375,7 +375,8 @@ class Server extends OperatorResource implements
      *
      * @return string - the console log output
      */
-    public function getConsoleLog(int $length = 50): string {
+    public function getConsoleLog(int $length = 50): string
+    {
         $response = $this->execute($this->api->getConsoleLog(), ['id' => $this->id, 'length' => $length]);
         return Utils::jsonDecode($response)['output'];
     }

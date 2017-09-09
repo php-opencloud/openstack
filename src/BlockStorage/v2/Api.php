@@ -328,5 +328,4 @@ class Api extends AbstractApi
             ],
         ];
     }
-
 }

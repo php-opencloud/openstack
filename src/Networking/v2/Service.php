@@ -410,5 +410,4 @@ class Service extends AbstractService
     {
         return $this->model(NetworkIpAvailability::class)->enumerate($this->api->getNetworkIpAvailabilities(), $options);
     }
-
 }

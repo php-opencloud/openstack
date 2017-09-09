@@ -110,7 +110,8 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         $this->executeWithState($this->api->deleteVolume());
     }
 
-    public function resetStatus(string $status) {
+    public function resetStatus(string $status)
+    {
         $response = $this->execute($this->api->resetVolumeStatus(), [
             'id' => $this->id,
             'status' => $status
