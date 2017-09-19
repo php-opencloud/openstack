@@ -79,7 +79,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
 
     private function typeMatches(string $value): bool
     {
-        return $this->type && $this->type = $value;
+        return $this->type && $this->type == $value;
     }
 
     /**
@@ -94,7 +94,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
      */
     public function getUrl(string $name, string $type, string $region, string $interface)
     {
-        if (!$this->nameMatches($name) || !$this->typeMatches($type)) {
+        if (!$this->nameMatches($name) && !$this->typeMatches($type)) {
             return false;
         }
 
