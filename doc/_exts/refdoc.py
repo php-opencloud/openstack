@@ -1,7 +1,7 @@
 from docutils.parsers.rst import Directive
 from docutils import nodes
 
-REFDOC_URL = 'http://refdocs.php-opencloud.com/'
+REFDOC_URL = 'http://refdocs.os.php-opencloud.com/'
 
 class RefDoc(Directive):
 
