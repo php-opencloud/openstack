@@ -491,6 +491,11 @@ class Api extends AbstractApi
                     'description' => 'The type of the data source object.',
                     'required'    => true,
                 ],
+                'interface'   => [
+                    'type'        => params:: ARRAY_TYPE,
+                    'description'   => 'The interface of the job object.',
+                    'required'              => false
+                ],
                 'name' => $this->isRequired($this->params->name('job')),
             ],
         ];
