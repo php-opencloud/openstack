@@ -38,10 +38,10 @@ class Service extends AbstractService
         return $this->model(Cluster::class)->create($options);
     }
 
-    public function createMultipleClusters(array $options = []) 
+    public function createMultipleClusters(array $options = [])
     {
         if (!array_key_exists("count", $options)) {
-            throw new \RuntimeException("Require 'count'");        
+            throw new \RuntimeException("Require 'count'");
         }
 
         $response = $this->execute($this->api->postClusters(), $options);
@@ -49,14 +49,13 @@ class Service extends AbstractService
         $ids = Utils::flattenJson(Utils::jsonDecode($response), 'clusters');
         if ($response->getStatusCode() === 204 || empty($ids)) {
             return;
-        } 
+        }
         foreach ($ids as $id) {
             $cluster = $this->model(Cluster::class);
             $cluster->id = $id;
             yield $cluster;
         }
-
-    } 
+    }
 
     public function scaleCluster(array $options = []): Cluster
     {

@@ -220,5 +220,4 @@ class OpenStack
         $defaults = ['catalogName' => 'sahara', 'catalogType' => 'data-processing'];
         return $this->builder->createService('DataProcessing\\v1', array_merge($defaults, $options));
     }
-
 }
