@@ -31,6 +31,7 @@ $options = [
     'name'          => '{nodeGroupTemplateName}',
     'flavorId'      => '{flavorId}',
     'floatingIpPool' => '{floatingIpPool}',
+    'autoSecurityGroup' => '{trueOrFalse}',
     'isProtected'   => '{trueOrFalse}',
 ];
 

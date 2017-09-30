@@ -3,6 +3,7 @@
 namespace OpenStack\DataProcessing\v1;
 
 use OpenStack\Common\Service\AbstractService;
+use OpenStack\Common\Transport\Utils;
 use OpenStack\DataProcessing\v1\Models\Cluster;
 use OpenStack\DataProcessing\v1\Models\ClusterTemplate;
 use OpenStack\DataProcessing\v1\Models\DataSource;
@@ -36,6 +37,26 @@ class Service extends AbstractService
     {
         return $this->model(Cluster::class)->create($options);
     }
+
+    public function createMultipleClusters(array $options = []) 
+    {
+        if (!array_key_exists("count", $options)) {
+            throw new \RuntimeException("Require 'count'");        
+        }
+
+        $response = $this->execute($this->api->postClusters(), $options);
+        # For multiple clusters, the current API returns only cluster IDs.
+        $ids = Utils::flattenJson(Utils::jsonDecode($response), 'clusters');
+        if ($response->getStatusCode() === 204 || empty($ids)) {
+            return;
+        } 
+        foreach ($ids as $id) {
+            $cluster = $this->model(Cluster::class);
+            $cluster->id = $id;
+            yield $cluster;
+        }
+
+    } 
 
     public function scaleCluster(array $options = []): Cluster
     {

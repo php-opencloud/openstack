@@ -298,6 +298,16 @@ class Params extends AbstractParams
         ];
     }
 
+    public function autoSecurityGroup(): array
+    {
+        return [
+            'type'        => self::BOOL_TYPE,
+            'required'    => false,
+            'sentAs'      => 'auto_security_group',
+            'description' => 'If set to True, the cluster group is automatically secured.',
+        ];
+    }
+
     public function isProxyGateway(): array
     {
         return [

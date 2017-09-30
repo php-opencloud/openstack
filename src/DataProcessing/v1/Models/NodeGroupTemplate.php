@@ -89,7 +89,7 @@ class NodeGroupTemplate extends OperatorResource implements Listable, Retrievabl
 
     public function update()
     {
-        $response = $this->execute($this->api->putNodeGroupTemplate(), $this->getAttrs(['id', 'name', 'description', 'flavorId', 'availabilityZone', 'imageId', 'floatingIpPool', 'useAutoconfig', 'isProxyGateway', 'isPublic', 'isProtected']));
+        $response = $this->execute($this->api->putNodeGroupTemplate(), $this->getAttrs(['id', 'name', 'description', 'flavorId', 'availabilityZone', 'imageId', 'floatingIpPool', 'useAutoconfig', 'autoSecurityGroup', 'isProxyGateway', 'isPublic', 'isProtected']));
         $this->populateFromResponse($response);
     }
 }
