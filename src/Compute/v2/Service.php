@@ -270,7 +270,7 @@ class Service extends AbstractService
     /**
      * List AZs
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getAvailabiltyZones}
+     * @param array    $options {@see \OpenStack\Compute\v2\Api::getAvailabilityZones}
      * @param callable $mapFn   A callable function that will be invoked on every iteration of the list.
      *
      * @return \Generator
