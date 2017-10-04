@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Listable;
 
@@ -21,4 +22,16 @@ class Assignment extends OperatorResource implements Listable
 
     protected $resourcesKey = 'role_assignments';
     protected $resourceKey = 'role_assignment';
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'role'  => new Alias('role', Role::class),
+            'user'  => new Alias('user', User::class),
+            'group' => new Alias('group', Group::class)
+        ];
+    }
 }

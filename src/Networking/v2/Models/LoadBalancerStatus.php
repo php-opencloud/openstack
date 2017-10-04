@@ -2,6 +2,7 @@
 
 namespace OpenStack\Networking\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
@@ -48,8 +49,18 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
     protected $aliases = [
         'loadbalancer_id'     => 'loadbalancerId',
         'operating_status'    => 'operatingStatus',
-        'provisioning_status' => 'provisioningStatus'
+        'provisioning_status' => 'provisioningStatus',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'listeners' => new Alias('listeners', LoadBalancerListener::class, true)
+        ];
+    }
 
     /**
      * {@inheritDoc}

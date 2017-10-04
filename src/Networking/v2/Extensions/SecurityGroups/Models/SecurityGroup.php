@@ -2,6 +2,7 @@
 
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -42,13 +43,22 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
     public $tenantId;
 
     protected $aliases = [
-        'security_group_rules' => 'securityGroupRules',
-        'rules'                => 'securityGroupRules',
-        'tenant_id'            => 'tenantId',
+        'tenant_id' => 'tenantId',
     ];
 
     protected $resourceKey  = 'security_group';
     protected $resourcesKey = 'security_groups';
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'security_group_rules' => new Alias('securityGroupRules', SecurityGroupRule::class, true),
+            'rules'                => new Alias('securityGroupRules', SecurityGroupRule::class, true)
+        ];
+    }
 
     /**
      * {@inheritDoc}

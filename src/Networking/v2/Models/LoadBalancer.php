@@ -2,6 +2,7 @@
 
 namespace OpenStack\Networking\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\OperatorResource;
@@ -75,8 +76,18 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
         'vip_address'         => 'vipAddress',
         'vip_subnet_id'       => 'vipSubnetId',
         'operating_status'    => 'operatingStatus',
-        'provisioning_status' => 'provisioningStatus'
+        'provisioning_status' => 'provisioningStatus',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'listeners' => new Alias('listeners', LoadBalancerListener::class, true)
+        ];
+    }
 
     /**
      * {@inheritDoc}

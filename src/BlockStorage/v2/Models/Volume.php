@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace OpenStack\BlockStorage\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -69,11 +70,20 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         'availability_zone'            => 'availabilityZone',
         'source_volid'                 => 'sourceVolumeId',
         'snapshot_id'                  => 'snapshotId',
-        'created_at'                   => 'createdAt',
         'volume_type'                  => 'volumeTypeName',
         'os-vol-tenant-attr:tenant_id' => 'tenantId',
         'os-vol-host-attr:host'        => 'host'
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class)
+        ];
+    }
 
     public function populateFromResponse(ResponseInterface $response): self
     {
