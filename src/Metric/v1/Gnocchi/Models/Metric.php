@@ -2,9 +2,9 @@
 
 namespace OpenStack\Metric\v1\Gnocchi\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
-use OpenStack\Metric\v1\Gnocchi\Api;
 
 /**
  * @property Api $api
@@ -14,7 +14,7 @@ class Metric extends OperatorResource implements Retrievable
     /** @var string */
     public $createdByUserId;
 
-    /** @var \OpenStack\Metric\v1\Gnocchi\Models\Resource */
+    /** @var Resource */
     public $resource;
 
     /** @var string */
@@ -37,6 +37,16 @@ class Metric extends OperatorResource implements Retrievable
         'created_by_project_id' => 'createdByProjectId',
         'archive_policy'        => 'archivePolicy',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'resource' => new Alias('resource', Resource::class)
+        ];
+    }
 
     /**
      * {@inheritdoc}

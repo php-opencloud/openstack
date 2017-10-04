@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\OperatorResource;
@@ -26,7 +27,17 @@ class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
     /** @var Tenant */
     public $tenant;
 
-    protected $aliases = ['issued_at' => 'issuedAt'];
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'tenant'    => new Alias('tenant', Tenant::class),
+            'expires'   => new Alias('expires', \DateTimeImmutable::class),
+            'issued_at' => new Alias('issuedAt', \DateTimeImmutable::class)
+        ];
+    }
 
     /**
      * {@inheritDoc}

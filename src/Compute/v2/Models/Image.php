@@ -2,6 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
@@ -49,6 +50,17 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
 
     protected $resourceKey = 'image';
     protected $resourcesKey = 'images';
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'created' => new Alias('created', \DateTimeImmutable::class),
+            'updated' => new Alias('updated', \DateTimeImmutable::class)
+        ];
+    }
 
     /**
      * {@inheritDoc}

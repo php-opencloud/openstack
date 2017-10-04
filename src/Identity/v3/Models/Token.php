@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use OpenStack\Common\Resource\Alias;
 use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
@@ -42,10 +43,20 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     protected $resourceKey = 'token';
     protected $resourcesKey = 'tokens';
 
-    protected $aliases = [
-        'expires_at' => 'expires',
-        'issued_at'  => 'issued',
-    ];
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'roles'      => new Alias('roles', Role::class, true),
+            'expires_at' => new Alias('expires', \DateTimeImmutable::class),
+            'project'    => new Alias('project', Project::class),
+            'catalog'    => new Alias('catalog', Catalog::class),
+            'user'       => new Alias('user', User::class),
+            'issued_at'  => new Alias('issued', \DateTimeImmutable::class)
+        ];
+    }
 
     /**
      * {@inheritDoc}

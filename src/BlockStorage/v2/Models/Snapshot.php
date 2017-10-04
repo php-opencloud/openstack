@@ -2,6 +2,7 @@
 
 namespace OpenStack\BlockStorage\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -49,9 +50,18 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
     protected $markerKey = 'id';
 
     protected $aliases = [
-        'created_at' => 'createdAt',
         'volume_id'  => 'volumeId',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class)
+        ];
+    }
 
     public function populateFromResponse(ResponseInterface $response): self
     {

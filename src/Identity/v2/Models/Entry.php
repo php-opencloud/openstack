@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 
 /**
@@ -19,6 +20,16 @@ class Entry extends OperatorResource
 
     /** @var []Endpoint */
     public $endpoints = [];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'endpoints' => new Alias('endpoints', Endpoint::class, true)
+        ];
+    }
 
     /**
      * Indicates whether this catalog entry matches a certain name and type.
