@@ -15,11 +15,13 @@ Detailed information
 ~~~~~~~~~~~~~~~~~~~~
 
 By default, only the ``id``, ``links`` and ``name`` attributes are returned. To return *all* information
-for a flavor, you must enable detailed information, like so:
+for a flavor, you must pass ``true`` as the last parameter, like so:
 
 .. code-block:: php
 
-    $flavors = $service->listFlavors(true);
+    $flavors = $service->listFlavors([], function ($flavor) {
+        return $flavor;
+    }, true);
 
 Retrieve a flavor
 -----------------
