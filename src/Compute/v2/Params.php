@@ -146,6 +146,23 @@ TYPEOTHER
         ];
     }
 
+    public function extraSpecs(): array
+    {
+        return [
+            'type'        => self::OBJECT_TYPE,
+            'sentAs'      => 'extra_specs',
+            'location'    => self::JSON,
+            'required'    => true,
+            'description' => 'An arbitrary key/value pairing that will be used for extra specs.',
+            'properties'  => [
+                'type'        => self::STRING_TYPE,
+                'description' => <<<TYPEOTHER
+The value being set for your key. Bear in mind that "key" is just an example, you can name it anything.
+TYPEOTHER
+            ]
+        ];
+    }
+
     public function personality(): array
     {
         return [
