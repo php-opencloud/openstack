@@ -41,6 +41,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postDomains(), $data);
+
         return $this->populateFromResponse($response);
     }
 
@@ -50,15 +51,19 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getDomain());
+
         $this->populateFromResponse($response);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::patchDomain}
      */
-    public function update()
+    public function update(array $data): Updateable
     {
         $response = $this->executeWithState($this->api->patchDomain());
+
         $this->populateFromResponse($response);
     }
 
