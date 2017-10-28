@@ -52,7 +52,9 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postProjects(), $data);
+
         $this->populateFromResponse($response);
+
         return $this;
     }
 
@@ -62,15 +64,19 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getProject());
+
         $this->populateFromResponse($response);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::patchProject}
      */
-    public function update()
+    public function update(array $data): Updateable
     {
         $response = $this->executeWithState($this->api->patchProject());
+
         $this->populateFromResponse($response);
     }
 
