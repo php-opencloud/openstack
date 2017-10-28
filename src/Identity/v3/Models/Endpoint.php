@@ -46,6 +46,7 @@ class Endpoint extends OperatorResource implements Creatable, Updateable, Deleta
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postEndpoints(), $data);
+
         return $this->populateFromResponse($response);
     }
 
@@ -55,15 +56,19 @@ class Endpoint extends OperatorResource implements Creatable, Updateable, Deleta
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getEndpoint());
+
         $this->populateFromResponse($response);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::patchEndpoint}
      */
-    public function update()
+    public function update(array $data): Updateable
     {
         $response = $this->executeWithState($this->api->patchEndpoint());
+
         $this->populateFromResponse($response);
     }
 
