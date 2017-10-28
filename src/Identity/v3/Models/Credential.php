@@ -39,10 +39,13 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postCredentials}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postCredentials(), $data);
+
         return $this->populateFromResponse($response);
     }
 
@@ -52,15 +55,19 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getCredential());
+
         $this->populateFromResponse($response);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::patchCredential}
      */
-    public function update()
+    public function update(array $data): Updateable
     {
         $response = $this->executeWithState($this->api->patchCredential());
+
         $this->populateFromResponse($response);
     }
 
