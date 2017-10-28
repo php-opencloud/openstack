@@ -423,6 +423,21 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
+     * Updates a policy object according to the provided options.
+     *
+     * @param string $id
+     * @param array $options {@see \OpenStack\Identity\v3\Api::patchPolicy}
+     *
+     * @return Models\Policy
+     */
+    public function updatePolicy(string $id, array $options): Models\Policy
+    {
+        $options['id'] = $id;
+
+        return $this->model(Models\Policy::class)->update($options);
+    }
+
+    /**
      * Returns a generator which will yield a collection of policy objects. The elements which generators yield can be
      * accessed using a foreach loop. Often the API will not return the full state of the resource in collections; you
      * will need to use retrieve() to pull in the full state of the remote resource from the API.

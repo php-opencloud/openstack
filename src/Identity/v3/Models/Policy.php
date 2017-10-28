@@ -48,6 +48,7 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postPolicies(), $data);
+
         return $this->populateFromResponse($response);
     }
 
@@ -57,16 +58,20 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     public function retrieve()
     {
         $response = $this->execute($this->api->getPolicy(), ['id' => $this->id]);
+
         $this->populateFromResponse($response);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::patchPolicy}
      */
-    public function update()
+    public function update(array $data): Updateable
     {
-        $response = $this->executeWithState($this->api->patchPolicy());
-        $this->populateFromResponse($response);
+        $response = $this->execute($this->api->patchPolicy(), $data);
+
+        return $this->populateFromResponse($response);
     }
 
     /**

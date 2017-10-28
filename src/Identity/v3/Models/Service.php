@@ -43,6 +43,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postServices(), $data);
+
         return $this->populateFromResponse($response);
     }
 
@@ -52,15 +53,19 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getService());
+
         $this->populateFromResponse($response);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::patchService}
      */
-    public function update()
+    public function update(array $data): Updateable
     {
-        $response = $this->executeWithState($this->api->patchService());
+        $response = $this->execute($this->api->patchService(), $data);
+
         $this->populateFromResponse($response);
     }
 
