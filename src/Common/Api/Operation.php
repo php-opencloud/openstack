@@ -63,8 +63,7 @@ class Operation
     /**
      * Indicates whether this operation supports a parameter.
      *
-     * @param $key The name of a parameter
-     *
+     * @param string $key The name of a parameter
      * @return bool
      */
     public function hasParam(string $key): bool
