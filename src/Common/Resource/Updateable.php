@@ -12,7 +12,8 @@ interface Updateable
     /**
      * Update the current resource with the configuration set out in the user options.
      *
-     * @return void
+     * @param array $userOptions
+     * @return self
      */
-    public function update();
+    public function update(array $userOptions): Updateable;
 }
