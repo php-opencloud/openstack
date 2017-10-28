@@ -43,6 +43,7 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postGroups(), $data);
+
         return $this->populateFromResponse($response);
     }
 
@@ -52,15 +53,19 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     public function retrieve()
     {
         $response = $this->execute($this->api->getGroup(), ['id' => $this->id]);
+
         $this->populateFromResponse($response);
     }
 
     /**
      * {@inheritDoc}
+     *
+     * @param array $data {@see \OpenStack\Identity\v3\Api::patchGroup}
      */
-    public function update()
+    public function update(array $data): Updateable
     {
         $response = $this->executeWithState($this->api->patchGroup());
+
         $this->populateFromResponse($response);
     }
 
