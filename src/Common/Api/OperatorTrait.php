@@ -3,7 +3,6 @@
 namespace OpenStack\Common\Api;
 
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7\Uri;
 use function GuzzleHttp\uri_template;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
@@ -106,8 +105,6 @@ trait OperatorTrait
      */
     protected function sendRequest(Operation $operation, array $userValues = [], bool $async = false)
     {
-        $operation->validate($userValues);
-
         $options = (new RequestSerializer)->serializeOptions($operation, $userValues);
         $method = $async ? 'requestAsync' : 'request';
         $uri = uri_template($operation->getPath(), $userValues);
