@@ -816,6 +816,7 @@ class Api extends AbstractApi
         return [
             'method' => 'PATCH',
             'path'   => 'policies/{id}',
+            'jsonKey' => 'policy',
             'params' => [
                 'id'        => $this->params->idUrl('policy'),
                 'blob'      => $this->params->blob(),
