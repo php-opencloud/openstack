@@ -335,6 +335,32 @@ class Api extends AbstractApi
         ];
     }
 
+    public function rescueServer(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'jsonKey' => 'rescue',
+            'params'  => [
+                'id'          => $this->params->urlId('server'),
+                'imageId'     => $this->params->rescueImageId(),
+                'adminPass'   => $this->params->password(),
+            ],
+        ];
+    }
+
+    public function unrescueServer(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'       => $this->params->urlId('server'),
+                'unrescue' => $this->params->nullAction(),
+            ],
+        ];
+    }
+
     public function resizeServer(): array
     {
         return [
