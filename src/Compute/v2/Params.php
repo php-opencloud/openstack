@@ -508,6 +508,13 @@ EOL
         ];
     }
 
+    public function emptyObject(): array
+    {
+        return [
+            'type'  => self::OBJECT_TYPE,
+        ];
+    }
+
     protected function quotaSetLimit($sentAs, $description): array
     {
         return [

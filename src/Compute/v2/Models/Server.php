@@ -254,9 +254,12 @@ class Server extends OperatorResource implements
      */
     public function getConsoleOutput(int $length = -1): string
     {
-        $response = $this->execute($this->api->getConsoleOutput(), [
+        $definition = $length == -1 ? $this->api->getAllConsoleOutput() : $this->api->getConsoleOutput();
+
+        $response = $this->execute($definition, [
+            'os-getConsoleOutput' => new \stdClass(),
             'id' => $this->id,
-            'length' => $length
+            'length' => $length,
         ]);
 
         return Utils::jsonDecode($response)['output'];
