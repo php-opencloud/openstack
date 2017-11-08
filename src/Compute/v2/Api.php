@@ -477,7 +477,7 @@ class Api extends AbstractApi
             'method'  => 'GET',
             'path'    => 'servers/{id}/os-interface/{portId}',
             'params'  => [
-                'id'  => $this->params->urlId('server'),
+                'id'     => $this->params->urlId('server'),
                 'portId' => $this->params->portId()
             ]
         ];
@@ -490,11 +490,11 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/os-interface',
             'jsonKey' => 'interfaceAttachment',
             'params'  => [
-                'id'  => $this->params->urlId('server'),
-                'portId' => $this->notRequired($this->params->portId()),
-                'networkId' => $this->notRequired($this->params->networkId()),
+                'id'               => $this->params->urlId('server'),
+                'portId'           => $this->notRequired($this->params->portId()),
+                'networkId'        => $this->notRequired($this->params->networkId()),
                 'fixedIpAddresses' => $this->notRequired($this->params->fixedIpAddresses()),
-                'tag' => $this->notRequired($this->params->tag()),
+                'tag'              => $this->notRequired($this->params->tag()),
             ]
         ];
     }
@@ -505,7 +505,7 @@ class Api extends AbstractApi
             'method' => 'DELETE',
             'path'   => 'servers/{id}/os-interface/{portId}',
             'params' => [
-                'id'  => $this->params->urlId('image'),
+                'id'     => $this->params->urlId('image'),
                 'portId' => $this->params->portId()
             ]
         ];
