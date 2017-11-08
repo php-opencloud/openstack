@@ -342,7 +342,7 @@ class Server extends OperatorResource implements
      * @param string $portId The unique ID of the port.
      * @return InterfaceAttachment
      */
-    public function getInterfaceAttachment($portId): InterfaceAttachment
+    public function getInterfaceAttachment(string $portId): InterfaceAttachment
     {
         $response = $this->execute($this->api->getInterfaceAttachment(), [
             'id'     => $this->id,
