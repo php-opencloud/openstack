@@ -91,7 +91,7 @@ class Server extends OperatorResource implements
     /** @var string */
     public $vmState;
 
-    /** @var array */
+    /** @var Fault */
     public $fault;
 
     protected $resourceKey = 'server';
