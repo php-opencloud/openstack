@@ -215,6 +215,28 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Rescues the server.
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::rescueServer}
+     * @return string
+     */
+    public function rescue(array $options): string
+    {
+        $options['id'] = $this->id;
+        $response = $this->execute($this->api->rescueServer(), $options);
+
+        return Utils::jsonDecode($response)['adminPass'];
+    }
+
+    /**
+     * Unrescues the server.
+     */
+    public function unrescue()
+    {
+        $this->execute($this->api->unrescueServer(), ['unrescue' => null, 'id' => $this->id]);
+    }
+
+    /**
      * Resizes the server to a new flavor. Once this operation is complete and server has transitioned
      * to an active state, you will either need to call {@see confirmResize()} or {@see revertResize()}.
      *
