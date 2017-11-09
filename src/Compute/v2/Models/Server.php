@@ -337,6 +337,51 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Gets an interface attachment.
+     *
+     * @param string $portId The unique ID of the port.
+     * @return InterfaceAttachment
+     */
+    public function getInterfaceAttachment(string $portId): InterfaceAttachment
+    {
+        $response = $this->execute($this->api->getInterfaceAttachment(), [
+            'id'     => $this->id,
+            'portId' => $portId
+        ]);
+
+        return $this->model(InterfaceAttachment::class)->populateFromResponse($response);
+    }
+
+    /**
+     * Creates an interface attachment.
+     *
+     * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postInterfaceAttachment}
+     * @return InterfaceAttachment
+     */
+    public function createInterfaceAttachment(array $userOptions): InterfaceAttachment
+    {
+        if (!isset($userOptions['networkId']) && !isset($userOptions['portId'])) {
+            throw new \RuntimeException('networkId or portId must be set.');
+        }
+
+        $response = $this->execute($this->api->postInterfaceAttachment(), array_merge($userOptions, ['id' => $this->id]));
+        return $this->model(InterfaceAttachment::class)->populateFromResponse($response);
+    }
+
+    /**
+     * Detaches an interface attachment.
+     *
+     * @param string $portId
+     */
+    public function detachInterface(string $portId)
+    {
+        $this->execute($this->api->deleteInterfaceAttachment(), [
+            'id' => $this->id,
+            'portId' => $portId,
+        ]);
+    }
+
+    /**
      * Retrieves metadata from the API.
      *
      * @return array

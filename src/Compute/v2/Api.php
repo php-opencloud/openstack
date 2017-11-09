@@ -471,6 +471,46 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getInterfaceAttachment(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'servers/{id}/os-interface/{portId}',
+            'params'  => [
+                'id'     => $this->params->urlId('server'),
+                'portId' => $this->params->portId()
+            ]
+        ];
+    }
+
+    public function postInterfaceAttachment(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/os-interface',
+            'jsonKey' => 'interfaceAttachment',
+            'params'  => [
+                'id'               => $this->params->urlId('server'),
+                'portId'           => $this->notRequired($this->params->portId()),
+                'networkId'        => $this->notRequired($this->params->networkId()),
+                'fixedIpAddresses' => $this->notRequired($this->params->fixedIpAddresses()),
+                'tag'              => $this->notRequired($this->params->tag()),
+            ]
+        ];
+    }
+
+    public function deleteInterfaceAttachment(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'servers/{id}/os-interface/{portId}',
+            'params' => [
+                'id'     => $this->params->urlId('image'),
+                'portId' => $this->params->portId()
+            ]
+        ];
+    }
+
     public function getServerMetadata(): array
     {
         return [

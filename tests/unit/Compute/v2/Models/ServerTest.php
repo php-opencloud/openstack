@@ -443,4 +443,47 @@ class ServerTest extends TestCase
 
         $this->assertInstanceOf(InterfaceAttachment::class, $interfaceAttachments[0]);
     }
+
+    /** @test */
+    public function it_gets_interface_attachments()
+    {
+        $portId = 'fooooobarrrr';
+
+        $this->setupMock('GET', 'servers/serverId/os-interface/' . $portId, ['port_id' => 'fooooobarrrr'], [], 'server-interface-attachment-get');
+
+        $interfaceAttachment = $this->server->getInterfaceAttachment($portId);
+
+        $this->assertEquals('ce531f90-199f-48c0-816c-13e38010b442', $interfaceAttachment->portId);
+        $this->assertEquals('ACTIVE', $interfaceAttachment->portState);
+        $this->assertEquals('3cb9bc59-5699-4588-a4b1-b87f96708bc6', $interfaceAttachment->netId);
+        $this->assertEquals('fa:16:3e:4c:2c:30', $interfaceAttachment->macAddr);
+        $this->assertEquals('192.168.1.3', $interfaceAttachment->fixedIps[0]['ip_address']);
+        $this->assertEquals('f8a6e8f8-c2ec-497c-9f23-da9616de54ef', $interfaceAttachment->fixedIps[0]['subnet_id']);
+    }
+
+    /** @test */
+    public function test_it_creates_interface_attachments()
+    {
+        $networkId = 'fooooobarrrr';
+
+        $expectedJson = [
+            'interfaceAttachment' => ['net_id' => $networkId]
+        ];
+
+        $this->setupMock('POST', 'servers/serverId/os-interface', $expectedJson, [], 'server-interface-attachments-post');
+
+        $interfaceAttachment = $this->server->createInterfaceAttachment(['networkId' => $networkId]);
+
+        $this->assertEquals('ACTIVE', $interfaceAttachment->portState);
+        $this->assertEquals('10.0.0.1', $interfaceAttachment->fixedIps[0]['ip_address']);
+    }
+
+    public function test_it_detaches_interfaces()
+    {
+        $portId = 'a-dummy-port-id';
+
+        $this->setupMock('DELETE', 'servers/serverId/os-interface/' . $portId, ['port_id' => $portId], [], new Response(202));
+
+        $this->server->detachInterface($portId);
+    }
 }
