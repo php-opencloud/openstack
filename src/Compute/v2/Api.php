@@ -344,7 +344,7 @@ class Api extends AbstractApi
             'params'  => [
                 'id'          => $this->params->urlId('server'),
                 'imageId'     => $this->params->rescueImageId(),
-                'adminPass'   => $this->params->password(),
+                'adminPass'   => $this->notRequired($this->params->password()),
             ],
         ];
     }
