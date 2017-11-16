@@ -2,6 +2,7 @@
 
 namespace OpenStack\Networking\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\OperatorResource;
@@ -97,8 +98,20 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
         'healthmonitor_id'    => 'healthmonitorId',
         'loadbalancer_id'     => 'loadbalancerId',
         'operating_status'    => 'operatingStatus',
-        'provisioning_status' => 'provisioningStatus'
+        'provisioning_status' => 'provisioningStatus',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'listeners'      => new Alias('listeners', LoadBalancerListener::class, true),
+            'members'        => new Alias('members', LoadBalancerMember::class, true),
+            'healthmonitors' => new Alias('healthmonitors', LoadBalancerHealthMonitor::class, true)
+        ];
+    }
 
     /**
      * {@inheritDoc}

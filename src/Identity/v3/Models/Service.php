@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -34,6 +35,16 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
 
     protected $resourceKey = 'service';
     protected $resourcesKey = 'services';
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'endpoints' => new Alias('endpoints', Endpoint::class, true)
+        ];
+    }
 
     /**
      * {@inheritDoc}

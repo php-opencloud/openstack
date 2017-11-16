@@ -5,6 +5,7 @@ namespace OpenStack\Test\Common\Resource;
 use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Resource\AbstractResource;
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
@@ -99,6 +100,15 @@ class TestResource extends AbstractResource
 
     /** @var TestResource */
     public $child;
+
+    protected function getAliases(): array
+    {
+        $aliases = parent::getAliases();
+        $aliases['created'] = new Alias('created', \DateTimeImmutable::class);
+        $aliases['child'] = new Alias('child', TestResource::class);
+        $aliases['children'] = new Alias('children', TestResource::class, true);
+        return $aliases;
+    }
 
     public function getAttrs(array $keys)
     {

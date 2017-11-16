@@ -2,6 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -110,6 +111,19 @@ class Server extends OperatorResource implements
         'OS-EXT-STS:vm_state'                 => 'vmState',
         'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'image'   => new Alias('image', Image::class),
+            'flavor'  => new Alias('flavor', Flavor::class),
+            'created' => new Alias('created', \DateTimeImmutable::class),
+            'updated' => new Alias('updated', \DateTimeImmutable::class)
+        ];
+    }
 
     /**
      * {@inheritDoc}

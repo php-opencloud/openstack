@@ -4,6 +4,7 @@ namespace OpenStack\Images\v2\Models;
 
 use function GuzzleHttp\Psr7\uri_for;
 use OpenStack\Common\JsonSchema\Schema;
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -76,14 +77,25 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
 
     protected $aliases = [
         'container_format' => 'containerFormat',
-        'created_at'       => 'createdAt',
         'disk_format'      => 'diskFormat',
-        'updated_at'       => 'updatedAt',
         'min_disk'         => 'minDisk',
         'owner'            => 'ownerId',
         'min_ram'          => 'minRam',
         'virtual_size'     => 'virtualSize',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
+            'updated_at' => new Alias('updatedAt', \DateTimeImmutable::class),
+            'fileUri'    => new Alias('fileUri', \GuzzleHttp\Psr7\Uri::class),
+            'schemaUri'  => new Alias('schemaUri', \GuzzleHttp\Psr7\Uri::class)
+        ];
+    }
 
     public function populateFromArray(array $data): self
     {
@@ -129,12 +141,18 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         // retrieve latest state so we can accurately produce a diff
         $this->retrieve();
 
-        $schema = $this->getSchema();
-        $data   = (object) $data;
+        $schema     = $this->getSchema();
+        $data       = (object) $data;
+        $aliasNames = array_map(
+            function (Alias $a) {
+                return $a->propertyName;
+            },
+            $this->getAliases()
+        );
 
         // formulate src and des structures
-        $des = $schema->normalizeObject($data, $this->aliases);
-        $src = $schema->normalizeObject($this, $this->aliases);
+        $des = $schema->normalizeObject($data, $aliasNames);
+        $src = $schema->normalizeObject($this, $aliasNames);
 
         // validate user input
         $schema->validate($des);

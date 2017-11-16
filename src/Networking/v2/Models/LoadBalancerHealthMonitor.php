@@ -2,6 +2,7 @@
 
 namespace OpenStack\Networking\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\OperatorResource;
@@ -98,8 +99,18 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
         'expected_codes'      => 'expectedCodes',
         'pool_id'             => 'poolId',
         'operating_status'    => 'operatingStatus',
-        'provisioning_status' => 'provisioningStatus'
+        'provisioning_status' => 'provisioningStatus',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'pools' => new Alias('pools', LoadBalancerPool::class, true)
+        ];
+    }
 
     /**
      * {@inheritDoc}

@@ -2,6 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Deletable;
@@ -44,11 +45,20 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         'public_key' => 'publicKey',
         'private_key' => 'privateKey',
         'user_id'    => 'userId',
-        'created_at' => 'createdAt',
     ];
 
     protected $resourceKey = 'keypair';
     protected $resourcesKey = 'keypairs';
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class)
+        ];
+    }
 
     /**
      * {@inheritDoc}
