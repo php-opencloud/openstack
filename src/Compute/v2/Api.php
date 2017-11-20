@@ -600,7 +600,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'os-keypairs/{name}',
             'params' => [
-                'name' => $this->isRequired($this->params->keypairName())
+                'name' => $this->isRequired($this->params->keypairName()),
+                'userId' => $this->isRequired($this->params->userId())
             ],
         ];
     }
@@ -610,7 +611,9 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'os-keypairs',
-            'params' => [],
+            'params' => [
+                'userId' => $this->params->userId()
+            ],
         ];
     }
 
