@@ -31,7 +31,11 @@ class Service extends AbstractService implements IdentityService
     {
         $authOptions = array_intersect_key($options, $this->api->postTokens()['params']);
 
-        $token = $this->generateToken($authOptions);
+        if (!empty($options['cachedCredential'])) {
+            $token = $this->generateTokenFromCache($options['cachedCredential']);
+        } else {
+            $token = $this->generateToken($authOptions);
+        }
 
         $name      = $options['catalogName'];
         $type      = $options['catalogType'];
@@ -44,6 +48,11 @@ class Service extends AbstractService implements IdentityService
 
         throw new \RuntimeException(sprintf("No service found with type [%s] name [%s] region [%s] interface [%s]",
             $type, $name, $region, $interface));
+    }
+
+    public function generateTokenFromCache(array $cache): Models\Token
+    {
+        return $this->model(Models\Token::class)->populateFromArray($cache);
     }
 
     /**
