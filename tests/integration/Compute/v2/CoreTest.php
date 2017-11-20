@@ -148,6 +148,7 @@ class CoreTest extends TestCase
             $this->resizeServer();
             $this->confirmServerResize();
             $this->rebuildServer();
+            $this->rescueServer();
             $this->createServerImage();
             $this->rebootServer();
 
@@ -364,6 +365,26 @@ class CoreTest extends TestCase
         $server->waitUntilActive();
 
         $this->logStep('Rebuilt server {serverId}', $replacements);
+    }
+
+    private function rescueServer()
+    {
+        $replacements = [
+            '{serverId}'  => $this->serverId,
+            '{imageId}'   => $this->imageId,
+            '{adminPass}' => $this->adminPass,
+        ];
+
+        /** @var $server \OpenStack\Compute\v2\Models\Server */
+        require_once $this->sampleFile($replacements, 'servers/rescue_server.php');
+
+        $server->waitUntil('RESCUE');
+
+        require_once $this->sampleFile($replacements, 'servers/unrescue_server.php');
+
+        $server->waitUntilActive();
+
+        $this->logStep('Rescued server {serverId}', $replacements);
     }
 
     private function rebootServer()

@@ -120,6 +120,16 @@ class Params extends AbstractParams
         ];
     }
 
+    public function rescueImageId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => true,
+            'sentAs'      => 'rescue_image_ref',
+            'description' => 'The image reference to use to rescue your server instance. Specify the image reference by ID or full URL. If you omit an image reference, default is the base image reference',
+        ];
+    }
+
     public function flavorId(): array
     {
         return [

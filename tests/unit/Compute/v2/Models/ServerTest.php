@@ -167,6 +167,36 @@ class ServerTest extends TestCase
         $this->assertEquals($userOptions['name'], $this->server->name);
     }
 
+    public function test_it_rescues()
+    {
+        $userOptions = [
+            'imageId'     => 'newImage',
+            'adminPass'   => 'foo',
+        ];
+
+        $expectedJson = [
+            'rescue' => [
+                'rescue_image_ref' => $userOptions['imageId'],
+                'adminPass'        => $userOptions['adminPass']
+            ]
+        ];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-rescue');
+
+        $adminPass = $this->server->rescue($userOptions);
+
+        $this->assertEquals('foo', $adminPass);
+    }
+
+    public function test_it_unrescues()
+    {
+        $expectedJson = ['unrescue' => null];
+
+        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-unrescue');
+
+        $this->assertNull($this->server->unrescue());
+    }
+
     public function test_it_starts()
     {
         $expectedJson = ['os-start' => null];
