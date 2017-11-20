@@ -3,6 +3,7 @@
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\Alias;
+use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
@@ -16,7 +17,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /** @var array */
     public $methods;
 
-    /** @var []Role */
+    /** @var Role[] */
     public $roles;
 
     /** @var \DateTimeImmutable */
@@ -42,6 +43,8 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
 
     protected $resourceKey = 'token';
     protected $resourcesKey = 'tokens';
+
+    protected $cacheCredential;
 
     /**
      * @inheritdoc
@@ -116,6 +119,22 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         }
 
         $response = $this->execute($this->api->postTokens(), $data);
-        return $this->populateFromResponse($response);
+        $token = $this->populateFromResponse($response);
+
+        $this->cacheCredential = Utils::flattenJson(Utils::jsonDecode($response), $this->resourceKey);
+        $this->cacheCredential['id'] = $token->id;
+
+        return $token;
+    }
+
+    /**
+     * Retrieves an array serializable representation of authentication token.
+     * Can be use to initialise OpenStack object using $params['cachedCredential']
+     *
+     * @return array
+     */
+    public function exportCredential(): array
+    {
+        return $this->cacheCredential;
     }
 }

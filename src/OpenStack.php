@@ -32,6 +32,7 @@ class OpenStack
      *         ['logger']           = (LoggerInterface)   Must set if debugLog is true   [OPTIONAL]
      *         ['messageFormatter'] = (MessageFormatter)  Must set if debugLog is true   [OPTIONAL]
      *         ['requestOptions']   = (array)             Guzzle Http request options    [OPTIONAL]
+     *         ['cachedCredential'] = (array)             Cached token credential        [OPTIONAL]
      *
      * @param Builder $builder
      */
