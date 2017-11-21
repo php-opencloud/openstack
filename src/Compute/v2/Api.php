@@ -601,7 +601,7 @@ class Api extends AbstractApi
             'path'   => 'os-keypairs/{name}',
             'params' => [
                 'name' => $this->isRequired($this->params->keypairName()),
-                'userId' => $this->isRequired($this->params->userId())
+                'userId' => $this->params->userId()
             ],
         ];
     }

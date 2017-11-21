@@ -65,7 +65,7 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getKeypair(), ['name' => (string) $this->name]);
+        $response = $this->execute($this->api->getKeypair(), $this->getAttrs(['name', 'userId']));
         $this->populateFromResponse($response);
     }
 
