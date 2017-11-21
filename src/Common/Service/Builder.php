@@ -139,14 +139,14 @@ class Builder
         return $stack;
     }
 
-    private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType, string $microVersion = null): ClientInterface
+    private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType = null, string $microVersion = null): ClientInterface
     {
         $clientOptions = [
             'base_uri' => Utils::normalizeUrl($baseUrl),
             'handler'  => $stack,
         ];
 
-        if ($microVersion) {
+        if ($microVersion && $serviceType) {
             $clientOptions['headers']['OpenStack-API-Version'] = sprintf('%s %s', $serviceType, $microVersion);
         }
 
