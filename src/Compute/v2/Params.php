@@ -456,7 +456,7 @@ EOL
         return [
             'type'     => self::STRING_TYPE,
             'sentAs'   => 'user_id',
-            'location' => self::URL
+            'location' => self::QUERY
         ];
     }
 

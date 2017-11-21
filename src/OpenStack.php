@@ -67,7 +67,7 @@ class OpenStack
 
         $clientOptions = [
             'base_uri' => Utils::normalizeUrl($options['authUrl']),
-            'handler'  => $stack
+            'handler'  => $stack,
         ];
 
         if (isset($options['requestOptions'])) {
