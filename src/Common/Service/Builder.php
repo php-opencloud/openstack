@@ -83,9 +83,6 @@ class Builder
 
         list($apiClass, $serviceClass) = $this->getClasses($namespace);
 
-        /** @var Client $client */
-        $client = $options['httpClient'];
-
         return new $serviceClass($options['httpClient'], new $apiClass());
     }
 
@@ -100,15 +97,11 @@ class Builder
                 $stack = $this->getStack($options['authHandler'], $token);
             }
 
-            $microversion = null;
-            if (isset($options['microversion'])) {
-                $microversion = $options['microversion'];
-            }
-            dump($microversion);
+            $microVersion = $options['microVersion'] ?? null;
 
             $this->addDebugMiddleware($options, $stack);
 
-            $options['httpClient'] = $this->httpClient($baseUrl, $stack, $microversion);
+            $options['httpClient'] = $this->httpClient($baseUrl, $stack, $options['catalogType'], $microVersion);
         }
     }
 
@@ -146,15 +139,15 @@ class Builder
         return $stack;
     }
 
-    private function httpClient(string $baseUrl, HandlerStack $stack, string $microversion = null): ClientInterface
+    private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType, string $microVersion = null): ClientInterface
     {
         $clientOptions = [
             'base_uri' => Utils::normalizeUrl($baseUrl),
             'handler'  => $stack,
         ];
 
-        if ($microversion) {
-            $clientOptions['headers']['X-OpenStack-Nova-API-Version'] = $microversion;
+        if ($microVersion) {
+            $clientOptions['headers']['OpenStack-API-Version'] = sprintf('%s %s', $serviceType, $microVersion);
         }
 
         if (isset($this->globalOptions['requestOptions'])) {
