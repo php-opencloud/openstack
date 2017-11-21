@@ -451,6 +451,15 @@ EOL
         ];
     }
 
+    public function userId(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'sentAs'   => 'user_id',
+            'location' => self::QUERY
+        ];
+    }
+
     public function flavorRam(): array
     {
         return [
