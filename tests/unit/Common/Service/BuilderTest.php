@@ -2,6 +2,7 @@
 
 namespace OpenStack\Test\Common\Service;
 
+use GuzzleHttp\Client;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Service\Builder;
@@ -115,6 +116,30 @@ class BuilderTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Fixtures\Identity\Service::class, $s);
+    }
+
+    public function test_it_create_service_with_micro_version()
+    {
+        $is = $this->prophesize(TestIdentity::class);
+        $is->authenticate(Argument::any())->willReturn([new FakeToken(), '']);
+
+        $s = $this->builder->createService('Test\\Common\\Service\\Fixtures', $this->opts + [
+                'identityService' => $is->reveal(),
+                'microVersion' => '1.2.3'
+            ]);
+
+        $this->assertInstanceOf(Fixtures\Service::class, $s);
+
+        $refClass = new \ReflectionClass($s);
+        $refProperty = $refClass->getProperty('client');
+        $refProperty->setAccessible(true);
+
+        /** @var Client $client */
+        $client = $refProperty->getValue($s);
+
+        $headers = $client->getConfig()['headers'];
+        $this->assertArrayHasKey('OpenStack-API-Version', $headers);
+        $this->assertEquals('7 1.2.3', $headers['OpenStack-API-Version']);
     }
 }
 
