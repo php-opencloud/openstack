@@ -451,6 +451,16 @@ EOL
         ];
     }
 
+    public function userId(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'sentAs'   => 'user_id',
+            'location' => self::QUERY,
+            'description' => 'This allows administrative users to operate key-pairs of specified user ID. Requires micro version 2.10.'
+        ];
+    }
+
     public function flavorRam(): array
     {
         return [

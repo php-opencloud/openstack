@@ -53,7 +53,29 @@ class KeypairTest extends TestCase
         $this->assertEquals('44:fe:29:6e:23:14:b9:53:5b:65:82:58:1c:fe:5a:c3', $this->keypair->fingerprint);
         $this->assertEquals(self::KEYPAIR_NAME, $this->keypair->name);
         $this->assertEquals(
-            'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1HTrHCbb9NawNLSV8N6tSa8i637+EC2dA+lsdHHfQlT54t+N0nHhJPlKWDLhc579j87vp6RDFriFJ/smsTnDnf64O12z0kBaJpJPH2zXrBkZFK6q2rmxydURzX/z0yLSCP77SFJ0fdXWH2hMsAusflGyryHGX20n+mZK6mDrxVzGxEz228dwQ5G7Az5OoZDWygH2pqPvKjkifRw0jwUKf3BbkP0QvANACOk26cv16mNFpFJfI1N3OC5lUsZQtKGR01ptJoWijYKccqhkAKuo902tg/qup58J5kflNm7I61sy1mJon6SGqNUSfoQagqtBH6vd/tU1jnlwZ03uUroAL',
+            'ssh-rsa AAAAAAABBBBBBBBBCCCCCCCCCCC foo@bar.com',
+            $this->keypair->publicKey
+        );
+        $this->assertFalse($this->keypair->deleted);
+    }
+
+    public function test_it_retrieves_by_user_id()
+    {
+        $this->client
+            ->request('GET', 'os-keypairs/' . self::KEYPAIR_NAME, ['headers' => [], 'query' => ['user_id' => 'fake']])
+            ->shouldBeCalled()
+            ->willReturn($this->getFixture('keypair-get'));
+
+
+        $this->keypair->userId = 'fake';
+        $this->keypair->retrieve();
+
+        $this->assertEquals('1', $this->keypair->id);
+        $this->assertEquals('fake', $this->keypair->userId);
+        $this->assertEquals('44:fe:29:6e:23:14:b9:53:5b:65:82:58:1c:fe:5a:c3', $this->keypair->fingerprint);
+        $this->assertEquals(self::KEYPAIR_NAME, $this->keypair->name);
+        $this->assertEquals(
+            'ssh-rsa AAAAAAABBBBBBBBBCCCCCCCCCCC foo@bar.com',
             $this->keypair->publicKey
         );
         $this->assertFalse($this->keypair->deleted);
