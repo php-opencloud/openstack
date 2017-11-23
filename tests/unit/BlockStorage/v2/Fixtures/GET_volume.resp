@@ -32,6 +32,23 @@ Content-Type: application/json
         "os-volume-replication:extended_status": null,
         "metadata": {},
         "id": "7449e332-9715-4185-b191-1cfd91d75d48",
-        "size": 10
+        "size": 10,
+        "size": 10,
+        "volume_image_metadata": {
+            "os_distro": "ubuntu",
+            "os_version": "xenial",
+            "hypervisor_type": "qemu",
+            "os_variant": "ubuntu",
+            "disk_format": "qcow2",
+            "image_name": "Some Image Name x86_64",
+            "image_id": "54986297-8364-4baa-8435-812add437507",
+            "architecture": "x86_64",
+            "container_format": "bare",
+            "min_disk": "40",
+            "os_type": "linux",
+            "checksum": "bb3055b274fe72bc3406ffe9febe9fff",
+            "min_ram": "0",
+            "size": "6508557824"
+        }
     }
 }
