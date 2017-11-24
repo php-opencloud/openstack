@@ -44,7 +44,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     protected $resourceKey = 'token';
     protected $resourcesKey = 'tokens';
 
-    protected $cacheCredential;
+    protected $cachedToken;
 
     /**
      * @inheritdoc
@@ -121,20 +121,28 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         $response = $this->execute($this->api->postTokens(), $data);
         $token = $this->populateFromResponse($response);
 
-        $this->cacheCredential = Utils::flattenJson(Utils::jsonDecode($response), $this->resourceKey);
-        $this->cacheCredential['id'] = $token->id;
+
+        /**
+         * Cache response as an array to export if needed.
+         *  Added key `id` which is auth token from HTTP header X-Subject-Token
+         */
+        $this->cachedToken = Utils::flattenJson(Utils::jsonDecode($response), $this->resourceKey);
+        $this->cachedToken['id'] = $token->id;
 
         return $token;
     }
 
     /**
      * Retrieves an array serializable representation of authentication token.
-     * Can be use to initialise OpenStack object using $params['cachedCredential']
+     *
+     * Initialize OpenStack object using $params['cachedToken'] to reduce HTTP authentication call.
+     *
+     * This array is a modified version of POST response to `auth/tokens`. Do not manually modify this array.
      *
      * @return array
      */
-    public function exportCredential(): array
+    public function export(): array
     {
-        return $this->cacheCredential;
+        return $this->cachedToken;
     }
 }
