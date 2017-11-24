@@ -66,6 +66,156 @@ class ServiceTest extends TestCase
         $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
     }
 
+    public function test_it_authenticates_using_cache_token()
+    {
+        $cachedToken = [
+            'is_domain'  => false,
+            'methods'    => [
+                'password',
+            ],
+            'roles'      => [
+                0 => [
+                    'id'   => 'ce40dfb7a1b14f8a875194fe2944e00c',
+                    'name' => 'admin',
+                ],
+            ],
+            'expires_at' => '2199-11-24T04:47:49.000000Z',
+            'project'    => [
+                'domain' => [
+                    'id'   => 'default',
+                    'name' => 'Default',
+                ],
+                'id'     => 'c41b19de8aac4ecdb0f04ede718206c5',
+                'name'   => 'admin',
+            ],
+            'catalog' => [
+                [
+                    'endpoints' => [
+                        [
+                            'region_id' => 'RegionOne',
+                            'url'       => 'http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10',
+                            'region'    => 'RegionOne',
+                            'interface' => 'public',
+                            'id'        => 'hhh',
+                        ]
+                    ],
+                    'type'      => 'object-store',
+                    'id'        => 'aaa',
+                    'name'      => 'swift',
+                ],
+            ],
+            'user'       => [
+                'domain' => [
+                    'id'   => 'default',
+                    'name' => 'Default',
+                ],
+                'id'     => '37a36374b074428985165e80c9ab28c8',
+                'name'   => 'admin',
+            ],
+            'audit_ids'  => [
+                'X0oY7ouSQ32vEpbgDJTDpA',
+            ],
+            'issued_at'  => '2017-11-24T03:47:49.000000Z',
+            'id'         => 'bb4f74cfb73847ec9ca947fa61d799d3',
+        ];
+
+        $userOptions = [
+            'user'        => [
+                'id'       => '{userId}',
+                'password' => '{userPassword}',
+                'domain'   => ['id' => '{domainId}']
+            ],
+            'scope'       => [
+                'project' => ['id' => '{projectId}']
+            ],
+            'catalogName' => 'swift',
+            'catalogType' => 'object-store',
+            'region'      => 'RegionOne',
+            'cachedToken' => $cachedToken
+        ];
+
+        list($token, $url) = $this->service->authenticate($userOptions);
+
+        $this->assertInstanceOf(Models\Token::class, $token);
+        $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
+    }
+
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Cached token has expired
+     */
+    public function test_it_authenticates_and_throws_exception_when_authenticate_with_expired_cached_token()
+    {
+        $cachedToken = [
+            'is_domain'  => false,
+            'methods'    => [
+                'password',
+            ],
+            'roles'      => [
+                0 => [
+                    'id'   => 'ce40dfb7a1b14f8a875194fe2944e00c',
+                    'name' => 'admin',
+                ],
+            ],
+            'expires_at' => '2000-11-24T04:47:49.000000Z',
+            'project'    => [
+                'domain' => [
+                    'id'   => 'default',
+                    'name' => 'Default',
+                ],
+                'id'     => 'c41b19de8aac4ecdb0f04ede718206c5',
+                'name'   => 'admin',
+            ],
+            'catalog' => [
+                [
+                    'endpoints' => [
+                        [
+                            'region_id' => 'RegionOne',
+                            'url'       => 'http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10',
+                            'region'    => 'RegionOne',
+                            'interface' => 'public',
+                            'id'        => 'hhh',
+                        ]
+                    ],
+                    'type'      => 'object-store',
+                    'id'        => 'aaa',
+                    'name'      => 'swift',
+                ],
+            ],
+            'user'       => [
+                'domain' => [
+                    'id'   => 'default',
+                    'name' => 'Default',
+                ],
+                'id'     => '37a36374b074428985165e80c9ab28c8',
+                'name'   => 'admin',
+            ],
+            'audit_ids'  => [
+                'X0oY7ouSQ32vEpbgDJTDpA',
+            ],
+            'issued_at'  => '2017-11-24T03:47:49.000000Z',
+            'id'         => 'bb4f74cfb73847ec9ca947fa61d799d3',
+        ];
+
+        $userOptions = [
+            'user'        => [
+                'id'       => '{userId}',
+                'password' => '{userPassword}',
+                'domain'   => ['id' => '{domainId}']
+            ],
+            'scope'       => [
+                'project' => ['id' => '{projectId}']
+            ],
+            'catalogName' => 'swift',
+            'catalogType' => 'object-store',
+            'region'      => 'RegionOne',
+            'cachedToken' => $cachedToken
+        ];
+
+        $this->service->authenticate($userOptions);
+    }
+
     /**
      * @expectedException \RuntimeException
      */

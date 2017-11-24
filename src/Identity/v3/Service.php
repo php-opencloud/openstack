@@ -31,8 +31,12 @@ class Service extends AbstractService implements IdentityService
     {
         $authOptions = array_intersect_key($options, $this->api->postTokens()['params']);
 
-        if (!empty($options['cachedCredential'])) {
-            $token = $this->generateTokenFromCache($options['cachedCredential']);
+        if (!empty($options['cachedToken'])) {
+            $token = $this->generateTokenFromCache($options['cachedToken']);
+
+            if ($token->hasExpired()) {
+                throw new \RuntimeException(sprintf('Cached token has expired. You may need to re-generate a new token.'));
+            }
         } else {
             $token = $this->generateToken($authOptions);
         }
@@ -50,9 +54,17 @@ class Service extends AbstractService implements IdentityService
             $type, $name, $region, $interface));
     }
 
-    public function generateTokenFromCache(array $cache): Models\Token
+    /**
+     * Generates authentication token from cached token using `$token->export()`
+     *
+     * @param array $cachedToken {@see \OpenStack\Identity\v3\Models\Token::export}
+     *
+     * @return Models\Token
+     *
+     */
+    public function generateTokenFromCache(array $cachedToken): Models\Token
     {
-        return $this->model(Models\Token::class)->populateFromArray($cache);
+        return $this->model(Models\Token::class)->populateFromArray($cachedToken);
     }
 
     /**
