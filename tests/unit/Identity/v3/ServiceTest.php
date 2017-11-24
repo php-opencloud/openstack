@@ -10,9 +10,11 @@ use OpenStack\Identity\v3\Models;
 use OpenStack\Identity\v3\Service;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
+use Psr\Http\Message\ResponseInterface;
 
 class ServiceTest extends TestCase
 {
+    /** @var Service */
     private $service;
 
     public function setUp()
@@ -511,6 +513,23 @@ class ServiceTest extends TestCase
 
         $token = $this->service->generateToken($userOptions);
         $this->assertInstanceOf(Models\Token::class, $token);
+    }
+
+    public function test_it_generates_token_from_cache()
+    {
+        $cache = [
+            'id' => 'some-token-id'
+        ];
+
+        $this->client
+            ->request('POST', 'auth/tokens', Argument::any())
+            ->shouldNotBeCalled()
+            ->willReturn($this->getFixture('token-get'));
+
+        $token = $this->service->generateTokenFromCache($cache);
+
+        $this->assertInstanceOf(Models\Token::class, $token);
+        $this->assertEquals('some-token-id', $token->id);
     }
 
     public function test_it_lists_endpoints()
