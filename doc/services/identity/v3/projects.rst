@@ -64,7 +64,7 @@ List roles for project group
 Grant role to project group
 ---------------------------
 
-.. sample:: identity/v3/projects/grant_user_role.php
+.. sample:: identity/v3/projects/grant_group_role.php
 .. refdoc:: OpenStack/Identity/v3/Models/Project.html#method_grantGroupRole
 
 Check role for project group
