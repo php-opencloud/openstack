@@ -2,8 +2,6 @@
 
 require 'vendor/autoload.php';
 
-
-
 $params = [
     'authUrl' => '{authUrl}',
     'region'  => '{region}',
