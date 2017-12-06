@@ -60,7 +60,6 @@ class Service extends AbstractService implements IdentityService
      * @param array $cachedToken {@see \OpenStack\Identity\v3\Models\Token::export}
      *
      * @return Models\Token
-     *
      */
     public function generateTokenFromCache(array $cachedToken): Models\Token
     {
