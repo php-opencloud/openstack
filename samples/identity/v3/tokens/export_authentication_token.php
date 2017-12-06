@@ -30,4 +30,6 @@ file_put_contents('token.json', json_encode($token->export()));
 
 // Alternatively, one may persist token to memcache or redis
 // Redis and memcache then can purge the entry when token expires.
+
+/**@var \Memcached $memcache */
 $memcache->set('token', $token->export(), $token->expires->format('U'));

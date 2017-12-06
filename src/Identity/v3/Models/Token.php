@@ -132,9 +132,9 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /**
      * Returns a serialized representation of an authentication token.
      *
-     * Initialize OpenStack object using $params['cachedToken'] to reduce HTTP authentication call.
+     * Initialize OpenStack object using $params['cachedToken'] to reduce the amount of HTTP calls.
      *
-     * This array is a modified version of POST response to `auth/tokens`. Do not manually modify this array.
+     * This array is a modified version of response from `/auth/tokens`. Do not manually modify this array.
      *
      * @return array
      */

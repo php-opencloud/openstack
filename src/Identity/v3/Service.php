@@ -35,7 +35,7 @@ class Service extends AbstractService implements IdentityService
             $token = $this->generateTokenFromCache($options['cachedToken']);
 
             if ($token->hasExpired()) {
-                throw new \RuntimeException(sprintf('Cached token has expired. You may need to re-generate a new token.'));
+                throw new \RuntimeException(sprintf('Cached token has expired on "%s".', $token->expires->format(\DateTime::ISO8601)));
             }
         } else {
             $token = $this->generateToken($authOptions);

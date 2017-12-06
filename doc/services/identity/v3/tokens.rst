@@ -50,18 +50,17 @@ Cache authentication token
 Use case
 ~~~~~~~~
 
-Before one can start calling any API, a very first step that this SDK will do is to authenticate with Identity service
-using user's credential.
+Before the SDK performs an API call, it will first authenticate to the OpenStack Identity service using the provided
+credentials.
 
-If the user's credential is valid, Identity service responses with an authentication token embedded in X-Auth-Token
-header and services catalog. The SDK will then use this authentication token and services catalog in all subsequent API
-calls.
+If the user's credential is valid, credentials are valid, the Identity service returns an authentication token. The SDK
+will then use this authentication token and service catalog in all subsequent API calls.
 
-This setup typically works well for command line type of applications. However, for web-based applications, performance
+This setup typically works well for CLI applications. However, for web-based applications, performance
 is undesirable since authentication step adds ~100ms to the response time.
 
-In order to improve performance, SDK allows users to export and store authentication token and re-use it when it is
-still valid.
+In order to improve performance, the SDK allows users to export and store authentication tokens, and re-use until they
+expire.
 
 
 Generate token and persist to file
@@ -71,7 +70,7 @@ Generate token and persist to file
 
 
 For scalability, it is recommended that cached tokens are stored in persistent storage such as memcache or redis instead
-of local file.
+of a local file.
 
 Initialize Open Stack using cached authentication token
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
