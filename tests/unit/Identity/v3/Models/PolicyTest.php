@@ -57,7 +57,7 @@ class PolicyTest extends TestCase
     {
         $this->policy->type = 'foo';
 
-        $this->setupMock('PATCH', 'policies/POLICY_ID', ['type' => 'foo'], [], 'policy');
+        $this->setupMock('PATCH', 'policies/POLICY_ID', ['policy' => ['type' => 'foo']], [], 'policy');
 
         $this->policy->update();
     }
