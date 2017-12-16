@@ -17,7 +17,7 @@ $options = [
     'content' => '{objectContent}',
 ];
 
-/** @var \OpenStack\ObjectStore\v1\Models\Object $object */
+/** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
 $object = $openstack->objectStoreV1()
                     ->getContainer('{containerName}')
                     ->createObject($options);

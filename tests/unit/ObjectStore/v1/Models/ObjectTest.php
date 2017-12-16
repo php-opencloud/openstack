@@ -5,7 +5,7 @@ namespace OpenStack\Test\ObjectStore\v1\Models;
 use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Psr7\Stream;
 use OpenStack\ObjectStore\v1\Api;
-use OpenStack\ObjectStore\v1\Models\Object;
+use OpenStack\ObjectStore\v1\Models\StorageObject;
 use OpenStack\Test\TestCase;
 
 class ObjectTest extends TestCase
@@ -21,7 +21,7 @@ class ObjectTest extends TestCase
 
         $this->rootFixturesDir = dirname(__DIR__);
 
-        $this->object = new Object($this->client->reveal(), new Api());
+        $this->object = new StorageObject($this->client->reveal(), new Api());
         $this->object->containerName = self::CONTAINER;
         $this->object->name = self::NAME;
     }
