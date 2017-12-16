@@ -8,7 +8,7 @@ use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\JsonSerializer;
 
-class JsonSerializerTest extends \PHPUnit_Framework_TestCase
+class JsonSerializerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JsonSerializer */
     private $serializer;

@@ -5,7 +5,7 @@ namespace OpenStack\Integration;
 use OpenStack\Common\Resource\Deletable;
 use Psr\Log\LoggerInterface;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase implements TestInterface
+abstract class TestCase extends \PHPUnit\Framework\TestCase implements TestInterface
 {
     protected $logger;
     private $startPoint;

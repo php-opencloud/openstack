@@ -13,7 +13,7 @@ use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Error\UserInputError;
 
-class BuilderTest extends \PHPUnit_Framework_TestCase
+class BuilderTest extends \PHPUnit\Framework\TestCase
 {
     private $builder;
     private $client;
