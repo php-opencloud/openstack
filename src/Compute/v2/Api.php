@@ -316,6 +316,90 @@ class Api extends AbstractApi
         ];
     }
 
+    public function resumeServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'      => $this->params->urlId('server'),
+                'resume' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function suspendServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'      => $this->params->urlId('server'),
+                'suspend' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function shelveServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'     => $this->params->urlId('server'),
+                'shelve' => $this->params->nullAction(),
+            ],
+        ];
+    }
+
+    public function shelveOffloadServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'            => $this->params->urlId('server'),
+                'shelveOffload' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function unshelveServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'       => $this->params->urlId('server'),
+                'unshelve' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function lockServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'   => $this->params->urlId('server'),
+                'lock' => $this->params->nullAction()
+            ],
+        ];
+    }
+
+    public function unlockServer() : array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
+            'params'  => [
+                'id'     => $this->params->urlId('server'),
+                'unlock' => $this->params->nullAction()
+            ],
+        ];
+    }
+
     public function rebuildServer(): array
     {
         return [
@@ -460,6 +544,19 @@ class Api extends AbstractApi
             'params' => [
                 'id' => $this->params->urlId('server'),
                 'type' => $this->params->consoleType()
+            ]
+        ];
+    }
+
+    public function getConsoleLog(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'servers/{id}/action',
+            'jsonKey' => 'os-getConsoleOutput',
+            'params' => [
+                'id' => $this->params->urlId('server'),
+                'length' => $this->params->consoleLogLength()
             ]
         ];
     }
@@ -846,4 +943,50 @@ class Api extends AbstractApi
             ]
         ];
     }
+
+    public function getInstanceActions(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-instance-actions',
+            'params' => [
+                'id' => $this->params->urlId('server')
+            ]
+        ];
+    }
+
+    public function getInstanceAction(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-instance-actions/{requestId}',
+            'params' => [
+              'id'        => $this->params->urlId('server'),
+              'requestId' => $this->params->urlId('request')
+            ]
+        ];
+    }
+
+    public function getAggregates(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'os-aggregates',
+            'jsonKey' => 'aggregates',
+            'params'  => [
+                'limit'  => $this->params->limit(),
+                'marker' => $this->params->marker()
+            ],
+        ];
+    }
+
+    public function getAggregate(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-aggregates/{id}',
+            'params' => ['id' => $this->params->urlId('id')]
+        ];
+    }
+
 }

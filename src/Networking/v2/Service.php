@@ -9,6 +9,7 @@ use OpenStack\Networking\v2\Models\LoadBalancerListener;
 use OpenStack\Networking\v2\Models\LoadBalancerMember;
 use OpenStack\Networking\v2\Models\LoadBalancerPool;
 use OpenStack\Networking\v2\Models\Network;
+use OpenStack\Networking\v2\Models\NetworkIpAvailability;
 use OpenStack\Networking\v2\Models\Pool;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Quota;
@@ -382,5 +383,31 @@ class Service extends AbstractService
     public function createLoadBalancerHealthMonitor(array $options): LoadBalancerHealthMonitor
     {
         return $this->model(LoadBalancerHealthMonitor::class)->create($options);
+    }
+
+    /**
+     * Retrieve a network IP availability object without calling the remote API. Any values provided in the array will populate the
+     * empty object, allowing you greater control without the expense of network transactions. To call the remote API
+     * and have the response populate the object, call {@see NetworkIpAvailabilities::retrieve}.
+     *
+     * @param string $id
+     *
+     * @return NetworkIpAvailability
+     */
+    public function getNetworkIpAvailability(string $id): NetworkIpAvailability
+    {
+        return $this->model(NetworkIpAvailability::class, ['id' => $id]);
+    }
+
+    /**
+     * List network IP availability(es)
+     *
+     * @param array $options {@see \OpenStack\Networking\v2\Api::getNetworkIpAvailabilities()
+     *
+     * @return \Generator
+     */
+    public function listNetworkIpAvailabilities(array $options = []): \Generator
+    {
+        return $this->model(NetworkIpAvailability::class)->enumerate($this->api->getNetworkIpAvailabilities(), $options);
     }
 }

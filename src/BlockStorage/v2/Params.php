@@ -159,7 +159,7 @@ TYPEOTHER
             'location' => self::JSON,
         ];
     }
-    
+
     protected function quotaSetLimit($sentAs, $description): array
     {
         return [
@@ -223,5 +223,24 @@ TYPEOTHER
     public function quotaSetVolumesIscsi(): array
     {
         return $this->quotaSetLimit('volumes_iscsi', 'The number of allowed volumes iscsi');
+    }
+
+    public function nullAction(): array
+    {
+        return [
+            'type'     => self::NULL_TYPE,
+            'location' => self::JSON,
+            'required' => true
+        ];
+    }
+
+    public function status(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => true,
+            'description' => 'The new status of the volume',
+        ];
     }
 }
