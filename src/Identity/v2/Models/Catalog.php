@@ -2,6 +2,7 @@
 
 namespace OpenStack\Identity\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
@@ -21,6 +22,16 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
      * @var []Entry
      */
     public $entries = [];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'entries' => new Alias('entries', Entry::class, true)
+        ];
+    }
 
     /**
      * {@inheritDoc}

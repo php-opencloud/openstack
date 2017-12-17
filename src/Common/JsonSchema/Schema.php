@@ -34,7 +34,8 @@ class Schema
         $out = new \stdClass;
 
         foreach ($this->body->properties as $propertyName => $property) {
-            $name = isset($aliases[$propertyName]) ? $aliases[$propertyName] : $propertyName;
+            $name = $aliases[$propertyName] ?? $propertyName;
+
             if (isset($property->readOnly) && $property->readOnly === true) {
                 continue;
             } elseif (property_exists($subject, $name)) {

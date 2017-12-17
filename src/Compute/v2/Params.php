@@ -120,6 +120,16 @@ class Params extends AbstractParams
         ];
     }
 
+    public function rescueImageId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => true,
+            'sentAs'      => 'rescue_image_ref',
+            'description' => 'The image reference to use to rescue your server instance. Specify the image reference by ID or full URL. If you omit an image reference, default is the base image reference',
+        ];
+    }
+
     public function flavorId(): array
     {
         return [
@@ -127,6 +137,46 @@ class Params extends AbstractParams
             'required'    => true,
             'sentAs'      => 'flavorRef',
             'description' => 'The unique ID of the flavor that this server will be based on',
+        ];
+    }
+
+    public function networkId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => true,
+            'sentAs'      => 'net_id',
+            'description' => 'The unique ID of a network',
+        ];
+    }
+
+    public function portId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => true,
+            'sentAs'      => 'port_id',
+            'description' => 'The unique ID of a port',
+        ];
+    }
+
+    public function tag(): array
+    {
+        return [
+            'type' => self::STRING_TYPE,
+        ];
+    }
+
+    public function fixedIpAddresses(): array
+    {
+        return [
+            'type'        => self::ARRAY_TYPE,
+            'sentAs'      => 'fixed_ips',
+            'description' => 'A list of ip addresses which this interface will be associated with',
+            'items'       => [
+                'type'       => self::OBJECT_TYPE,
+                'properties' => ['ip_address' => ['type' => self::STRING_TYPE]]
+            ],
         ];
     }
 
@@ -398,6 +448,16 @@ EOL
     {
         return [
             'location' => self::URL,
+        ];
+    }
+
+    public function userId(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'sentAs'   => 'user_id',
+            'location' => self::QUERY,
+            'description' => 'This allows administrative users to operate key-pairs of specified user ID. Requires micro version 2.10.'
         ];
     }
 

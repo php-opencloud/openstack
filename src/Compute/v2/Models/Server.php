@@ -2,6 +2,7 @@
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -91,6 +92,9 @@ class Server extends OperatorResource implements
     /** @var string */
     public $vmState;
 
+    /** @var Fault */
+    public $fault;
+
     protected $resourceKey = 'server';
     protected $resourcesKey = 'servers';
     protected $markerKey = 'id';
@@ -107,6 +111,19 @@ class Server extends OperatorResource implements
         'OS-EXT-STS:vm_state'                 => 'vmState',
         'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'image'   => new Alias('image', Image::class),
+            'flavor'  => new Alias('flavor', Flavor::class),
+            'created' => new Alias('created', \DateTimeImmutable::class),
+            'updated' => new Alias('updated', \DateTimeImmutable::class)
+        ];
+    }
 
     /**
      * {@inheritDoc}
@@ -292,6 +309,28 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Rescues the server.
+     *
+     * @param array $options {@see \OpenStack\Compute\v2\Api::rescueServer}
+     * @return string
+     */
+    public function rescue(array $options): string
+    {
+        $options['id'] = $this->id;
+        $response = $this->execute($this->api->rescueServer(), $options);
+
+        return Utils::jsonDecode($response)['adminPass'];
+    }
+
+    /**
+     * Unrescues the server.
+     */
+    public function unrescue()
+    {
+        $this->execute($this->api->unrescueServer(), ['unrescue' => null, 'id' => $this->id]);
+    }
+
+    /**
      * Resizes the server to a new flavor. Once this operation is complete and server has transitioned
      * to an active state, you will either need to call {@see confirmResize()} or {@see revertResize()}.
      *
@@ -424,6 +463,51 @@ class Server extends OperatorResource implements
     public function listInterfaceAttachments(array $options = []): \Generator
     {
         return $this->model(InterfaceAttachment::class)->enumerate($this->api->getInterfaceAttachments(), ['id' => $this->id]);
+    }
+
+    /**
+     * Gets an interface attachment.
+     *
+     * @param string $portId The unique ID of the port.
+     * @return InterfaceAttachment
+     */
+    public function getInterfaceAttachment(string $portId): InterfaceAttachment
+    {
+        $response = $this->execute($this->api->getInterfaceAttachment(), [
+            'id'     => $this->id,
+            'portId' => $portId
+        ]);
+
+        return $this->model(InterfaceAttachment::class)->populateFromResponse($response);
+    }
+
+    /**
+     * Creates an interface attachment.
+     *
+     * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postInterfaceAttachment}
+     * @return InterfaceAttachment
+     */
+    public function createInterfaceAttachment(array $userOptions): InterfaceAttachment
+    {
+        if (!isset($userOptions['networkId']) && !isset($userOptions['portId'])) {
+            throw new \RuntimeException('networkId or portId must be set.');
+        }
+
+        $response = $this->execute($this->api->postInterfaceAttachment(), array_merge($userOptions, ['id' => $this->id]));
+        return $this->model(InterfaceAttachment::class)->populateFromResponse($response);
+    }
+
+    /**
+     * Detaches an interface attachment.
+     *
+     * @param string $portId
+     */
+    public function detachInterface(string $portId)
+    {
+        $this->execute($this->api->deleteInterfaceAttachment(), [
+            'id' => $this->id,
+            'portId' => $portId,
+        ]);
     }
 
     /**

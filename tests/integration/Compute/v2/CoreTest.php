@@ -150,6 +150,7 @@ class CoreTest extends TestCase
             $this->resizeServer();
             $this->confirmServerResize();
             $this->rebuildServer();
+            $this->rescueServer();
             $this->createServerImage();
             $this->rebootServer();
 
@@ -190,6 +191,9 @@ class CoreTest extends TestCase
 
             // Console
             $this->getVncConsole();
+
+            // Interface attachments
+            $this->createInterfaceAttachment();
         } finally {
             // Teardown
             $this->deleteServer();
@@ -363,6 +367,26 @@ class CoreTest extends TestCase
         $server->waitUntilActive();
 
         $this->logStep('Rebuilt server {serverId}', $replacements);
+    }
+
+    private function rescueServer()
+    {
+        $replacements = [
+            '{serverId}'  => $this->serverId,
+            '{imageId}'   => $this->imageId,
+            '{adminPass}' => $this->adminPass,
+        ];
+
+        /** @var $server \OpenStack\Compute\v2\Models\Server */
+        require_once $this->sampleFile($replacements, 'servers/rescue_server.php');
+
+        $server->waitUntil('RESCUE');
+
+        require_once $this->sampleFile($replacements, 'servers/unrescue_server.php');
+
+        $server->waitUntilActive();
+
+        $this->logStep('Rescued server {serverId}', $replacements);
     }
 
     private function rebootServer()
@@ -713,5 +737,17 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'servers/get_server_vnc_console.php');
 
         $this->logStep('Get VNC console for server {serverId}', $replacements);
+    }
+
+    private function createInterfaceAttachment()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId,
+            '{networkId}' => $this->network->id
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/create_interface_attachment.php');
+
+        $this->logStep('Create interface attachment for server {serverId}', $replacements);
     }
 }

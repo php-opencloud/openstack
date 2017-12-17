@@ -2,6 +2,7 @@
 
 namespace OpenStack\Images\v2\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
@@ -36,11 +37,20 @@ class Member extends OperatorResource implements Creatable, Listable, Retrievabl
     public $status;
 
     protected $aliases = [
-        'created_at' => 'createdAt',
-        'updated_at' => 'updatedAt',
         'member_id'  => 'id',
         'image_id'   => 'imageId',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
+            'updated_at' => new Alias('updatedAt', \DateTimeImmutable::class)
+        ];
+    }
 
     public function create(array $userOptions): Creatable
     {

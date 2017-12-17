@@ -2,6 +2,7 @@
 
 namespace OpenStack\Networking\v2\Extensions\Layer3\Models;
 
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
@@ -42,10 +43,19 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
     protected $resourceKey = 'router';
 
     protected $aliases = [
-        'external_gateway_info' => 'externalGatewayInfo',
         'admin_state_up'        => 'adminStateUp',
         'tenant_id'             => 'tenantId',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'external_gateway_info' => new Alias('externalGatewayInfo', GatewayInfo::class)
+        ];
+    }
 
     public function create(array $userOptions): Creatable
     {

@@ -2,6 +2,8 @@
 
 namespace OpenStack\Identity\v3\Models;
 
+use OpenStack\Common\Resource\Alias;
+use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
@@ -15,7 +17,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /** @var array */
     public $methods;
 
-    /** @var []Role */
+    /** @var Role[] */
     public $roles;
 
     /** @var \DateTimeImmutable */
@@ -42,10 +44,22 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     protected $resourceKey = 'token';
     protected $resourcesKey = 'tokens';
 
-    protected $aliases = [
-        'expires_at' => 'expires',
-        'issued_at'  => 'issued',
-    ];
+    protected $cachedToken;
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+            'roles'      => new Alias('roles', Role::class, true),
+            'expires_at' => new Alias('expires', \DateTimeImmutable::class),
+            'project'    => new Alias('project', Project::class),
+            'catalog'    => new Alias('catalog', Catalog::class),
+            'user'       => new Alias('user', User::class),
+            'issued_at'  => new Alias('issued', \DateTimeImmutable::class)
+        ];
+    }
 
     /**
      * {@inheritDoc}
@@ -105,6 +119,27 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         }
 
         $response = $this->execute($this->api->postTokens(), $data);
-        return $this->populateFromResponse($response);
+        $token = $this->populateFromResponse($response);
+
+        // Cache response as an array to export if needed.
+        // Added key `id` which is auth token from HTTP header X-Subject-Token
+        $this->cachedToken = Utils::flattenJson(Utils::jsonDecode($response), $this->resourceKey);
+        $this->cachedToken['id'] = $token->id;
+
+        return $token;
+    }
+
+    /**
+     * Returns a serialized representation of an authentication token.
+     *
+     * Initialize OpenStack object using $params['cachedToken'] to reduce the amount of HTTP calls.
+     *
+     * This array is a modified version of response from `/auth/tokens`. Do not manually modify this array.
+     *
+     * @return array
+     */
+    public function export(): array
+    {
+        return $this->cachedToken;
     }
 }

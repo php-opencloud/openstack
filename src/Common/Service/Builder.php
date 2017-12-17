@@ -97,9 +97,11 @@ class Builder
                 $stack = $this->getStack($options['authHandler'], $token);
             }
 
+            $microVersion = $options['microVersion'] ?? null;
+
             $this->addDebugMiddleware($options, $stack);
 
-            $options['httpClient'] = $this->httpClient($baseUrl, $stack);
+            $options['httpClient'] = $this->httpClient($baseUrl, $stack, $options['catalogType'], $microVersion);
         }
     }
 
@@ -137,17 +139,20 @@ class Builder
         return $stack;
     }
 
-    private function httpClient(string $baseUrl, HandlerStack $stack): ClientInterface
+    private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType = null, string $microVersion = null): ClientInterface
     {
         $clientOptions = [
             'base_uri' => Utils::normalizeUrl($baseUrl),
             'handler'  => $stack,
         ];
 
+        if ($microVersion && $serviceType) {
+            $clientOptions['headers']['OpenStack-API-Version'] = sprintf('%s %s', $serviceType, $microVersion);
+        }
+
         if (isset($this->globalOptions['requestOptions'])) {
             $clientOptions = array_merge($this->globalOptions['requestOptions'], $clientOptions);
         }
-
         return new Client($clientOptions);
     }
 
