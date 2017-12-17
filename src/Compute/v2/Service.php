@@ -13,6 +13,7 @@ use OpenStack\Compute\v2\Models\Host;
 use OpenStack\Compute\v2\Models\Hypervisor;
 use OpenStack\Compute\v2\Models\AvailabilityZone;
 use OpenStack\Compute\v2\Models\QuotaSet;
+use OpenStack\Compute\v2\Models\Aggregate;
 
 /**
  * Compute v2 service for OpenStack.
@@ -294,5 +295,31 @@ class Service extends AbstractService
         $quotaSet->populateFromResponse($this->execute($detailed ? $this->api->getQuotaSetDetail() : $this->api->getQuotaSet(), ['tenantId' => $tenantId]));
 
         return $quotaSet;
+    }
+
+    /**
+     * List host aggregates.
+     *
+     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getAggregates}
+     * @param callable $mapFn    A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listAggregates(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(Aggregate::class)->enumerate($this->api->getAggregates(), $options, $mapFn);
+    }
+
+    /**
+     * Shows details for a given host aggregate.
+     *
+     * @param array $options
+     *
+     * @return Aggregate
+     */
+    public function getAggregate(array $options = []): Aggregate
+    {
+        $aggregate = $this->model(Aggregate::class);
+        return $aggregate->populateFromArray($options);
     }
 }

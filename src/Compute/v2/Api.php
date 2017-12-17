@@ -967,4 +967,26 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getAggregates(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'os-aggregates',
+            'jsonKey' => 'aggregates',
+            'params'  => [
+                'limit'  => $this->params->limit(),
+                'marker' => $this->params->marker()
+            ],
+        ];
+    }
+
+    public function getAggregate(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-aggregates/{id}',
+            'params' => ['id' => $this->params->urlId('id')]
+        ];
+    }
+
 }
