@@ -724,4 +724,15 @@ class CoreTest extends TestCase
 
         $this->logStep('Create interface attachment for server {serverId}', $replacements);
     }
+
+    private function getConsoleOutput()
+    {
+        $replacements = [
+            '{serverId}' => $this->serverId
+        ];
+
+        require_once $this->sampleFile($replacements, 'servers/get_server_console_output.php');
+
+        $this->logStep('Get console output for server {serverId}', $replacements);
+    }
 }

@@ -519,6 +519,22 @@ EOL
         ];
     }
 
+    public function consoleLogLength(): array
+    {
+        return [
+            'type'     => self::INT_TYPE,
+            'location' => self::JSON,
+            'required' => false,
+        ];
+    }
+
+    public function emptyObject(): array
+    {
+        return [
+            'type'  => self::OBJECT_TYPE,
+        ];
+    }
+
     protected function quotaSetLimit($sentAs, $description): array
     {
         return [
