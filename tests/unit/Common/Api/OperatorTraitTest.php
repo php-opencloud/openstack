@@ -28,7 +28,7 @@ class OperatorTraitTest extends TestCase
 
         $this->def = [
             'method' => 'GET',
-            'path'   => 'test',
+            'path' => 'test',
             'params' => [],
         ];
 
@@ -48,6 +48,8 @@ class OperatorTraitTest extends TestCase
         $this->client->request('GET', 'test', ['headers' => []])->willReturn(new Response());
 
         $this->operator->execute($this->def, []);
+
+        self::assertTrue(true);
     }
 
     public function test_it_sends_a_request_when_async_operations_are_executed()
@@ -55,6 +57,8 @@ class OperatorTraitTest extends TestCase
         $this->client->requestAsync('GET', 'test', ['headers' => []])->willReturn(new Promise());
 
         $this->operator->executeAsync($this->def, []);
+
+        self::assertTrue(true);
     }
 
     public function test_it_wraps_sequential_ops_in_promise_when_async_is_appended_to_method_name()
@@ -90,10 +94,12 @@ class OperatorTraitTest extends TestCase
     {
         $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class));
     }
+
     public function test_it_populates_models_from_response()
     {
         $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, new Response(200)));
     }
+
     public function test_it_populates_models_from_arrays()
     {
         $data = ['flavor' => [], 'image' => []];
