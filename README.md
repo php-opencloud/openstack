@@ -17,6 +17,10 @@ OpenStack services, and versions of services, are supported.
 * [Contributing guide](/CONTRIBUTING.md)
 * [Code of Conduct](/CODE_OF_CONDUCT.md)
 
+## Backward incompatibility
+
+Due to new [object typehint](https://wiki.php.net/rfc/object-typehint) since PHP 7.2, class `\OpenStack\ObjectStore\v1\Models\Object` had to be renamed to `\OpenStack\ObjectStore\v1\Models\ObjectEntity` in [v3.0.0](/releases/v3.0.0)!
+
 ## Getting help
    
 - Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://slackpass.io/phpopencloud))

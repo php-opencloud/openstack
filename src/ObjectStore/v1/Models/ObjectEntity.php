@@ -14,7 +14,7 @@ use OpenStack\Common\Resource\HasMetadata;
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
  */
-class Object extends OperatorResource implements Creatable, Deletable, HasMetadata
+class ObjectEntity extends OperatorResource implements Creatable, Deletable, HasMetadata
 {
     use MetadataTrait;
 

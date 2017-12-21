@@ -64,7 +64,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /**
      * {@inheritDoc}
      */
-    public function populateFromResponse(ResponseInterface $response)
+    public function populateFromResponse(ResponseInterface $response): self
     {
         parent::populateFromResponse($response);
         $this->id = $response->getHeaderLine('X-Subject-Token');

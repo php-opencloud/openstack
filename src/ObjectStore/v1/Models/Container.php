@@ -61,7 +61,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
-        return $this->model(Object::class)->enumerate($this->api->getContainer(), $options, $mapFn);
+        return $this->model(ObjectEntity::class)->enumerate($this->api->getContainer(), $options, $mapFn);
     }
 
     /**
@@ -142,11 +142,11 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @param string $name The name of the object
      *
-     * @return Object
+     * @return ObjectEntity
      */
-    public function getObject($name): Object
+    public function getObject($name): ObjectEntity
     {
-        return $this->model(Object::class, ['containerName' => $this->name, 'name' => $name]);
+        return $this->model(ObjectEntity::class, ['containerName' => $this->name, 'name' => $name]);
     }
 
     /**
@@ -177,11 +177,11 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
      *
-     * @return Object
+     * @return ObjectEntity
      */
-    public function createObject(array $data): Object
+    public function createObject(array $data): ObjectEntity
     {
-        return $this->model(Object::class)->create($data + ['containerName' => $this->name]);
+        return $this->model(ObjectEntity::class)->create($data + ['containerName' => $this->name]);
     }
 
     /**
@@ -195,9 +195,9 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * @param string $data['segmentPrefix']    The prefix that will come before each segment. If omitted, a default
      *                                         is used: name/timestamp/filesize
      *
-     * @return Object
+     * @return ObjectEntity
      */
-    public function createLargeObject(array $data): Object
+    public function createLargeObject(array $data): ObjectEntity
     {
         /** @var \Psr\Http\Message\StreamInterface $stream */
         $stream = $data['stream'];
@@ -218,7 +218,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         $count    = 0;
 
         while (!$stream->eof() && $count < round($stream->getSize() / $segmentSize)) {
-            $promises[] = $this->model(Object::class)->createAsync([
+            $promises[] = $this->model(ObjectEntity::class)->createAsync([
                 'name'          => sprintf("%s/%d", $segmentPrefix, ++$count),
                 'stream'        => new LimitStream($stream, $segmentSize, ($count - 1) * $segmentSize),
                 'containerName' => $segmentContainer,
