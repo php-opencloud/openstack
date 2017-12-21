@@ -17,15 +17,15 @@ interface ResourceInterface
      *
      * @param ResponseInterface $response
      *
-     * @return self
+     * @return ResourceInterface
      */
-    public function populateFromResponse(ResponseInterface $response);
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface;
 
     /**
      * @param array $data
-     * @return mixed
+     * @return ResourceInterface
      */
-    public function populateFromArray(array $data);
+    public function populateFromArray(array $data): ResourceInterface;
 
     /**
      * @param string $name The name of the model class.

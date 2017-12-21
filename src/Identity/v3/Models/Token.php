@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
@@ -64,7 +65,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /**
      * {@inheritDoc}
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         parent::populateFromResponse($response);
         $this->id = $response->getHeaderLine('X-Subject-Token');

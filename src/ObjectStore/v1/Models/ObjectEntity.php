@@ -10,6 +10,7 @@ use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
@@ -47,7 +48,7 @@ class ObjectEntity extends OperatorResource implements Creatable, Deletable, Has
     /**
      * {@inheritdoc}
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         parent::populateFromResponse($response);
 

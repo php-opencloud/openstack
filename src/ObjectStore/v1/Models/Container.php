@@ -12,6 +12,7 @@ use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
@@ -39,7 +40,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     /**
      * {@inheritdoc}
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         parent::populateFromResponse($response);
 

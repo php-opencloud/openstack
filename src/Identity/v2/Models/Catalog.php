@@ -6,6 +6,7 @@ use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * Represents an Identity v2 service catalog.
@@ -36,7 +37,7 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
     /**
      * {@inheritDoc}
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         $entries = Utils::jsonDecode($response)['access']['serviceCatalog'];
 
