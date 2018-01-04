@@ -42,9 +42,9 @@ class Service extends AbstractService
     /**
      * @return \Generator
      */
-    public function listFloatingIps(): \Generator
+    public function listFloatingIps(array $options = []): \Generator
     {
-        return $this->floatingIp()->enumerate($this->api->getFloatingIps());
+        return $this->floatingIp()->enumerate($this->api->getFloatingIps(),$options);
     }
 
     /**
