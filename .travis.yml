@@ -26,7 +26,7 @@ before_install:
 before_script:
   - composer install --prefer-source
   - vendor/bin/parallel-lint --exclude vendor .
-  - vendor/bin/php-cs-fixer fix --dry-run --diff --level psr2 .
+  - vendor/bin/php-cs-fixer fix --dry-run --diff .
   - phpenv config-add ./xdebug.ini
 
 after_script:
