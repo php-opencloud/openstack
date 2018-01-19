@@ -34,7 +34,9 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => $this->pathPrefix . '/floatingips',
-            'params' => [],
+            'params' => [
+                'tenantId' => $this->params->queryTenantId(),
+            ],
         ];
     }
 
