@@ -95,6 +95,9 @@ class Server extends OperatorResource implements
     /** @var Fault */
     public $fault;
 
+    /** @var string */
+    public $keyName;
+
     protected $resourceKey = 'server';
     protected $resourcesKey = 'servers';
     protected $markerKey = 'id';
@@ -104,6 +107,7 @@ class Server extends OperatorResource implements
         'accessIPv4'                          => 'ipv4',
         'accessIPv6'                          => 'ipv6',
         'tenant_id'                           => 'tenantId',
+        'key_name'                            => 'keyName',
         'user_id'                             => 'userId',
         'security_groups'                     => 'securityGroups',
         'OS-EXT-STS:task_state'               => 'taskState',
