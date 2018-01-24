@@ -279,6 +279,19 @@ class Api extends AbstractApi
         ];
     }
 
+    
+    public function resetServerState(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
+                'id'         => $this->params->urlId('server'),
+                'resetState' => $this->params->osResetState()
+            ]
+        ];
+    }
+
     public function rebootServer(): array
     {
         return [
