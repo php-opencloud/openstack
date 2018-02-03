@@ -6,6 +6,7 @@ use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\Retrievable;
 use Psr\Http\Message\ResponseInterface;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
@@ -34,7 +35,7 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
     /**
      * {@inheritdoc}
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         parent::populateFromResponse($response);
 

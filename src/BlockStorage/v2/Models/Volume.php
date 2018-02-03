@@ -12,6 +12,7 @@ use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api
@@ -89,7 +90,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         ];
     }
 
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         parent::populateFromResponse($response);
         $this->metadata = $this->parseMetadata($response);

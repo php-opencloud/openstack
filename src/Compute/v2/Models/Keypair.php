@@ -9,6 +9,7 @@ use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * Represents a Compute v2 Keypair
@@ -78,7 +79,7 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     /**
      * {@inheritDoc}
      */
-    public function populateFromArray(array $array): self
+    public function populateFromArray(array $array): ResourceInterface
     {
         return parent::populateFromArray(Utils::flattenJson($array, $this->resourceKey));
     }

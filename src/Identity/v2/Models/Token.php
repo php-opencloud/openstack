@@ -6,7 +6,7 @@ use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\ValueResource;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * Represents an Identity v2 Token.
@@ -42,7 +42,7 @@ class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
     /**
      * {@inheritDoc}
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         $this->populateFromArray(Utils::jsonDecode($response)['access']['token']);
 

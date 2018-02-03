@@ -4,6 +4,7 @@ namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
@@ -23,7 +24,7 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
         ];
     }
 
-    public function populateFromArray(array $data): self
+    public function populateFromArray(array $data): ResourceInterface
     {
         foreach ($data as $service) {
             $this->services[] = $this->model(Service::class, $service);

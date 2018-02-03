@@ -49,6 +49,6 @@
         "psr/log": "~1.0",
         "satooshi/php-coveralls": "~1.0",
         "jakub-onderka/php-parallel-lint": "0.*",
-        "friendsofphp/php-cs-fixer": "^1.0"
+        "friendsofphp/php-cs-fixer": "^2.0"
     }
 }

@@ -10,11 +10,12 @@ use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
  */
-class Object extends OperatorResource implements Creatable, Deletable, HasMetadata
+class ObjectEntity extends OperatorResource implements Creatable, Deletable, HasMetadata
 {
     use MetadataTrait;
 
@@ -47,7 +48,7 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
     /**
      * {@inheritdoc}
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response): ResourceInterface
     {
         parent::populateFromResponse($response);
 

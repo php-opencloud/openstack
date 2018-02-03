@@ -13,6 +13,7 @@ use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\Images\v2\JsonPatch;
 use Psr\Http\Message\StreamInterface;
+use OpenStack\Common\Resource\ResourceInterface;
 
 /**
  * @property \OpenStack\Images\v2\Api $api
@@ -97,7 +98,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         ];
     }
 
-    public function populateFromArray(array $data): self
+    public function populateFromArray(array $data): ResourceInterface
     {
         parent::populateFromArray($data);
 
