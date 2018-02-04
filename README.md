@@ -19,7 +19,7 @@ OpenStack services, and versions of services, are supported.
 
 ## Getting help
    
-- Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://slackpass.io/phpopencloud))
+- Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://launchpass.com/phpopencloud))
 - Report and issue: https://github.com/php-opencloud/openstack/issues
 
 ## Requirements
