@@ -279,7 +279,7 @@ class Api extends AbstractApi
         ];
     }
 
-    
+
     public function resetServerState(): array
     {
         return [
@@ -287,7 +287,7 @@ class Api extends AbstractApi
             'path'   => 'servers/{id}/action',
             'params' => [
                 'id'         => $this->params->urlId('server'),
-                'resetState' => $this->params->osResetState()
+                'resetState' => $this->params->resetState()
             ]
         ];
     }
