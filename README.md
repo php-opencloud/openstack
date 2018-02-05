@@ -26,7 +26,7 @@ details.
 
 | Version   | Status                      | PHP Version   | Life span               |
 | --------- | --------------------------- | ------------- | ----------------------- |
-| `^2.0`    | Maintained (Bug fixes only) | `^=7.0,<7.2`  | March 2016 - March 2018 |
+| `^2.0`    | Maintained (Bug fixes only) | `>=7.0,<7.2`  | March 2016 - March 2018 |
 | `^3.0`    | Latest                      | `^7.0`        | March 2018 - March 2020 |
 
 ## Getting help
