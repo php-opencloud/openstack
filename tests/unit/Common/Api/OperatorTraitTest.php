@@ -28,7 +28,7 @@ class OperatorTraitTest extends TestCase
 
         $this->def = [
             'method' => 'GET',
-            'path' => 'test',
+            'path'   => 'test',
             'params' => [],
         ];
 
@@ -49,7 +49,7 @@ class OperatorTraitTest extends TestCase
 
         $this->operator->execute($this->def, []);
 
-        self::assertTrue(true);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_sends_a_request_when_async_operations_are_executed()
@@ -58,7 +58,7 @@ class OperatorTraitTest extends TestCase
 
         $this->operator->executeAsync($this->def, []);
 
-        self::assertTrue(true);
+        $this->addToAssertionCount(1);
     }
 
     public function test_it_wraps_sequential_ops_in_promise_when_async_is_appended_to_method_name()
