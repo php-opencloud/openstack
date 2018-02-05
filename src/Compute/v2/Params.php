@@ -15,6 +15,19 @@ class Params extends AbstractParams
         ]);
     }
 
+    public function resetState(): array
+    {
+        return [
+            'type'       => self::OBJECT_TYPE,
+            'location'   => self::JSON,
+            'sentAs'     => 'os-resetState',
+            'required'   => true,
+            'properties' => [
+                'state' => ['type' => self::STRING_TYPE]
+            ]
+        ];
+    }
+
     public function minDisk(): array
     {
         return [
