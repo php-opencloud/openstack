@@ -13,12 +13,12 @@ use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Error\UserInputError;
 
-class BuilderTest extends \PHPUnit_Framework_TestCase
+class BuilderTest extends \PHPUnit\Framework\TestCase
 {
     private $builder;
     private $client;
 
-    public function __construct()
+    public function setUp()
     {
         $this->client = $this->prophesize(ClientInterface::class);
         $this->builder = new Builder($this->client->reveal());

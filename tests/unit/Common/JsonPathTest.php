@@ -4,7 +4,7 @@ namespace OpenStack\Test\Common;
 
 use OpenStack\Common\JsonPath;
 
-class JsonPathTest extends \PHPUnit_Framework_TestCase
+class JsonPathTest extends \PHPUnit\Framework\TestCase
 {
     private $jsonPath;
 

@@ -672,7 +672,8 @@ class CoreTest extends TestCase
 
         $this->volume->waitUntil('in-use');
 
-        $this->logStep('Attached volume {volumeId} to server {serverId} with volume attachment id {volumeAttachmentId}',
+        $this->logStep(
+            'Attached volume {volumeId} to server {serverId} with volume attachment id {volumeAttachmentId}',
             array_merge($replacements, ['{volumeAttachmentId}' => $volumeAttachment->id])
         );
     }
