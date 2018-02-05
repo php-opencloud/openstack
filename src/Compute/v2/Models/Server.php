@@ -188,7 +188,7 @@ class Server extends OperatorResource implements
      */
     public function resetState()
     {
-        $response = $this->execute($this->api->resetServerState(), [
+        $this->execute($this->api->resetServerState(), [
             'id'         => $this->id,
             'resetState' => ['state' => 'active']
         ]);

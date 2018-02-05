@@ -15,7 +15,7 @@ class Params extends AbstractParams
         ]);
     }
 
-    public function osResetState(): array
+    public function resetState(): array
     {
         return [
             'type'       => self::OBJECT_TYPE,
