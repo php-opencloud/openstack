@@ -61,7 +61,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
-        return $this->model(Object::class)->enumerate($this->api->getContainer(), $options, $mapFn);
+        return $this->model(StorageObject::class)->enumerate($this->api->getContainer(), $options, $mapFn);
     }
 
     /**
@@ -136,17 +136,17 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     }
 
     /**
-     * Retrieves an Object and populates its `name` and `containerName` properties according to the name provided and
+     * Retrieves an StorageObject and populates its `name` and `containerName` properties according to the name provided and
      * the name of this container. A HTTP call will not be executed by default - you need to call
-     * {@see Object::retrieve} or {@see Object::download} on the returned Object object to do that.
+     * {@see StorageObject::retrieve} or {@see StorageObject::download} on the returned StorageObject object to do that.
      *
      * @param string $name The name of the object
      *
-     * @return Object
+     * @return StorageObject
      */
-    public function getObject($name): Object
+    public function getObject($name): StorageObject
     {
-        return $this->model(Object::class, ['containerName' => $this->name, 'name' => $name]);
+        return $this->model(StorageObject::class, ['containerName' => $this->name, 'name' => $name]);
     }
 
     /**
@@ -179,9 +179,9 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @return Object
      */
-    public function createObject(array $data): Object
+    public function createObject(array $data): StorageObject
     {
-        return $this->model(Object::class)->create($data + ['containerName' => $this->name]);
+        return $this->model(StorageObject::class)->create($data + ['containerName' => $this->name]);
     }
 
     /**
@@ -195,9 +195,9 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * @param string $data['segmentPrefix']    The prefix that will come before each segment. If omitted, a default
      *                                         is used: name/timestamp/filesize
      *
-     * @return Object
+     * @return StorageObject
      */
-    public function createLargeObject(array $data): Object
+    public function createLargeObject(array $data): StorageObject
     {
         /** @var \Psr\Http\Message\StreamInterface $stream */
         $stream = $data['stream'];
@@ -218,7 +218,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         $count    = 0;
 
         while (!$stream->eof() && $count < round($stream->getSize() / $segmentSize)) {
-            $promises[] = $this->model(Object::class)->createAsync([
+            $promises[] = $this->model(StorageObject::class)->createAsync([
                 'name'          => sprintf("%s/%d", $segmentPrefix, ++$count),
                 'stream'        => new LimitStream($stream, $segmentSize, ($count - 1) * $segmentSize),
                 'containerName' => $segmentContainer,

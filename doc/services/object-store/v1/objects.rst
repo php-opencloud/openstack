@@ -27,7 +27,7 @@ Download an object
 ------------------
 
 .. sample:: object_store/v1/objects/download.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Object.html#method_download
+.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_download
 
 As you will notice, a Stream_ object is returned by this call. For more information about dealing with streams, please
 consult `Guzzle's docs`_.
@@ -88,19 +88,19 @@ Copy object
 -----------
 
 .. sample:: object_store/v1/objects/copy.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Object.html#method_copy
+.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_copy
 
 Delete object
 -------------
 
 .. sample:: object_store/v1/objects/delete.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Object.html#method_delete
+.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_delete
 
 Get metadata
 ------------
 
 .. sample:: object_store/v1/objects/get_metadata.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Object.html#method_getMetadata
+.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_getMetadata
 
 The returned value will be a standard associative array, or hash, containing arbitrary key/value pairs. These will
 correspond to the values set either when the object was created, or when a previous ``mergeMetadata`` or
@@ -110,7 +110,7 @@ Replace all metadata with new values
 ------------------------------------
 
 .. sample:: object_store/v1/objects/reset_metadata.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Object.html#method_resetMetadata
+.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_resetMetadata
 
 In order to replace all existing metadata with a set of new values, you can use this operation. Any existing metadata
 items which not specified in the new set will be removed. For example, say an account has the following metadata
@@ -140,7 +140,7 @@ Merge new metadata values with existing
 ---------------------------------------
 
 .. sample:: object_store/v1/objects/merge_metadata.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Object.html#method_mergeMetadata
+.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_mergeMetadata
 
 In order to merge a set of new metadata values with the existing metadata set, you can use this operation. Any existing
 metadata items which are not specified in the new set will be preserved. For example, say an account has the following

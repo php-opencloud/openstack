@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Stream;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Container;
-use OpenStack\ObjectStore\v1\Models\Object;
+use OpenStack\ObjectStore\v1\Models\StorageObject;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
 
@@ -95,7 +95,7 @@ class ContainerTest extends TestCase
     {
         $object = $this->container->getObject('foo.txt');
 
-        $this->assertInstanceOf(Object::class, $object);
+        $this->assertInstanceOf(StorageObject::class, $object);
         $this->assertEquals('foo.txt', $object->name);
     }
 
@@ -135,7 +135,7 @@ class ContainerTest extends TestCase
             ->willReturn($this->getFixture('GET_Container'));
 
         foreach ($this->container->listObjects(['limit' => 2]) as $object) {
-            $this->assertInstanceOf(Object::class, $object);
+            $this->assertInstanceOf(StorageObject::class, $object);
         }
     }
 

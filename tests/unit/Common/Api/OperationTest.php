@@ -6,7 +6,7 @@ use OpenStack\Common\Api\Operation;
 use OpenStack\Common\Api\Parameter;
 use OpenStack\Test\Fixtures\ComputeV2Api;
 
-class OperationTest extends \PHPUnit_Framework_TestCase
+class OperationTest extends \PHPUnit\Framework\TestCase
 {
     private $operation;
 

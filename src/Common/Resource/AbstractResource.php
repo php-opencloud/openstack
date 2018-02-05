@@ -42,7 +42,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
      *
      * @return AbstractResource
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response)
     {
         if (strpos($response->getHeaderLine('Content-Type'), 'application/json') === 0) {
             $json = Utils::jsonDecode($response);
@@ -61,7 +61,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
      *
      * @return mixed|void
      */
-    public function populateFromArray(array $array): self
+    public function populateFromArray(array $array)
     {
         $aliases = $this->getAliases();
 
