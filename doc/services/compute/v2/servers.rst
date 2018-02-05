@@ -218,6 +218,14 @@ This operation will replace the root password for a server.
 .. sample:: compute/v2/servers/change_server_password.php
 .. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_changePassword
 
+Reset server state
+------------------
+
+This operation will reset the state of the server.
+
+.. sample:: compute/v2/servers/reset_server_state.php
+.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_resetState
+
 Reboot server
 -------------
 
