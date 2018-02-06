@@ -50,5 +50,10 @@
         "satooshi/php-coveralls": "~1.0",
         "jakub-onderka/php-parallel-lint": "0.*",
         "friendsofphp/php-cs-fixer": "^2.9"
+    },
+    "extra": {
+        "branch-alias": {
+           "dev-master": "3.0-dev"
+        }
     }
 }
