@@ -7,3 +7,7 @@ Networking v2
     networks
     subnets
     ports
+    loadbalancers
+    loadbalancer-pools
+    loadbalancer-listeners
+    loadbalancer-healthmonitors
