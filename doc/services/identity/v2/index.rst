@@ -2,6 +2,6 @@ Identity v2
 ===========
 
 .. toctree::
-:maxdepth: 3
+    :maxdepth: 3
 
-      authentication
+    authentication
