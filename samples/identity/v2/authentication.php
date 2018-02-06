@@ -28,5 +28,3 @@ $openstack = new OpenStack($options);
 
 /** @var \OpenStack\Compute\v2\Models\Server[] $servers */
 $servers = $openstack->computeV2()->listServers();
-
-
