@@ -184,6 +184,17 @@ class Server extends OperatorResource implements
     }
 
     /**
+     * Issue a resetState call to the server.
+     */
+    public function resetState()
+    {
+        $this->execute($this->api->resetServerState(), [
+            'id'         => $this->id,
+            'resetState' => ['state' => 'active']
+        ]);
+    }
+
+    /**
      * Reboots the server.
      *
      * @param string $type The type of reboot that will be performed. Either SOFT or HARD is supported.
