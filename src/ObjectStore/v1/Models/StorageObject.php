@@ -3,6 +3,7 @@
 namespace OpenStack\ObjectStore\v1\Models;
 
 use GuzzleHttp\Psr7\Uri;
+use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -32,7 +33,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     /** @var string */
     public $contentType;
 
-    /** @var int */
+    /** @var \DateTimeImmutable */
     public $contentLength;
 
     /** @var string */
@@ -42,7 +43,21 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     public $metadata;
 
     protected $markerKey = 'name';
-    protected $aliases = ['bytes' => 'contentLength'];
+
+    protected $aliases = [
+        'bytes' => 'contentLength',
+        'content_type' => 'contentType',
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAliases(): array
+    {
+        return parent::getAliases() + [
+                'last_modified' => new Alias('lastModified', \DateTimeImmutable::class),
+            ];
+    }
 
     /**
      * {@inheritdoc}
