@@ -61,7 +61,15 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
-        return $this->model(StorageObject::class)->enumerate($this->api->getContainer(), $options, $mapFn);
+
+        $appendContainerNameFn = function (StorageObject $resource) use ($mapFn) {
+            $resource->containerName = $this->name;
+            if ($mapFn) {
+                call_user_func_array($mapFn, [&$resource]);
+            }
+        };
+
+        return $this->model(StorageObject::class)->enumerate($this->api->getContainer(), $options, $appendContainerNameFn);
     }
 
     /**
