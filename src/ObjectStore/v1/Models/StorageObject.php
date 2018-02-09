@@ -105,8 +105,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     public function create(array $data): Creatable
     {
         // Override containerName from input params only if local instance contains containerName attr
-        if ($this->containerName)
-        {
+        if ($this->containerName) {
             $data['containerName'] = $this->containerName;
         }
 
