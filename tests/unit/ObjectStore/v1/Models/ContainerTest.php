@@ -116,7 +116,8 @@ class ContainerTest extends TestCase
 
         $this->setupMock('PUT', self::NAME . '/' . $objectName, $content, $headers, 'Created');
 
-        $this->container->createObject([
+        /** @var StorageObject $storageObject */
+        $storageObject = $this->container->createObject([
             'name'               => $objectName,
             'content'            => $content,
             'contentType'        => $headers['Content-Type'],
@@ -125,6 +126,9 @@ class ContainerTest extends TestCase
             'deleteAfter'        => $headers['X-Delete-After'],
             'metadata'           => ['Author' => 'foo', 'genre' => 'bar'],
         ]);
+
+        $this->assertEquals('foo.txt', $storageObject->name);
+        $this->assertEquals(self::NAME, $storageObject->containerName);
     }
 
     public function test_it_lists_objects()
