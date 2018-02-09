@@ -50,8 +50,13 @@ class Service extends AbstractService implements IdentityService
             return [$token, $baseUrl];
         }
 
-        throw new \RuntimeException(sprintf("No service found with type [%s] name [%s] region [%s] interface [%s]",
-            $type, $name, $region, $interface));
+        throw new \RuntimeException(sprintf(
+            "No service found with type [%s] name [%s] region [%s] interface [%s]",
+            $type,
+            $name,
+            $region,
+            $interface
+        ));
     }
 
     /**
