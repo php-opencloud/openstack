@@ -10,7 +10,7 @@ OpenStack services, and versions of services, are supported.
 
 ## Links
 
-* [Official documentation](http://docs.os.php-opencloud.com/)
+* [Official documentation](https://php-openstack-sdk.readthedocs.io/en/latest/)
 * [Reference documentation](http://refdocs.os.php-opencloud.com)
 * [Contributing guide](/CONTRIBUTING.md)
 * [Code of Conduct](/CODE_OF_CONDUCT.md)
