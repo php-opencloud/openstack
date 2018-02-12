@@ -47,6 +47,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     protected $aliases = [
         'bytes' => 'contentLength',
         'content_type' => 'contentType',
+        'subdir' => 'name',
     ];
 
     /**
