@@ -332,7 +332,7 @@ class Params extends AbstractParams
     {
         return [
             'type'       => self::OBJECT_TYPE,
-            'required'   => true,
+            'required'   => false,
             'properties' => [
                 'password' => [
                     'type' => self::STRING_TYPE,
