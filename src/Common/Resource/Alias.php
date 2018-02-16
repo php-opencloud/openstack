@@ -51,6 +51,14 @@ class Alias
             }
             return $array;
         } elseif ($this->className === \DateTimeImmutable::class) {
+            // Newer version of Openstack may include nanoseconds in timestamp
+            // Attempt to reduce to micoseconds precision
+            $pattern = '/\.([0-9]*)/';
+            $cb = function (array $m) {
+                return (count($m) == 2) ? '.'.substr($m[1], 0, 6): null;
+            };
+            $value = preg_replace_callback($pattern, $cb, $value);
+
             return new \DateTimeImmutable($value);
         }
 
