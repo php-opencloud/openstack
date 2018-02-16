@@ -145,7 +145,13 @@ abstract class AbstractResource implements ResourceInterface, Serializable
             $val = $this->{$name};
 
             $fn = function ($val) {
-                return ($val instanceof Serializable) ? $val->serialize() : $val;
+                if ($val instanceof Serializable) {
+                    return $val->serialize();
+                } elseif ($val instanceof \DateTimeImmutable) {
+                    return $val->format('c');
+                } else {
+                    return $val;
+                }
             };
 
             if (is_array($val)) {
