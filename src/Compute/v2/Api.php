@@ -84,6 +84,39 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getFlavorExtraSpecs(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'flavors/{id}/os-extra_specs',
+            'params' => ['id' => $this->params->urlId('flavor')]
+        ];
+    }
+
+    public function postFlavorExtraSpecs(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'flavors/{id}/os-extra_specs',
+            'params' => [
+                'id'       => $this->params->urlId('flavor'),
+                'extraSpecs' => $this->params->extraSpecs()
+            ]
+        ];
+    }
+
+    public function deleteFlavorExtraSpecKey(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'flavors/{id}/os-extra_specs/{key}',
+            'params' => [
+                'id'  => $this->params->urlId('flavor'),
+                'key' => $this->params->key(),
+            ]
+        ];
+    }
+
     public function getImages(): array
     {
         return [
