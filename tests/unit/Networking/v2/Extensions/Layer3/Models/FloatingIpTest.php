@@ -48,5 +48,35 @@ class FloatingIpTest extends TestCase
         $this->setupMock('GET', 'v2.0/floatingips/id', null, [], 'FloatingIp');
 
         $this->floatingIp->retrieve();
+
+        $this->assertEquals(
+            '376da547-b977-4cfe-9cba-275c80debf57',
+                            $this->floatingIp->floatingNetworkId
+        );
+        $this->assertEquals(
+            'd23abc8d-2991-4a55-ba98-2aaea84cc72f',
+                            $this->floatingIp->routerId
+        );
+        $this->assertEquals(
+            '10.0.0.3',
+                            $this->floatingIp->fixedIpAddress
+        );
+        $this->assertEquals(
+            '172.24.4.228',
+                            $this->floatingIp->floatingIpAddress
+        );
+        $this->assertEquals(
+            '4969c491a3c74ee4af974e6d800c62de',
+                            $this->floatingIp->tenantId
+        );
+        $this->assertEquals('ACTIVE', $this->floatingIp->status);
+        $this->assertEquals(
+            'ce705c24-c1ef-408a-bda3-7bbd946164ab',
+                            $this->floatingIp->portId
+        );
+        $this->assertEquals(
+            '2f245a7b-796b-4f26-9cf9-9e82d248fda7',
+                            $this->floatingIp->id
+        );
     }
 }

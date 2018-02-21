@@ -78,7 +78,8 @@ class JsonPatch
 
     protected function shouldPartiallyReplace(\stdClass $o1, \stdClass $o2): bool
     {
-        return count(array_diff_key((array) $o1, (array) $o2)) < count($o1);
+        // NOTE: count(stdClass) always returns 1
+        return count(array_diff_key((array) $o1, (array) $o2)) < 1;
     }
 
     protected function arrayDiff(array $a1, array $a2): array

@@ -5,7 +5,7 @@ namespace OpenStack\Test\ObjectStore\v1\Models;
 use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Psr7\Stream;
 use OpenStack\ObjectStore\v1\Api;
-use OpenStack\ObjectStore\v1\Models\Object;
+use OpenStack\ObjectStore\v1\Models\StorageObject;
 use OpenStack\Test\TestCase;
 
 class ObjectTest extends TestCase
@@ -21,7 +21,7 @@ class ObjectTest extends TestCase
 
         $this->rootFixturesDir = dirname(__DIR__);
 
-        $this->object = new Object($this->client->reveal(), new Api());
+        $this->object = new StorageObject($this->client->reveal(), new Api());
         $this->object->containerName = self::CONTAINER;
         $this->object->name = self::NAME;
     }
@@ -66,7 +66,10 @@ class ObjectTest extends TestCase
     {
         $this->setupMock('HEAD', self::CONTAINER . '/' . self::NAME, null, [], 'HEAD_Object');
 
-        $this->assertEquals(['Book' => 'GoodbyeColumbus'], $this->object->getMetadata());
+        $this->assertEquals([
+            'Book'         => 'GoodbyeColumbus',
+            'Manufacturer' => 'Acme',
+        ], $this->object->getMetadata());
     }
 
     public function test_Merge_Metadata()
@@ -74,8 +77,9 @@ class ObjectTest extends TestCase
         $this->setupMock('HEAD', self::CONTAINER . '/' . self::NAME, null, [], 'HEAD_Object');
 
         $headers = [
-            'X-Object-Meta-Author' => 'foo',
-            'X-Object-Meta-Book'   => 'GoodbyeColumbus',
+            'X-Object-Meta-Author'       => 'foo',
+            'X-Object-Meta-Book'         => 'GoodbyeColumbus',
+            'X-Object-Meta-Manufacturer' => 'Acme',
         ];
 
         $this->setupMock('POST', self::CONTAINER . '/' . self::NAME, null, $headers, 'NoContent');

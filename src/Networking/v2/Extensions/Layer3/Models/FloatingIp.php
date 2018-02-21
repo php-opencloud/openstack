@@ -70,6 +70,7 @@ class FloatingIp extends OperatorResource implements Listable, Creatable, Retrie
 
     public function retrieve()
     {
-        $this->executeWithState($this->api->getFloatingIp());
+        $response = $this->executeWithState($this->api->getFloatingIp());
+        $this->populateFromResponse($response);
     }
 }

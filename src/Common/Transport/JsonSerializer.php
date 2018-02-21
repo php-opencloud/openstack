@@ -101,7 +101,8 @@ class JsonSerializer
             } elseif (!($value instanceof \stdClass)) {
                 throw new \InvalidArgumentException(sprintf(
                     'When an object value is provided, it must either be \stdClass or implement the Serializable '
-                    . 'interface, you provided %s', print_r($value, true)
+                    . 'interface, you provided %s',
+                    print_r($value, true)
                 ));
             }
         }

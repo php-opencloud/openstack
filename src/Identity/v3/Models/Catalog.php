@@ -56,7 +56,10 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
 
         throw new \RuntimeException(sprintf(
             "Endpoint URL could not be found in the catalog for this service.\nName: %s\nType: %s\nRegion: %s\nURL type: %s",
-            $name, $type, $region, $urlType
+            $name,
+            $type,
+            $region,
+            $urlType
         ));
     }
 }

@@ -133,6 +133,7 @@ class Api extends AbstractApi
                 'protocol'        => $this->params->protocolJson(),
                 'remoteGroupId'   => $this->params->remoteGroupIdJson(),
                 'remoteIpPrefix'  => $this->params->remoteIpPrefixJson(),
+                'tenantId'        => $this->params->tenantIdJson(),
             ],
         ];
     }

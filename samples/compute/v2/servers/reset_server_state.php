@@ -12,12 +12,10 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$options = [
-    'name'    => '{objectName}',
-    'content' => '{objectContent}',
-];
+$compute = $openstack->computeV2(['region' => '{region}']);
 
-/** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
-$object = $openstack->objectStoreV1()
-                    ->getContainer('{containerName}')
-                    ->createObject($options);
+$server = $compute->getServer([
+    'id' => '{serverId}',
+]);
+
+$server->resetState();

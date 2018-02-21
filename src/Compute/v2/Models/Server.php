@@ -95,6 +95,9 @@ class Server extends OperatorResource implements
     /** @var Fault */
     public $fault;
 
+    /** @var string */
+    public $keyName;
+
     protected $resourceKey = 'server';
     protected $resourcesKey = 'servers';
     protected $markerKey = 'id';
@@ -104,6 +107,7 @@ class Server extends OperatorResource implements
         'accessIPv4'                          => 'ipv4',
         'accessIPv6'                          => 'ipv6',
         'tenant_id'                           => 'tenantId',
+        'key_name'                            => 'keyName',
         'user_id'                             => 'userId',
         'security_groups'                     => 'securityGroups',
         'OS-EXT-STS:task_state'               => 'taskState',
@@ -176,6 +180,17 @@ class Server extends OperatorResource implements
         $this->execute($this->api->changeServerPassword(), [
             'id'       => $this->id,
             'password' => $newPassword,
+        ]);
+    }
+
+    /**
+     * Issue a resetState call to the server.
+     */
+    public function resetState()
+    {
+        $this->execute($this->api->resetServerState(), [
+            'id'         => $this->id,
+            'resetState' => ['state' => 'active']
         ]);
     }
 
@@ -360,6 +375,25 @@ class Server extends OperatorResource implements
     public function revertResize()
     {
         $this->execute($this->api->revertServerResize(), ['revertResize' => null, 'id' => $this->id]);
+    }
+
+    /**
+     * Gets the console output of the server.
+     *
+     * @param int $length The number of lines, by default all lines will be returned.
+     * @return string
+     */
+    public function getConsoleOutput(int $length = -1): string
+    {
+        $definition = $length == -1 ? $this->api->getAllConsoleOutput() : $this->api->getConsoleOutput();
+
+        $response = $this->execute($definition, [
+            'os-getConsoleOutput' => new \stdClass(),
+            'id' => $this->id,
+            'length' => $length,
+        ]);
+
+        return Utils::jsonDecode($response)['output'];
     }
 
     /**

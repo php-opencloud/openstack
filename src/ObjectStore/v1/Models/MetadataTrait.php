@@ -11,9 +11,9 @@ trait MetadataTrait
         $metadata = [];
 
         foreach ($response->getHeaders() as $header => $value) {
-            $position = strpos($header, static::METADATA_PREFIX);
-            if ($position === 0) {
-                $metadata[ltrim($header, static::METADATA_PREFIX)] = $response->getHeader($header)[0];
+            if (0 === strpos($header, static::METADATA_PREFIX)) {
+                $name = substr($header, strlen(static::METADATA_PREFIX));
+                $metadata[$name] = $response->getHeader($header)[0];
             }
         }
 

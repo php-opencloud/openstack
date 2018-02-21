@@ -12,14 +12,26 @@ OpenStack services, and versions of services, are supported.
 
 * [Official documentation](http://docs.os.php-opencloud.com/)
 * [Reference documentation](http://refdocs.os.php-opencloud.com)
-* [Developer support](https://developer.rackspace.com/)
-* [Mailing list](https://groups.google.com/forum/#!forum/php-opencloud)
 * [Contributing guide](/CONTRIBUTING.md)
 * [Code of Conduct](/CODE_OF_CONDUCT.md)
 
+## Backward incompatibility
+
+Due to new [object typehint](https://wiki.php.net/rfc/object-typehint) since PHP 7.2, `Object` is a reserved keyword 
+thus class `OpenStack\ObjectStore\v1\Models\Object` had to be renamed to 
+`OpenStack\ObjectStore\v1\Models\StorageObject`. See [#184](https://github.com/php-opencloud/openstack/pull/184) for 
+details.
+
+### Version Guidance
+
+| Version   | Status                      | PHP Version   | Life span               |
+| --------- | --------------------------- | ------------- | ----------------------- |
+| `^2.0`    | Maintained (Bug fixes only) | `>=7.0,<7.2`  | March 2016 - March 2018 |
+| `^3.0`    | Latest                      | `^7.0`        | March 2018 - March 2020 |
+
 ## Getting help
    
-- Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://slackpass.io/phpopencloud))
+- Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://launchpass.com/phpopencloud))
 - Report and issue: https://github.com/php-opencloud/openstack/issues
 
 ## Requirements

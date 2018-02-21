@@ -16,5 +16,5 @@ $container = $openstack->objectStoreV1()
                        ->getContainer('{containerName}');
 
 foreach ($container->listObjects() as $object) {
-    /** @var \OpenStack\ObjectStore\v1\Models\Object $object */
+    /** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
 }

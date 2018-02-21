@@ -166,7 +166,8 @@ class Builder
 
         if (!isset($options['identityService']) || !($options['identityService'] instanceof IdentityService)) {
             throw new \InvalidArgumentException(sprintf(
-                '"identityService" must be specified and implement %s', IdentityService::class
+                '"identityService" must be specified and implement %s',
+                IdentityService::class
             ));
         }
 

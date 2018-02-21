@@ -12,7 +12,7 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-/** @var \OpenStack\ObjectStore\v1\Models\Object $object */
+/** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
 $object = $openstack->objectStoreV1()
                     ->getContainer('{containerName}')
                     ->getObject('{objectName}');
