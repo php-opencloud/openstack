@@ -42,7 +42,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
      *
      * @return AbstractResource
      */
-    public function populateFromResponse(ResponseInterface $response): self
+    public function populateFromResponse(ResponseInterface $response)
     {
         if (strpos($response->getHeaderLine('Content-Type'), 'application/json') === 0) {
             $json = Utils::jsonDecode($response);
@@ -61,7 +61,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
      *
      * @return mixed|void
      */
-    public function populateFromArray(array $array): self
+    public function populateFromArray(array $array)
     {
         $aliases = $this->getAliases();
 
@@ -145,7 +145,13 @@ abstract class AbstractResource implements ResourceInterface, Serializable
             $val = $this->{$name};
 
             $fn = function ($val) {
-                return ($val instanceof Serializable) ? $val->serialize() : $val;
+                if ($val instanceof Serializable) {
+                    return $val->serialize();
+                } elseif ($val instanceof \DateTimeImmutable) {
+                    return $val->format('c');
+                } else {
+                    return $val;
+                }
             };
 
             if (is_array($val)) {
