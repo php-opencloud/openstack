@@ -63,38 +63,71 @@ abstract class AbstractResource implements ResourceInterface, Serializable
      */
     public function populateFromArray(array $array): self
     {
-        $aliases = $this->getAliases();
+        $reflClass = new \ReflectionClass($this);
 
         foreach ($array as $key => $val) {
-            $alias = $aliases[$key] ?? false;
+            $propertyName = (string) (isset($this->aliases[$key]) ? $this->aliases[$key] : $key);
 
-            if ($alias instanceof Alias) {
-                $key = $alias->propertyName;
-                $val = $alias->getValue($this, $val);
-            }
+            if (property_exists($this, $propertyName)) {
+                if ($type = $this->extractTypeFromDocBlock($reflClass, $propertyName)) {
+                    $val = $this->parseDocBlockValue($type, $val);
+                }
 
-            if (property_exists($this, $key)) {
-                $this->{$key} = $val;
+                $this->$propertyName = $val;
             }
         }
 
         return $this;
     }
 
-    /**
-     * Constructs alias objects
-     *
-     * @return Alias[]
-     */
-    protected function getAliases(): array
+    private function parseDocBlockValue(string $type, $val)
     {
-        $aliases = [];
-
-        foreach ((array)$this->aliases as $alias => $property) {
-            $aliases[$alias] = new Alias($property);
+        if (is_null($val)) {
+            return $val;
+        } elseif (strpos($type, '[]') === 0 && is_array($val)) {
+            $array = [];
+            foreach ($val as $subVal) {
+                $array[] = $this->model($this->normalizeModelClass(substr($type, 2)), $subVal);
+            }
+            $val = $array;
+        } elseif (strcasecmp($type, '\datetimeimmutable') === 0) {
+            $val = new \DateTimeImmutable($val);
+        } elseif ($this->isNotNativeType($type)) {
+            $val = $this->model($this->normalizeModelClass($type), $val);
         }
 
-        return $aliases;
+        return $val;
+    }
+
+    private function isNotNativeType(string $type): bool
+    {
+        return !in_array($type, [
+            'string', 'bool', 'boolean', 'double', 'null', 'array', 'object', 'int', 'integer', 'float', 'numeric',
+            'mixed'
+        ]);
+    }
+
+    private function normalizeModelClass(string $class): string
+    {
+        if (strpos($class, '\\') === false) {
+            $currentNamespace = (new \ReflectionClass($this))->getNamespaceName();
+            $class = sprintf("%s\\%s", $currentNamespace, $class);
+        }
+
+        return $class;
+    }
+
+    private function extractTypeFromDocBlock(\ReflectionClass $reflClass, string $propertyName)
+    {
+        $docComment = $reflClass->getProperty($propertyName)->getDocComment();
+
+        if (!$docComment) {
+            return false;
+        }
+
+        $matches = [];
+        preg_match('#@var ((\[\])?[\w|\\\]+)#', $docComment, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
     }
 
     /**
@@ -145,7 +178,13 @@ abstract class AbstractResource implements ResourceInterface, Serializable
             $val = $this->{$name};
 
             $fn = function ($val) {
-                return ($val instanceof Serializable) ? $val->serialize() : $val;
+                if ($val instanceof Serializable) {
+                    return $val->serialize();
+                } elseif ($val instanceof \DateTimeImmutable) {
+                    return $val->format('c');
+                } else {
+                    return $val;
+                }
             };
 
             if (is_array($val)) {
