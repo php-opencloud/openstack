@@ -47,6 +47,7 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
     protected $aliases = [
         'bytes' => 'contentLength',
         'content_type' => 'contentType',
+        'subdir' => 'name',
     ];
 
     /**
