@@ -1,16 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common;
 
 /**
  * Encapsulates common logic for classes which implement the SPL \ArrayAccess interface.
- *
- * @package OpenStack\Common
  */
 trait ArrayAccessTrait
 {
     /**
-     * The internal state that this object represents
+     * The internal state that this object represents.
      *
      * @var array
      */

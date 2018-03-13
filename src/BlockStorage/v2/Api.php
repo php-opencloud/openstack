@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v2;
 
@@ -8,7 +10,7 @@ class Api extends AbstractApi
 {
     public function __construct()
     {
-        $this->params = new Params;
+        $this->params = new Params();
     }
 
     public function postVolumes(): array
@@ -37,9 +39,9 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'volumes',
             'params' => [
-                'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker(),
-                'sort'   => $this->params->sort(),
+                'limit'      => $this->params->limit(),
+                'marker'     => $this->params->marker(),
+                'sort'       => $this->params->sort(),
                 'allTenants' => $this->params->allTenants(),
             ],
         ];
@@ -62,11 +64,11 @@ class Api extends AbstractApi
     public function getVolume(): array
     {
         return [
-            'method'     => 'GET',
-            'path'       => 'volumes/{id}',
-            'params'     => [
-                'id' => $this->params->idPath()
-            ]
+            'method' => 'GET',
+            'path'   => 'volumes/{id}',
+            'params' => [
+                'id' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -139,10 +141,10 @@ class Api extends AbstractApi
     public function putType(): array
     {
         return [
-            'method' => 'PUT',
-            'path'   => 'types/{id}',
+            'method'  => 'PUT',
+            'path'    => 'types/{id}',
             'jsonKey' => 'volume_type',
-            'params' => [
+            'params'  => [
                 'id'    => $this->params->idPath(),
                 'name'  => $this->params->name('volume type'),
                 'specs' => $this->params->typeSpecs(),
@@ -171,10 +173,10 @@ class Api extends AbstractApi
     public function postSnapshots(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'snapshots',
+            'method'  => 'POST',
+            'path'    => 'snapshots',
             'jsonKey' => 'snapshot',
-            'params' => [
+            'params'  => [
                 'volumeId'    => $this->params->volId(),
                 'force'       => $this->params->force(),
                 'name'        => $this->params->snapshotName(),
@@ -218,10 +220,10 @@ class Api extends AbstractApi
     public function putSnapshot(): array
     {
         return [
-            'method' => 'PUT',
-            'path'   => 'snapshots/{id}',
+            'method'  => 'PUT',
+            'path'    => 'snapshots/{id}',
             'jsonKey' => 'snapshot',
-            'params' => [
+            'params'  => [
                 'id'          => $this->params->idPath(),
                 'name'        => $this->params->snapshotName(),
                 'description' => $this->params->desc(),
@@ -265,8 +267,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'os-quota-sets/{tenantId}',
             'params' => [
-                'tenantId' => $this->params->idPath('quota-sets')
-            ]
+                'tenantId' => $this->params->idPath('quota-sets'),
+            ],
         ];
     }
 
@@ -277,8 +279,8 @@ class Api extends AbstractApi
             'path'    => 'os-quota-sets/{tenantId}',
             'jsonKey' => 'quota_set',
             'params'  => [
-                'tenantId' => $this->params->idPath('quota-sets')
-            ]
+                'tenantId' => $this->params->idPath('quota-sets'),
+            ],
         ];
     }
 
@@ -299,7 +301,7 @@ class Api extends AbstractApi
                 'snapshotsIscsi'     => $this->params->quotaSetSnapshotsIscsi(),
                 'volumes'            => $this->params->quotaSetVolumes(),
                 'volumesIscsi'       => $this->params->quotaSetVolumesIscsi(),
-            ]
+            ],
         ];
     }
 }

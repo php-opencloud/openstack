@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -11,7 +13,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Api;
 
 /**
- * Represents a Neutron v2 LoadBalancer Listener
+ * Represents a Neutron v2 LoadBalancer Listener.
  *
  * @property Api $api
  */
@@ -43,12 +45,12 @@ class LoadBalancerListener extends OperatorResource implements Creatable, Retrie
     public $protocol;
 
     /**
-     * @var integer
+     * @var int
      */
     public $protocolPort;
 
     /**
-     * @var integer
+     * @var int
      */
     public $connectionLimit;
 
@@ -58,7 +60,7 @@ class LoadBalancerListener extends OperatorResource implements Creatable, Retrie
     public $defaultPoolId;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $adminStateUp;
 
@@ -88,7 +90,7 @@ class LoadBalancerListener extends OperatorResource implements Creatable, Retrie
     public $pools;
 
     protected $resourcesKey = 'listeners';
-    protected $resourceKey = 'listener';
+    protected $resourceKey  = 'listener';
 
     protected $aliases = [
         'tenant_id'           => 'tenantId',
@@ -102,36 +104,37 @@ class LoadBalancerListener extends OperatorResource implements Creatable, Retrie
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
             'pools'         => new Alias('pools', LoadBalancerPool::class, true),
-            'loadbalancers' => new Alias('loadbalancers', LoadBalancerPool::class, true)
+            'loadbalancers' => new Alias('loadbalancers', LoadBalancerPool::class, true),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postLoadBalancerListener(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getLoadBalancerListener(), ['id' => (string)$this->id]);
+        $response = $this->execute($this->api->getLoadBalancerListener(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -140,7 +143,7 @@ class LoadBalancerListener extends OperatorResource implements Creatable, Retrie
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

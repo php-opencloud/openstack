@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -33,32 +35,33 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     /** @var array */
     public $links;
 
-    protected $resourceKey = 'service';
+    protected $resourceKey  = 'service';
     protected $resourcesKey = 'services';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'endpoints' => new Alias('endpoints', Endpoint::class, true)
+            'endpoints' => new Alias('endpoints', Endpoint::class, true),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postServices}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postServices(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -67,7 +70,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -76,7 +79,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -96,10 +99,10 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     /**
      * Retrieve the base URL for a service.
      *
-     * @param string $name      The name of the service as it appears in the catalog.
-     * @param string $type      The type of the service as it appears in the catalog.
-     * @param string $region    The region of the service as it appears in the catalog.
-     * @param string $interface The interface of the service as it appears in the catalog.
+     * @param string $name      the name of the service as it appears in the catalog
+     * @param string $type      the type of the service as it appears in the catalog
+     * @param string $region    the region of the service as it appears in the catalog
+     * @param string $interface the interface of the service as it appears in the catalog
      *
      * @return string|false
      */

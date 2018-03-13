@@ -43,23 +43,24 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
     protected $resourceKey = 'router';
 
     protected $aliases = [
-        'admin_state_up'        => 'adminStateUp',
-        'tenant_id'             => 'tenantId',
+        'admin_state_up' => 'adminStateUp',
+        'tenant_id'      => 'tenantId',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'external_gateway_info' => new Alias('externalGatewayInfo', GatewayInfo::class)
+            'external_gateway_info' => new Alias('externalGatewayInfo', GatewayInfo::class),
         ];
     }
 
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postRouters(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 

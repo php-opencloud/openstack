@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
@@ -12,7 +14,7 @@ use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Represents a Compute v2 Image
+ * Represents a Compute v2 Image.
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
@@ -48,35 +50,35 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
     /** @var \DateTimeImmutable */
     public $updated;
 
-    protected $resourceKey = 'image';
+    protected $resourceKey  = 'image';
     protected $resourcesKey = 'images';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
             'created' => new Alias('created', \DateTimeImmutable::class),
-            'updated' => new Alias('updated', \DateTimeImmutable::class)
+            'updated' => new Alias('updated', \DateTimeImmutable::class),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getImage(), ['id' => (string)$this->id]);
+        $response = $this->execute($this->api->getImage(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
-        $this->execute($this->api->deleteImage(), ['id' => (string)$this->id]);
+        $this->execute($this->api->deleteImage(), ['id' => (string) $this->id]);
     }
 
     /**
@@ -87,6 +89,7 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
     public function getMetadata(): array
     {
         $response = $this->execute($this->api->getImageMetadata(), ['id' => $this->id]);
+
         return $this->parseMetadata($response);
     }
 
@@ -98,7 +101,7 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
      */
     public function resetMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->putImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+        $response       = $this->execute($this->api->putImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -111,7 +114,7 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
      */
     public function mergeMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+        $response       = $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -124,9 +127,10 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
      */
     public function getMetadataItem(string $key)
     {
-        $response = $this->execute($this->api->getImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
-        $value = $this->parseMetadata($response)[$key];
+        $response             = $this->execute($this->api->getImageMetadataKey(), ['id' => $this->id, 'key' => $key]);
+        $value                = $this->parseMetadata($response)[$key];
         $this->metadata[$key] = $value;
+
         return $value;
     }
 

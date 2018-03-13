@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2;
 
@@ -8,7 +10,6 @@ use OpenStack\Common\Api\AbstractApi;
  * A representation of the Neutron (Nova) v2 REST API.
  *
  * @internal
- * @package OpenStack\Networking\v2
  */
 class Api extends AbstractApi
 {
@@ -23,7 +24,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/networks/{id}',
+            'path'   => $this->pathPrefix.'/networks/{id}',
             'params' => ['id' => $this->params->urlId('network')],
         ];
     }
@@ -32,7 +33,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/networks',
+            'path'   => $this->pathPrefix.'/networks',
             'params' => [
                 'name'     => $this->params->queryName(),
                 'tenantId' => $this->params->queryTenantId(),
@@ -44,7 +45,7 @@ class Api extends AbstractApi
     public function postNetwork(): array
     {
         return [
-            'path'    => $this->pathPrefix . '/networks',
+            'path'    => $this->pathPrefix.'/networks',
             'method'  => 'POST',
             'jsonKey' => 'network',
             'params'  => [
@@ -60,7 +61,7 @@ class Api extends AbstractApi
     public function postNetworks(): array
     {
         return [
-            'path'    => $this->pathPrefix . '/networks',
+            'path'    => $this->pathPrefix.'/networks',
             'method'  => 'POST',
             'jsonKey' => '',
             'params'  => [
@@ -84,7 +85,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/networks/{id}',
+            'path'    => $this->pathPrefix.'/networks/{id}',
             'jsonKey' => 'network',
             'params'  => [
                 'id'           => $this->params->urlId('network'),
@@ -99,7 +100,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/networks/{id}',
+            'path'   => $this->pathPrefix.'/networks/{id}',
             'params' => ['id' => $this->params->urlId('network')],
         ];
     }
@@ -108,7 +109,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/subnets/{id}',
+            'path'   => $this->pathPrefix.'/subnets/{id}',
             'params' => ['id' => $this->params->urlId('network')],
         ];
     }
@@ -117,10 +118,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/subnets',
+            'path'   => $this->pathPrefix.'/subnets',
             'params' => [
-                'name' => $this->params->queryName(),
-                'tenantId' => $this->params->queryTenantId()
+                'name'     => $this->params->queryName(),
+                'tenantId' => $this->params->queryTenantId(),
             ],
         ];
     }
@@ -128,7 +129,7 @@ class Api extends AbstractApi
     public function postSubnet(): array
     {
         return [
-            'path'    => $this->pathPrefix . '/subnets',
+            'path'    => $this->pathPrefix.'/subnets',
             'method'  => 'POST',
             'jsonKey' => 'subnet',
             'params'  => [
@@ -149,7 +150,7 @@ class Api extends AbstractApi
     public function postSubnets(): array
     {
         return [
-            'path'   => $this->pathPrefix . '/subnets',
+            'path'   => $this->pathPrefix.'/subnets',
             'method' => 'POST',
             'params' => [
                 'subnets' => [
@@ -168,7 +169,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/subnets/{id}',
+            'path'    => $this->pathPrefix.'/subnets/{id}',
             'jsonKey' => 'subnet',
             'params'  => [
                 'id'              => $this->params->urlId('subnet'),
@@ -185,7 +186,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/subnets/{id}',
+            'path'   => $this->pathPrefix.'/subnets/{id}',
             'params' => ['id' => $this->params->urlId('subnet')],
         ];
     }
@@ -194,7 +195,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/ports',
+            'path'   => $this->pathPrefix.'/ports',
             'params' => [
                 'status'         => $this->params->statusQuery(),
                 'displayName'    => $this->params->displayNameQuery(),
@@ -214,7 +215,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/ports',
+            'path'    => $this->pathPrefix.'/ports',
             'jsonKey' => 'port',
             'params'  => [
                 'name'                => $this->params->name('port'),
@@ -237,7 +238,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'POST',
-            'path'   => $this->pathPrefix . '/ports',
+            'path'   => $this->pathPrefix.'/ports',
             'params' => [
                 'ports' => [
                     'type'  => Params::ARRAY_TYPE,
@@ -254,7 +255,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/ports/{id}',
+            'path'   => $this->pathPrefix.'/ports/{id}',
             'params' => ['id' => $this->params->idPath()],
         ];
     }
@@ -263,7 +264,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/ports/{id}',
+            'path'    => $this->pathPrefix.'/ports/{id}',
             'jsonKey' => 'port',
             'params'  => [
                 'id'                  => $this->params->idPath(),
@@ -287,7 +288,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/ports/{id}',
+            'path'   => $this->pathPrefix.'/ports/{id}',
             'params' => ['id' => $this->params->idPath()],
         ];
     }
@@ -296,8 +297,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/quotas',
-            'params' => []
+            'path'   => $this->pathPrefix.'/quotas',
+            'params' => [],
         ];
     }
 
@@ -305,8 +306,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/quotas/{tenantId}',
-            'params' => []
+            'path'   => $this->pathPrefix.'/quotas/{tenantId}',
+            'params' => [],
         ];
     }
 
@@ -314,8 +315,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => $this->pathPrefix . '/quotas/{tenantId}/default',
-            'params' => []
+            'path'   => $this->pathPrefix.'/quotas/{tenantId}/default',
+            'params' => [],
         ];
     }
 
@@ -323,7 +324,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/quotas/{tenantId}',
+            'path'    => $this->pathPrefix.'/quotas/{tenantId}',
             'jsonKey' => 'quota',
             'params'  => [
                 'tenantId'          => $this->params->idPath(),
@@ -336,18 +337,18 @@ class Api extends AbstractApi
                 'securityGroupRule' => $this->params->quotaLimitSecurityGroupRule(),
                 'subnet'            => $this->params->quotaLimitSubnet(),
                 'subnetpool'        => $this->params->quotaLimitSubnetPool(),
-            ]
+            ],
         ];
     }
 
-    public function deleteQuota() : array
+    public function deleteQuota(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/quotas/{tenantId}',
+            'path'   => $this->pathPrefix.'/quotas/{tenantId}',
             'params' => [
-                'tenantId' => $this->params->idPath()
-            ]
+                'tenantId' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -355,8 +356,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/loadbalancers',
-            'params' => []
+            'path'   => $this->pathPrefix.'/lbaas/loadbalancers',
+            'params' => [],
         ];
     }
 
@@ -364,8 +365,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/loadbalancers/{id}',
-            'params' => []
+            'path'   => $this->pathPrefix.'/lbaas/loadbalancers/{id}',
+            'params' => [],
         ];
     }
 
@@ -373,7 +374,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/lbaas/loadbalancers',
+            'path'    => $this->pathPrefix.'/lbaas/loadbalancers',
             'jsonKey' => 'loadbalancer',
             'params'  => [
                 'name'         => $this->params->name('loadbalancer'),
@@ -382,8 +383,8 @@ class Api extends AbstractApi
                 'vipSubnetId'  => $this->params->vipSubnetId(),
                 'vipAddress'   => $this->params->vipAddress(),
                 'adminStateUp' => $this->params->adminStateUp(),
-                'provider'     => $this->params->provider()
-            ]
+                'provider'     => $this->params->provider(),
+            ],
         ];
     }
 
@@ -391,25 +392,25 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/lbaas/loadbalancers/{id}',
+            'path'    => $this->pathPrefix.'/lbaas/loadbalancers/{id}',
             'jsonKey' => 'loadbalancer',
             'params'  => [
                 'id'           => $this->params->idPath(),
                 'name'         => $this->params->name('loadbalancer'),
                 'description'  => $this->params->descriptionJson(),
-                'AdminStateUp' => $this->params->adminStateUp()
-            ]
+                'AdminStateUp' => $this->params->adminStateUp(),
+            ],
         ];
     }
 
-    public function deleteLoadBalancer() : array
+    public function deleteLoadBalancer(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/lbaas/loadbalancers/{id}',
+            'path'   => $this->pathPrefix.'/lbaas/loadbalancers/{id}',
             'params' => [
-                'id' => $this->params->idPath()
-            ]
+                'id' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -417,8 +418,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/listeners',
-            'params' => []
+            'path'   => $this->pathPrefix.'/lbaas/listeners',
+            'params' => [],
         ];
     }
 
@@ -426,8 +427,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/listeners/{id}',
-            'params' => []
+            'path'   => $this->pathPrefix.'/lbaas/listeners/{id}',
+            'params' => [],
         ];
     }
 
@@ -435,7 +436,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/lbaas/listeners',
+            'path'    => $this->pathPrefix.'/lbaas/listeners',
             'jsonKey' => 'listener',
             'params'  => [
                 'name'            => $this->params->name('listener'),
@@ -445,8 +446,8 @@ class Api extends AbstractApi
                 'protocolPort'    => $this->params->protocolPort(),
                 'tenantId'        => $this->params->tenantId(),
                 'adminStateUp'    => $this->params->adminStateUp(),
-                'connectionLimit' => $this->params->connectionLimit()
-            ]
+                'connectionLimit' => $this->params->connectionLimit(),
+            ],
         ];
     }
 
@@ -454,26 +455,26 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/lbaas/listeners/{id}',
+            'path'    => $this->pathPrefix.'/lbaas/listeners/{id}',
             'jsonKey' => 'listener',
             'params'  => [
                 'id'              => $this->params->idPath(),
                 'name'            => $this->params->name('listener'),
                 'description'     => $this->params->descriptionJson(),
                 'adminStateUp'    => $this->params->adminStateUp(),
-                'connectionLimit' => $this->params->connectionLimit()
-            ]
+                'connectionLimit' => $this->params->connectionLimit(),
+            ],
         ];
     }
 
-    public function deleteLoadBalancerListener() : array
+    public function deleteLoadBalancerListener(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/lbaas/listeners/{id}',
+            'path'   => $this->pathPrefix.'/lbaas/listeners/{id}',
             'params' => [
-                'id' => $this->params->idPath()
-            ]
+                'id' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -481,8 +482,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/pools',
-            'params' => []
+            'path'   => $this->pathPrefix.'/lbaas/pools',
+            'params' => [],
         ];
     }
 
@@ -490,8 +491,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/pools/{id}',
-            'params' => []
+            'path'   => $this->pathPrefix.'/lbaas/pools/{id}',
+            'params' => [],
         ];
     }
 
@@ -499,7 +500,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/lbaas/pools',
+            'path'    => $this->pathPrefix.'/lbaas/pools',
             'jsonKey' => 'pool',
             'params'  => [
                 'name'               => $this->params->name('pool'),
@@ -508,8 +509,8 @@ class Api extends AbstractApi
                 'protocol'           => $this->params->protocol(),
                 'lbAlgorithm'        => $this->params->lbAlgorithm(),
                 'listenerId'         => $this->params->listenerId(),
-                'sessionPersistence' => $this->params->sessionPersistence()
-            ]
+                'sessionPersistence' => $this->params->sessionPersistence(),
+            ],
         ];
     }
 
@@ -517,7 +518,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/lbaas/pools/{id}',
+            'path'    => $this->pathPrefix.'/lbaas/pools/{id}',
             'jsonKey' => 'pool',
             'params'  => [
                 'id'                 => $this->params->idPath(),
@@ -525,19 +526,19 @@ class Api extends AbstractApi
                 'description'        => $this->params->descriptionJson(),
                 'adminStateUp'       => $this->params->adminStateUp(),
                 'lbAlgorithm'        => $this->params->lbAlgorithm(),
-                'sessionPersistence' => $this->params->sessionPersistence()
-            ]
+                'sessionPersistence' => $this->params->sessionPersistence(),
+            ],
         ];
     }
 
-    public function deleteLoadBalancerPool() : array
+    public function deleteLoadBalancerPool(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/lbaas/pools/{id}',
+            'path'   => $this->pathPrefix.'/lbaas/pools/{id}',
             'params' => [
-                'id' => $this->params->idPath()
-            ]
+                'id' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -545,10 +546,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/pools/{poolId}/members',
+            'path'   => $this->pathPrefix.'/lbaas/pools/{poolId}/members',
             'params' => [
-              'poolId' => $this->params->poolId()
-            ]
+              'poolId' => $this->params->poolId(),
+            ],
         ];
     }
 
@@ -556,11 +557,11 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/pools/{poolId}/members/{id}',
+            'path'   => $this->pathPrefix.'/lbaas/pools/{poolId}/members/{id}',
             'params' => [
-              'id'      => $this->params->idPath('member'),
-              'poolId' => $this->params->poolId()
-            ]
+              'id'     => $this->params->idPath('member'),
+              'poolId' => $this->params->poolId(),
+            ],
         ];
     }
 
@@ -568,7 +569,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/lbaas/pools/{poolId}/members',
+            'path'    => $this->pathPrefix.'/lbaas/pools/{poolId}/members',
             'jsonKey' => 'member',
             'params'  => [
                 'poolId'       => $this->params->poolId(),
@@ -576,8 +577,8 @@ class Api extends AbstractApi
                 'protocolPort' => $this->params->protocolPort(),
                 'adminStateUp' => $this->params->adminStateUp(),
                 'weight'       => $this->params->weight(),
-                'subnetId'     => $this->params->subnetId()
-            ]
+                'subnetId'     => $this->params->subnetId(),
+            ],
         ];
     }
 
@@ -585,26 +586,26 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/lbaas/pools/{poolId}/members/{id}',
+            'path'    => $this->pathPrefix.'/lbaas/pools/{poolId}/members/{id}',
             'jsonKey' => 'member',
             'params'  => [
                 'poolId'       => $this->params->poolId(),
                 'id'           => $this->params->idPath(),
                 'weight'       => $this->params->weight(),
-                'adminStateUp' => $this->params->adminStateUp()
-            ]
+                'adminStateUp' => $this->params->adminStateUp(),
+            ],
         ];
     }
 
-    public function deleteLoadBalancerMember() : array
+    public function deleteLoadBalancerMember(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/lbaas/pools/{poolId}/members/{id}',
+            'path'   => $this->pathPrefix.'/lbaas/pools/{poolId}/members/{id}',
             'params' => [
                 'poolId' => $this->params->poolId(),
-                'id'     => $this->params->idPath()
-            ]
+                'id'     => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -612,10 +613,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/loadbalancers/{loadbalancerId}/stats',
+            'path'   => $this->pathPrefix.'/lbaas/loadbalancers/{loadbalancerId}/stats',
             'params' => [
-              'loadbalancerId' => $this->params->loadBalancerIdUrl()
-            ]
+              'loadbalancerId' => $this->params->loadBalancerIdUrl(),
+            ],
         ];
     }
 
@@ -623,10 +624,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/loadbalancers/{loadbalancerId}/statuses',
+            'path'   => $this->pathPrefix.'/lbaas/loadbalancers/{loadbalancerId}/statuses',
             'params' => [
-              'loadbalancerId' => $this->params->loadBalancerIdUrl()
-            ]
+              'loadbalancerId' => $this->params->loadBalancerIdUrl(),
+            ],
         ];
     }
 
@@ -634,8 +635,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/healthmonitors',
-            'params' => []
+            'path'   => $this->pathPrefix.'/lbaas/healthmonitors',
+            'params' => [],
         ];
     }
 
@@ -643,10 +644,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/lbaas/healthmonitors/{id}',
+            'path'   => $this->pathPrefix.'/lbaas/healthmonitors/{id}',
             'params' => [
-                'id' => $this->params->idPath()
-            ]
+                'id' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -654,7 +655,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/lbaas/healthmonitors',
+            'path'    => $this->pathPrefix.'/lbaas/healthmonitors',
             'jsonKey' => 'healthmonitor',
             'params'  => [
                 'type'          => $this->params->type(),
@@ -666,8 +667,8 @@ class Api extends AbstractApi
                 'adminStateUp'  => $this->params->adminStateUp(),
                 'httpMethod'    => $this->params->httpMethod(),
                 'urlPath'       => $this->params->urlPath(),
-                'expectedCodes' => $this->params->expectedCodes()
-            ]
+                'expectedCodes' => $this->params->expectedCodes(),
+            ],
         ];
     }
 
@@ -675,7 +676,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/lbaas/healthmonitors/{id}',
+            'path'    => $this->pathPrefix.'/lbaas/healthmonitors/{id}',
             'jsonKey' => 'healthmonitor',
             'params'  => [
                 'id'            => $this->params->idPath(),
@@ -685,19 +686,19 @@ class Api extends AbstractApi
                 'maxRetries'    => $this->params->maxRetries(),
                 'httpMethod'    => $this->params->httpMethod(),
                 'urlPath'       => $this->params->urlPath(),
-                'expectedCodes' => $this->params->expectedCodes()
-            ]
+                'expectedCodes' => $this->params->expectedCodes(),
+            ],
         ];
     }
 
-    public function deleteLoadBalancerHealthMonitor() : array
+    public function deleteLoadBalancerHealthMonitor(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/lbaas/healthmonitors/{id}',
+            'path'   => $this->pathPrefix.'/lbaas/healthmonitors/{id}',
             'params' => [
-            'id'     => $this->params->idPath()
-            ]
+            'id' => $this->params->idPath(),
+            ],
         ];
     }
 }

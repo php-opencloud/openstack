@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Auth;
 
@@ -6,7 +8,7 @@ use function GuzzleHttp\Psr7\modify_request;
 use Psr\Http\Message\RequestInterface;
 
 /**
- * This class is responsible for three tasks:
+ * This class is responsible for three tasks:.
  *
  * 1. performing the initial authentication for OpenStack services
  * 2. populating the ``X-Auth-Token`` header for every HTTP request
@@ -29,9 +31,9 @@ class AuthHandler
      */
     public function __construct(callable $nextHandler, callable $tokenGenerator, Token $token = null)
     {
-        $this->nextHandler = $nextHandler;
+        $this->nextHandler    = $nextHandler;
         $this->tokenGenerator = $tokenGenerator;
-        $this->token = $token;
+        $this->token          = $token;
     }
 
     /**
@@ -71,6 +73,6 @@ class AuthHandler
      */
     private function shouldIgnore(RequestInterface $request): bool
     {
-        return strpos((string) $request->getUri(), 'tokens') !== false && $request->getMethod() == 'POST';
+        return false !== strpos((string) $request->getUri(), 'tokens') && 'POST' == $request->getMethod();
     }
 }

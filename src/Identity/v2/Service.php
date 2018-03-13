@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v2;
 
@@ -39,7 +41,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * Generates a new authentication token
+     * Generates a new authentication token.
      *
      * @param array $options {@see \OpenStack\Identity\v2\Api::postToken}
      *
@@ -48,6 +50,7 @@ class Service extends AbstractService implements IdentityService
     public function generateToken(array $options = []): Token
     {
         $response = $this->execute($this->api->postToken(), $options);
+
         return $this->model(Token::class, $response);
     }
 }

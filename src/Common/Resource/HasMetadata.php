@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Resource;
 
@@ -16,7 +18,7 @@ interface HasMetadata
 
     /**
      * Merges a set of new values with those which already exist (on the remote API) for a resource. For example, if
-     * the resource has this metadata already set:
+     * the resource has this metadata already set:.
      *
      *  Foo: val1
      *  Bar: val2
@@ -31,15 +33,13 @@ interface HasMetadata
      * You will notice that any metadata items which are not specified in the call are preserved.
      *
      * @param array $metadata The new metadata items
-     *
-     * @return void
      */
     public function mergeMetadata(array $metadata);
 
     /**
      * Replaces all of the existing metadata items for a resource with a new set of values. Any metadata items which
      * are not provided in the call are removed from the resource. For example, if the resource has this metadata
-     * already set:
+     * already set:.
      *
      *  Foo: val1
      *  Bar: val2
@@ -51,8 +51,6 @@ interface HasMetadata
      *  Baz: val4
      *
      * @param array $metadata The new metadata items
-     *
-     * @return void
      */
     public function resetMetadata(array $metadata);
 

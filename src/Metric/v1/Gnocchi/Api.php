@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Metric\v1\Gnocchi;
 
@@ -124,7 +126,7 @@ class Api extends AbstractApi
                 'granularity' => $this->params->granularity(),
                 'aggregation' => $this->params->aggregation(),
                 'start'       => $this->params->measureStart(),
-                'stop'        => $this->params->measureStop()
+                'stop'        => $this->params->measureStop(),
             ],
         ];
     }

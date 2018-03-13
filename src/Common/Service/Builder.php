@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Service;
 
@@ -13,8 +15,6 @@ use OpenStack\Common\Transport\Utils;
 
 /**
  * A Builder for easily creating OpenStack services.
- *
- * @package OpenStack\Common\Service
  */
 class Builder
 {
@@ -36,10 +36,10 @@ class Builder
     private $defaults = ['urlType' => 'publicURL'];
 
     /**
-     * @param array  $globalOptions  Options that will be applied to every service created by this builder.
-     *                               Eventually they will be merged (and if necessary overridden) by the
-     *                               service-specific options passed in.
-     * @param string $rootNamespace  API classes' root namespace
+     * @param array  $globalOptions Options that will be applied to every service created by this builder.
+     *                              Eventually they will be merged (and if necessary overridden) by the
+     *                              service-specific options passed in.
+     * @param string $rootNamespace API classes' root namespace
      */
     public function __construct(array $globalOptions = [], $rootNamespace = 'OpenStack')
     {
@@ -49,12 +49,12 @@ class Builder
 
     private function getClasses($namespace)
     {
-        $namespace = $this->rootNamespace . '\\' . $namespace;
+        $namespace = $this->rootNamespace.'\\'.$namespace;
         $classes   = [$namespace.'\\Api', $namespace.'\\Service'];
 
         foreach ($classes as $class) {
             if (!class_exists($class)) {
-                throw new \RuntimeException(sprintf("%s does not exist", $class));
+                throw new \RuntimeException(sprintf('%s does not exist', $class));
             }
         }
 
@@ -89,12 +89,12 @@ class Builder
     private function stockHttpClient(array &$options, string $serviceName)
     {
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
-            if (stripos($serviceName, 'identity') !== false) {
+            if (false !== stripos($serviceName, 'identity')) {
                 $baseUrl = $options['authUrl'];
-                $stack = $this->getStack($options['authHandler']);
+                $stack   = $this->getStack($options['authHandler']);
             } else {
                 list($token, $baseUrl) = $options['identityService']->authenticate($options);
-                $stack = $this->getStack($options['authHandler'], $token);
+                $stack                 = $this->getStack($options['authHandler'], $token);
             }
 
             $microVersion = $options['microVersion'] ?? null;
@@ -136,6 +136,7 @@ class Builder
     {
         $stack = HandlerStack::create();
         $stack->push(Middleware::authHandler($authHandler, $token));
+
         return $stack;
     }
 
@@ -153,6 +154,7 @@ class Builder
         if (isset($this->globalOptions['requestOptions'])) {
             $clientOptions = array_merge($this->globalOptions['requestOptions'], $clientOptions);
         }
+
         return new Client($clientOptions);
     }
 

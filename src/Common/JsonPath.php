@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common;
 
 /**
  * This class allows arbitrary data structures to be inserted into, and extracted from, deep arrays
- * and JSON-serialized strings. Say, for example, that you have this array as an input:
+ * and JSON-serialized strings. Say, for example, that you have this array as an input:.
  *
  * <pre><code>['foo' => ['bar' => ['baz' => 'some_value']]]</code></pre>
  *
@@ -19,8 +21,6 @@ namespace OpenStack\Common;
  * $jsonPath->set('foo.bar.baz', 'new_value');
  * $val = $jsonPath->get('foo.bar.baz');
  * </code></pre>
- *
- * @package OpenStack\Common
  */
 class JsonPath
 {
@@ -37,7 +37,7 @@ class JsonPath
     }
 
     /**
-     * Set a node in the structure
+     * Set a node in the structure.
      *
      * @param $path  The XPath to use
      * @param $value The new value of the node
@@ -101,8 +101,6 @@ class JsonPath
      *
      * @param $path
      * @param $json
-     *
-     * @return null
      */
     private function getPath(string $path, $json)
     {

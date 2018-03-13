@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Error;
 
@@ -14,8 +16,6 @@ use Psr\Http\Message\ResponseInterface;
  * exception, and supplies a error message with reasonable defaults. For user input problems, it produces a
  * {@see UserInputError} exception. For both, the problem is described, a potential solution is offered and
  * a link to further information is included.
- *
- * @package OpenStack\Common\Error
  */
 class Builder
 {
@@ -63,7 +63,7 @@ class Builder
      */
     private function linkIsValid(string $link): bool
     {
-        $link = $this->docDomain . $link;
+        $link = $this->docDomain.$link;
 
         try {
             return $this->client->request('HEAD', $link)->getStatusCode() < 400;
@@ -76,29 +76,30 @@ class Builder
      * @param MessageInterface $message
      *
      * @codeCoverageIgnore
+     *
      * @return string
      */
     public function str(MessageInterface $message): string
     {
         if ($message instanceof RequestInterface) {
-            $msg = trim($message->getMethod() . ' '
-                    . $message->getRequestTarget())
-                . ' HTTP/' . $message->getProtocolVersion();
+            $msg = trim($message->getMethod().' '
+                    .$message->getRequestTarget())
+                .' HTTP/'.$message->getProtocolVersion();
             if (!$message->hasHeader('host')) {
-                $msg .= "\r\nHost: " . $message->getUri()->getHost();
+                $msg .= "\r\nHost: ".$message->getUri()->getHost();
             }
         } elseif ($message instanceof ResponseInterface) {
-            $msg = 'HTTP/' . $message->getProtocolVersion() . ' '
-                . $message->getStatusCode() . ' '
-                . $message->getReasonPhrase();
+            $msg = 'HTTP/'.$message->getProtocolVersion().' '
+                .$message->getStatusCode().' '
+                .$message->getReasonPhrase();
         }
 
         foreach ($message->getHeaders() as $name => $values) {
-            $msg .= "\r\n{$name}: " . implode(', ', $values);
+            $msg .= "\r\n{$name}: ".implode(', ', $values);
         }
 
         if (ini_get('memory_limit') < 0 || $message->getBody()->getSize() < ini_get('memory_limit')) {
-            $msg .= "\r\n\r\n" . $message->getBody();
+            $msg .= "\r\n\r\n".$message->getBody();
         }
 
         return $msg;
@@ -123,16 +124,16 @@ class Builder
         );
 
         $message .= $this->header('Request');
-        $message .= trim($this->str($request)) . PHP_EOL . PHP_EOL;
+        $message .= trim($this->str($request)).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Response');
-        $message .= trim($this->str($response)) . PHP_EOL . PHP_EOL;
+        $message .= trim($this->str($response)).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Further information');
         $message .= $this->getStatusCodeMessage($response->getStatusCode());
 
-        $message .= "Visit http://docs.php-opencloud.com/en/latest/http-codes for more information about debugging "
-            . "HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.";
+        $message .= 'Visit http://docs.php-opencloud.com/en/latest/http-codes for more information about debugging '
+            .'HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.';
 
         $e = new BadResponseError($message);
         $e->setRequest($request);
@@ -158,7 +159,7 @@ class Builder
      *
      * @param string      $expectedType The type that was expected from the user
      * @param mixed       $userValue    The incorrect value the user actually provided
-     * @param string|null $furtherLink  A link to further information if necessary (optional).
+     * @param string|null $furtherLink  a link to further information if necessary (optional)
      *
      * @return UserInputError
      */
@@ -172,10 +173,10 @@ class Builder
             print_r($userValue, true)
         );
 
-        $message .= "Please ensure that the value adheres to the expectation above. ";
+        $message .= 'Please ensure that the value adheres to the expectation above. ';
 
         if ($furtherLink && $this->linkIsValid($furtherLink)) {
-            $message .= sprintf("Visit %s for more information about input arguments. ", $this->docDomain . $furtherLink);
+            $message .= sprintf('Visit %s for more information about input arguments. ', $this->docDomain.$furtherLink);
         }
 
         $message .= 'If you run into trouble, please open a support issue on https://github.com/php-opencloud/openstack/issues.';

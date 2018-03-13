@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3;
 
@@ -25,20 +27,20 @@ EOT
             'type'       => self::OBJECT_TYPE,
             'path'       => 'auth.identity.password',
             'properties' => [
-                'id'       => [
+                'id' => [
                     'type'        => self::STRING_TYPE,
                     'description' => $this->id('user'),
                 ],
-                'name'     => [
+                'name' => [
                     'type'        => self::STRING_TYPE,
-                    'description' => 'The username of the user'
+                    'description' => 'The username of the user',
                 ],
                 'password' => [
                     'type'        => self::STRING_TYPE,
-                    'description' => 'The password of the user'
+                    'description' => 'The password of the user',
                 ],
-                'domain'   => $this->domain()
-            ]
+                'domain' => $this->domain(),
+            ],
         ];
     }
 
@@ -59,8 +61,8 @@ EOT
             'path'       => 'auth',
             'properties' => [
                 'project' => $this->project(),
-                'domain'  => $this->domain()
-            ]
+                'domain'  => $this->domain(),
+            ],
         ];
     }
 
@@ -69,7 +71,7 @@ EOT
         return [
             'type'        => 'string',
             'location'    => 'query',
-            'description' => 'Filters all the available services according to a given type'
+            'description' => 'Filters all the available services according to a given type',
         ];
     }
 
@@ -108,7 +110,7 @@ EOT
         return [
             'type'        => 'string',
             'sentAs'      => 'service_id',
-            'description' => $this->id('service')['description'] . ' that this endpoint belongs to',
+            'description' => $this->id('service')['description'].' that this endpoint belongs to',
         ];
     }
 
@@ -153,7 +155,7 @@ EOT
         return [
             'sentAs'      => 'scope.project.id',
             'location'    => 'query',
-            'description' => 'Filter by project ID'
+            'description' => 'Filter by project ID',
         ];
     }
 
@@ -162,7 +164,7 @@ EOT
         return [
             'sentAs'      => 'scope.domain.id',
             'location'    => 'query',
-            'description' => $this->id('domain')['description'] . ' associated with the role assignments',
+            'description' => $this->id('domain')['description'].' associated with the role assignments',
         ];
     }
 
@@ -171,7 +173,7 @@ EOT
         return [
             'sentAs'      => 'role.id',
             'location'    => 'query',
-            'description' => 'Filter by role ID'
+            'description' => 'Filter by role ID',
         ];
     }
 
@@ -180,7 +182,7 @@ EOT
         return [
             'sentAs'      => 'group.id',
             'location'    => 'query',
-            'description' => 'Filter by group ID'
+            'description' => 'Filter by group ID',
         ];
     }
 
@@ -189,7 +191,7 @@ EOT
         return [
             'sentAs'      => 'user.id',
             'location'    => 'query',
-            'description' => 'Filter by user ID'
+            'description' => 'Filter by user ID',
         ];
     }
 
@@ -200,7 +202,7 @@ EOT
             'properties' => [
                 'id'   => $this->id('domain'),
                 'name' => $this->name('domain'),
-            ]
+            ],
         ];
     }
 
@@ -212,7 +214,7 @@ EOT
                 'id'     => $this->id('project'),
                 'name'   => $this->name('project'),
                 'domain' => $this->domain(),
-            ]
+            ],
         ];
     }
 
@@ -221,7 +223,7 @@ EOT
         return [
             'required'    => true,
             'location'    => self::URL,
-            'description' => sprintf("The unique ID, or identifier, for the %s", $type)
+            'description' => sprintf('The unique ID, or identifier, for the %s', $type),
         ];
     }
 
@@ -230,7 +232,7 @@ EOT
         return [
             'location'    => self::HEADER,
             'sentAs'      => 'X-Subject-Token',
-            'description' => 'The unique token ID'
+            'description' => 'The unique token ID',
         ];
     }
 
@@ -238,7 +240,7 @@ EOT
     {
         return [
             'sentAs'      => 'domain_id',
-            'description' => sprintf("%s associated with this %s", $this->id('domain')['description'], $type),
+            'description' => sprintf('%s associated with this %s', $this->id('domain')['description'], $type),
         ];
     }
 
@@ -256,14 +258,14 @@ EOT
     public function type($resource)
     {
         return [
-            'description' => sprintf("The type of the %s", $resource),
+            'description' => sprintf('The type of the %s', $resource),
         ];
     }
 
     public function desc($resource)
     {
         return [
-            'description' => sprintf("A human-friendly summary that explains what the %s does", $resource)
+            'description' => sprintf('A human-friendly summary that explains what the %s does', $resource),
         ];
     }
 
@@ -272,10 +274,10 @@ EOT
         return [
             'type'        => self::BOOL_TYPE,
             'description' => sprintf(
-                "Indicates whether this %s is enabled or not. If not, the %s will be unavailable for use.",
+                'Indicates whether this %s is enabled or not. If not, the %s will be unavailable for use.',
                 $resource,
                 $resource
-            )
+            ),
         ];
     }
 
@@ -294,7 +296,7 @@ EOT
     {
         return [
             'sentAs'      => 'project_id',
-            'description' => $this->id('project')
+            'description' => $this->id('project'),
         ];
     }
 
@@ -302,7 +304,7 @@ EOT
     {
         return [
             'sentAs'      => 'user_id',
-            'description' => $this->id('user')
+            'description' => $this->id('user'),
         ];
     }
 
@@ -310,7 +312,7 @@ EOT
     {
         return [
             'type'        => 'string',
-            'description' => "This does something, but it's not explained in the docs (as of writing this)"
+            'description' => "This does something, but it's not explained in the docs (as of writing this)",
         ];
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -8,7 +10,7 @@ use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
 
 /**
- * Represents Neutron v2 LoadBalancer Stats
+ * Represents Neutron v2 LoadBalancer Stats.
  *
  * @property Api $api
  */
@@ -53,22 +55,22 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'listeners' => new Alias('listeners', LoadBalancerListener::class, true)
+            'listeners' => new Alias('listeners', LoadBalancerListener::class, true),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getLoadBalancerStatuses(), ['loadbalancerId' => (string)$this->loadbalancerId]);
-        $json = Utils::jsonDecode($response);
+        $response = $this->execute($this->api->getLoadBalancerStatuses(), ['loadbalancerId' => (string) $this->loadbalancerId]);
+        $json     = Utils::jsonDecode($response);
         $this->populateFromArray($json[$this->resourceKey]['loadbalancer']);
     }
 }

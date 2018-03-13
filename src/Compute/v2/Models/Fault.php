@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
@@ -9,13 +11,13 @@ use OpenStack\Common\Resource\AbstractResource;
  */
 class Fault extends AbstractResource
 {
-    /** @var int **/
+    /** @var int * */
     public $code;
 
-    /** @var \DateTimeImmutable **/
+    /** @var \DateTimeImmutable * */
     public $created;
 
-    /** @var string **/
+    /** @var string * */
     public $message;
 
     /** @var string */
