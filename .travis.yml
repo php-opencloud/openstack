@@ -31,6 +31,9 @@ before_script:
 after_script:
   - php vendor/bin/coveralls -v
 
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
+
 notifications:
   email:
     - jamie.hannaford@rackspace.com
