@@ -1,7 +1,7 @@
 # PHP OpenStack SDK
 
 [![Build Status](https://travis-ci.org/php-opencloud/openstack.svg?branch=master)](https://travis-ci.org/php-opencloud/openstack)
-[![Coveralls github](https://img.shields.io/coveralls/github/php-opencloud/openstack/master.svg?style=flat-square)](https://coveralls.io/github/php-opencloud/openstack)
+[![Coverage Status](https://coveralls.io/repos/github/php-opencloud/openstack/badge.svg?branch=master)](https://coveralls.io/github/php-opencloud/openstack?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
 
 `php-opencloud/openstack` is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
@@ -18,15 +18,15 @@ OpenStack services, and versions of services, are supported.
 ## Getting help
    
 - Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://launchpass.com/phpopencloud))
-- Report and issue: https://github.com/php-opencloud/openstack/issues
+- Report an issue: https://github.com/php-opencloud/openstack/issues
 
 
-### Version Guidance
+## Version Guidance
 
-| Version   | Status                      | PHP Version   | Life span               |
+| Version   | Status                      | PHP Version   | End of life             |
 | --------- | --------------------------- | ------------- | ----------------------- |
-| `^2.0`    | Maintained (Bug fixes only) | `>=7.0,<7.2`  | March 2016 - March 2018 |
-| `^3.0`    | Latest                      | `^7.0`        | March 2018 - March 2020 |
+| `^3.0`    | Latest                      | `>=7.0`       | March 2020              |
+| `^2.0`    | Maintained (Bug fixes only) | `>=7.0,<7.2`  | March 2018              |
 
 ## Upgrade from 2.x to 3.x
 
