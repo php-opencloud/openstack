@@ -1,7 +1,7 @@
 # PHP OpenStack SDK
 
 [![Build Status](https://travis-ci.org/php-opencloud/openstack.svg?branch=master)](https://travis-ci.org/php-opencloud/openstack)
-[![Coveralls github](https://img.shields.io/coveralls/github/php-opencloud/openstack/master.svg?style=flat-square)](https://coveralls.io/github/php-opencloud/openstack)
+[![Coverage Status](https://coveralls.io/repos/github/php-opencloud/openstack/badge.svg?branch=master)](https://coveralls.io/github/php-opencloud/openstack?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
 
 `php-opencloud/openstack` is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
