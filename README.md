@@ -18,15 +18,15 @@ OpenStack services, and versions of services, are supported.
 ## Getting help
    
 - Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://launchpass.com/phpopencloud))
-- Report and issue: https://github.com/php-opencloud/openstack/issues
+- Report an issue: https://github.com/php-opencloud/openstack/issues
 
 
-### Version Guidance
+## Version Guidance
 
-| Version   | Status                      | PHP Version   | Life span               |
+| Version   | Status                      | PHP Version   | End of life             |
 | --------- | --------------------------- | ------------- | ----------------------- |
-| `^2.0`    | Maintained (Bug fixes only) | `>=7.0,<7.2`  | March 2016 - March 2018 |
-| `^3.0`    | Latest                      | `^7.0`        | March 2018 - March 2020 |
+| `^3.0`    | Latest                      | `>=7.0`       | March 2020              |
+| `^2.0`    | Maintained (Bug fixes only) | `>=7.0,<7.2`  | March 2018              |
 
 ## Upgrade from 2.x to 3.x
 
