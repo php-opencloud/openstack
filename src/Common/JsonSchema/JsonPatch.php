@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\JsonSchema;
 
@@ -10,7 +12,7 @@ class JsonPatch
 
     public static function diff($src, $dest)
     {
-        return (new static)->makeDiff($src, $dest);
+        return (new static())->makeDiff($src, $dest);
     }
 
     public function makeDiff($srcStruct, $desStruct, string $path = ''): array
@@ -99,11 +101,11 @@ class JsonPatch
     {
         $path = (string) $path;
 
-        if ($path === '_empty_') {
+        if ('_empty_' === $path) {
             $path = '';
         }
 
-        return rtrim($root, '/') . '/' . ltrim($path, '/');
+        return rtrim($root, '/').'/'.ltrim($path, '/');
     }
 
     protected function makePatch(string $op, string $path, $val = null): array

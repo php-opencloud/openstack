@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Images\v2;
 
@@ -10,9 +12,9 @@ class Params extends AbstractParams
     public function imageName(): array
     {
         return array_merge($this->name('image'), [
-            'description' => 'Name for the image. The name of an image is not unique to an Image service node. The ' .
+            'description' => 'Name for the image. The name of an image is not unique to an Image service node. The '.
                              'API cannot expect users to know the names of images owned by others.',
-            'required'    => true,
+            'required' => true,
         ]);
     }
 
@@ -22,7 +24,7 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'type'        => self::STRING_TYPE,
             'description' => 'Image visibility. Public or private. Default is public.',
-            'enum'        => ['private', 'public']
+            'enum'        => ['private', 'public'],
         ];
     }
 
@@ -32,7 +34,7 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'type'        => self::ARRAY_TYPE,
             'description' => 'Image tags',
-            'items'       => ['type' => self::STRING_TYPE]
+            'items'       => ['type' => self::STRING_TYPE],
         ];
     }
 
@@ -206,7 +208,7 @@ class Params extends AbstractParams
         return [
             'location' => self::JSON,
             'type'     => self::STRING_TYPE,
-            "enum"     => ["pending", "accepted", "rejected"],
+            'enum'     => ['pending', 'accepted', 'rejected'],
         ];
     }
 }

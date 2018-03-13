@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2;
 
@@ -8,7 +10,6 @@ use OpenStack\Common\Api\AbstractApi;
  * A representation of the Compute (Nova) v2 REST API.
  *
  * @internal
- * @package OpenStack\Compute\v2
  */
 class Api extends AbstractApi
 {
@@ -21,8 +22,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path' => 'limits',
-            'params' => []
+            'path'   => 'limits',
+            'params' => [],
         ];
     }
 
@@ -44,6 +45,7 @@ class Api extends AbstractApi
     {
         $op = $this->getFlavors();
         $op['path'] .= '/detail';
+
         return $op;
     }
 
@@ -52,24 +54,24 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'flavors/{id}',
-            'params' => ['id' => $this->params->urlId('flavor')]
+            'params' => ['id' => $this->params->urlId('flavor')],
         ];
     }
 
     public function postFlavors(): array
     {
         return [
-            'method' => 'POST',
-            'path' => 'flavors',
+            'method'  => 'POST',
+            'path'    => 'flavors',
             'jsonKey' => 'flavor',
-            'params' => [
+            'params'  => [
                 'id'    => $this->notRequired($this->params->id('flavor')),
                 'name'  => $this->isRequired($this->params->name('flavor')),
                 'ram'   => $this->params->flavorRam(),
                 'vcpus' => $this->params->flavorVcpus(),
                 'swap'  => $this->params->flavorSwap(),
                 'disk'  => $this->params->flavorDisk(),
-            ]
+            ],
         ];
     }
 
@@ -79,8 +81,8 @@ class Api extends AbstractApi
             'method' => 'DELETE',
             'path'   => 'flavors/{id}',
             'params' => [
-                'id' => $this->params->idPath()
-            ]
+                'id' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -105,6 +107,7 @@ class Api extends AbstractApi
     {
         $op = $this->getImages();
         $op['path'] .= '/detail';
+
         return $op;
     }
 
@@ -113,7 +116,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'images/{id}',
-            'params' => ['id' => $this->params->urlId('image')]
+            'params' => ['id' => $this->params->urlId('image')],
         ];
     }
 
@@ -122,7 +125,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'images/{id}',
-            'params' => ['id' => $this->params->urlId('image')]
+            'params' => ['id' => $this->params->urlId('image')],
         ];
     }
 
@@ -131,7 +134,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'images/{id}/metadata',
-            'params' => ['id' => $this->params->urlId('image')]
+            'params' => ['id' => $this->params->urlId('image')],
         ];
     }
 
@@ -143,7 +146,7 @@ class Api extends AbstractApi
             'params' => [
                 'id'       => $this->params->urlId('image'),
                 'metadata' => $this->params->metadata(),
-            ]
+            ],
         ];
     }
 
@@ -154,8 +157,8 @@ class Api extends AbstractApi
             'path'   => 'images/{id}/metadata',
             'params' => [
                 'id'       => $this->params->urlId('image'),
-                'metadata' => $this->params->metadata()
-            ]
+                'metadata' => $this->params->metadata(),
+            ],
         ];
     }
 
@@ -167,7 +170,7 @@ class Api extends AbstractApi
             'params' => [
                 'id'  => $this->params->urlId('image'),
                 'key' => $this->params->key(),
-            ]
+            ],
         ];
     }
 
@@ -179,7 +182,7 @@ class Api extends AbstractApi
             'params' => [
                 'id'  => $this->params->urlId('image'),
                 'key' => $this->params->key(),
-            ]
+            ],
         ];
     }
 
@@ -200,8 +203,8 @@ class Api extends AbstractApi
                 'availabilityZone'   => $this->params->availabilityZone(),
                 'networks'           => $this->params->networks(),
                 'blockDeviceMapping' => $this->params->blockDeviceMapping(),
-                'keyName'            => $this->params->keyName()
-            ]
+                'keyName'            => $this->params->keyName(),
+            ],
         ];
     }
 
@@ -219,7 +222,7 @@ class Api extends AbstractApi
                 'name'         => $this->params->filterName(),
                 'status'       => $this->params->filterStatus('server'),
                 'host'         => $this->params->filterHost(),
-                'allTenants'   => $this->params->allTenants()
+                'allTenants'   => $this->params->allTenants(),
             ],
         ];
     }
@@ -228,6 +231,7 @@ class Api extends AbstractApi
     {
         $definition = $this->getServers();
         $definition['path'] .= '/detail';
+
         return $definition;
     }
 
@@ -279,7 +283,6 @@ class Api extends AbstractApi
         ];
     }
 
-
     public function resetServerState(): array
     {
         return [
@@ -287,8 +290,8 @@ class Api extends AbstractApi
             'path'   => 'servers/{id}/action',
             'params' => [
                 'id'         => $this->params->urlId('server'),
-                'resetState' => $this->params->resetState()
-            ]
+                'resetState' => $this->params->resetState(),
+            ],
         ];
     }
 
@@ -305,26 +308,26 @@ class Api extends AbstractApi
         ];
     }
 
-    public function startServer() : array
+    public function startServer(): array
     {
         return [
-            'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'params'  => [
-                'id'   => $this->params->urlId('server'),
-                'os-start' => $this->params->nullAction()
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
+                'id'       => $this->params->urlId('server'),
+                'os-start' => $this->params->nullAction(),
             ],
         ];
     }
 
-    public function stopServer() : array
+    public function stopServer(): array
     {
         return [
-            'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'params'  => [
-                'id'   => $this->params->urlId('server'),
-                'os-stop' => $this->params->nullAction()
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
+                'id'      => $this->params->urlId('server'),
+                'os-stop' => $this->params->nullAction(),
             ],
         ];
     }
@@ -355,9 +358,9 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/action',
             'jsonKey' => 'rescue',
             'params'  => [
-                'id'          => $this->params->urlId('server'),
-                'imageId'     => $this->params->rescueImageId(),
-                'adminPass'   => $this->notRequired($this->params->password()),
+                'id'        => $this->params->urlId('server'),
+                'imageId'   => $this->params->rescueImageId(),
+                'adminPass' => $this->notRequired($this->params->password()),
             ],
         ];
     }
@@ -365,9 +368,9 @@ class Api extends AbstractApi
     public function unrescueServer(): array
     {
         return [
-            'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'params'  => [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
                 'id'       => $this->params->urlId('server'),
                 'unrescue' => $this->params->nullAction(),
             ],
@@ -427,9 +430,9 @@ class Api extends AbstractApi
     public function getAllConsoleOutput(): array
     {
         return [
-            'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'params'  => [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
                 'id'                  => $this->params->urlId('server'),
                 'os-getConsoleOutput' => $this->params->emptyObject(),
             ],
@@ -453,52 +456,52 @@ class Api extends AbstractApi
     public function getVncConsole(): array
     {
         return [
-            'method' => 'POST',
-            'path' => 'servers/{id}/action',
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
             'jsonKey' => 'os-getVNCConsole',
-            'params' => [
-                'id' => $this->params->urlId('server'),
-                'type' => $this->params->consoleType()
-            ]
+            'params'  => [
+                'id'   => $this->params->urlId('server'),
+                'type' => $this->params->consoleType(),
+            ],
         ];
     }
 
     public function getSpiceConsole(): array
     {
         return [
-            'method' => 'POST',
-            'path' => 'servers/{id}/action',
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
             'jsonKey' => 'os-getSPICEConsole',
-            'params' => [
-                'id' => $this->params->urlId('server'),
-                'type' => $this->params->consoleType()
-            ]
+            'params'  => [
+                'id'   => $this->params->urlId('server'),
+                'type' => $this->params->consoleType(),
+            ],
         ];
     }
 
     public function getSerialConsole(): array
     {
         return [
-            'method' => 'POST',
-            'path' => 'servers/{id}/action',
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
             'jsonKey' => 'os-getSerialConsole',
-            'params' => [
-                'id' => $this->params->urlId('server'),
-                'type' => $this->params->consoleType()
-            ]
+            'params'  => [
+                'id'   => $this->params->urlId('server'),
+                'type' => $this->params->consoleType(),
+            ],
         ];
     }
 
     public function getRDPConsole(): array
     {
         return [
-            'method' => 'POST',
-            'path' => 'servers/{id}/action',
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
             'jsonKey' => 'os-getRDPConsole',
-            'params' => [
-                'id' => $this->params->urlId('server'),
-                'type' => $this->params->consoleType()
-            ]
+            'params'  => [
+                'id'   => $this->params->urlId('server'),
+                'type' => $this->params->consoleType(),
+            ],
         ];
     }
 
@@ -530,20 +533,20 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/os-interface',
             'jsonKey' => 'interfaceAttachments',
             'params'  => [
-                'id'  => $this->params->urlId('server')
-            ]
+                'id' => $this->params->urlId('server'),
+            ],
         ];
     }
 
     public function getInterfaceAttachment(): array
     {
         return [
-            'method'  => 'GET',
-            'path'    => 'servers/{id}/os-interface/{portId}',
-            'params'  => [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-interface/{portId}',
+            'params' => [
                 'id'     => $this->params->urlId('server'),
-                'portId' => $this->params->portId()
-            ]
+                'portId' => $this->params->portId(),
+            ],
         ];
     }
 
@@ -559,7 +562,7 @@ class Api extends AbstractApi
                 'networkId'        => $this->notRequired($this->params->networkId()),
                 'fixedIpAddresses' => $this->notRequired($this->params->fixedIpAddresses()),
                 'tag'              => $this->notRequired($this->params->tag()),
-            ]
+            ],
         ];
     }
 
@@ -570,8 +573,8 @@ class Api extends AbstractApi
             'path'   => 'servers/{id}/os-interface/{portId}',
             'params' => [
                 'id'     => $this->params->urlId('image'),
-                'portId' => $this->params->portId()
-            ]
+                'portId' => $this->params->portId(),
+            ],
         ];
     }
 
@@ -580,7 +583,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'servers/{id}/metadata',
-            'params' => ['id' => $this->params->urlId('server')]
+            'params' => ['id' => $this->params->urlId('server')],
         ];
     }
 
@@ -591,8 +594,8 @@ class Api extends AbstractApi
             'path'   => 'servers/{id}/metadata',
             'params' => [
                 'id'       => $this->params->urlId('server'),
-                'metadata' => $this->params->metadata()
-            ]
+                'metadata' => $this->params->metadata(),
+            ],
         ];
     }
 
@@ -603,8 +606,8 @@ class Api extends AbstractApi
             'path'   => 'servers/{id}/metadata',
             'params' => [
                 'id'       => $this->params->urlId('server'),
-                'metadata' => $this->params->metadata()
-            ]
+                'metadata' => $this->params->metadata(),
+            ],
         ];
     }
 
@@ -616,7 +619,7 @@ class Api extends AbstractApi
             'params' => [
                 'id'  => $this->params->urlId('server'),
                 'key' => $this->params->key(),
-            ]
+            ],
         ];
     }
 
@@ -628,7 +631,7 @@ class Api extends AbstractApi
             'params' => [
                 'id'  => $this->params->urlId('server'),
                 'key' => $this->params->key(),
-            ]
+            ],
         ];
     }
 
@@ -638,8 +641,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'os-keypairs/{name}',
             'params' => [
-                'name' => $this->isRequired($this->params->keypairName()),
-                'userId' => $this->params->userId()
+                'name'   => $this->isRequired($this->params->keypairName()),
+                'userId' => $this->params->userId(),
             ],
         ];
     }
@@ -650,7 +653,7 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'os-keypairs',
             'params' => [
-                'userId' => $this->params->userId()
+                'userId' => $this->params->userId(),
             ],
         ];
     }
@@ -658,13 +661,13 @@ class Api extends AbstractApi
     public function postKeypair(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'os-keypairs',
+            'method'  => 'POST',
+            'path'    => 'os-keypairs',
             'jsonKey' => 'keypair',
-            'params' => [
-                'name'  => $this->isRequired($this->params->name('keypair')),
+            'params'  => [
+                'name'      => $this->isRequired($this->params->name('keypair')),
                 'publicKey' => $this->params->keypairPublicKey(),
-            ]
+            ],
         ];
     }
 
@@ -674,18 +677,18 @@ class Api extends AbstractApi
             'method' => 'DELETE',
             'path'   => 'os-keypairs/{name}',
             'params' => [
-                'name' => $this->isRequired($this->params->keypairName())
-            ]
+                'name' => $this->isRequired($this->params->keypairName()),
+            ],
         ];
     }
 
     public function postSecurityGroup(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'servers/{id}/action',
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
             'jsonKey' => 'addSecurityGroup',
-            'params' => [
+            'params'  => [
                 'id'   => $this->params->urlId('server'),
                 'name' => $this->isRequired($this->params->name('securityGroup')),
             ],
@@ -695,10 +698,10 @@ class Api extends AbstractApi
     public function deleteSecurityGroup(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'servers/{id}/action',
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/action',
             'jsonKey' => 'removeSecurityGroup',
-            'params' => [
+            'params'  => [
                 'id'   => $this->params->urlId('server'),
                 'name' => $this->isRequired($this->params->name('securityGroup')),
             ],
@@ -712,7 +715,7 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/os-security-groups',
             'jsonKey' => 'security_groups',
             'params'  => [
-                'id' => $this->params->urlId('server')
+                'id' => $this->params->urlId('server'),
             ],
         ];
     }
@@ -720,25 +723,25 @@ class Api extends AbstractApi
     public function getVolumeAttachments(): array
     {
         return [
-            'method' => 'GET',
-            'path' => 'servers/{id}/os-volume_attachments',
+            'method'  => 'GET',
+            'path'    => 'servers/{id}/os-volume_attachments',
             'jsonKey' => 'volumeAttachments',
-            'params' => [
-                'id' => $this->params->urlId('server')
-            ]
+            'params'  => [
+                'id' => $this->params->urlId('server'),
+            ],
         ];
     }
 
     public function postVolumeAttachments(): array
     {
         return [
-            'method' => 'POST',
-            'path' => 'servers/{id}/os-volume_attachments',
+            'method'  => 'POST',
+            'path'    => 'servers/{id}/os-volume_attachments',
             'jsonKey' => 'volumeAttachment',
-            'params' => [
-                'id' => $this->params->urlId('server'),
-                'volumeId' => $this->params->volumeId()
-            ]
+            'params'  => [
+                'id'       => $this->params->urlId('server'),
+                'volumeId' => $this->params->volumeId(),
+            ],
         ];
     }
 
@@ -746,11 +749,11 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path' => 'servers/{id}/os-volume_attachments/{attachmentId}',
+            'path'   => 'servers/{id}/os-volume_attachments/{attachmentId}',
             'params' => [
-                'id' => $this->params->urlId('server'),
-                'attachmentId' => $this->params->attachmentId()
-            ]
+                'id'           => $this->params->urlId('server'),
+                'attachmentId' => $this->params->attachmentId(),
+            ],
         ];
     }
 
@@ -760,7 +763,7 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'os-hypervisors/statistics',
             'params' => [
-            ]
+            ],
         ];
     }
 
@@ -772,7 +775,7 @@ class Api extends AbstractApi
             'jsonKey' => 'hypervisors',
             'params'  => [
                 'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker()
+                'marker' => $this->params->marker(),
             ],
         ];
     }
@@ -790,7 +793,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'os-hypervisors/{id}',
-            'params' => ['id' => $this->params->urlId('id')]
+            'params' => ['id' => $this->params->urlId('id')],
         ];
     }
 
@@ -801,8 +804,8 @@ class Api extends AbstractApi
             'path'   => 'os-availability-zone/detail',
             'params' => [
                 'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker()
-            ]
+                'marker' => $this->params->marker(),
+            ],
         ];
     }
 
@@ -813,8 +816,8 @@ class Api extends AbstractApi
             'path'   => 'os-hosts',
             'params' => [
                 'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker()
-            ]
+                'marker' => $this->params->marker(),
+            ],
         ];
     }
 
@@ -823,7 +826,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'os-hosts/{name}',
-            'params' => ['name' => $this->params->urlId('name')]
+            'params' => ['name' => $this->params->urlId('name')],
         ];
     }
 
@@ -833,8 +836,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'os-quota-sets/{tenantId}',
             'params' => [
-                'tenantId' => $this->params->urlId('quota-sets')
-            ]
+                'tenantId' => $this->params->urlId('quota-sets'),
+            ],
         ];
     }
 
@@ -853,8 +856,8 @@ class Api extends AbstractApi
             'path'    => 'os-quota-sets/{tenantId}',
             'jsonKey' => 'quota_set',
             'params'  => [
-                'tenantId' => $this->params->urlId('quota-sets')
-            ]
+                'tenantId' => $this->params->urlId('quota-sets'),
+            ],
         ];
     }
 
@@ -881,7 +884,7 @@ class Api extends AbstractApi
                 'securityGroups'           => $this->notRequired($this->params->quotaSetLimitSecurityGroups()),
                 'serverGroups'             => $this->notRequired($this->params->quotaSetLimitServerGroups()),
                 'serverGroupMembers'       => $this->notRequired($this->params->quotaSetLimitServerGroupMembers()),
-            ]
+            ],
         ];
     }
 }

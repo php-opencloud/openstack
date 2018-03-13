@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Resource;
 
@@ -9,8 +11,6 @@ use OpenStack\Common\Error\BadResponseError;
  * order to reach a particular state.
  *
  * @codeCoverageIgnore
- *
- * @package OpenStack\Common\Resource
  */
 trait HasWaiterTrait
 {
@@ -22,7 +22,7 @@ trait HasWaiterTrait
      * @param string $status      The state to be reached
      * @param int    $timeout     The maximum timeout. If the total time taken by the waiter has reached
      *                            or exceed this timeout, the blocking operation will immediately cease.
-     * @param int    $sleepPeriod The amount of time to pause between each HTTP request.
+     * @param int    $sleepPeriod the amount of time to pause between each HTTP request
      */
     public function waitUntil(string $status, $timeout = 60, int $sleepPeriod = 1)
     {
@@ -51,7 +51,7 @@ trait HasWaiterTrait
      * @param int|bool $timeout     The maximum timeout in seconds. If the total time taken by the waiter has reached
      *                              or exceed this timeout, the blocking operation will immediately cease. If FALSE
      *                              is provided, the timeout will never be considered.
-     * @param int      $sleepPeriod The amount of time to pause between each HTTP request.
+     * @param int      $sleepPeriod the amount of time to pause between each HTTP request
      */
     public function waitWithCallback(callable $fn, $timeout = 60, int $sleepPeriod = 1)
     {
@@ -62,7 +62,7 @@ trait HasWaiterTrait
 
             $response = call_user_func_array($fn, [$this]);
 
-            if ($response === true || $this->shouldHalt($timeout, $startTime)) {
+            if (true === $response || $this->shouldHalt($timeout, $startTime)) {
                 break;
             }
 
@@ -80,7 +80,7 @@ trait HasWaiterTrait
      */
     private function shouldHalt($timeout, int $startTime)
     {
-        if ($timeout === false) {
+        if (false === $timeout) {
             return false;
         }
 
@@ -108,7 +108,7 @@ trait HasWaiterTrait
             try {
                 $this->retrieve();
             } catch (BadResponseError $e) {
-                if ($e->getResponse()->getStatusCode() === 404) {
+                if (404 === $e->getResponse()->getStatusCode()) {
                     break;
                 }
                 throw $e;

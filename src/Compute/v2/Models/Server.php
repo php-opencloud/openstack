@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
@@ -20,12 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Server extends OperatorResource implements
-    Creatable,
-    Updateable,
-    Deletable,
-    Retrievable,
-    Listable
+class Server extends OperatorResource implements Creatable, Updateable, Deletable, Retrievable, Listable
 {
     use HasWaiterTrait;
 
@@ -98,9 +95,9 @@ class Server extends OperatorResource implements
     /** @var string */
     public $keyName;
 
-    protected $resourceKey = 'server';
+    protected $resourceKey  = 'server';
     protected $resourcesKey = 'servers';
-    protected $markerKey = 'id';
+    protected $markerKey    = 'id';
 
     protected $aliases = [
         'block_device_mapping_v2'             => 'blockDeviceMapping',
@@ -117,7 +114,7 @@ class Server extends OperatorResource implements
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
@@ -125,12 +122,12 @@ class Server extends OperatorResource implements
             'image'   => new Alias('image', Image::class),
             'flavor'  => new Alias('flavor', Flavor::class),
             'created' => new Alias('created', \DateTimeImmutable::class),
-            'updated' => new Alias('updated', \DateTimeImmutable::class)
+            'updated' => new Alias('updated', \DateTimeImmutable::class),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postServer}
      */
@@ -141,11 +138,12 @@ class Server extends OperatorResource implements
         }
 
         $response = $this->execute($this->api->postServer(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -154,7 +152,7 @@ class Server extends OperatorResource implements
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -162,7 +160,7 @@ class Server extends OperatorResource implements
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -190,7 +188,7 @@ class Server extends OperatorResource implements
     {
         $this->execute($this->api->resetServerState(), [
             'id'         => $this->id,
-            'resetState' => ['state' => 'active']
+            'resetState' => ['state' => 'active'],
         ]);
     }
 
@@ -212,24 +210,24 @@ class Server extends OperatorResource implements
     }
 
     /**
-     * Starts server
+     * Starts server.
      */
     public function start()
     {
         $this->execute($this->api->startServer(), [
-            'id' => $this->id,
-            'os-start' => null
+            'id'       => $this->id,
+            'os-start' => null,
         ]);
     }
 
     /**
-     * Stops server
+     * Stops server.
      */
     public function stop()
     {
         $this->execute($this->api->stopServer(), [
-            'id' => $this->id,
-            'os-stop' => null
+            'id'      => $this->id,
+            'os-stop' => null,
         ]);
     }
 
@@ -241,7 +239,7 @@ class Server extends OperatorResource implements
     public function rebuild(array $options)
     {
         $options['id'] = $this->id;
-        $response = $this->execute($this->api->rebuildServer(), $options);
+        $response      = $this->execute($this->api->rebuildServer(), $options);
 
         $this->populateFromResponse($response);
     }
@@ -250,12 +248,13 @@ class Server extends OperatorResource implements
      * Rescues the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rescueServer}
+     *
      * @return string
      */
     public function rescue(array $options): string
     {
         $options['id'] = $this->id;
-        $response = $this->execute($this->api->rescueServer(), $options);
+        $response      = $this->execute($this->api->rescueServer(), $options);
 
         return Utils::jsonDecode($response)['adminPass'];
     }
@@ -272,7 +271,7 @@ class Server extends OperatorResource implements
      * Resizes the server to a new flavor. Once this operation is complete and server has transitioned
      * to an active state, you will either need to call {@see confirmResize()} or {@see revertResize()}.
      *
-     * @param string $flavorId The UUID of the new flavor your server will be based on.
+     * @param string $flavorId the UUID of the new flavor your server will be based on
      */
     public function resize(string $flavorId)
     {
@@ -303,7 +302,8 @@ class Server extends OperatorResource implements
     /**
      * Gets the console output of the server.
      *
-     * @param int $length The number of lines, by default all lines will be returned.
+     * @param int $length the number of lines, by default all lines will be returned
+     *
      * @return string
      */
     public function getConsoleOutput(int $length = -1): string
@@ -312,8 +312,8 @@ class Server extends OperatorResource implements
 
         $response = $this->execute($definition, [
             'os-getConsoleOutput' => new \stdClass(),
-            'id' => $this->id,
-            'length' => $length,
+            'id'                  => $this->id,
+            'length'              => $length,
         ]);
 
         return Utils::jsonDecode($response)['output'];
@@ -322,53 +322,57 @@ class Server extends OperatorResource implements
     /**
      * Gets a VNC console for a server.
      *
-     * @param  string $type The type of VNC console: novnc|xvpvnc.
-     *                      Defaults to novnc.
+     * @param string $type The type of VNC console: novnc|xvpvnc.
+     *                     Defaults to novnc.
      *
      * @return array
      */
     public function getVncConsole($type = Enum::CONSOLE_NOVNC): array
     {
         $response = $this->execute($this->api->getVncConsole(), ['id' => $this->id, 'type' => $type]);
+
         return Utils::jsonDecode($response)['console'];
     }
 
     /**
      * Gets a RDP console for a server.
      *
-     * @param  string $type The type of VNC console: rdp-html5 (default).
+     * @param string $type the type of VNC console: rdp-html5 (default)
      *
      * @return array
      */
     public function getRDPConsole($type = Enum::CONSOLE_RDP_HTML5): array
     {
         $response = $this->execute($this->api->getRDPConsole(), ['id' => $this->id, 'type' => $type]);
+
         return Utils::jsonDecode($response)['console'];
     }
 
     /**
      * Gets a Spice console for a server.
      *
-     * @param  string $type The type of VNC console: spice-html5.
+     * @param string $type the type of VNC console: spice-html5
      *
      * @return array
      */
     public function getSpiceConsole($type = Enum::CONSOLE_SPICE_HTML5): array
     {
         $response = $this->execute($this->api->getSpiceConsole(), ['id' => $this->id, 'type' => $type]);
+
         return Utils::jsonDecode($response)['console'];
     }
 
     /**
      * Gets a serial console for a server.
      *
-     * @param  string $type The type of VNC console: serial.
+     * @param string $type the type of VNC console: serial
      *
      * @return array
      */
     public function getSerialConsole($type = Enum::CONSOLE_SERIAL): array
     {
         $response = $this->execute($this->api->getSerialConsole(), ['id' => $this->id, 'type' => $type]);
+
         return Utils::jsonDecode($response)['console'];
     }
 
@@ -394,13 +398,14 @@ class Server extends OperatorResource implements
     {
         $options['id'] = $this->id;
 
-        $data = (isset($options['networkLabel'])) ? $this->api->getAddressesByNetwork() : $this->api->getAddresses();
+        $data     = (isset($options['networkLabel'])) ? $this->api->getAddressesByNetwork() : $this->api->getAddresses();
         $response = $this->execute($data, $options);
+
         return Utils::jsonDecode($response)['addresses'];
     }
 
     /**
-     * Returns Generator for InterfaceAttachment
+     * Returns Generator for InterfaceAttachment.
      *
      * @return \Generator
      */
@@ -412,14 +417,15 @@ class Server extends OperatorResource implements
     /**
      * Gets an interface attachment.
      *
-     * @param string $portId The unique ID of the port.
+     * @param string $portId the unique ID of the port
+     *
      * @return InterfaceAttachment
      */
     public function getInterfaceAttachment(string $portId): InterfaceAttachment
     {
         $response = $this->execute($this->api->getInterfaceAttachment(), [
             'id'     => $this->id,
-            'portId' => $portId
+            'portId' => $portId,
         ]);
 
         return $this->model(InterfaceAttachment::class)->populateFromResponse($response);
@@ -429,6 +435,7 @@ class Server extends OperatorResource implements
      * Creates an interface attachment.
      *
      * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postInterfaceAttachment}
+     *
      * @return InterfaceAttachment
      */
     public function createInterfaceAttachment(array $userOptions): InterfaceAttachment
@@ -438,6 +445,7 @@ class Server extends OperatorResource implements
         }
 
         $response = $this->execute($this->api->postInterfaceAttachment(), array_merge($userOptions, ['id' => $this->id]));
+
         return $this->model(InterfaceAttachment::class)->populateFromResponse($response);
     }
 
@@ -449,7 +457,7 @@ class Server extends OperatorResource implements
     public function detachInterface(string $portId)
     {
         $this->execute($this->api->deleteInterfaceAttachment(), [
-            'id' => $this->id,
+            'id'     => $this->id,
             'portId' => $portId,
         ]);
     }
@@ -462,6 +470,7 @@ class Server extends OperatorResource implements
     public function getMetadata(): array
     {
         $response = $this->execute($this->api->getServerMetadata(), ['id' => $this->id]);
+
         return $this->parseMetadata($response);
     }
 
@@ -473,7 +482,7 @@ class Server extends OperatorResource implements
      */
     public function resetMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->putServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+        $response       = $this->execute($this->api->putServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -488,7 +497,7 @@ class Server extends OperatorResource implements
      */
     public function mergeMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->postServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+        $response       = $this->execute($this->api->postServerMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -501,9 +510,10 @@ class Server extends OperatorResource implements
      */
     public function getMetadataItem(string $key)
     {
-        $response = $this->execute($this->api->getServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
-        $value = $this->parseMetadata($response)[$key];
+        $response             = $this->execute($this->api->getServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
+        $value                = $this->parseMetadata($response)[$key];
         $this->metadata[$key] = $value;
+
         return $value;
     }
 
@@ -521,15 +531,14 @@ class Server extends OperatorResource implements
         $this->execute($this->api->deleteServerMetadataKey(), ['id' => $this->id, 'key' => $key]);
     }
 
-
     /**
-     * Add security group to a server (addSecurityGroup action)
+     * Add security group to a server (addSecurityGroup action).
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::postSecurityGroup}
      *
      * @return SecurityGroup
      */
-    public function addSecurityGroup(array $options) : SecurityGroup
+    public function addSecurityGroup(array $options): SecurityGroup
     {
         $options['id'] = $this->id;
 
@@ -539,7 +548,7 @@ class Server extends OperatorResource implements
     }
 
     /**
-     * Add security group to a server (addSecurityGroup action)
+     * Add security group to a server (addSecurityGroup action).
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::deleteSecurityGroup}
      */
@@ -555,7 +564,7 @@ class Server extends OperatorResource implements
     }
 
     /**
-     * Returns Generator for SecurityGroups
+     * Returns Generator for SecurityGroups.
      *
      * @return \Generator
      */
@@ -564,9 +573,8 @@ class Server extends OperatorResource implements
         return $this->model(SecurityGroup::class)->enumerate($this->api->getSecurityGroups(), ['id' => $this->id]);
     }
 
-
     /**
-     * Returns Generator for VolumeAttachment
+     * Returns Generator for VolumeAttachment.
      *
      * @return \Generator
      */
@@ -576,7 +584,7 @@ class Server extends OperatorResource implements
     }
 
     /**
-     * Attach a volume and returns volume that was attached
+     * Attach a volume and returns volume that was attached.
      *
      * @param $volumeId
      *
@@ -584,17 +592,15 @@ class Server extends OperatorResource implements
      */
     public function attachVolume(string $volumeId): VolumeAttachment
     {
-        $response =  $this->execute($this->api->postVolumeAttachments(), ['id' => $this->id, 'volumeId' => $volumeId]);
+        $response = $this->execute($this->api->postVolumeAttachments(), ['id' => $this->id, 'volumeId' => $volumeId]);
 
         return $this->model(VolumeAttachment::class)->populateFromResponse($response);
     }
 
     /**
-     * Detach a volume
+     * Detach a volume.
      *
      * @param $attachmentId
-     *
-     * @return void
      */
     public function detachVolume(string $attachmentId)
     {

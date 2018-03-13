@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v2\Models;
 
@@ -9,32 +11,30 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents an Identity v2 service catalog.
- *
- * @package OpenStack\Identity\v2\Models
  */
 class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
 {
     const DEFAULT_URL_TYPE = 'publicURL';
 
     /**
-     * The catalog entries
+     * The catalog entries.
      *
      * @var []Entry
      */
     public $entries = [];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'entries' => new Alias('entries', Entry::class, true)
+            'entries' => new Alias('entries', Entry::class, true),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function populateFromResponse(ResponseInterface $response): self
     {

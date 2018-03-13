@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v2;
 
@@ -6,8 +8,6 @@ use OpenStack\Common\Api\ApiInterface;
 
 /**
  * Represents the OpenStack Identity v2 API.
- *
- * @package OpenStack\Identity\v2
  */
 class Api implements ApiInterface
 {
@@ -18,14 +18,14 @@ class Api implements ApiInterface
             'path'   => 'tokens',
             'params' => [
                 'username' => [
-                    'type' => 'string',
+                    'type'     => 'string',
                     'required' => true,
-                    'path' => 'auth.passwordCredentials'
+                    'path'     => 'auth.passwordCredentials',
                 ],
                 'password' => [
-                    'type' => 'string',
+                    'type'     => 'string',
                     'required' => true,
-                    'path' => 'auth.passwordCredentials'
+                    'path'     => 'auth.passwordCredentials',
                 ],
                 'tenantId' => [
                     'type' => 'string',
@@ -34,7 +34,7 @@ class Api implements ApiInterface
                 'tenantName' => [
                     'type' => 'string',
                     'path' => 'auth',
-                ]
+                ],
             ],
         ];
     }

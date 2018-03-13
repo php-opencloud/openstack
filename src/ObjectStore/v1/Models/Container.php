@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1\Models;
 
@@ -44,8 +46,8 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         parent::populateFromResponse($response);
 
         $this->objectCount = $response->getHeaderLine('X-Container-Object-Count');
-        $this->bytesUsed = $response->getHeaderLine('X-Container-Bytes-Used');
-        $this->metadata = $this->parseMetadata($response);
+        $this->bytesUsed   = $response->getHeaderLine('X-Container-Bytes-Used');
+        $this->metadata    = $this->parseMetadata($response);
 
         return $this;
     }
@@ -54,7 +56,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * Retrieves a collection of object resources in the form of a generator.
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getContainer}
-     * @param callable|null $mapFn   Allows a function to be mapped over each element.
+     * @param callable|null $mapFn   allows a function to be mapped over each element
      *
      * @return \Generator
      */
@@ -109,7 +111,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      */
     public function mergeMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->postContainer(), ['name' => $this->name, 'metadata' => $metadata]);
+        $response       = $this->execute($this->api->postContainer(), ['name' => $this->name, 'metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -130,7 +132,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
             }
         }
 
-        $response = $this->execute($this->api->postContainer(), $options);
+        $response       = $this->execute($this->api->postContainer(), $options);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -140,6 +142,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->headContainer());
+
         return $this->parseMetadata($response);
     }
 
@@ -160,20 +163,21 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     /**
      * Identifies whether an object exists in this container.
      *
-     * @param string $name The name of the object.
+     * @param string $name the name of the object
      *
-     * @return bool TRUE if the object exists, FALSE if it does not.
+     * @return bool TRUE if the object exists, FALSE if it does not
      *
-     * @throws BadResponseError For any other HTTP error which does not have a 404 Not Found status.
-     * @throws \Exception       For any other type of fatal error.
+     * @throws BadResponseError for any other HTTP error which does not have a 404 Not Found status
+     * @throws \Exception       for any other type of fatal error
      */
     public function objectExists(string $name): bool
     {
         try {
             $this->getObject($name)->retrieve();
+
             return true;
         } catch (BadResponseError $e) {
-            if ($e->getResponse()->getStatusCode() === 404) {
+            if (404 === $e->getResponse()->getStatusCode()) {
                 return false;
             }
             throw $e;
@@ -185,7 +189,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
      *
-     * @return Object
+     * @return object
      */
     public function createObject(array $data): StorageObject
     {
@@ -211,10 +215,10 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         $stream = $data['stream'];
 
         $segmentSize      = isset($data['segmentSize']) ? $data['segmentSize'] : 1073741824;
-        $segmentContainer = isset($data['segmentContainer']) ? $data['segmentContainer'] : $this->name . '_segments';
+        $segmentContainer = isset($data['segmentContainer']) ? $data['segmentContainer'] : $this->name.'_segments';
         $segmentPrefix    = isset($data['segmentPrefix'])
             ? $data['segmentPrefix']
-            : sprintf("%s/%s/%d", $data['name'], microtime(true), $stream->getSize());
+            : sprintf('%s/%s/%d', $data['name'], microtime(true), $stream->getSize());
 
         /** @var \OpenStack\ObjectStore\v1\Service $service */
         $service = $this->getService();
@@ -227,7 +231,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
         while (!$stream->eof() && $count < round($stream->getSize() / $segmentSize)) {
             $promises[] = $this->model(StorageObject::class)->createAsync([
-                'name'          => sprintf("%s/%d", $segmentPrefix, ++$count),
+                'name'          => sprintf('%s/%d', $segmentPrefix, ++$count),
                 'stream'        => new LimitStream($stream, $segmentSize, ($count - 1) * $segmentSize),
                 'containerName' => $segmentContainer,
             ]);
@@ -239,7 +243,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
         return $this->createObject([
             'name'           => $data['name'],
-            'objectManifest' => sprintf("%s/%s", $segmentContainer, $segmentPrefix),
+            'objectManifest' => sprintf('%s/%s', $segmentContainer, $segmentPrefix),
         ]);
     }
 }

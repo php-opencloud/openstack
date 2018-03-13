@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1;
 
@@ -57,7 +59,7 @@ EOT
     {
         return [
             'location'    => self::HEADER,
-            'sentAs'      => sprintf("X-%s-Meta-Temp-URL-Key", ucfirst($type)),
+            'sentAs'      => sprintf('X-%s-Meta-Temp-URL-Key', ucfirst($type)),
             'description' => 'The secret key value for temporary URLs.',
         ];
     }
@@ -66,7 +68,7 @@ EOT
     {
         return [
             'location'    => self::HEADER,
-            'sentAs'      => sprintf("X-%s-Meta-Temp-URL-Key-2", ucfirst($type)),
+            'sentAs'      => sprintf('X-%s-Meta-Temp-URL-Key-2', ucfirst($type)),
             'description' => <<<EOT
 A second secret key value for temporary URLs. The second key enables you to rotate keys by having an old and new key
 active at the same time.
@@ -102,7 +104,7 @@ EOT
     {
         return [
             'location'    => 'header',
-            'sentAs'      => sprintf("X-%s-Read", ucfirst($type)),
+            'sentAs'      => sprintf('X-%s-Read', ucfirst($type)),
             'description' => <<<EOT
 Sets a container access control list (ACL) that grants read access. Container ACLs are available on any Object Storage
 cluster, and are enabled by container rather than by cluster. Specify the ACL value as follows:
@@ -149,22 +151,22 @@ EOT
     {
         return [
             'location'    => self::HEADER,
-            'sentAs'      => sprintf("X-%s-Write", ucfirst($type)),
+            'sentAs'      => sprintf('X-%s-Write', ucfirst($type)),
             'description' => 'Like `readAccess` parameter, but for write access.',
         ];
     }
 
     public function metadata($type, $remove = false)
     {
-        if ($remove == true) {
-            $type = 'Remove-' . ucfirst($type);
+        if (true == $remove) {
+            $type = 'Remove-'.ucfirst($type);
         }
 
         return [
-            'location'    => self::HEADER,
-            'type'        => self::OBJECT_TYPE,
-            'prefix'      => sprintf("X-%s-Meta-", ucfirst($type)),
-            'properties'  => [
+            'location'   => self::HEADER,
+            'type'       => self::OBJECT_TYPE,
+            'prefix'     => sprintf('X-%s-Meta-', ucfirst($type)),
+            'properties' => [
                 'type' => self::STRING_TYPE,
             ],
             'description' => <<<EOT

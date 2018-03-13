@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2;
 
@@ -23,8 +25,8 @@ class Params extends AbstractParams
             'sentAs'     => 'os-resetState',
             'required'   => true,
             'properties' => [
-                'state' => ['type' => self::STRING_TYPE]
-            ]
+                'state' => ['type' => self::STRING_TYPE],
+            ],
         ];
     }
 
@@ -60,7 +62,7 @@ class Params extends AbstractParams
             'location'    => self::QUERY,
             'sentAs'      => 'changes-since',
             'description' => sprintf(
-                "Return %ss which have been changed since a certain time. This value needs to be in an ISO 8601 format.",
+                'Return %ss which have been changed since a certain time. This value needs to be in an ISO 8601 format.',
                 $type
             ),
         ];
@@ -70,7 +72,7 @@ class Params extends AbstractParams
     {
         return [
             'location'    => self::QUERY,
-            'description' => sprintf("Return images which are associated with a server. This value needs to be in a URL format.")
+            'description' => sprintf('Return images which are associated with a server. This value needs to be in a URL format.'),
         ];
     }
 
@@ -79,9 +81,9 @@ class Params extends AbstractParams
         return [
             'location'    => self::QUERY,
             'description' => sprintf(
-                "Return %ss that have a particular status, such as \"ACTIVE\".",
+                'Return %ss that have a particular status, such as "ACTIVE".',
                 $type
-            )
+            ),
         ];
     }
 
@@ -188,7 +190,7 @@ class Params extends AbstractParams
             'description' => 'A list of ip addresses which this interface will be associated with',
             'items'       => [
                 'type'       => self::OBJECT_TYPE,
-                'properties' => ['ip_address' => ['type' => self::STRING_TYPE]]
+                'properties' => ['ip_address' => ['type' => self::STRING_TYPE]],
             ],
         ];
     }
@@ -205,33 +207,32 @@ class Params extends AbstractParams
                 'description' => <<<TYPEOTHER
 The value being set for your key. Bear in mind that "key" is just an example, you can name it anything.
 TYPEOTHER
-            ]
+            ],
         ];
     }
 
     public function personality(): array
     {
         return [
-            'type'        => self::ARRAY_TYPE,
-            'items'       => [
+            'type'  => self::ARRAY_TYPE,
+            'items' => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
-                    'path'     => [
+                    'path' => [
                         'type'        => self::STRING_TYPE,
-                        'description' => 'The path, on the filesystem, where the personality file will be placed'
+                        'description' => 'The path, on the filesystem, where the personality file will be placed',
                     ],
                     'contents' => [
                         'type'        => self::STRING_TYPE,
-                        'description' => 'Base64-encoded content of the personality file'
+                        'description' => 'Base64-encoded content of the personality file',
                     ],
-                ]
+                ],
             ],
             'description' => <<<EOL
 File path and contents (text only) to inject into the server at launch. The maximum size of the file path data is 255
 bytes. The maximum limit refers to the number of bytes in the decoded data and not the number of characters in the
 encoded data.
 EOL
-
         ];
     }
 
@@ -243,7 +244,7 @@ EOL
             'description' => 'A list of security group objects which this server will be associated with',
             'items'       => [
                 'type'       => self::OBJECT_TYPE,
-                'properties' => ['name' => $this->name('security group')]
+                'properties' => ['name' => $this->name('security group')],
             ],
         ];
     }
@@ -281,7 +282,7 @@ To provision the server instance with a NIC for an already existing port, specif
 a networks object.
 EOT
             ,
-            'items'       => [
+            'items' => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
                     'uuid' => [
@@ -298,8 +299,8 @@ To provision the server instance with a NIC for an already existing port, specif
 a networks object. The port status must be DOWN. Required if you omit the uuid attribute.
 EOL
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -313,14 +314,14 @@ Enables booting the server from a volume when additional parameters are given. I
 available, and the volume attach_status in OpenStack Block Storage DB must be detached.
 EOL
             ,
-            'items'       => [
+            'items' => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
-                    'uuid'                => [
+                    'uuid' => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'The unique ID for the volume which the server is to be booted from.',
                     ],
-                    'bootIndex'           => [
+                    'bootIndex' => [
                         'type'        => self::INT_TYPE,
                         'sentAs'      => 'boot_index',
                         'description' => 'Indicates a number designating the boot order of the device. Use -1 for the boot volume, choose 0 for an attached volume.',
@@ -330,32 +331,32 @@ EOL
                         'sentAs'      => 'delete_on_termination',
                         'description' => 'To delete the boot volume when the server stops, specify true. Otherwise, specify false.',
                     ],
-                    'guestFormat'         => [
+                    'guestFormat' => [
                         'type'        => self::STRING_TYPE,
                         'sentAs'      => 'guest_format',
                         'description' => 'Specifies the guest server disk file system format, such as "ephemeral" or "swap".',
                     ],
-                    'destinationType'     => [
+                    'destinationType' => [
                         'type'        => self::STRING_TYPE,
                         'sentAs'      => 'destination_type',
                         'description' => 'Describes where the volume comes from. Choices are "local" or "volume". When using "volume" the volume ID',
                     ],
-                    'sourceType'          => [
+                    'sourceType' => [
                         'type'        => self::STRING_TYPE,
                         'sentAs'      => 'source_type',
                         'description' => 'Describes the volume source type for the volume. Choices are "blank", "snapshot", "volume", or "image".',
                     ],
-                    'deviceName'          => [
+                    'deviceName' => [
                         'type'        => self::STRING_TYPE,
                         'sentAs'      => 'device_name',
                         'description' => 'Describes a path to the device for the volume you want to use to boot the server.',
                     ],
-                    'volumeSize'          => [
+                    'volumeSize' => [
                         'type'        => self::INT_TYPE,
                         'sentAs'      => 'volume_size',
                         'description' => 'Size of the volume created if we are doing vol creation',
                     ],
-                ]
+                ],
             ],
         ];
     }
@@ -424,7 +425,7 @@ EOL
         return [
             'type'     => self::NULL_TYPE,
             'location' => self::JSON,
-            'required' => true
+            'required' => true,
         ];
     }
 
@@ -467,10 +468,10 @@ EOL
     public function userId(): array
     {
         return [
-            'type'     => self::STRING_TYPE,
-            'sentAs'   => 'user_id',
-            'location' => self::QUERY,
-            'description' => 'This allows administrative users to operate key-pairs of specified user ID. Requires micro version 2.10.'
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => 'user_id',
+            'location'    => self::QUERY,
+            'description' => 'This allows administrative users to operate key-pairs of specified user ID. Requires micro version 2.10.',
         ];
     }
 
@@ -478,7 +479,7 @@ EOL
     {
         return [
             'type'     => self::INT_TYPE,
-            'location' => self::JSON
+            'location' => self::JSON,
         ];
     }
 
@@ -486,7 +487,7 @@ EOL
     {
         return [
             'type'     => self::INT_TYPE,
-            'location' => self::JSON
+            'location' => self::JSON,
         ];
     }
 
@@ -494,7 +495,7 @@ EOL
     {
         return [
             'type'     => self::INT_TYPE,
-            'location' => self::JSON
+            'location' => self::JSON,
         ];
     }
 
@@ -502,7 +503,7 @@ EOL
     {
         return [
             'type'     => self::INT_TYPE,
-            'location' => self::JSON
+            'location' => self::JSON,
         ];
     }
 
@@ -528,7 +529,7 @@ EOL
         return [
             'type'     => self::STRING_TYPE,
             'location' => self::JSON,
-            'required' => true
+            'required' => true,
         ];
     }
 
@@ -544,7 +545,7 @@ EOL
     public function emptyObject(): array
     {
         return [
-            'type'  => self::OBJECT_TYPE,
+            'type' => self::OBJECT_TYPE,
         ];
     }
 
@@ -554,7 +555,7 @@ EOL
             'type'        => self::INT_TYPE,
             'location'    => self::JSON,
             'sentAs'      => $sentAs,
-            'description' => $description
+            'description' => $description,
         ];
     }
 
@@ -564,7 +565,7 @@ EOL
             'type'        => self::BOOLEAN_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'force',
-            'description' => 'You can force the update even if the quota has already been used and the reserved quota exceeds the new quota'
+            'description' => 'You can force the update even if the quota has already been used and the reserved quota exceeds the new quota',
         ];
     }
 

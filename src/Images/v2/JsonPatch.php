@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Images\v2;
 
@@ -7,7 +9,7 @@ class JsonPatch extends \OpenStack\Common\JsonSchema\JsonPatch
     public function disableRestrictedPropRemovals(array $diff, array $restrictedProps): array
     {
         foreach ($diff as $i => $changeSet) {
-            if ($changeSet['op'] == 'remove' && in_array($changeSet['path'], $restrictedProps)) {
+            if ('remove' == $changeSet['op'] && in_array($changeSet['path'], $restrictedProps)) {
                 unset($diff[$i]);
             }
         }
@@ -16,7 +18,7 @@ class JsonPatch extends \OpenStack\Common\JsonSchema\JsonPatch
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * We need to override the proper way to handle objects because Glance v2 does not
      * support whole document replacement with empty JSON pointers.

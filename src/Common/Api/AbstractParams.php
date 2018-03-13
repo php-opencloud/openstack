@@ -1,24 +1,26 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Api;
 
 abstract class AbstractParams
 {
     // locations
-    const QUERY = 'query';
+    const QUERY  = 'query';
     const HEADER = 'header';
-    const URL = 'url';
-    const JSON = 'json';
-    const RAW = 'raw';
+    const URL    = 'url';
+    const JSON   = 'json';
+    const RAW    = 'raw';
 
     // types
-    const STRING_TYPE = "string";
-    const BOOL_TYPE = "boolean";
+    const STRING_TYPE  = 'string';
+    const BOOL_TYPE    = 'boolean';
     const BOOLEAN_TYPE = self::BOOL_TYPE;
-    const OBJECT_TYPE = "object";
-    const ARRAY_TYPE = "array";
-    const NULL_TYPE = "NULL";
-    const INT_TYPE = 'integer';
+    const OBJECT_TYPE  = 'object';
+    const ARRAY_TYPE   = 'array';
+    const NULL_TYPE    = 'NULL';
+    const INT_TYPE     = 'integer';
     const INTEGER_TYPE = self::INT_TYPE;
 
     public static function isSupportedLocation(string $val): bool
@@ -54,7 +56,7 @@ DESC
     public function id(string $type): array
     {
         return [
-            'description' => sprintf("The unique ID, or identifier, for the %s", $type),
+            'description' => sprintf('The unique ID, or identifier, for the %s', $type),
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
         ];
@@ -72,29 +74,28 @@ DESC
     public function name(string $resource): array
     {
         return [
-            'description' => sprintf("The name of the %s", $resource),
+            'description' => sprintf('The name of the %s', $resource),
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
         ];
     }
-
 
     public function sortDir(): array
     {
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::QUERY,
-            'description' => "Sorts by one or more sets of attribute and sort direction combinations.",
-            'enum'        => ['asc', 'desc']
+            'description' => 'Sorts by one or more sets of attribute and sort direction combinations.',
+            'enum'        => ['asc', 'desc'],
         ];
     }
 
     public function sortKey(): array
     {
         return [
-            'type'     => self::STRING_TYPE,
-            'location' => self::QUERY,
-            'description' => "Sorts by one or more sets of attribute and sort direction combinations.",
+            'type'        => self::STRING_TYPE,
+            'location'    => self::QUERY,
+            'description' => 'Sorts by one or more sets of attribute and sort direction combinations.',
         ];
     }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2;
 
@@ -7,7 +9,7 @@ use OpenStack\Common\Api\AbstractParams;
 class Params extends AbstractParams
 {
     /**
-     * Returns information about description parameter
+     * Returns information about description parameter.
      *
      * @return array
      */
@@ -20,7 +22,7 @@ class Params extends AbstractParams
     }
 
     /**
-     * Returns information about name parameter
+     * Returns information about name parameter.
      *
      * @return array
      */
@@ -122,7 +124,7 @@ class Params extends AbstractParams
             'type'        => self::ARRAY_TYPE,
             'sentAs'      => 'dns_nameservers',
             'description' => 'A list of DNS name servers for the subnet.',
-            'items'    => [
+            'items'       => [
                 'type'        => self::STRING_TYPE,
                 'description' => 'The nameserver',
             ],
@@ -132,16 +134,16 @@ class Params extends AbstractParams
     public function allocationPools(): array
     {
         return [
-            'type'        => self::ARRAY_TYPE,
-            'sentAs'      => 'allocation_pools',
-            'items'       => [
+            'type'   => self::ARRAY_TYPE,
+            'sentAs' => 'allocation_pools',
+            'items'  => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
                     'start' => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'The start address for the allocation pools',
                     ],
-                    'end'   => [
+                    'end' => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'The end address for the allocation pools',
                     ],
@@ -154,16 +156,16 @@ class Params extends AbstractParams
     public function hostRoutes(): array
     {
         return [
-            'type'        => self::ARRAY_TYPE,
-            'sentAs'      => 'host_routes',
-            'items'       => [
+            'type'   => self::ARRAY_TYPE,
+            'sentAs' => 'host_routes',
+            'items'  => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
                     'destination' => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'Destination for static route',
                     ],
-                    'nexthop'     => [
+                    'nexthop' => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'Nexthop for the destination',
                     ],
@@ -292,21 +294,21 @@ class Params extends AbstractParams
             'description' => 'The IP addresses for the port. If you would like to assign multiple IP addresses for the
                               port, specify multiple entries in this field. Each entry consists of IP address (ipAddress)
                               and the subnet ID from which the IP address is assigned (subnetId)',
-            'items'       => [
-                'type'    => self::OBJECT_TYPE,
+            'items' => [
+                'type'       => self::OBJECT_TYPE,
                 'properties' => [
                     'ipAddress' => [
-                        'type' => self::STRING_TYPE,
-                        'sentAs' => 'ip_address',
-                        'description' => 'If you specify only an IP address, OpenStack Networking tries to allocate the IP address if the address is a valid IP for any of the subnets on the specified network.'
+                        'type'        => self::STRING_TYPE,
+                        'sentAs'      => 'ip_address',
+                        'description' => 'If you specify only an IP address, OpenStack Networking tries to allocate the IP address if the address is a valid IP for any of the subnets on the specified network.',
                     ],
                     'subnetId' => [
-                        'type' => self::STRING_TYPE,
-                        'sentAs' => 'subnet_id',
-                        'description' => 'Subnet id. If you specify only a subnet ID, OpenStack Networking allocates an available IP from that subnet to the port.'
-                    ]
-                ]
-            ]
+                        'type'        => self::STRING_TYPE,
+                        'sentAs'      => 'subnet_id',
+                        'description' => 'Subnet id. If you specify only a subnet ID, OpenStack Networking allocates an available IP from that subnet to the port.',
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -353,7 +355,7 @@ class Params extends AbstractParams
                 'type'        => self::OBJECT_TYPE,
                 'description' => 'A MAC addr/IP addr pair',
                 'properties'  => [
-                    'ipAddress'  => [
+                    'ipAddress' => [
                         'sentAs'   => 'ip_address',
                         'type'     => self::STRING_TYPE,
                         'location' => self::JSON,
@@ -427,10 +429,10 @@ class Params extends AbstractParams
     protected function quotaLimit(string $sentAs, string $description): array
     {
         return [
-            'type' => self::INT_TYPE,
-            'location' => self::JSON,
-            'sentAs' => $sentAs,
-            'description' => $description
+            'type'        => self::INT_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => $sentAs,
+            'description' => $description,
         ];
     }
 
@@ -629,7 +631,7 @@ class Params extends AbstractParams
         return [
             'type'        => self::INT_TYPE,
             'location'    => self::JSON,
-            'description' => 'The interval in seconds between health checks.'
+            'description' => 'The interval in seconds between health checks.',
         ];
     }
 
@@ -638,7 +640,7 @@ class Params extends AbstractParams
         return [
             'type'        => self::INT_TYPE,
             'location'    => self::JSON,
-            'description' => 'The time in seconds that a health check times out.'
+            'description' => 'The time in seconds that a health check times out.',
         ];
     }
 
@@ -648,7 +650,7 @@ class Params extends AbstractParams
             'type'        => self::INT_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'max_retries',
-            'description' => 'Number of failed health checks before marked as OFFLINE.'
+            'description' => 'Number of failed health checks before marked as OFFLINE.',
         ];
     }
 
@@ -658,7 +660,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'http_method',
-            'description' => 'The default value for this attribute is GET.'
+            'description' => 'The default value for this attribute is GET.',
         ];
     }
 
@@ -668,7 +670,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'url_path',
-            'description' => 'The default value is "/"'
+            'description' => 'The default value is "/"',
         ];
     }
 
@@ -678,7 +680,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'expected_codes',
-            'description' => 'The expected http status codes to get from a successful health check. Defaults to 200. (comma separated)'
+            'description' => 'The expected http status codes to get from a successful health check. Defaults to 200. (comma separated)',
         ];
     }
 
@@ -687,7 +689,7 @@ class Params extends AbstractParams
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
-            'description' => 'The type of health monitor. Must be one of TCP, HTTP, HTTPS'
+            'description' => 'The type of health monitor. Must be one of TCP, HTTP, HTTPS',
         ];
     }
 }

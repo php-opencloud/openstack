@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3;
 
@@ -21,7 +23,7 @@ class Api extends AbstractApi
                 'user'    => $this->params->user(),
                 'tokenId' => $this->params->tokenBody(),
                 'scope'   => $this->params->scope(),
-            ]
+            ],
         ];
     }
 
@@ -30,7 +32,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'auth/tokens',
-            'params' => ['tokenId' => $this->params->tokenId()]
+            'params' => ['tokenId' => $this->params->tokenId()],
         ];
     }
 
@@ -39,7 +41,7 @@ class Api extends AbstractApi
         return [
             'method' => 'HEAD',
             'path'   => 'auth/tokens',
-            'params' => ['tokenId' => $this->params->tokenId()]
+            'params' => ['tokenId' => $this->params->tokenId()],
         ];
     }
 
@@ -48,7 +50,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'auth/tokens',
-            'params' => ['tokenId' => $this->params->tokenId()]
+            'params' => ['tokenId' => $this->params->tokenId()],
         ];
     }
 
@@ -59,10 +61,10 @@ class Api extends AbstractApi
             'path'    => 'services',
             'jsonKey' => 'service',
             'params'  => [
-                'name' => $this->params->name('service'),
-                'type' => $this->params->type('service'),
+                'name'        => $this->params->name('service'),
+                'type'        => $this->params->type('service'),
                 'description' => $this->params->desc('service'),
-            ]
+            ],
         ];
     }
 
@@ -71,7 +73,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'services',
-            'params' => ['type' => $this->params->typeQuery()]
+            'params' => ['type' => $this->params->typeQuery()],
         ];
     }
 
@@ -80,7 +82,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'services/{id}',
-            'params' => ['id' => $this->params->idUrl('service')]
+            'params' => ['id' => $this->params->idUrl('service')],
         ];
     }
 
@@ -95,7 +97,7 @@ class Api extends AbstractApi
                 'name'        => $this->params->name('service'),
                 'type'        => $this->params->type('service'),
                 'description' => $this->params->desc('service'),
-            ]
+            ],
         ];
     }
 
@@ -104,7 +106,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'services/{id}',
-            'params' => ['id' => $this->params->idUrl('service')]
+            'params' => ['id' => $this->params->idUrl('service')],
         ];
     }
 
@@ -120,7 +122,7 @@ class Api extends AbstractApi
                 'region'    => $this->params->region(),
                 'url'       => $this->params->endpointUrl(),
                 'serviceId' => $this->params->serviceId(),
-            ]
+            ],
         ];
     }
 
@@ -132,7 +134,7 @@ class Api extends AbstractApi
             'params' => [
                 'interface' => $this->query($this->params->interf()),
                 'serviceId' => $this->query($this->params->serviceId()),
-            ]
+            ],
         ];
     }
 
@@ -142,8 +144,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'endpoints/{id}',
             'params' => [
-                'id' => $this->params->idUrl('service')
-            ]
+                'id' => $this->params->idUrl('service'),
+            ],
         ];
     }
 
@@ -160,7 +162,7 @@ class Api extends AbstractApi
                 'region'    => $this->params->region(),
                 'url'       => $this->params->endpointUrl(),
                 'serviceId' => $this->params->serviceId(),
-            ]
+            ],
         ];
     }
 
@@ -169,7 +171,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'endpoints/{id}',
-            'params' => ['id' => $this->params->idUrl('endpoint')]
+            'params' => ['id' => $this->params->idUrl('endpoint')],
         ];
     }
 
@@ -183,7 +185,7 @@ class Api extends AbstractApi
                 'name'        => $this->isRequired($this->params->name('domain')),
                 'enabled'     => $this->params->enabled('domain'),
                 'description' => $this->params->desc('domain'),
-            ]
+            ],
         ];
     }
 
@@ -195,7 +197,7 @@ class Api extends AbstractApi
             'params' => [
                 'name'    => $this->query($this->params->name('domain')),
                 'enabled' => $this->query($this->params->enabled('domain')),
-            ]
+            ],
         ];
     }
 
@@ -204,7 +206,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'domains/{id}',
-            'params' => ['id' => $this->params->idUrl('domain')]
+            'params' => ['id' => $this->params->idUrl('domain')],
         ];
     }
 
@@ -219,7 +221,7 @@ class Api extends AbstractApi
                 'name'        => $this->params->name('domain'),
                 'enabled'     => $this->params->enabled('domain'),
                 'description' => $this->params->desc('domain'),
-            ]
+            ],
         ];
     }
 
@@ -228,7 +230,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'domains/{id}',
-            'params' => ['id' => $this->params->idUrl('domain')]
+            'params' => ['id' => $this->params->idUrl('domain')],
         ];
     }
 
@@ -240,7 +242,7 @@ class Api extends AbstractApi
             'params' => [
                 'domainId' => $this->params->idUrl('domain'),
                 'userId'   => $this->params->idUrl('user'),
-            ]
+            ],
         ];
     }
 
@@ -253,7 +255,7 @@ class Api extends AbstractApi
                 'domainId' => $this->params->idUrl('domain'),
                 'userId'   => $this->params->idUrl('user'),
                 'roleId'   => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -266,7 +268,7 @@ class Api extends AbstractApi
                 'domainId' => $this->params->idUrl('domain'),
                 'userId'   => $this->params->idUrl('user'),
                 'roleId'   => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -279,7 +281,7 @@ class Api extends AbstractApi
                 'domainId' => $this->params->idUrl('domain'),
                 'userId'   => $this->params->idUrl('user'),
                 'roleId'   => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -291,7 +293,7 @@ class Api extends AbstractApi
             'params' => [
                 'domainId' => $this->params->idUrl('domain'),
                 'groupId'  => $this->params->idUrl('group'),
-            ]
+            ],
         ];
     }
 
@@ -304,7 +306,7 @@ class Api extends AbstractApi
                 'domainId' => $this->params->idUrl('domain'),
                 'groupId'  => $this->params->idUrl('group'),
                 'roleId'   => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -317,7 +319,7 @@ class Api extends AbstractApi
                 'domainId' => $this->params->idUrl('domain'),
                 'groupId'  => $this->params->idUrl('group'),
                 'roleId'   => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -330,7 +332,7 @@ class Api extends AbstractApi
                 'domainId' => $this->params->idUrl('domain'),
                 'groupId'  => $this->params->idUrl('group'),
                 'roleId'   => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -345,8 +347,8 @@ class Api extends AbstractApi
                 'domainId'    => $this->params->domainId('project'),
                 'parentId'    => $this->params->parentId(),
                 'enabled'     => $this->params->enabled('project'),
-                'name'        => $this->isRequired($this->params->name('project'))
-            ]
+                'name'        => $this->isRequired($this->params->name('project')),
+            ],
         ];
     }
 
@@ -359,7 +361,7 @@ class Api extends AbstractApi
                 'domainId' => $this->query($this->params->domainId('project')),
                 'enabled'  => $this->query($this->params->enabled('project')),
                 'name'     => $this->query($this->params->name('project')),
-            ]
+            ],
         ];
     }
 
@@ -368,7 +370,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'projects/{id}',
-            'params' => ['id' => $this->params->idUrl('project')]
+            'params' => ['id' => $this->params->idUrl('project')],
         ];
     }
 
@@ -385,7 +387,7 @@ class Api extends AbstractApi
                 'parentId'    => $this->params->parentId(),
                 'enabled'     => $this->params->enabled('project'),
                 'name'        => $this->params->name('project'),
-            ]
+            ],
         ];
     }
 
@@ -394,7 +396,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'projects/{id}',
-            'params' => ['id' => $this->params->idUrl('project')]
+            'params' => ['id' => $this->params->idUrl('project')],
         ];
     }
 
@@ -406,7 +408,7 @@ class Api extends AbstractApi
             'params' => [
                 'projectId' => $this->params->idUrl('project'),
                 'userId'    => $this->params->idUrl('user'),
-            ]
+            ],
         ];
     }
 
@@ -419,7 +421,7 @@ class Api extends AbstractApi
                 'projectId' => $this->params->idUrl('project'),
                 'userId'    => $this->params->idUrl('user'),
                 'roleId'    => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -432,7 +434,7 @@ class Api extends AbstractApi
                 'projectId' => $this->params->idUrl('project'),
                 'userId'    => $this->params->idUrl('user'),
                 'roleId'    => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -445,7 +447,7 @@ class Api extends AbstractApi
                 'projectId' => $this->params->idUrl('project'),
                 'userId'    => $this->params->idUrl('user'),
                 'roleId'    => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -457,7 +459,7 @@ class Api extends AbstractApi
             'params' => [
                 'projectId' => $this->params->idUrl('project'),
                 'groupId'   => $this->params->idUrl('group'),
-            ]
+            ],
         ];
     }
 
@@ -470,7 +472,7 @@ class Api extends AbstractApi
                 'projectId' => $this->params->idUrl('project'),
                 'groupId'   => $this->params->idUrl('group'),
                 'roleId'    => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -483,7 +485,7 @@ class Api extends AbstractApi
                 'projectId' => $this->params->idUrl('project'),
                 'groupId'   => $this->params->idUrl('group'),
                 'roleId'    => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -496,7 +498,7 @@ class Api extends AbstractApi
                 'projectId' => $this->params->idUrl('project'),
                 'groupId'   => $this->params->idUrl('group'),
                 'roleId'    => $this->params->idUrl('role'),
-            ]
+            ],
         ];
     }
 
@@ -514,7 +516,7 @@ class Api extends AbstractApi
                 'enabled'          => $this->params->enabled('user'),
                 'name'             => $this->isRequired($this->params->name('user')),
                 'password'         => $this->params->password(),
-            ]
+            ],
         ];
     }
 
@@ -527,7 +529,7 @@ class Api extends AbstractApi
                 'domainId' => $this->query($this->params->domainId('user')),
                 'enabled'  => $this->query($this->params->enabled('user')),
                 'name'     => $this->query($this->params->name('user')),
-            ]
+            ],
         ];
     }
 
@@ -536,7 +538,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'users/{id}',
-            'params' => ['id' => $this->params->idUrl('user')]
+            'params' => ['id' => $this->params->idUrl('user')],
         ];
     }
 
@@ -553,7 +555,7 @@ class Api extends AbstractApi
                 'email'            => $this->params->email(),
                 'enabled'          => $this->params->enabled('user'),
                 'password'         => $this->params->password(),
-            ]
+            ],
         ];
     }
 
@@ -562,7 +564,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'users/{id}',
-            'params' => ['id' => $this->params->idUrl('user')]
+            'params' => ['id' => $this->params->idUrl('user')],
         ];
     }
 
@@ -571,7 +573,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'users/{id}/groups',
-            'params' => ['id' => $this->params->idUrl('user')]
+            'params' => ['id' => $this->params->idUrl('user')],
         ];
     }
 
@@ -580,7 +582,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'users/{id}/projects',
-            'params' => ['id' => $this->params->idUrl('user')]
+            'params' => ['id' => $this->params->idUrl('user')],
         ];
     }
 
@@ -593,8 +595,8 @@ class Api extends AbstractApi
             'params'  => [
                 'description' => $this->params->desc('group'),
                 'domainId'    => $this->params->domainId('group'),
-                'name'        => $this->params->name('group')
-            ]
+                'name'        => $this->params->name('group'),
+            ],
         ];
     }
 
@@ -603,7 +605,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'groups',
-            'params' => ['domainId' => $this->query($this->params->domainId('group'))]
+            'params' => ['domainId' => $this->query($this->params->domainId('group'))],
         ];
     }
 
@@ -612,7 +614,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'groups/{id}',
-            'params' => ['id' => $this->params->idUrl('group')]
+            'params' => ['id' => $this->params->idUrl('group')],
         ];
     }
 
@@ -625,8 +627,8 @@ class Api extends AbstractApi
             'params'  => [
                 'id'          => $this->params->idUrl('group'),
                 'description' => $this->params->desc('group'),
-                'name'        => $this->params->name('group')
-            ]
+                'name'        => $this->params->name('group'),
+            ],
         ];
     }
 
@@ -635,7 +637,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'groups/{id}',
-            'params' => ['id' => $this->params->idUrl('group')]
+            'params' => ['id' => $this->params->idUrl('group')],
         ];
     }
 
@@ -644,7 +646,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'groups/{id}/users',
-            'params' => ['id' => $this->params->idUrl('group')]
+            'params' => ['id' => $this->params->idUrl('group')],
         ];
     }
 
@@ -656,7 +658,7 @@ class Api extends AbstractApi
             'params' => [
                 'groupId' => $this->params->idUrl('group'),
                 'userId'  => $this->params->idUrl('user'),
-            ]
+            ],
         ];
     }
 
@@ -668,7 +670,7 @@ class Api extends AbstractApi
             'params' => [
                 'groupId' => $this->params->idUrl('group'),
                 'userId'  => $this->params->idUrl('user'),
-            ]
+            ],
         ];
     }
 
@@ -680,7 +682,7 @@ class Api extends AbstractApi
             'params' => [
                 'groupId' => $this->params->idUrl('group'),
                 'userId'  => $this->params->idUrl('user'),
-            ]
+            ],
         ];
     }
 
@@ -694,7 +696,7 @@ class Api extends AbstractApi
                 'projectId' => $this->params->projectId(),
                 'type'      => $this->params->type('credential'),
                 'userId'    => $this->params->userId(),
-            ]
+            ],
         ];
     }
 
@@ -703,7 +705,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'credentials',
-            'params' => []
+            'params' => [],
         ];
     }
 
@@ -712,7 +714,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'credentials/{id}',
-            'params' => ['id' => $this->params->idUrl('credential')]
+            'params' => ['id' => $this->params->idUrl('credential')],
         ];
     }
 
@@ -721,7 +723,7 @@ class Api extends AbstractApi
         return [
             'method' => 'PATCH',
             'path'   => 'credentials/{id}',
-            'params' => ['id' => $this->params->idUrl('credential')] + $this->postCredentials()['params']
+            'params' => ['id' => $this->params->idUrl('credential')] + $this->postCredentials()['params'],
         ];
     }
 
@@ -730,7 +732,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'credentials/{id}',
-            'params' => ['id' => $this->params->idUrl('credential')]
+            'params' => ['id' => $this->params->idUrl('credential')],
         ];
     }
 
@@ -740,7 +742,7 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'path'    => 'roles',
             'jsonKey' => 'role',
-            'params'  => ['name' => $this->isRequired($this->params->name('role'))]
+            'params'  => ['name' => $this->isRequired($this->params->name('role'))],
         ];
     }
 
@@ -749,7 +751,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'roles',
-            'params' => ['name' => $this->query($this->params->name('role'))]
+            'params' => ['name' => $this->query($this->params->name('role'))],
         ];
     }
 
@@ -758,7 +760,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'roles/{id}',
-            'params' => ['id' => $this->params->idUrl('role')]
+            'params' => ['id' => $this->params->idUrl('role')],
         ];
     }
 
@@ -774,7 +776,7 @@ class Api extends AbstractApi
                 'domainId'  => $this->params->domainIdQuery(),
                 'projectId' => $this->params->projectIdQuery(),
                 'effective' => $this->params->effective(),
-            ]
+            ],
         ];
     }
 
@@ -784,12 +786,12 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'path'    => 'policies',
             'jsonKey' => 'policy',
-            'params' => [
+            'params'  => [
                 'blob'      => $this->params->blob(),
                 'projectId' => $this->params->projectId('policy'),
                 'type'      => $this->params->type('policy'),
-                'userId'    => $this->params->userId('policy')
-            ]
+                'userId'    => $this->params->userId('policy'),
+            ],
         ];
     }
 
@@ -798,7 +800,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'policies',
-            'params' => ['type' => $this->query($this->params->type('policy'))]
+            'params' => ['type' => $this->query($this->params->type('policy'))],
         ];
     }
 
@@ -807,23 +809,23 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'policies/{id}',
-            'params' => ['id' => $this->params->idUrl('policy')]
+            'params' => ['id' => $this->params->idUrl('policy')],
         ];
     }
 
     public function patchPolicy(): array
     {
         return [
-            'method' => 'PATCH',
-            'path'   => 'policies/{id}',
+            'method'  => 'PATCH',
+            'path'    => 'policies/{id}',
             'jsonKey' => 'policy',
-            'params' => [
+            'params'  => [
                 'id'        => $this->params->idUrl('policy'),
                 'blob'      => $this->params->blob(),
                 'projectId' => $this->params->projectId('policy'),
                 'type'      => $this->params->type('policy'),
                 'userId'    => $this->params->userId(),
-            ]
+            ],
         ];
     }
 
@@ -832,7 +834,7 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'policies/{id}',
-            'params' => ['id' => $this->params->idUrl('policy')]
+            'params' => ['id' => $this->params->idUrl('policy')],
         ];
     }
 }

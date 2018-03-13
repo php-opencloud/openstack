@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace OpenStack\BlockStorage\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
@@ -65,9 +68,9 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     /** @var array */
     public $volumeImageMetadata = [];
 
-    protected $resourceKey = 'volume';
+    protected $resourceKey  = 'volume';
     protected $resourcesKey = 'volumes';
-    protected $markerKey = 'id';
+    protected $markerKey    = 'id';
 
     protected $aliases = [
         'availability_zone'            => 'availabilityZone',
@@ -80,12 +83,12 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'created_at' => new Alias('createdAt', \DateTimeImmutable::class)
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
         ];
     }
 
@@ -93,6 +96,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     {
         parent::populateFromResponse($response);
         $this->metadata = $this->parseMetadata($response);
+
         return $this;
     }
 
@@ -110,6 +114,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postVolumes(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
@@ -126,8 +131,9 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
 
     public function getMetadata(): array
     {
-        $response = $this->executeWithState($this->api->getVolumeMetadata());
+        $response       = $this->executeWithState($this->api->getVolumeMetadata());
         $this->metadata = $this->parseMetadata($response);
+
         return $this->metadata;
     }
 
@@ -147,6 +153,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     public function parseMetadata(ResponseInterface $response): array
     {
         $json = Utils::jsonDecode($response);
+
         return isset($json['metadata']) ? $json['metadata'] : [];
     }
 }

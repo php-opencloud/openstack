@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -14,12 +16,12 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
     public $services;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'services' => new Alias('services', Service::class, true)
+            'services' => new Alias('services', Service::class, true),
         ];
     }
 
@@ -35,12 +37,12 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
     /**
      * Retrieve a base URL for a service, according to its catalog name, type, region.
      *
-     * @param string $name    The name of the service as it appears in the catalog.
-     * @param string $type    The type of the service as it appears in the catalog.
-     * @param string $region  The region of the service as it appears in the catalog.
-     * @param string $urlType Unused.
+     * @param string $name    the name of the service as it appears in the catalog
+     * @param string $type    the type of the service as it appears in the catalog
+     * @param string $region  the region of the service as it appears in the catalog
+     * @param string $urlType unused
      *
-     * @return false|string   FALSE if no URL found
+     * @return false|string FALSE if no URL found
      */
     public function getServiceUrl(string $name, string $type, string $region, string $urlType): string
     {

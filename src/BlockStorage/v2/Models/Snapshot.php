@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v2\Models;
 
@@ -45,21 +47,21 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
     /** @var int */
     public $size;
 
-    protected $resourceKey = 'snapshot';
+    protected $resourceKey  = 'snapshot';
     protected $resourcesKey = 'snapshots';
-    protected $markerKey = 'id';
+    protected $markerKey    = 'id';
 
     protected $aliases = [
-        'volume_id'  => 'volumeId',
+        'volume_id' => 'volumeId',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'created_at' => new Alias('createdAt', \DateTimeImmutable::class)
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
         ];
     }
 
@@ -67,6 +69,7 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
     {
         parent::populateFromResponse($response);
         $this->metadata = $this->parseMetadata($response);
+
         return $this;
     }
 
@@ -84,6 +87,7 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSnapshots(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
@@ -99,8 +103,9 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
 
     public function getMetadata(): array
     {
-        $response = $this->executeWithState($this->api->getSnapshotMetadata());
+        $response       = $this->executeWithState($this->api->getSnapshotMetadata());
         $this->metadata = $this->parseMetadata($response);
+
         return $this->metadata;
     }
 
@@ -120,6 +125,7 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
     public function parseMetadata(ResponseInterface $response): array
     {
         $json = Utils::jsonDecode($response);
+
         return isset($json['metadata']) ? $json['metadata'] : [];
     }
 }

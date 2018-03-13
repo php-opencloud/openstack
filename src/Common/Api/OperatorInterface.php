@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Api;
 
@@ -12,8 +14,6 @@ use Psr\Http\Message\ResponseInterface;
  * is any class that can send requests and receive responses with a HTTP client. To do this
  * it needs two things: a {@see ClientInterface} for handling HTTP transactions and an {@see ApiInterface}
  * for handling how operations are created.
- *
- * @package OpenStack\Common\Api
  */
 interface OperatorInterface
 {
@@ -24,7 +24,7 @@ interface OperatorInterface
     public function __construct(ClientInterface $client, ApiInterface $api);
 
     /**
-     * A convenience method that assembles an operation and sends it to the remote API
+     * A convenience method that assembles an operation and sends it to the remote API.
      *
      * @param array $definition The data that dictates how the operation works
      * @param array $userValues The user-defined values that populate the request
@@ -34,7 +34,7 @@ interface OperatorInterface
     public function execute(array $definition, array $userValues = []): ResponseInterface;
 
     /**
-     * A convenience method that assembles an operation and asynchronously sends it to the remote API
+     * A convenience method that assembles an operation and asynchronously sends it to the remote API.
      *
      * @param array $definition The data that dictates how the operation works
      * @param array $userValues The user-defined values that populate the request
@@ -54,9 +54,9 @@ interface OperatorInterface
     public function getOperation(array $definition): Operation;
 
     /**
-     * @param string $class The name of the model class.
-     * @param mixed  $data Either a {@see ResponseInterface} or data array that will populate the newly
-     *                     created model class.
+     * @param string $class the name of the model class
+     * @param mixed  $data  either a {@see ResponseInterface} or data array that will populate the newly
+     *                      created model class
      *
      * @return \OpenStack\Common\Resource\ResourceInterface
      */

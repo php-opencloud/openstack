@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v2\Models;
 
@@ -8,7 +10,7 @@ use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
 /**
- * Represents a BlockStorage v2 Quota Set
+ * Represents a BlockStorage v2 Quota Set.
  *
  * @property \OpenStack\BlockStorage\v2\Api $api
  */
@@ -51,22 +53,22 @@ class QuotaSet extends OperatorResource implements Retrievable, Updateable, Dele
         'per_volume_gigabytes' => 'perVolumeGigabytes',
         'snapshots_iscsi'      => 'snapshotsIscsi',
         'volumes_iscsi'        => 'volumesIscsi',
-        'id'                   => 'tenantId'
+        'id'                   => 'tenantId',
     ];
 
     protected $resourceKey = 'quota_set';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getQuotaSet(), ['tenantId' => (string)$this->tenantId]);
+        $response = $this->execute($this->api->getQuotaSet(), ['tenantId' => (string) $this->tenantId]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -75,7 +77,7 @@ class QuotaSet extends OperatorResource implements Retrievable, Updateable, Dele
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete()
     {

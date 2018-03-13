@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups\Models;
 
@@ -9,7 +11,7 @@ use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Retrievable;
 
 /**
- * Represents a SecurityGroupRule resource in the Network v2 service
+ * Represents a SecurityGroupRule resource in the Network v2 service.
  *
  * @property \OpenStack\Networking\v2\Extensions\SecurityGroups\Api $api
  */
@@ -31,12 +33,12 @@ class SecurityGroupRule extends OperatorResource implements Creatable, Listable,
     public $id;
 
     /**
-     * @var integer
+     * @var int
      */
     public $portRangeMax;
 
     /**
-     * @var integer
+     * @var int
      */
     public $portRangeMin;
 
@@ -79,16 +81,17 @@ class SecurityGroupRule extends OperatorResource implements Creatable, Listable,
     protected $resourcesKey = 'security_group_rules';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSecurityRules(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -96,7 +99,7 @@ class SecurityGroupRule extends OperatorResource implements Creatable, Listable,
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {

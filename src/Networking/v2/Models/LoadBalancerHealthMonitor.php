@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -11,7 +13,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Api;
 
 /**
- * Represents a Neutron v2 LoadBalancer Health Monitor
+ * Represents a Neutron v2 LoadBalancer Health Monitor.
  *
  * @property Api $api
  */
@@ -33,17 +35,17 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
     public $type;
 
     /**
-     * @var integer
+     * @var int
      */
     public $delay;
 
     /**
-     * @var integer
+     * @var int
      */
     public $timeout;
 
     /**
-     * @var integer
+     * @var int
      */
     public $maxRetries;
 
@@ -63,7 +65,7 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
     public $expectedCodes;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $adminStateUp;
 
@@ -88,7 +90,7 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
     public $provisioningStatus;
 
     protected $resourcesKey = 'healthmonitors';
-    protected $resourceKey = 'healthmonitor';
+    protected $resourceKey  = 'healthmonitor';
 
     protected $aliases = [
         'tenant_id'           => 'tenantId',
@@ -103,35 +105,36 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'pools' => new Alias('pools', LoadBalancerPool::class, true)
+            'pools' => new Alias('pools', LoadBalancerPool::class, true),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postLoadBalancerHealthMonitor(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getLoadBalancerHealthMonitor(), ['id' => (string)$this->id]);
+        $response = $this->execute($this->api->getLoadBalancerHealthMonitor(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -140,7 +143,7 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

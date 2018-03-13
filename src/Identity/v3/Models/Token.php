@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -41,13 +43,13 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /** @var string */
     public $id;
 
-    protected $resourceKey = 'token';
+    protected $resourceKey  = 'token';
     protected $resourcesKey = 'tokens';
 
     protected $cachedToken;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
@@ -57,17 +59,18 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
             'project'    => new Alias('project', Project::class),
             'catalog'    => new Alias('catalog', Catalog::class),
             'user'       => new Alias('user', User::class),
-            'issued_at'  => new Alias('issued', \DateTimeImmutable::class)
+            'issued_at'  => new Alias('issued', \DateTimeImmutable::class),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
         $this->id = $response->getHeaderLine('X-Subject-Token');
+
         return $this;
     }
 
@@ -80,7 +83,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     }
 
     /**
-     * @return bool TRUE if the token has expired (and is invalid); FALSE otherwise.
+     * @return bool TRUE if the token has expired (and is invalid); FALSE otherwise
      */
     public function hasExpired(): bool
     {
@@ -88,7 +91,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -97,7 +100,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postTokens}
      */
@@ -108,8 +111,8 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
             if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
                 throw new \InvalidArgumentException(
                     'When authenticating with a username, you must also provide either the domain name or domain ID to '
-                    . 'which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to '
-                    . 'provide domain information.'
+                    .'which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to '
+                    .'provide domain information.'
                 );
             }
         } elseif (isset($data['tokenId'])) {
@@ -119,11 +122,11 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         }
 
         $response = $this->execute($this->api->postTokens(), $data);
-        $token = $this->populateFromResponse($response);
+        $token    = $this->populateFromResponse($response);
 
         // Cache response as an array to export if needed.
         // Added key `id` which is auth token from HTTP header X-Subject-Token
-        $this->cachedToken = Utils::flattenJson(Utils::jsonDecode($response), $this->resourceKey);
+        $this->cachedToken       = Utils::flattenJson(Utils::jsonDecode($response), $this->resourceKey);
         $this->cachedToken['id'] = $token->id;
 
         return $token;

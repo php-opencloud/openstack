@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
@@ -11,7 +13,7 @@ use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 
 /**
- * Represents a Compute v2 Keypair
+ * Represents a Compute v2 Keypair.
  *
  * @property \OpenStack\Compute\v2\Api $api
  */
@@ -29,39 +31,39 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     /** @var string */
     public $privateKey;
 
-    /** @var  boolean */
+    /** @var bool */
     public $deleted;
 
-    /** @var  string */
+    /** @var string */
     public $userId;
 
-    /** @var  string */
+    /** @var string */
     public $id;
 
     /** @var \DateTimeImmutable */
     public $createdAt;
 
     protected $aliases = [
-        'public_key' => 'publicKey',
+        'public_key'  => 'publicKey',
         'private_key' => 'privateKey',
-        'user_id'    => 'userId',
+        'user_id'     => 'userId',
     ];
 
-    protected $resourceKey = 'keypair';
+    protected $resourceKey  = 'keypair';
     protected $resourcesKey = 'keypairs';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'created_at' => new Alias('createdAt', \DateTimeImmutable::class)
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -72,11 +74,12 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postKeypair(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function populateFromArray(array $array): self
     {
@@ -84,7 +87,7 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
