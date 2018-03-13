@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Metric\v1\Gnocchi;
 
@@ -8,11 +10,9 @@ use OpenStack\Metric\v1\Gnocchi\Models\Resource;
 use OpenStack\Metric\v1\Gnocchi\Models\ResourceType;
 
 /**
- * Gnocci Metric v1 Service class
+ * Gnocci Metric v1 Service class.
  *
  * @property Api $api
- *
- * @package OpenStack\Metric\v1\Gnocchi
  */
 class Service extends AbstractService
 {
@@ -46,13 +46,13 @@ class Service extends AbstractService
      *
      * @param array $options
      *
-     * @return Resource
+     * @return resource
      */
     public function getResource(array $options = []): Resource
     {
         $this->injectGenericType($options);
 
-        /** @var Resource $resource */
+        /** @var resource $resource */
         $resource = $this->model(Resource::class);
         $resource->populateFromArray($options);
 
@@ -78,7 +78,7 @@ class Service extends AbstractService
             $options['criteria'] = json_encode($options['criteria']);
         }
 
-        /**
+        /*
          * We need to manually add content-type header to this request
          * since searchResources method sends RAW request body.
          */
@@ -117,9 +117,10 @@ class Service extends AbstractService
     }
 
     /**
-     * If options does not have type, this will inject $options['type'] = 'generic'
+     * If options does not have type, this will inject $options['type'] = 'generic'.
      *
      * @internal
+     *
      * @param array $options
      */
     private function injectGenericType(array &$options)

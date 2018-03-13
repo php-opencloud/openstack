@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -38,16 +40,17 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postCredentials(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -56,7 +59,7 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -65,7 +68,7 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

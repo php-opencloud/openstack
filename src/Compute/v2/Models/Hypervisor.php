@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
@@ -9,9 +11,7 @@ use OpenStack\Common\Resource\OperatorResource;
 /**
  * @property \OpenStack\Compute\v2\Api $api
  */
-class Hypervisor extends OperatorResource implements
-    Retrievable,
-    Listable
+class Hypervisor extends OperatorResource implements Retrievable, Listable
 {
     /** @var int */
     public $id;
@@ -73,7 +73,7 @@ class Hypervisor extends OperatorResource implements
     /** @var array */
     public $service;
 
-    protected $resourceKey = 'hypervisor';
+    protected $resourceKey  = 'hypervisor';
     protected $resourcesKey = 'hypervisors';
 
     protected $aliases = [
@@ -91,11 +91,11 @@ class Hypervisor extends OperatorResource implements
       'vcpus_used'           => 'vcpusUsed',
       'cpu_info'             => 'cpuInfo',
       'current_workload'     => 'currentWorkload',
-      'disk_available_least' => 'diskAvailableLeast'
+      'disk_available_least' => 'diskAvailableLeast',
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {

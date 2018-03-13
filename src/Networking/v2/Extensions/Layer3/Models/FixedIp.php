@@ -13,6 +13,6 @@ class FixedIp extends AbstractResource
     public $ip;
 
     protected $aliases = [
-        'subnet_id' => 'subnetId'
+        'subnet_id' => 'subnetId',
     ];
 }

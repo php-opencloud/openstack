@@ -1,9 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
-use OpenStack\Common\Resource\Creatable;
-use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Retrievable;
@@ -15,24 +15,24 @@ use OpenStack\Common\Resource\Retrievable;
  */
 class Host extends OperatorResource implements Listable, Retrievable
 {
-    /** @var string **/
+    /** @var string * */
     public $name;
 
-    /** @var string **/
+    /** @var string * */
     public $service;
 
-    /** @var string **/
+    /** @var string * */
     public $zone;
 
-    protected $resourceKey = 'host';
+    protected $resourceKey  = 'host';
     protected $resourcesKey = 'hosts';
 
     protected $aliases = [
-      'host_name' => 'name'
+      'host_name' => 'name',
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {

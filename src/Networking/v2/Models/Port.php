@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -132,23 +134,25 @@ class Port extends OperatorResource implements Creatable, Updateable, Deletable,
     protected $resourceKey = 'port';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSinglePort(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     public function bulkCreate(array $userOptions): array
     {
         $response = $this->execute($this->api->postMultiplePorts(), ['ports' => $userOptions]);
+
         return $this->extractMultipleInstances($response);
     }
 
     public function retrieve()
     {
-        $response = $this->execute($this->api->getPort(), ['id' => (string)$this->id]);
+        $response = $this->execute($this->api->getPort(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 

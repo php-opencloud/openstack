@@ -1,14 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
-use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\Retrievable;
-use OpenStack\Common\Transport\Utils;
 
 /**
- * Represents a Compute v2 Quota
+ * Represents a Compute v2 Quota.
  *
  * @property \OpenStack\Compute\v2\Api $api
  */

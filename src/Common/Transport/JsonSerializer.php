@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Transport;
 
@@ -7,8 +9,6 @@ use OpenStack\Common\JsonPath;
 
 /**
  * Class responsible for populating the JSON body of a {@see GuzzleHttp\Message\Request} object.
- *
- * @package OpenStack\Common\Transport
  */
 class JsonSerializer
 {
@@ -27,7 +27,7 @@ class JsonSerializer
         $name = $param->getName();
         if ($path = $param->getPath()) {
             $jsonPath = new JsonPath($json);
-            $jsonPath->set(sprintf("%s.%s", $path, $name), $userValue);
+            $jsonPath->set(sprintf('%s.%s', $path, $name), $userValue);
             $json = $jsonPath->getStructure();
         } elseif ($name) {
             $json[$name] = $userValue;
@@ -52,6 +52,7 @@ class JsonSerializer
         foreach ($userValue as $item) {
             $elems = $this->stockJson($param->getItemSchema(), $item, $elems);
         }
+
         return $elems;
     }
 
@@ -69,6 +70,7 @@ class JsonSerializer
         foreach ($userValue as $key => $val) {
             $object = $this->stockJson($param->getProperty($key), $val, $object);
         }
+
         return $object;
     }
 
@@ -101,7 +103,7 @@ class JsonSerializer
             } elseif (!($value instanceof \stdClass)) {
                 throw new \InvalidArgumentException(sprintf(
                     'When an object value is provided, it must either be \stdClass or implement the Serializable '
-                    . 'interface, you provided %s',
+                    .'interface, you provided %s',
                     print_r($value, true)
                 ));
             }

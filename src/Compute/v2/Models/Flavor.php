@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
@@ -36,11 +38,11 @@ class Flavor extends OperatorResource implements Listable, Retrievable, Creatabl
     /** @var array */
     public $links;
 
-    protected $resourceKey = 'flavor';
+    protected $resourceKey  = 'flavor';
     protected $resourcesKey = 'flavors';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -49,16 +51,17 @@ class Flavor extends OperatorResource implements Listable, Retrievable, Creatabl
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postFlavors(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

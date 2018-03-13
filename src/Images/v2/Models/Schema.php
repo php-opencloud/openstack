@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Images\v2\Models;
 
@@ -13,7 +15,7 @@ class Schema extends \OpenStack\Common\JsonSchema\Schema
         }
 
         foreach ($data->properties as $propertyName => &$property) {
-            if (strpos($property->description, 'READ-ONLY') !== false) {
+            if (false !== strpos($property->description, 'READ-ONLY')) {
                 $property->readOnly = true;
             }
         }

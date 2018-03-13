@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Images\v2;
 
@@ -29,6 +31,7 @@ class Service extends AbstractService
     {
         $image = $this->model(Image::class);
         $image->populateFromArray(['id' => $id]);
+
         return $image;
     }
 }

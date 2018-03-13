@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -21,17 +23,17 @@ class Assignment extends OperatorResource implements Listable
     public $user;
 
     protected $resourcesKey = 'role_assignments';
-    protected $resourceKey = 'role_assignment';
+    protected $resourceKey  = 'role_assignment';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
             'role'  => new Alias('role', Role::class),
             'user'  => new Alias('user', User::class),
-            'group' => new Alias('group', Group::class)
+            'group' => new Alias('group', Group::class),
         ];
     }
 }

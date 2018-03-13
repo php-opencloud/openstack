@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1\Models;
 
@@ -12,7 +14,7 @@ trait MetadataTrait
 
         foreach ($response->getHeaders() as $header => $value) {
             if (0 === strpos($header, static::METADATA_PREFIX)) {
-                $name = substr($header, strlen(static::METADATA_PREFIX));
+                $name            = substr($header, strlen(static::METADATA_PREFIX));
                 $metadata[$name] = $response->getHeader($header)[0];
             }
         }

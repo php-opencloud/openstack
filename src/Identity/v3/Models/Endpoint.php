@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -34,23 +36,24 @@ class Endpoint extends OperatorResource implements Creatable, Updateable, Deleta
     /** @var string */
     public $url;
 
-    protected $resourceKey = 'endpoint';
+    protected $resourceKey  = 'endpoint';
     protected $resourcesKey = 'endpoints';
-    protected $aliases = ['service_id' => 'serviceId'];
+    protected $aliases      = ['service_id' => 'serviceId'];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postEndpoints}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postEndpoints(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -59,7 +62,7 @@ class Endpoint extends OperatorResource implements Creatable, Updateable, Deleta
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -68,7 +71,7 @@ class Endpoint extends OperatorResource implements Creatable, Updateable, Deleta
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

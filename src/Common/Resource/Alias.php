@@ -1,10 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Resource;
 
-/**
- * @package OpenStack\Common\Resource
- */
 class Alias
 {
     /**
@@ -29,9 +28,9 @@ class Alias
      */
     public function __construct(string $propertyName, string $className = null, bool $list = false)
     {
-        $this->isList = $list;
+        $this->isList       = $list;
         $this->propertyName = $propertyName;
-        $this->className = $className && class_exists($className) ? $className : null;
+        $this->className    = $className && class_exists($className) ? $className : null;
     }
 
     /**
@@ -42,15 +41,16 @@ class Alias
      */
     public function getValue(ResourceInterface $resource, $value)
     {
-        if ($value === null || !$this->className) {
+        if (null === $value || !$this->className) {
             return $value;
         } elseif ($this->isList && is_array($value)) {
             $array = [];
             foreach ($value as $subVal) {
                 $array[] = $resource->model($this->className, $subVal);
             }
+
             return $array;
-        } elseif ($this->className === \DateTimeImmutable::class) {
+        } elseif (\DateTimeImmutable::class === $this->className) {
             return new \DateTimeImmutable($value);
         }
 

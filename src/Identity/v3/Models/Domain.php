@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -30,22 +32,23 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     /** @var string */
     public $description;
 
-    protected $resourceKey = 'domain';
+    protected $resourceKey  = 'domain';
     protected $resourcesKey = 'domains';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postDomains}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postDomains(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -54,7 +57,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -63,7 +66,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -78,6 +81,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     public function listUserRoles(array $options = []): \Generator
     {
         $options['domainId'] = $this->id;
+
         return $this->model(Role::class)->enumerate($this->api->getUserRoles(), $options);
     }
 
@@ -98,6 +102,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     {
         try {
             $this->execute($this->api->headUserRole(), ['domainId' => $this->id] + $options);
+
             return true;
         } catch (BadResponseError $e) {
             return false;
@@ -120,6 +125,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     public function listGroupRoles(array $options = []): \Generator
     {
         $options['domainId'] = $this->id;
+
         return $this->model(Role::class)->enumerate($this->api->getGroupRoles(), $options);
     }
 
@@ -140,6 +146,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     {
         try {
             $this->execute($this->api->headGroupRole(), ['domainId' => $this->id] + $options);
+
             return true;
         } catch (BadResponseError $e) {
             return false;

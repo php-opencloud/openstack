@@ -22,12 +22,12 @@ class GatewayInfo extends AbstractResource
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'fixed_ips' => new Alias('fixedIps', FixedIp::class, true)
+            'fixed_ips' => new Alias('fixedIps', FixedIp::class, true),
         ];
     }
 }

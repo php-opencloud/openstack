@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3;
 
@@ -6,7 +8,6 @@ use GuzzleHttp\ClientInterface;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Service\AbstractService;
-use OpenStack\Identity\v3\Models;
 
 /**
  * Represents the Keystone v3 service.
@@ -23,7 +24,7 @@ class Service extends AbstractService implements IdentityService
     /**
      * Authenticates credentials, giving back a token and a base URL for the service.
      *
-     * @param  array $options {@see \OpenStack\Identity\v3\Api::postTokens}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postTokens}
      *
      * @return array Returns a {@see Models\Token} as the first element, a string base URL as the second
      */
@@ -51,7 +52,7 @@ class Service extends AbstractService implements IdentityService
         }
 
         throw new \RuntimeException(sprintf(
-            "No service found with type [%s] name [%s] region [%s] interface [%s]",
+            'No service found with type [%s] name [%s] region [%s] interface [%s]',
             $type,
             $name,
             $region,
@@ -60,7 +61,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * Generates authentication token from cached token using `$token->export()`
+     * Generates authentication token from cached token using `$token->export()`.
      *
      * @param array $cachedToken {@see \OpenStack\Identity\v3\Models\Token::export}
      *
@@ -72,7 +73,7 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
-     * Generates a new authentication token
+     * Generates a new authentication token.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postTokens}
      *
@@ -107,6 +108,7 @@ class Service extends AbstractService implements IdentityService
     {
         try {
             $this->execute($this->api->headTokens(), ['tokenId' => $id]);
+
             return true;
         } catch (BadResponseError $e) {
             return false;
