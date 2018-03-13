@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
@@ -21,7 +23,7 @@ class AvailabilityZone extends OperatorResource implements Listable
     /** @var array */
     public $hosts;
 
-    protected $resourceKey = 'availabilityZoneInfo';
+    protected $resourceKey  = 'availabilityZoneInfo';
     protected $resourcesKey = 'availabilityZoneInfo';
 
     protected $aliases = [

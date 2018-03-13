@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1\Models;
 
@@ -45,13 +47,13 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
     protected $markerKey = 'name';
 
     protected $aliases = [
-        'bytes' => 'contentLength',
+        'bytes'        => 'contentLength',
         'content_type' => 'contentType',
-        'subdir' => 'name',
+        'subdir'       => 'name',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
@@ -79,11 +81,11 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
      */
     private function populateHeaders(ResponseInterface $response): self
     {
-        $this->hash = $response->getHeaderLine('ETag');
+        $this->hash          = $response->getHeaderLine('ETag');
         $this->contentLength = $response->getHeaderLine('Content-Length');
-        $this->lastModified = $response->getHeaderLine('Last-Modified');
-        $this->contentType = $response->getHeaderLine('Content-Type');
-        $this->metadata = $this->parseMetadata($response);
+        $this->lastModified  = $response->getHeaderLine('Last-Modified');
+        $this->contentType   = $response->getHeaderLine('Content-Type');
+        $this->metadata      = $this->parseMetadata($response);
 
         return $this;
     }
@@ -110,14 +112,14 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
             $data['containerName'] = $this->containerName;
         }
 
-        $response = $this->execute($this->api->putObject(), $data);
+        $response      = $this->execute($this->api->putObject(), $data);
         $storageObject = $this->populateFromResponse($response);
 
         // Repopulate data for this newly created object instance
         // due to the response from API does not contain object name and containerName
         $storageObject = $storageObject->populateFromArray([
             'name'          => $data['name'],
-            'containerName' => $data['containerName']
+            'containerName' => $data['containerName'],
         ]);
 
         return $storageObject;
@@ -142,7 +144,6 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
      *
      * @return StreamInterface
      */
-
     public function download(array $data = []): StreamInterface
     {
         $data += ['name' => $this->name, 'containerName' => $this->containerName];
@@ -182,7 +183,7 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
             'metadata'      => array_merge($metadata, $this->getMetadata()),
         ];
 
-        $response = $this->execute($this->api->postObject(), $options);
+        $response       = $this->execute($this->api->postObject(), $options);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -197,7 +198,7 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
             'metadata'       => $metadata,
         ];
 
-        $response = $this->execute($this->api->postObject(), $options);
+        $response       = $this->execute($this->api->postObject(), $options);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -207,6 +208,7 @@ class Object extends OperatorResource implements Creatable, Deletable, HasMetada
     public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->headObject());
+
         return $this->parseMetadata($response);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -32,22 +34,23 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
 
     protected $aliases = ['domain_id' => 'domainId'];
 
-    protected $resourceKey = 'group';
+    protected $resourceKey  = 'group';
     protected $resourcesKey = 'groups';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postGroups}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postGroups(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -56,7 +59,7 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -65,7 +68,7 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -80,6 +83,7 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     public function listUsers(array $options = []): \Generator
     {
         $options['id'] = $this->id;
+
         return $this->model(User::class)->enumerate($this->api->getGroupUsers(), $options);
     }
 
@@ -108,6 +112,7 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     {
         try {
             $this->execute($this->api->headGroupUser(), ['groupId' => $this->id] + $options);
+
             return true;
         } catch (BadResponseError $e) {
             return false;

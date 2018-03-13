@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -9,7 +11,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Api;
 
 /**
- * Represents a Neutron v2 Quota
+ * Represents a Neutron v2 Quota.
  *
  * @property Api $api
  */
@@ -66,7 +68,7 @@ class Quota extends OperatorResource implements Retrievable, Updateable, Deletab
     public $port;
 
     protected $resourcesKey = 'quotas';
-    protected $resourceKey = 'quota';
+    protected $resourceKey  = 'quota';
 
     protected $aliases = [
         'tenant_id'           => 'tenantId',
@@ -76,16 +78,16 @@ class Quota extends OperatorResource implements Retrievable, Updateable, Deletab
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getQuota(), ['tenantId' => (string)$this->tenantId]);
+        $response = $this->execute($this->api->getQuota(), ['tenantId' => (string) $this->tenantId]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -94,7 +96,7 @@ class Quota extends OperatorResource implements Retrievable, Updateable, Deletab
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

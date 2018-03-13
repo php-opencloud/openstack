@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -60,18 +62,18 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
         'host_routes'      => 'hostRoutes',
         'ip_version'       => 'ipVersion',
         'gateway_ip'       => 'gatewayIp',
-        'tenant_id'        => 'tenantId'
+        'tenant_id'        => 'tenantId',
     ];
 
-    protected $resourceKey = 'subnet';
+    protected $resourceKey  = 'subnet';
     protected $resourcesKey = 'subnets';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getSubnet(), ['id' => (string)$this->id]);
+        $response = $this->execute($this->api->getSubnet(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
@@ -85,22 +87,24 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
     public function bulkCreate(array $data): array
     {
         $response = $this->execute($this->api->postSubnets(), ['subnets' => $data]);
+
         return $this->extractMultipleInstances($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postSubnet}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postSubnet(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -109,7 +113,7 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -117,13 +121,13 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getAttrs(array $keys)
     {
         $output = parent::getAttrs($keys);
 
-        if ($this->gatewayIp === '') {
+        if ('' === $this->gatewayIp) {
             $output['gatewayIp'] = null;
         }
 

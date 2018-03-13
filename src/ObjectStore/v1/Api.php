@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1;
 
@@ -8,7 +10,7 @@ class Api extends AbstractApi
 {
     public function __construct()
     {
-        $this->params = new Params;
+        $this->params = new Params();
     }
 
     public function getAccount(): array

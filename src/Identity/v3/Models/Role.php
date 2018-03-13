@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -21,22 +23,23 @@ class Role extends OperatorResource implements Creatable, Listable, Deletable
     /** @var array */
     public $links;
 
-    protected $resourceKey = 'role';
+    protected $resourceKey  = 'role';
     protected $resourcesKey = 'roles';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postRoles}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postRoles(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

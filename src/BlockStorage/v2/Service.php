@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v2;
 
@@ -29,19 +31,20 @@ class Service extends AbstractService
     /**
      * Lists all available volumes.
      *
-     * @param bool  $detail      If set to TRUE, more information will be returned.
+     * @param bool  $detail      if set to TRUE, more information will be returned
      * @param array $userOptions {@see Api::getVolumes}
      *
      * @return \Generator
      */
     public function listVolumes(bool $detail = false, array $userOptions = []): \Generator
     {
-        $def = ($detail === true) ? $this->api->getVolumesDetail() : $this->api->getVolumes();
+        $def = (true === $detail) ? $this->api->getVolumesDetail() : $this->api->getVolumes();
+
         return $this->model(Volume::class)->enumerate($def, $userOptions);
     }
 
     /**
-     * @param string $volumeId The UUID of the volume being retrieved.
+     * @param string $volumeId the UUID of the volume being retrieved
      *
      * @return Volume
      */
@@ -49,6 +52,7 @@ class Service extends AbstractService
     {
         $volume = $this->model(Volume::class);
         $volume->populateFromArray(['id' => $volumeId]);
+
         return $volume;
     }
 
@@ -79,6 +83,7 @@ class Service extends AbstractService
     {
         $type = $this->model(VolumeType::class);
         $type->populateFromArray(['id' => $typeId]);
+
         return $type;
     }
 
@@ -97,7 +102,8 @@ class Service extends AbstractService
      */
     public function listSnapshots(bool $detail = false, array $userOptions = []): \Generator
     {
-        $def = ($detail === true) ? $this->api->getSnapshotsDetail() : $this->api->getSnapshots();
+        $def = (true === $detail) ? $this->api->getSnapshotsDetail() : $this->api->getSnapshots();
+
         return $this->model(Snapshot::class)->enumerate($def, $userOptions);
     }
 
@@ -110,11 +116,12 @@ class Service extends AbstractService
     {
         $snapshot = $this->model(Snapshot::class);
         $snapshot->populateFromArray(['id' => $snapshotId]);
+
         return $snapshot;
     }
 
     /**
-     * Shows A Quota for a tenant
+     * Shows A Quota for a tenant.
      *
      * @param string $tenantId
      *

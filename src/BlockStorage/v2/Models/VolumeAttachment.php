@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace OpenStack\BlockStorage\v2\Models;
 
 use OpenStack\Common\Resource\Listable;
@@ -21,6 +24,6 @@ class VolumeAttachment extends OperatorResource implements Listable
     /** @var string */
     public $volumeId;
 
-    protected $resourceKey = 'volumeAttachment';
+    protected $resourceKey  = 'volumeAttachment';
     protected $resourcesKey = 'volumeAttachments';
 }

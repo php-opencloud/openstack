@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Api;
 
 use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7\Uri;
 use function GuzzleHttp\uri_template;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
@@ -20,12 +21,12 @@ trait OperatorTrait
     protected $api;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __construct(ClientInterface $client, ApiInterface $api)
     {
         $this->client = $client;
-        $this->api = $api;
+        $this->api    = $api;
     }
 
     /**
@@ -34,6 +35,7 @@ trait OperatorTrait
      * removed to provide easier access to normal state, such as resource attributes.
      *
      * @codeCoverageIgnore
+     *
      * @return array
      */
     public function __debugInfo()
@@ -56,8 +58,8 @@ trait OperatorTrait
      * {@see Promise} object. In order for this to happen, the called methods need to be in the
      * following format: `createAsync`, where `create` is the sequential method being wrapped.
      *
-     * @param $methodName The name of the method being invoked.
-     * @param $args       The arguments to be passed to the sequential method.
+     * @param $methodName the name of the method being invoked
+     * @param $args       the arguments to be passed to the sequential method
      *
      * @throws \RuntimeException If method does not exist
      *
@@ -69,7 +71,7 @@ trait OperatorTrait
             return new \RuntimeException(sprintf('%s::%s is not defined', get_class($this), $name));
         };
 
-        if (substr($methodName, -5) === 'Async') {
+        if ('Async' === substr($methodName, -5)) {
             $realMethod = substr($methodName, 0, -5);
             if (!method_exists($this, $realMethod)) {
                 throw $e($realMethod);
@@ -102,21 +104,22 @@ trait OperatorTrait
      * @param bool      $async
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     protected function sendRequest(Operation $operation, array $userValues = [], bool $async = false)
     {
         $operation->validate($userValues);
 
-        $options = (new RequestSerializer)->serializeOptions($operation, $userValues);
-        $method = $async ? 'requestAsync' : 'request';
-        $uri = uri_template($operation->getPath(), $userValues);
+        $options = (new RequestSerializer())->serializeOptions($operation, $userValues);
+        $method  = $async ? 'requestAsync' : 'request';
+        $uri     = uri_template($operation->getPath(), $userValues);
 
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(array $definition, array $userValues = []): ResponseInterface
     {
@@ -124,7 +127,7 @@ trait OperatorTrait
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function executeAsync(array $definition, array $userValues = []): PromiseInterface
     {
@@ -132,7 +135,7 @@ trait OperatorTrait
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function model(string $class, $data = null): ResourceInterface
     {
@@ -147,6 +150,7 @@ trait OperatorTrait
         } elseif (is_array($data)) {
             $model->populateFromArray($data);
         }
+
         return $model;
     }
 }

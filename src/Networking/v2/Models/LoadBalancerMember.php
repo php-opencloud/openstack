@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -10,7 +12,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Api;
 
 /**
- * Represents a Neutron v2 LoadBalancer member
+ * Represents a Neutron v2 LoadBalancer member.
  *
  * @property Api $api
  */
@@ -32,12 +34,12 @@ class LoadBalancerMember extends OperatorResource implements Creatable, Retrieva
     public $address;
 
     /**
-     * @var integer
+     * @var int
      */
     public $protocolPort;
 
     /**
-     * @var integer
+     * @var int
      */
     public $weight;
 
@@ -52,7 +54,7 @@ class LoadBalancerMember extends OperatorResource implements Creatable, Retrieva
     public $poolId;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $adminStateUp;
 
@@ -67,7 +69,7 @@ class LoadBalancerMember extends OperatorResource implements Creatable, Retrieva
     public $provisioningStatus;
 
     protected $resourcesKey = 'members';
-    protected $resourceKey = 'member';
+    protected $resourceKey  = 'member';
 
     protected $aliases = [
         'tenant_id'           => 'tenantId',
@@ -76,42 +78,43 @@ class LoadBalancerMember extends OperatorResource implements Creatable, Retrieva
         'subnet_id'           => 'subnetId',
         'pool_id'             => 'poolId',
         'operating_status'    => 'operatingStatus',
-        'provisioning_status' => 'provisioningStatus'
+        'provisioning_status' => 'provisioningStatus',
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $userOptions = array_merge(['poolId' => $this->poolId], $userOptions);
-        $response = $this->execute($this->api->postLoadBalancerMember(), $userOptions);
+        $response    = $this->execute($this->api->postLoadBalancerMember(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getLoadBalancerMember(), ['poolId' => (string)$this->poolId, 'id' => (string)$this->id]);
+        $response = $this->execute($this->api->getLoadBalancerMember(), ['poolId' => (string) $this->poolId, 'id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
-        $response = $this->executeWithState($this->api->putLoadBalancerMember(), ['poolId' => (string)$this->poolId, 'id' => (string)$this->id]);
+        $response = $this->executeWithState($this->api->putLoadBalancerMember(), ['poolId' => (string) $this->poolId, 'id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
-        $this->executeWithState($this->api->deleteLoadBalancerMember(), ['poolId' => (string)$this->poolId, 'id' => (string)$this->id]);
+        $this->executeWithState($this->api->deleteLoadBalancerMember(), ['poolId' => (string) $this->poolId, 'id' => (string) $this->id]);
     }
 }

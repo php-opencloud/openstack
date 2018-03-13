@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -11,7 +13,7 @@ use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Api;
 
 /**
- * Represents a Neutron v2 LoadBalancer
+ * Represents a Neutron v2 LoadBalancer.
  *
  * @property Api $api
  */
@@ -28,7 +30,7 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     public $description;
 
     /**
-     * @var boolean
+     * @var bool
      */
     public $adminStateUp;
 
@@ -68,7 +70,7 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     public $provisioningStatus;
 
     protected $resourcesKey = 'loadbalancers';
-    protected $resourceKey = 'loadbalancer';
+    protected $resourceKey  = 'loadbalancer';
 
     protected $aliases = [
         'tenant_id'           => 'tenantId',
@@ -80,35 +82,36 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'listeners' => new Alias('listeners', LoadBalancerListener::class, true)
+            'listeners' => new Alias('listeners', LoadBalancerListener::class, true),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postLoadBalancer(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getLoadBalancer(), ['id' => (string)$this->id]);
+        $response = $this->execute($this->api->getLoadBalancer(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -117,7 +120,7 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -125,19 +128,21 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     }
 
     /**
-     * Add a listener to this load balancer
+     * Add a listener to this load balancer.
      *
      * @param array $userOptions
+     *
      * @return LoadBalancerListener
      */
     public function addListener(array $userOptions = []): LoadBalancerListener
     {
         $userOptions = array_merge(['loadbalancerId' => $this->id], $userOptions);
+
         return $this->model(LoadBalancerListener::class)->create($userOptions);
     }
 
     /**
-     * Get stats for this loadbalancer
+     * Get stats for this loadbalancer.
      *
      * @return LoadBalancerStat
      */
@@ -145,11 +150,12 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     {
         $model = $this->model(LoadBalancerStat::class, ['loadbalancerId' => $this->id]);
         $model->retrieve();
+
         return $model;
     }
 
     /**
-     * Get the status tree for this loadbalancer
+     * Get the status tree for this loadbalancer.
      *
      * @return LoadBalancerStatus
      */
@@ -157,6 +163,7 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     {
         $model = $this->model(LoadBalancerStatus::class, ['loadbalancerId' => $this->id]);
         $model->retrieve();
+
         return $model;
     }
 }

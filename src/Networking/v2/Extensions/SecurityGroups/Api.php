@@ -15,7 +15,7 @@ class Api extends AbstractApi
 
     /**
      * Returns information about GET security-groups/{security_group_id} HTTP
-     * operation
+     * operation.
      *
      * @return array
      */
@@ -23,13 +23,13 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-groups',
+            'path'   => $this->pathPrefix.'/security-groups',
             'params' => [],
         ];
     }
 
     /**
-     * Returns information about POST security-groups HTTP operation
+     * Returns information about POST security-groups HTTP operation.
      *
      * @return array
      */
@@ -37,7 +37,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/security-groups',
+            'path'    => $this->pathPrefix.'/security-groups',
             'jsonKey' => 'security_group',
             'params'  => [
                 'description' => $this->params->descriptionJson(),
@@ -47,7 +47,7 @@ class Api extends AbstractApi
     }
 
     /**
-     * Returns information about PUT security-groups HTTP operation
+     * Returns information about PUT security-groups HTTP operation.
      *
      * @return array
      */
@@ -55,7 +55,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/security-groups/{id}',
+            'path'    => $this->pathPrefix.'/security-groups/{id}',
             'jsonKey' => 'security_group',
             'params'  => [
                 'id'          => $this->params->idPath(),
@@ -67,7 +67,7 @@ class Api extends AbstractApi
 
     /**
      * Returns information about GET security-groups/{security_group_id} HTTP
-     * operation
+     * operation.
      *
      * @return array
      */
@@ -75,7 +75,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-groups/{id}',
+            'path'   => $this->pathPrefix.'/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -84,7 +84,7 @@ class Api extends AbstractApi
 
     /**
      * Returns information about DELETE security-groups/{security_group_id} HTTP
-     * operation
+     * operation.
      *
      * @return array
      */
@@ -92,7 +92,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/security-groups/{id}',
+            'path'   => $this->pathPrefix.'/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -100,7 +100,7 @@ class Api extends AbstractApi
     }
 
     /**
-     * Returns information about GET security-group-rules HTTP operation
+     * Returns information about GET security-group-rules HTTP operation.
      *
      * @return array
      */
@@ -108,13 +108,13 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-group-rules',
+            'path'   => $this->pathPrefix.'/security-group-rules',
             'params' => [],
         ];
     }
 
     /**
-     * Returns information about POST security-group-rules HTTP operation
+     * Returns information about POST security-group-rules HTTP operation.
      *
      * @return array
      */
@@ -122,7 +122,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/security-group-rules',
+            'path'    => $this->pathPrefix.'/security-group-rules',
             'jsonKey' => 'security_group_rule',
             'params'  => [
                 'direction'       => $this->params->directionJson(),
@@ -140,7 +140,7 @@ class Api extends AbstractApi
 
     /**
      * Returns information about DELETE
-     * security-group-rules/{rules-security-groups-id} HTTP operation
+     * security-group-rules/{rules-security-groups-id} HTTP operation.
      *
      * @return array
      */
@@ -148,7 +148,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
+            'path'   => $this->pathPrefix.'/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -157,7 +157,7 @@ class Api extends AbstractApi
 
     /**
      * Returns information about GET
-     * security-group-rules/{rules-security-groups-id} HTTP operation
+     * security-group-rules/{rules-security-groups-id} HTTP operation.
      *
      * @return array
      */
@@ -165,7 +165,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
+            'path'   => $this->pathPrefix.'/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
