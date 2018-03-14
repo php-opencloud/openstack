@@ -8,7 +8,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Prophecy\Argument;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     /** @var \Prophecy\Prophecy\ObjectProphecy */
     protected $client;

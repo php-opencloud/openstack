@@ -5,7 +5,7 @@ namespace OpenStack\Test\Common\Api;
 use OpenStack\Common\Api\Parameter;
 use OpenStack\Test\Fixtures\ComputeV2Api;
 
-class ParameterTest extends \PHPUnit_Framework_TestCase
+class ParameterTest extends \PHPUnit\Framework\TestCase
 {
     private $param;
     private $data;
