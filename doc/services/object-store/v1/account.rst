@@ -9,6 +9,21 @@ To work with an Object Store account, you must first retrieve an account object 
 .. sample:: object_store/v1/account/get.php
 .. refdoc:: OpenStack/ObjectStore/v1/Service.html#method_getAccount
 
+At this point, the object returned is *empty* because we did not execute a HTTP request to receive the state of the
+account from the API. This is in accordance with one of the SDK's general policies of not assuming too much at the
+expense of performance.
+
+To synchronize the local object's state with the remote API, you can run:
+
+.. code-block:: php
+
+    $account->retrieve();
+
+    printf("Account has %d objects and %d bytes in %d containers",
+        $account->objectCount, $account->bytesUsed, $account->containerCount);
+
+and all of the local properties will match those of the remote resource.
+
 Get account metadata
 --------------------
 
