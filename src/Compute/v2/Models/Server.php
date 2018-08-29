@@ -308,7 +308,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      */
     public function getConsoleOutput(int $length = -1): string
     {
-        $definition = $length == -1 ? $this->api->getAllConsoleOutput() : $this->api->getConsoleOutput();
+        $definition = -1 == $length ? $this->api->getAllConsoleOutput() : $this->api->getConsoleOutput();
 
         $response = $this->execute($definition, [
             'os-getConsoleOutput' => new \stdClass(),
@@ -322,8 +322,8 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /**
      * Gets a VNC console for a server.
      *
-     * @param string $type The type of VNC console: novnc|xvpvnc.
-     *                     Defaults to novnc.
+     * @param string $type the type of VNC console: novnc|xvpvnc.
+     *                     Defaults to novnc
      *
      * @return array
      */
