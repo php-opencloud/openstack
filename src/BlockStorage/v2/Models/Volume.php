@@ -62,6 +62,9 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     /** @var string */
     public $host;
 
+    /** @var string */
+    public $bootable;
+
     /** @var array */
     public $metadata = [];
 
@@ -155,5 +158,22 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         $json = Utils::jsonDecode($response);
 
         return isset($json['metadata']) ? $json['metadata'] : [];
+    }
+
+    public function setBootable(bool $bootable)
+    {
+        $bootable = boolval($bootable);
+        $this->execute($this->api->postVolumeBootable(), ['id' => $this->id, 'bootable' => $bootable]);
+    }
+
+    public function setImageMetadata(array $metadata)
+    {
+        $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+    }
+
+    public function resetStatus(array $options)
+    {
+        $options += ['id' => $this->id];
+        $this->execute($this->api->postResetStatus(), $options);
     }
 }

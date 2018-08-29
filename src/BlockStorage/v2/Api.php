@@ -29,6 +29,7 @@ class Api extends AbstractApi
                 'imageId'          => $this->params->imageRef(),
                 'volumeType'       => $this->params->volumeType(),
                 'metadata'         => $this->params->metadata(),
+                'projectId'        => $this->params->projectId(),
             ],
         ];
     }
@@ -191,21 +192,21 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'snapshots',
             'params' => [
-                'marker'  => $this->params->marker(),
-                'limit'   => $this->params->limit(),
-                'sortDir' => $this->params->sortDir(),
-                'sortKey' => $this->params->sortKey(),
+                'marker'     => $this->params->marker(),
+                'limit'      => $this->params->limit(),
+                'sortDir'    => $this->params->sortDir(),
+                'sortKey'    => $this->params->sortKey(),
+                'allTenants' => $this->params->allTenants(),
             ],
         ];
     }
 
     public function getSnapshotsDetail(): array
     {
-        return [
-            'method' => 'GET',
-            'path'   => 'snapshots/detail',
-            'params' => [],
-        ];
+        $api = $this->getSnapshots();
+        $api['path'] .= '/detail';
+
+        return $api;
     }
 
     public function getSnapshot(): array
@@ -301,6 +302,47 @@ class Api extends AbstractApi
                 'snapshotsIscsi'     => $this->params->quotaSetSnapshotsIscsi(),
                 'volumes'            => $this->params->quotaSetVolumes(),
                 'volumesIscsi'       => $this->params->quotaSetVolumesIscsi(),
+            ],
+        ];
+    }
+
+    public function postVolumeBootable(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-set_bootable',
+            'params'  => [
+                'id'       => $this->params->idPath(),
+                'bootable' => $this->params->bootable(),
+            ],
+        ];
+    }
+
+    public function postImageMetadata(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-set_image_metadata',
+            'params'  => [
+                'id'       => $this->params->idPath(),
+                'metadata' => $this->params->metadata(),
+            ],
+        ];
+    }
+
+    public function postResetStatus(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-reset_status',
+            'params'  => [
+                'id'              => $this->params->idPath(),
+                'status'          => $this->params->volumeStatus(),
+                'migrationStatus' => $this->params->volumeMigrationStatus(),
+                'attachStatus'    => $this->params->volumeAttachStatus(),
             ],
         ];
     }

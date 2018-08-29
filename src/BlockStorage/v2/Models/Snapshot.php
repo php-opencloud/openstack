@@ -47,12 +47,16 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
     /** @var int */
     public $size;
 
+    /** @var string */
+    public $projectId;
+
     protected $resourceKey  = 'snapshot';
     protected $resourcesKey = 'snapshots';
     protected $markerKey    = 'id';
 
     protected $aliases = [
-        'volume_id' => 'volumeId',
+        'volume_id'                                  => 'volumeId',
+        'os-extended-snapshot-attributes:project_id' => 'projectId',
     ];
 
     /**
