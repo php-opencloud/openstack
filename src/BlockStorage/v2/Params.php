@@ -106,6 +106,7 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'required'    => false,
             'description' => 'The volume migration status.',
+            'sentAs'      => 'migration_status',
         ];
     }
 
@@ -116,6 +117,7 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'required'    => false,
             'description' => 'The volume attach status.',
+            'sentAs'      => 'attach_status',
         ];
     }
 

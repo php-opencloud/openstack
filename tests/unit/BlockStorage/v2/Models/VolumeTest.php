@@ -88,4 +88,44 @@ class VolumeTest extends TestCase
 
         $this->volume->resetMetadata(['key1' => 'val1']);
     }
+
+    public function test_it_sets_volume_bootable()
+    {
+        $this->setupMock('POST', 'volumes/1/action', ['os-set_bootable' => ['bootable' => 'True']], [], new Response(200));
+
+        $this->volume->setBootable(true);
+    }
+
+    public function test_it_sets_image_meta_data()
+    {
+        $expectedJson = [
+            'os-set_image_metadata' => [
+                'metadata' => [
+                    'attr_foo' => 'foofoo',
+                    'attr_bar' => 'barbar',
+                ],
+            ],
+        ];
+
+        $this->setupMock('POST', 'volumes/1/action', $expectedJson, [], new Response(200));
+        $this->volume->setImageMetadata([
+            'attr_foo' => 'foofoo',
+            'attr_bar' => 'barbar',
+        ]);
+    }
+
+    public function test_it_resets_status()
+    {
+        $expectedJson = ['os-reset_status' => ['status' => 'available', 'attach_status' => 'detached', 'migration_status' => 'migrating']];
+
+        $this->setupMock('POST', 'volumes/1/action', $expectedJson, [], new Response(202));
+
+        $this->volume->resetStatus(
+            [
+                'status'          => 'available',
+                'attachStatus'    => 'detached',
+                'migrationStatus' => 'migrating',
+            ]
+        );
+    }
 }
