@@ -173,7 +173,24 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     }
 
     /**
-     * {@inheritdoc}
+     * Update object system metadata and custom metadata.
+     *
+     * @param array $options {@see \OpenStack\ObjectStore\v1\Api::postObject}
+     *
+     */
+    public function update(array $options)
+    {
+        $options += ['name' => $this->name, 'containerName' => $this->containerName];
+        $options['metadata'] = array_merge($options['metadata'] ?? [] , $this->getMetadata());
+
+        $response       = $this->execute($this->api->postObject(), $options);
+        $this->metadata = $this->parseMetadata($response);
+    }
+
+    /**
+     * Update object only custom metadata.
+     *
+     * @param array $metadata
      */
     public function mergeMetadata(array $metadata)
     {
