@@ -35,9 +35,10 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => $this->pathPrefix.'/networks',
             'params' => [
-                'name'     => $this->params->queryName(),
-                'tenantId' => $this->params->queryTenantId(),
-                'status'   => $this->params->queryStatus(),
+                'name'           => $this->params->queryName(),
+                'tenantId'       => $this->params->queryTenantId(),
+                'status'         => $this->params->queryStatus(),
+                'routerExternal' => $this->params->queryRouterExternal(),
             ],
         ];
     }
@@ -201,7 +202,7 @@ class Api extends AbstractApi
                 'displayName'    => $this->params->displayNameQuery(),
                 'adminState'     => $this->params->adminStateQuery(),
                 'networkId'      => $this->notRequired($this->params->networkId()),
-                'tenantId'       => $this->params->tenantId(),
+                'tenantId'       => $this->params->tenantIdQuery(),
                 'deviceOwner'    => $this->params->deviceOwnerQuery(),
                 'macAddress'     => $this->params->macAddrQuery(),
                 'portId'         => $this->params->portIdQuery(),
@@ -230,6 +231,7 @@ class Api extends AbstractApi
                 'allowedAddressPairs' => $this->params->allowedAddrPairs(),
                 'deviceOwner'         => $this->params->deviceOwner(),
                 'deviceId'            => $this->params->deviceId(),
+                'portSecurityEnabled' => $this->params->portSecurityEnabled(),
             ],
         ];
     }

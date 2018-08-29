@@ -61,6 +61,17 @@ class Params extends AbstractParams
         ];
     }
 
+    public function portSecurityEnabled(): array
+    {
+        return [
+            'type'        => self::BOOL_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'port_security_enabled',
+            'description' => 'The port security status. A valid value is enabled (true) or disabled (false). If port security is enabled for the port, security 
+                              group rules and anti-spoofing rules are applied to the traffic on the port. If disabled, no such rules are applied.',
+        ];
+    }
+
     public function networkId(): array
     {
         return [
@@ -96,6 +107,16 @@ class Params extends AbstractParams
         return [
             'type'        => self::STRING_TYPE,
             'sentAs'      => 'tenant_id',
+            'description' => 'The ID of the tenant who owns the network. Only administrative users can specify a tenant ID other than their own. You cannot change this value through authorization policies',
+        ];
+    }
+
+    public function projectId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => 'project_id',
+            'location'    => self::QUERY,
             'description' => 'The ID of the tenant who owns the network. Only administrative users can specify a tenant ID other than their own. You cannot change this value through authorization policies',
         ];
     }
@@ -337,6 +358,7 @@ class Params extends AbstractParams
         return [
             'type'     => self::ARRAY_TYPE,
             'location' => self::JSON,
+            'sentAs'   => 'security_groups',
             'items'    => [
                 'type'        => self::STRING_TYPE,
                 'description' => 'The UUID of the security group',
@@ -423,6 +445,15 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'sentAs'      => 'router:external',
             'description' => 'Indicates whether this network is externally accessible.',
+        ];
+    }
+
+    public function queryRouterExternal(): array
+    {
+        return [
+            'type'     => self::BOOL_TYPE,
+            'location' => self::QUERY,
+            'sentAs'   => 'router:external',
         ];
     }
 
