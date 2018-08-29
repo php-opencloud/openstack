@@ -22,11 +22,13 @@ class Service extends AbstractService
     }
 
     /**
+     * @param array $options
+     *
      * @return \Generator
      */
-    public function listSecurityGroups(): \Generator
+    public function listSecurityGroups(array $options = []): \Generator
     {
-        return $this->securityGroup()->enumerate($this->api->getSecurityGroups());
+        return $this->securityGroup()->enumerate($this->api->getSecurityGroups(), $options);
     }
 
     /**

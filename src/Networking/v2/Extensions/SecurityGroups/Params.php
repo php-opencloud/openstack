@@ -89,4 +89,13 @@ class Params extends \OpenStack\Networking\v2\Params
             'description' => 'The UUID of the tenant who owns the security group rule. Only administrative users can specify a tenant UUID other than their own.',
         ];
     }
+
+    public function filterName(): array
+    {
+        return [
+            'description' => sprintf('Filter the list result by the human-readable name of the resource'),
+            'type'        => self::STRING_TYPE,
+            'location'    => self::QUERY,
+        ];
+    }
 }
