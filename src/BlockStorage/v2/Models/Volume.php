@@ -165,9 +165,8 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
      *
      * @param bool $bootable
      */
-    public function setBootable(bool $bootable)
+    public function setBootable(bool $bootable = true)
     {
-        $bootable = boolval($bootable);
         $this->execute($this->api->postVolumeBootable(), ['id' => $this->id, 'bootable' => $bootable]);
     }
 
@@ -186,15 +185,15 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
      *
      * @param array $options
      *
-     * $options['status']             = (string)    The volume status.
-     * $options['migrationStatus']   = (string)    The volume migration status.
-     * $options['attachStatus']      = (string)    The volume attach status.      [OPTIONAL]
+     * $options['status']          = (string) The volume status.
+     * $options['migrationStatus'] = (string) The volume migration status.
+     * $options['attachStatus']    = (string) The volume attach status.    [OPTIONAL]
      *
      * @see https://developer.openstack.org/api-ref/block-storage/v2/index.html#volume-actions-volumes-action
      */
     public function resetStatus(array $options)
     {
-        $options += ['id' => $this->id];
+        $options = array_merge($options, ['id' => $this->id]);
         $this->execute($this->api->postResetStatus(), $options);
     }
 }

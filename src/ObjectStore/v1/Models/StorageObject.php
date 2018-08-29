@@ -35,10 +35,10 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     /** @var string */
     public $contentType;
 
-    /** @var \DateTimeImmutable */
+    /** @var string */
     public $contentLength;
 
-    /** @var string */
+    /** @var \DateTimeImmutable */
     public $lastModified;
 
     /** @var array */
