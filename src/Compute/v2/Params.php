@@ -475,6 +475,25 @@ EOL
         ];
     }
 
+    public function keypairUserId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => 'user_id',
+            'location'    => self::JSON,
+            'description' => 'This allows administrative users to upload keys for other users than themselves. Requires micro version 2.10.',
+        ];
+    }
+
+    public function keypairType(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'description' => 'The type of the keypair. Allowed values are ssh or x509. Require micro version 2.2.',
+        ];
+    }
+
     public function flavorRam(): array
     {
         return [
