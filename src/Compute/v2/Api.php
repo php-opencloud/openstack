@@ -667,6 +667,8 @@ class Api extends AbstractApi
             'params'  => [
                 'name'      => $this->isRequired($this->params->name('keypair')),
                 'publicKey' => $this->params->keypairPublicKey(),
+                'type'      => $this->params->keypairType(),
+                'userId'    => $this->params->keypairUserId(),
             ],
         ];
     }

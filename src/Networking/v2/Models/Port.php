@@ -36,7 +36,7 @@ class Port extends OperatorResource implements Creatable, Updateable, Deletable,
     /**
      * A set of zero or more allowed address pairs. An address pair consists of an IP address and MAC address.
      *
-     * @var []string
+     * @var array
      */
     public $allowedAddressPairs;
 
@@ -119,19 +119,22 @@ class Port extends OperatorResource implements Creatable, Updateable, Deletable,
     public $portSecurityEnabled;
 
     protected $aliases = [
-        'admin_state_up'  => 'adminStateUp',
-        'display_name'    => 'displayName',
-        'network_id'      => 'networkId',
-        'tenant_id'       => 'tenantId',
-        'device_owner'    => 'deviceOwner',
-        'mac_address'     => 'macAddress',
-        'port_id'         => 'portId',
-        'security_groups' => 'securityGroups',
-        'device_id'       => 'deviceId',
-        'fixed_ips'       => 'fixedIps',
+        'port_security_enabled' => 'portSecurityEnabled',
+        'admin_state_up'        => 'adminStateUp',
+        'display_name'          => 'displayName',
+        'network_id'            => 'networkId',
+        'tenant_id'             => 'tenantId',
+        'device_owner'          => 'deviceOwner',
+        'mac_address'           => 'macAddress',
+        'port_id'               => 'portId',
+        'security_groups'       => 'securityGroups',
+        'device_id'             => 'deviceId',
+        'fixed_ips'             => 'fixedIps',
+        'allowed_address_pairs' => 'allowedAddressPairs',
     ];
 
-    protected $resourceKey = 'port';
+    protected $resourceKey  = 'port';
+    protected $resourcesKey = 'ports';
 
     /**
      * {@inheritdoc}

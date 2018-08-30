@@ -80,6 +80,47 @@ class Params extends AbstractParams
         ];
     }
 
+    public function bootable(): array
+    {
+        return [
+            'type'        => self::BOOL_TYPE,
+            'location'    => self::JSON,
+            'description' => 'Enables or disables the bootable attribute. You can boot an instance from a bootable volume.',
+        ];
+    }
+
+    public function volumeStatus(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => true,
+            'description' => 'The volume status.',
+        ];
+    }
+
+    public function volumeMigrationStatus(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => false,
+            'description' => 'The volume migration status.',
+            'sentAs'      => 'migration_status',
+        ];
+    }
+
+    public function volumeAttachStatus(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => false,
+            'description' => 'The volume attach status.',
+            'sentAs'      => 'attach_status',
+        ];
+    }
+
     public function metadata(): array
     {
         return [
@@ -225,5 +266,15 @@ TYPEOTHER
     public function quotaSetVolumesIscsi(): array
     {
         return $this->quotaSetLimit('volumes_iscsi', 'The number of allowed volumes iscsi');
+    }
+
+    public function projectId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::URL,
+            'sentAs'      => 'project_id',
+            'description' => 'The UUID of the project in a multi-tenancy cloud.',
+        ];
     }
 }

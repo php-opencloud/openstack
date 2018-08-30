@@ -38,6 +38,9 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     public $userId;
 
     /** @var string */
+    public $type;
+
+    /** @var string */
     public $id;
 
     /** @var \DateTimeImmutable */
@@ -47,6 +50,7 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         'public_key'  => 'publicKey',
         'private_key' => 'privateKey',
         'user_id'     => 'userId',
+        'type'        => 'type',
     ];
 
     protected $resourceKey  = 'keypair';

@@ -24,7 +24,10 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => $this->pathPrefix.'/security-groups',
-            'params' => [],
+            'params' => [
+                'tenantId' => $this->params->queryTenantId(),
+                'name'     => $this->params->filterName(),
+            ],
         ];
     }
 
