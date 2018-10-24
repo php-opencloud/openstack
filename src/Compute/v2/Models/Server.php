@@ -600,10 +600,10 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /**
      * Detach a volume.
      *
-     * @param $attachmentId
+     * @param $volumeId
      */
-    public function detachVolume(string $attachmentId)
+    public function detachVolume(string $volumeId)
     {
-        $this->execute($this->api->deleteVolumeAttachments(), ['id' => $this->id, 'attachmentId' => $attachmentId]);
+        $this->execute($this->api->deleteVolumeAttachments(), ['id' => $this->id, 'volumeId' => $volumeId]);
     }
 }

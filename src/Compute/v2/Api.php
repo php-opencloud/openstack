@@ -751,10 +751,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => 'servers/{id}/os-volume_attachments/{attachmentId}',
+            'path'   => 'servers/{id}/os-volume_attachments/{volumeId}',
             'params' => [
                 'id'           => $this->params->urlId('server'),
-                'attachmentId' => $this->params->attachmentId(),
+                'volumeId'     => $this->params->volumeId(),
             ],
         ];
     }
