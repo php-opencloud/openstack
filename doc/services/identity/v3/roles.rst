@@ -18,3 +18,9 @@ List role assignments
 
 .. sample:: identity/v3/roles/list_assignments.php
 .. refdoc:: OpenStack/Identity/v3/Models/Project.html#method_listRoleAssignments
+
+Show role details
+---------------------
+
+.. sample:: identity/v3/roles/get_role.php
+.. refdoc:: OpenStack/Identity/v3/Models/Project.html#method_getRole

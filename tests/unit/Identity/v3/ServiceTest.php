@@ -565,6 +565,11 @@ class ServiceTest extends TestCase
         $this->listTest($this->createFn($this->service, 'listRoles', []), 'roles', 'Role');
     }
 
+    public function test_it_gets_role()
+    {
+        $this->getTest($this->createFn($this->service, 'getRole', 'id'), 'role');
+    }
+
     public function test_it_lists_role_assignments()
     {
         $fn = $this->createFn($this->service, 'listRoleAssignments', []);

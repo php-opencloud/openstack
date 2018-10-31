@@ -27,4 +27,11 @@ class RoleTest extends TestCase
 
         $this->role->delete();
     }
+
+    public function test_it_retrieves()
+    {
+        $this->setupMock('GET', 'roles/ROLE_ID', null, [], 'role');
+
+        $this->role->retrieve();
+    }
 }
