@@ -755,6 +755,15 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getRole(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'roles/{id}',
+            'params' => ['id' => $this->params->idUrl('role')],
+        ];
+    }
+
     public function deleteRole(): array
     {
         return [

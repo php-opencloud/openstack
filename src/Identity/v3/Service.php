@@ -424,6 +424,20 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
+     * Retrieves a role object and populates its unique identifier object. This operation will not perform a GET or
+     * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
+     *
+     * @param string $id The unique ID of the role
+     *
+     * @return Models\Role
+     */
+    public function getRole(string $id): Models\Role
+    {
+        return $this->model(Models\Role::class, ['id' => $id]);
+    }
+
+
+    /**
      * Returns a generator which will yield a collection of role assignment objects. The elements which generators
      * yield can be accessed using a foreach loop. Often the API will not return the full state of the resource in
      * collections; you will need to use retrieve() to pull in the full state of the remote resource from the API.

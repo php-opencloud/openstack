@@ -8,11 +8,12 @@ use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\Retrievable;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
  */
-class Role extends OperatorResource implements Creatable, Listable, Deletable
+class Role extends OperatorResource implements Creatable, Listable, Deletable, Retrievable
 {
     /** @var string */
     public $id;
@@ -44,5 +45,14 @@ class Role extends OperatorResource implements Creatable, Listable, Deletable
     public function delete()
     {
         $this->executeWithState($this->api->deleteRole());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function retrieve()
+    {
+        $response = $this->executeWithState($this->api->getRole());
+        $this->populateFromResponse($response);
     }
 }
