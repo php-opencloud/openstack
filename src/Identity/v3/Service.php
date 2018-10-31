@@ -436,7 +436,6 @@ class Service extends AbstractService implements IdentityService
         return $this->model(Models\Role::class, ['id' => $id]);
     }
 
-
     /**
      * Returns a generator which will yield a collection of role assignment objects. The elements which generators
      * yield can be accessed using a foreach loop. Often the API will not return the full state of the resource in
