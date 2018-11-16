@@ -50,11 +50,13 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'jsonKey' => 'network',
             'params'  => [
-                'name'             => $this->params->name('network'),
-                'shared'           => $this->params->shared(),
-                'adminStateUp'     => $this->params->adminStateUp(),
-                'routerAccessible' => $this->params->routerAccessibleJson(),
-                'tenantId'         => $this->params->tenantId(),
+                'name'                    => $this->params->name('network'),
+                'shared'                  => $this->params->shared(),
+                'adminStateUp'            => $this->params->adminStateUp(),
+                'routerAccessible'        => $this->params->routerAccessibleJson(),
+                'tenantId'                => $this->params->tenantId(),
+                'providerNetworkType'     => $this->params->providerNetworkType(),
+                'providerPhysicalNetwork' => $this->params->providerPhysicalNetwork(),
             ],
         ];
     }

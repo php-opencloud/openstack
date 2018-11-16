@@ -723,4 +723,24 @@ class Params extends AbstractParams
             'description' => 'The type of health monitor. Must be one of TCP, HTTP, HTTPS',
         ];
     }
+
+    public function providerNetworkType(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'provider:network_type',
+            'description' => 'The type of physical network that this network should be mapped to. For example, flat, vlan, vxlan, or gre. Valid values depend on a networking back-end.',
+        ];
+    }
+
+    public function providerPhysicalNetwork(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'provider:physical_network',
+            'description' => 'The physical network where this network should be implemented. The Networking API v2.0 does not provide a way to list available physical networks. For example, the Open vSwitch plug-in configuration file defines a symbolic name that maps to specific bridges on each compute host.',
+        ];
+    }
 }
