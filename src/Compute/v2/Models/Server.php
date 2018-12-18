@@ -218,6 +218,28 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     }
 
     /**
+     * Resumes server.
+     */
+    public function resume()
+    {
+        $this->execute($this->api->resumeServer(), [
+            'id'     => $this->id,
+            'resume' => null,
+        ]);
+    }
+
+    /**
+     * Suspends server.
+     */
+    public function suspend()
+    {
+        $this->execute($this->api->suspendServer(), [
+            'id'      => $this->id,
+            'suspend' => null,
+        ]);
+    }
+
+    /**
      * Rebuilds the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}
