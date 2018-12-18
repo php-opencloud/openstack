@@ -145,6 +145,8 @@ class CoreTest extends TestCase
             //$this->changeServerPassword();
             $this->stopServer();
             $this->startServer();
+            $this->suspendServer();
+            $this->resumeServer();
             $this->resizeServer();
             $this->confirmServerResize();
             $this->rebuildServer();
