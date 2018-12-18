@@ -423,6 +423,30 @@ class CoreTest extends TestCase
         $this->logStep('Started server {serverId}', $replacements);
     }
 
+    private function suspendServer()
+    {
+        $replacements = ['{serverId}' => $this->serverId];
+
+        /** @var $server \OpenStack\Compute\v2\Models\Server */
+        require_once $this->sampleFile($replacements, 'servers/suspend_server.php');
+
+        $server->waitUntil('SUSPENDED', false);
+
+        $this->logStep('Suspended server {serverId}', $replacements);
+    }
+
+    private function resumeServer()
+    {
+        $replacements = ['{serverId}' => $this->serverId];
+
+        /** @var $server \OpenStack\Compute\v2\Models\Server */
+        require_once $this->sampleFile($replacements, 'servers/resume_server.php');
+
+        $server->waitUntilActive(false);
+
+        $this->logStep('Resumed server {serverId}', $replacements);
+    }
+
     private function createFlavor()
     {
         $replacements = [
