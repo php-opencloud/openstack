@@ -19,10 +19,11 @@ class Api extends AbstractApi
             'method' => 'POST',
             'path'   => 'auth/tokens',
             'params' => [
-                'methods' => $this->params->methods(),
-                'user'    => $this->params->user(),
-                'tokenId' => $this->params->tokenBody(),
-                'scope'   => $this->params->scope(),
+                'methods'                => $this->params->methods(),
+                'user'                   => $this->params->user(),
+                'application_credential' => $this->params->applicationCredential(),
+                'tokenId'                => $this->params->tokenBody(),
+                'scope'                  => $this->params->scope(),
             ],
         ];
     }
