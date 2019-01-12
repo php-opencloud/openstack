@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace OpenStack\Common\Resource;
 
-use OpenStack\Common\Transport\Serializable;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
+use OpenStack\Common\Transport\Serializable;
 
 /**
  * Represents a top-level abstraction of a remote API resource. Usually a resource represents a discrete
@@ -75,10 +75,24 @@ abstract class AbstractResource implements ResourceInterface, Serializable
 
             if (property_exists($this, $key)) {
                 $this->{$key} = $val;
+            } else {
+                $this->{$this->camelCase($key)} = $val;
             }
         }
 
         return $this;
+    }
+    
+    /**
+     * Change key string to camelCase
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    protected function camelCase(string $key): string
+    {
+        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $key))));
     }
 
     /**
