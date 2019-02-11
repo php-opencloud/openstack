@@ -128,4 +128,13 @@ class VolumeTest extends TestCase
             ]
         );
     }
+
+    public function test_it_extends_size()
+    {
+        $expectedJson = ['os-extend' => ['new_size' => '5']];
+
+        $this->setupMock('POST', 'volumes/1/action', $expectedJson, [], new Response(202));
+
+        $this->volume->extend(5);
+    }
 }

@@ -196,4 +196,12 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         $options = array_merge($options, ['id' => $this->id]);
         $this->execute($this->api->postResetStatus(), $options);
     }
+
+    /**
+     * @param int $new_size
+     */
+    public function extend(int $new_size)
+    {
+        $this->execute($this->api->postVolumeExtend(), ['id' => $this->id, 'new_size' => $new_size]);
+    }
 }

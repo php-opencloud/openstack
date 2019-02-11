@@ -277,4 +277,14 @@ TYPEOTHER
             'description' => 'The UUID of the project in a multi-tenancy cloud.',
         ];
     }
+
+    public function newSize(): array
+    {
+        return [
+            'type'        => self::INT_TYPE,
+            'location'    => self::JSON,
+            'required'    => true,
+            'description' => 'The new size of the volume, in gibibytes (GiB).',
+        ];
+    }
 }

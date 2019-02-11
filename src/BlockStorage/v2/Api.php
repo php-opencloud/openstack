@@ -346,4 +346,17 @@ class Api extends AbstractApi
             ],
         ];
     }
+
+    public function postVolumeExtend(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-extend',
+            'params'  => [
+                'id'       => $this->params->idPath(),
+                'new_size' => $this->params->newSize(),
+            ],
+        ];
+    }
 }
