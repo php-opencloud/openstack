@@ -76,6 +76,7 @@ class Api extends AbstractApi
                             'name'         => $this->params->name('network'),
                             'shared'       => $this->params->shared(),
                             'adminStateUp' => $this->params->adminStateUp(),
+                            'portSecurityEnabled' => $this->params->portSecurityEnabled()
                         ],
                     ],
                 ],
