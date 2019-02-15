@@ -55,6 +55,7 @@ class Api extends AbstractApi
                 'adminStateUp'     => $this->params->adminStateUp(),
                 'routerAccessible' => $this->params->routerAccessibleJson(),
                 'tenantId'         => $this->params->tenantId(),
+                'portSecurityEnabled' => $this->params->portSecurityEnabled()
             ],
         ];
     }
