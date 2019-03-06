@@ -192,6 +192,8 @@ class Api extends AbstractApi
                 'contentEncoding'    => $this->params->contentEncoding(),
                 'metadata'           => $this->params->metadata('object'),
                 'freshMetadata'      => $this->params->freshMetadata(),
+                'deleteAt'           => $this->params->deleteAt(),
+                'deleteAfter'        => $this->params->deleteAfter(),
             ],
         ];
     }
