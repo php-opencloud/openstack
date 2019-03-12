@@ -32,23 +32,21 @@
             "OpenStack\\Integration\\": "tests/integration/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/php-opencloud/Sami"
-        }
-    ],
     "require": {
         "php": "~7.0",
-        "guzzlehttp/guzzle": "~6.1",
-        "justinrainbow/json-schema": "~5.2"
+        "guzzlehttp/guzzle": "^6.1",
+        "justinrainbow/json-schema": "^5.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
-        "sami/sami": "dev-master",
-        "psr/log": "~1.0",
-        "satooshi/php-coveralls": "~1.0",
-        "jakub-onderka/php-parallel-lint": "0.*",
-        "friendsofphp/php-cs-fixer": "^2.9"
+        "psr/log": "^1.0",
+        "php-coveralls/php-coveralls": "^2.0",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.13"
+    },
+    "extra": {
+        "branch-alias": {
+           "dev-master": "3.0-dev"
+        }
     }
 }

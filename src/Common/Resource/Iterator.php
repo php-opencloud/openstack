@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Resource;
 
@@ -46,7 +48,7 @@ class Iterator
 
         $json = Utils::flattenJson(Utils::jsonDecode($response), $this->resourcesKey);
 
-        if ($response->getStatusCode() === 204 || empty($json)) {
+        if (204 === $response->getStatusCode() || empty($json)) {
             return false;
         }
 
@@ -88,7 +90,7 @@ class Iterator
                     break;
                 }
 
-                $this->count++;
+                ++$this->count;
 
                 yield $this->assembleResource($resourceData);
             }

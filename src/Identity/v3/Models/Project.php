@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -41,11 +43,11 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
         'parent_id' => 'parentId',
     ];
 
-    protected $resourceKey = 'project';
+    protected $resourceKey  = 'project';
     protected $resourcesKey = 'projects';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postProjects}
      */
@@ -53,11 +55,12 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     {
         $response = $this->execute($this->api->postProjects(), $data);
         $this->populateFromResponse($response);
+
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -66,7 +69,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -75,7 +78,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -90,6 +93,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     public function listUserRoles(array $options = []): \Generator
     {
         $options['projectId'] = $this->id;
+
         return $this->model(Role::class)->enumerate($this->api->getProjectUserRoles(), $options);
     }
 
@@ -110,6 +114,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     {
         try {
             $this->execute($this->api->headProjectUserRole(), ['projectId' => $this->id] + $options);
+
             return true;
         } catch (BadResponseError $e) {
             return false;
@@ -132,6 +137,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     public function listGroupRoles(array $options = []): \Generator
     {
         $options['projectId'] = $this->id;
+
         return $this->model(Role::class)->enumerate($this->api->getProjectGroupRoles(), $options);
     }
 
@@ -152,6 +158,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     {
         try {
             $this->execute($this->api->headProjectGroupRole(), ['projectId' => $this->id] + $options);
+
             return true;
         } catch (BadResponseError $e) {
             return false;

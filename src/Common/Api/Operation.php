@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Api;
 
@@ -10,8 +12,6 @@ namespace OpenStack\Common\Api;
  * over HTTP. To do this, it uses a {@see ClientInterface} that allows a {@see GuzzleHttp\Message\Request}
  * to be created from the user values provided. Once this request is assembled, it is then sent to the
  * remote API and the response is returned to whoever first invoked the Operation class.
- *
- * @package OpenStack\Common\Api
  */
 class Operation
 {
@@ -35,7 +35,7 @@ class Operation
     public function __construct(array $definition)
     {
         $this->method = $definition['method'];
-        $this->path = $definition['path'];
+        $this->path   = $definition['path'];
 
         if (isset($definition['jsonKey'])) {
             $this->jsonKey = $definition['jsonKey'];
@@ -116,7 +116,8 @@ class Operation
      *
      * @param array $userValues The user-defined values
      *
-     * @return bool       TRUE if validation passes
+     * @return bool TRUE if validation passes
+     *
      * @throws \Exception If validate fails
      */
     public function validate(array $userValues): bool

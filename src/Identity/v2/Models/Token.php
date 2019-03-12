@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v2\Models;
 
@@ -6,12 +8,9 @@ use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\ValueResource;
 
 /**
  * Represents an Identity v2 Token.
- *
- * @package OpenStack\Identity\v2\Models
  */
 class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
 {
@@ -28,19 +27,19 @@ class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
     public $tenant;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
             'tenant'    => new Alias('tenant', Tenant::class),
             'expires'   => new Alias('expires', \DateTimeImmutable::class),
-            'issued_at' => new Alias('issuedAt', \DateTimeImmutable::class)
+            'issued_at' => new Alias('issuedAt', \DateTimeImmutable::class),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function populateFromResponse(ResponseInterface $response): self
     {

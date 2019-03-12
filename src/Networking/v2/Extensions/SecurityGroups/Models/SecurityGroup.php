@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups\Models;
 
@@ -11,7 +13,7 @@ use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
 /**
- * Represents a SecurityGroup resource in the Network v2 service
+ * Represents a SecurityGroup resource in the Network v2 service.
  *
  * @property \OpenStack\Networking\v2\Extensions\SecurityGroups\Api $api
  */
@@ -50,27 +52,28 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
     protected $resourcesKey = 'security_groups';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
             'security_group_rules' => new Alias('securityGroupRules', SecurityGroupRule::class, true),
-            'rules'                => new Alias('securityGroupRules', SecurityGroupRule::class, true)
+            'rules'                => new Alias('securityGroupRules', SecurityGroupRule::class, true),
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSecurityGroups(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {
@@ -78,7 +81,7 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {

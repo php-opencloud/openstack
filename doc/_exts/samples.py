@@ -32,7 +32,10 @@ class Sample(LiteralInclude):
 def visit_download_reference(self, node):
   self.context.append('<a href="javascript:void(0);" class="toggle btn">Show auth code</a>')
 
+def depart_download_reference(self, node):
+  self.body.append(self.context.pop())
+
 def setup(app):
-  app.add_node(download_reference, html=(visit_download_reference, HTMLTranslator.depart_download_reference))
+  app.add_node(download_reference, html=(visit_download_reference, depart_download_reference))
   app.add_directive('sample', Sample)
   return {'version': '0.1'}

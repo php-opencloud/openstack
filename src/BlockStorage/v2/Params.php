@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v2;
 
@@ -22,7 +24,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'source_volid',
-            'description' => 'To create a volume from an existing volume, specify the ID of the existing volume. The ' .
+            'description' => 'To create a volume from an existing volume, specify the ID of the existing volume. The '.
                 'volume is created with the same size as the source volume.',
         ];
     }
@@ -42,7 +44,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'snapshot_id',
-            'description' => 'To create a volume from an existing snapshot, specify the ID of the existing volume ' .
+            'description' => 'To create a volume from an existing snapshot, specify the ID of the existing volume '.
                 'snapshot. The volume is created in same availability zone and with same size as the snapshot.',
         ];
     }
@@ -63,7 +65,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'imageRef',
-            'description' => 'The ID of the image from which you want to create the volume. Required to create a ' .
+            'description' => 'The ID of the image from which you want to create the volume. Required to create a '.
                 'bootable volume.',
         ];
     }
@@ -78,6 +80,47 @@ class Params extends AbstractParams
         ];
     }
 
+    public function bootable(): array
+    {
+        return [
+            'type'        => self::BOOL_TYPE,
+            'location'    => self::JSON,
+            'description' => 'Enables or disables the bootable attribute. You can boot an instance from a bootable volume.',
+        ];
+    }
+
+    public function volumeStatus(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => true,
+            'description' => 'The volume status.',
+        ];
+    }
+
+    public function volumeMigrationStatus(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => false,
+            'description' => 'The volume migration status.',
+            'sentAs'      => 'migration_status',
+        ];
+    }
+
+    public function volumeAttachStatus(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'required'    => false,
+            'description' => 'The volume attach status.',
+            'sentAs'      => 'attach_status',
+        ];
+    }
+
     public function metadata(): array
     {
         return [
@@ -89,17 +132,17 @@ class Params extends AbstractParams
                 'description' => <<<TYPEOTHER
 The value being set for your key. Bear in mind that "key" is just an example, you can name it anything.
 TYPEOTHER
-            ]
+            ],
         ];
     }
 
     public function sort(): array
     {
         return [
-            'type'     => self::STRING_TYPE,
-            'location' => self::QUERY,
-            'description' => "Comma-separated list of sort keys and optional sort directions in the form of " .
-                "<key>[:<direction>]. A valid direction is asc (ascending) or desc (descending)."
+            'type'        => self::STRING_TYPE,
+            'location'    => self::QUERY,
+            'description' => 'Comma-separated list of sort keys and optional sort directions in the form of '.
+                '<key>[:<direction>]. A valid direction is asc (ascending) or desc (descending).',
         ];
     }
 
@@ -124,10 +167,10 @@ TYPEOTHER
     public function typeSpecs(): array
     {
         return [
-            'type' => self::OBJECT_TYPE,
-            'location' => self::JSON,
-            'description' => 'A key and value pair that contains additional specifications that are associated with ' .
-                'the volume type. Examples include capabilities, capacity, compression, and so on, depending on the ' .
+            'type'        => self::OBJECT_TYPE,
+            'location'    => self::JSON,
+            'description' => 'A key and value pair that contains additional specifications that are associated with '.
+                'the volume type. Examples include capabilities, capacity, compression, and so on, depending on the '.
                 'storage driver in use.',
         ];
     }
@@ -148,7 +191,7 @@ TYPEOTHER
         return [
             'type'        => self::BOOL_TYPE,
             'location'    => self::JSON,
-            'description' => 'Indicate whether to snapshot, even if the volume is attached. Default is false.'
+            'description' => 'Indicate whether to snapshot, even if the volume is attached. Default is false.',
         ];
     }
 
@@ -241,6 +284,16 @@ TYPEOTHER
             'location'    => self::JSON,
             'required'    => true,
             'description' => 'The new status of the volume',
+        ];
+    }
+
+    public function projectId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::URL,
+            'sentAs'      => 'project_id',
+            'description' => 'The UUID of the project in a multi-tenancy cloud.',
         ];
     }
 }

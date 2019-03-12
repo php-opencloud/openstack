@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1;
 
@@ -26,13 +28,14 @@ class Service extends AbstractService
      * Retrieves a collection of container resources in a generator format.
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getAccount}
-     * @param callable|null $mapFn   Allows a function to be mapped over each element in the collection.
+     * @param callable|null $mapFn   allows a function to be mapped over each element in the collection
      *
      * @return \Generator
      */
     public function listContainers(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['format' => 'json']);
+
         return $this->model(Container::class)->enumerate($this->api->getAccount(), $options, $mapFn);
     }
 
@@ -66,16 +69,18 @@ class Service extends AbstractService
      *
      * @param string $name The name of the container
      *
-     * @return bool             TRUE if exists, FALSE if it doesn't
+     * @return bool TRUE if exists, FALSE if it doesn't
+     *
      * @throws BadResponseError Thrown for any non 404 status error
      */
     public function containerExists(string $name): bool
     {
         try {
             $this->execute($this->api->headContainer(), ['name' => $name]);
+
             return true;
         } catch (BadResponseError $e) {
-            if ($e->getResponse()->getStatusCode() === 404) {
+            if (404 === $e->getResponse()->getStatusCode()) {
                 return false;
             }
             throw $e;

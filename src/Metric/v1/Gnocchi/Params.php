@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Metric\v1\Gnocchi;
 
@@ -66,18 +68,18 @@ class Params extends AbstractParams
     public function aggregation(): array
     {
         return [
-            'location'    => self::QUERY,
-            'type'        => self::STRING_TYPE
+            'location' => self::QUERY,
+            'type'     => self::STRING_TYPE,
         ];
     }
 
     private function measureTimestamp(string $sentAs): array
     {
         return [
-            'location'  => self::QUERY,
-            'type'      => self::STRING_TYPE,
-            'sentAs'    => $sentAs,
-            'description' => 'Measure start timestamp which can be either a floating number (UNIX epoch) or an ISO8601 formatted timestamp'
+            'location'    => self::QUERY,
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => $sentAs,
+            'description' => 'Measure start timestamp which can be either a floating number (UNIX epoch) or an ISO8601 formatted timestamp',
         ];
     }
 

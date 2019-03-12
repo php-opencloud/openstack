@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -39,20 +41,24 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
     /** @var string */
     public $tenantId;
 
+    /** @var bool */
+    public $routerExternal;
+
     protected $aliases = [
-        'admin_state_up' => 'adminStateUp',
-        'tenant_id'      => 'tenantId',
+        'admin_state_up'  => 'adminStateUp',
+        'tenant_id'       => 'tenantId',
+        'router:external' => 'routerExternal',
     ];
 
-    protected $resourceKey = 'network';
+    protected $resourceKey  = 'network';
     protected $resourcesKey = 'networks';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getNetwork(), ['id' => (string)$this->id]);
+        $response = $this->execute($this->api->getNetwork(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
@@ -66,22 +72,24 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
     public function bulkCreate(array $data): array
     {
         $response = $this->execute($this->api->postNetworks(), ['networks' => $data]);
+
         return $this->extractMultipleInstances($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postNetwork}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postNetwork(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -90,7 +98,7 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Resource;
 
@@ -10,8 +12,6 @@ use Psr\Http\Message\ResponseInterface;
  * Represents a top-level abstraction of a remote API resource. Usually a resource represents a discrete
  * entity such as a Server, Container, Load Balancer. Apart from a representation of state, a resource can
  * also execute RESTFul operations on itself (updating, deleting, listing) or on other models.
- *
- * @package OpenStack\Common\Resource
  */
 abstract class AbstractResource implements ResourceInterface, Serializable
 {
@@ -25,7 +25,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
     protected $resourceKey;
 
     /**
-     * An array of aliases that will be checked when the resource is being populated. For example,
+     * An array of aliases that will be checked when the resource is being populated. For example,.
      *
      * 'FOO_BAR' => 'fooBar'
      *
@@ -44,7 +44,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
      */
     public function populateFromResponse(ResponseInterface $response)
     {
-        if (strpos($response->getHeaderLine('Content-Type'), 'application/json') === 0) {
+        if (0 === strpos($response->getHeaderLine('Content-Type'), 'application/json')) {
             $json = Utils::jsonDecode($response);
             if (!empty($json)) {
                 $this->populateFromArray(Utils::flattenJson($json, $this->resourceKey));
@@ -82,7 +82,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
     }
 
     /**
-     * Constructs alias objects
+     * Constructs alias objects.
      *
      * @return Alias[]
      */
@@ -90,7 +90,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
     {
         $aliases = [];
 
-        foreach ((array)$this->aliases as $alias => $property) {
+        foreach ((array) $this->aliases as $alias => $property) {
             $aliases[$alias] = new Alias($property);
         }
 
@@ -142,10 +142,16 @@ abstract class AbstractResource implements ResourceInterface, Serializable
 
         foreach ((new \ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
             $name = $property->getName();
-            $val = $this->{$name};
+            $val  = $this->{$name};
 
             $fn = function ($val) {
-                return ($val instanceof Serializable) ? $val->serialize() : $val;
+                if ($val instanceof Serializable) {
+                    return $val->serialize();
+                } elseif ($val instanceof \DateTimeImmutable) {
+                    return $val->format('c');
+                } else {
+                    return $val;
+                }
             };
 
             if (is_array($val)) {
