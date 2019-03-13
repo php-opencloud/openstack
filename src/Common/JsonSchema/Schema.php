@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\JsonSchema;
 
@@ -14,7 +16,7 @@ class Schema
 
     public function __construct($body, Validator $validator = null)
     {
-        $this->body = (object) $body;
+        $this->body      = (object) $body;
         $this->validator = $validator ?: new Validator();
     }
 
@@ -23,7 +25,7 @@ class Schema
         $paths = [];
 
         foreach ($this->body->properties as $propertyName => $property) {
-            $paths[] = sprintf("/%s", $propertyName);
+            $paths[] = sprintf('/%s', $propertyName);
         }
 
         return $paths;
@@ -31,12 +33,12 @@ class Schema
 
     public function normalizeObject($subject, array $aliases): \stdClass
     {
-        $out = new \stdClass;
+        $out = new \stdClass();
 
         foreach ($this->body->properties as $propertyName => $property) {
             $name = $aliases[$propertyName] ?? $propertyName;
 
-            if (isset($property->readOnly) && $property->readOnly === true) {
+            if (isset($property->readOnly) && true === $property->readOnly) {
                 continue;
             } elseif (property_exists($subject, $name)) {
                 $out->$propertyName = $subject->$name;

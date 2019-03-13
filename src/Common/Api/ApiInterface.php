@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Api;
 
@@ -12,8 +14,6 @@ namespace OpenStack\Common\Api;
  * HTTP functionality. Too often it is mixed all across different layers, leading to duplication and
  * no separation of concerns. The choice was made for storage in PHP classes, rather than YAML or JSON
  * syntax, due to performance concerns.
- *
- * @package OpenStack\Common\Api
  */
 interface ApiInterface
 {

@@ -116,7 +116,8 @@ class ContainerTest extends TestCase
 
         $this->setupMock('PUT', self::NAME . '/' . $objectName, $content, $headers, 'Created');
 
-        $this->container->createObject([
+        /** @var StorageObject $storageObject */
+        $storageObject = $this->container->createObject([
             'name'               => $objectName,
             'content'            => $content,
             'contentType'        => $headers['Content-Type'],
@@ -125,6 +126,9 @@ class ContainerTest extends TestCase
             'deleteAfter'        => $headers['X-Delete-After'],
             'metadata'           => ['Author' => 'foo', 'genre' => 'bar'],
         ]);
+
+        $this->assertEquals('foo.txt', $storageObject->name);
+        $this->assertEquals(self::NAME, $storageObject->containerName);
     }
 
     public function test_it_lists_objects()
@@ -134,8 +138,37 @@ class ContainerTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->getFixture('GET_Container'));
 
-        foreach ($this->container->listObjects(['limit' => 2]) as $object) {
-            $this->assertInstanceOf(StorageObject::class, $object);
+        $objects = iterator_to_array($this->container->listObjects(['limit' => 2]));
+
+        $this->assertEquals(2, count($objects));
+
+        $expected = [
+            [
+                'name' => 'goodbye',
+                'contentLength' => '14',
+                'lastModified' => new \DateTimeImmutable('2014-01-15T16:41:49.390270'),
+                'contentType' => 'application/octet-stream',
+                'hash' => '451e372e48e0f6b1114fa0724aa79fa1'
+            ],
+            [
+                'name' => 'helloworld.json',
+                'contentLength' => '12',
+                'lastModified' => new \DateTimeImmutable('2014-01-15T16:37:43.427570'),
+                'contentType' => 'application/json',
+                'hash' => 'ed076287532e86365e841e92bfc50d8c'
+            ],
+        ];
+
+        for ($i = 0; $i < count($objects); $i++)
+        {
+            $exp = $expected[$i];
+            /** @var StorageObject $obj */
+            $obj = $objects[$i];
+
+            foreach ($exp as $attr => $attrVal)
+            {
+                $this->assertEquals($attrVal, $obj->{$attr});
+            }
         }
     }
 
@@ -180,7 +213,7 @@ class ContainerTest extends TestCase
     public function test_it_chunks_according_to_provided_segment_size()
     {
         /** @var \GuzzleHttp\Psr7\Stream $stream */
-        $stream = \GuzzleHttp\Psr7\stream_for(implode('', range('A', 'Z')));
+        $stream = \GuzzleHttp\Psr7\stream_for(implode('', range('A', 'X')));
 
         $data = [
             'name' => 'object',
@@ -202,6 +235,7 @@ class ContainerTest extends TestCase
 
         $this->setupMock('PUT', 'segments', null, [], new Response(201));
 
+        // The stream has size 24 so we expect three segments.
         $this->setupMock('PUT', 'segments/objectPrefix/1', $stream->read(10), [], new Response(201));
         $this->setupMock('PUT', 'segments/objectPrefix/2', $stream->read(10), [], new Response(201));
         $this->setupMock('PUT', 'segments/objectPrefix/3', $stream->read(10), [], new Response(201));

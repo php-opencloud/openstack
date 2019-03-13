@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2;
 
@@ -199,7 +201,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Lists default quotas for a project
+     * Lists default quotas for a project.
      *
      * @param string $tenantId
      *
@@ -214,7 +216,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Lists loadbalancers for projects
+     * Lists loadbalancers for projects.
      *
      * @return \Generator
      */
@@ -224,7 +226,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Retrieve an instance of a LoadBalancer object
+     * Retrieve an instance of a LoadBalancer object.
      *
      * @param string $id
      *
@@ -248,7 +250,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Lists loadbalancer listeners
+     * Lists loadbalancer listeners.
      *
      * @return \Generator
      */
@@ -258,7 +260,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Retrieve an instance of a loadbalancer listener object
+     * Retrieve an instance of a loadbalancer listener object.
      *
      * @param string $id
      *
@@ -282,7 +284,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Lists loadbalancer pools
+     * Lists loadbalancer pools.
      *
      * @return \Generator
      */
@@ -292,7 +294,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Retrieve an instance of a loadbalancer Pool object
+     * Retrieve an instance of a loadbalancer Pool object.
      *
      * @param string $id
      *
@@ -316,9 +318,10 @@ class Service extends AbstractService
     }
 
     /**
-     * Lists loadbalancer members
+     * Lists loadbalancer members.
      *
      * @param string $poolId
+     *
      * @return \Generator
      */
     public function listLoadBalancerMembers(string $poolId): \Generator
@@ -327,7 +330,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Retrieve an instance of a loadbalancer Member object
+     * Retrieve an instance of a loadbalancer Member object.
      *
      * @param string $poolId
      * @param string $memberId
@@ -352,7 +355,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Lists loadbalancer healthmonitors
+     * Lists loadbalancer healthmonitors.
      *
      * @return \Generator
      */
@@ -362,7 +365,7 @@ class Service extends AbstractService
     }
 
     /**
-     * Retrieve an instance of a loadbalancer healthmonitor object
+     * Retrieve an instance of a loadbalancer healthmonitor object.
      *
      * @param string $id
      *

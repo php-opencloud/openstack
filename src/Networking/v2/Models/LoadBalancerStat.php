@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
@@ -6,7 +8,7 @@ use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\OperatorResource;
 
 /**
- * Represents Neutron v2 LoadBalancer Stats
+ * Represents Neutron v2 LoadBalancer Stats.
  *
  * @property Api $api
  */
@@ -23,12 +25,12 @@ class LoadBalancerStat extends OperatorResource implements Retrievable
     public $bytesOut;
 
     /**
-     * @var integer
+     * @var int
      */
     public $totalConnections;
 
     /**
-     * @var integer
+     * @var int
      */
     public $activeConnections;
 
@@ -44,15 +46,15 @@ class LoadBalancerStat extends OperatorResource implements Retrievable
         'bytes_out'          => 'bytesOut',
         'total_connections'  => 'totalConnections',
         'active_connections' => 'activeConnections',
-        'loadbalancer_id'    => 'loadbalancerId'
+        'loadbalancer_id'    => 'loadbalancerId',
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
-        $response = $this->execute($this->api->getLoadBalancerStats(), ['loadbalancerId' => (string)$this->loadbalancerId]);
+        $response = $this->execute($this->api->getLoadBalancerStats(), ['loadbalancerId' => (string) $this->loadbalancerId]);
         $this->populateFromResponse($response);
     }
 }

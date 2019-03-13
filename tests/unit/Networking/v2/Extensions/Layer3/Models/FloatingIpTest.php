@@ -79,4 +79,11 @@ class FloatingIpTest extends TestCase
                             $this->floatingIp->id
         );
     }
+
+    public function test_it_associates_port()
+    {
+        $this->setupMock('PUT', 'v2.0/floatingips/id', ['floatingip' => ['port_id' => 'some-port-id']], [], 'FloatingIp');
+
+        $this->floatingIp->associatePort('some-port-id');
+    }
 }

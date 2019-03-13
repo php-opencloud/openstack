@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
@@ -32,27 +34,28 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     /** @var string */
     public $userId;
 
-    protected $resourceKey = 'policy';
+    protected $resourceKey  = 'policy';
     protected $resourcesKey = 'policies';
-    
+
     protected $aliases = [
         'project_id' => 'projectId',
-        'user_id'    => 'userId'
+        'user_id'    => 'userId',
     ];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postPolicies}
      */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postPolicies(), $data);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -61,7 +64,7 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update()
     {
@@ -70,7 +73,7 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete()
     {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1\Models;
 
@@ -39,10 +41,10 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
         parent::populateFromResponse($response);
 
         $this->containerCount = $response->getHeaderLine('X-Account-Container-Count');
-        $this->objectCount = $response->getHeaderLine('X-Account-Object-Count');
-        $this->bytesUsed = $response->getHeaderLine('X-Account-Bytes-Used');
-        $this->tempUrl = $response->getHeaderLine('X-Account-Meta-Temp-URL-Key');
-        $this->metadata = $this->parseMetadata($response);
+        $this->objectCount    = $response->getHeaderLine('X-Account-Object-Count');
+        $this->bytesUsed      = $response->getHeaderLine('X-Account-Bytes-Used');
+        $this->tempUrl        = $response->getHeaderLine('X-Account-Meta-Temp-URL-Key');
+        $this->metadata       = $this->parseMetadata($response);
 
         return $this;
     }
@@ -61,7 +63,7 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
      */
     public function mergeMetadata(array $metadata)
     {
-        $response = $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
+        $response       = $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -81,7 +83,7 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
             }
         }
 
-        $response = $this->execute($this->api->postAccount(), $options);
+        $response       = $this->execute($this->api->postAccount(), $options);
         $this->metadata = $this->parseMetadata($response);
     }
 
@@ -91,6 +93,7 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
     public function getMetadata(): array
     {
         $response = $this->execute($this->api->headAccount());
+
         return $this->parseMetadata($response);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Images\v2\Models;
 
@@ -37,24 +39,25 @@ class Member extends OperatorResource implements Creatable, Listable, Retrievabl
     public $status;
 
     protected $aliases = [
-        'member_id'  => 'id',
-        'image_id'   => 'imageId',
+        'member_id' => 'id',
+        'image_id'  => 'imageId',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
             'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
-            'updated_at' => new Alias('updatedAt', \DateTimeImmutable::class)
+            'updated_at' => new Alias('updatedAt', \DateTimeImmutable::class),
         ];
     }
 
     public function create(array $userOptions): Creatable
     {
         $response = $this->executeWithState($this->api->postImageMembers());
+
         return $this->populateFromResponse($response);
     }
 

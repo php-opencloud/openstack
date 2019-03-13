@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Images\v2;
 
@@ -10,7 +12,7 @@ class Api extends AbstractApi
 
     public function __construct()
     {
-        $this->params   = new Params;
+        $this->params   = new Params();
         $this->basePath = 'v2/';
     }
 
@@ -18,7 +20,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'POST',
-            'path'   => $this->basePath . 'images',
+            'path'   => $this->basePath.'images',
             'params' => [
                 'name'            => $this->params->imageName(),
                 'visibility'      => $this->params->visibility(),
@@ -36,7 +38,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->basePath . 'images',
+            'path'   => $this->basePath.'images',
             'params' => [
                 'limit'        => $this->params->limit(),
                 'marker'       => $this->params->marker(),
@@ -58,7 +60,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->basePath . 'images/{id}',
+            'path'   => $this->basePath.'images/{id}',
             'params' => ['id' => $this->params->idPath()],
         ];
     }
@@ -67,7 +69,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'PATCH',
-            'path'   => $this->basePath . 'images/{id}',
+            'path'   => $this->basePath.'images/{id}',
             'params' => [
                 'id'          => $this->params->idPath(),
                 'patchDoc'    => $this->params->patchDoc(),
@@ -80,7 +82,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->basePath . 'images/{id}',
+            'path'   => $this->basePath.'images/{id}',
             'params' => ['id' => $this->params->idPath()],
         ];
     }
@@ -89,7 +91,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'POST',
-            'path'   => $this->basePath . 'images/{id}/actions/reactivate',
+            'path'   => $this->basePath.'images/{id}/actions/reactivate',
             'params' => ['id' => $this->params->idPath()],
         ];
     }
@@ -98,7 +100,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'POST',
-            'path'   => $this->basePath . 'images/{id}/actions/deactivate',
+            'path'   => $this->basePath.'images/{id}/actions/deactivate',
             'params' => ['id' => $this->params->idPath()],
         ];
     }
@@ -107,12 +109,12 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'PUT',
-            'path'   => $this->basePath . 'images/{id}/file',
+            'path'   => $this->basePath.'images/{id}/file',
             'params' => [
                 'id'          => $this->params->idPath(),
                 'data'        => $this->params->data(),
                 'contentType' => $this->params->contentType(),
-            ]
+            ],
         ];
     }
 
@@ -120,8 +122,8 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->basePath . 'images/{id}/file',
-            'params' => ['id' => $this->params->idPath()]
+            'path'   => $this->basePath.'images/{id}/file',
+            'params' => ['id' => $this->params->idPath()],
         ];
     }
 
@@ -129,7 +131,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->basePath . 'schemas/image',
+            'path'   => $this->basePath.'schemas/image',
             'params' => [],
         ];
     }
@@ -138,7 +140,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'POST',
-            'path'   => $this->basePath . 'images/{imageId}/members',
+            'path'   => $this->basePath.'images/{imageId}/members',
             'params' => [
                 'imageId' => $this->params->idPath(),
                 'id'      => $this->params->memberId(),
@@ -150,7 +152,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->basePath . 'images/{imageId}/members',
+            'path'   => $this->basePath.'images/{imageId}/members',
             'params' => ['imageId' => $this->params->idPath()],
         ];
     }
@@ -159,7 +161,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->basePath . 'images/{imageId}/members/{id}',
+            'path'   => $this->basePath.'images/{imageId}/members/{id}',
             'params' => [
                 'imageId' => $this->params->idPath(),
                 'id'      => $this->params->idPath(),
@@ -171,7 +173,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->basePath . 'images/{imageId}/members/{id}',
+            'path'   => $this->basePath.'images/{imageId}/members/{id}',
             'params' => [
                 'imageId' => $this->params->idPath(),
                 'id'      => $this->params->idPath(),
@@ -183,7 +185,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'PUT',
-            'path'   => $this->basePath . 'images/{imageId}/members/{id}',
+            'path'   => $this->basePath.'images/{imageId}/members/{id}',
             'params' => [
                 'imageId' => $this->params->idPath(),
                 'id'      => $this->params->idPath(),

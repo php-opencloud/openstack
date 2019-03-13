@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Api;
 
@@ -7,7 +9,7 @@ use OpenStack\Common\HydratorStrategyTrait;
 /**
  * Represents an individual request parameter in a RESTful operation. A parameter can take on many forms:
  * in a URL path, in a URL query, in a JSON body, and in a HTTP header. It is worth documenting brifly each
- * variety of parameter:
+ * variety of parameter:.
  *
  * * Header parameters are those which populate a HTTP header in a request. Header parameters can have
  *   aliases; for example, a user-facing name of "Foo" can be sent over the wire as "X-Foo_Bar", as defined
@@ -28,8 +30,6 @@ use OpenStack\Common\HydratorStrategyTrait;
  *
  * * Path parameters are those which populate a URL path. They are serialized according to URL
  *   placeholders.
- *
- * @package OpenStack\Common\Api
  */
 class Parameter
 {
@@ -125,7 +125,7 @@ class Parameter
     {
         $this->hydrate($data);
 
-        $this->required = (bool)$this->required;
+        $this->required = (bool) $this->required;
 
         $this->stockLocation($data);
         $this->stockItemSchema($data);
@@ -137,7 +137,7 @@ class Parameter
         $this->location = isset($data['location']) ? $data['location'] : self::DEFAULT_LOCATION;
 
         if (!AbstractParams::isSupportedLocation($this->location)) {
-            throw new \RuntimeException(sprintf("%s is not a permitted location", $this->location));
+            throw new \RuntimeException(sprintf('%s is not a permitted location', $this->location));
         }
     }
 
@@ -151,7 +151,7 @@ class Parameter
     private function stockProperties(array $data)
     {
         if (isset($data['properties'])) {
-            if ($this->name && stripos($this->name, 'metadata') !== false) {
+            if ($this->name && false !== stripos($this->name, 'metadata')) {
                 $this->properties = new Parameter($data['properties']);
             } else {
                 foreach ($data['properties'] as $name => $property) {
@@ -178,7 +178,7 @@ class Parameter
      */
     public function isRequired(): bool
     {
-        return $this->required === true;
+        return true === $this->required;
     }
 
     /**
@@ -186,7 +186,8 @@ class Parameter
      *
      * @param $userValues The value provided by the user
      *
-     * @return bool       TRUE if the validation passes
+     * @return bool TRUE if the validation passes
+     *
      * @throws \Exception If validation fails
      */
     public function validate($userValues): bool
@@ -205,7 +206,7 @@ class Parameter
 
     private function validateEnums($userValues)
     {
-        if (!empty($this->enum) && $this->type == 'string' && !in_array($userValues, $this->enum)) {
+        if (!empty($this->enum) && 'string' == $this->type && !in_array($userValues, $this->enum)) {
             throw new \Exception(sprintf(
                 'The only permitted values are %s. You provided %s',
                 implode(', ', $this->enum),
@@ -248,11 +249,12 @@ class Parameter
      * @param string $key The name of the child parameter
      *
      * @returns Parameter
+     *
      * @throws \Exception
      */
     private function getNestedProperty($key): Parameter
     {
-        if ($this->name && stripos($this->name, 'metadata') !== false && $this->properties instanceof Parameter) {
+        if ($this->name && false !== stripos($this->name, 'metadata') && $this->properties instanceof Parameter) {
             return $this->properties;
         } elseif (isset($this->properties[$key])) {
             return $this->properties[$key];
@@ -278,7 +280,7 @@ class Parameter
 
         // For params defined as objects, we'll let the user get away with
         // passing in an associative array - since it's effectively a hash
-        if ($this->type == 'object' && $isAssociative($userValue)) {
+        if ('object' == $this->type && $isAssociative($userValue)) {
             return true;
         }
 
@@ -291,7 +293,7 @@ class Parameter
         }
 
         // allow string nulls
-        if ($this->type == 'string' && $userValue === null) {
+        if ('string' == $this->type && null === $userValue) {
             return true;
         }
 
@@ -299,23 +301,23 @@ class Parameter
     }
 
     /**
-     * Indicates whether this parameter represents an array type
+     * Indicates whether this parameter represents an array type.
      *
      * @return bool
      */
     public function isArray(): bool
     {
-        return $this->type == 'array' && $this->itemSchema instanceof Parameter;
+        return 'array' == $this->type && $this->itemSchema instanceof Parameter;
     }
 
     /**
-     * Indicates whether this parameter represents an object type
+     * Indicates whether this parameter represents an object type.
      *
      * @return bool
      */
     public function isObject(): bool
     {
-        return $this->type == 'object' && !empty($this->properties);
+        return 'object' == $this->type && !empty($this->properties);
     }
 
     public function getLocation(): string
@@ -356,7 +358,7 @@ class Parameter
     }
 
     /**
-     * Sets the name of the parameter to a new value
+     * Sets the name of the parameter to a new value.
      *
      * @param string $name
      */
@@ -376,6 +378,7 @@ class Parameter
     {
         if ($this->properties instanceof Parameter) {
             $this->properties->setName($name);
+
             return $this->properties;
         }
 
@@ -394,6 +397,6 @@ class Parameter
 
     public function getPrefixedName(): string
     {
-        return $this->prefix . $this->getName();
+        return $this->prefix.$this->getName();
     }
 }

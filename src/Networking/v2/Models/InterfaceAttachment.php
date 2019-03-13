@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Models;
 
 use OpenStack\Common\Resource\Listable;
@@ -33,7 +36,7 @@ class InterfaceAttachment extends OperatorResource implements Listable
     /** @var string */
     public $serverId;
 
-    protected $resourceKey = 'interfaceAttachment';
+    protected $resourceKey  = 'interfaceAttachment';
     protected $resourcesKey = 'interfaceAttachments';
 
     protected $aliases = [
@@ -44,6 +47,6 @@ class InterfaceAttachment extends OperatorResource implements Listable
       'ip_address' => 'ipAddress',
       'fixed_ips'  => 'fixedIps',
       'port_state' => 'portState',
-      'server_id'  => 'serverId'
+      'server_id'  => 'serverId',
     ];
 }

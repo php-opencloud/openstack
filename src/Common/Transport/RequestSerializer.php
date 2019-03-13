@@ -1,10 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Common\Transport;
 
-use function GuzzleHttp\uri_template;
-use function GuzzleHttp\Psr7\build_query;
-use function GuzzleHttp\Psr7\modify_request;
 use OpenStack\Common\Api\Operation;
 use OpenStack\Common\Api\Parameter;
 
@@ -33,8 +32,8 @@ class RequestSerializer
             if ($key = $operation->getJsonKey()) {
                 $options['json'] = [$key => $options['json']];
             }
-            if (strpos(json_encode($options['json']), '\/') !== false) {
-                $options['body'] = json_encode($options['json'], JSON_UNESCAPED_SLASHES);
+            if (false !== strpos(json_encode($options['json']), '\/')) {
+                $options['body']                    = json_encode($options['json'], JSON_UNESCAPED_SLASHES);
                 $options['headers']['Content-Type'] = 'application/json';
                 unset($options['json']);
             }
@@ -65,7 +64,7 @@ class RequestSerializer
     {
         $paramName = $schema->getName();
 
-        if (stripos($paramName, 'metadata') !== false) {
+        if (false !== stripos($paramName, 'metadata')) {
             return $this->stockMetadataHeader($schema, $paramValue, $options);
         }
 
@@ -82,7 +81,7 @@ class RequestSerializer
 
     private function stockJson(Parameter $schema, $paramValue, array &$options)
     {
-        $json = isset($options['json']) ? $options['json'] : [];
+        $json            = isset($options['json']) ? $options['json'] : [];
         $options['json'] = $this->jsonSerializer->stockJson($schema, $paramValue, $json);
     }
 

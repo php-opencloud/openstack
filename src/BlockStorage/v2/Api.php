@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v2;
 
@@ -8,7 +10,7 @@ class Api extends AbstractApi
 {
     public function __construct()
     {
-        $this->params = new Params;
+        $this->params = new Params();
     }
 
     public function postVolumes(): array
@@ -27,6 +29,7 @@ class Api extends AbstractApi
                 'imageId'          => $this->params->imageRef(),
                 'volumeType'       => $this->params->volumeType(),
                 'metadata'         => $this->params->metadata(),
+                'projectId'        => $this->params->projectId(),
             ],
         ];
     }
@@ -37,9 +40,9 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'volumes',
             'params' => [
-                'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker(),
-                'sort'   => $this->params->sort(),
+                'limit'      => $this->params->limit(),
+                'marker'     => $this->params->marker(),
+                'sort'       => $this->params->sort(),
                 'allTenants' => $this->params->allTenants(),
             ],
         ];
@@ -62,11 +65,11 @@ class Api extends AbstractApi
     public function getVolume(): array
     {
         return [
-            'method'     => 'GET',
-            'path'       => 'volumes/{id}',
-            'params'     => [
-                'id' => $this->params->idPath()
-            ]
+            'method' => 'GET',
+            'path'   => 'volumes/{id}',
+            'params' => [
+                'id' => $this->params->idPath(),
+            ],
         ];
     }
 
@@ -139,10 +142,10 @@ class Api extends AbstractApi
     public function putType(): array
     {
         return [
-            'method' => 'PUT',
-            'path'   => 'types/{id}',
+            'method'  => 'PUT',
+            'path'    => 'types/{id}',
             'jsonKey' => 'volume_type',
-            'params' => [
+            'params'  => [
                 'id'    => $this->params->idPath(),
                 'name'  => $this->params->name('volume type'),
                 'specs' => $this->params->typeSpecs(),
@@ -171,10 +174,10 @@ class Api extends AbstractApi
     public function postSnapshots(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'snapshots',
+            'method'  => 'POST',
+            'path'    => 'snapshots',
             'jsonKey' => 'snapshot',
-            'params' => [
+            'params'  => [
                 'volumeId'    => $this->params->volId(),
                 'force'       => $this->params->force(),
                 'name'        => $this->params->snapshotName(),
@@ -189,21 +192,21 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'snapshots',
             'params' => [
-                'marker'  => $this->params->marker(),
-                'limit'   => $this->params->limit(),
-                'sortDir' => $this->params->sortDir(),
-                'sortKey' => $this->params->sortKey(),
+                'marker'     => $this->params->marker(),
+                'limit'      => $this->params->limit(),
+                'sortDir'    => $this->params->sortDir(),
+                'sortKey'    => $this->params->sortKey(),
+                'allTenants' => $this->params->allTenants(),
             ],
         ];
     }
 
     public function getSnapshotsDetail(): array
     {
-        return [
-            'method' => 'GET',
-            'path'   => 'snapshots/detail',
-            'params' => [],
-        ];
+        $api = $this->getSnapshots();
+        $api['path'] .= '/detail';
+
+        return $api;
     }
 
     public function getSnapshot(): array
@@ -218,10 +221,10 @@ class Api extends AbstractApi
     public function putSnapshot(): array
     {
         return [
-            'method' => 'PUT',
-            'path'   => 'snapshots/{id}',
+            'method'  => 'PUT',
+            'path'    => 'snapshots/{id}',
             'jsonKey' => 'snapshot',
-            'params' => [
+            'params'  => [
                 'id'          => $this->params->idPath(),
                 'name'        => $this->params->snapshotName(),
                 'description' => $this->params->desc(),
@@ -265,8 +268,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'os-quota-sets/{tenantId}',
             'params' => [
-                'tenantId' => $this->params->idPath('quota-sets')
-            ]
+                'tenantId' => $this->params->idPath('quota-sets'),
+            ],
         ];
     }
 
@@ -277,8 +280,8 @@ class Api extends AbstractApi
             'path'    => 'os-quota-sets/{tenantId}',
             'jsonKey' => 'quota_set',
             'params'  => [
-                'tenantId' => $this->params->idPath('quota-sets')
-            ]
+                'tenantId' => $this->params->idPath('quota-sets'),
+            ],
         ];
     }
 
@@ -299,7 +302,48 @@ class Api extends AbstractApi
                 'snapshotsIscsi'     => $this->params->quotaSetSnapshotsIscsi(),
                 'volumes'            => $this->params->quotaSetVolumes(),
                 'volumesIscsi'       => $this->params->quotaSetVolumesIscsi(),
-            ]
+            ],
+        ];
+    }
+
+    public function postVolumeBootable(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-set_bootable',
+            'params'  => [
+                'id'       => $this->params->idPath(),
+                'bootable' => $this->params->bootable(),
+            ],
+        ];
+    }
+
+    public function postImageMetadata(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-set_image_metadata',
+            'params'  => [
+                'id'       => $this->params->idPath(),
+                'metadata' => $this->params->metadata(),
+            ],
+        ];
+    }
+
+    public function postResetStatus(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-reset_status',
+            'params'  => [
+                'id'              => $this->params->idPath(),
+                'status'          => $this->params->volumeStatus(),
+                'migrationStatus' => $this->params->volumeMigrationStatus(),
+                'attachStatus'    => $this->params->volumeAttachStatus(),
+            ],
         ];
     }
 

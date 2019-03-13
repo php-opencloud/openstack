@@ -17,7 +17,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/floatingips',
+            'path'    => $this->pathPrefix.'/floatingips',
             'jsonKey' => 'floatingip',
             'params'  => [
                 'tenantId'          => $this->params->tenantIdJson(),
@@ -33,7 +33,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/floatingips',
+            'path'   => $this->pathPrefix.'/floatingips',
             'params' => [
                 'tenantId' => $this->params->queryTenantId(),
             ],
@@ -44,7 +44,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/floatingips/{id}',
+            'path'    => $this->pathPrefix.'/floatingips/{id}',
             'jsonKey' => 'floatingip',
             'params'  => [
                 'id'                => $this->params->idPath(),
@@ -60,7 +60,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/floatingips/{id}',
+            'path'   => $this->pathPrefix.'/floatingips/{id}',
             'params' => [
                 'id'     => $this->params->idPath(),
                 'portId' => $this->params->portIdJson(),
@@ -72,7 +72,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/floatingips/{id}',
+            'path'   => $this->pathPrefix.'/floatingips/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -83,7 +83,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/routers',
+            'path'    => $this->pathPrefix.'/routers',
             'jsonKey' => 'router',
             'params'  => [
                 'name'                => $this->params->nameJson(),
@@ -100,10 +100,10 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/routers',
+            'path'   => $this->pathPrefix.'/routers',
             'params' => [
-                'name' => $this->params->queryName(),
-                'tenantId' => $this->params->queryTenantId()
+                'name'     => $this->params->queryName(),
+                'tenantId' => $this->params->queryTenantId(),
             ],
         ];
     }
@@ -112,7 +112,7 @@ class Api extends AbstractApi
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/routers/{id}',
+            'path'    => $this->pathPrefix.'/routers/{id}',
             'jsonKey' => 'router',
             'params'  => [
                 'id'                  => $this->params->idPath(),
@@ -127,7 +127,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/routers/{id}',
+            'path'   => $this->pathPrefix.'/routers/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -138,7 +138,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/routers/{id}',
+            'path'   => $this->pathPrefix.'/routers/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -149,7 +149,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'PUT',
-            'path'   => $this->pathPrefix . '/routers/{id}/add_router_interface',
+            'path'   => $this->pathPrefix.'/routers/{id}/add_router_interface',
             'params' => [
                 'id'       => $this->params->idPath(),
                 'subnetId' => $this->params->subnetId(),
@@ -162,7 +162,7 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'PUT',
-            'path'   => $this->pathPrefix . '/routers/{id}/remove_router_interface',
+            'path'   => $this->pathPrefix.'/routers/{id}/remove_router_interface',
             'params' => [
                 'id'       => $this->params->idPath(),
                 'subnetId' => $this->params->subnetId(),

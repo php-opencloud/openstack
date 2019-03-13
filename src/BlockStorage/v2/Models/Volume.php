@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace OpenStack\BlockStorage\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
@@ -59,15 +62,18 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     /** @var string */
     public $host;
 
+    /** @var string */
+    public $bootable;
+
     /** @var array */
     public $metadata = [];
 
     /** @var array */
     public $volumeImageMetadata = [];
 
-    protected $resourceKey = 'volume';
+    protected $resourceKey  = 'volume';
     protected $resourcesKey = 'volumes';
-    protected $markerKey = 'id';
+    protected $markerKey    = 'id';
 
     protected $aliases = [
         'availability_zone'            => 'availabilityZone',
@@ -80,12 +86,12 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'created_at' => new Alias('createdAt', \DateTimeImmutable::class)
+            'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
         ];
     }
 
@@ -93,6 +99,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     {
         parent::populateFromResponse($response);
         $this->metadata = $this->parseMetadata($response);
+
         return $this;
     }
 
@@ -110,6 +117,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postVolumes(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
@@ -124,19 +132,11 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         $this->executeWithState($this->api->deleteVolume());
     }
 
-    public function resetStatus(string $status)
-    {
-        $response = $this->execute($this->api->resetVolumeStatus(), [
-            'id' => $this->id,
-            'status' => $status
-        ]);
-        $this->populateFromResponse($response);
-    }
-
     public function getMetadata(): array
     {
-        $response = $this->executeWithState($this->api->getVolumeMetadata());
+        $response       = $this->executeWithState($this->api->getVolumeMetadata());
         $this->metadata = $this->parseMetadata($response);
+
         return $this->metadata;
     }
 
@@ -156,6 +156,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     public function parseMetadata(ResponseInterface $response): array
     {
         $json = Utils::jsonDecode($response);
+
         return isset($json['metadata']) ? $json['metadata'] : [];
     }
 
@@ -166,5 +167,42 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
             'new_size' => $size_in_gb
         ]);
         $this->populateFromResponse($response);
+    }
+
+    /**
+     * Update the bootable status for a volume, mark it as a bootable volume.
+     *
+     * @param bool $bootable
+     */
+    public function setBootable(bool $bootable = true)
+    {
+        $this->execute($this->api->postVolumeBootable(), ['id' => $this->id, 'bootable' => $bootable]);
+    }
+
+    /**
+     * Sets the image metadata for a volume.
+     *
+     * @param array $metadata
+     */
+    public function setImageMetadata(array $metadata)
+    {
+        $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+    }
+
+    /**
+     * Administrator only. Resets the status, attach status, and migration status for a volume. Specify the os-reset_status action in the request body.
+     *
+     * @param array $options
+     *
+     * $options['status']          = (string) The volume status.
+     * $options['migrationStatus'] = (string) The volume migration status.
+     * $options['attachStatus']    = (string) The volume attach status.    [OPTIONAL]
+     *
+     * @see https://developer.openstack.org/api-ref/block-storage/v2/index.html#volume-actions-volumes-action
+     */
+    public function resetStatus(array $options)
+    {
+        $options = array_merge($options, ['id' => $this->id]);
+        $this->execute($this->api->postResetStatus(), $options);
     }
 }

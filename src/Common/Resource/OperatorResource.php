@@ -64,15 +64,15 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
         $resourcesKey = $this->resourcesKey;
 
         if (!$resourcesKey) {
-            $class = substr(static::class, strrpos(static::class, '\\') + 1);
-            $resourcesKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $class)) . 's';
+            $class        = substr(static::class, strrpos(static::class, '\\') + 1);
+            $resourcesKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $class)).'s';
         }
 
         return $resourcesKey;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function enumerate(array $def, array $userVals = [], callable $mapFn = null): \Generator
     {
@@ -82,12 +82,14 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
             if ($marker) {
                 $userVals['marker'] = $marker;
             }
+
             return $this->sendRequest($operation, $userVals);
         };
 
         $resourceFn = function (array $data) {
             $resource = $this->newInstance();
             $resource->populateFromArray($data);
+
             return $resource;
         };
 
@@ -99,12 +101,13 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
         ];
 
         $iterator = new Iterator($opts, $requestFn, $resourceFn);
+
         return $iterator();
     }
 
     public function extractMultipleInstances(ResponseInterface $response, string $key = null): array
     {
-        $key = $key ?: $this->getResourcesKey();
+        $key           = $key ?: $this->getResourcesKey();
         $resourcesData = Utils::jsonDecode($response)[$key];
 
         $resources = [];
@@ -118,14 +121,14 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
 
     protected function getService()
     {
-        $class = static::class;
-        $service = substr($class, 0, strpos($class, 'Models') - 1) . '\\Service';
+        $class   = static::class;
+        $service = substr($class, 0, strpos($class, 'Models') - 1).'\\Service';
 
         return new $service($this->client, $this->api);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function model(string $class, $data = null): ResourceInterface
     {

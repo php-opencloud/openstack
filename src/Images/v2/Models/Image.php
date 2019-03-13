@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace OpenStack\Images\v2\Models;
 
-use function GuzzleHttp\Psr7\uri_for;
 use OpenStack\Common\JsonSchema\Schema;
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\OperatorResource;
@@ -85,7 +86,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getAliases(): array
     {
@@ -93,7 +94,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
             'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
             'updated_at' => new Alias('updatedAt', \DateTimeImmutable::class),
             'fileUri'    => new Alias('fileUri', \GuzzleHttp\Psr7\Uri::class),
-            'schemaUri'  => new Alias('schemaUri', \GuzzleHttp\Psr7\Uri::class)
+            'schemaUri'  => new Alias('schemaUri', \GuzzleHttp\Psr7\Uri::class),
         ];
     }
 
@@ -117,6 +118,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postImages(), $data);
+
         return $this->populateFromResponse($response);
     }
 
@@ -129,7 +131,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
     private function getSchema(): Schema
     {
         if (null === $this->jsonSchema) {
-            $response = $this->execute($this->api->getImageSchema());
+            $response         = $this->execute($this->api->getImageSchema());
             $this->jsonSchema = new Schema(Utils::jsonDecode($response, false));
         }
 
@@ -162,14 +164,14 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
 
         // formulate diff
         $patch = new JsonPatch();
-        $diff = $patch->disableRestrictedPropRemovals($patch->diff($src, $des), $schema->getPropertyPaths());
-        $json = json_encode($diff, JSON_UNESCAPED_SLASHES);
+        $diff  = $patch->disableRestrictedPropRemovals($patch->diff($src, $des), $schema->getPropertyPaths());
+        $json  = json_encode($diff, JSON_UNESCAPED_SLASHES);
 
         // execute patch operation
         $response = $this->execute($this->api->patchImage(), [
             'id'          => $this->id,
             'patchDoc'    => $json,
-            'contentType' => 'application/openstack-images-v2.1-json-patch'
+            'contentType' => 'application/openstack-images-v2.1-json-patch',
         ]);
 
         $this->populateFromResponse($response);
@@ -202,6 +204,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
     public function downloadData(): StreamInterface
     {
         $response = $this->executeWithState($this->api->getImageData());
+
         return $response->getBody();
     }
 
