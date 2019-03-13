@@ -223,6 +223,7 @@ class Api extends AbstractApi
                 'status'       => $this->params->filterStatus('server'),
                 'host'         => $this->params->filterHost(),
                 'allTenants'   => $this->params->allTenants(),
+                'projectId'     => $this->params->projectId(),
             ],
         ];
     }

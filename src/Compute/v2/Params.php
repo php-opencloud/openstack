@@ -16,6 +16,16 @@ class Params extends AbstractParams
             'documented' => false,
         ]);
     }
+    
+    public function projectId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => 'project_id',
+            'location'    => self::QUERY,
+            'description' => 'The ID of the tenant who owns the network. Only administrative users can specify a tenant ID other than their own. You cannot change this value through authorization policies',
+        ];
+    }
 
     public function resetState(): array
     {
