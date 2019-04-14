@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Compute\v2\Enum;
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\HasWaiterTrait;
+use OpenStack\Common\Transport\Utils;
+use OpenStack\Common\Resource\Listable;
+use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
-use OpenStack\Common\Resource\Listable;
-use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
+use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Transport\Utils;
 use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
 use OpenStack\Networking\v2\Models\InterfaceAttachment;
-use OpenStack\Compute\v2\Enum;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \OpenStack\Compute\v2\Api $api
@@ -229,6 +229,17 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
             'id'      => $this->id,
             'os-stop' => null,
         ]);
+    }
+
+    /**
+     * Get instance action.
+     */
+    public function getOSInstanceActions()
+    {
+        $response = $this->execute($this->api->getOSInstanceActions(), [
+            'id'      => $this->id
+        ]);
+        return Utils::jsonDecode($response)['instanceActions'];
     }
 
     /**

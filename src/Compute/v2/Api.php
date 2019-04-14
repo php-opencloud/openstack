@@ -236,6 +236,15 @@ class Api extends AbstractApi
         return $definition;
     }
 
+    public function getOSInstanceActions(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-instance-actions',
+            'params' => ['id' => $this->params->urlId('server')]
+        ];
+    }
+
     public function getServer(): array
     {
         return [
