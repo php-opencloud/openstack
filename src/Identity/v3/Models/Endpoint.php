@@ -80,7 +80,7 @@ class Endpoint extends OperatorResource implements Creatable, Updateable, Deleta
 
     public function regionMatches(string $value): bool
     {
-        return $this->region && $this->region == $value;
+        return in_array($this->region, ['*', $value]);
     }
 
     public function interfaceMatches(string $value): bool
