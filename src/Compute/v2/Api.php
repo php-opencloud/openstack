@@ -204,6 +204,7 @@ class Api extends AbstractApi
                 'networks'           => $this->params->networks(),
                 'blockDeviceMapping' => $this->params->blockDeviceMapping(),
                 'keyName'            => $this->params->keyName(),
+                'maxCount'           => $this->params->maxCount()
             ],
         ];
     }

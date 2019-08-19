@@ -145,6 +145,16 @@ class Params extends AbstractParams
         ];
     }
 
+    public function maxCount(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => false,
+            'sentAs'      => 'max_count',
+            'description' => 'Max count value of multiple server creation',
+        ];
+    }
+
     public function rescueImageId(): array
     {
         return [
