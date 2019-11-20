@@ -343,6 +343,19 @@ class Params extends AbstractParams
         ];
     }
 
+    public function fixedIpsQuery(): array
+    {
+        return [
+            'type'     => self::ARRAY_TYPE,
+            'location' => self::JSON,
+            'sentAs'   => 'fixed_ips',
+            'items'    => [
+                'type'        => self::STRING_TYPE,
+                'description' => 'Filter the port list result by the IP addresses for the port. This field has one or multiple entries. Each entry consists of IP address (ip_address), IP address substring (ip_address_substr) and/or the subnet ID from which the IP address is assigned (subnet_id).',
+            ],
+        ];
+    }
+
     public function subnetId(): array
     {
         return [

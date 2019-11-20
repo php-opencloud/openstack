@@ -209,7 +209,7 @@ class Api extends AbstractApi
                 'securityGroups' => $this->params->secGroupsQuery(),
                 'deviceId'       => $this->params->deviceIdQuery(),
                 'ipAllocation'   => $this->params->ipAllocationQuery(),
-                'fixedIps'       => $this->params->fixedIps(),
+                'fixedIps'       => $this->params->fixedIpsQuery(),
             ],
         ];
     }
