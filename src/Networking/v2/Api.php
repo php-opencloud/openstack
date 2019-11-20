@@ -208,6 +208,7 @@ class Api extends AbstractApi
                 'portId'         => $this->params->portIdQuery(),
                 'securityGroups' => $this->params->secGroupsQuery(),
                 'deviceId'       => $this->params->deviceIdQuery(),
+                'ipAllocation'   => $this->params->ipAllocationQuery(),
             ],
         ];
     }

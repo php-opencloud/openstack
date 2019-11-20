@@ -67,7 +67,7 @@ class Params extends AbstractParams
             'type'        => self::BOOL_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'port_security_enabled',
-            'description' => 'The port security status. A valid value is enabled (true) or disabled (false). If port security is enabled for the port, security 
+            'description' => 'The port security status. A valid value is enabled (true) or disabled (false). If port security is enabled for the port, security
                               group rules and anti-spoofing rules are applied to the traffic on the port. If disabled, no such rules are applied.',
         ];
     }
@@ -303,6 +303,16 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'sentAs'      => 'mac_address',
             'description' => 'The MAC address. If you specify an address that is not valid, a Bad Request (400) status code is returned. If you do not specify a MAC address, OpenStack Networking tries to allocate one. If a failure occurs, a Service Unavailable (503) response code is returned.',
+        ];
+    }
+
+    public function ipAllocationQuery(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::QUERY,
+            'sentAs'      => 'ip_allocation',
+            'description' => 'Filter the port list result based on if the ports use deferred, immediate or no IP allocation',
         ];
     }
 
