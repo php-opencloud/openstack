@@ -204,6 +204,7 @@ class Api extends AbstractApi
                 'networks'           => $this->params->networks(),
                 'blockDeviceMapping' => $this->params->blockDeviceMapping(),
                 'keyName'            => $this->params->keyName(),
+                'maxCount'           => $this->params->maxCount()
             ],
         ];
     }
@@ -223,6 +224,7 @@ class Api extends AbstractApi
                 'status'       => $this->params->filterStatus('server'),
                 'host'         => $this->params->filterHost(),
                 'allTenants'   => $this->params->allTenants(),
+                'projectId'     => $this->params->projectId(),
             ],
         ];
     }
@@ -233,6 +235,15 @@ class Api extends AbstractApi
         $definition['path'] .= '/detail';
 
         return $definition;
+    }
+
+    public function getOSInstanceActions(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/os-instance-actions',
+            'params' => ['id' => $this->params->urlId('server')]
+        ];
     }
 
     public function getServer(): array

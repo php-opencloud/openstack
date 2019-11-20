@@ -1,13 +1,13 @@
 {
-    "name": "php-opencloud/openstack",
-    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi",
+    "name": "arvancloud/openstack",
+    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi customized for ArvanCloud",
     "keywords": [
         "php",
         "openstack",
         "api",
         "sdk"
     ],
-    "homepage": "https://github.com/php-opencloud/openstack",
+    "homepage": "https://github.com/arvancloud/openstack",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -19,6 +19,11 @@
             "name": "Ha Phan",
             "email": "thanhha.work@gmail.com",
             "homepage" : "https://github.com/haphan"
+        },
+        {
+            "name": "Omid Pilevar",
+            "email": "omid@avrancloud.com",
+            "homepage" : "https://github.com/pilevar"
         }
     ],
     "autoload": {

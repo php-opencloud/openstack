@@ -67,7 +67,7 @@ class Params extends AbstractParams
             'type'        => self::BOOL_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'port_security_enabled',
-            'description' => 'The port security status. A valid value is enabled (true) or disabled (false). If port security is enabled for the port, security 
+            'description' => 'The port security status. A valid value is enabled (true) or disabled (false). If port security is enabled for the port, security
                               group rules and anti-spoofing rules are applied to the traffic on the port. If disabled, no such rules are applied.',
         ];
     }
@@ -306,6 +306,16 @@ class Params extends AbstractParams
         ];
     }
 
+    public function ipAllocationQuery(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::QUERY,
+            'sentAs'      => 'ip_allocation',
+            'description' => 'Filter the port list result based on if the ports use deferred, immediate or no IP allocation',
+        ];
+    }
+
     public function fixedIps(): array
     {
         return [
@@ -330,6 +340,16 @@ class Params extends AbstractParams
                     ],
                 ],
             ],
+        ];
+    }
+
+    public function fixedIpQuery(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location'    => self::QUERY,
+            'sentAs'   => 'fixed_ips',
+            'description' => 'Filter the port list result by the IP addresses for the port. This field has one or multiple entries. Each entry consists of IP address (ip_address), IP address substring (ip_address_substr) and/or the subnet ID from which the IP address is assigned (subnet_id).',
         ];
     }
 

@@ -1,10 +1,10 @@
 # PHP OpenStack SDK
 
-[![Build Status](https://travis-ci.org/php-opencloud/openstack.svg?branch=master)](https://travis-ci.org/php-opencloud/openstack)
-[![Coverage Status](https://coveralls.io/repos/github/php-opencloud/openstack/badge.svg?branch=master)](https://coveralls.io/github/php-opencloud/openstack?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/php-opencloud/openstack/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/php-opencloud/openstack/?branch=master)
+[![Build Status](https://travis-ci.org/arvancloud/openstack.svg?branch=master)](https://travis-ci.org/arvancloud/openstack)
 
-`php-opencloud/openstack` is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
+This project forked from ([php-opencloud/openstack](https://github.com/php-opencloud/openstack))
+
+`arvancloud/openstack` is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
 idiomatic way. This binding is specifically designed for OpenStack APIs, but other provider SDKs are available. Multiple 
 OpenStack services, and versions of services, are supported.
 
@@ -18,7 +18,7 @@ OpenStack services, and versions of services, are supported.
 ## Getting help
    
 - Meet us on Slack: https://phpopencloud.slack.com ([Get your invitation](https://launchpass.com/phpopencloud))
-- Report an issue: https://github.com/php-opencloud/openstack/issues
+- Report an issue: https://github.com/arvancloud/openstack/issues
 
 
 ## Version Guidance
@@ -44,7 +44,7 @@ This change was introduced in [#184](https://github.com/php-opencloud/openstack/
 ## How to install
 
 ```bash
-composer require php-opencloud/openstack
+composer require arvancloud/openstack
 ```
 
 ## Contributing
@@ -52,6 +52,6 @@ composer require php-opencloud/openstack
 Engaging the community and lowering barriers for contributors is something we care a lot about. For this reason, we've 
 taken the time to write a [contributing guide](CONTRIBUTING.md) for folks interested in getting involved in our project. 
 If you're not sure how you can get involved, feel free to 
-[submit an issue](https://github.com/php-opencloud/openstack/issues/new) or 
+[submit an issue](https://github.com/arvancloud/openstack/issues/new) or 
 [contact us](https://developer.rackspace.com/support/). You don't need to be a PHP expert - all members of the 
 community are welcome!

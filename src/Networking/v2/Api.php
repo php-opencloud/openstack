@@ -208,6 +208,8 @@ class Api extends AbstractApi
                 'portId'         => $this->params->portIdQuery(),
                 'securityGroups' => $this->params->secGroupsQuery(),
                 'deviceId'       => $this->params->deviceIdQuery(),
+                'ipAllocation'   => $this->params->ipAllocationQuery(),
+                'fixedIps'       => $this->params->fixedIpQuery(),
             ],
         ];
     }
@@ -282,6 +284,7 @@ class Api extends AbstractApi
                 'allowedAddressPairs' => $this->params->allowedAddrPairs(),
                 'deviceOwner'         => $this->params->deviceOwner(),
                 'deviceId'            => $this->params->deviceId(),
+                'portSecurityEnabled' => $this->params->portSecurityEnabled(),
             ],
         ];
     }

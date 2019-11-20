@@ -16,6 +16,16 @@ class Params extends AbstractParams
             'documented' => false,
         ]);
     }
+    
+    public function projectId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => 'project_id',
+            'location'    => self::QUERY,
+            'description' => 'The ID of the tenant who owns the network. Only administrative users can specify a tenant ID other than their own. You cannot change this value through authorization policies',
+        ];
+    }
 
     public function resetState(): array
     {
@@ -132,6 +142,16 @@ class Params extends AbstractParams
             'required'    => true,
             'sentAs'      => 'imageRef',
             'description' => 'The UUID of the image to use for your server instance. This is not required in case of boot from volume. In all other cases it is required and must be a valid UUID',
+        ];
+    }
+
+    public function maxCount(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'required'    => false,
+            'sentAs'      => 'max_count',
+            'description' => 'Max count value of multiple server creation',
         ];
     }
 

@@ -6,10 +6,10 @@ namespace OpenStack\Common\Error;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Class responsible for building meaningful exceptions. For HTTP problems, it produces a {@see HttpError}
@@ -98,9 +98,7 @@ class Builder
             $msg .= "\r\n{$name}: ".implode(', ', $values);
         }
 
-        if (ini_get('memory_limit') < 0 || $message->getBody()->getSize() < ini_get('memory_limit')) {
-            $msg .= "\r\n\r\n".$message->getBody();
-        }
+        $msg .= "\r\n\r\n".$message->getBody();
 
         return $msg;
     }
