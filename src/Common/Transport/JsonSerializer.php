@@ -61,8 +61,6 @@ class JsonSerializer
      *
      * @param Parameter $param     The schema that defines how the JSON field is being populated
      * @param mixed     $userValue The user value that is populating a JSON field
-     *
-     * @return array
      */
     private function stockObjectJson(Parameter $param, \stdClass $userValue): array
     {
@@ -81,8 +79,6 @@ class JsonSerializer
      * @param Parameter $param     The schema that defines how the JSON field is being populated
      * @param mixed     $userValue The user value that is populating a JSON field
      * @param array     $json      The existing JSON structure that will be populated
-     *
-     * @return array
      */
     public function stockJson(Parameter $param, $userValue, array $json): array
     {
@@ -101,11 +97,7 @@ class JsonSerializer
             if ($value instanceof Serializable) {
                 $value = $value->serialize();
             } elseif (!($value instanceof \stdClass)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'When an object value is provided, it must either be \stdClass or implement the Serializable '
-                    .'interface, you provided %s',
-                    print_r($value, true)
-                ));
+                throw new \InvalidArgumentException(sprintf('When an object value is provided, it must either be \stdClass or implement the Serializable '.'interface, you provided %s', print_r($value, true)));
             }
         }
 

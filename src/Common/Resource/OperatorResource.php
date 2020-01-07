@@ -33,8 +33,6 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
      * Will create a new instance of this class with the current HTTP client and API injected in. This
      * is useful when enumerating over a collection since multiple copies of the same resource class
      * are needed.
-     *
-     * @return OperatorResource
      */
     public function newInstance(): OperatorResource
     {
@@ -50,8 +48,6 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
     }
 
     /**
-     * @param array $definition
-     *
      * @return mixed
      */
     public function executeWithState(array $definition)

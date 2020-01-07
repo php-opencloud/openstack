@@ -51,21 +51,13 @@ class Service extends AbstractService implements IdentityService
             return [$token, $baseUrl];
         }
 
-        throw new \RuntimeException(sprintf(
-            'No service found with type [%s] name [%s] region [%s] interface [%s]',
-            $type,
-            $name,
-            $region,
-            $interface
-        ));
+        throw new \RuntimeException(sprintf('No service found with type [%s] name [%s] region [%s] interface [%s]', $type, $name, $region, $interface));
     }
 
     /**
      * Generates authentication token from cached token using `$token->export()`.
      *
      * @param array $cachedToken {@see \OpenStack\Identity\v3\Models\Token::export}
-     *
-     * @return Models\Token
      */
     public function generateTokenFromCache(array $cachedToken): Models\Token
     {
@@ -76,8 +68,6 @@ class Service extends AbstractService implements IdentityService
      * Generates a new authentication token.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postTokens}
-     *
-     * @return Models\Token
      */
     public function generateToken(array $options): Models\Token
     {
@@ -89,8 +79,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the token to retrieve
-     *
-     * @return Models\Token
      */
     public function getToken(string $id): Models\Token
     {
@@ -101,8 +89,6 @@ class Service extends AbstractService implements IdentityService
      * Validates a token, identified by its ID, and returns TRUE if its valid, FALSE if not.
      *
      * @param string $id The unique ID of the token
-     *
-     * @return bool
      */
     public function validateToken(string $id): bool
     {
@@ -130,8 +116,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new service according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postServices}
-     *
-     * @return Models\Service
      */
     public function createService(array $options): Models\Service
     {
@@ -144,8 +128,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getServices}
-     *
-     * @return \Generator
      */
     public function listServices(array $options = []): \Generator
     {
@@ -157,8 +139,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the service
-     *
-     * @return Models\Service
      */
     public function getService(string $id): Models\Service
     {
@@ -169,8 +149,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new endpoint according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postEndpoints}
-     *
-     * @return Models\Endpoint
      */
     public function createEndpoint(array $options): Models\Endpoint
     {
@@ -182,8 +160,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the service
-     *
-     * @return Models\Endpoint
      */
     public function getEndpoint(string $id): Models\Endpoint
     {
@@ -196,8 +172,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getEndpoints}
-     *
-     * @return \Generator
      */
     public function listEndpoints(array $options = []): \Generator
     {
@@ -208,8 +182,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new domain according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postDomains}
-     *
-     * @return Models\Domain
      */
     public function createDomain(array $options): Models\Domain
     {
@@ -222,8 +194,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getDomains}
-     *
-     * @return \Generator
      */
     public function listDomains(array $options = []): \Generator
     {
@@ -235,8 +205,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the domain
-     *
-     * @return Models\Domain
      */
     public function getDomain(string $id): Models\Domain
     {
@@ -247,8 +215,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new project according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postProjects}
-     *
-     * @return Models\Project
      */
     public function createProject(array $options): Models\Project
     {
@@ -261,8 +227,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getProjects}
-     *
-     * @return \Generator
      */
     public function listProjects(array $options = []): \Generator
     {
@@ -274,8 +238,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the project
-     *
-     * @return Models\Project
      */
     public function getProject(string $id): Models\Project
     {
@@ -286,8 +248,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new user according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postUsers}
-     *
-     * @return Models\User
      */
     public function createUser(array $options): Models\User
     {
@@ -300,8 +260,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getUsers}
-     *
-     * @return \Generator
      */
     public function listUsers(array $options = []): \Generator
     {
@@ -313,8 +271,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the user
-     *
-     * @return Models\User
      */
     public function getUser(string $id): Models\User
     {
@@ -325,8 +281,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new group according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postGroups}
-     *
-     * @return Models\Group
      */
     public function createGroup(array $options): Models\Group
     {
@@ -339,8 +293,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getGroups}
-     *
-     * @return \Generator
      */
     public function listGroups(array $options = []): \Generator
     {
@@ -352,8 +304,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the group
-     *
-     * @return Models\Group
      */
     public function getGroup($id): Models\Group
     {
@@ -364,8 +314,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new credential according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postCredentials}
-     *
-     * @return Models\Credential
      */
     public function createCredential(array $options): Models\Credential
     {
@@ -376,8 +324,6 @@ class Service extends AbstractService implements IdentityService
      * Returns a generator which will yield a collection of credential objects. The elements which generators yield can
      * be accessed using a foreach loop. Often the API will not return the full state of the resource in collections;
      * you will need to use retrieve() to pull in the full state of the remote resource from the API.
-     *
-     * @return \Generator
      */
     public function listCredentials(): \Generator
     {
@@ -389,8 +335,6 @@ class Service extends AbstractService implements IdentityService
      * or HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the credential
-     *
-     * @return Models\Credential
      */
     public function getCredential(string $id): Models\Credential
     {
@@ -401,8 +345,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new role according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postRoles}
-     *
-     * @return Models\Role
      */
     public function createRole(array $options): Models\Role
     {
@@ -415,8 +357,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getRoles}
-     *
-     * @return \Generator
      */
     public function listRoles(array $options = []): \Generator
     {
@@ -429,8 +369,6 @@ class Service extends AbstractService implements IdentityService
      * collections; you will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getRoleAssignments}
-     *
-     * @return \Generator
      */
     public function listRoleAssignments(array $options = []): \Generator
     {
@@ -441,8 +379,6 @@ class Service extends AbstractService implements IdentityService
      * Creates a new policy according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postPolicies}
-     *
-     * @return Models\Policy
      */
     public function createPolicy(array $options): Models\Policy
     {
@@ -455,8 +391,6 @@ class Service extends AbstractService implements IdentityService
      * will need to use retrieve() to pull in the full state of the remote resource from the API.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::getPolicies}
-     *
-     * @return \Generator
      */
     public function listPolicies(array $options = []): \Generator
     {
@@ -468,8 +402,6 @@ class Service extends AbstractService implements IdentityService
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
      *
      * @param string $id The unique ID of the policy
-     *
-     * @return Models\Policy
      */
     public function getPolicy(string $id): Models\Policy
     {

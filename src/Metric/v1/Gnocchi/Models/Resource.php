@@ -102,11 +102,6 @@ class Resource extends OperatorResource implements Retrievable
         $this->populateFromResponse($response);
     }
 
-    /**
-     * @param string $metric
-     *
-     * @return Metric
-     */
     public function getMetric(string $metric): Metric
     {
         $response = $this->execute(
@@ -124,8 +119,6 @@ class Resource extends OperatorResource implements Retrievable
 
     /**
      * @param array $options {@see \OpenStack\Metric\v1\Gnocchi\Api::getResourceMetricMeasures}
-     *
-     * @return array
      */
     public function getMetricMeasures(array $options = []): array
     {
@@ -144,8 +137,6 @@ class Resource extends OperatorResource implements Retrievable
 
     /**
      * @param array $options {@see \OpenStack\Metric\v1\Gnocchi\Api::getResourceMetrics}
-     *
-     * @return \Generator
      */
     public function listResourceMetrics(array $options = []): \Generator
     {

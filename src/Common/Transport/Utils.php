@@ -30,9 +30,7 @@ class Utils
 
         if (JSON_ERROR_NONE !== json_last_error()) {
             $last = json_last_error();
-            throw new \InvalidArgumentException(
-                'Unable to parse JSON data: '.(isset($jsonErrors[$last]) ? $jsonErrors[$last] : 'Unknown error')
-            );
+            throw new \InvalidArgumentException('Unable to parse JSON data: '.(isset($jsonErrors[$last]) ? $jsonErrors[$last] : 'Unknown error'));
         }
 
         return $data;
@@ -58,8 +56,6 @@ class Utils
      * closing url separator when missing.
      *
      * @param string $url the url representation
-     *
-     * @return string
      */
     public static function normalizeUrl(string $url): string
     {
@@ -73,10 +69,7 @@ class Utils
     /**
      * Add an unlimited list of paths to a given URI.
      *
-     * @param UriInterface $uri
-     * @param              ...$paths
-     *
-     * @return UriInterface
+     * @param ...$paths
      */
     public static function addPaths(UriInterface $uri, ...$paths): UriInterface
     {
