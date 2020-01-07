@@ -28,8 +28,6 @@ interface OperatorInterface
      *
      * @param array $definition The data that dictates how the operation works
      * @param array $userValues The user-defined values that populate the request
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function execute(array $definition, array $userValues = []): ResponseInterface;
 
@@ -38,8 +36,6 @@ interface OperatorInterface
      *
      * @param array $definition The data that dictates how the operation works
      * @param array $userValues The user-defined values that populate the request
-     *
-     * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function executeAsync(array $definition, array $userValues = []): PromiseInterface;
 
@@ -48,8 +44,6 @@ interface OperatorInterface
      * HTTP client is also injected into the object to allow it to communicate with the remote API.
      *
      * @param array $definition The data that dictates how the operation works
-     *
-     * @return Operation
      */
     public function getOperation(array $definition): Operation;
 
@@ -57,8 +51,6 @@ interface OperatorInterface
      * @param string $class the name of the model class
      * @param mixed  $data  either a {@see ResponseInterface} or data array that will populate the newly
      *                      created model class
-     *
-     * @return \OpenStack\Common\Resource\ResourceInterface
      */
     public function model(string $class, $data = null): ResourceInterface;
 }

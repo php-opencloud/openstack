@@ -153,8 +153,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Add a member to this pool.
-     *
-     * @param array $userOptions
      */
     public function addMember(array $userOptions = []): LoadBalancerMember
     {
@@ -165,10 +163,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Get an instance of a member.
-     *
-     * @param string $memberId
-     *
-     * @return LoadBalancerMember
      */
     public function getMember(string $memberId): LoadBalancerMember
     {
@@ -177,8 +171,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Delete a member.
-     *
-     * @param string $memberId
      */
     public function deleteMember(string $memberId)
     {
@@ -187,10 +179,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Add a healthmonitor to this load balancer pool.
-     *
-     * @param array $userOptions
-     *
-     * @return LoadBalancerHealthMonitor
      */
     public function addHealthMonitor(array $userOptions = []): LoadBalancerHealthMonitor
     {

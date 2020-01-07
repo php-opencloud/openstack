@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace OpenStack\Networking\v2\Models;
 
-use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\HasWaiterTrait;
-use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\HasWaiterTrait;
+use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 
 /**

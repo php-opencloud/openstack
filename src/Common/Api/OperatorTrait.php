@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace OpenStack\Common\Api;
 
-use GuzzleHttp\Promise\PromiseInterface;
-use function GuzzleHttp\uri_template;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
+use function GuzzleHttp\uri_template;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Common\Transport\RequestSerializer;
 use Psr\Http\Message\ResponseInterface;
@@ -99,10 +99,6 @@ trait OperatorTrait
     }
 
     /**
-     * @param Operation $operation
-     * @param array     $userValues
-     * @param bool      $async
-     *
      * @return mixed
      *
      * @throws \Exception

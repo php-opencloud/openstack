@@ -44,11 +44,6 @@ class OpenStack
         $this->builder = $builder ?: new Builder($options, 'OpenStack');
     }
 
-    /**
-     * @param array $options
-     *
-     * @return Service
-     */
     private function getDefaultIdentityService(array $options): Service
     {
         if (!isset($options['authUrl'])) {
@@ -80,8 +75,6 @@ class OpenStack
      * Creates a new Compute v2 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\Compute\v2\Service
      */
     public function computeV2(array $options = []): \OpenStack\Compute\v2\Service
     {
@@ -94,8 +87,6 @@ class OpenStack
      * Creates a new Networking v2 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\Networking\v2\Service
      */
     public function networkingV2(array $options = []): \OpenStack\Networking\v2\Service
     {
@@ -108,8 +99,6 @@ class OpenStack
      * Creates a new Networking v2 Layer 3 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\Networking\v2\Extensions\Layer3\Service
      */
     public function networkingV2ExtLayer3(array $options = []): \OpenStack\Networking\v2\Extensions\Layer3\Service
     {
@@ -122,8 +111,6 @@ class OpenStack
      * Creates a new Networking v2 Layer 3 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\Networking\v2\Extensions\SecurityGroups\Service
      */
     public function networkingV2ExtSecGroups(array $options = []): \OpenStack\Networking\v2\Extensions\SecurityGroups\Service
     {
@@ -136,8 +123,6 @@ class OpenStack
      * Creates a new Identity v2 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\Identity\v2\Service
      */
     public function identityV2(array $options = []): \OpenStack\Identity\v2\Service
     {
@@ -150,8 +135,6 @@ class OpenStack
      * Creates a new Identity v3 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\Identity\v3\Service
      */
     public function identityV3(array $options = []): \OpenStack\Identity\v3\Service
     {
@@ -164,8 +147,6 @@ class OpenStack
      * Creates a new Object Store v1 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\ObjectStore\v1\Service
      */
     public function objectStoreV1(array $options = []): \OpenStack\ObjectStore\v1\Service
     {
@@ -178,8 +159,6 @@ class OpenStack
      * Creates a new Block Storage v2 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\BlockStorage\v2\Service
      */
     public function blockStorageV2(array $options = []): \OpenStack\BlockStorage\v2\Service
     {
@@ -192,8 +171,6 @@ class OpenStack
      * Creates a new Images v2 service.
      *
      * @param array $options options that will be used in configuring the service
-     *
-     * @return \OpenStack\Images\v2\Service
      */
     public function imagesV2(array $options = []): \OpenStack\Images\v2\Service
     {
@@ -204,10 +181,6 @@ class OpenStack
 
     /**
      * Creates a new Gnocchi Metric service v1.
-     *
-     * @param array $options
-     *
-     * @return \OpenStack\Metric\v1\Gnocchi\Service
      */
     public function metricGnocchiV1(array $options = []): \OpenStack\Metric\v1\Gnocchi\Service
     {

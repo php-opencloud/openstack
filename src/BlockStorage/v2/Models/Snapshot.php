@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace OpenStack\BlockStorage\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Transport\Utils;
@@ -85,8 +85,6 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
 
     /**
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postSnapshots}
-     *
-     * @return Creatable
      */
     public function create(array $userOptions): Creatable
     {

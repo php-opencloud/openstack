@@ -15,9 +15,6 @@ use Psr\Log\LogLevel;
 
 final class Middleware
 {
-    /**
-     * @return callable
-     */
     public static function httpErrors(): callable
     {
         return function (callable $handler) {
@@ -35,10 +32,7 @@ final class Middleware
     }
 
     /**
-     * @param callable $tokenGenerator
-     * @param Token    $token
-     *
-     * @return callable
+     * @param Token $token
      */
     public static function authHandler(callable $tokenGenerator, Token $token = null): callable
     {

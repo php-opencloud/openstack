@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\Alias;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
-use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\Creatable;
-use OpenStack\Common\Resource\Retrievable;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
@@ -74,9 +74,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
@@ -109,11 +106,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         if (isset($data['user'])) {
             $data['methods'] = ['password'];
             if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
-                throw new \InvalidArgumentException(
-                    'When authenticating with a username, you must also provide either the domain name or domain ID to '
-                    .'which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to '
-                    .'provide domain information.'
-                );
+                throw new \InvalidArgumentException('When authenticating with a username, you must also provide either the domain name or domain ID to '.'which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to '.'provide domain information.');
             }
         } elseif (isset($data['tokenId'])) {
             $data['methods'] = ['token'];
@@ -138,8 +131,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
      * Initialize OpenStack object using $params['cachedToken'] to reduce the amount of HTTP calls.
      *
      * This array is a modified version of response from `/auth/tokens`. Do not manually modify this array.
-     *
-     * @return array
      */
     public function export(): array
     {

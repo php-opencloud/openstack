@@ -15,15 +15,11 @@ interface ResourceInterface
      * All models which represent an API resource should be able to be populated
      * from a {@see ResponseInterface} object.
      *
-     * @param ResponseInterface $response
-     *
      * @return self
      */
     public function populateFromResponse(ResponseInterface $response);
 
     /**
-     * @param array $data
-     *
      * @return mixed
      */
     public function populateFromArray(array $data);
