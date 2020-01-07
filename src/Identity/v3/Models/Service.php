@@ -93,7 +93,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
 
     private function typeMatches(string $value): bool
     {
-        return $this->type && $this->type = $value;
+        return $this->type && $this->type == $value;
     }
 
     /**
