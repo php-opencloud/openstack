@@ -380,11 +380,15 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Creates an image for the current server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::createServerImage}
+     * @return string
      */
-    public function createImage(array $options)
+    public function createImage(array $options): string
     {
         $options['id'] = $this->id;
-        $this->execute($this->api->createServerImage(), $options);
+        $response = $this->execute($this->api->createServerImage(), $options);
+
+        $location = $response->getHeaderLine('Location');
+        return substr($location, strrpos($location, '/') + 1);
     }
 
     /**
