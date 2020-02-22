@@ -112,6 +112,10 @@ trait OperatorTrait
 
         $uri     = Utils::uri_template($operation->getPath(), $userValues);
 
+        if (array_key_exists('guzzle', $userValues)) {
+            $options += $userValues['guzzle'];
+        }
+
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }
 
