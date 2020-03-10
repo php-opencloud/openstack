@@ -36,6 +36,9 @@ class InterfaceAttachment extends OperatorResource implements Listable
     /** @var string */
     public $serverId;
 
+    /** @var string */
+    public $tag;
+
     protected $resourceKey  = 'interfaceAttachment';
     protected $resourcesKey = 'interfaceAttachments';
 
@@ -48,5 +51,6 @@ class InterfaceAttachment extends OperatorResource implements Listable
       'fixed_ips'  => 'fixedIps',
       'port_state' => 'portState',
       'server_id'  => 'serverId',
+      "tag"	       => "tag",
     ];
 }
