@@ -304,6 +304,11 @@ EOL
                         'description' => 'A fixed IPv4 address for the NIC. Valid with a neutron or nova-networks network.',
                         'sentAs'      => 'fixed_ip',
                     ],
+                    'tag' => [
+                        'type' => self::STRING_TYPE,
+                        'description' => 'Helps to identify specific interface',
+                        'sentAs' => 'tag'
+                    ]
                 ],
             ],
         ];
