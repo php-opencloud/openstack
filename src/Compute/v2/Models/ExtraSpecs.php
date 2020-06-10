@@ -18,7 +18,7 @@ class ExtraSpecs extends OperatorResource implements Retrievable, Creatable
     protected $resourceKey  = 'extra_specs';
 
     /** @var int */
-    public $diskIoLimit;
+    public $diskTotalIopsSec;
 
     /** @var int */
     public $diskWriteBytesSec;
@@ -26,13 +26,17 @@ class ExtraSpecs extends OperatorResource implements Retrievable, Creatable
     /** @var int */
     public $diskReadBytesSec;
 
+    /** @var int */
+    public $diskTotalBytesSec;
+
     /** @var string */
     public $flavorId;
 
     protected $aliases = [
-        'disk_io_limit'  => 'diskIoLimit',
-        'disk_write_bytes_sec'  => 'diskWriteBytesSec',
-        'disk_read_bytes_sec'  => 'diskReadBytesSec',
+        'quota:disk_total_iops_sec'  => 'diskTotalIopsSec',
+        'quota:disk_write_bytes_sec'  => 'diskWriteBytesSec',
+        'quota:disk_read_bytes_sec'  => 'diskReadBytesSec',
+        'quota:disk_total_bytes_sec'  => 'diskTotalBytesSec',
     ];
 
     public function retrieve()

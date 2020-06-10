@@ -668,19 +668,24 @@ EOL
         ];
     }
 
-    public function extraSpecsSetDiskIoLimit(): array
+    public function extraSpecsSetDiskTotalIopsSec(): array
     {
-        return $this->extraSpecsSetInt('disk_io_limit', 'Specifies the upper limit for disk utilization in I/O per second. The utilization of a virtual machine will not exceed this limit, even if there are available resources. The default value is -1 which indicates unlimited usage.');
+        return $this->extraSpecsSetInt('quota:disk_total_iops_sec', 'Specifies the upper limit for disk utilization in I/O per second. The utilization of a virtual machine will not exceed this limit, even if there are available resources. The default value is -1 which indicates unlimited usage.');
     }
 
     public function extraSpecsSetDiskWriteBytesSec(): array
     {
-        return $this->extraSpecsSetInt('disk_write_bytes_sec', 'Specifies the maximum disk write speed in bytes per second for a VM user.');
+        return $this->extraSpecsSetInt('quota:disk_write_bytes_sec', 'Specifies the maximum disk write speed in bytes per second for a VM user.');
     }
 
     public function extraSpecsSetDiskReadBytesSec(): array
     {
-        return $this->extraSpecsSetInt('disk_read_bytes_sec', 'Specifies the maximum disk read speed in bytes per second for a VM user.');
+        return $this->extraSpecsSetInt('quota:disk_read_bytes_sec', 'Specifies the maximum disk read speed in bytes per second for a VM user.');
+    }
+
+    public function extraSpecsSetDiskTotalBytesSec(): array
+    {
+        return $this->extraSpecsSetInt('quota:disk_total_bytes_sec', 'Specifies the maximum disk read/write speed in bytes per second for a VM user.');
     }
 
     public function extraSpecKey(): array

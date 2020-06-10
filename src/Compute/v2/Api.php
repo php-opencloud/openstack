@@ -909,9 +909,10 @@ class Api extends AbstractApi
             'jsonKey' => 'extra_specs',
             'params'  => [
                 'flavorId' => $this->params->urlId('flavor'),
-                'diskIoLimit' => $this->notRequired($this->params->extraSpecsSetDiskIoLimit()),
+                'diskTotalIopsSec' => $this->notRequired($this->params->extraSpecsSetDiskTotalIopsSec()),
                 'diskReadBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskReadBytesSec()),
                 'diskWriteBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskWriteBytesSec()),
+                'diskTotalBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskTotalBytesSec()),
             ],
         ];
     }
