@@ -889,4 +889,43 @@ class Api extends AbstractApi
             ],
         ];
     }
+
+    public function getExtraSpecs(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'flavors/{flavorId}/os-extra_specs',
+            'params'  => [
+                'flavorId' => $this->params->urlId('flavor')
+            ],
+        ];
+    }
+
+    public function postExtraSpecs(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'flavors/{flavorId}/os-extra_specs',
+            'jsonKey' => 'extra_specs',
+            'params'  => [
+                'flavorId' => $this->params->urlId('flavor'),
+                'diskTotalIopsSec' => $this->notRequired($this->params->extraSpecsSetDiskTotalIopsSec()),
+                'diskReadBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskReadBytesSec()),
+                'diskWriteBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskWriteBytesSec()),
+                'diskTotalBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskTotalBytesSec()),
+            ],
+        ];
+    }
+
+    public function deleteExtraSpec(): array
+    {
+        return [
+            'method'  => 'DELETE',
+            'path'    => 'flavors/{flavorId}/os-extra_specs/{extraSpecKey}',
+            'params'  => [
+                'flavorId' => $this->params->urlId('flavor'),
+                'extraSpecKey' => $this->params->extraSpecKey(),
+            ],
+        ];
+    }
 }

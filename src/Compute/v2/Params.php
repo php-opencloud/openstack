@@ -657,4 +657,43 @@ EOL
     {
         return $this->quotaSetLimit('server_group_members', 'The number of allowed members for each server group.');
     }
+
+    protected function extraSpecsSetInt($sentAs, $description): array
+    {
+        return [
+            'type'        => self::INT_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => $sentAs,
+            'description' => $description,
+        ];
+    }
+
+    public function extraSpecsSetDiskTotalIopsSec(): array
+    {
+        return $this->extraSpecsSetInt('quota:disk_total_iops_sec', 'Specifies the upper limit for disk utilization in I/O per second. The utilization of a virtual machine will not exceed this limit, even if there are available resources. The default value is -1 which indicates unlimited usage.');
+    }
+
+    public function extraSpecsSetDiskWriteBytesSec(): array
+    {
+        return $this->extraSpecsSetInt('quota:disk_write_bytes_sec', 'Specifies the maximum disk write speed in bytes per second for a VM user.');
+    }
+
+    public function extraSpecsSetDiskReadBytesSec(): array
+    {
+        return $this->extraSpecsSetInt('quota:disk_read_bytes_sec', 'Specifies the maximum disk read speed in bytes per second for a VM user.');
+    }
+
+    public function extraSpecsSetDiskTotalBytesSec(): array
+    {
+        return $this->extraSpecsSetInt('quota:disk_total_bytes_sec', 'Specifies the maximum disk read/write speed in bytes per second for a VM user.');
+    }
+
+    public function extraSpecKey(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::URL,
+            'description' => 'Extra spec key.',
+        ];
+    }
 }

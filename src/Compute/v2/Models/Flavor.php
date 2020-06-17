@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\Common\Api\OperatorTrait;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Common\Resource\Retrievable;
 
 /**
@@ -17,6 +19,8 @@ use OpenStack\Common\Resource\Retrievable;
  */
 class Flavor extends OperatorResource implements Listable, Retrievable, Creatable, Deletable
 {
+    use OperatorTrait;
+
     /** @var int */
     public $disk;
 
@@ -66,5 +70,10 @@ class Flavor extends OperatorResource implements Listable, Retrievable, Creatabl
     public function delete()
     {
         $this->execute($this->api->deleteFlavor(), ['id' => (string) $this->id]);
+    }
+
+    public function getExtraSpecs(): ResourceInterface
+    {
+        return $this->model(ExtraSpecs::class, ['flavorId' => $this->id]);
     }
 }
