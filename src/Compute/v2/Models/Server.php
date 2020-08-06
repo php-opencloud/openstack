@@ -321,47 +321,18 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * @param string $type the type of VNC console: novnc|xvpvnc.
      *                     Defaults to novnc
      */
-    public function getVncConsole($type = Enum::CONSOLE_NOVNC): array
+    public function getConsole($type = Enum::CONSOLE_NOVNC): array
     {
-        $response = $this->execute($this->api->getVncConsole(), ['id' => $this->id, 'type' => $type]);
+        $response = $this->execute(
+            $this->api->getConsole(),
+            [
+                'id' => $this->id,
+                'protocol' => 'vnc',
+                'type' => $type
+            ]
+        );
 
-        return Utils::jsonDecode($response)['console'];
-    }
-
-    /**
-     * Gets a RDP console for a server.
-     *
-     * @param string $type the type of VNC console: rdp-html5 (default)
-     */
-    public function getRDPConsole($type = Enum::CONSOLE_RDP_HTML5): array
-    {
-        $response = $this->execute($this->api->getRDPConsole(), ['id' => $this->id, 'type' => $type]);
-
-        return Utils::jsonDecode($response)['console'];
-    }
-
-    /**
-     * Gets a Spice console for a server.
-     *
-     * @param string $type the type of VNC console: spice-html5
-     */
-    public function getSpiceConsole($type = Enum::CONSOLE_SPICE_HTML5): array
-    {
-        $response = $this->execute($this->api->getSpiceConsole(), ['id' => $this->id, 'type' => $type]);
-
-        return Utils::jsonDecode($response)['console'];
-    }
-
-    /**
-     * Gets a serial console for a server.
-     *
-     * @param string $type the type of VNC console: serial
-     */
-    public function getSerialConsole($type = Enum::CONSOLE_SERIAL): array
-    {
-        $response = $this->execute($this->api->getSerialConsole(), ['id' => $this->id, 'type' => $type]);
-
-        return Utils::jsonDecode($response)['console'];
+        return Utils::jsonDecode($response)['remote_console'];
     }
 
     /**

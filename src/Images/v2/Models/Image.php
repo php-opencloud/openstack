@@ -74,6 +74,13 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
     /** @var int */
     public $virtualSize;
 
+    /**
+     * Custom metadata field for Velvica needs.
+     *
+     * @var string
+     */
+    public $osUsername;
+
     private $jsonSchema;
 
     protected $aliases = [
@@ -83,6 +90,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         'owner'            => 'ownerId',
         'min_ram'          => 'minRam',
         'virtual_size'     => 'virtualSize',
+        'os_username'      => 'osUsername',
     ];
 
     /**

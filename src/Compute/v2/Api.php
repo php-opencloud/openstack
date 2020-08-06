@@ -347,6 +347,7 @@ class Api extends AbstractApi
                 'name'        => $this->params->name('server'),
                 'metadata'    => $this->notRequired($this->params->metadata()),
                 'adminPass'   => $this->params->password(),
+                'userData'    => $this->params->userData(),
             ],
         ];
     }
@@ -453,54 +454,16 @@ class Api extends AbstractApi
         ];
     }
 
-    public function getVncConsole(): array
+    public function getConsole(): array
     {
         return [
             'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'jsonKey' => 'os-getVNCConsole',
+            'path'    => 'servers/{id}/remote-consoles',
+            'jsonKey' => 'remote_console',
             'params'  => [
-                'id'   => $this->params->urlId('server'),
-                'type' => $this->params->consoleType(),
-            ],
-        ];
-    }
-
-    public function getSpiceConsole(): array
-    {
-        return [
-            'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'jsonKey' => 'os-getSPICEConsole',
-            'params'  => [
-                'id'   => $this->params->urlId('server'),
-                'type' => $this->params->consoleType(),
-            ],
-        ];
-    }
-
-    public function getSerialConsole(): array
-    {
-        return [
-            'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'jsonKey' => 'os-getSerialConsole',
-            'params'  => [
-                'id'   => $this->params->urlId('server'),
-                'type' => $this->params->consoleType(),
-            ],
-        ];
-    }
-
-    public function getRDPConsole(): array
-    {
-        return [
-            'method'  => 'POST',
-            'path'    => 'servers/{id}/action',
-            'jsonKey' => 'os-getRDPConsole',
-            'params'  => [
-                'id'   => $this->params->urlId('server'),
-                'type' => $this->params->consoleType(),
+                'id'        => $this->params->urlId('server'),
+                'protocol'  => $this->params->consoleProtocol(),
+                'type'      => $this->params->consoleType(),
             ],
         ];
     }
@@ -886,45 +849,6 @@ class Api extends AbstractApi
                 'securityGroups'           => $this->notRequired($this->params->quotaSetLimitSecurityGroups()),
                 'serverGroups'             => $this->notRequired($this->params->quotaSetLimitServerGroups()),
                 'serverGroupMembers'       => $this->notRequired($this->params->quotaSetLimitServerGroupMembers()),
-            ],
-        ];
-    }
-
-    public function getExtraSpecs(): array
-    {
-        return [
-            'method'  => 'GET',
-            'path'    => 'flavors/{flavorId}/os-extra_specs',
-            'params'  => [
-                'flavorId' => $this->params->urlId('flavor')
-            ],
-        ];
-    }
-
-    public function postExtraSpecs(): array
-    {
-        return [
-            'method'  => 'POST',
-            'path'    => 'flavors/{flavorId}/os-extra_specs',
-            'jsonKey' => 'extra_specs',
-            'params'  => [
-                'flavorId' => $this->params->urlId('flavor'),
-                'diskTotalIopsSec' => $this->notRequired($this->params->extraSpecsSetDiskTotalIopsSec()),
-                'diskReadBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskReadBytesSec()),
-                'diskWriteBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskWriteBytesSec()),
-                'diskTotalBytesSec' => $this->notRequired($this->params->extraSpecsSetDiskTotalBytesSec()),
-            ],
-        ];
-    }
-
-    public function deleteExtraSpec(): array
-    {
-        return [
-            'method'  => 'DELETE',
-            'path'    => 'flavors/{flavorId}/os-extra_specs/{extraSpecKey}',
-            'params'  => [
-                'flavorId' => $this->params->urlId('flavor'),
-                'extraSpecKey' => $this->params->extraSpecKey(),
             ],
         ];
     }
