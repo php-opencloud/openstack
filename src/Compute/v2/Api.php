@@ -388,6 +388,18 @@ class Api extends AbstractApi
         ];
     }
 
+    public function forceDeleteServer(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
+                'id'          => $this->params->urlId('server'),
+                'forceDelete' => $this->params->nullAction(),
+            ],
+        ];
+    }
+
     public function resizeServer(): array
     {
         return [

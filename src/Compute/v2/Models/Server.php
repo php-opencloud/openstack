@@ -279,6 +279,14 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     }
 
     /**
+     * Force deletes the server
+     */
+    public function forceDelete()
+    {
+        $this->execute($this->api->forceDeleteServer(), ['forceDelete' => null, 'id' => $this->id]);
+    }
+
+    /**
      * Resizes the server to a new flavor. Once this operation is complete and server has transitioned
      * to an active state, you will either need to call {@see confirmResize()} or {@see revertResize()}.
      *
