@@ -34,7 +34,7 @@
     },
     "require": {
         "php": "~7.0",
-        "guzzlehttp/guzzle": "^6.1",
+        "guzzlehttp/guzzle": "^7.0",
         "justinrainbow/json-schema": "^5.2"
     },
     "require-dev": {
