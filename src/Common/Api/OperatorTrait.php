@@ -11,6 +11,7 @@ use function GuzzleHttp\uri_template;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Common\Transport\RequestSerializer;
 use Psr\Http\Message\ResponseInterface;
+use OpenStack\Common\Transport\Utils;
 
 trait OperatorTrait
 {
@@ -109,8 +110,7 @@ trait OperatorTrait
 
         $options = (new RequestSerializer())->serializeOptions($operation, $userValues);
         $method  = $async ? 'requestAsync' : 'request';
-        $uri     = uri_template($operation->getPath(), $userValues);
-
+        $uri     = Utils::uri_template($operation->getPath(), $userValues);
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }
 
