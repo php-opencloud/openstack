@@ -7,7 +7,6 @@ namespace OpenStack\Common\Api;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
-use function GuzzleHttp\uri_template;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Common\Transport\RequestSerializer;
 use Psr\Http\Message\ResponseInterface;
@@ -110,6 +109,7 @@ trait OperatorTrait
 
         $options = (new RequestSerializer())->serializeOptions($operation, $userValues);
         $method  = $async ? 'requestAsync' : 'request';
+
         $uri     = Utils::uri_template($operation->getPath(), $userValues);
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }
