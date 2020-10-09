@@ -9,8 +9,8 @@ use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Promise\PromiseInterface;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Common\Transport\RequestSerializer;
-use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Transport\Utils;
+use Psr\Http\Message\ResponseInterface;
 
 trait OperatorTrait
 {
@@ -111,6 +111,7 @@ trait OperatorTrait
         $method  = $async ? 'requestAsync' : 'request';
 
         $uri     = Utils::uri_template($operation->getPath(), $userValues);
+
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }
 

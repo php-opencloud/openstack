@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace OpenStack\Common\Transport;
 
 use function GuzzleHttp\Psr7\uri_for;
+use GuzzleHttp\UriTemplate\UriTemplate;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
-use GuzzleHttp\UriTemplate\UriTemplate;
 
 class Utils
 {
@@ -82,13 +82,11 @@ class Utils
         return uri_for(rtrim((string) $uri, '/').'/'.$path);
     }
 
-     /**
-     * Expands a URI template
+    /**
+     * Expands a URI template.
      *
      * @param string $template  URI template
      * @param array  $variables Template variables
-     *
-     * @return string
      */
     public static function uri_template($template, array $variables): string
     {
@@ -97,6 +95,7 @@ class Utils
             return \uri_template($template, $variables);
             // @codeCoverageIgnoreEnd
         }
+
         return UriTemplate::expand($template, $variables);
     }
 }
