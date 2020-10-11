@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace OpenStack;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Service\Builder;
+use OpenStack\Common\Transport\HandlerStack;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\Identity\v3\Service;
 
@@ -56,7 +56,8 @@ class OpenStack
             && !empty($options['logger'])
             && !empty($options['messageFormatter'])
         ) {
-            $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
+            $logMiddleware = GuzzleMiddleware::log($options['logger'], $options['messageFormatter']);
+            $stack->push($logMiddleware, 'logger');
         }
 
         $clientOptions = [
