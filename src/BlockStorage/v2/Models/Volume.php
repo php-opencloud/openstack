@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace OpenStack\BlockStorage\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 use OpenStack\Common\Transport\Utils;
@@ -62,6 +62,9 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     /** @var string */
     public $host;
 
+    /** @var string */
+    public $bootable;
+
     /** @var array */
     public $metadata = [];
 
@@ -108,8 +111,6 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
 
     /**
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postVolumes}
-     *
-     * @return Creatable
      */
     public function create(array $userOptions): Creatable
     {
@@ -155,5 +156,38 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         $json = Utils::jsonDecode($response);
 
         return isset($json['metadata']) ? $json['metadata'] : [];
+    }
+
+    /**
+     * Update the bootable status for a volume, mark it as a bootable volume.
+     */
+    public function setBootable(bool $bootable = true)
+    {
+        $this->execute($this->api->postVolumeBootable(), ['id' => $this->id, 'bootable' => $bootable]);
+    }
+
+    /**
+     * Sets the image metadata for a volume.
+     */
+    public function setImageMetadata(array $metadata)
+    {
+        $this->execute($this->api->postImageMetadata(), ['id' => $this->id, 'metadata' => $metadata]);
+    }
+
+    /**
+     * Administrator only. Resets the status, attach status, and migration status for a volume. Specify the os-reset_status action in the request body.
+     *
+     * @param array $options
+     *
+     * $options['status']          = (string) The volume status.
+     * $options['migrationStatus'] = (string) The volume migration status.
+     * $options['attachStatus']    = (string) The volume attach status.    [OPTIONAL]
+     *
+     * @see https://developer.openstack.org/api-ref/block-storage/v2/index.html#volume-actions-volumes-action
+     */
+    public function resetStatus(array $options)
+    {
+        $options = array_merge($options, ['id' => $this->id]);
+        $this->execute($this->api->postResetStatus(), $options);
     }
 }

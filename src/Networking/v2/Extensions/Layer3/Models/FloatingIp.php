@@ -2,10 +2,10 @@
 
 namespace OpenStack\Networking\v2\Extensions\Layer3\Models;
 
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Extensions\Layer3\Api;
@@ -73,5 +73,10 @@ class FloatingIp extends OperatorResource implements Listable, Creatable, Retrie
     {
         $response = $this->executeWithState($this->api->getFloatingIp());
         $this->populateFromResponse($response);
+    }
+
+    public function associatePort(string $portId)
+    {
+        $this->execute($this->api->putFloatingIp(), ['id' => $this->id, 'portId' => $portId]);
     }
 }

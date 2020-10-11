@@ -13,7 +13,7 @@ class GatewayInfo extends AbstractResource
     /** @var string */
     public $enableSnat;
 
-    /** @var []FixedIp */
+    /** @var FixedIp[] */
     public $fixedIps;
 
     protected $aliases = [
@@ -27,7 +27,7 @@ class GatewayInfo extends AbstractResource
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'fixed_ips' => new Alias('fixedIps', FixedIp::class, true),
+            'external_fixed_ips' => new Alias('fixedIps', FixedIp::class, true),
         ];
     }
 }

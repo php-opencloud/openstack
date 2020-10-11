@@ -74,7 +74,6 @@ trait HasWaiterTrait
      * Internal method used to identify whether a timeout has been exceeded.
      *
      * @param bool|int $timeout
-     * @param int      $startTime
      *
      * @return bool
      */

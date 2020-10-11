@@ -16,8 +16,6 @@ class Service extends AbstractService
 {
     /**
      * Retrieves an Account object.
-     *
-     * @return Account
      */
     public function getAccount(): Account
     {
@@ -29,8 +27,6 @@ class Service extends AbstractService
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getAccount}
      * @param callable|null $mapFn   allows a function to be mapped over each element in the collection
-     *
-     * @return \Generator
      */
     public function listContainers(array $options = [], callable $mapFn = null): \Generator
     {
@@ -44,8 +40,6 @@ class Service extends AbstractService
      * remote API is not contacted.
      *
      * @param string $name The unique name of the container
-     *
-     * @return Container
      */
     public function getContainer(string $name = null): Container
     {
@@ -56,8 +50,6 @@ class Service extends AbstractService
      * Creates a new container according to the values provided.
      *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putContainer}
-     *
-     * @return Container
      */
     public function createContainer(array $data): Container
     {

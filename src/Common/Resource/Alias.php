@@ -34,8 +34,7 @@ class Alias
     }
 
     /**
-     * @param ResourceInterface $resource
-     * @param mixed             $value
+     * @param mixed $value
      *
      * @return mixed
      */

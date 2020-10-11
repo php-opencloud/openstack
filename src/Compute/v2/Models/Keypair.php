@@ -6,9 +6,9 @@ namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 
@@ -38,6 +38,9 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     public $userId;
 
     /** @var string */
+    public $type;
+
+    /** @var string */
     public $id;
 
     /** @var \DateTimeImmutable */
@@ -47,6 +50,7 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         'public_key'  => 'publicKey',
         'private_key' => 'privateKey',
         'user_id'     => 'userId',
+        'type'        => 'type',
     ];
 
     protected $resourceKey  = 'keypair';

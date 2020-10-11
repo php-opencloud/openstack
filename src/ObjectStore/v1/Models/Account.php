@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace OpenStack\ObjectStore\v1\Models;
 
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use Psr\Http\Message\ResponseInterface;
 
