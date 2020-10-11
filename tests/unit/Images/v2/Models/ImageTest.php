@@ -149,7 +149,7 @@ class ImageTest extends TestCase
         $memberId = '8989447062e04a818baf9e073fd04fa7';
         $expectedJson = ['member' => $memberId];
 
-        $this->setupMock('POST', $this->path . '/members', $expectedJson, [], 'GET_member');
+        $this->setupMock('POST', $this->path . '/members', $expectedJson, [], 'POST_members');
 
         $member = $this->image->addMember('8989447062e04a818baf9e073fd04fa7');
         $this->assertInstanceOf(Member::class, $member);

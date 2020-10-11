@@ -6,14 +6,14 @@ namespace OpenStack\ObjectStore\v1\Models;
 
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\LimitStream;
-use Psr\Http\Message\ResponseInterface;
 use OpenStack\Common\Error\BadResponseError;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
@@ -57,8 +57,6 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getContainer}
      * @param callable|null $mapFn   allows a function to be mapped over each element
-     *
-     * @return \Generator
      */
     public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
@@ -152,8 +150,6 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * {@see StorageObject::retrieve} or {@see StorageObject::download} on the returned StorageObject object to do that.
      *
      * @param string $name The name of the object
-     *
-     * @return StorageObject
      */
     public function getObject($name): StorageObject
     {
@@ -206,8 +202,6 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * @param string $data['segmentContainer'] The container to which each segment will be uploaded
      * @param string $data['segmentPrefix']    The prefix that will come before each segment. If omitted, a default
      *                                         is used: name/timestamp/filesize
-     *
-     * @return StorageObject
      */
     public function createLargeObject(array $data): StorageObject
     {

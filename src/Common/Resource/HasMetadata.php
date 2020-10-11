@@ -11,8 +11,6 @@ interface HasMetadata
     /**
      * Retrieves the metadata for the resource in the form of an associative array or hash. Each key represents the
      * metadata item's name, and each value represents the metadata item's remote value.
-     *
-     * @return array
      */
     public function getMetadata(): array;
 
@@ -56,10 +54,6 @@ interface HasMetadata
 
     /**
      * Extracts metadata from a response object and returns it in the form of an associative array.
-     *
-     * @param ResponseInterface $response
-     *
-     * @return array
      */
     public function parseMetadata(ResponseInterface $response): array;
 }

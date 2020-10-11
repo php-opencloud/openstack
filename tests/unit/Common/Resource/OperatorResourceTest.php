@@ -9,8 +9,8 @@ use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Test\Common\Service\Fixtures\Api;
 use OpenStack\Test\Common\Service\Fixtures\Models\Foo;
 use OpenStack\Test\Common\Service\Fixtures\Service;
-use OpenStack\Test\TestCase;
 use OpenStack\Test\Fixtures\ComputeV2Api;
+use OpenStack\Test\TestCase;
 
 class OperatorResourceTest extends TestCase
 {
@@ -39,7 +39,7 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_executes_with_state()
     {
-        $this->resource->id = 'foo';
+        $this->resource->id  = 'foo';
         $this->resource->bar = 'bar';
 
         $expectedJson = ['id' => 'foo', 'bar' => 'bar'];
@@ -66,7 +66,7 @@ class OperatorResourceTest extends TestCase
         $api = new ComputeV2Api();
 
         foreach ($this->resource->enumerate($api->getServers()) as $item) {
-            $count++;
+            ++$count;
             $this->assertInstanceOf(TestOperatorResource::class, $item);
         }
 
@@ -90,7 +90,7 @@ class OperatorResourceTest extends TestCase
         $count = 0;
 
         $fn = function () use (&$count) {
-            $count++;
+            ++$count;
         };
 
         foreach ($this->resource->enumerate($api->getServers(), [], $fn) as $item) {
@@ -111,7 +111,7 @@ class OperatorResourceTest extends TestCase
         $api = new ComputeV2Api();
 
         foreach ($this->resource->enumerate($api->getServers(), ['limit' => 2]) as $item) {
-            $count++;
+            ++$count;
         }
 
         $this->assertEquals(2, $count);
@@ -126,11 +126,11 @@ class OperatorResourceTest extends TestCase
 
         $count = 0;
 
-        $api = new ComputeV2Api();
-        $resource = new Server($this->client->reveal(), new $api);
+        $api      = new ComputeV2Api();
+        $resource = new Server($this->client->reveal(), new $api());
 
         foreach ($resource->enumerate($api->getServers(), ['limit' => 2]) as $item) {
-            $count++;
+            ++$count;
         }
 
         $this->assertEquals(2, $count);
@@ -166,16 +166,25 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_populates_models_from_arrays()
     {
-        $data = ['flavor' => [], 'image' => []];
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, $data));
+        $data = [
+            'id'  => 123,
+            'bar' => 'this-is-bar',
+        ];
+
+        /** @var TestOperatorResource $model */
+        $model = $this->resource->model(TestOperatorResource::class, $data);
+
+        $this->assertInstanceOf(ResourceInterface::class, $model);
+        $this->assertEquals(123, $model->id);
+        $this->assertEquals('this-is-bar', $model->bar);
     }
 }
 
 class TestOperatorResource extends OperatorResource
 {
-    protected $resourceKey = 'foo';
+    protected $resourceKey  = 'foo';
     protected $resourcesKey = 'servers';
-    protected $markerKey = 'id';
+    protected $markerKey    = 'id';
 
     /** @var string */
     public $bar;

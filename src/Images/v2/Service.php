@@ -24,8 +24,6 @@ class Service extends AbstractService
 
     /**
      * @param null $id
-     *
-     * @return Image
      */
     public function getImage($id = null): Image
     {

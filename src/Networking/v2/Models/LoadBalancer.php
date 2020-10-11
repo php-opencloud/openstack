@@ -129,10 +129,6 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
 
     /**
      * Add a listener to this load balancer.
-     *
-     * @param array $userOptions
-     *
-     * @return LoadBalancerListener
      */
     public function addListener(array $userOptions = []): LoadBalancerListener
     {
@@ -143,8 +139,6 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
 
     /**
      * Get stats for this loadbalancer.
-     *
-     * @return LoadBalancerStat
      */
     public function getStats(): LoadBalancerStat
     {
@@ -156,8 +150,6 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
 
     /**
      * Get the status tree for this loadbalancer.
-     *
-     * @return LoadBalancerStatus
      */
     public function getStatuses(): LoadBalancerStatus
     {

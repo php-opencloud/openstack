@@ -24,7 +24,7 @@ class Params extends AbstractParams
             'location'    => self::JSON,
             'type'        => self::STRING_TYPE,
             'description' => 'Image visibility. Public or private. Default is public.',
-            'enum'        => ['private', 'public'],
+            'enum'        => ['private', 'public', 'community', 'shared'],
         ];
     }
 
@@ -196,10 +196,10 @@ class Params extends AbstractParams
     public function memberId(): array
     {
         return [
-            'location'  => self::JSON,
-            'sentAs'    => 'member',
-            'type'      => self::STRING_TYPE,
-            'documeted' => false,
+            'location'   => self::JSON,
+            'sentAs'     => 'member',
+            'type'       => self::STRING_TYPE,
+            'documented' => false,
         ];
     }
 

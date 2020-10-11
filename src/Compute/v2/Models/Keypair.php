@@ -6,9 +6,9 @@ namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 

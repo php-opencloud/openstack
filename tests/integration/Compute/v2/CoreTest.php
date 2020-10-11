@@ -12,10 +12,12 @@ use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Integration\TestCase;
 use OpenStack\Integration\Utils;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use OpenStack\Networking\v2\Models\Network;
 use OpenStack\Networking\v2\Models\Subnet;
 use OpenStack\Networking\v2\Service as NetworkService;
 use OpenStack\BlockStorage\v2\Service as BlockStorageService;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\Service as SecurityGroupService;
 
 class CoreTest extends TestCase
 {
@@ -23,6 +25,8 @@ class CoreTest extends TestCase
     const NETWORK = 'phptest_network';
     const SUBNET = 'phptest_subnet';
     const VOLUME = 'phptest_volume';
+
+    const SECGROUP = 'phptest_secgroup';
 
     const IMAGE = 'cirros';
 
@@ -32,6 +36,9 @@ class CoreTest extends TestCase
     /** @var BlockStorageService */
     private $blockStorageService;
 
+    /** @var SecurityGroupService */
+    private $secgroupService;
+
     /** @var  Network */
     private $network;
 
@@ -40,6 +47,9 @@ class CoreTest extends TestCase
 
     /** @var  Volume */
     private $volume;
+
+    /** @var SecurityGroup */
+    private $secgroup;
 
     // Core test
     private $service;
@@ -66,6 +76,12 @@ class CoreTest extends TestCase
         }
 
         return $this->networkService;
+    }
+
+    private function getSecurityGroupService(): SecurityGroupService
+    {
+        $this->secgroupService = $this->secgroupService ?? Utils::getOpenStack()->networkingV2ExtSecGroups();
+        return $this->secgroupService;
     }
 
     private function getBlockStorageService()
@@ -100,7 +116,7 @@ class CoreTest extends TestCase
             ]
         );
 
-        $this->logStep('Created network {name} with id {id}', ['name' => $this->network->name, 'id' => $this->network->id]);
+        $this->logStep('Created network {name} with {id}', ['name' => $this->network->name, 'id' => $this->network->id]);
 
         $this->subnet = $this->getNetworkService()->createSubnet(
             [
@@ -111,7 +127,7 @@ class CoreTest extends TestCase
             ]
         );
 
-        $this->logStep('Created subnet {name} with id {id}', ['name' => $this->subnet->name, 'id' => $this->subnet->id]);
+        $this->logStep('Created subnet {name} with {id}', ['name' => $this->subnet->name, 'id' => $this->subnet->id]);
 
         $this->volume = $this->getBlockStorageService()->createVolume(
             [
@@ -121,7 +137,11 @@ class CoreTest extends TestCase
             ]
         );
 
-        $this->logStep('Created volume {name} with id {id}', ['name' => $this->volume->name, 'id' => $this->volume->id]);
+        $this->logStep('Created volume {name} with {id}', ['name' => $this->volume->name, 'id' => $this->volume->id]);
+
+        $this->getSecurityGroupService()->createSecurityGroup(['name' => self::SECGROUP]);
+
+        $this->logStep('Created security group {secgroup}', ['secgroup' => self::SECGROUP]);
     }
 
     public function runTests()
@@ -193,12 +213,14 @@ class CoreTest extends TestCase
             // Interface attachments
             $this->createInterfaceAttachment();
         } finally {
+            $this->logger->info('Tearing down');
             // Teardown
             $this->deleteServer();
             $this->deleteFlavor();
             $this->subnet->delete();
             $this->network->delete();
             $this->volume->delete();
+            $this->secgroup->delete();
         }
 
         $this->outputTimeTaken();
@@ -341,6 +363,7 @@ class CoreTest extends TestCase
 
     private function confirmServerResize()
     {
+        $this->logger->info('Waiting for status VERIFY_RESIZE');
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
@@ -623,8 +646,8 @@ class CoreTest extends TestCase
     private function addSecurityGroupToServer()
     {
         $replacements = [
-            '{serverId}' => $this->serverId,
-            '{secGroupName}' => 'default'
+            '{serverId}'     => $this->serverId,
+            '{secGroupName}' => self::SECGROUP,
         ];
 
         require_once  $this->sampleFile($replacements, 'servers/add_security_group.php');
@@ -650,8 +673,8 @@ class CoreTest extends TestCase
     private function removeServerSecurityGroup()
     {
         $replacements = [
-            '{serverId}' => $this->serverId,
-            '{secGroupName}' => 'default'
+            '{serverId}'     => $this->serverId,
+            '{secGroupName}' => self::SECGROUP,
         ];
 
         require_once $this->sampleFile($replacements, 'servers/remove_security_group.php');

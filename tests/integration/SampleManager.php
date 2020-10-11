@@ -90,8 +90,12 @@ EOL;
 
         $sampleFile = rtrim($this->basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $path;
 
-        if (!file_exists($sampleFile) || !is_readable($sampleFile)) {
-            throw new \RuntimeException(sprintf("%s either does not exist or is not readable", $sampleFile));
+        if (!file_exists($sampleFile)) {
+            throw new \RuntimeException(sprintf("%s does not exist", $sampleFile));
+        }
+
+        if(!is_readable($sampleFile)) {
+            throw new \RuntimeException(sprintf("%s is not readable", $sampleFile));
         }
 
         $content = strtr(file_get_contents($sampleFile), $replacements);

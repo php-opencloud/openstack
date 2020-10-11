@@ -239,7 +239,7 @@ Additionally, integration tests require image called `cirros` exists.
 You interact with integration tests through a runner script:
 
 ```bash
-php ./tests/integration/run.php
+php ./tests/integration/run.php [-s=BlockStorage|Compute|Identity|Images|Networking|ObjectStore] [--debug=1|2]
 ```
 
 It supports these command-line flags:
