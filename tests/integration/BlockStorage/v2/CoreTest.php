@@ -41,7 +41,6 @@ class CoreTest extends TestCase
     public function volumes()
     {
         $this->logStep('-> Volumes tests');
-        $this->logStep('Creating volume type');
         $volumeType = $this->getService()->createVolumeType(['name' => $this->randomStr()]);
 
         $replacements = [
@@ -92,8 +91,6 @@ class CoreTest extends TestCase
 
     public function volumeTypes()
     {
-        $this->logStep('-> Volumes Types tests');
-
         $replacements = [
             '{name}' => $this->randomStr(),
         ];
@@ -128,8 +125,6 @@ class CoreTest extends TestCase
 
     public function snapshots()
     {
-        $this->logStep('-> Snapshot tests');
-
         $this->logStep('Creating volume');
         $volume = $this->getService()->createVolume(['name' => $this->randomStr(), 'size' => 1]);
         $volume->waitUntil('available', 60);
