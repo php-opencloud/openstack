@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenStack\Common\Transport;
 
-use function GuzzleHttp\Psr7\uri_for;
+use GuzzleHttp\Psr7\Utils as GuzzleUtils;
 use GuzzleHttp\UriTemplate\UriTemplate;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -74,12 +74,12 @@ class Utils
      */
     public static function addPaths(UriInterface $uri, ...$paths): UriInterface
     {
-        return uri_for(rtrim((string) $uri, '/').'/'.implode('/', $paths));
+        return GuzzleUtils::uriFor(rtrim((string) $uri, '/').'/'.implode('/', $paths));
     }
 
     public static function appendPath(UriInterface $uri, $path): UriInterface
     {
-        return uri_for(rtrim((string) $uri, '/').'/'.$path);
+        return GuzzleUtils::uriFor(rtrim((string) $uri, '/').'/'.$path);
     }
 
     /**
