@@ -119,8 +119,6 @@ class Builder
     }
 
     /**
-     * @param array $options
-     *
      * @codeCoverageIgnore
      */
     private function stockAuthHandler(array &$options)
@@ -167,10 +165,7 @@ class Builder
         }
 
         if (!isset($options['identityService']) || !($options['identityService'] instanceof IdentityService)) {
-            throw new \InvalidArgumentException(sprintf(
-                '"identityService" must be specified and implement %s',
-                IdentityService::class
-            ));
+            throw new \InvalidArgumentException(sprintf('"identityService" must be specified and implement %s', IdentityService::class));
         }
 
         return $options;

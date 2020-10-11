@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
-use OpenStack\Common\Resource\OperatorResource;
 
 /**
  * Represents an Identity v2 Token.

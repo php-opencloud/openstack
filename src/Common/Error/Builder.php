@@ -45,8 +45,6 @@ class Builder
      * Internal method used when outputting headers in the error description.
      *
      * @param $name
-     *
-     * @return string
      */
     private function header(string $name): string
     {
@@ -58,8 +56,6 @@ class Builder
      * directed off to a broken link. If a 404 is detected, it is hidden.
      *
      * @param $link The proposed link
-     *
-     * @return bool
      */
     private function linkIsValid(string $link): bool
     {
@@ -73,11 +69,7 @@ class Builder
     }
 
     /**
-     * @param MessageInterface $message
-     *
      * @codeCoverageIgnore
-     *
-     * @return string
      */
     public function str(MessageInterface $message): string
     {
@@ -110,8 +102,6 @@ class Builder
      *
      * @param RequestInterface  $request  The faulty request
      * @param ResponseInterface $response The error-filled response
-     *
-     * @return BadResponseError
      */
     public function httpError(RequestInterface $request, ResponseInterface $response): BadResponseError
     {
@@ -160,8 +150,6 @@ class Builder
      * @param string      $expectedType The type that was expected from the user
      * @param mixed       $userValue    The incorrect value the user actually provided
      * @param string|null $furtherLink  a link to further information if necessary (optional)
-     *
-     * @return UserInputError
      */
     public function userInputError(string $expectedType, $userValue, string $furtherLink = null): UserInputError
     {

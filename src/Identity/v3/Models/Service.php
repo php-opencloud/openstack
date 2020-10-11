@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
@@ -93,7 +93,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
 
     private function typeMatches(string $value): bool
     {
-        return $this->type && $this->type = $value;
+        return $this->type && $this->type == $value;
     }
 
     /**

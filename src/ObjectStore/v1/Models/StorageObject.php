@@ -6,13 +6,13 @@ namespace OpenStack\ObjectStore\v1\Models;
 
 use GuzzleHttp\Psr7\Uri;
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Transport\Utils;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Transport\Utils;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * @property \OpenStack\ObjectStore\v1\Api $api
@@ -75,8 +75,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     }
 
     /**
-     * @param ResponseInterface $response
-     *
      * @return $this
      */
     private function populateHeaders(ResponseInterface $response): self
@@ -92,8 +90,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
 
     /**
      * Retrieves the public URI for this resource.
-     *
-     * @return \GuzzleHttp\Psr7\Uri
      */
     public function getPublicUri(): Uri
     {
@@ -141,8 +137,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
      * improve performance when handling large objects.
      *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::getObject}
-     *
-     * @return StreamInterface
      */
     public function download(array $data = []): StreamInterface
     {

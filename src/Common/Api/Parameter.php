@@ -118,9 +118,6 @@ class Parameter
      */
     private $enum;
 
-    /**
-     * @param array $data
-     */
     public function __construct(array $data)
     {
         $this->hydrate($data);
@@ -163,8 +160,6 @@ class Parameter
 
     /**
      * Retrieve the name that will be used over the wire.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -173,8 +168,6 @@ class Parameter
 
     /**
      * Indicates whether the user must provide a value for this parameter.
-     *
-     * @return bool
      */
     public function isRequired(): bool
     {
@@ -207,24 +200,14 @@ class Parameter
     private function validateEnums($userValues)
     {
         if (!empty($this->enum) && 'string' == $this->type && !in_array($userValues, $this->enum)) {
-            throw new \Exception(sprintf(
-                'The only permitted values are %s. You provided %s',
-                implode(', ', $this->enum),
-                print_r($userValues, true)
-            ));
+            throw new \Exception(sprintf('The only permitted values are %s. You provided %s', implode(', ', $this->enum), print_r($userValues, true)));
         }
     }
 
     private function validateType($userValues)
     {
         if (!$this->hasCorrectType($userValues)) {
-            throw new \Exception(sprintf(
-                'The key provided "%s" has the wrong value type. You provided %s (%s) but was expecting %s',
-                $this->name,
-                print_r($userValues, true),
-                gettype($userValues),
-                $this->type
-            ));
+            throw new \Exception(sprintf('The key provided "%s" has the wrong value type. You provided %s (%s) but was expecting %s', $this->name, print_r($userValues, true), gettype($userValues), $this->type));
         }
     }
 
@@ -268,8 +251,6 @@ class Parameter
      * by this parameter.
      *
      * @param $userValue The value being checked
-     *
-     * @return bool
      */
     private function hasCorrectType($userValue): bool
     {
@@ -302,8 +283,6 @@ class Parameter
 
     /**
      * Indicates whether this parameter represents an array type.
-     *
-     * @return bool
      */
     public function isArray(): bool
     {
@@ -312,8 +291,6 @@ class Parameter
 
     /**
      * Indicates whether this parameter represents an object type.
-     *
-     * @return bool
      */
     public function isObject(): bool
     {
@@ -329,8 +306,6 @@ class Parameter
      * Verifies whether the given location matches the parameter's location.
      *
      * @param $value
-     *
-     * @return bool
      */
     public function hasLocation($value): bool
     {
@@ -359,8 +334,6 @@ class Parameter
 
     /**
      * Sets the name of the parameter to a new value.
-     *
-     * @param string $name
      */
     public function setName(string $name)
     {
@@ -372,7 +345,7 @@ class Parameter
      *
      * @param string $name The name of the child property
      *
-     * @return null|Parameter
+     * @return Parameter|null
      */
     public function getProperty(string $name)
     {

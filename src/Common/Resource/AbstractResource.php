@@ -38,8 +38,6 @@ abstract class AbstractResource implements ResourceInterface, Serializable
     /**
      * Populates the current resource from a response object.
      *
-     * @param ResponseInterface $response
-     *
      * @return AbstractResource
      */
     public function populateFromResponse(ResponseInterface $response)
@@ -56,8 +54,6 @@ abstract class AbstractResource implements ResourceInterface, Serializable
 
     /**
      * Populates the current resource from a data array.
-     *
-     * @param array $array
      *
      * @return mixed|void
      */
@@ -99,8 +95,6 @@ abstract class AbstractResource implements ResourceInterface, Serializable
 
     /**
      * Internal method which retrieves the values of provided keys.
-     *
-     * @param array $keys
      *
      * @return array
      */

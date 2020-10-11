@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 
 class Assignment extends OperatorResource implements Listable
 {

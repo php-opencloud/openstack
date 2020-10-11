@@ -67,7 +67,7 @@ class CoreTest extends TestCase
             '{tag2}'            => 'quantal',
             '{containerFormat}' => 'bare',
             '{diskFormat}'      => 'qcow2',
-            '{visibility}'      => 'private',
+            '{visibility}'      => 'shared',
             'true'              => 'false',
         ];
 
@@ -75,11 +75,14 @@ class CoreTest extends TestCase
         /** @var Image $image */
         require_once $this->sampleFile($replacements, 'images/create.php');
 
-        $replacements = ['{imageId}' => $image->id];
+
+
+        $this->logStep(sprintf('Image created with id=%s', $image->id));
 
         $this->logStep('Adding member');
+        $replacements += ['{imageId}' => $image->id];
         /** @var Member $member */
-        require_once $this->sampleFile($replacements, 'members/add.php');
+        require_once $this->sampleFile(['{imageId}' => $image->id, ], 'members/add.php');
         $this->assertInstanceOf(Member::class, $member);
 
         $replacements += ['status' => Member::STATUS_REJECTED];

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
-use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
-use OpenStack\Networking\v2\Models\InterfaceAttachment;
 use OpenStack\Compute\v2\Enum;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
+use OpenStack\Networking\v2\Models\InterfaceAttachment;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -270,8 +270,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Rescues the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rescueServer}
-     *
-     * @return string
      */
     public function rescue(array $options): string
     {
@@ -325,8 +323,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets the console output of the server.
      *
      * @param int $length the number of lines, by default all lines will be returned
-     *
-     * @return string
      */
     public function getConsoleOutput(int $length = -1): string
     {
@@ -346,8 +342,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      *
      * @param string $type the type of VNC console: novnc|xvpvnc.
      *                     Defaults to novnc
-     *
-     * @return array
      */
     public function getVncConsole($type = Enum::CONSOLE_NOVNC): array
     {
@@ -360,8 +354,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets a RDP console for a server.
      *
      * @param string $type the type of VNC console: rdp-html5 (default)
-     *
-     * @return array
      */
     public function getRDPConsole($type = Enum::CONSOLE_RDP_HTML5): array
     {
@@ -374,8 +366,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets a Spice console for a server.
      *
      * @param string $type the type of VNC console: spice-html5
-     *
-     * @return array
      */
     public function getSpiceConsole($type = Enum::CONSOLE_SPICE_HTML5): array
     {
@@ -388,8 +378,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets a serial console for a server.
      *
      * @param string $type the type of VNC console: serial
-     *
-     * @return array
      */
     public function getSerialConsole($type = Enum::CONSOLE_SERIAL): array
     {
@@ -428,8 +416,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Returns Generator for InterfaceAttachment.
-     *
-     * @return \Generator
      */
     public function listInterfaceAttachments(array $options = []): \Generator
     {
@@ -440,8 +426,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets an interface attachment.
      *
      * @param string $portId the unique ID of the port
-     *
-     * @return InterfaceAttachment
      */
     public function getInterfaceAttachment(string $portId): InterfaceAttachment
     {
@@ -457,8 +441,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Creates an interface attachment.
      *
      * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postInterfaceAttachment}
-     *
-     * @return InterfaceAttachment
      */
     public function createInterfaceAttachment(array $userOptions): InterfaceAttachment
     {
@@ -473,8 +455,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Detaches an interface attachment.
-     *
-     * @param string $portId
      */
     public function detachInterface(string $portId)
     {
@@ -486,8 +466,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Retrieves metadata from the API.
-     *
-     * @return array
      */
     public function getMetadata(): array
     {
@@ -557,8 +535,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Add security group to a server (addSecurityGroup action).
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::postSecurityGroup}
-     *
-     * @return SecurityGroup
      */
     public function addSecurityGroup(array $options): SecurityGroup
     {
@@ -587,8 +563,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Returns Generator for SecurityGroups.
-     *
-     * @return \Generator
      */
     public function listSecurityGroups(): \Generator
     {
@@ -597,8 +571,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Returns Generator for VolumeAttachment.
-     *
-     * @return \Generator
      */
     public function listVolumeAttachments(): \Generator
     {
@@ -609,8 +581,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Attach a volume and returns volume that was attached.
      *
      * @param $volumeId
-     *
-     * @return VolumeAttachment
      */
     public function attachVolume(string $volumeId): VolumeAttachment
     {
