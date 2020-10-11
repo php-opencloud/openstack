@@ -359,7 +359,7 @@ EOL
                     'volumeType' => [
                         'type'        => self::STRING_TYPE,
                         'sentAs'      => 'volume_type',
-                        'description' => 'This can be used to specify the type of volume which the compute service will create and attach to the server.',
+                        'description' => 'The type of volume which the compute service will create and attach to the server.',
                     ],
                 ],
             ],
