@@ -28,8 +28,11 @@ class CoreTest extends TestCase
     {
         $this->startTimer();
 
+        $this->logger->info('-> Volumes');
         $this->volumes();
+        $this->logger->info('-> Volume Types');
         $this->volumeTypes();
+        $this->logger->info('-> Snapshots');
         $this->snapshots();
 
         $this->outputTimeTaken();
@@ -37,7 +40,7 @@ class CoreTest extends TestCase
 
     public function volumes()
     {
-        $this->logStep('Creating volume type');
+        $this->logStep('-> Volumes tests');
         $volumeType = $this->getService()->createVolumeType(['name' => $this->randomStr()]);
 
         $replacements = [
@@ -124,7 +127,7 @@ class CoreTest extends TestCase
     {
         $this->logStep('Creating volume');
         $volume = $this->getService()->createVolume(['name' => $this->randomStr(), 'size' => 1]);
-        $volume->waitUntilActive();
+        $volume->waitUntil('available', 60);
 
         $replacements = [
             '{volumeId}'    => $volume->id,
@@ -137,7 +140,7 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'snapshots/create.php');
         $this->assertInstanceOf(Snapshot::class, $snapshot);
         $this->assertEquals($replacements['{name}'], $snapshot->name);
-        $snapshot->waitUntilActive();
+        $volume->waitUntil('available', 60);
 
         $snapshotId = $snapshot->id;
         $replacements = ['{snapshotId}' => $snapshotId];

@@ -11,4 +11,4 @@ $openstack = new OpenStack\OpenStack([
 
 $member = $openstack->imagesV2()
                     ->getImage('{imageId}')
-                    ->addMember('{tenantId}');
+                    ->addMember('{projectId}');

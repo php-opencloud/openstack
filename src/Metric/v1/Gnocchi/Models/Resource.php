@@ -6,6 +6,7 @@ namespace OpenStack\Metric\v1\Gnocchi\Models;
 
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
+use OpenStack\Common\Transport\Utils;
 use OpenStack\Metric\v1\Gnocchi\Api;
 
 /**
@@ -132,7 +133,7 @@ class Resource extends OperatorResource implements Retrievable
 
         $response = $this->execute($this->api->getResourceMetricMeasures(), $options);
 
-        return \GuzzleHttp\json_decode($response->getBody());
+        return Utils::jsonDecode($response);
     }
 
     /**
