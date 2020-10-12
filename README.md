@@ -44,7 +44,7 @@ out by open an issue in github.
 | --------- | --------------------------- | ------------- | ----------------------- |
 | `^3.1`    | Latest                      | `>=7.2.5`     | Oct 2023                |
 | `^3.0`    | Bug fixed only              | `>=7.0`       | Oct 2020                |
-| `^2.0`    | EOL (Bug fixes only)        | `>=7.0,<7.2`  | March 2018              |
+| `^2.0`    | End of life                 | `>=7.0,<7.2`  | March 2018              |
 
 
 ## Upgrade from 2.x to 3.x
