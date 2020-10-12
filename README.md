@@ -24,14 +24,15 @@ integration tests with a real cluster.
 If you or your organization are in a position that can help us access popular distributions as listed below, do reach 
 out by open an issue in github.
 
-| Distribution        |                         |
-|---------------------|-------------------------|
-|OpenStack RDO        | :white_check_mark:      |
-|Red Hat OpenStack    | Need sponsor!    |
-|OVH OpenStack        | Need sponsor!    |
-|SUSE OpenStack       | Need sponsor!    |
-|Canonical OpenStack  | Need sponsor!    |
-|RackSpace OpenStack  | Need sponsor!    |
+| Distribution                       |                         |
+|------------------------------------|-------------------------|
+|OpenStack RDO                       | :white_check_mark:      |
+|Red Hat OpenStack                   | Need sponsor!           |
+|OVH OpenStack                       | Need sponsor!           |
+|SUSE OpenStack                      | Need sponsor!           |
+|Canonical OpenStack                 | Need sponsor!           |
+|RackSpace OpenStack                 | Need sponsor!           |
+|Dedicated server or VPS (8GB+ RAM)  | Need sponsor!           |
 
 ## Join the community
    
