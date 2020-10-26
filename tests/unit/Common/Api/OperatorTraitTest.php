@@ -111,7 +111,7 @@ class OperatorTraitTest extends TestCase
         $this->client->request('GET', 'test', ['headers' => [], 'stream' => true])->willReturn(new Response());
 
         $this->operator->execute($this->def, [
-            'guzzle' => ['stream' => true]
+            'requestOptions' => ['stream' => true]
         ]);
 
         $this->addToAssertionCount(1);
