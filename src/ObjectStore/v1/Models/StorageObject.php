@@ -133,8 +133,9 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     /**
      * This call will perform a `GET` HTTP request for the given object and return back its content in the form of a
      * Guzzle Stream object. Downloading an object will transfer all of the content for an object, and is therefore
-     * distinct from fetching its metadata (a `HEAD` request). The body of an object is not fetched by default to
-     * improve performance when handling large objects.
+     * distinct from fetching its metadata (a `HEAD` request). The whole body of the object is fetched before the
+     * function returns, set the `'requestOptions'` key of {@param $data} to `['stream' => true]` to get the stream
+     * before the end of download.
      *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::getObject}
      */

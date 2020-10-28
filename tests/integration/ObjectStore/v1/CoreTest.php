@@ -153,6 +153,17 @@ class CoreTest extends TestCase
         $this->assertInstanceOf(StreamInterface::class, $stream);
         $this->assertEquals(1000, $stream->getSize());
 
+        $this->logStep('Downloading object using streaming');
+        /** @var StreamInterface $stream */
+        require_once $this->sampleFile($replacements, 'objects/download_stream.php');
+        $this->assertInstanceOf(StreamInterface::class, $stream);
+
+        $body = '';
+        while (!$stream->eof()) {
+            $body .= $stream->read(64);
+        }
+        $this->assertEquals(1000, strlen($body));
+
         $this->logStep('Get object');
         require_once $this->sampleFile($replacements, 'objects/get.php');
 

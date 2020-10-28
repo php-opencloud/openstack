@@ -105,6 +105,17 @@ class OperatorTraitTest extends TestCase
         $data = ['flavor' => [], 'image' => []];
         $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, $data));
     }
+
+    public function test_guzzle_options_are_forwarded()
+    {
+        $this->client->request('GET', 'test', ['headers' => [], 'stream' => true])->willReturn(new Response());
+
+        $this->operator->execute($this->def, [
+            'requestOptions' => ['stream' => true]
+        ]);
+
+        $this->addToAssertionCount(1);
+    }
 }
 
 class TestResource extends AbstractResource

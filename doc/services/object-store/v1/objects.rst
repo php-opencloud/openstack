@@ -32,6 +32,9 @@ Download an object
 As you will notice, a Stream_ object is returned by this call. For more information about dealing with streams, please
 consult `Guzzle's docs`_.
 
+By default, the whole body of the object is fetched before the function returns, set the ``'requestOptions'`` key of
+parameter ``$data`` to ``['stream' => true]`` to get the stream before the end of download.
+
 .. _Stream: https://github.com/guzzle/streams/blob/master/src/Stream.php
 .. _Guzzle's docs: https://guzzle.readthedocs.org/en/5.3/streams.html
 
