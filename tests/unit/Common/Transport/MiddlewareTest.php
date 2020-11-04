@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Common\Transport;
+namespace OpenStack\Test\Common\Transport;
 
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Request;

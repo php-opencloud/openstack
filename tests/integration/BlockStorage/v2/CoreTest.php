@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\integration\BlockStorage\v2;
+namespace OpenStack\Integration\BlockStorage\v2;
 
 use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;

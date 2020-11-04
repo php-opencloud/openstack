@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\integration;
+namespace OpenStack\Integration;
 
 use OpenStack\Integration\SampleManagerInterface;
 

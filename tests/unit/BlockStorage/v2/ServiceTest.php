@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\BlockStorage\v2;
+namespace OpenStack\Test\BlockStorage\v2;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\BlockStorage\v2\Api;

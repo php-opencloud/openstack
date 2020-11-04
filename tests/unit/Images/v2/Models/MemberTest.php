@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Images\v2\Models;
+namespace OpenStack\Test\Images\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Images\v2\Api;
