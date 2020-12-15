@@ -26,13 +26,11 @@ out by open an issue in github.
 
 | Distribution                       |                         |
 |------------------------------------|-------------------------|
-|OpenStack RDO                       | :white_check_mark:      |
+|OpenStack RDO<br>MicroStack Openstack | Sponsored by [![Ai.net](https://i.imgur.com/wsFRFuX.png)](https://www.ai.net/) |
 |Red Hat OpenStack                   | Need sponsor!           |
 |OVH OpenStack                       | Need sponsor!           |
 |SUSE OpenStack                      | Need sponsor!           |
-|Canonical OpenStack                 | Need sponsor!           |
 |RackSpace OpenStack                 | Need sponsor!           |
-|Dedicated server or VPS (8GB+ RAM)  | Need sponsor!           |
 
 ## Join the community
    
