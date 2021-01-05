@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Networking\v2\Extensions\SecurityGroups;
+namespace OpenStack\Test\Networking\v2\Extensions\SecurityGroups;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Test\TestCase;
