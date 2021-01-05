@@ -42,8 +42,8 @@
         "phpunit/phpunit": "^6.5",
         "psr/log": "^1.0",
         "php-coveralls/php-coveralls": "^2.0",
-        "jakub-onderka/php-parallel-lint": "^1.0",
-        "friendsofphp/php-cs-fixer": "^2.13"
+        "friendsofphp/php-cs-fixer": "^2.13",
+        "php-parallel-lint/php-parallel-lint": "^1.2"
     },
     "extra": {
         "branch-alias": {
