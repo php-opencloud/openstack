@@ -26,7 +26,7 @@ class ServiceTest extends TestCase
 
     public function test_Account()
     {
-        $this->assertInstanceOf(Account::class, $this->service->getAccount());
+        self::assertInstanceOf(Account::class, $this->service->getAccount());
     }
 
     public function test_it_lists_containers()
@@ -37,7 +37,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('GET_Container'));
 
         foreach ($this->service->listContainers(['limit' => 2]) as $container) {
-            $this->assertInstanceOf(Container::class, $container);
+            self::assertInstanceOf(Container::class, $container);
         }
     }
 
@@ -51,7 +51,7 @@ class ServiceTest extends TestCase
     {
         $this->setupMock('HEAD', 'foo', null, [], new Response(200));
 
-        $this->assertTrue($this->service->containerExists('foo'));
+        self::assertTrue($this->service->containerExists('foo'));
     }
 
     public function test_it_returns_false_if_container_does_not_exist()
@@ -65,7 +65,7 @@ class ServiceTest extends TestCase
             ->shouldBeCalled()
             ->willThrow($e);
 
-        $this->assertFalse($this->service->containerExists('foo'));
+        self::assertFalse($this->service->containerExists('foo'));
     }
 
     public function test_it_throws_exception_when_error()

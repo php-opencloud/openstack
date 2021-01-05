@@ -92,7 +92,7 @@ class BuilderTest extends TestCase
             'identityService' => $is->reveal(),
         ]);
 
-        $this->assertInstanceOf(Fixtures\Service::class, $s);
+        self::assertInstanceOf(Fixtures\Service::class, $s);
     }
 
     public function test_it_does_not_authenticate_for_identity_services()
@@ -104,7 +104,7 @@ class BuilderTest extends TestCase
             'identityService' => $is->reveal(),
         ]);
 
-        $this->assertInstanceOf(Fixtures\Identity\Service::class, $s);
+        self::assertInstanceOf(Fixtures\Identity\Service::class, $s);
     }
 
     public function test_it_create_service_with_micro_version()
@@ -117,7 +117,7 @@ class BuilderTest extends TestCase
                 'microVersion' => '1.2.3'
             ]);
 
-        $this->assertInstanceOf(Fixtures\Service::class, $s);
+        self::assertInstanceOf(Fixtures\Service::class, $s);
 
         $refClass = new \ReflectionClass($s);
         $refProperty = $refClass->getProperty('client');
@@ -127,8 +127,8 @@ class BuilderTest extends TestCase
         $client = $refProperty->getValue($s);
 
         $headers = $client->getConfig()['headers'];
-        $this->assertArrayHasKey('OpenStack-API-Version', $headers);
-        $this->assertEquals('7 1.2.3', $headers['OpenStack-API-Version']);
+        self::assertArrayHasKey('OpenStack-API-Version', $headers);
+        self::assertEquals('7 1.2.3', $headers['OpenStack-API-Version']);
     }
 }
 

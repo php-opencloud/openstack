@@ -38,7 +38,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
 
         $actual = $this->serializer->stockJson($param->reveal(), $userValue, []);
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_arrays()
@@ -62,7 +62,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
 
         $actual = $this->serializer->stockJson($param->reveal(), $userValues, []);
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_objects()
@@ -84,7 +84,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
 
         $json = $this->serializer->stockJson($param->reveal(), (object)['foo' => true], []);
 
-        $this->assertEquals($expected, $json);
+        self::assertEquals($expected, $json);
     }
 
     public function test_it_serializes_non_stdClass_objects()
@@ -142,7 +142,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $json);
+        self::assertEquals($expected, $json);
     }
 
     public function test_exception_is_thrown_when_non_stdClass_or_serializable_object_provided()

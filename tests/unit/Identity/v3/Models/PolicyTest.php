@@ -42,8 +42,8 @@ class PolicyTest extends TestCase
         /** @var $policy \OpenStack\Identity\v3\Models\Policy */
         $policy = $this->policy->create($userOptions);
 
-        $this->assertInstanceOf(Policy::class, $policy);
-        $this->assertEquals('--policy-id--', $policy->id);
+        self::assertInstanceOf(Policy::class, $policy);
+        self::assertEquals('--policy-id--', $policy->id);
     }
 
     public function test_it_retrieves()

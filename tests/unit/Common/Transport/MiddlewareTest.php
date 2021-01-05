@@ -20,7 +20,7 @@ class MiddlewareTest extends TestCase
         $fn = $middleware($handler);
 
         $promise = $fn(new Request('GET', 'http://foo.com'), []);
-        $this->assertEquals('pending', $promise->getState());
+        self::assertEquals('pending', $promise->getState());
 
 		$this->expectException(BadResponseError::class);
 		$promise->wait();
@@ -37,7 +37,7 @@ class MiddlewareTest extends TestCase
         $promise = $fn(new Request('GET', 'http://foo.com'), []);
 
         $promise->then(function ($val) use ($response) {
-            $this->assertEquals($val, $response);
+            self::assertEquals($val, $response);
         });
 
         $promise->wait();
@@ -53,6 +53,6 @@ class MiddlewareTest extends TestCase
         $handler  = new MockHandler([new Response(204)]);
         $fn = $middleware($handler);
 
-        $this->assertInstanceOf(AuthHandler::class, $fn);
+        self::assertInstanceOf(AuthHandler::class, $fn);
     }
 }

@@ -70,8 +70,8 @@ class RouterTest extends TestCase
 
         $this->router->retrieve();
 
-        $this->assertEquals('f8a44de0-fc8e-45df-93c7-f79bf3b01c95', $this->router->id);
-        $this->assertCount(2, $this->router->externalGatewayInfo->fixedIps);
+        self::assertEquals('f8a44de0-fc8e-45df-93c7-f79bf3b01c95', $this->router->id);
+        self::assertCount(2, $this->router->externalGatewayInfo->fixedIps);
     }
 
     public function test_it_adds_interface()

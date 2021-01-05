@@ -28,6 +28,6 @@ class HostTest extends TestCase
 
         $this->host->retrieve();
 
-        $this->assertEquals("b6e4adbc193d428ea923899d07fb001e", $this->host->name);
+        self::assertEquals("b6e4adbc193d428ea923899d07fb001e", $this->host->name);
     }
 }

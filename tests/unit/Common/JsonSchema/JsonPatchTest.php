@@ -18,7 +18,7 @@ class JsonPatchTest extends TestCase
 
             $actual = JsonPatch::diff($fixture->doc, $fixture->expected);
 
-            $this->assertEquals(
+            self::assertEquals(
                 json_encode($fixture->patch, JSON_UNESCAPED_SLASHES),
                 json_encode($actual, JSON_UNESCAPED_SLASHES),
                 isset($fixture->comment) ? sprintf("Failed asserting test: %s\n", $fixture->comment) : ''

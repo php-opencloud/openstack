@@ -19,18 +19,18 @@ class OperationTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_reveals_whether_params_are_set_or_not()
     {
-        $this->assertFalse($this->operation->hasParam('foo'));
-        $this->assertTrue($this->operation->hasParam('name'));
+        self::assertFalse($this->operation->hasParam('foo'));
+        self::assertTrue($this->operation->hasParam('name'));
     }
 
     public function test_it_gets_params()
     {
-        $this->assertInstanceOf(Parameter::class, $this->operation->getParam('name'));
+        self::assertInstanceOf(Parameter::class, $this->operation->getParam('name'));
     }
 
     public function test_it_validates_params()
     {
-        $this->assertTrue($this->operation->validate([
+        self::assertTrue($this->operation->validate([
             'name'     => 'foo',
             'imageId'  => 'bar',
             'flavorId' => 'baz',
@@ -40,7 +40,7 @@ class OperationTest extends \PHPUnit\Framework\TestCase
     public function test_exceptions_are_propagated()
     {
 		$this->expectException(\Exception::class);
-        $this->assertFalse($this->operation->validate([
+        self::assertFalse($this->operation->validate([
             'name'     => true,
             'imageId'  => 'bar',
             'flavorId' => 'baz',
@@ -63,6 +63,6 @@ class OperationTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_gets_json_key()
     {
-        $this->assertEquals('server', $this->operation->getJsonKey());
+        self::assertEquals('server', $this->operation->getJsonKey());
     }
 }

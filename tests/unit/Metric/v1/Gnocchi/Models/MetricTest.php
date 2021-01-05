@@ -26,7 +26,7 @@ class MetricTest extends TestCase
         $this->setupMock('GET', 'v1/metric/000b7bf8-0271-46dd-90aa-cfe89026a55a', null, [], 'metric-get');
         $this->metric->retrieve();
 
-        $this->assertEquals('000b7bf8-0271-46dd-90aa-cfe89026a55a', $this->metric->id);
-        $this->assertEquals('storage.objects.outgoing.bytes', $this->metric->name);
+        self::assertEquals('000b7bf8-0271-46dd-90aa-cfe89026a55a', $this->metric->id);
+        self::assertEquals('storage.objects.outgoing.bytes', $this->metric->name);
     }
 }

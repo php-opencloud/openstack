@@ -37,7 +37,7 @@ class OperatorTraitTest extends TestCase
 
     public function test_it_returns_operations()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Operation::class,
             $this->operator->getOperation($this->def, [])
         );
@@ -65,10 +65,10 @@ class OperatorTraitTest extends TestCase
     {
         $promise = $this->operator->createAsync('something');
 
-        $this->assertInstanceOf(Promise::class, $promise);
+        self::assertInstanceOf(Promise::class, $promise);
 
         $promise->then(function ($val) {
-            $this->assertEquals('Created something', $val);
+            self::assertEquals('Created something', $val);
         });
 
         $promise->wait();
@@ -88,18 +88,18 @@ class OperatorTraitTest extends TestCase
 
     public function test_it_returns_a_model_instance()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class));
+        self::assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class));
     }
 
     public function test_it_populates_models_from_response()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, new Response(200)));
+        self::assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, new Response(200)));
     }
 
     public function test_it_populates_models_from_arrays()
     {
         $data = ['flavor' => [], 'image' => []];
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, $data));
+        self::assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, $data));
     }
 
     public function test_guzzle_options_are_forwarded()

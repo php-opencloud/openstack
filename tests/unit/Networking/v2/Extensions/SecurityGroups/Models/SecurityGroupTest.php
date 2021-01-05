@@ -37,10 +37,10 @@ class SecurityGroupTest extends TestCase
 
         $this->securityGroup->retrieve();
 
-        $this->assertEquals('test_security_group', $this->securityGroup->name);
-        $this->assertEquals('test_security_group_description', $this->securityGroup->description);
-        $this->assertEquals(self::SECURITY_GROUP_ID, $this->securityGroup->id);
-        $this->assertEquals(2, count($this->securityGroup->securityGroupRules));
+        self::assertEquals('test_security_group', $this->securityGroup->name);
+        self::assertEquals('test_security_group_description', $this->securityGroup->description);
+        self::assertEquals(self::SECURITY_GROUP_ID, $this->securityGroup->id);
+        self::assertEquals(2, count($this->securityGroup->securityGroupRules));
     }
 
     public function test_it_updates()
@@ -66,6 +66,6 @@ class SecurityGroupTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/security-groups', $expectedJson, [], 'SecurityGroup');
 
-        $this->assertInstanceOf(SecurityGroup::class, $this->securityGroup->create($opts));
+        self::assertInstanceOf(SecurityGroup::class, $this->securityGroup->create($opts));
     }
 }

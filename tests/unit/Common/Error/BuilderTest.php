@@ -26,7 +26,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_injects_client()
     {
-        $this->assertInstanceOf(Builder::class, new Builder($this->client->reveal()));
+        self::assertInstanceOf(Builder::class, new Builder($this->client->reveal()));
     }
 
     public function test_it_builds_http_errors()
@@ -59,7 +59,7 @@ EOT;
         $e->setRequest($request);
         $e->setResponse($response);
 
-        $this->assertEquals($e, $this->builder->httpError($request, $response));
+        self::assertEquals($e, $this->builder->httpError($request, $response));
     }
 
     public function test_it_builds_user_input_errors()
@@ -88,7 +88,7 @@ EOT;
 
         $e = new UserInputError($errorMessage);
 
-        $this->assertEquals($e, $this->builder->userInputError($expected, $value, 'index.html'));
+        self::assertEquals($e, $this->builder->userInputError($expected, $value, 'index.html'));
     }
 
     public function test_dead_links_are_ignored()
@@ -116,6 +116,6 @@ EOT;
 
         $e = new UserInputError($errorMessage);
 
-        $this->assertEquals($e, $this->builder->userInputError($expected, $value, 'sdffsda'));
+        self::assertEquals($e, $this->builder->userInputError($expected, $value, 'sdffsda'));
     }
 }

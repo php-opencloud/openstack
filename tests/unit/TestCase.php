@@ -77,23 +77,23 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $resources = call_user_func($call);
 
-        $this->assertInstanceOf('\Generator', $resources);
+        self::assertInstanceOf('\Generator', $resources);
 
         $count = 0;
 
         foreach ($resources as $resource) {
-            $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+            self::assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
             ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     protected function getTest(callable $call, $modelName)
     {
         $resource = call_user_func($call);
 
-        $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
-        $this->assertEquals('id', $resource->id);
+        self::assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+        self::assertEquals('id', $resource->id);
     }
 }

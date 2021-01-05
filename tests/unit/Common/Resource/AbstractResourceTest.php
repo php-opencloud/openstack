@@ -31,7 +31,7 @@ class AbstractResourceTest extends TestCase
 
         $this->resource->populateFromResponse($response);
 
-        $this->assertEquals('1', $this->resource->bar);
+        self::assertEquals('1', $this->resource->bar);
     }
 
     public function test_it_populates_datetimes_from_arrays()
@@ -42,8 +42,8 @@ class AbstractResourceTest extends TestCase
         $this->resource->populateFromArray(['created_at' => '2015']);
         $this->resource->populateFromArray(['updated_at' => '2016']);
 
-        $this->assertEquals($this->resource->createdAt, $ca);
-        $this->assertEquals($this->resource->updatedAt, $ua);
+        self::assertEquals($this->resource->createdAt, $ca);
+        self::assertEquals($this->resource->updatedAt, $ua);
     }
 
     public function test_it_populates_model_objects_from_arrays()
@@ -51,31 +51,31 @@ class AbstractResourceTest extends TestCase
         $tr = new TestResource();
         $this->resource->populateFromArray(['child' => $tr]);
 
-        $this->assertEquals($this->resource->child, $tr);
+        self::assertEquals($this->resource->child, $tr);
     }
 
     public function test_it_populates_arrays_from_arrays()
     {
         $this->resource->populateFromArray(['children' => [$this->resource, $this->resource]]);
 
-        $this->assertInstanceOf(TestResource::class, $this->resource->children[0]);
+        self::assertInstanceOf(TestResource::class, $this->resource->children[0]);
     }
 
     public function test_it_gets_attrs()
     {
         $this->resource->bar = 'foo';
 
-        $this->assertEquals(['bar' => 'foo'], $this->resource->getAttrs(['bar']));
+        self::assertEquals(['bar' => 'foo'], $this->resource->getAttrs(['bar']));
     }
 
     public function test_it_returns_a_model_instance()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
     }
 
     public function test_it_populates_models_from_response()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
     }
 
     public function test_it_populates_models_from_arrays()
@@ -93,22 +93,22 @@ class AbstractResourceTest extends TestCase
         /** @var TestResource $model */
         $model = $this->resource->model(TestResource::class, $data);
 
-        $this->assertInstanceOf(ResourceInterface::class, $model);
+        self::assertInstanceOf(ResourceInterface::class, $model);
 
-        $this->assertEquals('this-is-bar', $model->bar);
-        $this->assertEquals('this-is-camel-attr', $model->camelAttr);
+        self::assertEquals('this-is-bar', $model->bar);
+        self::assertEquals('this-is-camel-attr', $model->camelAttr);
 
         $child = $model->child;
-        $this->assertInstanceOf(TestResource::class, $child);
-        $this->assertEquals('child-bar', $child->bar);
-        $this->assertEquals('child-camel', $child->camelAttr);
+        self::assertInstanceOf(TestResource::class, $child);
+        self::assertEquals('child-bar', $child->bar);
+        self::assertEquals('child-camel', $child->camelAttr);
 
-        $this->assertContainsOnlyInstancesOf(TestResource::class, $model->children);
-        $this->assertCount(2, $model->children);
-        $this->assertEquals('child1-bar', $model->children[0]->bar);
-        $this->assertEquals('child1-camel', $model->children[0]->camelAttr);
-        $this->assertEquals('child2-bar', $model->children[1]->bar);
-        $this->assertEquals('child2-camel', $model->children[1]->camelAttr);
+        self::assertContainsOnlyInstancesOf(TestResource::class, $model->children);
+        self::assertCount(2, $model->children);
+        self::assertEquals('child1-bar', $model->children[0]->bar);
+        self::assertEquals('child1-camel', $model->children[0]->camelAttr);
+        self::assertEquals('child2-bar', $model->children[1]->bar);
+        self::assertEquals('child2-camel', $model->children[1]->camelAttr);
 
     }
 }

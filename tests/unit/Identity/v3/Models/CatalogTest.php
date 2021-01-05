@@ -24,7 +24,7 @@ class CatalogTest extends TestCase
     public function test_it_throws_if_no_services_set()
     {
 		$this->expectException(\RuntimeException::class);
-        $this->assertFalse($this->catalog->getServiceUrl('', '', '', ''));
+        self::assertFalse($this->catalog->getServiceUrl('', '', '', ''));
     }
 
     public function test_it_returns_service_url()
@@ -36,7 +36,7 @@ class CatalogTest extends TestCase
 
         $this->catalog->services = [$service->reveal()];
 
-        $this->assertEquals($url, $this->catalog->getServiceUrl('foo', 'bar', 'baz', ''));
+        self::assertEquals($url, $this->catalog->getServiceUrl('foo', 'bar', 'baz', ''));
     }
 
     public function test_it_throws_if_no_url_found()
@@ -47,6 +47,6 @@ class CatalogTest extends TestCase
 
         $this->catalog->services = [$service->reveal()];
 
-        $this->assertFalse($this->catalog->getServiceUrl('', '', '', ''));
+        self::assertFalse($this->catalog->getServiceUrl('', '', '', ''));
     }
 }

@@ -49,7 +49,7 @@ class SnapshotTest extends TestCase
             'bar' => '2',
         ];
 
-        $this->assertEquals($expected, $this->snapshot->getMetadata());
+        self::assertEquals($expected, $this->snapshot->getMetadata());
     }
 
     public function test_it_retrieves()

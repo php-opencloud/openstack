@@ -55,8 +55,8 @@ class CoreTest extends TestCase
         require_once $path;
 
         foreach ($networks as $network) {
-            $this->assertInstanceOf(Network::class, $network);
-            $this->assertNotEmpty($network->id);
+            self::assertInstanceOf(Network::class, $network);
+            self::assertNotEmpty($network->id);
 
             $this->networkId = $network->id;
             $this->logStep('Created network {id}', ['{id}' => $this->networkId]);
@@ -75,8 +75,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'networks/create.php');
         require_once $path;
 
-        $this->assertInstanceOf(Network::class, $network);
-        $this->assertNotEmpty($network->id);
+        self::assertInstanceOf(Network::class, $network);
+        self::assertNotEmpty($network->id);
 
         $this->logStep('Created network {id}', ['{id}' => $this->networkId]);
 
@@ -96,8 +96,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'networks/update.php');
         require_once $path;
 
-        $this->assertInstanceOf(Network::class, $network);
-        $this->assertEquals($name, $network->name);
+        self::assertInstanceOf(Network::class, $network);
+        self::assertEquals($name, $network->name);
 
         $this->logStep('Updated network ID to use this name: NAME', ['ID' => $networkId, 'NAME' => $name]);
     }
@@ -110,7 +110,7 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'networks/get.php');
         require_once $path;
 
-        $this->assertInstanceOf(Network::class, $network);
+        self::assertInstanceOf(Network::class, $network);
 
         $this->logStep('Retrieved the details of network ID', ['ID' => $networkId]);
     }
@@ -144,8 +144,8 @@ class CoreTest extends TestCase
         require_once $path;
 
         foreach ($subnets as $subnet) {
-            $this->assertInstanceOf(Subnet::class, $subnet);
-            $this->assertNotEmpty($subnet->id);
+            self::assertInstanceOf(Subnet::class, $subnet);
+            self::assertNotEmpty($subnet->id);
 
             $this->logStep('Created subnet {id}', ['{id}' => $subnet->id]);
 
@@ -171,8 +171,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'subnets/create.php');
         require_once $path;
 
-        $this->assertInstanceOf(Subnet::class, $subnet);
-        $this->assertNotEmpty($subnet->id);
+        self::assertInstanceOf(Subnet::class, $subnet);
+        self::assertNotEmpty($subnet->id);
 
         $this->logStep('Created subnet {id}', ['{id}' => $subnet->id]);
 
@@ -193,8 +193,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'subnets/create_with_gateway_ip.php');
         require_once $path;
 
-        $this->assertInstanceOf(Subnet::class, $subnet);
-        $this->assertNotEmpty($subnet->id);
+        self::assertInstanceOf(Subnet::class, $subnet);
+        self::assertNotEmpty($subnet->id);
 
         $this->subnetId = $subnet->id;
 
@@ -218,8 +218,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'subnets/create_with_host_routes.php');
         require_once $path;
 
-        $this->assertInstanceOf(Subnet::class, $subnet);
-        $this->assertNotEmpty($subnet->id);
+        self::assertInstanceOf(Subnet::class, $subnet);
+        self::assertNotEmpty($subnet->id);
 
         $this->logStep('Created subnet {id} with host routes', ['{id}' => $subnet->id]);
 
@@ -240,8 +240,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'subnets/update.php');
         require_once $path;
 
-        $this->assertInstanceOf(Subnet::class, $subnet);
-        $this->assertEquals($name, $subnet->name);
+        self::assertInstanceOf(Subnet::class, $subnet);
+        self::assertEquals($name, $subnet->name);
 
         $this->logStep('Updated subnet ID to use this name: NAME', ['ID' => $subnetId, 'NAME' => $name]);
     }
@@ -255,7 +255,7 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'subnets/get.php');
         require_once $path;
 
-        $this->assertInstanceOf(Subnet::class, $subnet);
+        self::assertInstanceOf(Subnet::class, $subnet);
 
         $this->logStep('Retrieved the details of subnet ID', ['ID' => $subnetId]);
     }
@@ -294,7 +294,7 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'ports/create_batch.php');
         require_once $path;
         foreach ($ports as $port) {
-            $this->assertInstanceOf(Port::class, $port);
+            self::assertInstanceOf(Port::class, $port);
             $port->delete();
         }
 
@@ -305,12 +305,12 @@ class CoreTest extends TestCase
         /** @var $port \OpenStack\Networking\v2\Models\Port */
         $path = $this->sampleFile($replacements, 'ports/get.php');
         require_once $path;
-        $this->assertInstanceOf(Port::class, $port);
+        self::assertInstanceOf(Port::class, $port);
 
         /** @var $port \OpenStack\Networking\v2\Models\Port */
         $path = $this->sampleFile($replacements, 'ports/update.php');
         require_once $path;
-        $this->assertInstanceOf(Port::class, $port);
+        self::assertInstanceOf(Port::class, $port);
 
         $path = $this->sampleFile($replacements, 'ports/delete.php');
         require_once $path;

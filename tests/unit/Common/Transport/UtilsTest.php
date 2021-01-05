@@ -22,7 +22,7 @@ class UtilsTest extends TestCase
     {
         $uri = Utils::addPaths(uri_for('http://openstack.org/foo'), 'bar', 'baz', '1', '2');
 
-        $this->assertInstanceOf(Uri::class, $uri);
-        $this->assertEquals(uri_for('http://openstack.org/foo/bar/baz/1/2'), $uri);
+        self::assertInstanceOf(Uri::class, $uri);
+        self::assertEquals(uri_for('http://openstack.org/foo/bar/baz/1/2'), $uri);
     }
 }

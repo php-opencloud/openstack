@@ -37,7 +37,7 @@ class NetworkTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'network-post');
 
-        $this->assertInstanceOf(Network::class, $this->network->create($opts));
+        self::assertInstanceOf(Network::class, $this->network->create($opts));
     }
 
     public function test_it_bulk_creates()
@@ -75,7 +75,7 @@ class NetworkTest extends TestCase
         $networks = $this->network->bulkCreate($opts);
 
         self::assertIsArray($networks);
-        $this->assertCount(2, $networks);
+        self::assertCount(2, $networks);
     }
 
     public function test_it_updates()
@@ -102,9 +102,9 @@ class NetworkTest extends TestCase
 
         $this->network->retrieve();
 
-        $this->assertEquals('networkId', $this->network->id);
-        $this->assertEquals('fakenetwork', $this->network->name);
-        $this->assertEquals('ACTIVE', $this->network->status);
+        self::assertEquals('networkId', $this->network->id);
+        self::assertEquals('fakenetwork', $this->network->name);
+        self::assertEquals('ACTIVE', $this->network->status);
     }
 
     public function test_it_deletes()
