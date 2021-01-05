@@ -8,7 +8,7 @@ class JsonPathTest extends \PHPUnit\Framework\TestCase
 {
     private $jsonPath;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->jsonPath = new JsonPath([]);
     }

@@ -11,7 +11,7 @@ class SubnetTest extends TestCase
 {
     private $subnet;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -88,7 +88,7 @@ class SubnetTest extends TestCase
 
         $subnets = $this->subnet->bulkCreate($opts);
 
-        $this->assertInternalType('array', $subnets);
+        self::assertIsArray($subnets);
         $this->assertCount(2, $subnets);
     }
 

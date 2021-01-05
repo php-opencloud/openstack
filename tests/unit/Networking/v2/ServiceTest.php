@@ -16,7 +16,7 @@ class ServiceTest extends TestCase
     /** @var  Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -78,7 +78,7 @@ class ServiceTest extends TestCase
 
         $networks = $this->service->createNetworks($opts);
 
-        $this->assertInternalType('array', $networks);
+        self::assertIsArray($networks);
         $this->assertCount(2, $networks);
     }
 
@@ -167,7 +167,7 @@ class ServiceTest extends TestCase
 
         $subnets = $this->service->createSubnets($opts);
 
-        $this->assertInternalType('array', $subnets);
+        self::assertIsArray($subnets);
         $this->assertCount(2, $subnets);
     }
 
@@ -244,7 +244,7 @@ class ServiceTest extends TestCase
 
         $ports = $this->service->createPorts($opts);
 
-        $this->assertInternalType('array', $ports);
+        self::assertIsArray($ports);
         $this->assertCount(2, $ports);
     }
 

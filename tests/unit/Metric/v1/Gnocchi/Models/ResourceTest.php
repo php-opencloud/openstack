@@ -12,7 +12,7 @@ class ResourceTest extends TestCase
     /** @var Resource */
     private $resource;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -30,7 +30,7 @@ class ResourceTest extends TestCase
         $this->assertEquals('fake-project-id', $this->resource->projectId);
         $this->assertEquals('fake-created-by-user-id', $this->resource->createdByUserId);
         $this->assertEquals('fake-type', $this->resource->type);
-        $this->assertInternalType('array', $this->resource->metrics);
+        self::assertIsArray($this->resource->metrics);
         $this->assertEquals(8, count($this->resource->metrics));
     }
 
@@ -52,7 +52,7 @@ class ResourceTest extends TestCase
         $this->setupMock('GET', sprintf('v1/resource/generic/1111/metric/storage.objects.outgoing.bytes/measures'), [], [], 'resource-metric-measures-get');
         $measures = $this->resource->getMetricMeasures(['metric' => 'storage.objects.outgoing.bytes']);
 
-        $this->assertInternalType('array', $measures);
+        self::assertIsArray($measures);
         $this->assertEquals(7, count($measures));
         $this->assertEquals('2017-05-16T00:00:00+00:00', $measures[0][0]);
     }

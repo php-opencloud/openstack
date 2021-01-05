@@ -15,7 +15,7 @@ class AuthHandlerTest extends TestCase
     private $generator;
     private $handler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generator = function () {
             $token = $this->prophesize(FakeToken::class);

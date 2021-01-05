@@ -14,7 +14,7 @@ class AbstractResourceTest extends TestCase
     /** @var TestResource */
     private $resource;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

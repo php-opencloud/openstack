@@ -12,7 +12,7 @@ class FloatingIpTest extends TestCase
     /** @var FloatingIp */
     private $floatingIp;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -14,7 +14,7 @@ class QuotaSetTest extends TestCase
 
     const TENANT_ID = 'fake-tenant-id';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

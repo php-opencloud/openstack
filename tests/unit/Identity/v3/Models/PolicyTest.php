@@ -11,7 +11,7 @@ class PolicyTest extends TestCase
 {
     private $policy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 

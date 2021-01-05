@@ -20,7 +20,7 @@ class OperatorTraitTest extends TestCase
 
     private $def;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -74,19 +74,15 @@ class OperatorTraitTest extends TestCase
         $promise->wait();
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function test_it_throws_exception_when_async_is_called_on_a_non_existent_method()
     {
+		$this->expectException(\RuntimeException::class);
         $this->operator->fooAsync();
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_undefined_methods_result_in_error()
     {
+		$this->expectException(\Exception::class);
         $this->operator->foo();
     }
 

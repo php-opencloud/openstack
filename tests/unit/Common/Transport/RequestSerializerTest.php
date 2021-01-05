@@ -13,7 +13,7 @@ class RequestSerializerTest extends TestCase
     private $rs;
     private $js;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->js = $this->prophesize(JsonSerializer::class);
 

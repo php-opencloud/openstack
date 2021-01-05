@@ -11,7 +11,7 @@ class NetworkTest extends TestCase
 {
     private $network;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -74,7 +74,7 @@ class NetworkTest extends TestCase
 
         $networks = $this->network->bulkCreate($opts);
 
-        $this->assertInternalType('array', $networks);
+        self::assertIsArray($networks);
         $this->assertCount(2, $networks);
     }
 

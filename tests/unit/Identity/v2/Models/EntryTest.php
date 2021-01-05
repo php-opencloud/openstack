@@ -10,7 +10,7 @@ class EntryTest extends TestCase
 {
     private $entry;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

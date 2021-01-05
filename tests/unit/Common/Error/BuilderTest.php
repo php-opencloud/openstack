@@ -18,7 +18,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     private $builder;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->prophesize(ClientInterface::class);
         $this->builder = new Builder($this->client->reveal());

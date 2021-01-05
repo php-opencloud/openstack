@@ -12,7 +12,7 @@ class VolumeTest extends TestCase
     /** @var Volume */
     private $volume;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -48,7 +48,7 @@ class VolumeTest extends TestCase
 
         $volumeImageMetadata = $this->volume->volumeImageMetadata;
 
-        $this->assertInternalType('array', $volumeImageMetadata);
+        self::assertIsArray($volumeImageMetadata);
         $this->assertEquals($volumeImageMetadata['os_distro'], 'ubuntu');
         $this->assertEquals($volumeImageMetadata['os_version'], 'xenial');
         $this->assertEquals($volumeImageMetadata['hypervisor_type'], 'qemu');

@@ -11,7 +11,7 @@ class LoadBalancerHealthMonitorTest extends TestCase
 {
     private $healthmonitor;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

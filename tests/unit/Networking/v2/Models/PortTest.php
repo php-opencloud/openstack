@@ -15,7 +15,7 @@ class PortTest extends TestCase
     /** @var Port */
     private $port;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

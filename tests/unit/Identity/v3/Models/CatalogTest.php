@@ -12,7 +12,7 @@ class CatalogTest extends TestCase
 {
     private $catalog;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -21,11 +21,9 @@ class CatalogTest extends TestCase
         $this->catalog = new Catalog($this->client->reveal(), new Api());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function test_it_throws_if_no_services_set()
     {
+		$this->expectException(\RuntimeException::class);
         $this->assertFalse($this->catalog->getServiceUrl('', '', '', ''));
     }
 
@@ -41,13 +39,11 @@ class CatalogTest extends TestCase
         $this->assertEquals($url, $this->catalog->getServiceUrl('foo', 'bar', 'baz', ''));
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function test_it_throws_if_no_url_found()
     {
         $service = $this->prophesize(Service::class);
         $service->getUrl(Argument::any(), Argument::cetera())->shouldBeCalled()->willReturn(false);
+		$this->expectException(\RuntimeException::class);
 
         $this->catalog->services = [$service->reveal()];
 

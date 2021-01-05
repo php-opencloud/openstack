@@ -11,7 +11,7 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
     private $data;
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->api = new ComputeV2Api();
 
@@ -19,13 +19,11 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
         $this->param = new Parameter($this->data);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function test_exception_is_thrown_for_invalid_locations()
     {
         $data = $this->data;
         $data['location'] = 'foo';
+		$this->expectException(\RuntimeException::class);
         new Parameter($data);
     }
 
@@ -82,25 +80,21 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->param->validate('TestName'));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_exception_when_values_do_not_match_their_definition_types()
     {
         $data = $this->api->postServer()['params']['networks'] + ['name' => 'networks'];
         $param = new Parameter($data);
+		$this->expectException(\Exception::class);
 
         $param->validate('a_network!'); // should be an array
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_exception_when_deeply_nested_values_have_wrong_types()
     {
         $data = $this->api->postServer()['params']['networks'] + ['name' => 'networks'];
-
         $param = new Parameter($data);
+		$this->expectException(\Exception::class);
+
         $param->validate(['name' => false]); // value should be a string, not bool
     }
 
@@ -134,15 +128,13 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($param->validate($userVals));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_an_exception_is_thrown_when_an_undefined_property_is_provided()
     {
         $params = ['type' => 'object', 'properties' => ['foo' => ['type' => 'string']]];
         $userVals = ['bar' => 'baz'];
-
         $param = new Parameter($params);
+		$this->expectException(\Exception::class);
+
         $param->validate($userVals);
     }
 
@@ -187,15 +179,13 @@ class ParameterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo-metadata', $property->getPrefixedName());
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_exception_is_thrown_when_value_is_not_in_enum_list()
     {
         $data = $this->data;
         $data['enum'] = ['foo'];
-
         $param = new Parameter($data);
+		$this->expectException(\Exception::class);
+
         $param->validate('blah');
     }
 }

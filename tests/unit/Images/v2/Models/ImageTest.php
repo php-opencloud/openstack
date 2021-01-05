@@ -17,7 +17,7 @@ class ImageTest extends TestCase
 
     private $path;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -87,15 +87,13 @@ class ImageTest extends TestCase
         $this->image->update($opts);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_exception_if_user_input_does_not_match_schema()
     {
         $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn(new Uri);
 
         $this->setupMock('GET', $this->path, null, [], 'GET_image');
         $this->setupMock('GET', 'v2/schemas/image', null, [], 'GET_image_schema');
+        $this->expectException(\Exception::class);
 
         $this->image->update([
             'minDisk' => 'foo',

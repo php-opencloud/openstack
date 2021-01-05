@@ -15,7 +15,7 @@ class QuotaTest extends TestCase
     /** @var Port */
     private $quota;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -10,7 +10,7 @@ class OperationTest extends \PHPUnit\Framework\TestCase
 {
     private $operation;
 
-    public function setUp()
+    public function setUp(): void
     {
         $def = (new ComputeV2Api())->postServer();
 
@@ -37,11 +37,9 @@ class OperationTest extends \PHPUnit\Framework\TestCase
         ]));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_exceptions_are_propagated()
     {
+		$this->expectException(\Exception::class);
         $this->assertFalse($this->operation->validate([
             'name'     => true,
             'imageId'  => 'bar',
@@ -49,20 +47,16 @@ class OperationTest extends \PHPUnit\Framework\TestCase
         ]));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_an_exception_is_thrown_when_user_does_not_provide_required_options()
     {
+		$this->expectException(\Exception::class);
         $this->operation->validate([]);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_exception_when_user_provides_undefined_options()
     {
         $userData = ['name' => 'new_server', 'undefined_opt' => 'bah'];
+		$this->expectException(\Exception::class);
 
         $this->operation->validate($userData);
     }

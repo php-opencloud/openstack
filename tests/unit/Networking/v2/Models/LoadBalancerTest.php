@@ -14,7 +14,7 @@ class LoadBalancerTest extends TestCase
 {
     private $loadbalancer;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -134,7 +134,7 @@ class LoadBalancerTest extends TestCase
         $this->assertEquals('loadbalancerId', $status->id);
         $this->assertEquals('ONLINE', $status->operatingStatus);
         $this->assertEquals('ACTIVE', $status->provisioningStatus);
-        $this->assertInternalType('array', $status->listeners);
+        self::assertIsArray($status->listeners);
         $this->assertArrayHasKey(0, $status->listeners);
         $this->assertInstanceOf(LoadBalancerListener::class, $status->listeners[0]);
         $this->assertInstanceOf(LoadBalancerStatus::class, $status);

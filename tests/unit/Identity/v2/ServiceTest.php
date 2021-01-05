@@ -11,7 +11,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -45,9 +45,9 @@ class ServiceTest extends TestCase
         list($token, $baseUrl) = $this->service->authenticate($options);
 
         $this->assertInstanceOf(Token::class, $token);
-        $this->assertInternalType('string', $baseUrl);
+        self::assertIsString($baseUrl);
     }
-    
+
     public function test_it_generates_tokens()
     {
         $options = [

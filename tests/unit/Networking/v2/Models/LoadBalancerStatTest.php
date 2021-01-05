@@ -11,7 +11,7 @@ class LoadBalancerStatTest extends TestCase
 {
     private $stat;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

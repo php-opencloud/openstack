@@ -16,7 +16,7 @@ class ServerTest extends TestCase
     /** @var Server */
     private $server;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -62,12 +62,10 @@ class ServerTest extends TestCase
         $this->assertInstanceOf(Server::class, $this->server->create($opts));
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage imageId or blockDeviceMapping.uuid must be set.
-     */
     public function test_it_requires_image_id_or_volume_id_to_create_servers()
     {
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('imageId or blockDeviceMapping.uuid must be set.');
         $this->server->create([
             'name' => 'some-server-name',
             'flavorId' => 'apple'
@@ -125,11 +123,9 @@ class ServerTest extends TestCase
         $this->assertNull($this->server->reboot());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function test_an_exception_is_thrown_when_rebooting_with_an_invalid_type()
     {
+		$this->expectException(\Exception::class);
         $this->server->reboot('foo');
     }
 
@@ -327,7 +323,7 @@ class ServerTest extends TestCase
 
         $ips = $this->server->listAddresses();
 
-        $this->assertInternalType('array', $ips);
+        self::assertIsArray($ips);
         $this->assertCount(4, $ips['public']);
         $this->assertCount(2, $ips['private']);
     }
@@ -338,7 +334,7 @@ class ServerTest extends TestCase
 
         $ips = $this->server->listAddresses(['networkLabel' => 'foo']);
 
-        $this->assertInternalType('array', $ips);
+        self::assertIsArray($ips);
         $this->assertCount(4, $ips['public']);
         $this->assertCount(2, $ips['private']);
     }

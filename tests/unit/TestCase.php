@@ -18,7 +18,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected $api;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this->prophesize(ClientInterface::class);
     }
@@ -43,7 +43,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return parse_response(file_get_contents($path));
     }
 
-    protected function setupMock($method, $path, $body = null, array $headers = [], $response)
+    protected function setupMock($method, $path, $body = null, array $headers = [], $response = null)
     {
         $options = ['headers' => $headers];
 

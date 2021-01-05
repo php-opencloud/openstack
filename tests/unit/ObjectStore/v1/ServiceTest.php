@@ -15,7 +15,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -68,9 +68,6 @@ class ServiceTest extends TestCase
         $this->assertFalse($this->service->containerExists('foo'));
     }
 
-    /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
-     */
     public function test_it_throws_exception_when_error()
     {
         $e = new BadResponseError();
@@ -81,7 +78,8 @@ class ServiceTest extends TestCase
             ->request('HEAD', 'foo', ['headers' => []])
             ->shouldBeCalled()
             ->willThrow($e);
+		$this->expectException(BadResponseError::class);
 
-        $this->assertFalse($this->service->containerExists('foo'));
+        $this->service->containerExists('foo');
     }
 }

@@ -13,7 +13,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
     /** @var JsonSerializer */
     private $serializer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->serializer = new JsonSerializer();
     }
@@ -145,9 +145,6 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $json);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_exception_is_thrown_when_non_stdClass_or_serializable_object_provided()
     {
         $subParam = $this->prophesize(Parameter::class);
@@ -160,6 +157,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
         $param->getProperty('subResource')->shouldBeCalled()->willReturn($subParam);
 
         $userValues = ['subResource' => new NonSerializableResource()];
+		$this->expectException(\InvalidArgumentException::class);
 
         $this->serializer->stockJson($param->reveal(), $userValues, []);
     }

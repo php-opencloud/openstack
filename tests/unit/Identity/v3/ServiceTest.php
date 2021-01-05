@@ -17,7 +17,7 @@ class ServiceTest extends TestCase
     /** @var Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -140,11 +140,6 @@ class ServiceTest extends TestCase
         $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
     }
 
-
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Cached token has expired
-     */
     public function test_it_authenticates_and_throws_exception_when_authenticate_with_expired_cached_token()
     {
         $cachedToken = [
@@ -212,14 +207,13 @@ class ServiceTest extends TestCase
             'region'      => 'RegionOne',
             'cachedToken' => $cachedToken
         ];
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Cached token has expired');
 
         $this->service->authenticate($userOptions);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function test_it_throws_exception_if_no_endpoint_found()
+   public function test_it_throws_exception_if_no_endpoint_found()
     {
         $expectedJson = [
             "identity" => [
@@ -238,6 +232,7 @@ class ServiceTest extends TestCase
         ];
 
         $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+		$this->expectException(\RuntimeException::class);
 
         $this->service->authenticate([
             'catalogName' => 'foo',

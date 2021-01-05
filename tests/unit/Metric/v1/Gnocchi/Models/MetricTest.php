@@ -11,7 +11,7 @@ class MetricTest extends TestCase
     /** @var Metric */
     private $metric;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

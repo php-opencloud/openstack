@@ -18,7 +18,7 @@ class ContainerTest extends TestCase
 
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -193,9 +193,6 @@ class ContainerTest extends TestCase
         $this->assertFalse($this->container->objectExists('bar'));
     }
 
-    /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
-     */
     public function test_other_exceptions_are_thrown()
     {
         $e = new BadResponseError();
@@ -206,6 +203,7 @@ class ContainerTest extends TestCase
             ->request('HEAD', 'test/bar', ['headers' => []])
             ->shouldBeCalled()
             ->willThrow($e);
+		$this->expectException(BadResponseError::class);
 
         $this->container->objectExists('bar');
     }

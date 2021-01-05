@@ -13,7 +13,7 @@ class DomainTest extends TestCase
 {
     private $domain;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 

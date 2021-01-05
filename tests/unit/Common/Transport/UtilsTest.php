@@ -10,12 +10,10 @@ use OpenStack\Test\TestCase;
 
 class UtilsTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_decoding_malformed_json_throws_error()
     {
         $response = new Response(200, [], \GuzzleHttp\Psr7\stream_for('{'));
+		$this->expectException(\InvalidArgumentException::class);
 
         Utils::jsonDecode($response);
     }

@@ -9,11 +9,11 @@ use OpenStack\Test\TestCase;
 class TokenTest extends TestCase
 {
     private $token;
-    
-    public function setUp()
+
+    public function setUp(): void
     {
         parent::setUp();
-        
+
         $this->token = new Token($this->client->reveal(), new Api());
     }
 

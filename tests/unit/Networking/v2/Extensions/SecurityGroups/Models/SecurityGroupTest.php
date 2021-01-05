@@ -14,7 +14,7 @@ class SecurityGroupTest extends TestCase
 
     const SECURITY_GROUP_ID = '85cc3048-abc3-43cc-89b3-377341426ac5';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +42,7 @@ class SecurityGroupTest extends TestCase
         $this->assertEquals(self::SECURITY_GROUP_ID, $this->securityGroup->id);
         $this->assertEquals(2, count($this->securityGroup->securityGroupRules));
     }
-    
+
     public function test_it_updates()
     {
         $this->setupMock('PUT', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, null, [], 'SecurityGroup');
