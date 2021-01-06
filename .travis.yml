@@ -26,7 +26,10 @@ before_install:
 before_script:
   - composer install --prefer-source
   - vendor/bin/parallel-lint --exclude vendor .
-  - vendor/bin/php-cs-fixer fix --dry-run --diff
+
+  # Once php8 is officially supported by the cs-fixer, the env variable should be dropped
+  # Ref https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4702
+  - PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --diff
   - phpenv config-add ./xdebug.ini
 
 after_script:
