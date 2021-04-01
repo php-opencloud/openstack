@@ -12,7 +12,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -47,7 +47,7 @@ class ServiceTest extends TestCase
 
     public function test_it_returns_false_if_name_and_type_does_not_match()
     {
-        $this->assertFalse($this->service->getUrl('foo', 'bar', '', ''));
+        self::assertFalse($this->service->getUrl('foo', 'bar', '', ''));
     }
 
     public function test_it_retrieves_url_if_name_type_and_region_match()
@@ -61,7 +61,7 @@ class ServiceTest extends TestCase
         $this->service->type = 'bar';
         $this->service->endpoints = [$endpoint];
 
-        $this->assertNotNull($this->service->getUrl('foo', 'bar', 'baz', 'internal'));
-        $this->assertFalse($this->service->getUrl('foo', 'bar', 'bat', ''));
+        self::assertNotNull($this->service->getUrl('foo', 'bar', 'baz', 'internal'));
+        self::assertFalse($this->service->getUrl('foo', 'bar', 'bat', ''));
     }
 }

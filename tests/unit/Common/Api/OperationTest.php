@@ -10,7 +10,7 @@ class OperationTest extends \PHPUnit\Framework\TestCase
 {
     private $operation;
 
-    public function setUp()
+    public function setUp(): void
     {
         $def = (new ComputeV2Api())->postServer();
 
@@ -19,56 +19,50 @@ class OperationTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_reveals_whether_params_are_set_or_not()
     {
-        $this->assertFalse($this->operation->hasParam('foo'));
-        $this->assertTrue($this->operation->hasParam('name'));
+        self::assertFalse($this->operation->hasParam('foo'));
+        self::assertTrue($this->operation->hasParam('name'));
     }
 
     public function test_it_gets_params()
     {
-        $this->assertInstanceOf(Parameter::class, $this->operation->getParam('name'));
+        self::assertInstanceOf(Parameter::class, $this->operation->getParam('name'));
     }
 
     public function test_it_validates_params()
     {
-        $this->assertTrue($this->operation->validate([
+        self::assertTrue($this->operation->validate([
             'name'     => 'foo',
             'imageId'  => 'bar',
             'flavorId' => 'baz',
         ]));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_exceptions_are_propagated()
     {
-        $this->assertFalse($this->operation->validate([
+		$this->expectException(\Exception::class);
+        self::assertFalse($this->operation->validate([
             'name'     => true,
             'imageId'  => 'bar',
             'flavorId' => 'baz',
         ]));
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_an_exception_is_thrown_when_user_does_not_provide_required_options()
     {
+		$this->expectException(\Exception::class);
         $this->operation->validate([]);
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_exception_when_user_provides_undefined_options()
     {
         $userData = ['name' => 'new_server', 'undefined_opt' => 'bah'];
+		$this->expectException(\Exception::class);
 
         $this->operation->validate($userData);
     }
 
     public function test_it_gets_json_key()
     {
-        $this->assertEquals('server', $this->operation->getJsonKey());
+        self::assertEquals('server', $this->operation->getJsonKey());
     }
 }

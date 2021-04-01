@@ -21,7 +21,7 @@ class ServiceTest extends TestCase
     /** @var Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -46,7 +46,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
 
-        $this->assertInstanceOf(Server::class, $this->service->createServer($opts));
+        self::assertInstanceOf(Server::class, $this->service->createServer($opts));
     }
 
     public function test_it_lists_servers()
@@ -57,7 +57,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('servers-get'));
 
         foreach ($this->service->listServers(false, ['limit' => 5]) as $server) {
-            $this->assertInstanceOf(Server::class, $server);
+            self::assertInstanceOf(Server::class, $server);
         }
     }
 
@@ -67,8 +67,8 @@ class ServiceTest extends TestCase
             'id' => 'serverId'
         ]);
 
-        $this->assertInstanceOf(Server::class, $server);
-        $this->assertEquals('serverId', $server->id);
+        self::assertInstanceOf(Server::class, $server);
+        self::assertEquals('serverId', $server->id);
     }
 
     public function test_it_lists_flavors()
@@ -82,10 +82,10 @@ class ServiceTest extends TestCase
 
         foreach ($this->service->listFlavors(['limit' => 5]) as $flavor) {
             ++$count;
-            $this->assertInstanceOf(Flavor::class, $flavor);
+            self::assertInstanceOf(Flavor::class, $flavor);
         }
 
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 
     public function test_it_gets_a_flavor()
@@ -94,8 +94,8 @@ class ServiceTest extends TestCase
             'id' => 'flavorId'
         ]);
 
-        $this->assertInstanceOf(Flavor::class, $flavor);
-        $this->assertEquals('flavorId', $flavor->id);
+        self::assertInstanceOf(Flavor::class, $flavor);
+        self::assertEquals('flavorId', $flavor->id);
     }
 
     public function test_it_lists_images()
@@ -106,7 +106,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('images-get'));
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
-            $this->assertInstanceOf(Image::class, $image);
+            self::assertInstanceOf(Image::class, $image);
         }
     }
 
@@ -116,8 +116,8 @@ class ServiceTest extends TestCase
             'id' => 'imageId'
         ]);
 
-        $this->assertInstanceOf(Image::class, $image);
-        $this->assertEquals('imageId', $image->id);
+        self::assertInstanceOf(Image::class, $image);
+        self::assertEquals('imageId', $image->id);
     }
 
     public function test_it_lists_keypairs()
@@ -128,7 +128,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('keypairs-get'));
 
         foreach ($this->service->listKeypairs() as $keypair) {
-            $this->assertInstanceOf(Keypair::class, $keypair);
+            self::assertInstanceOf(Keypair::class, $keypair);
         }
     }
 
@@ -141,7 +141,7 @@ class ServiceTest extends TestCase
 
         $hypervisorStats = $this->service->getHypervisorStatistics();
 
-        $this->assertInstanceOf(HypervisorStatistic::class, $hypervisorStats);
+        self::assertInstanceOf(HypervisorStatistic::class, $hypervisorStats);
     }
 
     public function test_it_lists_hypervisors()
@@ -152,7 +152,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('hypervisors-get'));
 
         foreach ($this->service->listHypervisors(false) as $hypervisor) {
-            $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+            self::assertInstanceOf(Hypervisor::class, $hypervisor);
         }
     }
 
@@ -166,7 +166,7 @@ class ServiceTest extends TestCase
         $hypervisor = $this->service->getHypervisor(['id' => 1234]);
         $hypervisor->retrieve();
 
-        $this->assertInstanceOf(Hypervisor::class, $hypervisor);
+        self::assertInstanceOf(Hypervisor::class, $hypervisor);
     }
 
     public function test_it_lists_hosts()
@@ -177,7 +177,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('hosts-get'));
 
         foreach ($this->service->listHosts(['limit' => 5]) as $host) {
-            $this->assertInstanceOf(Host::class, $host);
+            self::assertInstanceOf(Host::class, $host);
         }
     }
 
@@ -191,7 +191,7 @@ class ServiceTest extends TestCase
         $host = $this->service->getHost(['name' => 'b6e4adbc193d428ea923899d07fb001e']);
         $host->retrieve();
 
-        $this->assertInstanceOf(Host::class, $host);
+        self::assertInstanceOf(Host::class, $host);
     }
 
     public function test_it_lists_availability_zones()
@@ -202,7 +202,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('availability-zones-get'));
 
         foreach ($this->service->listAvailabilityZones(['limit' => 5]) as $zone) {
-            $this->assertInstanceOf(AvailabilityZone::class, $zone);
+            self::assertInstanceOf(AvailabilityZone::class, $zone);
         }
     }
 }

@@ -12,7 +12,7 @@ class QuotaSetTest extends TestCase
     /** @var QuotaSet */
     private $quotaSet;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -27,9 +27,9 @@ class QuotaSetTest extends TestCase
         $this->setupMock('GET', 'os-quota-sets/tenant-foo', [], [], 'GET_quota_set');
 
         $this->quotaSet->retrieve();
-        $this->assertEquals(1, $this->quotaSet->gigabytes);
-        $this->assertEquals(2, $this->quotaSet->snapshots);
-        $this->assertEquals(3, $this->quotaSet->volumes);
+        self::assertEquals(1, $this->quotaSet->gigabytes);
+        self::assertEquals(2, $this->quotaSet->snapshots);
+        self::assertEquals(3, $this->quotaSet->volumes);
     }
 
     public function test_it_updates()

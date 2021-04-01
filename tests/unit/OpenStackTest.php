@@ -23,7 +23,7 @@ class OpenStackTest extends TestCase
     /** @var OpenStack */
     private $openstack;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = $this->prophesize(Builder::class);
         $this->openstack = new OpenStack(['authUrl' => ''], $this->builder->reveal());
@@ -58,7 +58,7 @@ class OpenStackTest extends TestCase
 
         $this->openstack->identityV3();
     }
-    
+
     public function test_it_supports_networking_v2()
     {
         $this->builder

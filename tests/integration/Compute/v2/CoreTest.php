@@ -247,9 +247,9 @@ class CoreTest extends TestCase
 
         $server->waitUntilActive(false);
 
-        $this->assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
-        $this->assertNotEmpty($server->id);
-        $this->assertNotEmpty($server->adminPass);
+        self::assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
+        self::assertNotEmpty($server->id);
+        self::assertNotEmpty($server->adminPass);
 
         $this->serverId = $server->id;
         $this->adminPass = $server->adminPass;
@@ -270,8 +270,8 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'servers/update_server.php');
         require_once $path;
 
-        $this->assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
-        $this->assertEquals($name, $server->name);
+        self::assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
+        self::assertEquals($name, $server->name);
 
         $server->waitUntilActive(false);
 
@@ -299,15 +299,15 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'servers/get_server.php');
         require_once $path;
 
-        $this->assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
-        $this->assertEquals($this->serverId, $server->id);
-        $this->assertNotNull($server->created);
-        $this->assertNotNull($server->updated);
-        $this->assertNotNull($server->name);
-        $this->assertNotNull($server->ipv4);
-        $this->assertNotNull($server->status);
-        $this->assertInstanceOf(Image::class, $server->image);
-        $this->assertInstanceOf(Flavor::class, $server->flavor);
+        self::assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
+        self::assertEquals($this->serverId, $server->id);
+        self::assertNotNull($server->created);
+        self::assertNotNull($server->updated);
+        self::assertNotNull($server->name);
+        self::assertNotNull($server->ipv4);
+        self::assertNotNull($server->status);
+        self::assertInstanceOf(Image::class, $server->image);
+        self::assertInstanceOf(Flavor::class, $server->flavor);
 
         $this->logStep('Retrieved the details of server ID', ['ID' => $this->serverId]);
     }
@@ -456,7 +456,7 @@ class CoreTest extends TestCase
         $path = $this->sampleFile($replacements, 'flavors/create_flavor.php');
         require_once $path;
 
-        $this->assertInstanceOf('\OpenStack\Compute\v2\Models\Flavor', $flavor);
+        self::assertInstanceOf('\OpenStack\Compute\v2\Models\Flavor', $flavor);
 
         $this->flavorId = $flavor->id;
         $this->logStep('Created flavor {id}', ['{id}' => $flavor->id]);
@@ -552,7 +552,7 @@ class CoreTest extends TestCase
         /** @var $keypairs \Generator */
         require_once $this->sampleFile([], 'keypairs/list_keypairs.php');
 
-        $this->assertInstanceOf(\Generator::class, $keypairs);
+        self::assertInstanceOf(\Generator::class, $keypairs);
 
         $this->logStep('Listed all keypairs');
     }
@@ -567,9 +567,9 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'keypairs/create_keypair.php');
         /**@var Keypair $keypair */
 
-        $this->assertInstanceOf(Keypair::class, $keypair);
-        $this->assertEquals($replacements['{name}'], $keypair->name);
-        $this->assertEquals($replacements['{publicKey}'], $keypair->publicKey);
+        self::assertInstanceOf(Keypair::class, $keypair);
+        self::assertEquals($replacements['{name}'], $keypair->name);
+        self::assertEquals($replacements['{publicKey}'], $keypair->publicKey);
 
         $this->keypairName = $keypair->name;
         $this->logStep('Created keypair name {name}', ['{name}' => $keypair->name]);
@@ -584,9 +584,9 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'keypairs/get_keypair.php');
 
         /**@var Keypair $keypair */
-        $this->assertInstanceOf(Keypair::class, $keypair);
+        self::assertInstanceOf(Keypair::class, $keypair);
 
-        $this->assertEquals($replacements['{name}'], $keypair->name);
+        self::assertEquals($replacements['{name}'], $keypair->name);
 
         $this->logStep('Retrieved details for keypair {name}', $replacements);
     }
@@ -617,8 +617,8 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'hypervisors/get_hypervisor.php');
 
         /**@var Hypervisor $hypervisor */
-        $this->assertInstanceOf(Hypervisor::class, $hypervisor);
-        $this->assertEquals($replacements['{hypervisorId}'], $hypervisor->id);
+        self::assertInstanceOf(Hypervisor::class, $hypervisor);
+        self::assertEquals($replacements['{hypervisorId}'], $hypervisor->id);
 
         $this->logStep('Retrieved details for hypervisor id {hypervisorId}', $replacements);
     }
@@ -628,7 +628,7 @@ class CoreTest extends TestCase
         require_once  $this->sampleFile([], 'hypervisors/get_hypervisors_statistics.php');
 
         /**@var HypervisorStatistic $hypervisorStatistics */
-        $this->assertInstanceOf(HypervisorStatistic::class, $hypervisorStatistics);
+        self::assertInstanceOf(HypervisorStatistic::class, $hypervisorStatistics);
 
         $this->logStep('Retrieved hypervisors statistics');
     }
@@ -638,7 +638,7 @@ class CoreTest extends TestCase
         require_once $this->sampleFile([], 'limits/get_limits.php');
 
         /**@var Limit $limit */
-        $this->assertInstanceOf(Limit::class, $limit);
+        self::assertInstanceOf(Limit::class, $limit);
 
         $this->logStep('Retrieved tenant limit');
     }
@@ -665,7 +665,7 @@ class CoreTest extends TestCase
         require_once  $this->sampleFile($replacements, 'servers/list_security_groups.php');
 
         /**@var \Generator $securityGroups */
-        $this->assertInstanceOf(\Generator::class, $securityGroups);
+        self::assertInstanceOf(\Generator::class, $securityGroups);
 
         $this->logStep('Listed all security groups attached to server {serverId}', $replacements);
     }

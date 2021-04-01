@@ -18,7 +18,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected $api;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this->prophesize(ClientInterface::class);
     }
@@ -43,7 +43,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return parse_response(file_get_contents($path));
     }
 
-    protected function setupMock($method, $path, $body = null, array $headers = [], $response)
+    protected function setupMock($method, $path, $body = null, array $headers = [], $response = null)
     {
         $options = ['headers' => $headers];
 
@@ -77,23 +77,23 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $resources = call_user_func($call);
 
-        $this->assertInstanceOf('\Generator', $resources);
+        self::assertInstanceOf('\Generator', $resources);
 
         $count = 0;
 
         foreach ($resources as $resource) {
-            $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+            self::assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
             ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     protected function getTest(callable $call, $modelName)
     {
         $resource = call_user_func($call);
 
-        $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
-        $this->assertEquals('id', $resource->id);
+        self::assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+        self::assertEquals('id', $resource->id);
     }
 }

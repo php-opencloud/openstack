@@ -12,7 +12,7 @@ class SecurityGroupRuleTest extends TestCase
     /** @var SecurityGroupRule */
     private $securityGroupRule;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

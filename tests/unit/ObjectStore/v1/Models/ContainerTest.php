@@ -18,7 +18,7 @@ class ContainerTest extends TestCase
 
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -34,9 +34,9 @@ class ContainerTest extends TestCase
 
         $this->container->populateFromResponse($response);
 
-        $this->assertEquals(1, $this->container->objectCount);
-        $this->assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->metadata);
-        $this->assertEquals(14, $this->container->bytesUsed);
+        self::assertEquals(1, $this->container->objectCount);
+        self::assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->metadata);
+        self::assertEquals(14, $this->container->bytesUsed);
     }
 
     public function test_Retrieve()
@@ -44,14 +44,14 @@ class ContainerTest extends TestCase
         $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
 
         $this->container->retrieve();
-        $this->assertNotEmpty($this->container->metadata);
+        self::assertNotEmpty($this->container->metadata);
     }
 
     public function test_Get_Metadata()
     {
         $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
 
-        $this->assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->getMetadata());
+        self::assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->getMetadata());
     }
 
     public function test_Merge_Metadata()
@@ -95,8 +95,8 @@ class ContainerTest extends TestCase
     {
         $object = $this->container->getObject('foo.txt');
 
-        $this->assertInstanceOf(StorageObject::class, $object);
-        $this->assertEquals('foo.txt', $object->name);
+        self::assertInstanceOf(StorageObject::class, $object);
+        self::assertEquals('foo.txt', $object->name);
     }
 
     public function test_It_Create_Objects()
@@ -127,8 +127,8 @@ class ContainerTest extends TestCase
             'metadata'           => ['Author' => 'foo', 'genre' => 'bar'],
         ]);
 
-        $this->assertEquals('foo.txt', $storageObject->name);
-        $this->assertEquals(self::NAME, $storageObject->containerName);
+        self::assertEquals('foo.txt', $storageObject->name);
+        self::assertEquals(self::NAME, $storageObject->containerName);
     }
 
     public function test_it_lists_objects()
@@ -140,7 +140,7 @@ class ContainerTest extends TestCase
 
         $objects = iterator_to_array($this->container->listObjects(['limit' => 2]));
 
-        $this->assertEquals(2, count($objects));
+        self::assertEquals(2, count($objects));
 
         $expected = [
             [
@@ -167,7 +167,7 @@ class ContainerTest extends TestCase
 
             foreach ($exp as $attr => $attrVal)
             {
-                $this->assertEquals($attrVal, $obj->{$attr});
+                self::assertEquals($attrVal, $obj->{$attr});
             }
         }
     }
@@ -176,7 +176,7 @@ class ContainerTest extends TestCase
     {
         $this->setupMock('HEAD', 'test/bar', null, [], new Response(200));
 
-        $this->assertTrue($this->container->objectExists('bar'));
+        self::assertTrue($this->container->objectExists('bar'));
     }
 
     public function test_false_is_returned_for_non_existing_object()
@@ -190,12 +190,9 @@ class ContainerTest extends TestCase
             ->shouldBeCalled()
             ->willThrow($e);
 
-        $this->assertFalse($this->container->objectExists('bar'));
+        self::assertFalse($this->container->objectExists('bar'));
     }
 
-    /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
-     */
     public function test_other_exceptions_are_thrown()
     {
         $e = new BadResponseError();
@@ -206,6 +203,7 @@ class ContainerTest extends TestCase
             ->request('HEAD', 'test/bar', ['headers' => []])
             ->shouldBeCalled()
             ->willThrow($e);
+		$this->expectException(BadResponseError::class);
 
         $this->container->objectExists('bar');
     }

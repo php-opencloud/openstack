@@ -11,7 +11,7 @@ class FlavorTest extends TestCase
 {
     private $flavor;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -27,11 +27,11 @@ class FlavorTest extends TestCase
 
         $this->flavor->retrieve();
 
-        $this->assertEquals('m1.tiny', $this->flavor->name);
-        $this->assertEquals('1', $this->flavor->id);
-        $this->assertEquals(512, $this->flavor->ram);
-        $this->assertEquals(1, $this->flavor->vcpus);
-        $this->assertEquals(1, $this->flavor->disk);
+        self::assertEquals('m1.tiny', $this->flavor->name);
+        self::assertEquals('1', $this->flavor->id);
+        self::assertEquals(512, $this->flavor->ram);
+        self::assertEquals(1, $this->flavor->vcpus);
+        self::assertEquals(1, $this->flavor->disk);
     }
 
     public function test_it_creates()
@@ -52,7 +52,7 @@ class FlavorTest extends TestCase
 
         $this->setupMock('POST', 'flavors', $expectedJson, [], 'flavor-post');
 
-        $this->assertInstanceOf(Flavor::class, $this->flavor->create($opts));
+        self::assertInstanceOf(Flavor::class, $this->flavor->create($opts));
     }
 
     public function test_it_deletes()

@@ -15,7 +15,7 @@ class ObjectTest extends TestCase
 
     private $object;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -59,14 +59,14 @@ class ObjectTest extends TestCase
         $this->setupMock('HEAD', self::CONTAINER . '/' . self::NAME, null, [], 'HEAD_Object');
 
         $this->object->retrieve();
-        $this->assertNotEmpty($this->object->metadata);
+        self::assertNotEmpty($this->object->metadata);
     }
 
     public function test_Get_Metadata()
     {
         $this->setupMock('HEAD', self::CONTAINER . '/' . self::NAME, null, [], 'HEAD_Object');
 
-        $this->assertEquals([
+        self::assertEquals([
             'Book'         => 'GoodbyeColumbus',
             'Manufacturer' => 'Acme',
         ], $this->object->getMetadata());
@@ -108,8 +108,8 @@ class ObjectTest extends TestCase
 
         $stream = $this->object->download();
 
-        $this->assertInstanceOf(Stream::class, $stream);
-        $this->assertEquals(14, $stream->getSize());
+        self::assertInstanceOf(Stream::class, $stream);
+        self::assertEquals(14, $stream->getSize());
     }
 
     public function test_It_Copies()
@@ -133,6 +133,6 @@ class ObjectTest extends TestCase
         $this->object->containerName = 'foo';
         $this->object->name = 'bar';
 
-        $this->assertEquals(uri_for('myopenstack.org:9000/tenantId/foo/bar'), $this->object->getPublicUri());
+        self::assertEquals(uri_for('myopenstack.org:9000/tenantId/foo/bar'), $this->object->getPublicUri());
     }
 }

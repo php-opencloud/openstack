@@ -12,7 +12,7 @@ class VolumeTypeTest extends TestCase
     /** @var VolumeType */
     private $volumeType;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

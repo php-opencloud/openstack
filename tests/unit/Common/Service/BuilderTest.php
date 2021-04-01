@@ -15,7 +15,7 @@ class BuilderTest extends TestCase
     private $builder;
     private $opts;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = new Builder([]);
 
@@ -30,65 +30,54 @@ class BuilderTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_exception_if_username_is_missing()
     {
+		$this->expectException(\Exception::class);
         $this->builder->createService('Compute\\v2', []);
     }
 
-    /**
-     * @expectedException \Throwable
-     */
     public function test_it_throws_exception_if_password_is_missing()
     {
+		$this->expectException(\Exception::class);
         $this->builder->createService('Compute\\v2', ['username' => 1]);
     }
 
-    /**
-     * @expectedException \Throwable
-     */
     public function test_it_throws_exception_if_both_tenantId_and_tenantName_is_missing()
     {
+		$this->expectException(\Throwable::class);
         $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'authUrl' => 4, 'region' => 5, 'catalogName' => 6, 'catalogType' => 7,
         ]);
     }
 
-    /**
-     * @expectedException \Throwable
-     */
     public function test_it_throws_exception_if_authUrl_is_missing()
     {
+		$this->expectException(\Throwable::class);
         $this->builder->createService('Compute\\v2', ['username' => 1, 'password' => 2, 'tenantId' => 3]);
     }
 
-    /**
-     * @expectedException \Throwable
-     */
     public function test_it_throws_exception_if_region_is_missing()
     {
+		$this->expectException(\Throwable::class);
+
         $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'tenantId' => 3, 'authUrl' => 4,
         ]);
     }
 
-    /**
-     * @expectedException \Throwable
-     */
     public function test_it_throws_exception_if_catalogName_is_missing()
     {
+		$this->expectException(\Throwable::class);
+
         $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'tenantId' => 3, 'authUrl' => 4,
         ]);
     }
 
-    /**
-     * @expectedException \Throwable
-     */
     public function test_it_throws_exception_if_catalogType_is_missing()
     {
+		$this->expectException(\Throwable::class);
+
         $this->builder->createService('Compute\\v2', [
             'username' => 1, 'password' => 2, 'tenantId' => 3, 'authUrl' => 4, 'region' => 5, 'catalogName' => 6,
         ]);
@@ -103,7 +92,7 @@ class BuilderTest extends TestCase
             'identityService' => $is->reveal(),
         ]);
 
-        $this->assertInstanceOf(Fixtures\Service::class, $s);
+        self::assertInstanceOf(Fixtures\Service::class, $s);
     }
 
     public function test_it_does_not_authenticate_for_identity_services()
@@ -115,7 +104,7 @@ class BuilderTest extends TestCase
             'identityService' => $is->reveal(),
         ]);
 
-        $this->assertInstanceOf(Fixtures\Identity\Service::class, $s);
+        self::assertInstanceOf(Fixtures\Identity\Service::class, $s);
     }
 
     public function test_it_create_service_with_micro_version()
@@ -128,7 +117,7 @@ class BuilderTest extends TestCase
                 'microVersion' => '1.2.3'
             ]);
 
-        $this->assertInstanceOf(Fixtures\Service::class, $s);
+        self::assertInstanceOf(Fixtures\Service::class, $s);
 
         $refClass = new \ReflectionClass($s);
         $refProperty = $refClass->getProperty('client');
@@ -138,8 +127,8 @@ class BuilderTest extends TestCase
         $client = $refProperty->getValue($s);
 
         $headers = $client->getConfig()['headers'];
-        $this->assertArrayHasKey('OpenStack-API-Version', $headers);
-        $this->assertEquals('7 1.2.3', $headers['OpenStack-API-Version']);
+        self::assertArrayHasKey('OpenStack-API-Version', $headers);
+        self::assertEquals('7 1.2.3', $headers['OpenStack-API-Version']);
     }
 }
 

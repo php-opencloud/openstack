@@ -11,7 +11,7 @@ class SubnetTest extends TestCase
 {
     private $subnet;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +43,7 @@ class SubnetTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnet-post');
 
-        $this->assertInstanceOf(Subnet::class, $this->subnet->create($opts));
+        self::assertInstanceOf(Subnet::class, $this->subnet->create($opts));
     }
 
     public function test_it_bulk_creates()
@@ -88,8 +88,8 @@ class SubnetTest extends TestCase
 
         $subnets = $this->subnet->bulkCreate($opts);
 
-        $this->assertInternalType('array', $subnets);
-        $this->assertCount(2, $subnets);
+        self::assertIsArray($subnets);
+        self::assertCount(2, $subnets);
     }
 
     public function test_it_updates()
@@ -114,10 +114,10 @@ class SubnetTest extends TestCase
 
         $this->subnet->retrieve();
 
-        $this->assertEquals('subnetId', $this->subnet->id);
-        $this->assertEquals('192.0.0.0/8', $this->subnet->cidr);
-        $this->assertEquals('192.0.0.1', $this->subnet->gatewayIp);
-        $this->assertTrue($this->subnet->enableDhcp);
+        self::assertEquals('subnetId', $this->subnet->id);
+        self::assertEquals('192.0.0.0/8', $this->subnet->cidr);
+        self::assertEquals('192.0.0.1', $this->subnet->gatewayIp);
+        self::assertTrue($this->subnet->enableDhcp);
     }
 
     public function test_it_deletes()

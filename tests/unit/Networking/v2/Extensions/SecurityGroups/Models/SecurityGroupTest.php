@@ -14,7 +14,7 @@ class SecurityGroupTest extends TestCase
 
     const SECURITY_GROUP_ID = '85cc3048-abc3-43cc-89b3-377341426ac5';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -37,12 +37,12 @@ class SecurityGroupTest extends TestCase
 
         $this->securityGroup->retrieve();
 
-        $this->assertEquals('test_security_group', $this->securityGroup->name);
-        $this->assertEquals('test_security_group_description', $this->securityGroup->description);
-        $this->assertEquals(self::SECURITY_GROUP_ID, $this->securityGroup->id);
-        $this->assertEquals(2, count($this->securityGroup->securityGroupRules));
+        self::assertEquals('test_security_group', $this->securityGroup->name);
+        self::assertEquals('test_security_group_description', $this->securityGroup->description);
+        self::assertEquals(self::SECURITY_GROUP_ID, $this->securityGroup->id);
+        self::assertEquals(2, count($this->securityGroup->securityGroupRules));
     }
-    
+
     public function test_it_updates()
     {
         $this->setupMock('PUT', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, null, [], 'SecurityGroup');
@@ -66,6 +66,6 @@ class SecurityGroupTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/security-groups', $expectedJson, [], 'SecurityGroup');
 
-        $this->assertInstanceOf(SecurityGroup::class, $this->securityGroup->create($opts));
+        self::assertInstanceOf(SecurityGroup::class, $this->securityGroup->create($opts));
     }
 }

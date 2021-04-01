@@ -10,12 +10,10 @@ use OpenStack\Test\TestCase;
 
 class UtilsTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_decoding_malformed_json_throws_error()
     {
         $response = new Response(200, [], \GuzzleHttp\Psr7\stream_for('{'));
+		$this->expectException(\InvalidArgumentException::class);
 
         Utils::jsonDecode($response);
     }
@@ -24,7 +22,7 @@ class UtilsTest extends TestCase
     {
         $uri = Utils::addPaths(uri_for('http://openstack.org/foo'), 'bar', 'baz', '1', '2');
 
-        $this->assertInstanceOf(Uri::class, $uri);
-        $this->assertEquals(uri_for('http://openstack.org/foo/bar/baz/1/2'), $uri);
+        self::assertInstanceOf(Uri::class, $uri);
+        self::assertEquals(uri_for('http://openstack.org/foo/bar/baz/1/2'), $uri);
     }
 }

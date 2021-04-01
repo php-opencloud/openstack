@@ -5,15 +5,13 @@ namespace unit\Common\Transport;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Transport\Middleware;
 use OpenStack\Test\TestCase;
 use OpenStack\Common\Auth\AuthHandler;
 
 class MiddlewareTest extends TestCase
 {
-    /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
-     */
     public function test_exception_is_thrown_for_4xx_statuses()
     {
         $middleware = Middleware::httpErrors();
@@ -22,10 +20,10 @@ class MiddlewareTest extends TestCase
         $fn = $middleware($handler);
 
         $promise = $fn(new Request('GET', 'http://foo.com'), []);
-        $this->assertEquals('pending', $promise->getState());
+        self::assertEquals('pending', $promise->getState());
 
-        $promise->wait();
-        $this->assertEquals('rejected', $promise->getState());
+		$this->expectException(BadResponseError::class);
+		$promise->wait();
     }
 
     public function test_responses_are_left_alone_when_status_under_400()
@@ -39,7 +37,7 @@ class MiddlewareTest extends TestCase
         $promise = $fn(new Request('GET', 'http://foo.com'), []);
 
         $promise->then(function ($val) use ($response) {
-            $this->assertEquals($val, $response);
+            self::assertEquals($val, $response);
         });
 
         $promise->wait();
@@ -55,6 +53,6 @@ class MiddlewareTest extends TestCase
         $handler  = new MockHandler([new Response(204)]);
         $fn = $middleware($handler);
 
-        $this->assertInstanceOf(AuthHandler::class, $fn);
+        self::assertInstanceOf(AuthHandler::class, $fn);
     }
 }

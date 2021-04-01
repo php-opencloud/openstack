@@ -38,34 +38,34 @@ class CoreTest extends TestCase
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile([], 'tokens/generate_token_with_username.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Token::class, $token);
+        self::assertInstanceOf(Models\Token::class, $token);
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile([], 'tokens/generate_token_with_user_id.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Token::class, $token);
+        self::assertInstanceOf(Models\Token::class, $token);
 
         $replacements = ['{tokenId}' => $token->id];
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile($replacements, 'tokens/generate_token_scoped_to_project_id.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Token::class, $token);
+        self::assertInstanceOf(Models\Token::class, $token);
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile($replacements, 'tokens/generate_token_scoped_to_project_name.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Token::class, $token);
+        self::assertInstanceOf(Models\Token::class, $token);
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile($replacements, 'tokens/generate_token_from_id.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Token::class, $token);
+        self::assertInstanceOf(Models\Token::class, $token);
 
         /** @var $result bool */
         $path = $this->sampleFile($replacements, 'tokens/validate_token.php');
         require_once $path;
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $path = $this->sampleFile($replacements, 'tokens/revoke_token.php');
         require_once $path;
@@ -73,7 +73,7 @@ class CoreTest extends TestCase
         /** @var $result bool */
         $path = $this->sampleFile($replacements, 'tokens/validate_token.php');
         require_once $path;
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     public function domains()
@@ -86,7 +86,7 @@ class CoreTest extends TestCase
         /** @var $domain \OpenStack\Identity\v3\Models\Domain */
         $path = $this->sampleFile($replacements, 'domains/add_domain.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Domain::class, $domain);
+        self::assertInstanceOf(Models\Domain::class, $domain);
 
         $replacements['{domainId}'] = $domain->id;
 
@@ -96,7 +96,7 @@ class CoreTest extends TestCase
         /** @var $domain \OpenStack\Identity\v3\Models\Domain */
         $path = $this->sampleFile($replacements, 'domains/show_domain.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Domain::class, $domain);
+        self::assertInstanceOf(Models\Domain::class, $domain);
 
         $parentRole = $this->getService()->createRole(['name' => $this->randomStr()]);
         $group = $this->getService()->createGroup(['name' => $this->randomStr(), 'domainId' => $domain->id]);
@@ -107,7 +107,7 @@ class CoreTest extends TestCase
         /** @var $result bool */
         $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'domains/check_group_role.php');
         require_once $path;
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $path = $this->sampleFile($replacements + ['{groupId}' => $group->id], 'domains/list_group_roles.php');
         require_once $path;
@@ -125,7 +125,7 @@ class CoreTest extends TestCase
         /** @var $result bool */
         $path = $this->sampleFile($replacements + ['{domainUserId}' => $user->id, '{roleId}' => $parentRole->id], 'domains/check_user_role.php');
         require_once $path;
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $path = $this->sampleFile($replacements + ['{domainUserId}' => $user->id], 'domains/list_user_roles.php');
         require_once $path;
@@ -139,7 +139,7 @@ class CoreTest extends TestCase
         /** @var $domain \OpenStack\Identity\v3\Models\Domain */
         $path = $this->sampleFile($replacements, 'domains/update_domain.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Domain::class, $domain);
+        self::assertInstanceOf(Models\Domain::class, $domain);
 
         $path = $this->sampleFile($replacements, 'domains/delete_domain.php');
         require_once $path;
@@ -159,7 +159,7 @@ class CoreTest extends TestCase
         /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
         $path = $this->sampleFile($replacements, 'endpoints/add_endpoint.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Endpoint::class, $endpoint);
+        self::assertInstanceOf(Models\Endpoint::class, $endpoint);
 
         $replacements['{endpointId}'] = $endpoint->id;
 
@@ -186,7 +186,7 @@ class CoreTest extends TestCase
         /** @var $service \OpenStack\Identity\v3\Models\Service */
         $path = $this->sampleFile($replacements, 'services/add_service.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Service::class, $service);
+        self::assertInstanceOf(Models\Service::class, $service);
 
         $replacements['{serviceId}'] = $service->id;
 
@@ -196,12 +196,12 @@ class CoreTest extends TestCase
         /** @var $service \OpenStack\Identity\v3\Models\Service */
         $path = $this->sampleFile($replacements, 'services/update_service.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Service::class, $service);
+        self::assertInstanceOf(Models\Service::class, $service);
 
         /** @var $service \OpenStack\Identity\v3\Models\Service */
         $path = $this->sampleFile($replacements, 'services/get_service.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Service::class, $service);
+        self::assertInstanceOf(Models\Service::class, $service);
 
         $path = $this->sampleFile($replacements, 'services/delete_service.php');
         require_once $path;
@@ -214,7 +214,7 @@ class CoreTest extends TestCase
         /** @var $group \OpenStack\Identity\v3\Models\Group */
         $path = $this->sampleFile(['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'groups/add_group.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Group::class, $group);
+        self::assertInstanceOf(Models\Group::class, $group);
 
         $replacements = ['{groupId}' => $group->id];
 
@@ -224,12 +224,12 @@ class CoreTest extends TestCase
         /** @var $group \OpenStack\Identity\v3\Models\Group */
         $path = $this->sampleFile($replacements, 'groups/get_group.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Group::class, $group);
+        self::assertInstanceOf(Models\Group::class, $group);
 
         /** @var $result bool */
         $path = $this->sampleFile($replacements + ['{groupUserId}' => $groupUser->id], 'groups/check_user_membership.php');
         require_once $path;
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $path = $this->sampleFile($replacements, 'groups/list_users.php');
         require_once $path;
@@ -240,7 +240,7 @@ class CoreTest extends TestCase
         /** @var $result bool */
         $path = $this->sampleFile($replacements + ['{groupUserId}' => $groupUser->id], 'groups/check_user_membership.php');
         require_once $path;
-        $this->assertFalse($result);
+        self::assertFalse($result);
 
         $path = $this->sampleFile($replacements + ['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'groups/update_group.php');
         require_once $path;
@@ -259,14 +259,14 @@ class CoreTest extends TestCase
         /** @var $project \OpenStack\Identity\v3\Models\Project */
         $path = $this->sampleFile(['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'projects/add_project.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Project::class, $project);
+        self::assertInstanceOf(Models\Project::class, $project);
 
         $replacements = ['{id}' => $project->id];
 
         /** @var $project \OpenStack\Identity\v3\Models\Project */
         $path = $this->sampleFile($replacements, 'projects/get_project.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Project::class, $project);
+        self::assertInstanceOf(Models\Project::class, $project);
 
         $domain = $this->getService()->createDomain(['name' => $this->randomStr()]);
         $parentRole = $this->getService()->createRole(['name' => $this->randomStr()]);
@@ -278,7 +278,7 @@ class CoreTest extends TestCase
         /** @var $result bool */
         $path = $this->sampleFile($replacements + ['{groupId}' => $group->id, '{roleId}' => $parentRole->id], 'projects/check_group_role.php');
         require_once $path;
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $path = $this->sampleFile($replacements + ['{groupId}' => $group->id], 'projects/list_group_roles.php');
         require_once $path;
@@ -296,7 +296,7 @@ class CoreTest extends TestCase
         /** @var $result bool */
         $path = $this->sampleFile($replacements + ['{projectUserId}' => $user->id, '{roleId}' => $parentRole->id], 'projects/check_user_role.php');
         require_once $path;
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $path = $this->sampleFile($replacements + ['{projectUserId}' => $user->id], 'projects/list_user_roles.php');
         require_once $path;
@@ -323,7 +323,7 @@ class CoreTest extends TestCase
         /** @var $role \OpenStack\Identity\v3\Models\Role */
         $path = $this->sampleFile(['{name}' => $this->randomStr()], 'roles/add_role.php');
         require_once $path;
-        $this->assertInstanceOf(Models\Role::class, $role);
+        self::assertInstanceOf(Models\Role::class, $role);
 
         $path = $this->sampleFile([], 'roles/list_roles.php');
         require_once $path;
@@ -350,14 +350,14 @@ class CoreTest extends TestCase
         /** @var $user \OpenStack\Identity\v3\Models\User */
         $path = $this->sampleFile($replacements, 'users/add_user.php');
         require_once $path;
-        $this->assertInstanceOf(Models\User::class, $user);
+        self::assertInstanceOf(Models\User::class, $user);
 
         $replacements = ['{id}' => $user->id];
 
         /** @var $user \OpenStack\Identity\v3\Models\User */
         $path = $this->sampleFile($replacements, 'users/get_user.php');
         require_once $path;
-        $this->assertInstanceOf(Models\User::class, $user);
+        self::assertInstanceOf(Models\User::class, $user);
 
         $path = $this->sampleFile([], 'users/list_users.php');
         require_once $path;
@@ -371,7 +371,7 @@ class CoreTest extends TestCase
         /** @var $user \OpenStack\Identity\v3\Models\User */
         $path = $this->sampleFile($replacements + ['{name}' => $this->randomStr(), '{description}' => $this->randomStr()], 'users/update_user.php');
         require_once $path;
-        $this->assertInstanceOf(Models\User::class, $user);
+        self::assertInstanceOf(Models\User::class, $user);
 
         $path = $this->sampleFile($replacements, 'users/delete_user.php');
         require_once $path;

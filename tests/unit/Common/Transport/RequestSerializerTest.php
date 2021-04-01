@@ -13,7 +13,7 @@ class RequestSerializerTest extends TestCase
     private $rs;
     private $js;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->js = $this->prophesize(JsonSerializer::class);
 
@@ -25,7 +25,7 @@ class RequestSerializerTest extends TestCase
         $op = $this->prophesize(Operation::class);
         $op->getParam('foo')->shouldBeCalled()->willReturn(null);
 
-        $this->assertEquals(['headers' => []], $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']));
+        self::assertEquals(['headers' => []], $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']));
     }
 
     public function test_it_serializes_queries()
@@ -40,7 +40,7 @@ class RequestSerializerTest extends TestCase
         $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']);
         $expected = ['query' => ['fooAlias' => 'bar'], 'headers' => []];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_headers()
@@ -56,7 +56,7 @@ class RequestSerializerTest extends TestCase
         $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']);
         $expected = ['headers' => ['prefix-fooAlias' => 'bar']];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_metadata_headers()
@@ -76,7 +76,7 @@ class RequestSerializerTest extends TestCase
         $actual = $this->rs->serializeOptions($op->reveal(), ['metadata' => ['foo' => 'bar']]);
         $expected = ['headers' => ['prefix-foo' => 'bar']];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_json()
@@ -93,7 +93,7 @@ class RequestSerializerTest extends TestCase
         $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']);
         $expected = ['json' => ['jsonKey' => ['foo' => 'bar']], 'headers' => []];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_unescaped_json()
@@ -110,7 +110,7 @@ class RequestSerializerTest extends TestCase
         $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar/baz']);
         $expected = ['body' => '{"foo":"bar/baz"}', 'headers' => ['Content-Type' => 'application/json']];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_raw_vals()
@@ -124,7 +124,7 @@ class RequestSerializerTest extends TestCase
         $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']);
         $expected = ['body' => 'bar', 'headers' => []];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_does_serialize_unknown_locations()
@@ -138,6 +138,6 @@ class RequestSerializerTest extends TestCase
         $actual = $this->rs->serializeOptions($op->reveal(), ['foo' => 'bar']);
         $expected = ['headers' => []];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 }

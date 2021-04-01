@@ -32,7 +32,7 @@ class CoreTest extends TestCase
         $this->logStep('Creating image');
         /** @var Image $image */
         require_once $this->sampleFile($replacements, 'images/create.php');
-        $this->assertInstanceOf(Image::class, $image);
+        self::assertInstanceOf(Image::class, $image);
 
         $replacements = ['{imageId}' => $image->id];
 
@@ -43,7 +43,7 @@ class CoreTest extends TestCase
         $this->logStep('Getting image');
         /** @var Image $image */
         require_once $this->sampleFile($replacements, 'images/get.php');
-        $this->assertInstanceOf(Image::class, $image);
+        self::assertInstanceOf(Image::class, $image);
 
         $replacements += [
             '{name}'       => 'newName',
@@ -83,13 +83,13 @@ class CoreTest extends TestCase
         $replacements += ['{imageId}' => $image->id];
         /** @var Member $member */
         require_once $this->sampleFile(['{imageId}' => $image->id, ], 'members/add.php');
-        $this->assertInstanceOf(Member::class, $member);
+        self::assertInstanceOf(Member::class, $member);
 
         $replacements += ['status' => Member::STATUS_REJECTED];
         $this->logStep('Updating member status');
         /** @var Member $member */
         require_once $this->sampleFile($replacements, 'members/update_status.php');
-        $this->assertInstanceOf(Member::class, $member);
+        self::assertInstanceOf(Member::class, $member);
 
         $this->logStep('Deleting member');
         /** @var Member $member */
