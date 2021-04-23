@@ -2,10 +2,10 @@
 
 namespace OpenStack\Test;
 
-use function GuzzleHttp\Psr7\stream_for;
-use function GuzzleHttp\Psr7\parse_response;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Prophecy\Argument;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
@@ -25,7 +25,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createResponse($status, array $headers, array $json)
     {
-        return new Response($status, $headers, stream_for(json_encode($json)));
+        return new Response($status, $headers, Utils::streamFor(json_encode($json)));
     }
 
     protected function getFixture($file)
@@ -40,7 +40,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             throw new \RuntimeException(sprintf("%s does not exist", $path));
         }
 
-        return parse_response(file_get_contents($path));
+        return Message::parseResponse(file_get_contents($path));
     }
 
     protected function setupMock($method, $path, $body = null, array $headers = [], $response = null)

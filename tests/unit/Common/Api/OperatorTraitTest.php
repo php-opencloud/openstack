@@ -2,7 +2,6 @@
 
 namespace OpenStack\Test\Common\Api;
 
-use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Api\Operation;

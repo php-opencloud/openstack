@@ -2,8 +2,8 @@
 
 namespace OpenStack\Test\ObjectStore\v1\Models;
 
-use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Utils;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\StorageObject;
 use OpenStack\Test\TestCase;
@@ -128,11 +128,11 @@ class ObjectTest extends TestCase
     {
         $this->client->getConfig('base_uri')
             ->shouldBeCalled()
-            ->willReturn(uri_for('myopenstack.org:9000/tenantId'));
+            ->willReturn(Utils::uriFor('myopenstack.org:9000/tenantId'));
 
         $this->object->containerName = 'foo';
         $this->object->name = 'bar';
 
-        self::assertEquals(uri_for('myopenstack.org:9000/tenantId/foo/bar'), $this->object->getPublicUri());
+        self::assertEquals(Utils::uriFor('myopenstack.org:9000/tenantId/foo/bar'), $this->object->getPublicUri());
     }
 }
