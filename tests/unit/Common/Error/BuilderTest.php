@@ -2,13 +2,11 @@
 
 namespace OpenStack\Test\Common\Error;
 
-use function GuzzleHttp\Psr7\stream_for;
-use function GuzzleHttp\Psr7\str;
-
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Error\UserInputError;
@@ -32,7 +30,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     public function test_it_builds_http_errors()
     {
         $request = new Request('POST', '/servers');
-        $response = new Response(400, [], stream_for('Invalid parameters'));
+        $response = new Response(400, [], Utils::streamFor('Invalid parameters'));
 
         $requestStr = trim($this->builder->str($request));
         $responseStr = trim($this->builder->str($response));
