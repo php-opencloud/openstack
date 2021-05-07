@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OpenStack\Identity\v2;
 
-use App\Service\Rackspace\Params;
 use OpenStack\Common\Api\ApiInterface;
 
 /**
