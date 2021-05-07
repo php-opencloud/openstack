@@ -501,4 +501,13 @@ objects are stored, and {prefix} is a string that all segment objects have in co
 EOT
         ];
     }
+    public function accessControlAllowOrigin(): array
+    {
+        return [
+            'location'    => self::HEADER,
+            'sentAs'      => 'Access-Control-Allow-Origin',
+            'type'        => self::STRING_TYPE,
+            'description' => 'Access Control Allow Origin'
+        ];
+    }
 }

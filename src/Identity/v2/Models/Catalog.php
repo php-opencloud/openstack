@@ -53,6 +53,9 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
         string $region,
         string $urlType = self::DEFAULT_URL_TYPE
     ): string {
+        if($serviceType == "object-store"){
+            $serviceName = "cloudFiles";
+        }
         foreach ($this->entries as $entry) {
             if ($entry->matches($serviceName, $serviceType) && ($url = $entry->getEndpointUrl($region, $urlType))) {
                 return $url;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenStack\Identity\v2;
 
+use App\Service\Rackspace\Params;
 use OpenStack\Common\Api\ApiInterface;
 
 /**
@@ -11,30 +12,21 @@ use OpenStack\Common\Api\ApiInterface;
  */
 class Api implements ApiInterface
 {
+    protected $params;
+
+    public function __construct()
+    {
+        $this->params = new Params();
+    }
+
     public function postToken(): array
     {
         return [
             'method' => 'POST',
             'path'   => 'tokens',
             'params' => [
-                'username' => [
-                    'type'     => 'string',
-                    'required' => true,
-                    'path'     => 'auth.passwordCredentials',
-                ],
-                'password' => [
-                    'type'     => 'string',
-                    'required' => true,
-                    'path'     => 'auth.passwordCredentials',
-                ],
-                'tenantId' => [
-                    'type' => 'string',
-                    'path' => 'auth',
-                ],
-                'tenantName' => [
-                    'type' => 'string',
-                    'path' => 'auth',
-                ],
+                'username' => $this->params->username(),
+                'apiKey'   => $this->params->apiKey(),
             ],
         ];
     }

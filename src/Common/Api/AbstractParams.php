@@ -108,4 +108,23 @@ DESC
             'description' => '(Admin only) Set this to true to pull volume information from all tenants.',
         ];
     }
+    public function username()
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::JSON,
+            'path'     => 'auth.RAX-KSKEY:apiKeyCredentials',
+            'required' => true,
+        ];
+    }
+
+    public function apiKey()
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::JSON,
+            'path'     => 'auth.RAX-KSKEY:apiKeyCredentials',
+            'required' => true,
+        ];
+    }
 }

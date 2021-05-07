@@ -174,6 +174,7 @@ class Api extends AbstractApi
                 'metadata'           => $this->params->metadata('object'),
                 'ifNoneMatch'        => $this->params->ifNoneMatch(),
                 'objectManifest'     => $this->params->objectManifest(),
+                'Access-Control-Allow-Origin'     => $this->params->accessControlAllowOrigin(),
             ],
         ];
     }
