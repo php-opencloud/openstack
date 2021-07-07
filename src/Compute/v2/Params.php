@@ -299,6 +299,11 @@ To provision the server instance with a NIC for an already existing port, specif
 a networks object. The port status must be DOWN. Required if you omit the uuid attribute.
 EOL
                     ],
+                    'fixedIp' => [
+                        'type'        => self::STRING_TYPE,
+                        'description' => 'A fixed IPv4 address for the NIC. Valid with a neutron or nova-networks network.',
+                        'sentAs'      => 'fixed_ip',
+                    ],
                 ],
             ],
         ];
