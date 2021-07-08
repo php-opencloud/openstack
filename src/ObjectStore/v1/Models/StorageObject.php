@@ -203,7 +203,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->headObject());
-
+        $this->populateFromResponse($response);
         return $this->parseMetadata($response);
     }
 }
