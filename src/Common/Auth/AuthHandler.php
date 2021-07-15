@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OpenStack\Common\Auth;
 
-use function GuzzleHttp\Psr7\modify_request;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -53,7 +52,7 @@ class AuthHandler
 
         $modify = ['set_headers' => ['X-Auth-Token' => $this->token->getId()]];
 
-        return $fn(modify_request($request, $modify), $options);
+        return $fn(\GuzzleHttp\Psr7\Utils::modifyRequest($request, $modify), $options);
     }
 
     /**
