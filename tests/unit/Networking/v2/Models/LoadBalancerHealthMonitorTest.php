@@ -11,7 +11,7 @@ class LoadBalancerHealthMonitorTest extends TestCase
 {
     private $healthmonitor;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -49,7 +49,7 @@ class LoadBalancerHealthMonitorTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/healthmonitors', $expectedJson, [], 'loadbalancer-healthmonitor-post');
 
-        $this->assertInstanceOf(LoadBalancerHealthMonitor::class, $this->healthmonitor->create($opts));
+        self::assertInstanceOf(LoadBalancerHealthMonitor::class, $this->healthmonitor->create($opts));
     }
 
     public function test_it_updates()
@@ -84,12 +84,12 @@ class LoadBalancerHealthMonitorTest extends TestCase
 
         $this->healthmonitor->retrieve();
 
-        $this->assertEquals(1, $this->healthmonitor->delay);
-        $this->assertEquals(1, $this->healthmonitor->timeout);
-        $this->assertEquals('200', $this->healthmonitor->expectedCodes);
-        $this->assertEquals(5, $this->healthmonitor->maxRetries);
-        $this->assertEquals('GET', $this->healthmonitor->httpMethod);
-        $this->assertEquals('HTTP', $this->healthmonitor->type);
+        self::assertEquals(1, $this->healthmonitor->delay);
+        self::assertEquals(1, $this->healthmonitor->timeout);
+        self::assertEquals('200', $this->healthmonitor->expectedCodes);
+        self::assertEquals(5, $this->healthmonitor->maxRetries);
+        self::assertEquals('GET', $this->healthmonitor->httpMethod);
+        self::assertEquals('HTTP', $this->healthmonitor->type);
     }
 
     public function test_it_deletes()

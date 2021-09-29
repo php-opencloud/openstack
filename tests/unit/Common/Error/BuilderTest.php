@@ -2,13 +2,11 @@
 
 namespace OpenStack\Test\Common\Error;
 
-use function GuzzleHttp\Psr7\stream_for;
-use function GuzzleHttp\Psr7\str;
-
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Error\Builder;
 use OpenStack\Common\Error\UserInputError;
@@ -18,7 +16,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     private $builder;
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->prophesize(ClientInterface::class);
         $this->builder = new Builder($this->client->reveal());
@@ -26,13 +24,13 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
     public function test_it_injects_client()
     {
-        $this->assertInstanceOf(Builder::class, new Builder($this->client->reveal()));
+        self::assertInstanceOf(Builder::class, new Builder($this->client->reveal()));
     }
 
     public function test_it_builds_http_errors()
     {
         $request = new Request('POST', '/servers');
-        $response = new Response(400, [], stream_for('Invalid parameters'));
+        $response = new Response(400, [], Utils::streamFor('Invalid parameters'));
 
         $requestStr = trim($this->builder->str($request));
         $responseStr = trim($this->builder->str($response));
@@ -59,7 +57,7 @@ EOT;
         $e->setRequest($request);
         $e->setResponse($response);
 
-        $this->assertEquals($e, $this->builder->httpError($request, $response));
+        self::assertEquals($e, $this->builder->httpError($request, $response));
     }
 
     public function test_it_builds_user_input_errors()
@@ -88,7 +86,7 @@ EOT;
 
         $e = new UserInputError($errorMessage);
 
-        $this->assertEquals($e, $this->builder->userInputError($expected, $value, 'index.html'));
+        self::assertEquals($e, $this->builder->userInputError($expected, $value, 'index.html'));
     }
 
     public function test_dead_links_are_ignored()
@@ -116,6 +114,6 @@ EOT;
 
         $e = new UserInputError($errorMessage);
 
-        $this->assertEquals($e, $this->builder->userInputError($expected, $value, 'sdffsda'));
+        self::assertEquals($e, $this->builder->userInputError($expected, $value, 'sdffsda'));
     }
 }

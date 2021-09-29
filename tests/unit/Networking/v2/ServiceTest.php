@@ -16,7 +16,7 @@ class ServiceTest extends TestCase
     /** @var  Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -41,7 +41,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'network-post');
 
-        $this->assertInstanceOf(Network::class, $this->service->createNetwork($opts));
+        self::assertInstanceOf(Network::class, $this->service->createNetwork($opts));
     }
 
     public function test_it_bulk_creates_networks()
@@ -78,16 +78,16 @@ class ServiceTest extends TestCase
 
         $networks = $this->service->createNetworks($opts);
 
-        $this->assertInternalType('array', $networks);
-        $this->assertCount(2, $networks);
+        self::assertIsArray($networks);
+        self::assertCount(2, $networks);
     }
 
     public function test_it_gets_an_network()
     {
         $network = $this->service->getNetwork('networkId');
 
-        $this->assertInstanceOf(Network::class, $network);
-        $this->assertEquals('networkId', $network->id);
+        self::assertInstanceOf(Network::class, $network);
+        self::assertEquals('networkId', $network->id);
     }
 
     public function test_it_lists_networks()
@@ -98,7 +98,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('networks-post'));
 
         foreach ($this->service->listNetworks() as $network) {
-            $this->assertInstanceOf(Network::class, $network);
+            self::assertInstanceOf(Network::class, $network);
         }
     }
 
@@ -122,7 +122,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnet-post');
 
-        $this->assertInstanceOf(Subnet::class, $this->service->createSubnet($opts));
+        self::assertInstanceOf(Subnet::class, $this->service->createSubnet($opts));
     }
 
     public function test_it_bulk_creates_subnets()
@@ -167,16 +167,16 @@ class ServiceTest extends TestCase
 
         $subnets = $this->service->createSubnets($opts);
 
-        $this->assertInternalType('array', $subnets);
-        $this->assertCount(2, $subnets);
+        self::assertIsArray($subnets);
+        self::assertCount(2, $subnets);
     }
 
     public function test_it_gets_an_subnet()
     {
         $subnet = $this->service->getSubnet('subnetId');
 
-        $this->assertInstanceOf(Subnet::class, $subnet);
-        $this->assertEquals('subnetId', $subnet->id);
+        self::assertInstanceOf(Subnet::class, $subnet);
+        self::assertEquals('subnetId', $subnet->id);
     }
 
     public function test_it_lists_subnets()
@@ -187,7 +187,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('subnets-post'));
 
         foreach ($this->service->listSubnets() as $subnet) {
-            $this->assertInstanceOf(Subnet::class, $subnet);
+            self::assertInstanceOf(Subnet::class, $subnet);
         }
     }
 
@@ -207,7 +207,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'ports_post');
 
-        $this->assertInstanceOf(Port::class, $this->service->createPort($opts));
+        self::assertInstanceOf(Port::class, $this->service->createPort($opts));
     }
 
     public function test_it_bulk_creates_ports()
@@ -244,16 +244,16 @@ class ServiceTest extends TestCase
 
         $ports = $this->service->createPorts($opts);
 
-        $this->assertInternalType('array', $ports);
-        $this->assertCount(2, $ports);
+        self::assertIsArray($ports);
+        self::assertCount(2, $ports);
     }
 
     public function test_it_gets_an_port()
     {
         $port = $this->service->getPort('portId');
 
-        $this->assertInstanceOf(Port::class, $port);
-        $this->assertEquals('portId', $port->id);
+        self::assertInstanceOf(Port::class, $port);
+        self::assertEquals('portId', $port->id);
     }
 
     public function test_it_lists_ports()
@@ -264,7 +264,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('ports_get'));
 
         foreach ($this->service->listPorts() as $port) {
-            $this->assertInstanceOf(Port::class, $port);
+            self::assertInstanceOf(Port::class, $port);
         }
     }
 
@@ -276,7 +276,7 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('quotas-get'));
 
         foreach ($this->service->listQuotas() as $quota) {
-            $this->assertInstanceOf(Quota::class, $quota);
+            self::assertInstanceOf(Quota::class, $quota);
         }
     }
 
@@ -290,7 +290,7 @@ class ServiceTest extends TestCase
         $quota = $this->service->getQuota('fake_tenant_id');
         $quota->retrieve();
 
-        $this->assertInstanceOf(Quota::class, $quota);
+        self::assertInstanceOf(Quota::class, $quota);
     }
 
     public function test_it_gets_default_quotas()

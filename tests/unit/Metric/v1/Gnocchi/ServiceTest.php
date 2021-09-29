@@ -14,7 +14,7 @@ class ServiceTest extends TestCase
     /** @var Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->rootFixturesDir = __DIR__;
@@ -30,8 +30,8 @@ class ServiceTest extends TestCase
 
         $result = iterator_to_array($this->service->listResourceTypes());
 
-        $this->assertEquals(15, count($result));
-        $this->assertContainsOnlyInstancesOf(ResourceType::class, $result);
+        self::assertEquals(15, count($result));
+        self::assertContainsOnlyInstancesOf(ResourceType::class, $result);
     }
 
     public function test_it_lists_resources()
@@ -43,16 +43,16 @@ class ServiceTest extends TestCase
 
         $result = iterator_to_array($this->service->listResources(['limit' => 3]));
 
-        $this->assertEquals(3, count($result));
-        $this->assertContainsOnlyInstancesOf(Resource::class, $result);
+        self::assertEquals(3, count($result));
+        self::assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_get_resource()
     {
         $resource = $this->service->getResource(['id' => '1']);
 
-        $this->assertEquals('1', $resource->id);
-        $this->assertInstanceOf(Resource::class, $resource);
+        self::assertEquals('1', $resource->id);
+        self::assertInstanceOf(Resource::class, $resource);
     }
 
     public function test_it_search_resources()
@@ -62,7 +62,7 @@ class ServiceTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($this->getFixture('resources-get'));
         $result = $this->service->searchResources(['type' => 'generic']);
-        $this->assertContainsOnlyInstancesOf(Resource::class, $result);
+        self::assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_search_resources_with_custom_type()
@@ -74,7 +74,7 @@ class ServiceTest extends TestCase
 
         $result = $this->service->searchResources(['type' => 'instance']);
 
-        $this->assertContainsOnlyInstancesOf(Resource::class, $result);
+        self::assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_lists_metrics()
@@ -86,11 +86,11 @@ class ServiceTest extends TestCase
 
         $result = $this->service->listMetrics(['limit' => 5]);
 
-        $this->assertContainsOnlyInstancesOf(Metric::class, $result);
+        self::assertContainsOnlyInstancesOf(Metric::class, $result);
     }
 
     public function test_it_get_metric()
     {
-        $this->assertInstanceOf(Metric::class, $this->service->getMetric('metric-id'));
+        self::assertInstanceOf(Metric::class, $this->service->getMetric('metric-id'));
     }
 }

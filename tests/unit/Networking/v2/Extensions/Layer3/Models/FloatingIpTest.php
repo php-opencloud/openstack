@@ -12,7 +12,7 @@ class FloatingIpTest extends TestCase
     /** @var FloatingIp */
     private $floatingIp;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -49,32 +49,32 @@ class FloatingIpTest extends TestCase
 
         $this->floatingIp->retrieve();
 
-        $this->assertEquals(
+        self::assertEquals(
             '376da547-b977-4cfe-9cba-275c80debf57',
                             $this->floatingIp->floatingNetworkId
         );
-        $this->assertEquals(
+        self::assertEquals(
             'd23abc8d-2991-4a55-ba98-2aaea84cc72f',
                             $this->floatingIp->routerId
         );
-        $this->assertEquals(
+        self::assertEquals(
             '10.0.0.3',
                             $this->floatingIp->fixedIpAddress
         );
-        $this->assertEquals(
+        self::assertEquals(
             '172.24.4.228',
                             $this->floatingIp->floatingIpAddress
         );
-        $this->assertEquals(
+        self::assertEquals(
             '4969c491a3c74ee4af974e6d800c62de',
                             $this->floatingIp->tenantId
         );
-        $this->assertEquals('ACTIVE', $this->floatingIp->status);
-        $this->assertEquals(
+        self::assertEquals('ACTIVE', $this->floatingIp->status);
+        self::assertEquals(
             'ce705c24-c1ef-408a-bda3-7bbd946164ab',
                             $this->floatingIp->portId
         );
-        $this->assertEquals(
+        self::assertEquals(
             '2f245a7b-796b-4f26-9cf9-9e82d248fda7',
                             $this->floatingIp->id
         );

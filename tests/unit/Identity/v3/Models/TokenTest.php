@@ -10,7 +10,7 @@ class TokenTest extends TestCase
 {
     private $token;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -22,31 +22,27 @@ class TokenTest extends TestCase
 
     public function test_getting_id()
     {
-        $this->assertEquals('TOKEN_ID', $this->token->getId());
+        self::assertEquals('TOKEN_ID', $this->token->getId());
     }
 
     public function test_it_returns_false_if_expired()
     {
         $this->token->expires = new \DateTimeImmutable('yesterday');
-        $this->assertTrue($this->token->hasExpired());
+        self::assertTrue($this->token->hasExpired());
 
         $this->token->expires = new \DateTimeImmutable('tomorrow');
-        $this->assertFalse($this->token->hasExpired());
+        self::assertFalse($this->token->hasExpired());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_it_throws_error_when_username_is_not_qualified_by_domain_id()
     {
+		$this->expectException(\InvalidArgumentException::class);
         $this->token->create(['user' => ['name' => 'foo']]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_it_throws_error_when_neither_user_creds_or_token_id_is_provided()
     {
+		$this->expectException(\InvalidArgumentException::class);
         $this->token->create([]);
     }
 }

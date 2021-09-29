@@ -13,7 +13,7 @@ class EndpointTest extends TestCase
     private $endpoint;
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -44,7 +44,7 @@ class EndpointTest extends TestCase
         /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
         $endpoint = $this->service->createEndpoint($userOptions);
 
-        $this->assertInstanceOf(Endpoint::class, $endpoint);
+        self::assertInstanceOf(Endpoint::class, $endpoint);
     }
 
     public function test_it_updates_endpoint()

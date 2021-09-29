@@ -16,7 +16,7 @@ class ServiceTest extends TestCase
     /** @var Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -61,7 +61,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'volumes', $expectedJson, [], 'GET_volume');
 
-        $this->assertInstanceOf(Volume::class, $this->service->createVolume($opts));
+        self::assertInstanceOf(Volume::class, $this->service->createVolume($opts));
     }
 
     public function test_it_lists_volumes()
@@ -80,18 +80,18 @@ class ServiceTest extends TestCase
 
         foreach ($this->service->listVolumes(false) as $volume) {
             $count++;
-            $this->assertInstanceOf(Volume::class, $volume);
+            self::assertInstanceOf(Volume::class, $volume);
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_gets_a_volume()
     {
         $volume = $this->service->getVolume('volumeId');
 
-        $this->assertInstanceOf(Volume::class, $volume);
-        $this->assertEquals('volumeId', $volume->id);
+        self::assertInstanceOf(Volume::class, $volume);
+        self::assertEquals('volumeId', $volume->id);
     }
 
     public function test_it_creates_volume_types()
@@ -102,7 +102,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'types', $expectedJson, [], 'GET_type');
 
-        $this->assertInstanceOf(VolumeType::class, $this->service->createVolumeType($opts));
+        self::assertInstanceOf(VolumeType::class, $this->service->createVolumeType($opts));
     }
 
     public function test_it_lists_volume_types()
@@ -116,18 +116,18 @@ class ServiceTest extends TestCase
 
         foreach ($this->service->listVolumeTypes() as $type) {
             $count++;
-            $this->assertInstanceOf(VolumeType::class, $type);
+            self::assertInstanceOf(VolumeType::class, $type);
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_gets_a_volume_type()
     {
         $type = $this->service->getVolumeType('id');
 
-        $this->assertInstanceOf(VolumeType::class, $type);
-        $this->assertEquals('id', $type->id);
+        self::assertInstanceOf(VolumeType::class, $type);
+        self::assertEquals('id', $type->id);
     }
 
     public function test_it_creates_snapshots()
@@ -148,7 +148,7 @@ class ServiceTest extends TestCase
 
         $this->setupMock('POST', 'snapshots', $expectedJson, [], 'GET_snapshot');
 
-        $this->assertInstanceOf(Snapshot::class, $this->service->createSnapshot($opts));
+        self::assertInstanceOf(Snapshot::class, $this->service->createSnapshot($opts));
     }
 
     public function test_it_lists_snapshots()
@@ -167,18 +167,18 @@ class ServiceTest extends TestCase
 
         foreach ($this->service->listSnapshots(false) as $snapshot) {
             $count++;
-            $this->assertInstanceOf(Snapshot::class, $snapshot);
+            self::assertInstanceOf(Snapshot::class, $snapshot);
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_gets_a_snapshot()
     {
         $snapshot = $this->service->getSnapshot('snapshotId');
 
-        $this->assertInstanceOf(Snapshot::class, $snapshot);
-        $this->assertEquals('snapshotId', $snapshot->id);
+        self::assertInstanceOf(Snapshot::class, $snapshot);
+        self::assertEquals('snapshotId', $snapshot->id);
     }
 
     public function test_it_gets_quota_set()
@@ -190,9 +190,9 @@ class ServiceTest extends TestCase
 
         $quotaSet = $this->service->getQuotaSet('tenant-id-1234');
 
-        $this->assertInstanceOf(QuotaSet::class, $quotaSet);
-        $this->assertEquals(1, $quotaSet->gigabytes);
-        $this->assertEquals(2, $quotaSet->snapshots);
-        $this->assertEquals(3, $quotaSet->volumes);
+        self::assertInstanceOf(QuotaSet::class, $quotaSet);
+        self::assertEquals(1, $quotaSet->gigabytes);
+        self::assertEquals(2, $quotaSet->snapshots);
+        self::assertEquals(3, $quotaSet->volumes);
     }
 }

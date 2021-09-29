@@ -12,7 +12,7 @@ class VolumeTest extends TestCase
     /** @var Volume */
     private $volume;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -48,21 +48,21 @@ class VolumeTest extends TestCase
 
         $volumeImageMetadata = $this->volume->volumeImageMetadata;
 
-        $this->assertInternalType('array', $volumeImageMetadata);
-        $this->assertEquals($volumeImageMetadata['os_distro'], 'ubuntu');
-        $this->assertEquals($volumeImageMetadata['os_version'], 'xenial');
-        $this->assertEquals($volumeImageMetadata['hypervisor_type'], 'qemu');
-        $this->assertEquals($volumeImageMetadata['os_variant'], 'ubuntu');
-        $this->assertEquals($volumeImageMetadata['disk_format'], 'qcow2');
-        $this->assertEquals($volumeImageMetadata['image_name'], 'Some Image Name x86_64');
-        $this->assertEquals($volumeImageMetadata['image_id'], '54986297-8364-4baa-8435-812add437507');
-        $this->assertEquals($volumeImageMetadata['architecture'], 'x86_64');
-        $this->assertEquals($volumeImageMetadata['container_format'], 'bare');
-        $this->assertEquals($volumeImageMetadata['min_disk'], '40');
-        $this->assertEquals($volumeImageMetadata['os_type'], 'linux');
-        $this->assertEquals($volumeImageMetadata['checksum'], 'bb3055b274fe72bc3406ffe9febe9fff');
-        $this->assertEquals($volumeImageMetadata['min_ram'], '0');
-        $this->assertEquals($volumeImageMetadata['size'], '6508557824');
+        self::assertIsArray($volumeImageMetadata);
+        self::assertEquals($volumeImageMetadata['os_distro'], 'ubuntu');
+        self::assertEquals($volumeImageMetadata['os_version'], 'xenial');
+        self::assertEquals($volumeImageMetadata['hypervisor_type'], 'qemu');
+        self::assertEquals($volumeImageMetadata['os_variant'], 'ubuntu');
+        self::assertEquals($volumeImageMetadata['disk_format'], 'qcow2');
+        self::assertEquals($volumeImageMetadata['image_name'], 'Some Image Name x86_64');
+        self::assertEquals($volumeImageMetadata['image_id'], '54986297-8364-4baa-8435-812add437507');
+        self::assertEquals($volumeImageMetadata['architecture'], 'x86_64');
+        self::assertEquals($volumeImageMetadata['container_format'], 'bare');
+        self::assertEquals($volumeImageMetadata['min_disk'], '40');
+        self::assertEquals($volumeImageMetadata['os_type'], 'linux');
+        self::assertEquals($volumeImageMetadata['checksum'], 'bb3055b274fe72bc3406ffe9febe9fff');
+        self::assertEquals($volumeImageMetadata['min_ram'], '0');
+        self::assertEquals($volumeImageMetadata['size'], '6508557824');
     }
 
     public function test_it_merges_metadata()

@@ -11,7 +11,7 @@ class LoadBalancerMemberTest extends TestCase
 {
     private $member;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +42,7 @@ class LoadBalancerMemberTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/pools/poolId/members', $expectedJson, [], 'loadbalancer-member-post');
 
-        $this->assertInstanceOf(LoadBalancerMember::class, $this->member->create($opts));
+        self::assertInstanceOf(LoadBalancerMember::class, $this->member->create($opts));
     }
 
     public function test_it_updates()
@@ -67,9 +67,9 @@ class LoadBalancerMemberTest extends TestCase
 
         $this->member->retrieve();
 
-        $this->assertEquals('memberId', $this->member->id);
-        $this->assertEquals(1, $this->member->weight);
-        $this->assertEquals(true, $this->member->adminStateUp);
+        self::assertEquals('memberId', $this->member->id);
+        self::assertEquals(1, $this->member->weight);
+        self::assertEquals(true, $this->member->adminStateUp);
     }
 
     public function test_it_deletes()

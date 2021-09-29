@@ -13,7 +13,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
     /** @var JsonSerializer */
     private $serializer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->serializer = new JsonSerializer();
     }
@@ -38,7 +38,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
 
         $actual = $this->serializer->stockJson($param->reveal(), $userValue, []);
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_arrays()
@@ -62,7 +62,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
 
         $actual = $this->serializer->stockJson($param->reveal(), $userValues, []);
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_serializes_objects()
@@ -84,7 +84,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
 
         $json = $this->serializer->stockJson($param->reveal(), (object)['foo' => true], []);
 
-        $this->assertEquals($expected, $json);
+        self::assertEquals($expected, $json);
     }
 
     public function test_it_serializes_non_stdClass_objects()
@@ -142,12 +142,9 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $json);
+        self::assertEquals($expected, $json);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_exception_is_thrown_when_non_stdClass_or_serializable_object_provided()
     {
         $subParam = $this->prophesize(Parameter::class);
@@ -160,6 +157,7 @@ class JsonSerializerTest extends \PHPUnit\Framework\TestCase
         $param->getProperty('subResource')->shouldBeCalled()->willReturn($subParam);
 
         $userValues = ['subResource' => new NonSerializableResource()];
+		$this->expectException(\InvalidArgumentException::class);
 
         $this->serializer->stockJson($param->reveal(), $userValues, []);
     }

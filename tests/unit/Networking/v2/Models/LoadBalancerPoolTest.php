@@ -13,7 +13,7 @@ class LoadBalancerPoolTest extends TestCase
 {
     private $pool;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,7 +50,7 @@ class LoadBalancerPoolTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/pools', $expectedJson, [], 'loadbalancer-pool-post');
 
-        $this->assertInstanceOf(LoadBalancerPool::class, $this->pool->create($opts));
+        self::assertInstanceOf(LoadBalancerPool::class, $this->pool->create($opts));
     }
 
     public function test_it_updates()
@@ -87,9 +87,9 @@ class LoadBalancerPoolTest extends TestCase
 
         $this->pool->retrieve();
 
-        $this->assertEquals('poolId', $this->pool->id);
-        $this->assertEquals('pool1', $this->pool->name);
-        $this->assertEquals('simple pool', $this->pool->description);
+        self::assertEquals('poolId', $this->pool->id);
+        self::assertEquals('pool1', $this->pool->name);
+        self::assertEquals('simple pool', $this->pool->description);
     }
 
     public function test_it_deletes()
@@ -119,14 +119,14 @@ class LoadBalancerPoolTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/pools/poolId/members', $expectedJson, [], 'loadbalancer-member-post');
 
-        $this->assertInstanceOf(LoadBalancerMember::class, $this->pool->addMember($opts));
+        self::assertInstanceOf(LoadBalancerMember::class, $this->pool->addMember($opts));
     }
 
     public function test_get_member()
     {
         $memberId = 'memberId';
 
-        $this->assertInstanceOf(LoadBalancerMember::class, $this->pool->getMember($memberId));
+        self::assertInstanceOf(LoadBalancerMember::class, $this->pool->getMember($memberId));
     }
 
     public function test_delete_member()
@@ -165,6 +165,6 @@ class LoadBalancerPoolTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/healthmonitors', $expectedJson, [], 'loadbalancer-healthmonitor-post');
 
-        $this->assertInstanceOf(LoadBalancerHealthMonitor::class, $this->pool->addHealthMonitor($opts));
+        self::assertInstanceOf(LoadBalancerHealthMonitor::class, $this->pool->addHealthMonitor($opts));
     }
 }

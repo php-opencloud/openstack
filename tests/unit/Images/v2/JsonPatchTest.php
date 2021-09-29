@@ -9,7 +9,7 @@ class JsonPatchTest extends TestCase
 {
     private $jsonPatch;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->jsonPatch = new JsonPatch();
     }
@@ -24,7 +24,7 @@ class JsonPatchTest extends TestCase
             ['op' => 'add', 'path' => '/foo', 'value' => 'val'],
         ];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function test_it_removes_elements_from_arrays()
@@ -37,6 +37,6 @@ class JsonPatchTest extends TestCase
             ['op' => 'remove', 'path' => '/foo/2'],
         ];
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 }

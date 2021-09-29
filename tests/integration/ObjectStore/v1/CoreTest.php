@@ -51,7 +51,7 @@ class CoreTest extends TestCase
         $this->logStep('Getting account metadata');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'account/get_metadata.php');
-        $this->assertArraySubset([
+        self::assertArraySubset([
             'Foo' => $replacements['{val_1}'],
             'Bar' => $replacements['{val_2}'],
         ], $metadata);
@@ -68,7 +68,7 @@ class CoreTest extends TestCase
         $this->logStep('Checking account metadata was reset properly');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'account/get_metadata.php');
-        $this->assertEquals([
+        self::assertEquals([
             'Foo1' => $replacements['{val_1}'],
             'Bar1' => $replacements['{val_2}'],
         ], $metadata);
@@ -100,7 +100,7 @@ class CoreTest extends TestCase
         $this->logStep('Getting metadata');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'containers/get_metadata.php');
-        $this->assertEquals([
+        self::assertEquals([
             'Foo' => $replacements['{val_1}'],
             'Bar' => $replacements['{val_2}'],
         ], $metadata);
@@ -113,7 +113,7 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'containers/reset_metadata.php');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'containers/get_metadata.php');
-        $this->assertEquals([
+        self::assertEquals([
             'Foo1' => $replacements['{val_1}'],
             'Bar1' => $replacements['{val_2}'],
         ], $metadata);
@@ -145,13 +145,24 @@ class CoreTest extends TestCase
         $this->logStep('Check that new object exists');
         /** @var bool $exists */
         require_once $this->sampleFile(['{containerName}' => $containerName, '{objectName}' => $newName], 'objects/check_exists.php');
-        $this->assertTrue($exists);
+        self::assertTrue($exists);
 
         $this->logStep('Downloading object');
         /** @var StreamInterface $stream */
         require_once $this->sampleFile($replacements, 'objects/download.php');
-        $this->assertInstanceOf(StreamInterface::class, $stream);
-        $this->assertEquals(1000, $stream->getSize());
+        self::assertInstanceOf(StreamInterface::class, $stream);
+        self::assertEquals(1000, $stream->getSize());
+
+        $this->logStep('Downloading object using streaming');
+        /** @var StreamInterface $stream */
+        require_once $this->sampleFile($replacements, 'objects/download_stream.php');
+        self::assertInstanceOf(StreamInterface::class, $stream);
+
+        $body = '';
+        while (!$stream->eof()) {
+            $body .= $stream->read(64);
+        }
+        self::assertEquals(1000, strlen($body));
 
         $this->logStep('Get object');
         require_once $this->sampleFile($replacements, 'objects/get.php');
@@ -171,7 +182,7 @@ class CoreTest extends TestCase
         $this->logStep('Getting metadata');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'objects/get_metadata.php');
-        $this->assertEquals([
+        self::assertEquals([
             'Foo' => $replacements['{val_1}'],
             'Bar' => $replacements['{val_2}'],
         ], $metadata);
@@ -184,7 +195,7 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'objects/reset_metadata.php');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'objects/get_metadata.php');
-        $this->assertEquals([
+        self::assertEquals([
             'Foo1' => $replacements['{val_1}'],
             'Bar1' => $replacements['{val_2}'],
         ], $metadata);

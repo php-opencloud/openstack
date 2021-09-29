@@ -2,7 +2,6 @@
 
 namespace OpenStack\Test\Common\Api;
 
-use function GuzzleHttp\Psr7\uri_for;
 use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Api\Operation;
@@ -20,7 +19,7 @@ class OperatorTraitTest extends TestCase
 
     private $def;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -37,7 +36,7 @@ class OperatorTraitTest extends TestCase
 
     public function test_it_returns_operations()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Operation::class,
             $this->operator->getOperation($this->def, [])
         );
@@ -65,45 +64,52 @@ class OperatorTraitTest extends TestCase
     {
         $promise = $this->operator->createAsync('something');
 
-        $this->assertInstanceOf(Promise::class, $promise);
+        self::assertInstanceOf(Promise::class, $promise);
 
         $promise->then(function ($val) {
-            $this->assertEquals('Created something', $val);
+            self::assertEquals('Created something', $val);
         });
 
         $promise->wait();
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function test_it_throws_exception_when_async_is_called_on_a_non_existent_method()
     {
+		$this->expectException(\RuntimeException::class);
         $this->operator->fooAsync();
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_undefined_methods_result_in_error()
     {
+		$this->expectException(\Exception::class);
         $this->operator->foo();
     }
 
     public function test_it_returns_a_model_instance()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class));
+        self::assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class));
     }
 
     public function test_it_populates_models_from_response()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, new Response(200)));
+        self::assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, new Response(200)));
     }
 
     public function test_it_populates_models_from_arrays()
     {
         $data = ['flavor' => [], 'image' => []];
-        $this->assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, $data));
+        self::assertInstanceOf(ResourceInterface::class, $this->operator->model(TestResource::class, $data));
+    }
+
+    public function test_guzzle_options_are_forwarded()
+    {
+        $this->client->request('GET', 'test', ['headers' => [], 'stream' => true])->willReturn(new Response());
+
+        $this->operator->execute($this->def, [
+            'requestOptions' => ['stream' => true]
+        ]);
+
+        $this->addToAssertionCount(1);
     }
 }
 

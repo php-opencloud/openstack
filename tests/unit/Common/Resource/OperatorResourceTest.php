@@ -17,7 +17,7 @@ class OperatorResourceTest extends TestCase
     /** @var TestOperatorResource */
     private $resource;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,8 +33,8 @@ class OperatorResourceTest extends TestCase
 
         $uri = $this->resource->testBaseUri();
 
-        $this->assertInstanceOf(Uri::class, $uri);
-        $this->assertEquals($returnedUri, $uri);
+        self::assertInstanceOf(Uri::class, $uri);
+        self::assertEquals($returnedUri, $uri);
     }
 
     public function test_it_executes_with_state()
@@ -67,10 +67,10 @@ class OperatorResourceTest extends TestCase
 
         foreach ($this->resource->enumerate($api->getServers()) as $item) {
             ++$count;
-            $this->assertInstanceOf(TestOperatorResource::class, $item);
+            self::assertInstanceOf(TestOperatorResource::class, $item);
         }
 
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 
     public function test_it_invokes_function_if_provided()
@@ -96,7 +96,7 @@ class OperatorResourceTest extends TestCase
         foreach ($this->resource->enumerate($api->getServers(), [], $fn) as $item) {
         }
 
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 
     public function test_it_halts_when_user_provided_limit_is_reached()
@@ -114,7 +114,7 @@ class OperatorResourceTest extends TestCase
             ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_predicts_resources_key_without_explicit_property()
@@ -133,7 +133,7 @@ class OperatorResourceTest extends TestCase
             ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_extracts_multiple_instances()
@@ -144,24 +144,24 @@ class OperatorResourceTest extends TestCase
         $resources = $resource->extractMultipleInstances($response);
 
         foreach ($resources as $resource) {
-            $this->assertInstanceOf(Server::class, $resource);
+            self::assertInstanceOf(Server::class, $resource);
         }
     }
 
     public function test_it_finds_parent_service()
     {
         $r = new Foo($this->client->reveal(), new Api());
-        $this->assertInstanceOf(Service::class, $r->testGetService());
+        self::assertInstanceOf(Service::class, $r->testGetService());
     }
 
     public function test_it_returns_a_model_instance()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
     }
 
     public function test_it_populates_models_from_response()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
     }
 
     public function test_it_populates_models_from_arrays()
@@ -174,9 +174,9 @@ class OperatorResourceTest extends TestCase
         /** @var TestOperatorResource $model */
         $model = $this->resource->model(TestOperatorResource::class, $data);
 
-        $this->assertInstanceOf(ResourceInterface::class, $model);
-        $this->assertEquals(123, $model->id);
-        $this->assertEquals('this-is-bar', $model->bar);
+        self::assertInstanceOf(ResourceInterface::class, $model);
+        self::assertEquals(123, $model->id);
+        self::assertEquals('this-is-bar', $model->bar);
     }
 }
 

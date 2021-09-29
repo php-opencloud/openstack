@@ -14,7 +14,7 @@ class KeypairTest extends TestCase
 
     const KEYPAIR_NAME = 'keypair-test';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -39,7 +39,7 @@ class KeypairTest extends TestCase
 
         $this->setupMock('POST', 'os-keypairs', $expectedJson, ['Content-Type' => 'application/json'], 'keypair-post');
 
-        $this->assertInstanceOf(Keypair::class, $this->keypair->create($opts));
+        self::assertInstanceOf(Keypair::class, $this->keypair->create($opts));
     }
 
     public function test_it_retrieves()
@@ -48,15 +48,15 @@ class KeypairTest extends TestCase
 
         $this->keypair->retrieve();
 
-        $this->assertEquals('1', $this->keypair->id);
-        $this->assertEquals('fake', $this->keypair->userId);
-        $this->assertEquals('44:fe:29:6e:23:14:b9:53:5b:65:82:58:1c:fe:5a:c3', $this->keypair->fingerprint);
-        $this->assertEquals(self::KEYPAIR_NAME, $this->keypair->name);
-        $this->assertEquals(
+        self::assertEquals('1', $this->keypair->id);
+        self::assertEquals('fake', $this->keypair->userId);
+        self::assertEquals('44:fe:29:6e:23:14:b9:53:5b:65:82:58:1c:fe:5a:c3', $this->keypair->fingerprint);
+        self::assertEquals(self::KEYPAIR_NAME, $this->keypair->name);
+        self::assertEquals(
             'ssh-rsa AAAAAAABBBBBBBBBCCCCCCCCCCC foo@bar.com',
             $this->keypair->publicKey
         );
-        $this->assertFalse($this->keypair->deleted);
+        self::assertFalse($this->keypair->deleted);
     }
 
     public function test_it_retrieves_by_user_id()
@@ -70,15 +70,15 @@ class KeypairTest extends TestCase
         $this->keypair->userId = 'fake';
         $this->keypair->retrieve();
 
-        $this->assertEquals('1', $this->keypair->id);
-        $this->assertEquals('fake', $this->keypair->userId);
-        $this->assertEquals('44:fe:29:6e:23:14:b9:53:5b:65:82:58:1c:fe:5a:c3', $this->keypair->fingerprint);
-        $this->assertEquals(self::KEYPAIR_NAME, $this->keypair->name);
-        $this->assertEquals(
+        self::assertEquals('1', $this->keypair->id);
+        self::assertEquals('fake', $this->keypair->userId);
+        self::assertEquals('44:fe:29:6e:23:14:b9:53:5b:65:82:58:1c:fe:5a:c3', $this->keypair->fingerprint);
+        self::assertEquals(self::KEYPAIR_NAME, $this->keypair->name);
+        self::assertEquals(
             'ssh-rsa AAAAAAABBBBBBBBBCCCCCCCCCCC foo@bar.com',
             $this->keypair->publicKey
         );
-        $this->assertFalse($this->keypair->deleted);
+        self::assertFalse($this->keypair->deleted);
     }
 
     public function test_it_deletes()
