@@ -3,7 +3,7 @@
 namespace OpenStack\Test\Common\Resource;
 
 use GuzzleHttp\Psr7\Response;
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\ResourceInterface;
@@ -25,7 +25,7 @@ class AbstractResourceTest extends TestCase
 
     public function test_it_populates_from_response()
     {
-        $response = new Response(200, ['Content-Type' => 'application/json'], stream_for(
+        $response = new Response(200, ['Content-Type' => 'application/json'], Utils::streamFor(
             json_encode(['foo' => ['bar' => '1']])
         ));
 
