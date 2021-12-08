@@ -12,11 +12,8 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$compute = $openstack->computeV2(['region' => '{region}']);
-
-$server = $compute->getServer([
-    'id' => '{serverId}',
-]);
-
-$server->waitUntil('RESCUE');
-$server->unrescue();
+/** @var \GuzzleHttp\Stream\Stream $stream */
+$stream = $openstack->objectStoreV1()
+                    ->getContainer('{containerName}')
+                    ->getObject('{objectName}')
+                    ->download(['requestOptions' => ['stream' => true]]);

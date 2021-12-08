@@ -11,7 +11,7 @@ class LoadBalancerListenerTest extends TestCase
 {
     private $listener;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -45,7 +45,7 @@ class LoadBalancerListenerTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/listeners', $expectedJson, [], 'loadbalancer-listener-post');
 
-        $this->assertInstanceOf(LoadBalancerListener::class, $this->listener->create($opts));
+        self::assertInstanceOf(LoadBalancerListener::class, $this->listener->create($opts));
     }
 
     public function test_it_updates()
@@ -74,9 +74,9 @@ class LoadBalancerListenerTest extends TestCase
 
         $this->listener->retrieve();
 
-        $this->assertEquals('listenerId', $this->listener->id);
-        $this->assertEquals('listener1', $this->listener->name);
-        $this->assertEquals('simple listener', $this->listener->description);
+        self::assertEquals('listenerId', $this->listener->id);
+        self::assertEquals('listener1', $this->listener->name);
+        self::assertEquals('simple listener', $this->listener->description);
     }
 
     public function test_it_deletes()

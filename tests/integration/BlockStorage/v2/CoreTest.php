@@ -28,8 +28,11 @@ class CoreTest extends TestCase
     {
         $this->startTimer();
 
+        $this->logger->info('-> Volumes');
         $this->volumes();
+        $this->logger->info('-> Volume Types');
         $this->volumeTypes();
+        $this->logger->info('-> Snapshots');
         $this->snapshots();
 
         $this->outputTimeTaken();
@@ -37,7 +40,7 @@ class CoreTest extends TestCase
 
     public function volumes()
     {
-        $this->logStep('Creating volume type');
+        $this->logStep('-> Volumes tests');
         $volumeType = $this->getService()->createVolumeType(['name' => $this->randomStr()]);
 
         $replacements = [
@@ -52,10 +55,10 @@ class CoreTest extends TestCase
         $this->logStep('Creating volume');
         /** @var Volume $volume */
         require_once $this->sampleFile($replacements, 'volumes/create.php');
-        $this->assertInstanceOf(Volume::class, $volume);
-        $this->assertEquals($replacements['{name}'], $volume->name);
-        $this->assertEquals(1, $volume->size);
-        $this->assertEquals($volumeType->name, $volume->volumeTypeName);
+        self::assertInstanceOf(Volume::class, $volume);
+        self::assertEquals($replacements['{name}'], $volume->name);
+        self::assertEquals(1, $volume->size);
+        self::assertEquals($volumeType->name, $volume->volumeTypeName);
 
         $volumeId = $volume->id;
         $replacements = ['{volumeId}' => $volumeId];
@@ -63,14 +66,14 @@ class CoreTest extends TestCase
         $this->logStep('Getting volume');
         /** @var Volume $volume */
         require_once $this->sampleFile($replacements, 'volumes/get.php');
-        $this->assertInstanceOf(Volume::class, $volume);
+        self::assertInstanceOf(Volume::class, $volume);
 
         $replacements += ['{newName}' => $this->randomStr(), '{newDescription}' => $this->randomStr()];
 
         $this->logStep('Updating volume');
         /** @var Volume $volume */
         require_once $this->sampleFile($replacements, 'volumes/update.php');
-        $this->assertInstanceOf(Volume::class, $volume);
+        self::assertInstanceOf(Volume::class, $volume);
 
         $this->logStep('Listing volumes');
         /** @var \Generator $volumes */
@@ -95,22 +98,22 @@ class CoreTest extends TestCase
         $this->logStep('Creating volume type');
         /** @var VolumeType $volumeType */
         require_once $this->sampleFile($replacements, 'volume_types/create.php');
-        $this->assertInstanceOf(VolumeType::class, $volumeType);
-        $this->assertEquals($replacements['{name}'], $volumeType->name);
+        self::assertInstanceOf(VolumeType::class, $volumeType);
+        self::assertEquals($replacements['{name}'], $volumeType->name);
 
         $replacements = ['{volumeTypeId}' => $volumeType->id];
 
         $this->logStep('Getting volume type');
         /** @var VolumeType $volumeType */
         require_once $this->sampleFile($replacements, 'volume_types/get.php');
-        $this->assertInstanceOf(VolumeType::class, $volumeType);
+        self::assertInstanceOf(VolumeType::class, $volumeType);
 
         $replacements += ['{newName}' => $this->randomStr()];
 
         $this->logStep('Updating volume type');
         /** @var VolumeType $volumeType */
         require_once $this->sampleFile($replacements, 'volume_types/update.php');
-        $this->assertInstanceOf(VolumeType::class, $volumeType);
+        self::assertInstanceOf(VolumeType::class, $volumeType);
 
         $this->logStep('Listing volume types');
         /** @var \Generator $volumeTypes */
@@ -124,7 +127,7 @@ class CoreTest extends TestCase
     {
         $this->logStep('Creating volume');
         $volume = $this->getService()->createVolume(['name' => $this->randomStr(), 'size' => 1]);
-        $volume->waitUntilActive();
+        $volume->waitUntil('available', 60);
 
         $replacements = [
             '{volumeId}'    => $volume->id,
@@ -135,9 +138,9 @@ class CoreTest extends TestCase
         $this->logStep('Creating snapshot');
         /** @var Snapshot $snapshot */
         require_once $this->sampleFile($replacements, 'snapshots/create.php');
-        $this->assertInstanceOf(Snapshot::class, $snapshot);
-        $this->assertEquals($replacements['{name}'], $snapshot->name);
-        $snapshot->waitUntilActive();
+        self::assertInstanceOf(Snapshot::class, $snapshot);
+        self::assertEquals($replacements['{name}'], $snapshot->name);
+        $volume->waitUntil('available', 60);
 
         $snapshotId = $snapshot->id;
         $replacements = ['{snapshotId}' => $snapshotId];
@@ -145,7 +148,7 @@ class CoreTest extends TestCase
         $this->logStep('Getting snapshot');
         /** @var Snapshot $snapshot */
         require_once $this->sampleFile($replacements, 'snapshots/get.php');
-        $this->assertInstanceOf(Snapshot::class, $snapshot);
+        self::assertInstanceOf(Snapshot::class, $snapshot);
 
         $this->getService()
             ->getSnapshot($snapshot->id)
@@ -158,7 +161,7 @@ class CoreTest extends TestCase
         $this->logStep('Retrieving metadata');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'snapshots/get_metadata.php');
-        $this->assertEquals(['key1' => 'val1', 'key2' => 'val2'], $metadata);
+        self::assertEquals(['key1' => 'val1', 'key2' => 'val2'], $metadata);
 
         $replacements = ['{snapshotId}' => $snapshot->id, '{key}' => 'key3', '{val}' => 'val3'];
         $this->logStep('Resetting metadata');
@@ -167,7 +170,7 @@ class CoreTest extends TestCase
         $this->logStep('Retrieving metadata');
         /** @var array $metadata */
         require_once $this->sampleFile($replacements, 'snapshots/get_metadata.php');
-        $this->assertEquals(['key3' => 'val3'], $metadata);
+        self::assertEquals(['key3' => 'val3'], $metadata);
 
         $replacements += ['{newName}' => $this->randomStr(), '{newDescription}' => $this->randomStr()];
         $this->logStep('Updating snapshot');

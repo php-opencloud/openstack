@@ -32,7 +32,7 @@ class CoreTest extends TestCase
         $this->logStep('Creating image');
         /** @var Image $image */
         require_once $this->sampleFile($replacements, 'images/create.php');
-        $this->assertInstanceOf(Image::class, $image);
+        self::assertInstanceOf(Image::class, $image);
 
         $replacements = ['{imageId}' => $image->id];
 
@@ -43,7 +43,7 @@ class CoreTest extends TestCase
         $this->logStep('Getting image');
         /** @var Image $image */
         require_once $this->sampleFile($replacements, 'images/get.php');
-        $this->assertInstanceOf(Image::class, $image);
+        self::assertInstanceOf(Image::class, $image);
 
         $replacements += [
             '{name}'       => 'newName',
@@ -67,7 +67,7 @@ class CoreTest extends TestCase
             '{tag2}'            => 'quantal',
             '{containerFormat}' => 'bare',
             '{diskFormat}'      => 'qcow2',
-            '{visibility}'      => 'private',
+            '{visibility}'      => 'shared',
             'true'              => 'false',
         ];
 
@@ -75,18 +75,21 @@ class CoreTest extends TestCase
         /** @var Image $image */
         require_once $this->sampleFile($replacements, 'images/create.php');
 
-        $replacements = ['{imageId}' => $image->id];
+
+
+        $this->logStep(sprintf('Image created with id=%s', $image->id));
 
         $this->logStep('Adding member');
+        $replacements += ['{imageId}' => $image->id];
         /** @var Member $member */
-        require_once $this->sampleFile($replacements, 'members/add.php');
-        $this->assertInstanceOf(Member::class, $member);
+        require_once $this->sampleFile(['{imageId}' => $image->id, ], 'members/add.php');
+        self::assertInstanceOf(Member::class, $member);
 
         $replacements += ['status' => Member::STATUS_REJECTED];
         $this->logStep('Updating member status');
         /** @var Member $member */
         require_once $this->sampleFile($replacements, 'members/update_status.php');
-        $this->assertInstanceOf(Member::class, $member);
+        self::assertInstanceOf(Member::class, $member);
 
         $this->logStep('Deleting member');
         /** @var Member $member */

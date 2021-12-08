@@ -10,7 +10,7 @@ class HydratorStrategyTraitTest extends TestCase
     /** @var Fixture */
     private $fixture;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixture = new Fixture();
     }
@@ -21,16 +21,16 @@ class HydratorStrategyTraitTest extends TestCase
 
         $this->fixture->hydrate($data);
 
-        $this->assertEquals(1, $this->fixture->foo);
-        $this->assertEquals(2, $this->fixture->getBar());
-        $this->assertEquals(3, $this->fixture->getBaz());
+        self::assertEquals(1, $this->fixture->foo);
+        self::assertEquals(2, $this->fixture->getBar());
+        self::assertEquals(3, $this->fixture->getBaz());
     }
 
     public function test_it_hydrates_aliases()
     {
         $this->fixture->hydrate(['FOO!' => 1], ['FOO!' => 'foo']);
 
-        $this->assertEquals(1, $this->fixture->foo);
+        self::assertEquals(1, $this->fixture->foo);
     }
 
     public function test_it_sets()
@@ -38,7 +38,7 @@ class HydratorStrategyTraitTest extends TestCase
         $data = ['foo1' => 1];
 
         $this->fixture->set('foo1', 'foo', $data);
-        $this->assertEquals(1, $this->fixture->foo);
+        self::assertEquals(1, $this->fixture->foo);
     }
 }
 

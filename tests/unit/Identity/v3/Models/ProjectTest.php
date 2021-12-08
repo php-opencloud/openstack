@@ -13,7 +13,7 @@ class ProjectTest extends TestCase
 {
     private $project;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -75,7 +75,7 @@ class ProjectTest extends TestCase
     {
         $this->setupMock('HEAD', 'projects/PROJECT_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(200));
 
-        $this->assertTrue($this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
+        self::assertTrue($this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_user_role()
@@ -85,7 +85,7 @@ class ProjectTest extends TestCase
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 
-        $this->assertFalse($this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
+        self::assertFalse($this->project->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_user_role()
@@ -112,7 +112,7 @@ class ProjectTest extends TestCase
     {
         $this->setupMock('HEAD', 'projects/PROJECT_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(200));
 
-        $this->assertTrue($this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
+        self::assertTrue($this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_group_role()
@@ -122,7 +122,7 @@ class ProjectTest extends TestCase
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 
-        $this->assertFalse($this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
+        self::assertFalse($this->project->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_group_role()

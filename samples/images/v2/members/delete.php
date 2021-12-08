@@ -11,5 +11,5 @@ $openstack = new OpenStack\OpenStack([
 
 $openstack->imagesV2()
           ->getImage('{imageId}')
-          ->getMember('{tenantId}')
+          ->getMember('{projectId}')
           ->delete();

@@ -14,7 +14,7 @@ class QuotaSetTest extends TestCase
 
     const TENANT_ID = 'fake-tenant-id';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -30,22 +30,22 @@ class QuotaSetTest extends TestCase
 
         $this->quotaSet->retrieve();
 
-        $this->assertEquals(10240, $this->quotaSet->injectedFileContentBytes);
-        $this->assertEquals(128, $this->quotaSet->metadataItems);
-        $this->assertEquals(22, $this->quotaSet->serverGroupMembers);
-        $this->assertEquals(10, $this->quotaSet->serverGroups);
-        $this->assertEquals(51200, $this->quotaSet->ram);
-        $this->assertEquals(33, $this->quotaSet->floatingIps);
-        $this->assertEquals(100, $this->quotaSet->keyPairs);
-        $this->assertEquals(999, $this->quotaSet->instances);
-        $this->assertEquals(20, $this->quotaSet->securityGroupRules);
-        $this->assertEquals(5, $this->quotaSet->injectedFiles);
-        $this->assertEquals(500, $this->quotaSet->cores);
-        $this->assertEquals(-1, $this->quotaSet->fixedIps);
-        $this->assertEquals(255, $this->quotaSet->injectedFilePathBytes);
-        $this->assertEquals(10, $this->quotaSet->securityGroups);
+        self::assertEquals(10240, $this->quotaSet->injectedFileContentBytes);
+        self::assertEquals(128, $this->quotaSet->metadataItems);
+        self::assertEquals(22, $this->quotaSet->serverGroupMembers);
+        self::assertEquals(10, $this->quotaSet->serverGroups);
+        self::assertEquals(51200, $this->quotaSet->ram);
+        self::assertEquals(33, $this->quotaSet->floatingIps);
+        self::assertEquals(100, $this->quotaSet->keyPairs);
+        self::assertEquals(999, $this->quotaSet->instances);
+        self::assertEquals(20, $this->quotaSet->securityGroupRules);
+        self::assertEquals(5, $this->quotaSet->injectedFiles);
+        self::assertEquals(500, $this->quotaSet->cores);
+        self::assertEquals(-1, $this->quotaSet->fixedIps);
+        self::assertEquals(255, $this->quotaSet->injectedFilePathBytes);
+        self::assertEquals(10, $this->quotaSet->securityGroups);
 
-        $this->assertEquals(self::TENANT_ID, $this->quotaSet->tenantId);
+        self::assertEquals(self::TENANT_ID, $this->quotaSet->tenantId);
     }
 
     public function test_it_deletes()

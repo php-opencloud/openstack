@@ -8,7 +8,11 @@
             <directory>tests/unit</directory>
         </testsuite>
     </testsuites>
-
+    <php>
+        <ini name="error_reporting" value=""/>
+        <ini name="display_errors" value="On"/>
+        <ini name="display_startup_errors" value="On"/>
+    </php>
     <filter>
         <whitelist>
             <directory suffix=".php">./src</directory>
@@ -19,5 +23,4 @@
             </exclude>
         </whitelist>
     </filter>
-
 </phpunit>

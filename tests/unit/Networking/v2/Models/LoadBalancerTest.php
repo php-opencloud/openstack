@@ -14,7 +14,7 @@ class LoadBalancerTest extends TestCase
 {
     private $loadbalancer;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -46,7 +46,7 @@ class LoadBalancerTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/loadbalancers', $expectedJson, [], 'loadbalancer-post');
 
-        $this->assertInstanceOf(LoadBalancer::class, $this->loadbalancer->create($opts));
+        self::assertInstanceOf(LoadBalancer::class, $this->loadbalancer->create($opts));
     }
 
     public function test_it_updates()
@@ -71,9 +71,9 @@ class LoadBalancerTest extends TestCase
 
         $this->loadbalancer->retrieve();
 
-        $this->assertEquals('loadbalancerId', $this->loadbalancer->id);
-        $this->assertEquals('loadbalancer1', $this->loadbalancer->name);
-        $this->assertEquals('simple lb', $this->loadbalancer->description);
+        self::assertEquals('loadbalancerId', $this->loadbalancer->id);
+        self::assertEquals('loadbalancer1', $this->loadbalancer->name);
+        self::assertEquals('simple lb', $this->loadbalancer->description);
     }
 
     public function test_it_deletes()
@@ -108,7 +108,7 @@ class LoadBalancerTest extends TestCase
 
         $this->setupMock('POST', 'v2.0/lbaas/listeners', $expectedJson, [], 'loadbalancer-listener-post');
 
-        $this->assertInstanceOf(LoadBalancerListener::class, $this->loadbalancer->addListener($opts));
+        self::assertInstanceOf(LoadBalancerListener::class, $this->loadbalancer->addListener($opts));
     }
 
     public function test_get_stats()
@@ -117,12 +117,12 @@ class LoadBalancerTest extends TestCase
 
         $stats = $this->loadbalancer->getStats();
 
-        $this->assertEquals('4321', $stats->bytesIn);
-        $this->assertEquals('1234', $stats->bytesOut);
-        $this->assertEquals(25, $stats->totalConnections);
-        $this->assertEquals(10, $stats->activeConnections);
-        $this->assertEquals($this->loadbalancer->id, $stats->loadbalancerId);
-        $this->assertInstanceOf(LoadBalancerStat::class, $stats);
+        self::assertEquals('4321', $stats->bytesIn);
+        self::assertEquals('1234', $stats->bytesOut);
+        self::assertEquals(25, $stats->totalConnections);
+        self::assertEquals(10, $stats->activeConnections);
+        self::assertEquals($this->loadbalancer->id, $stats->loadbalancerId);
+        self::assertInstanceOf(LoadBalancerStat::class, $stats);
     }
 
     public function test_get_statuses()
@@ -130,13 +130,13 @@ class LoadBalancerTest extends TestCase
         $this->setupMock('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/statuses', null, [], 'loadbalancer-statuses-get');
 
         $status = $this->loadbalancer->getStatuses();
-        $this->assertEquals('loadbalancer1', $status->name);
-        $this->assertEquals('loadbalancerId', $status->id);
-        $this->assertEquals('ONLINE', $status->operatingStatus);
-        $this->assertEquals('ACTIVE', $status->provisioningStatus);
-        $this->assertInternalType('array', $status->listeners);
-        $this->assertArrayHasKey(0, $status->listeners);
-        $this->assertInstanceOf(LoadBalancerListener::class, $status->listeners[0]);
-        $this->assertInstanceOf(LoadBalancerStatus::class, $status);
+        self::assertEquals('loadbalancer1', $status->name);
+        self::assertEquals('loadbalancerId', $status->id);
+        self::assertEquals('ONLINE', $status->operatingStatus);
+        self::assertEquals('ACTIVE', $status->provisioningStatus);
+        self::assertIsArray($status->listeners);
+        self::assertArrayHasKey(0, $status->listeners);
+        self::assertInstanceOf(LoadBalancerListener::class, $status->listeners[0]);
+        self::assertInstanceOf(LoadBalancerStatus::class, $status);
     }
 }

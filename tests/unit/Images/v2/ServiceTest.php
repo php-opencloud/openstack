@@ -12,7 +12,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -69,12 +69,12 @@ class ServiceTest extends TestCase
             ->willReturn($this->getFixture('GET_images'));
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
-            $this->assertInstanceOf(Image::class, $image);
+            self::assertInstanceOf(Image::class, $image);
         }
     }
 
     public function test_it_gets_image()
     {
-        $this->assertInstanceOf(Image::class, $this->service->getImage('id'));
+        self::assertInstanceOf(Image::class, $this->service->getImage('id'));
     }
 }

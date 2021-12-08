@@ -15,15 +15,12 @@ use Psr\Log\LogLevel;
 
 final class Middleware
 {
-    /**
-     * @return callable
-     */
     public static function httpErrors(): callable
     {
         return function (callable $handler) {
             return function ($request, array $options) use ($handler) {
                 return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($request, $handler) {
+                    function (ResponseInterface $response) use ($request) {
                         if ($response->getStatusCode() < 400) {
                             return $response;
                         }
@@ -35,10 +32,7 @@ final class Middleware
     }
 
     /**
-     * @param callable $tokenGenerator
-     * @param Token    $token
-     *
-     * @return callable
+     * @param Token $token
      */
     public static function authHandler(callable $tokenGenerator, Token $token = null): callable
     {

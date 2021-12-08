@@ -10,7 +10,7 @@ class AccountTest extends TestCase
 {
     private $account;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -25,10 +25,10 @@ class AccountTest extends TestCase
 
         $this->account->populateFromResponse($response);
 
-        $this->assertEquals(1, $this->account->objectCount);
-        $this->assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->metadata);
-        $this->assertEquals(14, $this->account->bytesUsed);
-        $this->assertEquals(2, $this->account->containerCount);
+        self::assertEquals(1, $this->account->objectCount);
+        self::assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->metadata);
+        self::assertEquals(14, $this->account->bytesUsed);
+        self::assertEquals(2, $this->account->containerCount);
     }
 
     public function test_Retrieve()
@@ -37,13 +37,13 @@ class AccountTest extends TestCase
 
         $this->account->retrieve();
 
-        $this->assertNotEmpty($this->account->metadata);
+        self::assertNotEmpty($this->account->metadata);
     }
 
     public function test_Get_Metadata()
     {
         $this->setupMock('HEAD', '', null, [], 'HEAD_Account');
-        $this->assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->getMetadata());
+        self::assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->getMetadata());
     }
 
     public function test_Merge_Metadata()

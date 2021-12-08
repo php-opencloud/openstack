@@ -13,7 +13,7 @@ class GroupTest extends TestCase
 {
     private $group;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
         parent::setUp();
@@ -48,7 +48,7 @@ class GroupTest extends TestCase
         /** @var $group \OpenStack\Identity\v3\Models\Group */
         $group = $this->group->create($userOptions);
 
-        $this->assertInstanceOf(Group::class, $group);
+        self::assertInstanceOf(Group::class, $group);
     }
 
     public function test_it_updates_group()
@@ -104,6 +104,6 @@ class GroupTest extends TestCase
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 
-        $this->assertFalse($this->group->checkMembership(['userId' => 'USER_ID']));
+        self::assertFalse($this->group->checkMembership(['userId' => 'USER_ID']));
     }
 }

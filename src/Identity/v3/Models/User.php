@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
@@ -86,9 +86,6 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
         $this->execute($this->api->deleteUser(), ['id' => $this->id]);
     }
 
-    /**
-     * @return \Generator
-     */
     public function listGroups(): \Generator
     {
         $options['id'] = $this->id;
@@ -96,9 +93,6 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
         return $this->model(Group::class)->enumerate($this->api->getUserGroups(), $options);
     }
 
-    /**
-     * @return \Generator
-     */
     public function listProjects(): \Generator
     {
         return $this->model(Project::class)->enumerate($this->api->getUserProjects(), ['id' => $this->id]);

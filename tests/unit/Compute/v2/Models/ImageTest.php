@@ -11,7 +11,7 @@ class ImageTest extends TestCase
 {
     private $image;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -34,14 +34,14 @@ class ImageTest extends TestCase
             "ramdisk_id" => "nokernel"
         ];
 
-        $this->assertEquals(new \DateTimeImmutable('2011-01-01T01:02:03Z'), $this->image->created);
-        $this->assertEquals($metadata, $this->image->metadata);
-        $this->assertEquals(0, $this->image->minDisk);
-        $this->assertEquals(0, $this->image->minRam);
-        $this->assertEquals('fakeimage7', $this->image->name);
-        $this->assertEquals(100, $this->image->progress);
-        $this->assertEquals('ACTIVE', $this->image->status);
-        $this->assertEquals(new \DateTimeImmutable('2011-01-01T01:02:03Z'), $this->image->updated);
+        self::assertEquals(new \DateTimeImmutable('2011-01-01T01:02:03Z'), $this->image->created);
+        self::assertEquals($metadata, $this->image->metadata);
+        self::assertEquals(0, $this->image->minDisk);
+        self::assertEquals(0, $this->image->minRam);
+        self::assertEquals('fakeimage7', $this->image->name);
+        self::assertEquals(100, $this->image->progress);
+        self::assertEquals('ACTIVE', $this->image->status);
+        self::assertEquals(new \DateTimeImmutable('2011-01-01T01:02:03Z'), $this->image->updated);
     }
 
     public function test_it_deletes()
@@ -57,10 +57,10 @@ class ImageTest extends TestCase
 
         $metadata = $this->image->getMetadata();
 
-        $this->assertEquals('x86_64', $metadata['architecture']);
-        $this->assertEquals('True', $metadata['auto_disk_config']);
-        $this->assertEquals('nokernel', $metadata['kernel_id']);
-        $this->assertEquals('nokernel', $metadata['ramdisk_id']);
+        self::assertEquals('x86_64', $metadata['architecture']);
+        self::assertEquals('True', $metadata['auto_disk_config']);
+        self::assertEquals('nokernel', $metadata['kernel_id']);
+        self::assertEquals('nokernel', $metadata['ramdisk_id']);
     }
 
     public function test_it_sets_metadata()
@@ -74,7 +74,7 @@ class ImageTest extends TestCase
 
         $this->image->resetMetadata($metadata);
 
-        $this->assertEquals('1', $this->image->metadata['foo']);
+        self::assertEquals('1', $this->image->metadata['foo']);
     }
 
     public function test_it_updates_metadata()
@@ -88,8 +88,8 @@ class ImageTest extends TestCase
 
         $this->image->mergeMetadata($metadata);
 
-        $this->assertEquals('1', $this->image->metadata['foo']);
-        $this->assertEquals('2', $this->image->metadata['bar']);
+        self::assertEquals('1', $this->image->metadata['foo']);
+        self::assertEquals('2', $this->image->metadata['bar']);
     }
 
     public function test_it_retrieves_a_metadata_item()
@@ -99,13 +99,13 @@ class ImageTest extends TestCase
 
         $value = $this->image->getMetadataItem('fooKey');
 
-        $this->assertEquals('bar', $value);
+        self::assertEquals('bar', $value);
     }
 
     public function test_it_deletes_a_metadata_item()
     {
         $this->setupMock('DELETE', 'images/imageId/metadata/fooKey', null, [], new Response(204));
 
-        $this->assertNull($this->image->deleteMetadataItem('fooKey'));
+        self::assertNull($this->image->deleteMetadataItem('fooKey'));
     }
 }

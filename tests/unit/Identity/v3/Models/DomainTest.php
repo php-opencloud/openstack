@@ -13,7 +13,7 @@ class DomainTest extends TestCase
 {
     private $domain;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -63,13 +63,13 @@ class DomainTest extends TestCase
     public function test_it_grants_user_role()
     {
         $this->setupMock('PUT', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(204));
-        $this->assertNull($this->domain->grantUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
+        self::assertNull($this->domain->grantUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_user_role()
     {
         $this->setupMock('HEAD', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(200));
-        $this->assertTrue($this->domain->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
+        self::assertTrue($this->domain->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_user_role()
@@ -79,7 +79,7 @@ class DomainTest extends TestCase
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 
-        $this->assertFalse($this->domain->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
+        self::assertFalse($this->domain->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_user_role()
@@ -97,13 +97,13 @@ class DomainTest extends TestCase
     public function test_it_grants_group_role()
     {
         $this->setupMock('PUT', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(204));
-        $this->assertNull($this->domain->grantGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
+        self::assertNull($this->domain->grantGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_group_role()
     {
         $this->setupMock('HEAD', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(200));
-        $this->assertTrue($this->domain->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
+        self::assertTrue($this->domain->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_group_role()
@@ -113,7 +113,7 @@ class DomainTest extends TestCase
             ->shouldBeCalled()
             ->willThrow(new BadResponseError());
 
-        $this->assertFalse($this->domain->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
+        self::assertFalse($this->domain->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_group_role()

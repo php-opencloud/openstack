@@ -18,6 +18,8 @@ $image = $service->createImage([
     'diskFormat'      => '{diskFormat}',
     'visibility'      => '{visibility}',
     'minDisk'         => 10,
-    'protected'       => true,
+    'protected'       => false,
     'minRam'          => 10,
 ]);
+
+$image->uploadData(\GuzzleHttp\Psr7\Utils::streamFor('fake-image.img'));

@@ -8,7 +8,7 @@ class JsonPathTest extends \PHPUnit\Framework\TestCase
 {
     private $jsonPath;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->jsonPath = new JsonPath([]);
     }
@@ -25,7 +25,7 @@ class JsonPathTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $this->assertEquals($expected, $this->jsonPath->getStructure());
+        self::assertEquals($expected, $this->jsonPath->getStructure());
     }
 
     public function test_it_sets_arrays_according_to_paths()
@@ -49,7 +49,7 @@ class JsonPathTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $this->assertEquals($expected, $jsonPath->getStructure());
+        self::assertEquals($expected, $jsonPath->getStructure());
     }
 
     public function test_it_gets_values_according_to_paths()
@@ -63,8 +63,8 @@ class JsonPathTest extends \PHPUnit\Framework\TestCase
             ]
         ]);
 
-        $this->assertEquals('VALUE_1', $jsonPath->get('foo.bar.baz'));
-        $this->assertEquals('VALUE_2', $jsonPath->get('foo.bar.lol'));
-        $this->assertNull($jsonPath->get('foo.bar.boo'));
+        self::assertEquals('VALUE_1', $jsonPath->get('foo.bar.baz'));
+        self::assertEquals('VALUE_2', $jsonPath->get('foo.bar.lol'));
+        self::assertNull($jsonPath->get('foo.bar.boo'));
     }
 }

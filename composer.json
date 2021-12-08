@@ -33,16 +33,17 @@
         }
     },
     "require": {
-        "php": "~7.0",
-        "guzzlehttp/guzzle": "^6.1",
+        "php": "^7.2.5|^8.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/uri-template": "0.2",
         "justinrainbow/json-schema": "^5.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5",
+        "phpunit/phpunit": "^8.0",
         "psr/log": "^1.0",
         "php-coveralls/php-coveralls": "^2.0",
-        "jakub-onderka/php-parallel-lint": "^1.0",
-        "friendsofphp/php-cs-fixer": "^2.13"
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "php-parallel-lint/php-parallel-lint": "^1.2"
     },
     "extra": {
         "branch-alias": {

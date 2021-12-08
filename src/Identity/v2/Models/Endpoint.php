@@ -34,10 +34,6 @@ class Endpoint extends OperatorResource
 
     /**
      * Indicates whether a given region is supported.
-     *
-     * @param string $region
-     *
-     * @return bool
      */
     public function supportsRegion(string $region): bool
     {
@@ -46,10 +42,6 @@ class Endpoint extends OperatorResource
 
     /**
      * Indicates whether a given URL type is supported.
-     *
-     * @param string $urlType
-     *
-     * @return bool
      */
     public function supportsUrlType(string $urlType): bool
     {

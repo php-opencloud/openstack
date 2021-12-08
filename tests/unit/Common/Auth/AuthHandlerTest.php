@@ -15,7 +15,7 @@ class AuthHandlerTest extends TestCase
     private $generator;
     private $handler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generator = function () {
             $token = $this->prophesize(FakeToken::class);
@@ -35,7 +35,7 @@ class AuthHandlerTest extends TestCase
         // Fake a Keystone request
         $request = new Request('POST', 'https://my-openstack.org:5000/v2.0/tokens');
 
-        $this->assertEquals($request, call_user_func_array($this->handler, [$request, []]));
+        self::assertEquals($request, call_user_func_array($this->handler, [$request, []]));
     }
 
     public function test_it_should_generate_a_new_token_if_the_current_token_is_either_expired_or_not_set()

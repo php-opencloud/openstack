@@ -10,6 +10,6 @@ class HandlerStackTest extends TestCase
 {
     public function test_it_is_created()
     {
-        $this->assertInstanceOf(HandlerStack::class, HandlerStack::create(new MockHandler()));
+        self::assertInstanceOf(HandlerStack::class, HandlerStack::create(new MockHandler()));
     }
 }

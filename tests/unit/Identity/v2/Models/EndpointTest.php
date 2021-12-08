@@ -10,7 +10,7 @@ class EndpointTest extends TestCase
 {
     private $endpoint;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -23,7 +23,7 @@ class EndpointTest extends TestCase
 
         $this->endpoint->populateFromArray(['internalURL' => $url]);
 
-        $this->assertEquals($url, $this->endpoint->getUrl('internalURL'));
+        self::assertEquals($url, $this->endpoint->getUrl('internalURL'));
     }
 
     public function test_it_supports_admin_urls()
@@ -32,6 +32,6 @@ class EndpointTest extends TestCase
 
         $this->endpoint->populateFromArray(['adminURL' => $url]);
 
-        $this->assertEquals($url, $this->endpoint->getUrl('adminURL'));
+        self::assertEquals($url, $this->endpoint->getUrl('adminURL'));
     }
 }

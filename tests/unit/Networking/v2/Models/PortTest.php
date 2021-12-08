@@ -15,7 +15,7 @@ class PortTest extends TestCase
     /** @var Port */
     private $port;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -52,15 +52,15 @@ class PortTest extends TestCase
         $this->setupMock('GET', 'v2.0/ports/' . self::PORT_ID, null, [], 'port_get');
 
         $this->port->retrieve();
-        $this->assertEquals('46d4bfb9-b26e-41f3-bd2e-e6dcc1ccedb2', $this->port->id);
-        $this->assertEquals('ACTIVE', $this->port->status);
-        $this->assertEquals('port-name', $this->port->name);
-        $this->assertEquals(true, $this->port->adminStateUp);
-        $this->assertEquals(true,$this->port->portSecurityEnabled);
-        $this->assertEquals('network:router_interface', $this->port->deviceOwner);
-        $this->assertEquals('fake-device-id', $this->port->deviceId);
-        $this->assertEquals('00:11:22:33:44:55', $this->port->macAddress);
-        $this->assertCount(1, $this->port->fixedIps);
+        self::assertEquals('46d4bfb9-b26e-41f3-bd2e-e6dcc1ccedb2', $this->port->id);
+        self::assertEquals('ACTIVE', $this->port->status);
+        self::assertEquals('port-name', $this->port->name);
+        self::assertEquals(true, $this->port->adminStateUp);
+        self::assertEquals(true,$this->port->portSecurityEnabled);
+        self::assertEquals('network:router_interface', $this->port->deviceOwner);
+        self::assertEquals('fake-device-id', $this->port->deviceId);
+        self::assertEquals('00:11:22:33:44:55', $this->port->macAddress);
+        self::assertCount(1, $this->port->fixedIps);
     }
 
     public function test_it_deletes()

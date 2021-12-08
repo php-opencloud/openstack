@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v2\Models;
 
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Updateable;
 
 /**
@@ -26,8 +26,6 @@ class VolumeType extends OperatorResource implements Listable, Creatable, Update
 
     /**
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postTypes}
-     *
-     * @return Creatable
      */
     public function create(array $userOptions): Creatable
     {

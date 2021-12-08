@@ -10,8 +10,6 @@ class Params extends AbstractParams
 {
     /**
      * Returns information about description parameter.
-     *
-     * @return array
      */
     public function descriptionJson(): array
     {
@@ -23,8 +21,6 @@ class Params extends AbstractParams
 
     /**
      * Returns information about name parameter.
-     *
-     * @return array
      */
     public function nameJson(): array
     {

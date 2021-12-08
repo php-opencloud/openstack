@@ -11,7 +11,7 @@ class BadResponseErrorTest extends TestCase
 {
     private $e;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->e = new BadResponseError();
     }
@@ -21,7 +21,7 @@ class BadResponseErrorTest extends TestCase
         $r = new Request('GET', '');
 
         $this->e->setRequest($r);
-        $this->assertEquals($this->e->getRequest(), $r);
+        self::assertEquals($this->e->getRequest(), $r);
     }
 
     public function test_it_gets_response()
@@ -29,6 +29,6 @@ class BadResponseErrorTest extends TestCase
         $r = new Response(500);
 
         $this->e->setResponse($r);
-        $this->assertEquals($this->e->getResponse(), $r);
+        self::assertEquals($this->e->getResponse(), $r);
     }
 }

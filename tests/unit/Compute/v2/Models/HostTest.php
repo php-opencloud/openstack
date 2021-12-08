@@ -12,7 +12,7 @@ class HostTest extends TestCase
     /** @var Host */
     private $host;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -28,6 +28,6 @@ class HostTest extends TestCase
 
         $this->host->retrieve();
 
-        $this->assertEquals("b6e4adbc193d428ea923899d07fb001e", $this->host->name);
+        self::assertEquals("b6e4adbc193d428ea923899d07fb001e", $this->host->name);
     }
 }
