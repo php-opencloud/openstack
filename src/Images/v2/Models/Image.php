@@ -26,6 +26,9 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
     /** @var string */
     public $name;
 
+    /** @var string */
+    public $imageType;
+
     /** @var array */
     public $tags;
 
@@ -83,6 +86,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         'owner'            => 'ownerId',
         'min_ram'          => 'minRam',
         'virtual_size'     => 'virtualSize',
+        'image_type'       => 'imageType',
     ];
 
     protected function getAliases(): array
