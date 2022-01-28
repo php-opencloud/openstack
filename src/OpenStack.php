@@ -7,7 +7,7 @@ namespace OpenStack;
 use GuzzleHttp\Client;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Service\Builder;
-use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\HandlerStackFactory;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\Identity\v3\Service;
 
@@ -50,7 +50,7 @@ class OpenStack
             throw new \InvalidArgumentException("'authUrl' is a required option");
         }
 
-        $stack = HandlerStack::create();
+        $stack = HandlerStackFactory::create();
 
         if (!empty($options['debugLog'])
             && !empty($options['logger'])

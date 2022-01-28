@@ -6,10 +6,11 @@ namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Auth\Token;
-use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\HandlerStackFactory;
 use OpenStack\Common\Transport\Middleware;
 use OpenStack\Common\Transport\Utils;
 
@@ -132,7 +133,7 @@ class Builder
 
     private function getStack(callable $authHandler, Token $token = null): HandlerStack
     {
-        $stack = HandlerStack::create();
+        $stack = HandlerStackFactory::create();
         $stack->push(Middleware::authHandler($authHandler, $token));
 
         return $stack;

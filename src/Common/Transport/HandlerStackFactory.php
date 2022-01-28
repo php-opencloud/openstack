@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace OpenStack\Common\Transport;
 
-use GuzzleHttp\HandlerStack as GuzzleStack;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Utils;
 
-class HandlerStack extends GuzzleStack
+class HandlerStackFactory
 {
-    public static function create(?callable $handler = null): GuzzleStack
+    public static function create(?callable $handler = null): HandlerStack
     {
-        $stack = new self($handler ?: Utils::chooseHandler());
+        $stack = new HandlerStack($handler ?: Utils::chooseHandler());
         $stack->push(Middleware::httpErrors(), 'http_errors');
         $stack->push(Middleware::prepareBody(), 'prepare_body');
 

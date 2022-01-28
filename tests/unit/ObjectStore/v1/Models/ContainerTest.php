@@ -4,7 +4,7 @@ namespace OpenStack\Test\ObjectStore\v1\Models;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Utils;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Api;
 use OpenStack\ObjectStore\v1\Models\Container;
@@ -211,7 +211,7 @@ class ContainerTest extends TestCase
     public function test_it_chunks_according_to_provided_segment_size()
     {
         /** @var \GuzzleHttp\Psr7\Stream $stream */
-        $stream = \GuzzleHttp\Psr7\stream_for(implode('', range('A', 'X')));
+        $stream = Utils::streamFor(implode('', range('A', 'X')));
 
         $data = [
             'name' => 'object',
