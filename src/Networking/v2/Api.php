@@ -144,6 +144,8 @@ class Api extends AbstractApi
                 'dnsNameservers'  => $this->params->dnsNameservers(),
                 'allocationPools' => $this->params->allocationPools(),
                 'hostRoutes'      => $this->params->hostRoutes(),
+                'ipv6AddressMode' => $this->params->ipv6AddressMode(),
+                'ipv6RaMode'      => $this->params->ipv6RaMode(),
             ],
         ];
     }

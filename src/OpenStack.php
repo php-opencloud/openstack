@@ -169,6 +169,18 @@ class OpenStack
     }
 
     /**
+     * Creates a new Block Storage v3 service.
+     *
+     * @param array $options options that will be used in configuring the service
+     */
+    public function blockStorageV3(array $options = []): BlockStorage\v3\Service
+    {
+        $defaults = ['catalogName' => 'cinderv3', 'catalogType' => 'volumev3'];
+
+        return $this->builder->createService('BlockStorage\\v3', array_merge($defaults, $options));
+    }
+
+    /**
      * Creates a new Images v2 service.
      *
      * @param array $options options that will be used in configuring the service

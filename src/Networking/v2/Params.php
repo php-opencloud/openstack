@@ -192,6 +192,24 @@ class Params extends AbstractParams
         ];
     }
 
+    public function ipv6AddressMode(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => 'ipv6_address_mode',
+            'description' => 'The IPv6 address mode. Valid values are dhcpv6-stateful, or dhcpv6-stateless.',
+        ];
+    }
+
+    public function ipv6RaMode(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'sentAs'      => 'ipv6_ra_mode',
+            'description' => 'The IPv6 router advertisement mode. Valid values are dhcpv6-stateful, or dhcpv6-stateless.',
+        ];
+    }
+
     public function statusQuery(): array
     {
         return [
