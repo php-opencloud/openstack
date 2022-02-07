@@ -1,6 +1,6 @@
 {
-    "name": "php-opencloud/openstack",
-    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi",
+    "name": "nearoute/php-openstack",
+    "description": "PHP SDK for OpenStack APIs. Fork from php-opencloud/openstack, support for Nearoute Cloud Platform.",
     "keywords": [
         "php",
         "openstack",
@@ -11,14 +11,8 @@
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "Jamie Hannaford",
-            "email": "jamie.hannaford@rackspace.com",
-            "homepage" : "https://github.com/jamiehannaford"
-        },
-        {
-            "name": "Ha Phan",
-            "email": "thanhha.work@gmail.com",
-            "homepage" : "https://github.com/haphan"
+            "name": "Chen",
+            "email": "chen@owocloud.net"
         }
     ],
     "autoload": {
