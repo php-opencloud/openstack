@@ -258,6 +258,15 @@ EOL
         ];
     }
 
+    public function configDrive(): array
+    {
+        return [
+            'type'        => self::BOOLEAN_TYPE,
+            'sentAs'      => 'config_drive',
+            'description' => 'Whether to attach a config drive or not',
+        ];
+    }
+
     public function availabilityZone(): array
     {
         return [
