@@ -39,6 +39,8 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
         'user_id'    => 'userId',
     ];
 
+    protected $resourceKey = 'credential';
+
     /**
      * {@inheritdoc}
      */

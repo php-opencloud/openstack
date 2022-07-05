@@ -195,6 +195,15 @@ EOT
         ];
     }
 
+    public function userIdQueryUnderscore(): array
+    {
+        return [
+            'sentAs'      => 'user_id',
+            'location'    => 'query',
+            'description' => 'Filter by user ID',
+        ];
+    }
+
     public function domain(): array
     {
         return [

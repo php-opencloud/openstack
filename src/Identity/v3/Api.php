@@ -691,6 +691,7 @@ class Api extends AbstractApi
         return [
             'method' => 'POST',
             'path'   => 'credentials',
+            'jsonKey' => 'credential',
             'params' => [
                 'blob'      => $this->params->blob(),
                 'projectId' => $this->params->projectId(),
@@ -706,6 +707,15 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'credentials',
             'params' => [],
+        ];
+    }
+
+    public function getUserCredentials(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'credentials',
+            'params' => ['userId' => $this->params->userIdQueryUnderscore()],
         ];
     }
 

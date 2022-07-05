@@ -97,4 +97,9 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
     {
         return $this->model(Project::class)->enumerate($this->api->getUserProjects(), ['id' => $this->id]);
     }
+
+    public function listCredentials(): \Generator
+    {
+        return $this->model(Credential::class)->enumerate($this->api->getUserCredentials(), ['userId' => $this->id]);
+    }
 }
