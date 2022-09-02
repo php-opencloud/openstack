@@ -55,12 +55,15 @@ class Api extends AbstractApi
             'method'  => 'POST',
             'jsonKey' => 'network',
             'params'  => [
-                'name'             => $this->params->name('network'),
-                'shared'           => $this->params->shared(),
-                'adminStateUp'     => $this->params->adminStateUp(),
-                'routerAccessible' => $this->params->routerAccessibleJson(),
-                'tenantId'         => $this->params->tenantId(),
-                'portSecurityEnabled' => $this->params->portSecurityEnabled()
+                'name'                    => $this->params->name('network'),
+                'shared'                  => $this->params->shared(),
+                'adminStateUp'            => $this->params->adminStateUp(),
+                'routerAccessible'        => $this->params->routerAccessibleJson(),
+                'tenantId'                => $this->params->tenantId(),
+                'portSecurityEnabled'     => $this->params->portSecurityEnabled(),
+                'providerNetworkType'     => $this->params->providerNetworkType(),
+                'providerPhysicalNetwork' => $this->params->providerPhysicalNetwork(),
+                'providerSegmentationId'  => $this->params->providerSegmentationId(),
             ],
         ];
     }
@@ -78,10 +81,13 @@ class Api extends AbstractApi
                     'items'       => [
                         'type'       => 'object',
                         'properties' => [
-                            'name'         => $this->params->name('network'),
-                            'shared'       => $this->params->shared(),
-                            'adminStateUp' => $this->params->adminStateUp(),
-                            'portSecurityEnabled' => $this->params->portSecurityEnabled()
+                            'name'                    => $this->params->name('network'),
+                            'shared'                  => $this->params->shared(),
+                            'adminStateUp'            => $this->params->adminStateUp(),
+                            'portSecurityEnabled'     => $this->params->portSecurityEnabled(),
+                            'providerNetworkType'     => $this->params->providerNetworkType(),
+                            'providerPhysicalNetwork' => $this->params->providerPhysicalNetwork(),
+                            'providerSegmentationId'  => $this->params->providerSegmentationId(),
                         ],
                     ],
                 ],

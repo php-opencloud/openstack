@@ -44,10 +44,22 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
     /** @var bool */
     public $routerExternal;
 
+    /** @var string */
+    public $providerNetworkType;
+
+    /** @var string */
+    public $providerPhysicalNetwork;
+
+    /** @var int */
+    public $providerSegmentationId;
+
     protected $aliases = [
-        'admin_state_up'  => 'adminStateUp',
-        'tenant_id'       => 'tenantId',
-        'router:external' => 'routerExternal',
+        'admin_state_up'            => 'adminStateUp',
+        'tenant_id'                 => 'tenantId',
+        'router:external'           => 'routerExternal',
+        'provider:network_type'     => 'providerNetworkType',
+        'provider:physical_network' => 'providerPhysicalNetwork',
+        'provider:segmentation_id'  => 'providerSegmentationId',
     ];
 
     protected $resourceKey  = 'network';

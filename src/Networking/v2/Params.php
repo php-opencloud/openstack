@@ -73,6 +73,36 @@ class Params extends AbstractParams
         ];
     }
 
+    public function providerNetworkType(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'provider:network_type',
+            'description' => '',
+        ];
+    }
+
+    public function providerPhysicalNetwork(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'provider:physical_network',
+            'description' => '',
+        ];
+    }
+
+    public function providerSegmentationId(): array
+    {
+        return [
+            'type'        => self::INT_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'provider:segmentation_id',
+            'description' => '',
+        ];
+    }
+
     public function networkId(): array
     {
         return [

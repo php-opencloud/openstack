@@ -111,6 +111,12 @@ abstract class AbstractResource implements ResourceInterface, Serializable
         return $output;
     }
 
+    /**
+     * @template T
+     * @param class-string<T> $class
+     *
+     * @return T
+     */
     public function model(string $class, $data = null): ResourceInterface
     {
         $model = new $class();

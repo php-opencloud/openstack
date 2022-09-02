@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenStack\Networking\v2;
 
+use Generator;
 use OpenStack\Common\Service\AbstractService;
 use OpenStack\Networking\v2\Extensions\Layer3\ServiceTrait as Layer3;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\ServiceTrait as SecurityGroups;
@@ -64,7 +65,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Network>
      */
-    public function listNetworks(array $options = []): \Generator
+    public function listNetworks(array $options = []): Generator
     {
         return $this->model(Network::class)->enumerate($this->api->getNetworks(), $options);
     }
@@ -84,7 +85,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postSubnets}
      *
-     * @return []Subnet
+     * @return Subnet[]
      */
     public function createSubnets(array $options): array
     {
@@ -108,7 +109,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Subnet>
      */
-    public function listSubnets(array $options = []): \Generator
+    public function listSubnets(array $options = []): Generator
     {
         return $this->model(Subnet::class)->enumerate($this->api->getSubnets(), $options);
     }
@@ -128,7 +129,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postMultiplePorts}
      *
-     * @return []Port
+     * @return Port[]
      */
     public function createPorts(array $options): array
     {
@@ -152,7 +153,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Port>
      */
-    public function listPorts(array $options = []): \Generator
+    public function listPorts(array $options = []): Generator
     {
         return $this->model(Port::class)->enumerate($this->api->getPorts(), $options);
     }
@@ -162,7 +163,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Quota>
      */
-    public function listQuotas(): \Generator
+    public function listQuotas(): Generator
     {
         return $this->model(Quota::class)->enumerate($this->api->getQuotas(), []);
     }
@@ -195,7 +196,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancer>
      */
-    public function listLoadBalancers(): \Generator
+    public function listLoadBalancers(): Generator
     {
         return $this->model(LoadBalancer::class)->enumerate($this->api->getLoadBalancers());
     }
@@ -223,7 +224,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerListener>
      */
-    public function listLoadBalancerListeners(): \Generator
+    public function listLoadBalancerListeners(): Generator
     {
         return $this->model(LoadBalancerListener::class)->enumerate($this->api->getLoadBalancerListeners());
     }
@@ -251,7 +252,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerPool>
      */
-    public function listLoadBalancerPools(): \Generator
+    public function listLoadBalancerPools(): Generator
     {
         return $this->model(LoadBalancerPool::class)->enumerate($this->api->getLoadBalancerPools());
     }
@@ -279,7 +280,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerMember>
      */
-    public function listLoadBalancerMembers(string $poolId): \Generator
+    public function listLoadBalancerMembers(string $poolId): Generator
     {
         return $this->model(LoadBalancerPool::class, ['poolId' => $poolId])->enumerate($this->api->getLoadBalancerMembers());
     }
@@ -307,7 +308,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerHealthMonitor>
      */
-    public function listLoadBalancerHealthMonitors(): \Generator
+    public function listLoadBalancerHealthMonitors(): Generator
     {
         return $this->model(LoadBalancerHealthMonitor::class)->enumerate($this->api->getLoadBalancerHealthMonitors());
     }
