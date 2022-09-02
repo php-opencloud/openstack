@@ -33,7 +33,7 @@
         }
     },
     "require": {
-        "php": "^7.2.5|^8.0",
+        "php": "^7.4.0|^8.0",
         "guzzlehttp/guzzle": "^7.0",
         "guzzlehttp/uri-template": "0.2",
         "justinrainbow/json-schema": "^5.2"

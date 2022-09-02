@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenStack\Networking\v2;
 
+use Generator;
 use OpenStack\Common\Service\AbstractService;
 use OpenStack\Networking\v2\Models\LoadBalancer;
 use OpenStack\Networking\v2\Models\LoadBalancerHealthMonitor;
@@ -11,7 +12,6 @@ use OpenStack\Networking\v2\Models\LoadBalancerListener;
 use OpenStack\Networking\v2\Models\LoadBalancerMember;
 use OpenStack\Networking\v2\Models\LoadBalancerPool;
 use OpenStack\Networking\v2\Models\Network;
-use OpenStack\Networking\v2\Models\Pool;
 use OpenStack\Networking\v2\Models\Port;
 use OpenStack\Networking\v2\Models\Quota;
 use OpenStack\Networking\v2\Models\Subnet;
@@ -19,7 +19,7 @@ use OpenStack\Networking\v2\Models\Subnet;
 /**
  * Network v2 service for OpenStack.
  *
- * @property \OpenStack\Networking\v2\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {
@@ -58,7 +58,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getNetworks}
      */
-    public function listNetworks(array $options = []): \Generator
+    public function listNetworks(array $options = []): Generator
     {
         return $this->model(Network::class)->enumerate($this->api->getNetworks(), $options);
     }
@@ -78,7 +78,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postSubnets}
      *
-     * @return []Subnet
+     * @return Subnet[]
      */
     public function createSubnets(array $options): array
     {
@@ -100,7 +100,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getSubnets}
      */
-    public function listSubnets(array $options = []): \Generator
+    public function listSubnets(array $options = []): Generator
     {
         return $this->model(Subnet::class)->enumerate($this->api->getSubnets(), $options);
     }
@@ -120,7 +120,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postMultiplePorts}
      *
-     * @return []Port
+     * @return Port[]
      */
     public function createPorts(array $options): array
     {
@@ -142,7 +142,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getPorts}
      */
-    public function listPorts(array $options = []): \Generator
+    public function listPorts(array $options = []): Generator
     {
         return $this->model(Port::class)->enumerate($this->api->getPorts(), $options);
     }
@@ -150,7 +150,7 @@ class Service extends AbstractService
     /**
      * Lists quotas for projects with non-default quota values.
      */
-    public function listQuotas(): \Generator
+    public function listQuotas(): Generator
     {
         return $this->model(Quota::class)->enumerate($this->api->getQuotas(), []);
     }
@@ -181,7 +181,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancers for projects.
      */
-    public function listLoadBalancers(): \Generator
+    public function listLoadBalancers(): Generator
     {
         return $this->model(LoadBalancer::class)->enumerate($this->api->getLoadBalancers());
     }
@@ -207,7 +207,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer listeners.
      */
-    public function listLoadBalancerListeners(): \Generator
+    public function listLoadBalancerListeners(): Generator
     {
         return $this->model(LoadBalancerListener::class)->enumerate($this->api->getLoadBalancerListeners());
     }
@@ -233,7 +233,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer pools.
      */
-    public function listLoadBalancerPools(): \Generator
+    public function listLoadBalancerPools(): Generator
     {
         return $this->model(LoadBalancerPool::class)->enumerate($this->api->getLoadBalancerPools());
     }
@@ -259,7 +259,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer members.
      */
-    public function listLoadBalancerMembers(string $poolId): \Generator
+    public function listLoadBalancerMembers(string $poolId): Generator
     {
         return $this->model(LoadBalancerPool::class, ['poolId' => $poolId])->enumerate($this->api->getLoadBalancerMembers());
     }
@@ -285,7 +285,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer healthmonitors.
      */
-    public function listLoadBalancerHealthMonitors(): \Generator
+    public function listLoadBalancerHealthMonitors(): Generator
     {
         return $this->model(LoadBalancerHealthMonitor::class)->enumerate($this->api->getLoadBalancerHealthMonitors());
     }
