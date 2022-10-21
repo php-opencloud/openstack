@@ -52,6 +52,7 @@ class Api extends AbstractApi
                 'sizeMin'      => $this->params->querySizeMin(),
                 'sizeMax'      => $this->params->querySizeMax(),
                 'tag'          => $this->params->queryTag(),
+                'osHidden'     => $this->params->queryOsHidden()
             ],
         ];
     }
