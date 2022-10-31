@@ -44,6 +44,9 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
     /** @var string */
     public $visibility;
 
+    /** @var bool */
+    public $osHidden;
+
     /** @var int */
     public $minDisk;
 
@@ -83,6 +86,7 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         'owner'            => 'ownerId',
         'min_ram'          => 'minRam',
         'virtual_size'     => 'virtualSize',
+        'os_hidden'        => 'osHidden',
     ];
 
     /**
