@@ -289,8 +289,20 @@ class Api extends AbstractApi
             'method' => 'POST',
             'path'   => 'servers/{id}/action',
             'params' => [
-                'id'      => $this->params->urlId('server'),
+                'id'    => $this->params->urlId('server'),
                 'pause' => $this->params->nullAction(),
+            ],
+        ];
+    }
+
+    public function unpauseServer(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
+                'id'    => $this->params->urlId('server'),
+                'unpause' => $this->params->nullAction(),
             ],
         ];
     }

@@ -243,6 +243,17 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     }
 
     /**
+     * Unpause server.
+     */
+    public function unpause()
+    {
+        $this->execute($this->api->unpauseServer(), [
+            'id'      => $this->id,
+            'pause' => null,
+        ]);
+    }
+
+    /**
      * Rebuilds the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rebuildServer}
