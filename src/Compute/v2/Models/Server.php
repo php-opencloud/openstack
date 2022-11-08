@@ -249,7 +249,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     {
         $this->execute($this->api->unpauseServer(), [
             'id'      => $this->id,
-            'pause' => null,
+            'unpause' => null,
         ]);
     }
 
