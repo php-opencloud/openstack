@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace OpenStack\Identity\v3;
 
@@ -275,6 +275,42 @@ class Service extends AbstractService implements IdentityService
     public function getUser(string $id): Models\User
     {
         return $this->model(Models\User::class, ['id' => $id]);
+    }
+
+    /**
+     * Creates a new applicationCredential according to the provided options.
+     *
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postApplicationCredentials}
+     */
+    public function createApplicationCredential(array $options): Models\ApplicationCredential
+    {
+        return $this->model(Models\ApplicationCredential::class)->create($options);
+    }
+
+    /**
+     * Returns a generator which will yield a collection of user objects. The elements which generators yield can be
+     * accessed using a foreach loop. Often the API will not return the full state of the resource in collections; you
+     * will need to use retrieve() to pull in the full state of the remote resource from the API.
+     *
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getApplicationCredentials}
+     */
+    public function listApplicationCredentials(array $options): \Generator
+    {
+        return $this->model(Models\ApplicationCredential::class)->enumerate($this->api->getApplicationCredentials(), $options);
+    }
+
+    /**
+     * Retrieves an applicationCredential object and populates its unique identifier object. This operation will not perform a GET or
+     * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
+     *
+     * @param string $id The unique ID of the user
+     */
+    public function getApplicationCredential(string $userId, string $id): Models\ApplicationCredential
+    {
+        return $this->model(Models\ApplicationCredential::class, [
+            'userId' => $userId,
+            'id'     => $id
+        ]);
     }
 
     /**

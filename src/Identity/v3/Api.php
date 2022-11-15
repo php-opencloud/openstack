@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace OpenStack\Identity\v3;
 
@@ -583,6 +583,56 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'users/{id}/projects',
             'params' => ['id' => $this->params->idUrl('user')],
+        ];
+    }
+
+    public function getApplicationCredentials(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'users/{userId}/application_credentials',
+            'jsonKey' => 'application_credentials',
+            'params'  => [
+                'userId' => $this->params->idUrl('user')
+            ]
+        ];
+    }
+
+    public function getApplicationCredential(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'users/{userId}/application_credentials/{id}',
+            'params' => [
+                'userId' => $this->params->idUrl('user'),
+                'id'     => $this->params->idUrl('application_credential'),
+            ],
+        ];
+    }
+
+    public function postApplicationCredentials(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'users/{userId}/application_credentials',
+            'jsonKey' => 'application_credential',
+            'params'  => [
+                'userId' => $this->params->idUrl('user'),
+                'name'   => $this->isRequired($this->params->name('application_credential'))
+            ]
+        ];
+    }
+
+    public function deleteApplicationCredential(): array
+    {
+        return [
+            'method'  => 'DELETE',
+            'path'    => 'users/{userId}/application_credentials/{id}',
+            'jsonKey' => 'application_credential',
+            'params'  => [
+                'userId' => $this->params->idUrl('user'),
+                'id'     => $this->params->idUrl('application_credential')
+            ]
         ];
     }
 
