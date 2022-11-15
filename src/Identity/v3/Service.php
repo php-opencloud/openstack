@@ -280,7 +280,7 @@ class Service extends AbstractService implements IdentityService
     /**
      * Creates a new applicationCredential according to the provided options.
      *
-     * @param array $options {@see \OpenStack\Identity\v3\Api::postApplicationCredentials}
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postApplicationCredential}
      */
     public function createApplicationCredential(array $options): Models\ApplicationCredential
     {

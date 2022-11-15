@@ -47,11 +47,11 @@ class ApplicationCredential extends OperatorResource implements Listable
     /**
      * {@inheritdoc}
      *
-     * @param array $data {@see \OpenStack\Identity\v3\Api::postApplicationCredentials}
+     * @param array $data {@see \OpenStack\Identity\v3\Api::postApplicationCredential}
      */
     public function create(array $data)
     {
-        $response = $this->execute($this->api->postApplicationCredentials(), $data);
+        $response = $this->execute($this->api->postApplicationCredential(), $data);
 
         return $this->populateFromResponse($response);
     }

@@ -610,7 +610,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function postApplicationCredentials(): array
+    public function postApplicationCredential(): array
     {
         return [
             'method'  => 'POST',
