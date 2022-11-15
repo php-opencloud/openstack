@@ -37,11 +37,15 @@ class ApplicationCredential extends OperatorResource implements Listable
     /** @var string */
     public $secret;
 
+    /** @var array */
+    public $accessRules;
+
     protected $resourceKey  = 'application_credential';
     protected $resourcesKey = 'application_credentials';
     protected $aliases      = [
-        'user_id'    => 'userId',
-        'project_id' => 'projectId'
+        'user_id'      => 'userId',
+        'project_id'   => 'projectId',
+        'access_rules' => 'accessRules'
     ];
 
     /**

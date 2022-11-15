@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace OpenStack\Identity\v3;
 
@@ -27,11 +27,11 @@ EOT
             'type'       => self::OBJECT_TYPE,
             'path'       => 'auth.identity.password',
             'properties' => [
-                'id' => [
+                'id'       => [
                     'type'        => self::STRING_TYPE,
                     'description' => $this->id('user'),
                 ],
-                'name' => [
+                'name'     => [
                     'type'        => self::STRING_TYPE,
                     'description' => 'The username of the user',
                 ],
@@ -39,7 +39,7 @@ EOT
                     'type'        => self::STRING_TYPE,
                     'description' => 'The password of the user',
                 ],
-                'domain' => $this->domain(),
+                'domain'   => $this->domain(),
             ],
         ];
     }
@@ -110,7 +110,7 @@ EOT
         return [
             'type'        => 'string',
             'sentAs'      => 'service_id',
-            'description' => $this->id('service')['description'].' that this endpoint belongs to',
+            'description' => $this->id('service')['description'] . ' that this endpoint belongs to',
         ];
     }
 
@@ -164,7 +164,7 @@ EOT
         return [
             'sentAs'      => 'scope.domain.id',
             'location'    => 'query',
-            'description' => $this->id('domain')['description'].' associated with the role assignments',
+            'description' => $this->id('domain')['description'] . ' associated with the role assignments',
         ];
     }
 
@@ -313,6 +313,30 @@ EOT
         return [
             'type'        => 'string',
             'description' => "This does something, but it's not explained in the docs (as of writing this)",
+        ];
+    }
+
+    public function path(): array
+    {
+        return [
+            'type'        => 'string',
+            'description' => "The path for the access rule - Application Credential"
+        ];
+    }
+
+    public function method(): array
+    {
+        return [
+            'type'        => 'string',
+            'description' => "The method for the access rule - Application Credential"
+        ];
+    }
+
+    public function service(): array
+    {
+        return [
+            'type'        => 'string',
+            'description' => "The service for the access rule - Application Credential"
         ];
     }
 }

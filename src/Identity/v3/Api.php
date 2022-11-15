@@ -617,8 +617,19 @@ class Api extends AbstractApi
             'path'    => 'users/{userId}/application_credentials',
             'jsonKey' => 'application_credential',
             'params'  => [
-                'userId' => $this->params->idUrl('user'),
-                'name'   => $this->isRequired($this->params->name('application_credential'))
+                'userId'       => $this->params->idUrl('user'),
+                'name'         => $this->isRequired($this->params->name('application_credential')),
+                'access_rules' => [
+                    'type'  => Params::ARRAY_TYPE,
+                    'items' => [
+                        'type'       => Params::OBJECT_TYPE,
+                        'properties' => [
+                            'path'    => $this->params->path(),
+                            'method'  => $this->params->method(),
+                            'service' => $this->params->service()
+                        ]
+                    ]
+                ]
             ]
         ];
     }
