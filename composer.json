@@ -1,5 +1,5 @@
 {
-    "name": "php-opencloud/openstack",
+    "name": "xilonsolutions/openstack",
     "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi",
     "keywords": [
         "php",
@@ -33,7 +33,7 @@
         }
     },
     "require": {
-        "php": "^7.2.5|^8.0",
+        "php": "^7.2.5|^8.*",
         "guzzlehttp/guzzle": "^7.0",
         "guzzlehttp/uri-template": "0.2",
         "justinrainbow/json-schema": "^5.2"

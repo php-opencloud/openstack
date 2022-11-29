@@ -182,6 +182,15 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
         $this->metadata = $this->parseMetadata($response);
     }
 
+    public function updateHeaders(array $headers)
+    {
+        $options = [
+            'containerName' => $this->containerName,
+            'name'          => $this->name,
+        ];
+        $options=array_merge($options,$headers);
+        $response       = $this->execute($this->api->postObject(), $options);
+    }
     /**
      * {@inheritdoc}
      */
