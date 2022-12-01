@@ -9,7 +9,7 @@ use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Service\Builder;
 use OpenStack\Common\Transport\HandlerStack;
 use OpenStack\Common\Transport\Utils;
-use OpenStack\Identity\v3\Service;
+use OpenStack\Identity\v2\Service;
 
 /**
  * This class is the primary entry point for working with the SDK. It allows for the easy creation
