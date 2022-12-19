@@ -103,28 +103,25 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
      */
     public function create(array $data): Creatable
     {
-        $definition = [];
         if (isset($data['user'])) {
             $data['methods'] = ['password'];
             if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
                 throw new \InvalidArgumentException('When authenticating with a username, you must also provide either the domain name or domain ID to '.'which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to '.'provide domain information.');
             }
-            $definition = $this->api->postTokens();
         } elseif (isset($data['application_credential'])) {
             $data['methods'] = ['application_credential'];
             if (!isset($data['application_credential']['id']) && empty($data['application_credential']['secret'])) {
                 throw new \InvalidArgumentException('To authenticate with an application credential, specify “application_credential” as the auth method. The ID of the application credential used for authentication. The secret for authenticating the application credential.');
             }
-            $definition = $this->api->postApplicationCredentialsTokens();
         }  elseif (isset($data['tokenId'])) {
             $data['methods'] = ['token'];
         } else {
             throw new \InvalidArgumentException('Either a user or token must be provided.');
         }
 
+        $definition = (isset($data['user']) || isset($data['tokenId'])) ?  $this->api->postTokens() : $this->api->postApplicationCredentialsTokens();
         $response = $this->execute($definition, $data);
         $token    = $this->populateFromResponse($response);
-
         // Cache response as an array to export if needed.
         // Added key `id` which is auth token from HTTP header X-Subject-Token
         $this->cachedToken       = Utils::flattenJson(Utils::jsonDecode($response), $this->resourceKey);
