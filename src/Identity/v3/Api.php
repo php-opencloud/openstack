@@ -837,4 +837,17 @@ class Api extends AbstractApi
             'params' => ['id' => $this->params->idUrl('policy')],
         ];
     }
+
+    public function postApplicationCredentialsTokens(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'auth/tokens',
+            'params' => [
+                'methods' => $this->params->methods(),
+                'application_credential'    => $this->params->applicationCredential(),
+                'tokenId' => $this->params->tokenBody(),
+            ],
+        ];
+    }
 }

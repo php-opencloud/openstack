@@ -315,4 +315,22 @@ EOT
             'description' => "This does something, but it's not explained in the docs (as of writing this)",
         ];
     }
+
+    public function applicationCredential(): array
+    {
+        return [
+            'type'       => self::OBJECT_TYPE,
+            'path'       => 'auth.identity',
+            'properties' => [
+                'id' => [
+                    'type'        => self::STRING_TYPE,
+                    'description' => 'The ID of the application credential used for authentication. If not provided, the application credential must be identified by its name and its owning user.',
+                ],
+                'secret' => [
+                    'type'        => self::STRING_TYPE,
+                    'description' => 'The secret for authenticating the application credential.',
+                ],
+            ],
+        ];
+    }
 }
