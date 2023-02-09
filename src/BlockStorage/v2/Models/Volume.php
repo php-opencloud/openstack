@@ -167,6 +167,16 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     }
 
     /**
+     * Extend the size of a volume.
+     *
+     * @param int $newSize The new size of the volume in GB.
+     */
+    public function extend(int $newSize)
+    {
+        $this->execute($this->api->postVolumeExtend(), ['id' => $this->id, 'size' => $newSize]);
+    }
+
+    /**
      * Sets the image metadata for a volume.
      */
     public function setImageMetadata(array $metadata)
