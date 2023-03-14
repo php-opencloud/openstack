@@ -766,7 +766,9 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'credentials',
-            'params' => [],
+            'params' => [
+                'userId' => $this->params->useridQuery_()
+            ],
         ];
     }
 

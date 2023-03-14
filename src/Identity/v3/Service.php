@@ -360,10 +360,13 @@ class Service extends AbstractService implements IdentityService
      * Returns a generator which will yield a collection of credential objects. The elements which generators yield can
      * be accessed using a foreach loop. Often the API will not return the full state of the resource in collections;
      * you will need to use retrieve() to pull in the full state of the remote resource from the API.
+     *
+     * Options:
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getCredentials()}
      */
-    public function listCredentials(): \Generator
+    public function listCredentials(array $options = []): \Generator
     {
-        return $this->model(Models\Credential::class)->enumerate($this->api->getCredentials());
+        return $this->model(Models\Credential::class)->enumerate($this->api->getCredentials(), $options);
     }
 
     /**

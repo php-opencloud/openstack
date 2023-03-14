@@ -308,6 +308,15 @@ EOT
         ];
     }
 
+    public function useridQuery_(): array
+    {
+        return [
+            'sentAs'      => 'user_id',
+            'location'    => 'query',
+            'description' => 'Filter by user ID, with the underscore instead of the dot',
+        ];
+    }
+
     public function blob(): array
     {
         return [
