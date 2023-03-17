@@ -314,6 +314,42 @@ class Service extends AbstractService implements IdentityService
     }
 
     /**
+     * Creates a new Ec2 credential according to the provided options.
+     *
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postEc2Credential}
+     */
+    public function createEc2Credential(array $options): Models\Ec2Credential
+    {
+        return $this->model(Models\Ec2Credential::class)->create($options);
+    }
+
+    /**
+     * Returns a generator which will yield a collection of user objects. The elements which generators yield can be
+     * accessed using a foreach loop. Often the API will not return the full state of the resource in collections; you
+     * will need to use retrieve() to pull in the full state of the remote resource from the API.
+     *
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getEc2Credentials}
+     */
+    public function listEc2Credentials(array $options): \Generator
+    {
+        return $this->model(Models\Ec2Credential::class)->enumerate($this->api->getEc2Credentials(), $options);
+    }
+
+    /**
+     * Retrieves an Ec2 Credential object and populates its unique identifier object. This operation will not perform a GET or
+     * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
+     *
+     * @param string $id The unique ID of the user
+     */
+    public function getEc2Credential(string $userId, string $access): Models\Ec2Credential
+    {
+        return $this->model(Models\Ec2Credential::class, [
+            'userId' => $userId,
+            'access' => $access
+        ]);
+    }
+
+    /**
      * Creates a new group according to the provided options.
      *
      * @param array $options {@see \OpenStack\Identity\v3\Api::postGroups}
@@ -360,10 +396,13 @@ class Service extends AbstractService implements IdentityService
      * Returns a generator which will yield a collection of credential objects. The elements which generators yield can
      * be accessed using a foreach loop. Often the API will not return the full state of the resource in collections;
      * you will need to use retrieve() to pull in the full state of the remote resource from the API.
+     *
+     * Options:
+     * @param array $options {@see \OpenStack\Identity\v3\Api::getCredentials()}
      */
-    public function listCredentials(): \Generator
+    public function listCredentials(array $options = []): \Generator
     {
-        return $this->model(Models\Credential::class)->enumerate($this->api->getCredentials());
+        return $this->model(Models\Credential::class)->enumerate($this->api->getCredentials(), $options);
     }
 
     /**

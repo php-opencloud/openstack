@@ -300,11 +300,28 @@ EOT
         ];
     }
 
+    public function tenantId(): array
+    {
+        return [
+            'sentAs'      => 'tenant_id',
+            'description' => $this->id('tenant'),
+        ];
+    }
+
     public function userId(): array
     {
         return [
             'sentAs'      => 'user_id',
             'description' => $this->id('user'),
+        ];
+    }
+
+    public function useridQuery_(): array
+    {
+        return [
+            'sentAs'      => 'user_id',
+            'location'    => 'query',
+            'description' => 'Filter by user ID, with the underscore instead of the dot',
         ];
     }
 
