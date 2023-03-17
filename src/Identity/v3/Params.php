@@ -300,6 +300,14 @@ EOT
         ];
     }
 
+    public function tenantId(): array
+    {
+        return [
+            'sentAs'      => 'tenant_id',
+            'description' => $this->id('tenant'),
+        ];
+    }
+
     public function userId(): array
     {
         return [
