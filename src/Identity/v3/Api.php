@@ -647,6 +647,54 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getEc2Credentials(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'users/{userId}/credentials/OS-EC2',
+            'jsonKey' => 'credentials',
+            'params'  => [
+                'userId' => $this->params->idUrl('user')
+            ]
+        ];
+    }
+
+    public function getEc2Credential(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'users/{userId}/credentials/OS-EC2/{access}',
+            'params' => [
+                'userId' => $this->params->idUrl('user'),
+                'access' => $this->params->idUrl('ec2_credential'),
+            ],
+        ];
+    }
+
+    public function postEc2Credential(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'users/{userId}/credentials/OS-EC2',
+            'params' => [
+                'tenantId' => $this->params->tenantId()
+            ]
+        ];
+    }
+
+    public function deleteEc2Credential(): array
+    {
+        return [
+            'method'  => 'DELETE',
+            'path'    => 'users/{userId}/credentials/OS-EC2/{access}',
+            'jsonKey' => 'application_credential',
+            'params'  => [
+                'userId' => $this->params->idUrl('user'),
+                'access' => $this->params->idUrl('ec2_credential')
+            ]
+        ];
+    }
+
     public function postGroups(): array
     {
         return [
