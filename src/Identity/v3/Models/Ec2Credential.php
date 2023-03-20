@@ -23,13 +23,13 @@ class Ec2Credential extends OperatorResource implements Listable
     public $userId;
 
     /** @var string */
-    public $projectId;
+    public $tenantId;
 
     protected $resourceKey  = 'credential';
     protected $resourcesKey = 'credentials';
     protected $aliases      = [
-        'user_id'      => 'userId',
-        'project_id'   => 'projectId'
+        'user_id'   => 'userId',
+        'tenant_id' => 'tenantId'
     ];
 
     /**
