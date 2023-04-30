@@ -23,10 +23,14 @@ class ServiceTest extends TestCase
 
     public function test_it_creates_image()
     {
+        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
+            ? \GuzzleHttp\Psr7\uri_for('')
+            : \GuzzleHttp\Psr7\Utils::uriFor('');
+
         $this->client
             ->getConfig('base_uri')
             ->shouldBeCalled()
-            ->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+            ->willReturn($returnedUri);
 
         $expectedJson = [
             "name" => "Ubuntu 12.10",
@@ -58,10 +62,14 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_images()
     {
+        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
+            ? \GuzzleHttp\Psr7\uri_for('')
+            : \GuzzleHttp\Psr7\Utils::uriFor('');
+
         $this->client
             ->getConfig('base_uri')
             ->shouldBeCalled()
-            ->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+            ->willReturn($returnedUri);
 
         $this->client
             ->request('GET', 'v2/images', ['query' => ['limit' => 5], 'headers' => []])
