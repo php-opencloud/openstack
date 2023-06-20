@@ -1,3 +1,7 @@
+# v3.2.1.11
+
+- Introduced Rbac policies
+
 # v3.2.1.10
 
 - Introduced BlockStorage v3 as a replica of v2
