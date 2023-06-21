@@ -316,6 +316,11 @@ class Service extends AbstractService
         return $this->model(RbacPolicy::class)->enumerate($this->api->getRbacPolicies());
     }
 
+    public function getRbacPolicy(string $id): RbacPolicy
+    {
+        return $this->model(RbacPolicy::class, ['id' => $id]);
+    }
+
     /**
      * Create a new Rbac policy resource.
      *
