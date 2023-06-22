@@ -716,9 +716,10 @@ class Api extends AbstractApi
     public function postRbacPolicy(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => $this->pathPrefix.'/rbac-policies',
-            'params' => [
+            'method'  => 'POST',
+            'path'    => $this->pathPrefix.'/rbac-policies',
+            'jsonKey' => 'rbac_policy',
+            'params'  => [
                 'target_tenant' => $this->params->targetTenant(),
                 'object_type'   => $this->params->objectType(),
                 'object_id'     => $this->params->objectId(),
