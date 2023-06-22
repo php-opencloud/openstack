@@ -723,7 +723,8 @@ class Api extends AbstractApi
                 'target_tenant' => $this->params->targetTenant(),
                 'object_type'   => $this->params->objectType(),
                 'object_id'     => $this->params->objectId(),
-                'action'        => $this->params->action()
+                'action'        => $this->params->action(),
+                'project_id'    => $this->params->projectIdJson(),
             ]
         ];
     }

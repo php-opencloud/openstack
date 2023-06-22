@@ -775,4 +775,13 @@ class Params extends AbstractParams
             ]
         ];
     }
+
+    public function projectIdJson(): array
+    {
+        return [
+            'type' => self::STRING_TYPE,
+            'location' => self::JSON,
+            'description' => 'The ID of the project',
+        ];
+    }
 }
