@@ -233,7 +233,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         }
 
         /** @var Promise $p */
-        $p = \GuzzleHttp\Promise\all($promises);
+        $p = \GuzzleHttp\Promise\Utils::all($promises);
         $p->wait();
 
         return $this->createObject([
