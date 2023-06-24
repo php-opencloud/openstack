@@ -4,6 +4,7 @@ coverage/
 vendor/
 *.pyc
 phpunit.xml
+.phpunit.result.cache
 coverage.xml
 composer.lock
 env_test.sh
