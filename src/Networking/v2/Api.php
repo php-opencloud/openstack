@@ -550,7 +550,7 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => $this->pathPrefix.'/lbaas/pools/{poolId}/members',
             'params' => [
-              'poolId' => $this->params->poolId(),
+                'poolId' => $this->params->poolId(),
             ],
         ];
     }
@@ -561,8 +561,8 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => $this->pathPrefix.'/lbaas/pools/{poolId}/members/{id}',
             'params' => [
-              'id'     => $this->params->idPath('member'),
-              'poolId' => $this->params->poolId(),
+                'id'     => $this->params->idPath('member'),
+                'poolId' => $this->params->poolId(),
             ],
         ];
     }
@@ -617,7 +617,7 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => $this->pathPrefix.'/lbaas/loadbalancers/{loadbalancerId}/stats',
             'params' => [
-              'loadbalancerId' => $this->params->loadBalancerIdUrl(),
+                'loadbalancerId' => $this->params->loadBalancerIdUrl(),
             ],
         ];
     }
@@ -628,7 +628,7 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => $this->pathPrefix.'/lbaas/loadbalancers/{loadbalancerId}/statuses',
             'params' => [
-              'loadbalancerId' => $this->params->loadBalancerIdUrl(),
+                'loadbalancerId' => $this->params->loadBalancerIdUrl(),
             ],
         ];
     }
@@ -699,8 +699,55 @@ class Api extends AbstractApi
             'method' => 'DELETE',
             'path'   => $this->pathPrefix.'/lbaas/healthmonitors/{id}',
             'params' => [
-            'id' => $this->params->idPath(),
+                'id' => $this->params->idPath(),
             ],
+        ];
+    }
+
+    public function getRbacPolicies(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => $this->pathPrefix.'/rbac-policies',
+            'params' => []
+        ];
+    }
+
+    public function postRbacPolicy(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => $this->pathPrefix.'/rbac-policies',
+            'jsonKey' => 'rbac_policy',
+            'params'  => [
+                'target_tenant' => $this->params->targetTenant(),
+                'object_type'   => $this->params->objectType(),
+                'object_id'     => $this->params->objectId(),
+                'action'        => $this->params->action(),
+                'project_id'    => $this->params->projectIdJson(),
+            ]
+        ];
+    }
+
+    public function getRbacPolicy(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => $this->pathPrefix.'/rbac-policies/{id}',
+            'params' => [
+                'id' => $this->params->idPath(),
+            ],
+        ];
+    }
+
+    public function deleteRbacPolicy(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => $this->pathPrefix.'/rbac-policies/{id}',
+            'params' => [
+                'id' => $this->params->idPath()
+            ]
         ];
     }
 }

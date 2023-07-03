@@ -151,16 +151,16 @@ class Params extends AbstractParams
     public function allocationPools(): array
     {
         return [
-            'type'   => self::ARRAY_TYPE,
-            'sentAs' => 'allocation_pools',
-            'items'  => [
+            'type'        => self::ARRAY_TYPE,
+            'sentAs'      => 'allocation_pools',
+            'items'       => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
                     'start' => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'The start address for the allocation pools',
                     ],
-                    'end' => [
+                    'end'   => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'The end address for the allocation pools',
                     ],
@@ -173,16 +173,16 @@ class Params extends AbstractParams
     public function hostRoutes(): array
     {
         return [
-            'type'   => self::ARRAY_TYPE,
-            'sentAs' => 'host_routes',
-            'items'  => [
+            'type'        => self::ARRAY_TYPE,
+            'sentAs'      => 'host_routes',
+            'items'       => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
                     'destination' => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'Destination for static route',
                     ],
-                    'nexthop' => [
+                    'nexthop'     => [
                         'type'        => self::STRING_TYPE,
                         'description' => 'Nexthop for the destination',
                     ],
@@ -311,7 +311,7 @@ class Params extends AbstractParams
             'description' => 'The IP addresses for the port. If you would like to assign multiple IP addresses for the
                               port, specify multiple entries in this field. Each entry consists of IP address (ipAddress)
                               and the subnet ID from which the IP address is assigned (subnetId)',
-            'items' => [
+            'items'       => [
                 'type'       => self::OBJECT_TYPE,
                 'properties' => [
                     'ipAddress' => [
@@ -319,7 +319,7 @@ class Params extends AbstractParams
                         'sentAs'      => 'ip_address',
                         'description' => 'If you specify only an IP address, OpenStack Networking tries to allocate the IP address if the address is a valid IP for any of the subnets on the specified network.',
                     ],
-                    'subnetId' => [
+                    'subnetId'  => [
                         'type'        => self::STRING_TYPE,
                         'sentAs'      => 'subnet_id',
                         'description' => 'Subnet id. If you specify only a subnet ID, OpenStack Networking allocates an available IP from that subnet to the port.',
@@ -373,7 +373,7 @@ class Params extends AbstractParams
                 'type'        => self::OBJECT_TYPE,
                 'description' => 'A MAC addr/IP addr pair',
                 'properties'  => [
-                    'ipAddress' => [
+                    'ipAddress'  => [
                         'sentAs'   => 'ip_address',
                         'type'     => self::STRING_TYPE,
                         'location' => self::JSON,
@@ -465,12 +465,14 @@ class Params extends AbstractParams
 
     public function quotaLimitFloatingIp(): array
     {
-        return $this->quotaLimit('floatingip', 'The number of floating IP addresses allowed for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('floatingip',
+            'The number of floating IP addresses allowed for each project. A value of -1 means no limit.');
     }
 
     public function quotaLimitNetwork(): array
     {
-        return $this->quotaLimit('network', 'The number of networks allowed for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('network',
+            'The number of networks allowed for each project. A value of -1 means no limit.');
     }
 
     public function quotaLimitPort(): array
@@ -480,32 +482,38 @@ class Params extends AbstractParams
 
     public function quotaLimitRbacPolicy(): array
     {
-        return $this->quotaLimit('rbac_policy', 'The number of role-based access control (RBAC) policies for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('rbac_policy',
+            'The number of role-based access control (RBAC) policies for each project. A value of -1 means no limit.');
     }
 
     public function quotaLimitRouter(): array
     {
-        return $this->quotaLimit('router', 'The number of routers allowed for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('router',
+            'The number of routers allowed for each project. A value of -1 means no limit.');
     }
 
     public function quotaLimitSecurityGroup(): array
     {
-        return $this->quotaLimit('security_group', 'The number of security groups allowed for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('security_group',
+            'The number of security groups allowed for each project. A value of -1 means no limit.');
     }
 
     public function quotaLimitSecurityGroupRule(): array
     {
-        return $this->quotaLimit('security_group_rule', 'The number of security group rules allowed for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('security_group_rule',
+            'The number of security group rules allowed for each project. A value of -1 means no limit.');
     }
 
     public function quotaLimitSubnet(): array
     {
-        return $this->quotaLimit('subnet', 'The number of subnets allowed for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('subnet',
+            'The number of subnets allowed for each project. A value of -1 means no limit.');
     }
 
     public function quotaLimitSubnetPool(): array
     {
-        return $this->quotaLimit('subnetpool', 'The number of subnet pools allowed for each project. A value of -1 means no limit.');
+        return $this->quotaLimit('subnetpool',
+            'The number of subnet pools allowed for each project. A value of -1 means no limit.');
     }
 
     public function vipSubnetId(): array
@@ -717,6 +725,63 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'description' => 'The type of health monitor. Must be one of TCP, HTTP, HTTPS',
+        ];
+    }
+
+    public function targetTenant(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'description' => 'The ID of the tenant to which the RBAC policy will be enforced'
+        ];
+    }
+
+    public function objectType(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'description' => 'The type of the object that the RBAC policy affects',
+            'enum'        => [
+                'qos-policy',
+                'network',
+                'security-group',
+                'address-scope',
+                'subnetpool',
+                'address-group'
+            ]
+        ];
+    }
+
+    public function objectId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'description' => 'The ID of the object_type resource'
+        ];
+    }
+
+    public function action(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'description' => 'The action the RBAC policy enforces',
+            'enum'        => [
+                'access_as_external',
+                'access_as_shared',
+            ]
+        ];
+    }
+
+    public function projectIdJson(): array
+    {
+        return [
+            'type' => self::STRING_TYPE,
+            'location' => self::JSON,
+            'description' => 'The ID of the project',
         ];
     }
 }
