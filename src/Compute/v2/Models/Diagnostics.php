@@ -99,7 +99,7 @@ class Diagnostics extends OperatorResource implements Retrievable
 
     public function retrieve()
     {
-        $response = $this->execute($this->api->getServerDiagnostics(), ['serverId' => (string) $this->getAttrs(['id'])]);
+        $response = $this->execute($this->api->getServerDiagnostics(), $this->getAttrs(['id']));
         return $this->populateFromResponse($response);
     }
 }
