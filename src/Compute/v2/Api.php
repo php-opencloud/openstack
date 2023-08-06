@@ -247,6 +247,17 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getServerDiagnostics(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'servers/{id}/diagnostics',
+            'params' => [
+                'id' => $this->params->urlId('server')
+            ]
+        ];
+    }
+
     public function putServer(): array
     {
         return [
@@ -765,8 +776,7 @@ class Api extends AbstractApi
         return [
             'method' => 'GET',
             'path'   => 'os-hypervisors/statistics',
-            'params' => [
-            ],
+            'params' => [],
         ];
     }
 

@@ -6,6 +6,7 @@ namespace OpenStack\Compute\v2;
 
 use OpenStack\Common\Service\AbstractService;
 use OpenStack\Compute\v2\Models\AvailabilityZone;
+use OpenStack\Compute\v2\Models\Diagnostics;
 use OpenStack\Compute\v2\Models\Flavor;
 use OpenStack\Compute\v2\Models\Host;
 use OpenStack\Compute\v2\Models\Hypervisor;
@@ -79,6 +80,21 @@ class Service extends AbstractService
         $def = true === $detailed ? $this->api->getFlavorsDetail() : $this->api->getFlavors();
 
         return $this->model(Flavor::class)->enumerate($def, $options, $mapFn);
+    }
+
+    /**
+     * Get server diagnostics
+     *
+     * @param array $options An array of attributes that will be set on the {@see Server} object. The array keys need to
+     * correspond to the class public properties.
+     *
+     * @return \OpenStack\Compute\v2\Models\Server
+     */
+    public function getServerDiagnostics(array $options = []): Diagnostics
+    {
+        $diagnostics = $this->model(Diagnostics::class);
+        $diagnostics->populateFromArray($options);
+        return $diagnostics;
     }
 
     /**
