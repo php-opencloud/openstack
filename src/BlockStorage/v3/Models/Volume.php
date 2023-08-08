@@ -196,6 +196,6 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
      */
     public function detachVolume()
     {
-        $this->execute($this->api->postDetachVolumeFromServer(), ['id' => $this->id, 'attachmentId' => $this->attachments[0]['id']]);
+        $this->execute($this->api->deleteAttachment(), ['id' => $this->id, 'attachmentId' => $this->attachments[0]['attachment_id']]);
     }
 }
