@@ -190,4 +190,12 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         $options = array_merge($options, ['id' => $this->id]);
         $this->execute($this->api->postResetStatus(), $options);
     }
+
+    /**
+     * Force-detaches a volume from an instance.
+     */
+    public function detachVolume()
+    {
+        $this->execute($this->api->postDetachVolumeFromServer(), ['id' => $this->id, 'attachmentId' => $this->attachments[0]['id']]);
+    }
 }

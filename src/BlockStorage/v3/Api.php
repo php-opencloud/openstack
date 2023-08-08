@@ -346,4 +346,15 @@ class Api extends AbstractApi
             ],
         ];
     }
+
+    public function deleteAttachment(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'attachments/{attachmentId}',
+            'params' => [
+                'attachmentId' => $this->params->attachmentId(),
+            ],
+        ];
+    }
 }

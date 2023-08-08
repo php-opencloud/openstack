@@ -277,4 +277,14 @@ TYPEOTHER
             'description' => 'The UUID of the project in a multi-tenancy cloud.',
         ];
     }
+
+    public function attachmentId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::URL,
+            'sentAs'      => 'attachment_id',
+            'description' => 'The UUID of the attachment.',
+        ];
+    }
 }
