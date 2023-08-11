@@ -359,6 +359,7 @@ class Api extends AbstractApi
                 'name'        => $this->params->name('server'),
                 'metadata'    => $this->notRequired($this->params->metadata()),
                 'adminPass'   => $this->params->password(),
+                'userData'    => $this->params->userData(),
             ],
         ];
     }
