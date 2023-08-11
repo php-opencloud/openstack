@@ -22,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
  * @property \OpenStack\BlockStorage\v3\Api $api
  */
 
-class Backup extends OperatorResource implements Creatable, Listable, Updateable, Deletable, Retrievable, HasMetadata
+class Backup extends OperatorResource implements Creatable
 {
     use HasWaiterTrait;
 
