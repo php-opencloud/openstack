@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenStack\BlockStorage\v3;
 
+use OpenStack\BlockStorage\v3\Models\Backup;
 use OpenStack\BlockStorage\v3\Models\QuotaSet;
 use OpenStack\BlockStorage\v3\Models\Snapshot;
 use OpenStack\BlockStorage\v3\Models\Volume;
@@ -104,4 +105,25 @@ class Service extends AbstractService
 
         return $quotaSet;
     }
+
+    public function listBackups(bool $detail = false, array $userOptions = []): \Generator
+    {
+        $def = (true === $detail) ? $this->api->getBackupsDetails() : $this->api->getBackups();
+
+        return $this->model(Backup::class)->enumerate($def, $userOptions);
+    }
+
+    public function createBackup(array $userOptions): Backup
+    {
+        return $this->model(Backup::class)->create($userOptions);
+    }
+
+    public function getBackup(string $backupId): backup
+    {
+        $backup = $this->model(Backup::class);
+        $backup->populateFromArray(['id' => $backupId]);
+
+        return $backup;
+    }
+
 }
