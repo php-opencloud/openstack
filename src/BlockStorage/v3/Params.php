@@ -180,7 +180,6 @@ TYPEOTHER
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
-            'required'    => true,
             'sentAs'      => 'volume_id',
             'description' => 'To create a snapshot from an existing volume, specify the ID of the existing volume.',
         ];
@@ -287,4 +286,16 @@ TYPEOTHER
             'description' => 'The UUID of the attachment.',
         ];
     }
+
+    public function backupId(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'backup_id',
+            'description' => 'To create a volume from an existing backup, specify the ID of the existing volume '.
+                'backup. The volume is created in same availability zone and with same size as the backup.',
+        ];
+    }
+
 }

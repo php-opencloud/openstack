@@ -24,6 +24,7 @@ class Api extends AbstractApi
                 'sourceVolumeId' => $this->params->sourceVolId(),
                 'description' => $this->params->desc(),
                 'snapshotId' => $this->params->snapshotId(),
+                'backupId' => $this->params->backupId(),
                 'size' => $this->params->size(),
                 'name' => $this->params->name('volume'),
                 'imageId' => $this->params->imageRef(),

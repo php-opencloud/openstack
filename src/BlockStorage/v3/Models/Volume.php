@@ -53,6 +53,8 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     /** @var string */
     public $snapshotId;
 
+    public $backupId;
+
     /** @var string */
     public $sourceVolumeId;
 
@@ -80,6 +82,7 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         'source_volid'                 => 'sourceVolumeId',
         'snapshot_id'                  => 'snapshotId',
         'volume_type'                  => 'volumeTypeName',
+        'backup_id'                    => 'backupId',
         'os-vol-tenant-attr:tenant_id' => 'tenantId',
         'os-vol-host-attr:host'        => 'host',
         'volume_image_metadata'        => 'volumeImageMetadata',
