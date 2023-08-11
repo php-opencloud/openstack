@@ -53,6 +53,12 @@ class Backup extends OperatorResource implements Creatable
     /** @var array */
     public $metadata = [];
 
+    public $size;
+
+    public $volumeId;
+
+    public $userId;
+
     protected $resourceKey  = 'backup';
     protected $resourcesKey = 'backups';
     protected $markerKey    = 'id';
@@ -61,6 +67,8 @@ class Backup extends OperatorResource implements Creatable
         'availability_zone'            => 'availabilityZone',
         'source_volid'                 => 'sourceVolumeId',
         'snapshot_id'                  => 'snapshotId',
+        'volume_id'                    => 'volumeId',
+        'user_id'                      => 'userId',
         'volume_type'                  => 'volumeTypeName',
         'os-vol-tenant-attr:tenant_id' => 'tenantId',
         'os-vol-host-attr:host'        => 'host',
@@ -95,5 +103,11 @@ class Backup extends OperatorResource implements Creatable
     {
         $response = $this->execute($this->api->restoreBackup(), $userOptions);
         return $this->populateFromResponse($response);
+    }
+
+    public function retrieve()
+    {
+        $response = $this->executeWithState($this->api->getBackup());
+        $this->populateFromResponse($response);
     }
 }

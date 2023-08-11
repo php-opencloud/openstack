@@ -118,7 +118,7 @@ class Service extends AbstractService
         return $this->model(Backup::class)->create($userOptions);
     }
 
-    public function getBackup(string $backupId): backup
+    public function getBackup(string $backupId): Backup
     {
         $backup = $this->model(Backup::class);
         $backup->populateFromArray(['id' => $backupId]);
