@@ -12,5 +12,5 @@ interface Deletable
     /**
      * Permanently delete this resource.
      */
-    public function delete();
+    public function delete(array $userOptions);
 }

@@ -73,7 +73,7 @@ class Endpoint extends OperatorResource implements Creatable, Updateable, Deleta
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deleteEndpoint(), $this->getAttrs(['id']));
     }

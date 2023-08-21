@@ -80,7 +80,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteProject());
     }

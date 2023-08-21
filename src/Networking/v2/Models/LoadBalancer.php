@@ -122,7 +122,7 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteLoadBalancer());
     }

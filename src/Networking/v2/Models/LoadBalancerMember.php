@@ -113,7 +113,7 @@ class LoadBalancerMember extends OperatorResource implements Creatable, Retrieva
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteLoadBalancerMember(), ['poolId' => (string) $this->poolId, 'id' => (string) $this->id]);
     }

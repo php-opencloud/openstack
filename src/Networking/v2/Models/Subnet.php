@@ -115,7 +115,7 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteSubnet());
     }

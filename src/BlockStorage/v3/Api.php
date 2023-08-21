@@ -92,7 +92,10 @@ class Api extends AbstractApi
         return [
             'method' => 'DELETE',
             'path'   => 'volumes/{id}',
-            'params' => ['id' => $this->params->idPath()],
+            'params' => [
+                'id'      => $this->params->idPath(),
+                'cascade' => $this->params->cascade()
+            ],
         ];
     }
 

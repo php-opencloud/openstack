@@ -72,7 +72,7 @@ class ApplicationCredential extends OperatorResource implements Listable
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deleteApplicationCredential(), $this->getAttrs(['id', 'userId']));
     }

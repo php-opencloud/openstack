@@ -93,7 +93,7 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deleteKeypair(), ['name' => (string) $this->name]);
     }

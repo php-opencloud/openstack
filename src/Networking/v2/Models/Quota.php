@@ -98,7 +98,7 @@ class Quota extends OperatorResource implements Retrievable, Updateable, Deletab
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteQuota());
     }

@@ -56,7 +56,7 @@ class Ec2Credential extends OperatorResource implements Listable
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deleteEc2Credential(), $this->getAttrs(['access', 'userId']));
     }

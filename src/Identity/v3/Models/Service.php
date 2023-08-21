@@ -81,7 +81,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteService());
     }

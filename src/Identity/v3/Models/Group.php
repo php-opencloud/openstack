@@ -70,7 +70,7 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deleteGroup(), ['id' => $this->id]);
     }

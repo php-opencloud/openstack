@@ -99,7 +99,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteContainer());
     }

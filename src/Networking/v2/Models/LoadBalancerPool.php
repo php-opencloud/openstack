@@ -146,7 +146,7 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteLoadBalancerPool());
     }

@@ -98,7 +98,7 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
         $this->executeWithState($this->api->putSnapshot());
     }
 
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteSnapshot());
     }

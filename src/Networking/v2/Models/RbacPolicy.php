@@ -105,7 +105,7 @@ class RbacPolicy extends OperatorResource implements Creatable, Deletable, Lista
     /**
      * {@inheritDoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteRbacPolicy());
     }

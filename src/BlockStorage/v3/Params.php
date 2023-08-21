@@ -70,6 +70,15 @@ class Params extends AbstractParams
         ];
     }
 
+    public function cascade(): array
+    {
+        return [
+            'location'    => self::QUERY,
+            'type'        => self::BOOL_TYPE,
+            'description' => 'Indicates whether to force delete a volume even if the volume is in deleting or error_deleting.',
+        ];
+    }
+
     public function volumeType(): array
     {
         return [

@@ -67,7 +67,7 @@ class Member extends OperatorResource implements Creatable, Listable, Retrievabl
         $this->populateFromResponse($response);
     }
 
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteImageMember());
     }

@@ -145,7 +145,7 @@ class LoadBalancerListener extends OperatorResource implements Creatable, Retrie
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteLoadBalancerListener());
     }

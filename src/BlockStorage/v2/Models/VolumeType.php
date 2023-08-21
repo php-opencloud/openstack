@@ -39,7 +39,7 @@ class VolumeType extends OperatorResource implements Listable, Creatable, Update
         $this->executeWithState($this->api->putType());
     }
 
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteType());
     }

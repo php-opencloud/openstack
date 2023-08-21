@@ -145,7 +145,7 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteLoadBalancerHealthMonitor());
     }

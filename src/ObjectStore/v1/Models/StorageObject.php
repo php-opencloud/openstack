@@ -153,7 +153,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteObject());
     }

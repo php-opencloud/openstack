@@ -76,7 +76,7 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deleteImage(), ['id' => (string) $this->id]);
     }

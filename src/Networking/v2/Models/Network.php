@@ -100,7 +100,7 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteNetwork());
     }

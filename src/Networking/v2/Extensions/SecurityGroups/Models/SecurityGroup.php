@@ -75,7 +75,7 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteSecurityGroup());
     }

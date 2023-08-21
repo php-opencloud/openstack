@@ -75,7 +75,7 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deletePolicy(), ['id' => $this->id]);
     }

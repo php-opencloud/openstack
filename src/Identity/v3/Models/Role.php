@@ -41,7 +41,7 @@ class Role extends OperatorResource implements Creatable, Listable, Deletable
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteRole());
     }

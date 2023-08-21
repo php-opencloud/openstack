@@ -93,7 +93,7 @@ class SecurityGroupRule extends OperatorResource implements Creatable, Listable,
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteSecurityRule());
     }

@@ -68,7 +68,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->executeWithState($this->api->deleteDomain());
     }

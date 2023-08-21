@@ -81,7 +81,7 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(array $userOptions = [])
     {
         $this->execute($this->api->deleteUser(), ['id' => $this->id]);
     }
