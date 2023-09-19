@@ -98,4 +98,22 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
         $userOptions['id'] = $this->id;
         $this->execute($this->api->putRemoveInterface(), $userOptions);
     }
+
+    /**
+     * @param array $routes {@see \OpenStack\Networking\v2\Extensions\Layer3\Api::putAddExtraRoutes}
+     */
+    public function addRoutes(array $routes)
+    {
+        $userOptions['id'] = $this->id;
+        $this->execute($this->api->putAddExtraRoutes(), ['id' => $this->id, 'routes' => $routes]);
+    }
+
+    /**
+     * @param array $routes {@see \OpenStack\Networking\v2\Extensions\Layer3\Api::putRemoveExtraRoutes}
+     */
+    public function removeRoutes(array $routes)
+    {
+        $userOptions['id'] = $this->id;
+        $this->execute($this->api->putRemoveExtraRoutes(), ['id' => $this->id, 'routes' => $routes]);
+    }
 }

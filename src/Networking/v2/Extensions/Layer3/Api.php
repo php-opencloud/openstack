@@ -170,4 +170,28 @@ class Api extends AbstractApi
             ],
         ];
     }
+
+    public function putAddExtraRoutes()
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => $this->pathPrefix.'/routers/{id}/add_extraroutes',
+            'params'  => [
+                'id'     => $this->params->idPath(),
+                'routes' => $this->params->routes(),
+            ],
+        ];
+    }
+
+    public function putRemoveExtraRoutes()
+    {
+        return [
+            'method'  => 'PUT',
+            'path'    => $this->pathPrefix.'/routers/{id}/remove_extraroutes',
+            'params'  => [
+                'id'     => $this->params->idPath(),
+                'routes' => $this->params->routes(),
+            ],
+        ];
+    }
 }
