@@ -176,6 +176,7 @@ class Api extends AbstractApi
         return [
             'method'  => 'PUT',
             'path'    => $this->pathPrefix.'/routers/{id}/add_extraroutes',
+            'jsonKey' => 'router',
             'params'  => [
                 'id'     => $this->params->idPath(),
                 'routes' => $this->params->routes(),
@@ -188,6 +189,7 @@ class Api extends AbstractApi
         return [
             'method'  => 'PUT',
             'path'    => $this->pathPrefix.'/routers/{id}/remove_extraroutes',
+            'jsonKey' => 'router',
             'params'  => [
                 'id'     => $this->params->idPath(),
                 'routes' => $this->params->routes(),
