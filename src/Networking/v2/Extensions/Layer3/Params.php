@@ -113,4 +113,26 @@ class Params extends \OpenStack\Networking\v2\Params
             'description' => 'If true, indicates a highly-available router.',
         ];
     }
+
+    public function routes(): array
+    {
+        return [
+            'type'        => self::ARRAY_TYPE,
+            'location'    => self::JSON,
+            'description' => 'Routes to be inserted into the routing table of this router. Each route must specify a destination CIDR and a nexthop address.',
+            'items'       => [
+                'type'       => self::OBJECT_TYPE,
+                'properties' => [
+                    'destination' => [
+                        'type'        => self::STRING_TYPE,
+                        'description' => 'Destination for the route, in CIDR notation.',
+                    ],
+                    'nexthop' => [
+                        'type'        => self::STRING_TYPE,
+                        'description' => 'Nexthop for the route.',
+                    ],
+                ],
+            ],
+        ];
+    }
 }
