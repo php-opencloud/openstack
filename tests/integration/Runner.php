@@ -36,7 +36,7 @@ class Runner
                         foreach ($this->traverse($versionPath->getPathname()) as $testPath) {
                             if (strpos($testPath->getFilename(), 'Test.php')) {
                                 $testBn = strtolower(substr($testPath->getBasename(), 0, -8));
-                                $this->tests[strtolower($serviceBn)][strtolower($versionBn)][] = $testBn;
+                                $this->tests[$serviceBn][strtolower($versionBn)][] = $testBn;
                             }
                         }
                     }
@@ -57,7 +57,7 @@ class Runner
                     break;
                 }
             }
-            return strtolower($value);
+            return $value;
         };
 
         return [
