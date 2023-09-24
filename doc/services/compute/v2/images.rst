@@ -4,7 +4,7 @@ Images
 List images
 -----------
 
-.. sample:: compute/v2/images/list_images.php
+.. sample:: Compute/v2/images/list_images.php
 
 Each iteration will return an :apiref:Image instance <OpenStack/Compute/v2/Models/Image.html>_.
 
@@ -27,7 +27,7 @@ Retrieve an image
 When retrieving an image, sometimes you only want to operate on it - say to update or delete it. If this is the case,
 then there is no need to perform an initial GET request to the server:
 
-.. sample:: compute/v2/images/get_image.php
+.. sample:: Compute/v2/images/get_image.php
 .. refdoc:: OpenStack/Compute/v2/Service.html#method_getImage
 
 If, however, you *do* want to retrieve all the details of a remote image from the API, you just call:
@@ -41,7 +41,7 @@ which will update the state of the local object. This gives you an element of co
 Delete an image
 ---------------
 
-.. sample:: compute/v2/images/delete_image.php
+.. sample:: Compute/v2/images/delete_image.php
 .. refdoc:: OpenStack/Compute/v2/Models/Image.html#method_delete
 
 Retrieve metadata
@@ -58,7 +58,7 @@ This operation will retrieve the existing metadata for an image:
 Reset metadata
 --------------
 
-.. sample:: compute/v2/images/reset_image_metadata.php
+.. sample:: Compute/v2/images/reset_image_metadata.php
 
 This operation will _replace_ all existing metadata with whatever is provided in the request. Any existing metadata
 not specified in the request will be deleted.
@@ -95,5 +95,5 @@ Delete image metadata item
 
 This operation allows you to remove a specific metadata item:
 
-.. sample:: compute/v2/images/delete_image_metadata_item.php
+.. sample:: Compute/v2/images/delete_image_metadata_item.php
 .. refdoc:: OpenStack/Compute/v2/Models/Image.html#method_deleteMetadataItem
