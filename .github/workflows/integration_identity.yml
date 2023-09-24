@@ -1,8 +1,8 @@
-name: Run Object Storage Integration Tests
+name: Run Identity Integration Tests
 on:
   pull_request:
     paths:
-      - '**ObjectStore**'
+      - '**Identity**'
 jobs:
   tests:
     if: "!contains(github.event.head_commit.message, 'skip ci') && !contains(github.event.head_commit.message, 'ci skip')"
@@ -42,13 +42,6 @@ jobs:
         uses: EmilienM/devstack-action@v0.11
         with:
           branch: ${{ matrix.openstack_version }}
-          conf_overrides: |
-            SWIFT_ENABLE_TEMPURLS=True
-            SWIFT_TEMPURL_KEY=secretkey
-            [[post-config|\$SWIFT_CONFIG_PROXY_SERVER]]
-            [filter:versioned_writes]
-            allow_object_versioning = true
-          enabled_services: 's-account,s-container,s-object,s-proxy'
       - name: Set env variables
         run: |
           {
