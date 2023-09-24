@@ -41,7 +41,7 @@ jobs:
           path: |
             /opt/stack/
             ~/devstack/
-          key: ${{ runner.os }}-openstack-${{ matrix.openstack_version }}-${{ env.GITHUB_WORKFLOW }}
+          key: ${{ runner.os }}-openstack-${{ matrix.openstack_version }}-${{ github.workflow }}
       - name: Deploy devstack
         uses: EmilienM/devstack-action@v0.11
         with:
