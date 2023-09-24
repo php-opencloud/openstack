@@ -39,7 +39,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            /opt/stack/
+            /opt/stack/*
+            !/opt/stack/data
             ~/devstack/
           key: ${{ runner.os }}-openstack-${{ matrix.openstack_version }}-${{ github.workflow }}
       - name: Deploy devstack
