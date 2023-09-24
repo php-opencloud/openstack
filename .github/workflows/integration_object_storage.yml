@@ -1,5 +1,6 @@
 name: Run Object Storage Integration Tests
 on:
+  push:
   pull_request:
     paths:
       - '**ObjectStore**'
