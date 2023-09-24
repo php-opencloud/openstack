@@ -20,12 +20,14 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.php_cs.cache
             ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-cache-${{ matrix.php_version }}-${{ hashFiles('**.composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.php_version }}-
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php_version }}
@@ -34,10 +36,12 @@ jobs:
           coverage: none
       - run: composer install --prefer-dist --no-interaction --no-progress
       - name: Restore devstack cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: /opt/stack/
-          key: ${{ runner.os }}-oscache-${{ matrix.openstack_version }}
+          path: |
+            /opt/stack/
+            ~/devstack/
+          key: ${{ runner.os }}-openstack-${{ matrix.openstack_version }}-{{env.GITHUB_WORKFLOW}}
       - name: Deploy devstack
         uses: EmilienM/devstack-action@v0.11
         with:
