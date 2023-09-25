@@ -1,0 +1,74 @@
+name: Run Object Storage Integration Tests
+on:
+  pull_request:
+    paths:
+      - '**ObjectStore**'
+jobs:
+  tests:
+    if: "!contains(github.event.head_commit.message, 'skip ci') && !contains(github.event.head_commit.message, 'ci skip')"
+    strategy:
+      fail-fast: false
+      matrix:
+        openstack_version: [ "stable/zed" ]
+        php_version: [ 8.1 ]
+        ubuntu_version: [ 20.04 ]
+    runs-on: ubuntu-${{ matrix.ubuntu_version }}
+    name: Deploy OpenStack ${{ matrix.name }} and run ObjectStore integration tests with php ${{matrix.php_version}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: get cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.php_cs.cache
+            ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.php_version }}-${{ hashFiles('**.composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.php_version }}-
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          extensions: curl
+          tools: composer:v2
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Restore devstack cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            /opt/stack/*
+            !/opt/stack/data
+            ~/devstack/
+          key: ${{ runner.os }}-openstack-${{ matrix.openstack_version }}-${{ github.workflow }}
+      - name: Deploy devstack
+        uses: EmilienM/devstack-action@v0.11
+        with:
+          branch: ${{ matrix.openstack_version }}
+          conf_overrides: |
+            SWIFT_ENABLE_TEMPURLS=True
+            SWIFT_TEMPURL_KEY=secretkey
+            [[post-config|\$SWIFT_CONFIG_PROXY_SERVER]]
+            [filter:versioned_writes]
+            allow_object_versioning = true
+          enabled_services: 's-account,s-container,s-object,s-proxy'
+      - name: Set env variables
+        run: |
+          {
+            echo OS_AUTH_URL="$(grep -oP -m 1 "(?<=auth_url: )(.*)\$" /etc/openstack/clouds.yaml)/v3"
+            echo OS_REGION=RegionOne
+            echo OS_REGION_NAME=RegionOne
+            echo OS_USER_ID=$(openstack --os-cloud=devstack-admin user show admin -f value -c id)
+            echo OS_USERNAME=admin
+            echo OS_PASSWORD=secret
+            echo OS_PROJECT_ID=$(openstack --os-cloud=devstack-admin project show admin -f value -c id)
+            echo OS_PROJECT_NAME=admin
+            echo OS_RESIZE_FLAVOR=2
+            echo OS_FLAVOR=1
+            echo OS_DOMAIN_ID=default
+          } >> "$GITHUB_ENV"
+      - name: Execute integration tests
+        run: php ./tests/integration/run.php -s=ObjectStore
+

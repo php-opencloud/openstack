@@ -6,13 +6,13 @@ Show account details
 
 To work with an Object Store account, you must first retrieve an account object like so:
 
-.. sample:: objectstore/v1/account/get.php
+.. sample:: ObjectStore/v2/account/get.php
 .. refdoc:: OpenStack/ObjectStore/v1/Service.html#method_getAccount
 
 Get account metadata
 --------------------
 
-.. sample:: objectstore/v1/account/get_metadata.php
+.. sample:: ObjectStore/v2/account/get_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Account.html#method_getMetadata
 
 Replace all metadata with new values
@@ -43,7 +43,7 @@ the metadata of the account will now be:
 
 To merge metadata, you must run:
 
-.. sample:: objectstore/v1/account/reset_metadata.php
+.. sample:: ObjectStore/v2/account/reset_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Account.html#method_resetMetadata
 
 Merge new metadata values with existing
@@ -75,5 +75,5 @@ the metadata of the account will now be:
 
 To reset metadata, you must run:
 
-.. sample:: objectstore/v1/account/merge_metadata.php
+.. sample:: ObjectStore/v2/account/merge_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Account.html#method_mergeMetadata

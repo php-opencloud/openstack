@@ -4,7 +4,7 @@ Objects
 Show details for an object
 --------------------------
 
-.. sample:: objectstore/v1/objects/get.php
+.. sample:: ObjectStore/v2/objects/get.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_getObject
 
 At this point, the object returned is *empty* because we did not execute a HTTP request to receive the state of the
@@ -26,7 +26,7 @@ of the object's metadata, will not download the object's content. To do this, se
 Download an object
 ------------------
 
-.. sample:: objectstore/v1/objects/download.php
+.. sample:: ObjectStore/v2/objects/download.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_download
 
 As you will notice, a Stream_ object is returned by this call. For more information about dealing with streams, please
@@ -41,7 +41,7 @@ parameter ``$data`` to ``['stream' => true]`` to get the stream before the end o
 List objects
 ------------
 
-.. sample:: objectstore/v1/objects/list.php
+.. sample:: ObjectStore/v2/objects/list.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_listObjects
 
 When listing objects, you must be aware that not *all* information about a container is returned in a collection.
@@ -64,13 +64,13 @@ Create an object
 
 When creating an object, you can upload its content according to a string representation:
 
-.. sample:: objectstore/v1/objects/create.php
+.. sample:: ObjectStore/v2/objects/create.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_createObject
 
 If that is not optimal or convenient, you can use a stream instead. Any instance of ``\Psr\Http\Message\StreamInterface``
 is acceptable. For example, to use a normal Guzzle stream:
 
-.. sample:: objectstore/v1/objects/create_from_stream.php
+.. sample:: ObjectStore/v2/objects/create_from_stream.php
 
 Create a large object (over 5GB)
 --------------------------------
@@ -84,25 +84,25 @@ uploading, this is what happens under the hood:
 
 To upload a DLO, you need to call:
 
-.. sample:: objectstore/v1/objects/create_large_object.php
+.. sample:: ObjectStore/v2/objects/create_large_object.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_createLargeObject
 
 Copy object
 -----------
 
-.. sample:: objectstore/v1/objects/copy.php
+.. sample:: ObjectStore/v2/objects/copy.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_copy
 
 Delete object
 -------------
 
-.. sample:: objectstore/v1/objects/delete.php
+.. sample:: ObjectStore/v2/objects/delete.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_delete
 
 Get metadata
 ------------
 
-.. sample:: objectstore/v1/objects/get_metadata.php
+.. sample:: ObjectStore/v2/objects/get_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_getMetadata
 
 The returned value will be a standard associative array, or hash, containing arbitrary key/value pairs. These will
@@ -112,7 +112,7 @@ correspond to the values set either when the object was created, or when a previ
 Replace all metadata with new values
 ------------------------------------
 
-.. sample:: objectstore/v1/objects/reset_metadata.php
+.. sample:: ObjectStore/v2/objects/reset_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_resetMetadata
 
 In order to replace all existing metadata with a set of new values, you can use this operation. Any existing metadata
@@ -142,7 +142,7 @@ the metadata of the account will now be:
 Merge new metadata values with existing
 ---------------------------------------
 
-.. sample:: objectstore/v1/objects/merge_metadata.php
+.. sample:: ObjectStore/v2/objects/merge_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_mergeMetadata
 
 In order to merge a set of new metadata values with the existing metadata set, you can use this operation. Any existing

@@ -19,7 +19,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase implements TestInter
         $this->sampleManager = $sampleManager;
     }
 
-    public function teardown()
+    public function teardown(): void
     {
         $this->sampleManager->deletePaths();
     }
