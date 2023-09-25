@@ -208,6 +208,14 @@ class ContainerTest extends TestCase
         $this->container->objectExists('bar');
     }
 
+    public function test_valid_segment_index_format()
+    {
+        self::assertTrue($this->container->isValidSegmentIndexFormat("%03d"));
+        self::assertTrue($this->container->isValidSegmentIndexFormat("%05d"));
+        self::assertFalse($this->container->isValidSegmentIndexFormat("%d"));
+        self::assertFalse($this->container->isValidSegmentIndexFormat("d"));
+    }
+
     public function test_it_chunks_according_to_provided_segment_size()
     {
         $stream = function_exists('\GuzzleHttp\Psr7\stream_for')
