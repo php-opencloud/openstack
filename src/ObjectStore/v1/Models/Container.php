@@ -197,11 +197,12 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * container. When this completes, a manifest file is uploaded which references the prefix of the segments,
      * allowing concatenation when a request is executed against the manifest.
      *
-     * @param array  $data                     {@see \OpenStack\ObjectStore\v1\Api::putObject}
-     * @param int    $data['segmentSize']      The size in Bytes of each segment
-     * @param string $data['segmentContainer'] The container to which each segment will be uploaded
-     * @param string $data['segmentPrefix']    The prefix that will come before each segment. If omitted, a default
-     *                                         is used: name/timestamp/filesize
+     * @param array  $data                       {@see \OpenStack\ObjectStore\v1\Api::putObject}
+     * @param int    $data['segmentSize']        The size in Bytes of each segment
+     * @param string $data['segmentContainer']   The container to which each segment will be uploaded
+     * @param string $data['segmentPrefix']      The prefix that will come before each segment. If omitted, a default
+     *                                           is used: name/timestamp/filesize
+     * @param string $data['segmentIndexFormat'] The format of segment index name, default %05d - 00001, 00002, etc.
      */
     public function createLargeObject(array $data): StorageObject
     {
@@ -213,6 +214,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         $segmentPrefix    = isset($data['segmentPrefix'])
             ? $data['segmentPrefix']
             : sprintf('%s/%s/%d', $data['name'], microtime(true), $stream->getSize());
+        $segmentIndexFormat = isset($data['segmentIndexFormat']) ? $data['segmentIndexFormat'] : '%05d';
 
         /** @var \OpenStack\ObjectStore\v1\Service $service */
         $service = $this->getService();
@@ -226,7 +228,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
         while (!$stream->eof() && $count < $totalSegments) {
             $promises[] = $this->model(StorageObject::class)->createAsync([
-                'name'          => sprintf('%s/%05d', $segmentPrefix, ++$count),
+                'name'          => sprintf($segmentPrefix.'/'.$segmentIndexFormat, ++$count),
                 'stream'        => new LimitStream($stream, $segmentSize, ($count - 1) * $segmentSize),
                 'containerName' => $segmentContainer,
             ]);
