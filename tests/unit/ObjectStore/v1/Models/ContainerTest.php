@@ -235,9 +235,9 @@ class ContainerTest extends TestCase
         $this->setupMock('PUT', 'segments', null, [], new Response(201));
 
         // The stream has size 24 so we expect three segments.
-        $this->setupMock('PUT', 'segments/objectPrefix/1', $stream->read(10), [], new Response(201));
-        $this->setupMock('PUT', 'segments/objectPrefix/2', $stream->read(10), [], new Response(201));
-        $this->setupMock('PUT', 'segments/objectPrefix/3', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/00001', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/00002', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/00003', $stream->read(10), [], new Response(201));
         $this->setupMock('PUT', 'test/object', null, ['X-Object-Manifest' => 'segments/objectPrefix'], new Response(201));
 
         $stream->rewind();
