@@ -228,7 +228,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
         while (!$stream->eof() && $count < $totalSegments) {
             $promises[] = $this->model(StorageObject::class)->createAsync([
-                'name'          => sprintf($segmentPrefix.'/'.$segmentIndexFormat, ++$count),
+                'name'          => sprintf('%s/'.$segmentIndexFormat, $segmentPrefix, ++$count),
                 'stream'        => new LimitStream($stream, $segmentSize, ($count - 1) * $segmentSize),
                 'containerName' => $segmentContainer,
             ]);
