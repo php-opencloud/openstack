@@ -107,7 +107,7 @@ class CoreTest extends TestCase
         }
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->network = $this->getNetworkService()->createNetwork(
             [
@@ -498,7 +498,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'images/create_server_image.php');
+        require_once $this->sampleFile($replacements, 'Images/create_server_image.php');
 
         $server->waitWithCallback(function (Server $server) {
             return !$server->taskState;
@@ -511,7 +511,7 @@ class CoreTest extends TestCase
 
     private function listImages()
     {
-        require_once $this->sampleFile([], 'images/list_images.php');
+        require_once $this->sampleFile([], 'Images/list_images.php');
 
         $this->logStep('Listed all available images');
     }
@@ -520,7 +520,7 @@ class CoreTest extends TestCase
     {
         $replacements = ['{imageId}' => $this->imageId];
 
-        require_once $this->sampleFile($replacements, 'images/get_image.php');
+        require_once $this->sampleFile($replacements, 'Images/get_image.php');
 
         $this->logStep('Retrieved details for image {imageId}', $replacements);
     }
@@ -530,20 +530,20 @@ class CoreTest extends TestCase
         $replacements = ['{imageId}' => $this->imageId];
 
         /** @var $image \OpenStack\Compute\v2\Models\Image */
-        require_once $this->sampleFile($replacements, 'images/reset_image_metadata.php');
+        require_once $this->sampleFile($replacements, 'Images/reset_image_metadata.php');
         $this->logStep('Reset metadata of image {imageId}', $replacements);
 
-        require_once $this->sampleFile($replacements, 'images/retrieve_image_metadata.php');
+        require_once $this->sampleFile($replacements, 'Images/retrieve_image_metadata.php');
         $this->logStep('Retrieved metadata of image {imageId}', $replacements);
 
-        require_once $this->sampleFile($replacements + ['{metadataKey}'], 'images/delete_image_metadata_item.php');
+        require_once $this->sampleFile($replacements + ['{metadataKey}'], 'Images/delete_image_metadata_item.php');
         $this->logStep('Deleted metadata key of image {imageId}', $replacements);
     }
 
     private function deleteServerImage()
     {
         $replacements = ['{imageId}' => $this->imageId];
-        require_once $this->sampleFile($replacements, 'images/delete_image.php');
+        require_once $this->sampleFile($replacements, 'Images/delete_image.php');
         $this->logStep('Deleted image {imageId}', $replacements);
     }
 

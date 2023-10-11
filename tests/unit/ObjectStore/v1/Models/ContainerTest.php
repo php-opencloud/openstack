@@ -208,10 +208,19 @@ class ContainerTest extends TestCase
         $this->container->objectExists('bar');
     }
 
+    public function test_valid_segment_index_format()
+    {
+        self::assertTrue($this->container->isValidSegmentIndexFormat("%03d"));
+        self::assertTrue($this->container->isValidSegmentIndexFormat("%05d"));
+        self::assertFalse($this->container->isValidSegmentIndexFormat("%d"));
+        self::assertFalse($this->container->isValidSegmentIndexFormat("d"));
+    }
+
     public function test_it_chunks_according_to_provided_segment_size()
     {
-        /** @var \GuzzleHttp\Psr7\Stream $stream */
-        $stream = \GuzzleHttp\Psr7\stream_for(implode('', range('A', 'X')));
+        $stream = function_exists('\GuzzleHttp\Psr7\stream_for')
+            ? \GuzzleHttp\Psr7\stream_for(implode('', range('A', 'X')))
+            : \GuzzleHttp\Psr7\Utils::streamFor(implode('', range('A', 'X')));
 
         $data = [
             'name' => 'object',
@@ -219,6 +228,7 @@ class ContainerTest extends TestCase
             'segmentSize'      => 10,
             'segmentPrefix'    => 'objectPrefix',
             'segmentContainer' => 'segments',
+            'segmentIndexFormat' => '%03d',
         ];
 
         // check container creation
@@ -234,9 +244,9 @@ class ContainerTest extends TestCase
         $this->setupMock('PUT', 'segments', null, [], new Response(201));
 
         // The stream has size 24 so we expect three segments.
-        $this->setupMock('PUT', 'segments/objectPrefix/1', $stream->read(10), [], new Response(201));
-        $this->setupMock('PUT', 'segments/objectPrefix/2', $stream->read(10), [], new Response(201));
-        $this->setupMock('PUT', 'segments/objectPrefix/3', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/001', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/002', $stream->read(10), [], new Response(201));
+        $this->setupMock('PUT', 'segments/objectPrefix/003', $stream->read(10), [], new Response(201));
         $this->setupMock('PUT', 'test/object', null, ['X-Object-Manifest' => 'segments/objectPrefix'], new Response(201));
 
         $stream->rewind();
