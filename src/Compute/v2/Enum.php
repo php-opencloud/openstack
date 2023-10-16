@@ -16,4 +16,7 @@ abstract class Enum
     const CONSOLE_RDP_HTML5   = 'rdp-html5';
     const CONSOLE_SPICE_HTML5 = 'spice-html5';
     const CONSOLE_SERIAL      = 'serial';
+
+    const CONSOLE_PROTOCOL_VNC = 'vnc';
+    const CONSOLE_TYPE_NOVNC = 'novnc';
 }
