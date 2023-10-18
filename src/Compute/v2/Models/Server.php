@@ -392,8 +392,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
         $options['id'] = $this->id;
         $response = $this->execute($this->api->createServerImage(), $options);
 
-        $location = $response->getHeaderLine('Location');
-        return substr($location, strrpos($location, '/') + 1);
+        return Utils::jsonDecode($response)['image_id'];
     }
 
     /**
