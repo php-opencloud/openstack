@@ -4,7 +4,7 @@ Containers
 Show details for a container
 ----------------------------
 
-.. sample:: objectstore/v1/containers/get.php
+.. sample:: ObjectStore/v2/containers/get.php
 .. refdoc:: OpenStack/ObjectStore/v1/Service.html#method_getContainer
 
 At this point, the object returned is *empty* because we did not execute a HTTP request to receive the state of the
@@ -25,7 +25,7 @@ and all of the local properties will match those of the remote resource.
 List containers
 ---------------
 
-.. sample:: objectstore/v1/containers/list.php
+.. sample:: ObjectStore/v2/containers/list.php
 .. refdoc:: OpenStack/ObjectStore/v1/Service.html#method_listContainers
 
 When listing containers, you must be aware that not *all* information about a container is returned in a collection.
@@ -46,7 +46,7 @@ container.
 Delete container
 ----------------
 
-.. sample:: objectstore/v1/containers/delete.php
+.. sample:: ObjectStore/v2/containers/delete.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_delete
 
 The API will only accept DELETE requests on containers when they are empty. If you have a container with any objects
@@ -55,7 +55,7 @@ inside, the operation will fail.
 Get metadata
 ------------
 
-.. sample:: objectstore/v1/containers/get_metadata.php
+.. sample:: ObjectStore/v2/containers/get_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_getMetadata
 
 The returned value will be a standard associative array, or hash, containing arbitrary key/value pairs. These will
@@ -65,7 +65,7 @@ correspond to the values set either when the container was created, or when a pr
 Replace all metadata with new values
 ------------------------------------
 
-.. sample:: objectstore/v1/containers/reset_metadata.php
+.. sample:: ObjectStore/v2/containers/reset_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_resetMetadata
 
 In order to replace all existing metadata with a set of new values, you can use this operation. Any existing metadata
@@ -95,7 +95,7 @@ the metadata of the account will now be:
 Merge new metadata values with existing
 ---------------------------------------
 
-.. sample:: objectstore/v1/containers/merge_metadata.php
+.. sample:: ObjectStore/v2/containers/merge_metadata.php
 .. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_mergeMetadata
 
 In order to merge a set of new metadata values with the existing metadata set, you can use this operation. Any existing
