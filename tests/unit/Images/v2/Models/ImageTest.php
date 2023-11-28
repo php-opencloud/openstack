@@ -30,7 +30,11 @@ class ImageTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
+            ? \GuzzleHttp\Psr7\uri_for('')
+            : \GuzzleHttp\Psr7\Utils::uriFor('');
+
+        $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn($returnedUri);
 
         $this->setupMock('GET', $this->path, null, [], 'GET_image');
 
@@ -123,7 +127,10 @@ class ImageTest extends TestCase
 
     public function test_it_uploads_data_stream()
     {
-        $stream  = \GuzzleHttp\Psr7\stream_for('data');
+        $stream = function_exists('\GuzzleHttp\Psr7\stream_for')
+            ? \GuzzleHttp\Psr7\stream_for('data')
+            : \GuzzleHttp\Psr7\Utils::streamFor('data');
+
         $headers = ['Content-Type' => 'application/octet-stream'];
 
         $this->setupMock('PUT', $this->path . '/file', $stream, $headers, new Response(204));
@@ -133,7 +140,10 @@ class ImageTest extends TestCase
 
     public function test_it_downloads_data()
     {
-        $stream  = \GuzzleHttp\Psr7\stream_for('data');
+        $stream = function_exists('\GuzzleHttp\Psr7\stream_for')
+            ? \GuzzleHttp\Psr7\stream_for('data')
+            : \GuzzleHttp\Psr7\Utils::streamFor('data');
+
         $headers = ['Content-Type' => 'application/octet-stream'];
         $response = new Response(200, $headers, $stream);
 

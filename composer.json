@@ -35,7 +35,7 @@
     "require": {
         "php": "^7.2.5|^8.0",
         "guzzlehttp/guzzle": "^7.0",
-        "guzzlehttp/uri-template": "0.2",
+        "guzzlehttp/uri-template": "^0.2|^1.0",
         "justinrainbow/json-schema": "^5.2"
     },
     "require-dev": {
@@ -43,7 +43,8 @@
         "psr/log": "^1.0",
         "php-coveralls/php-coveralls": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.18",
-        "php-parallel-lint/php-parallel-lint": "^1.2"
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "phpspec/prophecy": "^1.17"
     },
     "extra": {
         "branch-alias": {
