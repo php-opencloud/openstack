@@ -6,7 +6,11 @@ namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Transport\HandlerStack;
@@ -134,8 +138,51 @@ class Builder
     {
         $stack = HandlerStack::create();
         $stack->push(Middleware::authHandler($authHandler, $token));
-
+        $stack->push(Middleware::retry($this->retryDecider(), $this->retryDelay()));
         return $stack;
+    }
+    private function retryDecider(): \Closure
+    {
+        return function (
+            $retries,
+            Request $request,
+            Response $response = null,
+            RequestException $exception = null
+        ) {
+            if($retries>0){
+                $this->output->write(sprintf(" <error>Ret#%s</error>", $retries),false,OutputInterface::VERBOSITY_VERBOSE);
+            }
+            // Limit the number of retries to 5
+            if ($retries >= 15) {
+                if ('cli' === PHP_SAPI) {
+                    echo "Retries exceeded\n";
+                }
+                //$this->output->writeln("");
+                return false;
+            }
+
+            // Retry connection exceptions
+            if ($exception instanceof ConnectException) {
+                return true;
+            }
+
+            if ($response) {
+                // Retry on server errors
+                if ($response->getStatusCode() >= 500 ) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+    }
+
+    /**
+     * delay 1s 2s 3s 4s 5s
+     */
+    private function retryDelay(): \Closure
+    {
+        return fn($numberOfRetries) => 1000 * $numberOfRetries;
     }
 
     private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType = null, string $microVersion = null): ClientInterface
