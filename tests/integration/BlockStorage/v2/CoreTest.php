@@ -68,7 +68,10 @@ class CoreTest extends TestCase
         require_once $this->sampleFile($replacements, 'volumes/get.php');
         self::assertInstanceOf(Volume::class, $volume);
 
-        $replacements += ['{newName}' => $this->randomStr(), '{newDescription}' => $this->randomStr()];
+        $replacements += [
+            '{newName}' => $this->randomStr(),
+            '{newDescription}' => $this->randomStr()
+        ];
 
         $this->logStep('Updating volume');
         /** @var Volume $volume */
@@ -78,6 +81,8 @@ class CoreTest extends TestCase
         $this->logStep('Listing volumes');
         /** @var \Generator $volumes */
         require_once $this->sampleFile($replacements, 'volumes/list.php');
+
+        $volume->waitUntil('available');
 
         $this->logStep('Deleting volume');
         require_once $this->sampleFile($replacements, 'volumes/delete.php');
@@ -175,6 +180,8 @@ class CoreTest extends TestCase
         $replacements += ['{newName}' => $this->randomStr(), '{newDescription}' => $this->randomStr()];
         $this->logStep('Updating snapshot');
         require_once $this->sampleFile($replacements, 'snapshots/update.php');
+
+        $snapshot->waitUntil('available', 60);
 
         $this->logStep('Deleting snapshot');
         require_once $this->sampleFile($replacements, 'snapshots/delete.php');
