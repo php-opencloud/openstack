@@ -2,7 +2,6 @@
 
 namespace OpenStack\Integration\Networking\v2;
 
-use Guzzle\Tests\Service\Mock\Command\Sub\Sub;
 use OpenStack\Integration\TestCase;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp;
 use OpenStack\Networking\v2\Models\Network;
@@ -28,7 +27,7 @@ class Layer3Test extends TestCase
         $this->outputTimeTaken();
     }
 
-    public function teardown()
+    public function teardown(): void
     {
         parent::teardown();
 

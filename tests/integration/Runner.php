@@ -35,7 +35,7 @@ class Runner
                     if ($servicePath->isDir() && $versionBn[0] == 'v') {
                         foreach ($this->traverse($versionPath->getPathname()) as $testPath) {
                             if (strpos($testPath->getFilename(), 'Test.php')) {
-                                $testBn = strtolower(substr($testPath->getBasename(), 0, -8));
+                                $testBn = substr($testPath->getBasename(), 0, -8);
                                 $this->tests[$serviceBn][strtolower($versionBn)][] = $testBn;
                             }
                         }

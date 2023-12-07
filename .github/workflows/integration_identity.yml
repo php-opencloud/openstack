@@ -1,8 +1,11 @@
 name: Run Identity Integration Tests
 on:
+  workflow_dispatch:
   pull_request:
     paths:
       - '**Identity**'
+      - '**Common**'
+
 jobs:
   tests:
     if: "!contains(github.event.head_commit.message, 'skip ci') && !contains(github.event.head_commit.message, 'ci skip')"
@@ -58,7 +61,7 @@ jobs:
             echo OS_PASSWORD=secret
             echo OS_PROJECT_ID=$(openstack --os-cloud=devstack-admin project show admin -f value -c id)
             echo OS_PROJECT_NAME=admin
-            echo OS_RESIZE_FLAVOR=2
+            echo OS_RESIZE_FLAVOR=c1
             echo OS_FLAVOR=1
             echo OS_DOMAIN_ID=default
           } >> "$GITHUB_ENV"
