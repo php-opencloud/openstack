@@ -5,6 +5,9 @@ on:
     paths:
       - '**Images**'
       - '**Common**'
+  push:
+    branches:
+      - master
 
 jobs:
   tests:

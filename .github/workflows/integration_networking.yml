@@ -5,6 +5,9 @@ on:
     paths:
       - '**Networking**'
       - '**Common**'
+  push:
+    branches:
+      - master
 
 jobs:
   tests:

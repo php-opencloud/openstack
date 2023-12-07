@@ -5,6 +5,9 @@ on:
     paths:
       - '**Identity**'
       - '**Common**'
+  push:
+    branches:
+      - master
 
 jobs:
   tests:
