@@ -68,5 +68,5 @@ jobs:
             echo OS_DOMAIN_ID=default
           } >> "$GITHUB_ENV"
       - name: Execute integration tests
-        run: php ./tests/integration/run.php -s=Compute
+        run: php ./tests/integration/run.php -s=Networking
 
