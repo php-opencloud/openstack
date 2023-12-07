@@ -6,6 +6,9 @@ on:
     paths:
       - '**BlockStorage**'
       - '**Common**'
+  push:
+    branches:
+      - master
 
 jobs:
   tests:

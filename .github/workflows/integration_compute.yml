@@ -5,6 +5,9 @@ on:
     paths:
       - '**Compute**'
       - '**Common**'
+  push:
+    branches:
+      - master
 
 jobs:
   tests:
