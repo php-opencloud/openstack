@@ -1,7 +1,6 @@
 from docutils import nodes
 from sphinx.addnodes import download_reference
 from sphinx.directives.code import LiteralInclude
-from sphinx.writers.html import HTMLTranslator
 import re
 
 class Sample(LiteralInclude):
@@ -29,13 +28,6 @@ class Sample(LiteralInclude):
         nodes.literal_block(auth_str, auth_str, language="php"), 
         nodes.literal_block(main_str, main_str, language="php")]
 
-def visit_download_reference(self, node):
-  self.context.append('<a href="javascript:void(0);" class="toggle btn">Show auth code</a>')
-
-def depart_download_reference(self, node):
-  self.body.append(self.context.pop())
-
 def setup(app):
-  app.add_node(download_reference, html=(visit_download_reference, depart_download_reference))
   app.add_directive('sample', Sample)
   return {'version': '0.1'}
