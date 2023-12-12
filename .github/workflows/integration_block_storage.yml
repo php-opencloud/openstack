@@ -1,4 +1,4 @@
-name: Run Block Storage Integration Tests
+name: Block Storage Integration Tests
 
 on:
   workflow_dispatch:

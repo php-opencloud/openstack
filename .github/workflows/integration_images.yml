@@ -1,4 +1,4 @@
-name: Run Images Integration Tests
+name: Images Integration Tests
 on:
   workflow_dispatch:
   pull_request:
