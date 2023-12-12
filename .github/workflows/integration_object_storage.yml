@@ -1,4 +1,4 @@
-name: Run Object Storage Integration Tests
+name: Object Storage Integration Tests
 on:
   workflow_dispatch:
   pull_request:

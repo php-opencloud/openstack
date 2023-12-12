@@ -1,4 +1,4 @@
-name: Run Networking Integration Tests
+name: Networking Integration Tests
 on:
   workflow_dispatch:
   pull_request:

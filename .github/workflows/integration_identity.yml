@@ -1,4 +1,4 @@
-name: Run Identity Integration Tests
+name: Identity Integration Tests
 on:
   workflow_dispatch:
   pull_request:
