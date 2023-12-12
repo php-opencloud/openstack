@@ -22,35 +22,23 @@ OpenStack services, and versions of services, are supported.
 * [Contributing guide](/CONTRIBUTING.md)
 * [Code of Conduct](/CODE_OF_CONDUCT.md)
 
-
-## We need your help :smiley: 
-
-We invest a large amount of work to ensure this SDK works with many OpenStack distributions via running end-to-end 
-integration tests with a real cluster.
-
-If you or your organization are in a position that can help us access popular distributions as listed below, do reach 
-out by open an issue in github.
-
-| Distribution                       |                         |
-|------------------------------------|-------------------------|
-|OpenStack RDO<br>MicroStack Openstack | Sponsored by [![Ai.net](https://i.imgur.com/wsFRFuX.png)](https://www.ai.net/) |
-|Red Hat OpenStack                   | Need sponsor!           |
-|OVH OpenStack                       | Need sponsor!           |
-|SUSE OpenStack                      | Need sponsor!           |
-|RackSpace OpenStack                 | Need sponsor!           |
-
 ## Join the community
    
 - Report an issue: https://github.com/php-opencloud/openstack/issues
 
-## Version Guidance
+## Versioning
 
-| Version   | Status                      | PHP Version      | Support until           |
-| --------- | --------------------------- | ---------------- | ----------------------- |
-| `^3.2`    | Latest                      | `>=7.2.5, >=8.0` | Current                 |
-| `^3.1`    | Latest                      | `>=7.2.5`        | Current                 |
-| `^3.0`    | Bug fixed only              | `>=7.0`          | Oct 2020                |
-| `^2.0`    | End of life                 | `>=7.0,<7.2`     | March 2018              |
+Openstack SDK follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+Updating between minor versions will not require changes to PHP code or configuration
+and cause no breaking behavioural changes for consumers.
+
+| Version   | Status      | PHP Version      | Support until           |
+| --------- |-------------| ---------------- | ----------------------- |
+| `^3.2`    | Latest      | `>=7.2.5, >=8.0` | Current                 |
+| `^3.1`    | Latest      | `>=7.2.5`        | Current                 |
+| `^3.0`    | End of life | `>=7.0`          | Oct 2020                |
+| `^2.0`    | End of life | `>=7.0,<7.2`     | March 2018              |
 
 
 ## Upgrade from 2.x to 3.x
