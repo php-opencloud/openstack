@@ -4,7 +4,7 @@ Welcome to the OpenStack SDK for PHP!
 Requirements
 ------------
 
-* PHP 7
+* PHP >= 7, < 9
 * cURL extension
 
 Installation
@@ -41,13 +41,7 @@ Supported services
 Help and support
 ----------------
 
-If you have specific problems or bugs with this SDK, please file an issue on our official `Github repo`_. We also
-have a `mailing list`_, so feel free to join to keep up to date with all the latest changes and announcements to the
-library.
-
-For general feedback and support requests, send an email to sdk-support@rackspace.com.
-
-You can also find assistance via IRC on #rackspace at freenode.net.
+If you have specific problems or bugs with this SDK, please file an issue on our official `Github repo`_.
 
 Contributing
 ------------
@@ -57,5 +51,4 @@ If you'd like to contribute to the project, or require help running the unit/int
 
 .. _Composer installation instructions: `https://getcomposer.org/doc/00-intro.md`
 .. _Github repo: `https://github.com/php-opencloud/openstack`
-.. _mailing list: `https://groups.google.com/forum/#!forum/php-opencloud`
 .. _contributing guidelines: `https://github.com/php-opencloud/openstack/blob/master/CONTRIBUTING.md`
