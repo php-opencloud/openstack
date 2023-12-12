@@ -1,6 +1,6 @@
-from sphinx.directives import LiteralInclude
 from docutils import nodes
 from sphinx.addnodes import download_reference
+from sphinx.directives.code import LiteralInclude
 from sphinx.writers.html import HTMLTranslator
 import re
 
@@ -10,7 +10,7 @@ class Sample(LiteralInclude):
     self.arguments[0] = "/../samples/" + self.arguments[0]
     self.options['language'] = 'php'
 
-    pattern = "[\s+]?(\<\?php.*?]\);)"
+    pattern = r"[\s+]?(\<\?php.*?]\);)"
 
     code_block = super(Sample, self).run()[0]
     string = str(code_block[0])
