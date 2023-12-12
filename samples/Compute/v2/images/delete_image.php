@@ -15,3 +15,5 @@ $openstack = new OpenStack\OpenStack([
 $compute = $openstack->computeV2(['region' => '{region}']);
 
 $image = $compute->getImage(['id' => '{imageId}']);
+
+$image->delete();
