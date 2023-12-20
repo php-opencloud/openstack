@@ -57,6 +57,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getContainer}
      * @param callable|null $mapFn   allows a function to be mapped over each element
+     * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\StorageObject>
      */
     public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
@@ -82,9 +83,9 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     }
 
     /**
-     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putContainer}
+     * {@inheritdoc}
      *
-     * @return $this
+     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putContainer}
      */
     public function create(array $data): Creatable
     {

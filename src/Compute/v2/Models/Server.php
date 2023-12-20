@@ -394,6 +394,8 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Returns Generator for InterfaceAttachment.
+     *
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\InterfaceAttachment>
      */
     public function listInterfaceAttachments(array $options = []): \Generator
     {
@@ -541,6 +543,8 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Returns Generator for SecurityGroups.
+     *
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup>
      */
     public function listSecurityGroups(): \Generator
     {
@@ -549,6 +553,8 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Returns Generator for VolumeAttachment.
+     *
+     * @return \Generator<mixed, \OpenStack\BlockStorage\v2\Models\VolumeAttachment>
      */
     public function listVolumeAttachments(): \Generator
     {

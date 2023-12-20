@@ -57,6 +57,9 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postRouters(), $userOptions);

@@ -97,9 +97,9 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     }
 
     /**
-     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
+     * {@inheritdoc}
      *
-     * @return $this
+     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
      */
     public function create(array $data): Creatable
     {

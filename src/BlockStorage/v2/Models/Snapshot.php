@@ -84,6 +84,8 @@ class Snapshot extends OperatorResource implements Listable, Creatable, Updateab
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postSnapshots}
      */
     public function create(array $userOptions): Creatable

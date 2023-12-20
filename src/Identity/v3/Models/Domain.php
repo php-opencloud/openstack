@@ -75,6 +75,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getUserRoles}
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listUserRoles(array $options = []): \Generator
     {
@@ -115,6 +116,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getGroupRoles}
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listGroupRoles(array $options = []): \Generator
     {

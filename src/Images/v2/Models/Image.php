@@ -115,6 +115,9 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postImages(), $data);
@@ -213,6 +216,9 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         return $this->model(Member::class, ['imageId' => $this->id, 'id' => $memberId])->create([]);
     }
 
+    /**
+     * @return \Generator<mixed, \OpenStack\Images\v2\Models\Member>
+     */
     public function listMembers(): \Generator
     {
         return $this->model(Member::class)->enumerate($this->api->getImageMembers(), ['imageId' => $this->id]);
