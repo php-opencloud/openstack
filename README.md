@@ -2,14 +2,8 @@
 
 
 ![Unit tests](https://github.com/php-opencloud/openstack/actions/workflows/unit_tests.yml/badge.svg)
+[![Integration Tests](https://github.com/php-opencloud/openstack/actions/workflows/integration_tests.yml/badge.svg)](https://github.com/php-opencloud/openstack/actions/workflows/integration_tests.yml)
 [![Documentation Status](https://readthedocs.org/projects/php-openstack-sdk/badge/?version=latest)](https://php-openstack-sdk.readthedocs.io/en/latest/?badge=latest)
-
-[![Block Storage Integration Tests](https://github.com/php-opencloud/openstack/actions/workflows/integration_block_storage.yml/badge.svg)](https://github.com/php-opencloud/openstack/actions/workflows/integration_block_storage.yml)
-[![Compute Integration Tests](https://github.com/php-opencloud/openstack/actions/workflows/integration_compute.yml/badge.svg)](https://github.com/php-opencloud/openstack/actions/workflows/integration_compute.yml)
-[![Identity Integration Tests](https://github.com/php-opencloud/openstack/actions/workflows/integration_identity.yml/badge.svg)](https://github.com/php-opencloud/openstack/actions/workflows/integration_identity.yml)
-[![Images Integration Tests](https://github.com/php-opencloud/openstack/actions/workflows/integration_images.yml/badge.svg)](https://github.com/php-opencloud/openstack/actions/workflows/integration_images.yml)
-[![Networking Integration Tests](https://github.com/php-opencloud/openstack/actions/workflows/integration_networking.yml/badge.svg)](https://github.com/php-opencloud/openstack/actions/workflows/integration_networking.yml)
-[![Object Storage Integration Tests](https://github.com/php-opencloud/openstack/actions/workflows/integration_object_storage.yml/badge.svg)](https://github.com/php-opencloud/openstack/actions/workflows/integration_object_storage.yml)
 
 `php-opencloud/openstack` is an SDK which allows PHP developers to easily connect to OpenStack APIs in a simple and 
 idiomatic way. This binding is specifically designed for OpenStack APIs, but other provider SDKs are available. Multiple 
