@@ -21,9 +21,11 @@ List images sorted
 -----------
 
 Possible values for sort_key are:
+
 * name
 
 Possible values for sort_dir are:
+
 * asc
 * desc
 

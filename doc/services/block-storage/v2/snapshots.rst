@@ -15,9 +15,11 @@ List volumes sorted
 ~~~~~~~~~~~~~~~~~~~
 
 Possible values for sort_key are:
+
 * display_name
 
 Possible values for sort_dir are:
+
 * asc
 * desc
 
