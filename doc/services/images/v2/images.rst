@@ -17,6 +17,18 @@ List images
 
 .. include:: /common/generators.rst
 
+List images sorted
+-----------
+
+Possible values for sort_key are:
+* name
+
+Possible values for sort_dir are:
+* asc
+* desc
+
+.. sample:: Images/v2/images/list_sorted.php
+
 Show image details
 ------------------
 
