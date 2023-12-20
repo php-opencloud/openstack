@@ -107,7 +107,7 @@ class CoreTest extends TestCase
         }
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->network = $this->getNetworkService()->createNetwork(
             [
@@ -139,7 +139,7 @@ class CoreTest extends TestCase
 
         $this->logStep('Created volume {name} with {id}', ['name' => $this->volume->name, 'id' => $this->volume->id]);
 
-        $this->getSecurityGroupService()->createSecurityGroup(['name' => self::SECGROUP]);
+        $this->secgroup = $this->getSecurityGroupService()->createSecurityGroup(['name' => self::SECGROUP]);
 
         $this->logStep('Created security group {secgroup}', ['secgroup' => self::SECGROUP]);
     }

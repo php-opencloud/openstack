@@ -75,8 +75,6 @@ class CoreTest extends TestCase
         /** @var Image $image */
         require_once $this->sampleFile($replacements, 'images/create.php');
 
-
-
         $this->logStep(sprintf('Image created with id=%s', $image->id));
 
         $this->logStep('Adding member');

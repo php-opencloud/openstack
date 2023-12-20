@@ -181,6 +181,22 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     }
 
     /**
+     * Verifies if provied segment index format for DLOs is valid.
+     * 
+     * @param string $fmt The format of segment index name, e.g. %05d for 00001, 00002, etc.
+     * 
+     * @return bool TRUE if the format is valid, FALSE if it is not
+     */
+    public function isValidSegmentIndexFormat($fmt)
+    {
+        $testValue1 = sprintf($fmt, 1);
+        $testValue2 = sprintf($fmt, 10);
+    
+        // Test if different results of the same string length
+        return ($testValue1 !== $testValue2) && (strlen($testValue1) === strlen($testValue2));
+    }
+
+    /**
      * Creates a single object according to the values provided.
      *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
@@ -197,11 +213,12 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * container. When this completes, a manifest file is uploaded which references the prefix of the segments,
      * allowing concatenation when a request is executed against the manifest.
      *
-     * @param array  $data                     {@see \OpenStack\ObjectStore\v1\Api::putObject}
-     * @param int    $data['segmentSize']      The size in Bytes of each segment
-     * @param string $data['segmentContainer'] The container to which each segment will be uploaded
-     * @param string $data['segmentPrefix']    The prefix that will come before each segment. If omitted, a default
-     *                                         is used: name/timestamp/filesize
+     * @param array  $data                       {@see \OpenStack\ObjectStore\v1\Api::putObject}
+     * @param int    $data['segmentSize']        The size in Bytes of each segment
+     * @param string $data['segmentContainer']   The container to which each segment will be uploaded
+     * @param string $data['segmentPrefix']      The prefix that will come before each segment. If omitted, a default
+     *                                           is used: name/timestamp/filesize
+     * @param string $data['segmentIndexFormat'] The format of segment index name, default %05d - 00001, 00002, etc.
      */
     public function createLargeObject(array $data): StorageObject
     {
@@ -213,6 +230,11 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         $segmentPrefix    = isset($data['segmentPrefix'])
             ? $data['segmentPrefix']
             : sprintf('%s/%s/%d', $data['name'], microtime(true), $stream->getSize());
+        $segmentIndexFormat = isset($data['segmentIndexFormat']) ? $data['segmentIndexFormat'] : '%05d';
+
+        if (!$this->isValidSegmentIndexFormat($segmentIndexFormat)) {
+            throw new \InvalidArgumentException('The provided segmentIndexFormat is not valid.');
+        }
 
         /** @var \OpenStack\ObjectStore\v1\Service $service */
         $service = $this->getService();
@@ -226,14 +248,16 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
         while (!$stream->eof() && $count < $totalSegments) {
             $promises[] = $this->model(StorageObject::class)->createAsync([
-                'name'          => sprintf('%s/%d', $segmentPrefix, ++$count),
+                'name'          => sprintf('%s/'.$segmentIndexFormat, $segmentPrefix, ++$count),
                 'stream'        => new LimitStream($stream, $segmentSize, ($count - 1) * $segmentSize),
                 'containerName' => $segmentContainer,
             ]);
         }
 
         /** @var Promise $p */
-        $p = \GuzzleHttp\Promise\all($promises);
+        $p = function_exists('\GuzzleHttp\Promise\all')
+            ? \GuzzleHttp\Promise\all($promises)
+            : \GuzzleHttp\Promise\Utils::all($promises);
         $p->wait();
 
         return $this->createObject([
