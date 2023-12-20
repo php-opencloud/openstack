@@ -9,8 +9,7 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$images = $openstack->imagesV2()
-                    ->listImages();
+$images = $openstack->imagesV2()->listImages(['sortKey' => '{sortKey}', 'sortDir' => '{sortDir}']);
 
 foreach ($images as $image) {
     /** @var \OpenStack\Images\v2\Models\Image $image */
