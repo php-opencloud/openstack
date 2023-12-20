@@ -34,7 +34,7 @@ exclude_patterns = ['_build']
 pygments_style = 'sphinx'
 
 html_theme = 'sphinx_rtd_theme'
-html_theme_path = ["_templates", ]
+# html_theme_path = ["_templates", ]
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'php-openclouddoc'
