@@ -86,6 +86,9 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
         $this->execute($this->api->deleteUser(), ['id' => $this->id]);
     }
 
+    /**
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Group>
+     */
     public function listGroups(): \Generator
     {
         $options['id'] = $this->id;
@@ -93,6 +96,9 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
         return $this->model(Group::class)->enumerate($this->api->getUserGroups(), $options);
     }
 
+    /**
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Project>
+     */
     public function listProjects(): \Generator
     {
         return $this->model(Project::class)->enumerate($this->api->getUserProjects(), ['id' => $this->id]);

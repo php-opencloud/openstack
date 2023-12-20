@@ -77,6 +77,7 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getGroupUsers}
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\User>
      */
     public function listUsers(array $options = []): \Generator
     {

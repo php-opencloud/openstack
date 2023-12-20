@@ -138,6 +138,7 @@ class Resource extends OperatorResource implements Retrievable
 
     /**
      * @param array $options {@see \OpenStack\Metric\v1\Gnocchi\Api::getResourceMetrics}
+     * @return \Generator<mixed, \OpenStack\Metric\v1\Gnocchi\Models\Metric>
      */
     public function listResourceMetrics(array $options = []): \Generator
     {
