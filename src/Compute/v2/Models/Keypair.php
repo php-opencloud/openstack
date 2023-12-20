@@ -75,6 +75,9 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         $this->populateFromResponse($response);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postKeypair(), $userOptions);

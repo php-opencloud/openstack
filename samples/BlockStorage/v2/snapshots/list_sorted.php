@@ -9,9 +9,10 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$images = $openstack->imagesV2()
-                    ->listImages();
+$service = $openstack->blockStorageV2();
 
-foreach ($images as $image) {
-    /** @var \OpenStack\Images\v2\Models\Image $image */
+$snapshots = $service->listSnapshots(false, ['sortKey' => '{sortKey}', 'sortDir' => '{sortDir}']);
+
+foreach ($snapshots as $snapshot) {
+    /** @var $snapshot \OpenStack\BlockStorage\v2\Models\Snapshot */
 }

@@ -68,7 +68,9 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a generator for enumerating over a collection of resources returned by the request.
+     *
+     * @returns \Generator<mixed, static>
      */
     public function enumerate(array $def, array $userVals = [], callable $mapFn = null): \Generator
     {
@@ -101,6 +103,11 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
         return $iterator();
     }
 
+    /**
+     * Extracts multiple instances of the current resource from a response.
+     *
+     * @return array<self>
+     */
     public function extractMultipleInstances(ResponseInterface $response, string $key = null): array
     {
         $key           = $key ?: $this->getResourcesKey();

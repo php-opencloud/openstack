@@ -110,6 +110,8 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postVolumes}
      */
     public function create(array $userOptions): Creatable

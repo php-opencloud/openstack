@@ -22,7 +22,7 @@ interface Listable
      * @param array    $userVals The user values
      * @param callable $mapFn    an optional callback that will be executed on every resource iteration
      *
-     * @returns void
+     * @returns \Generator<mixed, static>
      */
     public function enumerate(array $def, array $userVals = [], callable $mapFn = null);
 }

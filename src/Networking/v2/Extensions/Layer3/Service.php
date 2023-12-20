@@ -31,6 +31,9 @@ class Service extends AbstractService
         return $this->floatingIp(['id' => $id]);
     }
 
+    /**
+     * @return \Generator<mixed, FloatingIp>
+     */
     public function listFloatingIps(array $options = []): \Generator
     {
         return $this->floatingIp()->enumerate($this->api->getFloatingIps(), $options);
@@ -46,6 +49,9 @@ class Service extends AbstractService
         return $this->router(['id' => $id]);
     }
 
+    /**
+     * @return \Generator<mixed, Router>
+     */
     public function listRouters(array $options = []): \Generator
     {
         return $this->router()->enumerate($this->api->getRouters(), $options);

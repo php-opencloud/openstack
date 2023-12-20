@@ -25,6 +25,8 @@ class VolumeType extends OperatorResource implements Listable, Creatable, Update
     protected $resourcesKey = 'volume_types';
 
     /**
+     * {@inheritdoc}
+     *
      * @param array $userOptions {@see \OpenStack\BlockStorage\v2\Api::postTypes}
      */
     public function create(array $userOptions): Creatable

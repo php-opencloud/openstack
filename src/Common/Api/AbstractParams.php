@@ -85,6 +85,7 @@ DESC
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::QUERY,
+            'sentAs'      => 'sort_dir',
             'description' => 'Sorts by one or more sets of attribute and sort direction combinations.',
             'enum'        => ['asc', 'desc'],
         ];
@@ -95,6 +96,7 @@ DESC
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::QUERY,
+            'sentAs'      => 'sort_key',
             'description' => 'Sorts by one or more sets of attribute and sort direction combinations.',
         ];
     }

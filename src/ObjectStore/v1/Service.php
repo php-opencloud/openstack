@@ -27,6 +27,7 @@ class Service extends AbstractService
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getAccount}
      * @param callable|null $mapFn   allows a function to be mapped over each element in the collection
+     * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\Container>
      */
     public function listContainers(array $options = [], callable $mapFn = null): \Generator
     {

@@ -54,6 +54,9 @@ class Member extends OperatorResource implements Creatable, Listable, Retrievabl
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->executeWithState($this->api->postImageMembers());

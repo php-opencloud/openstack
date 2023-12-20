@@ -55,7 +55,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
     /**
      * Populates the current resource from a data array.
      *
-     * @return mixed|void
+     * @return self
      */
     public function populateFromArray(array $array)
     {

@@ -1,4 +1,4 @@
-name: Run Compute Integration Tests
+name: Compute Integration Tests
 on:
   workflow_dispatch:
   pull_request:

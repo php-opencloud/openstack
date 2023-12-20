@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\integration\BlockStorage\v2;
+namespace OpenStack\Integration\BlockStorage\v2;
 
 use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\Volume;
@@ -34,22 +34,24 @@ class CoreTest extends TestCase
         $this->volumeTypes();
         $this->logger->info('-> Snapshots');
         $this->snapshots();
+        $this->logger->info('-> Snapshot list');
+        $this->snapshotList();
 
         $this->outputTimeTaken();
     }
 
     public function volumes()
     {
-        $this->logStep('-> Volumes tests');
+        $this->logStep('Creating volume type');
         $volumeType = $this->getService()->createVolumeType(['name' => $this->randomStr()]);
 
         $replacements = [
             '{description}' => $this->randomStr(),
-            "'{size}'"      => 1,
-            '{name}'        => $this->randomStr(),
-            '{volumeType}'  => $volumeType->id,
-            '{key1}'        => $this->randomStr(),
-            '{val1}'        => $this->randomStr(),
+            "'{size}'" => 1,
+            '{name}' => $this->randomStr(),
+            '{volumeType}' => $volumeType->id,
+            '{key1}' => $this->randomStr(),
+            '{val1}' => $this->randomStr(),
         ];
 
         $this->logStep('Creating volume');
@@ -70,7 +72,7 @@ class CoreTest extends TestCase
 
         $replacements += [
             '{newName}' => $this->randomStr(),
-            '{newDescription}' => $this->randomStr()
+            '{newDescription}' => $this->randomStr(),
         ];
 
         $this->logStep('Updating volume');
@@ -82,6 +84,7 @@ class CoreTest extends TestCase
         /** @var \Generator $volumes */
         require_once $this->sampleFile($replacements, 'volumes/list.php');
 
+        $volume = $this->getService()->getVolume($volumeId);
         $volume->waitUntil('available');
 
         $this->logStep('Deleting volume');
@@ -135,8 +138,8 @@ class CoreTest extends TestCase
         $volume->waitUntil('available', 60);
 
         $replacements = [
-            '{volumeId}'    => $volume->id,
-            '{name}'        => $this->randomStr(),
+            '{volumeId}' => $volume->id,
+            '{name}' => $this->randomStr(),
             '{description}' => $this->randomStr(),
         ];
 
@@ -183,11 +186,68 @@ class CoreTest extends TestCase
 
         $snapshot->waitUntil('available', 60);
 
+        $this->logStep('Listing snapshots');
+        require_once $this->sampleFile($replacements, 'snapshots/list.php');
+
         $this->logStep('Deleting snapshot');
         require_once $this->sampleFile($replacements, 'snapshots/delete.php');
         $snapshot->waitUntilDeleted();
 
         $this->logStep('Deleting volume');
         $volume->delete();
+    }
+
+    public function snapshotList()
+    {
+        $this->logStep('Creating volume');
+        $volume = $this->getService()->createVolume(['name' => $this->randomStr(), 'size' => 1]);
+        $volume->waitUntil('available', 60);
+
+        $names = ['b' . $this->randomStr(), 'a' . $this->randomStr(), 'd' . $this->randomStr(), 'c' . $this->randomStr()];
+        $createdSnapshots = [];
+        foreach ($names as $name) {
+            $this->logStep('Creating snapshot ' . $name);
+            $snapshot = $this->getService()->createSnapshot([
+                'volumeId' => $volume->id,
+                'name' => $name,
+            ]);
+
+            self::assertInstanceOf(Snapshot::class, $snapshot);
+
+            $createdSnapshots[] = $snapshot;
+            $snapshot->waitUntil('available', 60);
+        }
+
+        try {
+            $replacements = [
+                '{sortKey}' => 'display_name',
+                '{sortDir}' => 'asc',
+            ];
+
+            $this->logStep('Listing snapshots');
+            require_once $this->sampleFile($replacements, 'snapshots/list.php');
+
+            $this->logStep('Listing snapshots sorted asc');
+            /** @var Snapshot $snapshot */
+            require_once $this->sampleFile($replacements, 'snapshots/list_sorted.php');
+            self::assertInstanceOf(Snapshot::class, $snapshot);
+            self::assertEquals($names[2], $snapshot->name);
+
+            $this->logStep('Listing snapshots sorted desc');
+            $replacements['{sortDir}'] = 'desc';
+            /** @var Snapshot $snapshot */
+            require_once $this->sampleFile($replacements, 'snapshots/list_sorted.php');
+            self::assertInstanceOf(Snapshot::class, $snapshot);
+            self::assertEquals($names[1], $snapshot->name);
+        } finally {
+            foreach ($createdSnapshots as $snapshot) {
+                $this->logStep('Deleting snapshot ' . $snapshot->name);
+                $snapshot->delete();
+                $snapshot->waitUntilDeleted();
+            }
+
+            $this->logStep('Deleting volume');
+            $volume->delete();
+        }
     }
 }
