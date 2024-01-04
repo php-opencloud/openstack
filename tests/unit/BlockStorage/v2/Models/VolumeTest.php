@@ -10,7 +10,7 @@ use OpenStack\Test\TestCase;
 class VolumeTest extends TestCase
 {
     /** @var Volume */
-    private $volume;
+    protected $volume;
 
     public function setUp(): void
     {

@@ -1,22 +1,23 @@
 # OpenStack services coverage
 
-|Name|PHP classes|API definition|Unit tests|Sample files|Integration tests|Documentation|
-|---|:--:|:--:|:--:|:--:|:--:|:--:|
-|Block Storage v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Compute v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Compute v2 exts|||||||
-|Data Processing v1|||||||
-|Database v1|||||||
-|Identity v2|&#10003;|&#10003;|&#10003;||||
-|Identity v2 exts|||||||
-|Identity v3|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Identity v3 exts|||||||
-|Images v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Networking v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Networking v2 exts|||||||
-|Object Storage v1|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Orchestration v1|||||||
-|Telemetry v2|||||||
+| Name               |PHP classes|API definition|Unit tests|Sample files|Integration tests|Documentation|
+|--------------------|:--:|:--:|:--:|:--:|:--:|:--:|
+| Block Storage v2   |&#10003;|&#10003;|&#10003;||&#10003;||
+| Block Storage v3   |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Compute v2         |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Compute v2 exts    |||||||
+| Data Processing v1 |||||||
+| Database v1        |||||||
+| Identity v2        |&#10003;|&#10003;|&#10003;||||
+| Identity v2 exts   |||||||
+| Identity v3        |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Identity v3 exts   |||||||
+| Images v2          |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Networking v2      |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Networking v2 exts |||||||
+| Object Storage v1  |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Orchestration v1   |||||||
+| Telemetry v2       |||||||
 
 ## Key
 

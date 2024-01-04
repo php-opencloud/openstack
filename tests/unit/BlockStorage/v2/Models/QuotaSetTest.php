@@ -10,7 +10,7 @@ use OpenStack\Test\TestCase;
 class QuotaSetTest extends TestCase
 {
     /** @var QuotaSet */
-    private $quotaSet;
+    protected $quotaSet;
 
     public function setUp(): void
     {
