@@ -52,6 +52,12 @@
         "phpspec/prophecy": "^1.17",
         "ergebnis/composer-normalize": "^2.0"
     },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
     "extra": {
         "branch-alias": {
            "dev-master": "3.0-dev"
