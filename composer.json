@@ -38,7 +38,7 @@
         "php-coveralls/php-coveralls": "^2.0",
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "phpspec/prophecy": "^1.17",
-        "phpunit/phpunit": "^8.0",
+        "phpunit/phpunit": ">=8.5.23",
         "psr/log": "^1.0"
     },
     "autoload": {
