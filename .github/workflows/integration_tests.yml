@@ -84,11 +84,12 @@ jobs:
             echo OS_FLAVOR=1
             echo OS_DOMAIN_ID=default
           } >> "$GITHUB_ENV"
-      - name: Execute Block Storage tests
+      - name: Execute Block Storage v2 tests
         if: matrix.block_storage_v2 == true
-        run: php ./tests/integration/run.php -s=BlockStorage
+        run: php ./tests/integration/run.php -s=BlockStorage -v=v2
+      - name: Execute Block Storage v3 tests
+        run: php ./tests/integration/run.php -s=BlockStorage -v=v3
       - name: Execute Compute tests
-        if: matrix.block_storage_v2 == true
         run: php ./tests/integration/run.php -s=Compute
       - name: Execute Identity tests
         run: php ./tests/integration/run.php -s=Identity

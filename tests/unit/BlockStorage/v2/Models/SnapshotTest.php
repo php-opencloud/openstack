@@ -10,7 +10,7 @@ use OpenStack\Test\TestCase;
 class SnapshotTest extends TestCase
 {
     /** @var Snapshot */
-    private $snapshot;
+    protected $snapshot;
 
     public function setUp(): void
     {

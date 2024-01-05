@@ -160,12 +160,26 @@ class OpenStack
      * Creates a new Block Storage v2 service.
      *
      * @param array $options options that will be used in configuring the service
+     *
+     * @deprecated Use blockStorageV3 instead
      */
     public function blockStorageV2(array $options = []): BlockStorage\v2\Service
     {
         $defaults = ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'];
 
         return $this->builder->createService('BlockStorage\\v2', array_merge($defaults, $options));
+    }
+
+    /**
+     * Creates a new Block Storage v3 service.
+     *
+     * @param array $options options that will be used in configuring the service
+     */
+    public function blockStorageV3(array $options = []): BlockStorage\v3\Service
+    {
+        $defaults = ['catalogName' => 'cinderv3', 'catalogType' => 'volumev3'];
+
+        return $this->builder->createService('BlockStorage\\v3', array_merge($defaults, $options));
     }
 
     /**

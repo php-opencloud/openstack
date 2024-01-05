@@ -14,6 +14,7 @@ use OpenStack\Networking\v2\Extensions\Layer3\Service as NetworkingServiceV2ExtL
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Service as NetworkingServiceV2ExtSecGroup;
 use OpenStack\ObjectStore\v1\Service as ObjectStoreServiceV1;
 use OpenStack\BlockStorage\v2\Service as BlockStorageServiceV2;
+use OpenStack\BlockStorage\v3\Service as BlockStorageServiceV3;
 use OpenStack\Images\v2\Service as ImageServiceV2;
 use OpenStack\Metric\v1\Gnocchi\Service as MetricGnocchiV1;
 
@@ -107,6 +108,16 @@ class OpenStackTest extends TestCase
             ->willReturn($this->service(BlockStorageServiceV2::class));
 
         $this->openstack->blockStorageV2();
+    }
+
+    public function test_it_supports_block_storage_v3()
+    {
+        $this->builder
+            ->createService('BlockStorage\\v3', ['catalogName' => 'cinderv3', 'catalogType' => 'volumev3'])
+            ->shouldBeCalled()
+            ->willReturn($this->service(BlockStorageServiceV3::class));
+
+        $this->openstack->blockStorageV3();
     }
 
     public function test_it_supports_images_v2()
