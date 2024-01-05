@@ -21,9 +21,6 @@ class GatewayInfo extends AbstractResource
         'enable_snat' => 'enableSnat',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [

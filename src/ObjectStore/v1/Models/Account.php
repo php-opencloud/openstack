@@ -16,7 +16,7 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
 {
     use MetadataTrait;
 
-    const METADATA_PREFIX = 'X-Account-Meta-';
+    public const METADATA_PREFIX = 'X-Account-Meta-';
 
     /** @var int */
     public $objectCount;
@@ -33,9 +33,6 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
     /** @var string */
     public $tempUrl;
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response): self
     {
         parent::populateFromResponse($response);
@@ -49,27 +46,18 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->headAccount());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function mergeMetadata(array $metadata)
     {
         $response       = $this->execute($this->api->postAccount(), ['metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resetMetadata(array $metadata)
     {
         $options = [
@@ -87,9 +75,6 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
         $this->metadata = $this->parseMetadata($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMetadata(): array
     {
         $response = $this->execute($this->api->headAccount());

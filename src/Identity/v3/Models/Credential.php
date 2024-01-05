@@ -39,9 +39,6 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
         'user_id'    => 'userId',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postCredentials(), $data);
@@ -49,27 +46,18 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getCredential());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchCredential());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteCredential());

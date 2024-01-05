@@ -47,9 +47,6 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
         'tenant_id'      => 'tenantId',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -57,9 +54,6 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postRouters(), $userOptions);

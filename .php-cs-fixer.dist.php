@@ -4,7 +4,7 @@ if (!file_exists(__DIR__.'/src')) {
     exit(0);
 }
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules(
         [
             '@PSR2'                  => true,

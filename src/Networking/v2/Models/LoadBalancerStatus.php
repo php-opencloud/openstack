@@ -54,9 +54,6 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
         'provisioning_status' => 'provisioningStatus',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -64,9 +61,6 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getLoadBalancerStatuses(), ['loadbalancerId' => (string) $this->loadbalancerId]);

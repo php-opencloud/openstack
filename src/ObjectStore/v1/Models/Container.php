@@ -22,7 +22,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 {
     use MetadataTrait;
 
-    const METADATA_PREFIX = 'X-Container-Meta-';
+    public const METADATA_PREFIX = 'X-Container-Meta-';
 
     /** @var int */
     public $objectCount;
@@ -38,9 +38,6 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
     protected $markerKey = 'name';
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response): self
     {
         parent::populateFromResponse($response);
@@ -57,13 +54,14 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getContainer}
      * @param callable|null $mapFn   allows a function to be mapped over each element
+     *
      * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\StorageObject>
      */
     public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
 
-        $appendContainerNameFn = function (StorageObject $resource) use ($mapFn) {
+        $appendContainerNameFn       = function (StorageObject $resource) use ($mapFn) {
             $resource->containerName = $this->name;
             if ($mapFn) {
                 call_user_func_array($mapFn, [&$resource]);
@@ -73,9 +71,6 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         return $this->model(StorageObject::class)->enumerate($this->api->getContainer(), $options, $appendContainerNameFn);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->headContainer());
@@ -83,8 +78,6 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putContainer}
      */
     public function create(array $data): Creatable
@@ -97,26 +90,17 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteContainer());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function mergeMetadata(array $metadata)
     {
         $response       = $this->execute($this->api->postContainer(), ['name' => $this->name, 'metadata' => $metadata]);
         $this->metadata = $this->parseMetadata($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resetMetadata(array $metadata)
     {
         $options = [
@@ -135,9 +119,6 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         $this->metadata = $this->parseMetadata($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->headContainer());
@@ -183,16 +164,16 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
     /**
      * Verifies if provied segment index format for DLOs is valid.
-     * 
+     *
      * @param string $fmt The format of segment index name, e.g. %05d for 00001, 00002, etc.
-     * 
+     *
      * @return bool TRUE if the format is valid, FALSE if it is not
      */
     public function isValidSegmentIndexFormat($fmt)
     {
         $testValue1 = sprintf($fmt, 1);
         $testValue2 = sprintf($fmt, 10);
-    
+
         // Test if different results of the same string length
         return ($testValue1 !== $testValue2) && (strlen($testValue1) === strlen($testValue2));
     }
@@ -214,12 +195,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * container. When this completes, a manifest file is uploaded which references the prefix of the segments,
      * allowing concatenation when a request is executed against the manifest.
      *
-     * @param array  $data                       {@see \OpenStack\ObjectStore\v1\Api::putObject}
-     * @param int    $data['segmentSize']        The size in Bytes of each segment
-     * @param string $data['segmentContainer']   The container to which each segment will be uploaded
-     * @param string $data['segmentPrefix']      The prefix that will come before each segment. If omitted, a default
-     *                                           is used: name/timestamp/filesize
-     * @param string $data['segmentIndexFormat'] The format of segment index name, default %05d - 00001, 00002, etc.
+     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
      */
     public function createLargeObject(array $data): StorageObject
     {

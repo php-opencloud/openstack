@@ -26,9 +26,6 @@ class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
     /** @var Tenant */
     public $tenant;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -38,9 +35,6 @@ class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response): self
     {
         $this->populateFromArray(Utils::jsonDecode($response)['access']['token']);

@@ -43,8 +43,6 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
     ];
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postPolicies}
      */
     public function create(array $data): Creatable
@@ -54,27 +52,18 @@ class Policy extends OperatorResource implements Creatable, Listable, Retrievabl
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getPolicy(), ['id' => $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchPolicy());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deletePolicy(), ['id' => $this->id]);

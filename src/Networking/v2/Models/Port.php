@@ -136,9 +136,6 @@ class Port extends OperatorResource implements Creatable, Updateable, Deletable,
     protected $resourceKey  = 'port';
     protected $resourcesKey = 'ports';
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSinglePort(), $userOptions);

@@ -81,9 +81,6 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
         'provisioning_status' => 'provisioningStatus',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -91,9 +88,6 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postLoadBalancer(), $userOptions);
@@ -101,27 +95,18 @@ class LoadBalancer extends OperatorResource implements Creatable, Retrievable, U
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getLoadBalancer(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->putLoadBalancer());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteLoadBalancer());

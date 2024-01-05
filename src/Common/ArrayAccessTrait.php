@@ -20,7 +20,6 @@ trait ArrayAccessTrait
      * Sets an internal key with a value.
      *
      * @param string $offset
-     * @param mixed  $value
      */
     public function offsetSet($offset, $value)
     {

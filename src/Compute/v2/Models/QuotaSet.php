@@ -147,27 +147,18 @@ class QuotaSet extends OperatorResource implements Retrievable, Updateable, Dele
         'server_groups'               => 'serverGroups',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getQuotaSet(), ['tenantId' => (string) $this->tenantId]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $response = $this->executeWithState($this->api->deleteQuotaSet());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->putQuotaSet());

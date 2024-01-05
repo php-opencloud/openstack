@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
 {
-    const DEFAULT_URL_TYPE = 'publicURL';
+    public const DEFAULT_URL_TYPE = 'publicURL';
 
     /**
      * The catalog entries.
@@ -23,9 +23,6 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
      */
     public $entries = [];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -33,9 +30,6 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response): self
     {
         $entries = Utils::jsonDecode($response)['access']['serviceCatalog'];

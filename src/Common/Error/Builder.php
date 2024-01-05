@@ -33,9 +33,6 @@ class Builder
      */
     private $client;
 
-    /**
-     * @param ClientInterface $client
-     */
     public function __construct(ClientInterface $client = null)
     {
         $this->client = $client ?: new Client();
@@ -43,8 +40,6 @@ class Builder
 
     /**
      * Internal method used when outputting headers in the error description.
-     *
-     * @param $name
      */
     private function header(string $name): string
     {

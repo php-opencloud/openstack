@@ -31,9 +31,6 @@ final class Middleware
         };
     }
 
-    /**
-     * @param Token $token
-     */
     public static function authHandler(callable $tokenGenerator, Token $token = null): callable
     {
         return function (callable $handler) use ($tokenGenerator, $token) {
