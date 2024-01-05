@@ -40,9 +40,6 @@ class Metric extends OperatorResource implements Retrievable
         'archive_policy'        => 'archivePolicy',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -50,9 +47,6 @@ class Metric extends OperatorResource implements Retrievable
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getMetric());

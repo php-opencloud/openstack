@@ -56,9 +56,6 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     protected $resourceKey  = 'keypair';
     protected $resourcesKey = 'keypairs';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -66,18 +63,12 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getKeypair(), $this->getAttrs(['name', 'userId']));
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postKeypair(), $userOptions);
@@ -85,17 +76,11 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromArray(array $array): self
     {
         return parent::populateFromArray(Utils::flattenJson($array, $this->resourceKey));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteKeypair(), ['name' => (string) $this->name]);

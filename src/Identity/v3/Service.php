@@ -12,7 +12,7 @@ use OpenStack\Common\Service\AbstractService;
 /**
  * Represents the Keystone v3 service.
  *
- * @property \OpenStack\Identity\v3\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService implements IdentityService
 {

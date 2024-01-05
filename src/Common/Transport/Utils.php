@@ -69,8 +69,6 @@ class Utils
 
     /**
      * Add an unlimited list of paths to a given URI.
-     *
-     * @param ...$paths
      */
     public static function addPaths(UriInterface $uri, ...$paths): UriInterface
     {

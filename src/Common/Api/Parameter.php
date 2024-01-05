@@ -304,8 +304,6 @@ class Parameter
 
     /**
      * Verifies whether the given location matches the parameter's location.
-     *
-     * @param $value
      */
     public function hasLocation($value): bool
     {

@@ -19,7 +19,7 @@ use OpenStack\Networking\v2\Models\Subnet;
 /**
  * Network v2 service for OpenStack.
  *
- * @property \OpenStack\Networking\v2\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {

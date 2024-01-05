@@ -104,9 +104,6 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
         'provisioning_status' => 'provisioningStatus',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -114,9 +111,6 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postLoadBalancerHealthMonitor(), $userOptions);
@@ -124,27 +118,18 @@ class LoadBalancerHealthMonitor extends OperatorResource implements Creatable, R
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getLoadBalancerHealthMonitor(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->putLoadBalancerHealthMonitor());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteLoadBalancerHealthMonitor());

@@ -10,7 +10,7 @@ use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
 
 /**
- * @property \OpenStack\ObjectStore\v1\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {

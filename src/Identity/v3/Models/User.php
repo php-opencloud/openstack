@@ -49,8 +49,6 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
     protected $resourcesKey = 'users';
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postUsers}
      */
     public function create(array $data): Creatable
@@ -60,27 +58,18 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getUser(), ['id' => $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchUser());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteUser(), ['id' => $this->id]);

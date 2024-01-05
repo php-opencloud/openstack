@@ -19,7 +19,7 @@ use OpenStack\Compute\v2\Models\Server;
 /**
  * Compute v2 service for OpenStack.
  *
- * @property \OpenStack\Compute\v2\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {
