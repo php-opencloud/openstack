@@ -22,7 +22,6 @@ class Service extends AbstractService
     }
 
     /**
-     * @param array $options
      * @return \Generator<mixed, SecurityGroup>
      */
     public function listSecurityGroups(array $options = []): \Generator

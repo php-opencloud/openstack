@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
 {
-    const DEFAULT_URL_TYPE = 'publicURL';
+    public const DEFAULT_URL_TYPE = 'publicURL';
 
     /**
      * The catalog entries.

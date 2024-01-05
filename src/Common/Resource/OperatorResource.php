@@ -11,7 +11,7 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
 {
     use OperatorTrait;
 
-    const DEFAULT_MARKER_KEY = 'id';
+    public const DEFAULT_MARKER_KEY = 'id';
 
     /**
      * The key that indicates how the API nests resource collections. For example, when
@@ -84,7 +84,7 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
             return $this->sendRequest($operation, $userVals);
         };
 
-        $resourceFn = function (array $data) {
+        $resourceFn   = function (array $data) {
             $resource = $this->newInstance();
             $resource->populateFromArray($data);
 

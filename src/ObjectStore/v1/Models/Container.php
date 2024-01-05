@@ -22,7 +22,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 {
     use MetadataTrait;
 
-    const METADATA_PREFIX = 'X-Container-Meta-';
+    public const METADATA_PREFIX = 'X-Container-Meta-';
 
     /** @var int */
     public $objectCount;
@@ -57,13 +57,14 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getContainer}
      * @param callable|null $mapFn   allows a function to be mapped over each element
+     *
      * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\StorageObject>
      */
     public function listObjects(array $options = [], callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
 
-        $appendContainerNameFn = function (StorageObject $resource) use ($mapFn) {
+        $appendContainerNameFn       = function (StorageObject $resource) use ($mapFn) {
             $resource->containerName = $this->name;
             if ($mapFn) {
                 call_user_func_array($mapFn, [&$resource]);
@@ -183,16 +184,16 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
     /**
      * Verifies if provied segment index format for DLOs is valid.
-     * 
+     *
      * @param string $fmt The format of segment index name, e.g. %05d for 00001, 00002, etc.
-     * 
+     *
      * @return bool TRUE if the format is valid, FALSE if it is not
      */
     public function isValidSegmentIndexFormat($fmt)
     {
         $testValue1 = sprintf($fmt, 1);
         $testValue2 = sprintf($fmt, 10);
-    
+
         // Test if different results of the same string length
         return ($testValue1 !== $testValue2) && (strlen($testValue1) === strlen($testValue2));
     }
@@ -219,7 +220,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      * @param string $data['segmentContainer']   The container to which each segment will be uploaded
      * @param string $data['segmentPrefix']      The prefix that will come before each segment. If omitted, a default
      *                                           is used: name/timestamp/filesize
-     * @param string $data['segmentIndexFormat'] The format of segment index name, default %05d - 00001, 00002, etc.
+     * @param string $data['segmentIndexFormat'] The format of segment index name, default %05d - 00001, 00002, etc
      */
     public function createLargeObject(array $data): StorageObject
     {

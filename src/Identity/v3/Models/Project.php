@@ -87,6 +87,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getProjectUserRoles}
+     *
      * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listUserRoles(array $options = []): \Generator
@@ -128,6 +129,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getProjectGroupRoles}
+     *
      * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listGroupRoles(array $options = []): \Generator

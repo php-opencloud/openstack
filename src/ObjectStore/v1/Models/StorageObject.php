@@ -21,7 +21,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
 {
     use MetadataTrait;
 
-    const METADATA_PREFIX = 'X-Object-Meta-';
+    public const METADATA_PREFIX = 'X-Object-Meta-';
 
     /** @var string */
     public $containerName;

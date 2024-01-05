@@ -57,6 +57,7 @@ class Service extends AbstractService
      * List networks.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getNetworks}
+     *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Network>
      */
     public function listNetworks(array $options = []): \Generator
@@ -100,6 +101,7 @@ class Service extends AbstractService
      * List subnets.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getSubnets}
+     *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Subnet>
      */
     public function listSubnets(array $options = []): \Generator
@@ -143,6 +145,7 @@ class Service extends AbstractService
      * List ports.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getPorts}
+     *
      * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Port>
      */
     public function listPorts(array $options = []): \Generator

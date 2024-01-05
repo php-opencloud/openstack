@@ -6,9 +6,9 @@ namespace OpenStack\Common\JsonSchema;
 
 class JsonPatch
 {
-    const OP_ADD     = 'add';
-    const OP_REPLACE = 'replace';
-    const OP_REMOVE  = 'remove';
+    public const OP_ADD     = 'add';
+    public const OP_REPLACE = 'replace';
+    public const OP_REMOVE  = 'remove';
 
     public static function diff($src, $dest)
     {

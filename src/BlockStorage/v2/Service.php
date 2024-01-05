@@ -31,6 +31,7 @@ class Service extends AbstractService
      *
      * @param bool  $detail      if set to TRUE, more information will be returned
      * @param array $userOptions {@see Api::getVolumes}
+     *
      * @return \Generator<mixed, \OpenStack\BlockStorage\v2\Models\Volume>
      */
     public function listVolumes(bool $detail = false, array $userOptions = []): \Generator

@@ -16,7 +16,7 @@ class Account extends OperatorResource implements Retrievable, HasMetadata
 {
     use MetadataTrait;
 
-    const METADATA_PREFIX = 'X-Account-Meta-';
+    public const METADATA_PREFIX = 'X-Account-Meta-';
 
     /** @var int */
     public $objectCount;
