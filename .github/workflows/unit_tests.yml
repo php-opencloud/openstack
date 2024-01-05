@@ -19,7 +19,7 @@ jobs:
              arg: "--prefer-lowest --prefer-stable"
            - name: highest
              arg: "" # No args added as highest is default
-    name: "php-${{ matrix.php }}-composer-${{ matrix.composer.name }}"
+    name: PHPUnit on PHP ${{ matrix.php-version }} with ${{ matrix.composer.name }} dependencies
     steps:
       - uses: actions/checkout@v2
 
@@ -42,7 +42,7 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - run: composer install --prefer-dist --no-interaction --no-progress ${{ matrix.composer.arg }}
+      - run: composer update --prefer-dist --no-interaction --no-progress ${{ matrix.composer.arg }}
 
       - run: vendor/bin/parallel-lint --exclude vendor .
 
