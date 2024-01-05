@@ -9,7 +9,9 @@ on:
 
 jobs:
   tests:
-    if: !contains(github.event.pull_request.body, 'skip ci') && !contains(github.event.pull_request.body, 'skip integration')
+    if: |
+      !contains(github.event.pull_request.body, 'skip ci') 
+      && !contains(github.event.pull_request.body, 'skip integration')
     strategy:
       fail-fast: false
       matrix:

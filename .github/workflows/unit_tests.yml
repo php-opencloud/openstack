@@ -9,7 +9,9 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-22.04
-    if: !contains(github.event.pull_request.body, 'skip ci') && !contains(github.event.pull_request.body, 'skip unit') it')"
+    if: |
+      !contains(github.event.pull_request.body, 'skip ci') 
+      && !contains(github.event.pull_request.body, 'skip unit')
     strategy:
       fail-fast: false
       matrix:
