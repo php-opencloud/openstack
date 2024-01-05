@@ -19,6 +19,11 @@
             "name": "Ha Phan",
             "email": "thanhha.work@gmail.com",
             "homepage" : "https://github.com/haphan"
+        },
+        {
+            "name": "Konstantin Babushkin",
+            "email": "koka@idwrx.com",
+            "homepage" : "https://github.com/k0ka"
         }
     ],
     "autoload": {
@@ -42,7 +47,7 @@
         "phpunit/phpunit": "^8.0",
         "psr/log": "^1.0",
         "php-coveralls/php-coveralls": "^2.0",
-        "friendsofphp/php-cs-fixer": "^2.18",
+        "friendsofphp/php-cs-fixer": "^3",
         "php-parallel-lint/php-parallel-lint": "^1.2",
         "phpspec/prophecy": "^1.17"
     },
