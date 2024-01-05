@@ -85,9 +85,6 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         'virtual_size'     => 'virtualSize',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -115,9 +112,6 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $data): Creatable
     {
         $response = $this->execute($this->api->postImages(), $data);

@@ -21,9 +21,6 @@ class Entry extends OperatorResource
     /** @var []Endpoint */
     public $endpoints = [];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [

@@ -49,9 +49,6 @@ class LoadBalancerStat extends OperatorResource implements Retrievable
         'loadbalancer_id'    => 'loadbalancerId',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getLoadBalancerStats(), ['loadbalancerId' => (string) $this->loadbalancerId]);

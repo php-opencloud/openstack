@@ -31,9 +31,6 @@ class Host extends OperatorResource implements Listable, Retrievable
       'host_name' => 'name',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getHost(), $this->getAttrs(['name']));

@@ -20,9 +20,6 @@ trait OperatorTrait
     /** @var ApiInterface */
     protected $api;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(ClientInterface $client, ApiInterface $api)
     {
         $this->client = $client;
@@ -61,9 +58,9 @@ trait OperatorTrait
      * @param $methodName the name of the method being invoked
      * @param $args       the arguments to be passed to the sequential method
      *
-     * @throws \RuntimeException If method does not exist
-     *
      * @return Promise
+     *
+     * @throws \RuntimeException If method does not exist
      */
     public function __call($methodName, $args)
     {
@@ -90,17 +87,12 @@ trait OperatorTrait
         throw $e($methodName);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getOperation(array $definition): Operation
     {
         return new Operation($definition);
     }
 
     /**
-     * @return mixed
-     *
      * @throws \Exception
      */
     protected function sendRequest(Operation $operation, array $userValues = [], bool $async = false)
@@ -119,25 +111,16 @@ trait OperatorTrait
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(array $definition, array $userValues = []): ResponseInterface
     {
         return $this->sendRequest($this->getOperation($definition), $userValues);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function executeAsync(array $definition, array $userValues = []): PromiseInterface
     {
         return $this->sendRequest($this->getOperation($definition), $userValues, true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function model(string $class, $data = null): ResourceInterface
     {
         $model = new $class($this->client, $this->api);

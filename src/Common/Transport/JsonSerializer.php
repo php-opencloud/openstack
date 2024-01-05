@@ -87,6 +87,7 @@ class JsonSerializer
         } elseif ($param->isObject()) {
             $userValue = $this->stockObjectJson($param, $this->serializeObjectValue($userValue));
         }
+
         // Populate the final value
         return $this->stockValue($param, $userValue, $json);
     }
@@ -97,7 +98,7 @@ class JsonSerializer
             if ($value instanceof Serializable) {
                 $value = $value->serialize();
             } elseif (!($value instanceof \stdClass)) {
-                throw new \InvalidArgumentException(sprintf('When an object value is provided, it must either be \stdClass or implement the Serializable '.'interface, you provided %s', print_r($value, true)));
+                throw new \InvalidArgumentException(sprintf('When an object value is provided, it must either be \stdClass or implement the Serializable interface, you provided %s', print_r($value, true)));
             }
         }
 

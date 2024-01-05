@@ -68,9 +68,6 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
     protected $resourceKey  = 'subnet';
     protected $resourcesKey = 'subnets';
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getSubnet(), ['id' => (string) $this->id]);
@@ -92,8 +89,6 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postSubnet}
      */
     public function create(array $data): Creatable
@@ -103,26 +98,17 @@ class Subnet extends OperatorResource implements Listable, Retrievable, Creatabl
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->putSubnet());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteSubnet());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAttrs(array $keys)
     {
         $output = parent::getAttrs($keys);

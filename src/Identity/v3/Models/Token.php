@@ -31,7 +31,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /** @var Catalog */
     public $catalog;
 
-    /** @var mixed */
     public $extras;
 
     /** @var User */
@@ -48,9 +47,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
 
     protected $cachedToken;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -63,9 +59,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
@@ -87,9 +80,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         return $this->expires <= new \DateTimeImmutable('now', $this->expires->getTimezone());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getTokens(), ['tokenId' => $this->id]);
@@ -97,8 +87,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postTokens}
      */
     public function create(array $data): Creatable
@@ -106,7 +94,7 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         if (isset($data['user'])) {
             $data['methods'] = ['password'];
             if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
-                throw new \InvalidArgumentException('When authenticating with a username, you must also provide either the domain name or domain ID to '.'which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to '.'provide domain information.');
+                throw new \InvalidArgumentException('When authenticating with a username, you must also provide either the domain name or domain ID to which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to provide domain information.');
             }
         } elseif (isset($data['tokenId'])) {
             $data['methods'] = ['token'];

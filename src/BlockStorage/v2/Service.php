@@ -11,7 +11,7 @@ use OpenStack\BlockStorage\v2\Models\VolumeType;
 use OpenStack\Common\Service\AbstractService;
 
 /**
- * @property \OpenStack\BlockStorage\v2\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {

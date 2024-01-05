@@ -47,9 +47,6 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
         return $this->client->getConfig('base_uri');
     }
 
-    /**
-     * @return mixed
-     */
     public function executeWithState(array $definition)
     {
         return $this->execute($definition, $this->getAttrs(array_keys($definition['params'])));
@@ -130,9 +127,6 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
         return new $service($this->client, $this->api);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function model(string $class, $data = null): ResourceInterface
     {
         $model = new $class($this->client, $this->api);

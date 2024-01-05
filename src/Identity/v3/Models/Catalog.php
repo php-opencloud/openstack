@@ -15,9 +15,6 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
     /** @var []Service */
     public $services;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [

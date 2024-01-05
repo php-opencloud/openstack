@@ -53,9 +53,6 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
     protected $resourceKey  = 'image';
     protected $resourcesKey = 'images';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -64,18 +61,12 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getImage(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteImage(), ['id' => (string) $this->id]);
@@ -120,8 +111,6 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
      * Retrieve the value for a specific metadata key.
      *
      * @param string $key {@see \OpenStack\Compute\v2\Api::getImageMetadataKey}
-     *
-     * @return mixed
      */
     public function getMetadataItem(string $key)
     {

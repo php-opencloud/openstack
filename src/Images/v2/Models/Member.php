@@ -43,9 +43,6 @@ class Member extends OperatorResource implements Creatable, Listable, Retrievabl
         'image_id'  => 'imageId',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -54,9 +51,6 @@ class Member extends OperatorResource implements Creatable, Listable, Retrievabl
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->executeWithState($this->api->postImageMembers());
