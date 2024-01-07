@@ -1,0 +1,57 @@
+name: Unit Tests
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    if: |
+      !contains(github.event.pull_request.body, 'skip ci') 
+      && !contains(github.event.pull_request.body, 'skip unit')
+    strategy:
+      fail-fast: false
+      matrix:
+         php: [ 7.2, 7.3, 7.4, 8.0, 8.1, 8.2, 8.3 ]
+         composer:
+           - name: lowest
+             arg: "--prefer-lowest --prefer-stable"
+           - name: highest
+             arg: "" # No args added as highest is default
+    name: PHPUnit on PHP ${{ matrix.php }} with ${{ matrix.composer.name }} dependencies
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: get cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.php_cs.cache
+            ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-cache-${{ matrix.php }}-${{ matrix.composer.name }}-${{ hashFiles('**.composer.lock') }}
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl
+          tools: composer:v2
+          coverage: none
+
+      - run: composer update --prefer-dist --no-interaction --no-progress ${{ matrix.composer.arg }}
+
+      - run: vendor/bin/parallel-lint --exclude vendor .
+
+      - name: execute unit tests
+        run: vendor/bin/phpunit --configuration phpunit.xml.dist
+

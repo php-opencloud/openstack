@@ -10,7 +10,7 @@ use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
 
 /**
- * @property \OpenStack\ObjectStore\v1\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {
@@ -27,6 +27,8 @@ class Service extends AbstractService
      *
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getAccount}
      * @param callable|null $mapFn   allows a function to be mapped over each element in the collection
+     *
+     * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\Container>
      */
     public function listContainers(array $options = [], callable $mapFn = null): \Generator
     {

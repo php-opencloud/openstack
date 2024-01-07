@@ -28,7 +28,9 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_retrieves_base_http_url()
     {
-        $returnedUri = \GuzzleHttp\Psr7\uri_for('http://foo.com');
+        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
+            ? \GuzzleHttp\Psr7\uri_for('http://foo.com')
+            : \GuzzleHttp\Psr7\Utils::uriFor('http://foo.com');
         $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn($returnedUri);
 
         $uri = $this->resource->testBaseUri();

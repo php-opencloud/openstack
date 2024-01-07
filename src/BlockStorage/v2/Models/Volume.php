@@ -85,9 +85,6 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         'volume_image_metadata'        => 'volumeImageMetadata',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -176,12 +173,6 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
 
     /**
      * Administrator only. Resets the status, attach status, and migration status for a volume. Specify the os-reset_status action in the request body.
-     *
-     * @param array $options
-     *
-     * $options['status']          = (string) The volume status.
-     * $options['migrationStatus'] = (string) The volume migration status.
-     * $options['attachStatus']    = (string) The volume attach status.    [OPTIONAL]
      *
      * @see https://developer.openstack.org/api-ref/block-storage/v2/index.html#volume-actions-volumes-action
      */

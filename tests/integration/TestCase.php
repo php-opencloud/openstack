@@ -10,7 +10,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase implements TestInter
     protected $logger;
     private $startPoint;
     private $lastPoint;
-    private $sampleManager;
+    protected $sampleManager;
     private $namePrefix = 'phptest_';
 
     public function __construct(LoggerInterface $logger, SampleManagerInterface $sampleManager)
@@ -19,7 +19,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase implements TestInter
         $this->sampleManager = $sampleManager;
     }
 
-    public function teardown()
+    public function teardown(): void
     {
         $this->sampleManager->deletePaths();
     }

@@ -65,8 +65,6 @@ class Operation
     }
 
     /**
-     * @param $name
-     *
      * @return Parameter
      */
     public function getParam(string $name)

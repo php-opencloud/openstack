@@ -20,16 +20,18 @@ interface ResourceInterface
     public function populateFromResponse(ResponseInterface $response);
 
     /**
-     * @return mixed
+     * @return self
      */
     public function populateFromArray(array $data);
 
     /**
-     * @param string $name the name of the model class
-     * @param mixed  $data either a {@see ResponseInterface} or data array that will populate the newly
-     *                     created model class
+     * @template T of \OpenStack\Common\Resource\ResourceInterface
      *
-     * @return \OpenStack\Common\Resource\ResourceInterface
+     * @param class-string<T> $class the name of the model class
+     * @param mixed           $data  either a {@see ResponseInterface} or data array that will populate the newly
+     *                               created model class
+     *
+     * @return T
      */
     public function model(string $class, $data = null): ResourceInterface;
 }

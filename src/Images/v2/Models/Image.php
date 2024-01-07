@@ -85,9 +85,6 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         'virtual_size'     => 'virtualSize',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -213,6 +210,9 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         return $this->model(Member::class, ['imageId' => $this->id, 'id' => $memberId])->create([]);
     }
 
+    /**
+     * @return \Generator<mixed, \OpenStack\Images\v2\Models\Member>
+     */
     public function listMembers(): \Generator
     {
         return $this->model(Member::class)->enumerate($this->api->getImageMembers(), ['imageId' => $this->id]);

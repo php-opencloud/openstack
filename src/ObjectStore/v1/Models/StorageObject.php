@@ -21,7 +21,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
 {
     use MetadataTrait;
 
-    const METADATA_PREFIX = 'X-Object-Meta-';
+    public const METADATA_PREFIX = 'X-Object-Meta-';
 
     /** @var string */
     public $containerName;
@@ -52,9 +52,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
         'subdir'       => 'name',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -62,9 +59,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
             ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response): self
     {
         parent::populateFromResponse($response);
@@ -98,8 +92,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
 
     /**
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putObject}
-     *
-     * @return $this
      */
     public function create(array $data): Creatable
     {
@@ -121,9 +113,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
         return $storageObject;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->headObject());
@@ -150,9 +139,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
         return $response->getBody();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteObject());
@@ -167,9 +153,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
         $this->execute($this->api->copyObject(), $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function mergeMetadata(array $metadata)
     {
         $options = [
@@ -182,9 +165,6 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
         $this->metadata = $this->parseMetadata($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resetMetadata(array $metadata)
     {
         $options = [
@@ -197,12 +177,10 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
         $this->metadata = $this->parseMetadata($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMetadata(): array
     {
         $response = $this->executeWithState($this->api->headObject());
+        $this->populateFromResponse($response);
 
         return $this->parseMetadata($response);
     }

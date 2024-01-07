@@ -7,7 +7,7 @@ namespace OpenStack;
 use GuzzleHttp\Client;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Service\Builder;
-use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\HandlerStackFactory;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\Identity\v3\Service;
 
@@ -33,7 +33,6 @@ class OpenStack
      *         ['messageFormatter'] = (MessageFormatter)  Must set if debugLog is true   [OPTIONAL]
      *         ['requestOptions']   = (array)             Guzzle Http request options    [OPTIONAL]
      *         ['cachedToken']      = (array)             Cached token credential        [OPTIONAL]
-     * @param Builder $builder
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
@@ -50,7 +49,7 @@ class OpenStack
             throw new \InvalidArgumentException("'authUrl' is a required option");
         }
 
-        $stack = HandlerStack::create();
+        $stack = HandlerStackFactory::create();
 
         if (!empty($options['debugLog'])
             && !empty($options['logger'])
@@ -160,12 +159,26 @@ class OpenStack
      * Creates a new Block Storage v2 service.
      *
      * @param array $options options that will be used in configuring the service
+     *
+     * @deprecated Use blockStorageV3 instead
      */
     public function blockStorageV2(array $options = []): BlockStorage\v2\Service
     {
         $defaults = ['catalogName' => 'cinderv2', 'catalogType' => 'volumev2'];
 
         return $this->builder->createService('BlockStorage\\v2', array_merge($defaults, $options));
+    }
+
+    /**
+     * Creates a new Block Storage v3 service.
+     *
+     * @param array $options options that will be used in configuring the service
+     */
+    public function blockStorageV3(array $options = []): BlockStorage\v3\Service
+    {
+        $defaults = ['catalogName' => 'cinderv3', 'catalogType' => 'volumev3'];
+
+        return $this->builder->createService('BlockStorage\\v3', array_merge($defaults, $options));
     }
 
     /**

@@ -33,11 +33,6 @@ class Alias
         $this->className    = $className && class_exists($className) ? $className : null;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return mixed
-     */
     public function getValue(ResourceInterface $resource, $value)
     {
         if (null === $value || !$this->className) {

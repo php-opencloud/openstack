@@ -21,6 +21,9 @@ class Service extends AbstractService
         return $this->model(SecurityGroupRule::class, $info);
     }
 
+    /**
+     * @return \Generator<mixed, SecurityGroup>
+     */
     public function listSecurityGroups(array $options = []): \Generator
     {
         return $this->securityGroup()->enumerate($this->api->getSecurityGroups(), $options);
@@ -36,6 +39,9 @@ class Service extends AbstractService
         return $this->securityGroup(['id' => $id]);
     }
 
+    /**
+     * @return \Generator<mixed, SecurityGroupRule>
+     */
     public function listSecurityGroupRules(): \Generator
     {
         return $this->securityGroupRule()->enumerate($this->api->getSecurityRules());

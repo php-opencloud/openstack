@@ -51,9 +51,6 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
     protected $resourceKey  = 'security_group';
     protected $resourcesKey = 'security_groups';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -62,9 +59,6 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSecurityGroups(), $userOptions);
@@ -72,17 +66,11 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteSecurityGroup());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getSecurityGroup());

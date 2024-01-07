@@ -94,9 +94,6 @@ class Hypervisor extends OperatorResource implements Retrievable, Listable
       'disk_available_least' => 'diskAvailableLeast',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getHypervisor(), ['id' => (string) $this->id]);

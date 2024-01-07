@@ -25,9 +25,6 @@ class Assignment extends OperatorResource implements Listable
     protected $resourcesKey = 'role_assignments';
     protected $resourceKey  = 'role_assignment';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [

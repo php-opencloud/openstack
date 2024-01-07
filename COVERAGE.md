@@ -1,22 +1,24 @@
+# OpenStack versions coverage
+
+While we strive to support all versions of OpenStack, we can only test limited number of versions. The current set:
+* 2023.2 Bobcat
+* 2023.1 Antelope
+* Zed
+* Yoga
+* Wallaby - as the latest version which had BlockStorage v2 API
+
 # OpenStack services coverage
 
-|Name|PHP classes|API definition|Unit tests|Sample files|Integration tests|Documentation|
-|---|:--:|:--:|:--:|:--:|:--:|:--:|
-|Block Storage v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Compute v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Compute v2 exts|||||||
-|Data Processing v1|||||||
-|Database v1|||||||
-|Identity v2|&#10003;|&#10003;|&#10003;||||
-|Identity v2 exts|||||||
-|Identity v3|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Identity v3 exts|||||||
-|Images v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Networking v2|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Networking v2 exts|||||||
-|Object Storage v1|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
-|Orchestration v1|||||||
-|Telemetry v2|||||||
+| Name               |PHP classes|API definition|Unit tests|Sample files|Integration tests|Documentation|
+|--------------------|:--:|:--:|:--:|:--:|:--:|:--:|
+| Block Storage v2   |&#10003;|&#10003;|&#10003;||&#10003;||
+| Block Storage v3   |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Compute v2         |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Identity v2        |&#10003;|&#10003;|&#10003;||||
+| Identity v3        |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Images v2          |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Networking v2      |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
+| Object Storage v1  |&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|&#10003;|
 
 ## Key
 
@@ -54,3 +56,4 @@ In order for this to be marked complete, every public operation needs to be docu
   have all their keys defined. All types must be defined. Any required options must be marked.
 * a human-readable description
 * a code sample
+

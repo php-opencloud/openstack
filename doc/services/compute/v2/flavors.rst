@@ -4,7 +4,7 @@ Flavors
 List flavors
 ------------
 
-.. sample:: compute/v2/flavors/list_flavors.php
+.. sample:: Compute/v2/flavors/list_flavors.php
 .. refdoc:: OpenStack/Compute/v2/Service.html#method_listFlavors
 
 Each iteration will return a :php:class:`Flavor` instance <OpenStack/Compute/v2/Models/Flavor.html>.
@@ -26,7 +26,7 @@ for a flavor, you must pass ``true`` as the last parameter, like so:
 Retrieve a flavor
 -----------------
 
-.. sample:: compute/v2/flavors/get_flavor.php
+.. sample:: Compute/v2/flavors/get_flavor.php
 .. refdoc:: OpenStack/Compute/v2/Service.html#method_getFlavor
 
 When retrieving a flavor, sometimes you only want to operate on it. If this is the case,

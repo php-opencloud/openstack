@@ -6,10 +6,11 @@ namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Auth\IdentityService;
 use OpenStack\Common\Auth\Token;
-use OpenStack\Common\Transport\HandlerStack;
+use OpenStack\Common\Transport\HandlerStackFactory;
 use OpenStack\Common\Transport\Middleware;
 use OpenStack\Common\Transport\Utils;
 
@@ -70,8 +71,6 @@ class Builder
      * @param string $namespace      The namespace of the service
      * @param array  $serviceOptions The service-specific options to use
      *
-     * @return \OpenStack\Common\Service\ServiceInterface
-     *
      * @throws \Exception
      */
     public function createService(string $namespace, array $serviceOptions = []): ServiceInterface
@@ -81,7 +80,7 @@ class Builder
         $this->stockAuthHandler($options);
         $this->stockHttpClient($options, $namespace);
 
-        list($apiClass, $serviceClass) = $this->getClasses($namespace);
+        [$apiClass, $serviceClass] = $this->getClasses($namespace);
 
         return new $serviceClass($options['httpClient'], new $apiClass());
     }
@@ -93,7 +92,7 @@ class Builder
                 $baseUrl = $options['authUrl'];
                 $stack   = $this->getStack($options['authHandler']);
             } else {
-                list($token, $baseUrl) = $options['identityService']->authenticate($options);
+                [$token, $baseUrl]     = $options['identityService']->authenticate($options);
                 $stack                 = $this->getStack($options['authHandler'], $token);
             }
 
@@ -132,7 +131,7 @@ class Builder
 
     private function getStack(callable $authHandler, Token $token = null): HandlerStack
     {
-        $stack = HandlerStack::create();
+        $stack = HandlerStackFactory::create();
         $stack->push(Middleware::authHandler($authHandler, $token));
 
         return $stack;

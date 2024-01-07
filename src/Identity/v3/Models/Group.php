@@ -38,8 +38,6 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
     protected $resourcesKey = 'groups';
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postGroups}
      */
     public function create(array $data): Creatable
@@ -49,27 +47,18 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getGroup(), ['id' => $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchGroup());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteGroup(), ['id' => $this->id]);
@@ -77,6 +66,8 @@ class Group extends OperatorResource implements Creatable, Listable, Retrievable
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getGroupUsers}
+     *
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\User>
      */
     public function listUsers(array $options = []): \Generator
     {

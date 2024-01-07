@@ -27,14 +27,14 @@ extensions = ['samples', 'refdoc', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary
 source_suffix = '.rst'
 master_doc = 'index'
 project = u'php-opencloud'
-copyright = u'2015, Jamie Hannaford'
+copyright = u'2015-2023, PHP OpenCloud & contributors'
 version = '1.12'
 release = '1.12.1'
 exclude_patterns = ['_build']
 pygments_style = 'sphinx'
 
 html_theme = 'sphinx_rtd_theme'
-html_theme_path = ["_templates", ]
+# html_theme_path = ["_templates", ]
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'php-openclouddoc'

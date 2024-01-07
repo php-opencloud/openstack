@@ -35,7 +35,7 @@ class Parameter
 {
     use HydratorStrategyTrait;
 
-    const DEFAULT_LOCATION = 'json';
+    public const DEFAULT_LOCATION = 'json';
 
     /**
      * The human-friendly name of the parameter. This is what the user will input.
@@ -304,8 +304,6 @@ class Parameter
 
     /**
      * Verifies whether the given location matches the parameter's location.
-     *
-     * @param $value
      */
     public function hasLocation($value): bool
     {

@@ -47,9 +47,6 @@ class Router extends OperatorResource implements Listable, Creatable, Retrievabl
         'tenant_id'      => 'tenantId',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [

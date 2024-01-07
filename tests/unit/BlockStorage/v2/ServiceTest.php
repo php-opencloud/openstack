@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\BlockStorage\v2;
+namespace OpenStack\Test\BlockStorage\v2;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\BlockStorage\v2\Api;
@@ -14,14 +14,13 @@ use OpenStack\Test\TestCase;
 class ServiceTest extends TestCase
 {
     /** @var Service */
-    private $service;
+    protected $service;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->rootFixturesDir = __DIR__;
-
         $this->service = new Service($this->client->reveal(), new Api());
     }
 

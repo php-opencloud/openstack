@@ -16,9 +16,9 @@ use OpenStack\Common\Resource\Retrievable;
  */
 class Member extends OperatorResource implements Creatable, Listable, Retrievable, Deletable
 {
-    const STATUS_ACCEPTED = 'accepted';
-    const STATUS_PENDING  = 'pending';
-    const STATUS_REJECTED = 'rejected';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_PENDING  = 'pending';
+    public const STATUS_REJECTED = 'rejected';
 
     /** @var string */
     public $imageId;
@@ -43,9 +43,6 @@ class Member extends OperatorResource implements Creatable, Listable, Retrievabl
         'image_id'  => 'imageId',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [

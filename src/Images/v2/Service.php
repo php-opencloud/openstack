@@ -17,6 +17,9 @@ class Service extends AbstractService
         return $this->model(Image::class)->create($data);
     }
 
+    /**
+     * @return \Generator<mixed, \OpenStack\Images\v2\Models\Image>
+     */
     public function listImages(array $data = []): \Generator
     {
         return $this->model(Image::class)->enumerate($this->api->getImages(), $data);

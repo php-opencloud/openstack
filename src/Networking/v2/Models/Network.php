@@ -53,9 +53,6 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
     protected $resourceKey  = 'network';
     protected $resourcesKey = 'networks';
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getNetwork(), ['id' => (string) $this->id]);
@@ -77,8 +74,6 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Networking\v2\Api::postNetwork}
      */
     public function create(array $data): Creatable
@@ -88,18 +83,12 @@ class Network extends OperatorResource implements Listable, Retrievable, Creatab
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->putNetwork());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteNetwork());

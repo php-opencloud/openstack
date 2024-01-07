@@ -87,7 +87,7 @@ class CoreTest extends TestCase
     private function getBlockStorageService()
     {
         if (!$this->blockStorageService) {
-            $this->blockStorageService = Utils::getOpenStack()->blockStorageV2();
+            $this->blockStorageService = Utils::getOpenStack()->blockStorageV3();
         }
 
         return $this->blockStorageService;
@@ -107,7 +107,7 @@ class CoreTest extends TestCase
         }
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->network = $this->getNetworkService()->createNetwork(
             [
@@ -139,7 +139,7 @@ class CoreTest extends TestCase
 
         $this->logStep('Created volume {name} with {id}', ['name' => $this->volume->name, 'id' => $this->volume->id]);
 
-        $this->getSecurityGroupService()->createSecurityGroup(['name' => self::SECGROUP]);
+        $this->secgroup = $this->getSecurityGroupService()->createSecurityGroup(['name' => self::SECGROUP]);
 
         $this->logStep('Created security group {secgroup}', ['secgroup' => self::SECGROUP]);
     }
@@ -716,7 +716,7 @@ class CoreTest extends TestCase
         ];
 
         require_once $this->sampleFile($replacements, 'servers/attach_volume_attachment.php');
-        /**@var VolumeAttachment $volumeAttachment */
+        /** @var \OpenStack\BlockStorage\v2\Models\VolumeAttachment $volumeAttachment */
         $this->volumeAttachmentId = $volumeAttachment->id;
 
         $this->volume->waitUntil('in-use');
