@@ -96,7 +96,17 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
             if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
                 throw new \InvalidArgumentException('When authenticating with a username, you must also provide either the domain name or domain ID to which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to provide domain information.');
             }
-        } elseif (isset($data['tokenId'])) {
+        }
+        elseif (isset($data['application_credential'])) {
+            $data['methods'] = ['application_credential'];
+            if (!isset($data['application_credential']['id']) || !isset($data['application_credential']['secret'])) {
+                throw new \InvalidArgumentException(
+                    'When authenticating with a application_credential, you must provide application credential ID '
+                    .' and application credential secret.'
+                );
+            }
+        }
+        elseif (isset($data['tokenId'])) {
             $data['methods'] = ['token'];
         } else {
             throw new \InvalidArgumentException('Either a user or token must be provided.');
