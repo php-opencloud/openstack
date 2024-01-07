@@ -92,7 +92,7 @@ class Builder
                 $baseUrl = $options['authUrl'];
                 $stack   = $this->getStack($options['authHandler']);
             } else {
-                [$token, $baseUrl] = $options['identityService']->authenticate($options);
+                [$token, $baseUrl]     = $options['identityService']->authenticate($options);
                 $stack                 = $this->getStack($options['authHandler'], $token);
             }
 
