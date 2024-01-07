@@ -39,9 +39,9 @@ class Credential extends OperatorResource implements Creatable, Updateable, Retr
         'user_id'    => 'userId',
     ];
 
-    public function create(array $data): Creatable
+    public function create(array $userOptions): Creatable
     {
-        $response = $this->execute($this->api->postCredentials(), $data);
+        $response = $this->execute($this->api->postCredentials(), $userOptions);
 
         return $this->populateFromResponse($response);
     }

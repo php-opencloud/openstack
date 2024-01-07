@@ -65,4 +65,24 @@ class UserTest extends TestCase
         $fn = $this->createFn($this->user, 'listProjects', []);
         $this->listTest($fn, 'users/USER_ID/projects', 'Project', 'projects');
     }
+
+    public function test_it_creates_application_credential()
+    {
+        $userOptions = [
+            'name'        => 'monitoring',
+            'description' => 'Application credential for monitoring.',
+        ];
+
+        $this->setupMock('POST', 'users/USER_ID/application_credentials', ['application_credential' => $userOptions], [], 'application_credential');
+
+        $applicationCredential = $this->user->createApplicationCredential($userOptions);
+
+        self::assertEquals('monitoring', $applicationCredential->name);
+        self::assertEquals('Application credential for monitoring.', $applicationCredential->description);
+    }
+
+    public function test_it_gets_application_credential()
+    {
+        $this->getTest($this->createFn($this->user, 'getApplicationCredential', 'id'), 'ApplicationCredential');
+    }
 }

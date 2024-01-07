@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
+use InvalidArgumentException;
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\OperatorResource;
@@ -94,12 +95,17 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         if (isset($data['user'])) {
             $data['methods'] = ['password'];
             if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
-                throw new \InvalidArgumentException('When authenticating with a username, you must also provide either the domain name or domain ID to which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to provide domain information.');
+                throw new InvalidArgumentException('When authenticating with a username, you must also provide either the domain name '.'or domain ID to which the user belongs to. Alternatively, if you provide a user ID instead, '.'you do not need to provide domain information.');
+            }
+        } elseif (isset($data['application_credential'])) {
+            $data['methods'] = ['application_credential'];
+            if (!isset($data['application_credential']['id']) || !isset($data['application_credential']['secret'])) {
+                throw new InvalidArgumentException('When authenticating with a application_credential, you must provide application credential ID '.' and application credential secret.');
             }
         } elseif (isset($data['tokenId'])) {
             $data['methods'] = ['token'];
         } else {
-            throw new \InvalidArgumentException('Either a user or token must be provided.');
+            throw new InvalidArgumentException('Either a user, tokenId or application_credential must be provided.');
         }
 
         $response = $this->execute($this->api->postTokens(), $data);

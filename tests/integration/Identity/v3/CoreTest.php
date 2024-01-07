@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\integration\Identity\v3;
+namespace OpenStack\Integration\Identity\v3;
 
 use OpenStack\Identity\v3\Models;
 use OpenStack\Integration\TestCase;
@@ -24,60 +24,115 @@ class CoreTest extends TestCase
 
     public function runTests()
     {
-        $this->defaultLogging = true;
         $this->startTimer();
 
+        $this->logger->info('-> Tokens');
         $this->tokens();
+
+        $this->logger->info('-> Domains');
         $this->domains();
+
+        $this->logger->info('-> Endpoints');
+        $this->endpoints();
+
+        $this->logger->info('-> Services');
+        $this->services();
+
+        $this->logger->info('-> Groups');
+        $this->groups();
+
+        $this->logger->info('-> Projects');
+        $this->projects();
+
+        $this->logger->info('-> Roles');
+        $this->roles();
+
+        $this->logger->info('-> Users');
+        $this->users();
 
         $this->outputTimeTaken();
     }
 
     public function tokens()
     {
+        $this->logStep('Generate token with user name');
+
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile([], 'tokens/generate_token_with_username.php');
         require_once $path;
         self::assertInstanceOf(Models\Token::class, $token);
+
+        /** @var $result bool */
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
+        require_once $path;
+        self::assertTrue($result);
+
+
+        $this->logStep('Generate token with user id');
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         $path = $this->sampleFile([], 'tokens/generate_token_with_user_id.php');
         require_once $path;
         self::assertInstanceOf(Models\Token::class, $token);
 
-        $replacements = ['{tokenId}' => $token->id];
-
-        /** @var $token \OpenStack\Identity\v3\Models\Token */
-        $path = $this->sampleFile($replacements, 'tokens/generate_token_scoped_to_project_id.php');
-        require_once $path;
-        self::assertInstanceOf(Models\Token::class, $token);
-
-        /** @var $token \OpenStack\Identity\v3\Models\Token */
-        $path = $this->sampleFile($replacements, 'tokens/generate_token_scoped_to_project_name.php');
-        require_once $path;
-        self::assertInstanceOf(Models\Token::class, $token);
-
-        /** @var $token \OpenStack\Identity\v3\Models\Token */
-        $path = $this->sampleFile($replacements, 'tokens/generate_token_from_id.php');
-        require_once $path;
-        self::assertInstanceOf(Models\Token::class, $token);
-
         /** @var $result bool */
-        $path = $this->sampleFile($replacements, 'tokens/validate_token.php');
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
         require_once $path;
         self::assertTrue($result);
 
-        $path = $this->sampleFile($replacements, 'tokens/revoke_token.php');
+
+        $this->logStep('Generate token scoped to project id');
+        /** @var $token \OpenStack\Identity\v3\Models\Token */
+        $path = $this->sampleFile([], 'tokens/generate_token_scoped_to_project_id.php');
+        require_once $path;
+        self::assertInstanceOf(Models\Token::class, $token);
+
+        /** @var $result bool */
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
+        require_once $path;
+        self::assertTrue($result);
+
+
+        $this->logStep('Generate token scoped to project name');
+
+        /** @var $token \OpenStack\Identity\v3\Models\Token */
+        $path = $this->sampleFile([], 'tokens/generate_token_scoped_to_project_name.php');
+        require_once $path;
+        self::assertInstanceOf(Models\Token::class, $token);
+
+        /** @var $result bool */
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
+        require_once $path;
+        self::assertTrue($result);
+
+
+        $this->logStep('Generate token from id');
+        /** @var $token \OpenStack\Identity\v3\Models\Token */
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/generate_token_from_id.php');
+        require_once $path;
+        self::assertInstanceOf(Models\Token::class, $token);
+
+        /** @var $result bool */
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
+        require_once $path;
+        self::assertTrue($result);
+
+
+        $this->logStep('Revoke token');
+
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/revoke_token.php');
         require_once $path;
 
         /** @var $result bool */
-        $path = $this->sampleFile($replacements, 'tokens/validate_token.php');
+        $path = $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
         require_once $path;
         self::assertFalse($result);
     }
 
     public function domains()
     {
+        $this->logStep('Create domain');
+
         $replacements = [
             '{name}'        => $this->randomStr(),
             '{description}' => $this->randomStr(),
@@ -88,15 +143,24 @@ class CoreTest extends TestCase
         require_once $path;
         self::assertInstanceOf(Models\Domain::class, $domain);
 
+
+        $this->logStep('List domains');
+
         $replacements['{domainId}'] = $domain->id;
 
         $path = $this->sampleFile([], 'domains/list_domains.php');
         require_once $path;
 
+
+        $this->logStep('Show domain');
+
         /** @var $domain \OpenStack\Identity\v3\Models\Domain */
         $path = $this->sampleFile($replacements, 'domains/show_domain.php');
         require_once $path;
         self::assertInstanceOf(Models\Domain::class, $domain);
+
+
+        $this->logStep('Grant and revoke group role');
 
         $parentRole = $this->getService()->createRole(['name' => $this->randomStr()]);
         $group = $this->getService()->createGroup(['name' => $this->randomStr(), 'domainId' => $domain->id]);
@@ -117,6 +181,9 @@ class CoreTest extends TestCase
 
         $group->delete();
 
+
+        $this->logStep('Grant and revoke user role');
+
         $user = $this->getService()->createUser(['name' => $this->randomStr(), 'domainId' => $domain->id]);
 
         $path = $this->sampleFile($replacements + ['{domainUserId}' => $user->id, '{roleId}' => $parentRole->id], 'domains/grant_user_role.php');
@@ -136,10 +203,16 @@ class CoreTest extends TestCase
         $user->delete();
         $parentRole->delete();
 
+
+        $this->logStep('Update domain');
+
         /** @var $domain \OpenStack\Identity\v3\Models\Domain */
         $path = $this->sampleFile($replacements, 'domains/update_domain.php');
         require_once $path;
         self::assertInstanceOf(Models\Domain::class, $domain);
+
+
+        $this->logStep('Delete domain');
 
         $path = $this->sampleFile($replacements, 'domains/delete_domain.php');
         require_once $path;
