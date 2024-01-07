@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Networking\v2\Extensions\Layer3\Models;
+namespace OpenStack\Test\Networking\v2\Extensions\Layer3\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Test\TestCase;

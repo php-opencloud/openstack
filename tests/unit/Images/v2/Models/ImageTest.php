@@ -1,6 +1,6 @@
 <?php
 
-namespace OpensTack\Test\Images\v2\Models;
+namespace OpenStack\Test\Images\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
