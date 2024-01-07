@@ -842,11 +842,11 @@ class Api extends AbstractApi
     public function getApplicationCredential(): array
     {
         return [
-            'method' => 'GET',
-            'path' => 'users/{userId}/application_credentials/{id}',
+            'method'  => 'GET',
+            'path'    => 'users/{userId}/application_credentials/{id}',
             'jsonKey' => 'application_credential',
-            'params' => [
-                'id' => $this->params->idUrl('application_credential'),
+            'params'  => [
+                'id'     => $this->params->idUrl('application_credential'),
                 'userId' => $this->params->idUrl('user'),
             ],
         ];
@@ -855,12 +855,12 @@ class Api extends AbstractApi
     public function postApplicationCredential(): array
     {
         return [
-            'method' => 'POST',
-            'path' => 'users/{userId}/application_credentials',
+            'method'  => 'POST',
+            'path'    => 'users/{userId}/application_credentials',
             'jsonKey' => 'application_credential',
-            'params' => [
-                'userId' => $this->params->idUrl('user'),
-                'name' => $this->params->name('application_credential'),
+            'params'  => [
+                'userId'      => $this->params->idUrl('user'),
+                'name'        => $this->params->name('application_credential'),
                 'description' => $this->params->desc('application_credential'),
             ],
         ];
@@ -870,9 +870,9 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'DELETE',
-            'path' => 'users/{userId}/application_credentials/{id}',
+            'path'   => 'users/{userId}/application_credentials/{id}',
             'params' => [
-                'id' => $this->params->idUrl('application_credential'),
+                'id'     => $this->params->idUrl('application_credential'),
                 'userId' => $this->params->idUrl('user'),
             ],
         ];

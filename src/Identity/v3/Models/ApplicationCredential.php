@@ -32,21 +32,23 @@ class ApplicationCredential extends OperatorResource implements Creatable, Lista
         'user_id' => 'userId',
     ];
 
-    protected $resourceKey = 'application_credential';
+    protected $resourceKey  = 'application_credential';
     protected $resourcesKey = 'application_credentials';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @param array $userOptions {@see \OpenStack\Identity\v3\Api::postApplicationCredential}
      */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postApplicationCredential(), $userOptions);
+
         return $this->populateFromResponse($response);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function retrieve()
     {
@@ -58,7 +60,7 @@ class ApplicationCredential extends OperatorResource implements Creatable, Lista
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete()
     {

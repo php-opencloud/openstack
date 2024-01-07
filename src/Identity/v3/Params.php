@@ -21,7 +21,8 @@ EOT
         ];
     }
 
-    public function applicationCredential(): array {
+    public function applicationCredential(): array
+    {
         return [
             'type'       => self::OBJECT_TYPE,
             'path'       => 'auth.identity',
