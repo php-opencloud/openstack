@@ -78,11 +78,11 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
     }
 
     /**
-     * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putContainer}
+     * @param array $userOptions {@see \OpenStack\ObjectStore\v1\Api::putContainer}
      */
-    public function create(array $data): Creatable
+    public function create(array $userOptions): Creatable
     {
-        $response = $this->execute($this->api->putContainer(), $data);
+        $response = $this->execute($this->api->putContainer(), $userOptions);
 
         $this->populateFromResponse($response);
         $this->name = $data['name'];

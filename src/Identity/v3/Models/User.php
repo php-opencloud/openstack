@@ -80,9 +80,7 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
      */
     public function listGroups(): \Generator
     {
-        $options['id'] = $this->id;
-
-        return $this->model(Group::class)->enumerate($this->api->getUserGroups(), $options);
+        return $this->model(Group::class)->enumerate($this->api->getUserGroups(), ['id' => $this->id]);
     }
 
     /**
@@ -91,5 +89,25 @@ class User extends OperatorResource implements Creatable, Listable, Retrievable,
     public function listProjects(): \Generator
     {
         return $this->model(Project::class)->enumerate($this->api->getUserProjects(), ['id' => $this->id]);
+    }
+
+    /**
+     * Creates a new application credential according to the provided options.
+     *
+     * @param array $options {@see \OpenStack\Identity\v3\Api::postApplicationCredential}
+     */
+    public function createApplicationCredential(array $options): ApplicationCredential
+    {
+        return $this->model(ApplicationCredential::class)->create(['userId' => $this->id] + $options);
+    }
+
+    /**
+     * Retrieves an application credential object and populates its unique identifier object. This operation will not
+     * perform a GET or HEAD request by default; you will need to call retrieve() if you want to pull in remote state
+     * from the API.
+     */
+    public function getApplicationCredential(string $id): ApplicationCredential
+    {
+        return $this->model(ApplicationCredential::class, ['id' => $id, 'userId' => $this->id]);
     }
 }

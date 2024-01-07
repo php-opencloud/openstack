@@ -838,4 +838,43 @@ class Api extends AbstractApi
             'params' => ['id' => $this->params->idUrl('policy')],
         ];
     }
+
+    public function getApplicationCredential(): array
+    {
+        return [
+            'method' => 'GET',
+            'path' => 'users/{userId}/application_credentials/{id}',
+            'jsonKey' => 'application_credential',
+            'params' => [
+                'id' => $this->params->idUrl('application_credential'),
+                'userId' => $this->params->idUrl('user'),
+            ],
+        ];
+    }
+
+    public function postApplicationCredential(): array
+    {
+        return [
+            'method' => 'POST',
+            'path' => 'users/{userId}/application_credentials',
+            'jsonKey' => 'application_credential',
+            'params' => [
+                'userId' => $this->params->idUrl('user'),
+                'name' => $this->params->name('application_credential'),
+                'description' => $this->params->desc('application_credential'),
+            ],
+        ];
+    }
+
+    public function deleteApplicationCredential(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path' => 'users/{userId}/application_credentials/{id}',
+            'params' => [
+                'id' => $this->params->idUrl('application_credential'),
+                'userId' => $this->params->idUrl('user'),
+            ],
+        ];
+    }
 }
