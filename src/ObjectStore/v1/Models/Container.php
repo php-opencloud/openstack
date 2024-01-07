@@ -85,7 +85,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
         $response = $this->execute($this->api->putContainer(), $userOptions);
 
         $this->populateFromResponse($response);
-        $this->name = $data['name'];
+        $this->name = $userOptions['name'];
 
         return $this;
     }
