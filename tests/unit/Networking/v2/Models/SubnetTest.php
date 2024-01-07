@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Test\Subneting\v2\Models;
+namespace OpenStack\Test\Networking\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Networking\v2\Api;

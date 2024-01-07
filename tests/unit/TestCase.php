@@ -6,7 +6,6 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
-use Prophecy\Argument;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
