@@ -17,6 +17,12 @@ Generate token with username
 
 .. sample:: Identity/v3/tokens/generate_token_with_username.php
 
+Generate token with application credential ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sample:: Identity/v3/tokens/generate_token_with_application_credential_id.php
+
+
 Generate token from ID
 ~~~~~~~~~~~~~~~~~~~~~~
 
