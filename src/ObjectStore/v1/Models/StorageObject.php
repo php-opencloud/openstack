@@ -181,6 +181,7 @@ class StorageObject extends OperatorResource implements Creatable, Deletable, Ha
     {
         $response = $this->executeWithState($this->api->headObject());
         $this->populateFromResponse($response);
+
         return $this->parseMetadata($response);
     }
 }
