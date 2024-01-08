@@ -19,10 +19,10 @@ trait HasWaiterTrait
      * will enter a loop, requesting feedback from the remote API until it sends back an appropriate
      * status.
      *
-     * @param string $status      The state to be reached
-     * @param int    $timeout     The maximum timeout. If the total time taken by the waiter has reached
+     * @param string $status The state to be reached
+     * @param bool|int $timeout The maximum timeout. If the total time taken by the waiter has reached
      *                            or exceed this timeout, the blocking operation will immediately cease.
-     * @param int    $sleepPeriod the amount of time to pause between each HTTP request
+     * @param int $sleepPeriod the amount of time to pause between each HTTP request
      */
     public function waitUntil(string $status, $timeout = 60, int $sleepPeriod = 1)
     {
@@ -44,14 +44,14 @@ trait HasWaiterTrait
      * will enter a loop, executing the callback until TRUE is returned. This provides great
      * flexibility.
      *
-     * @param callable $fn          An anonymous function that will be executed on every iteration. You can
+     * @param callable $fn An anonymous function that will be executed on every iteration. You can
      *                              encapsulate your own logic to determine whether the resource has
      *                              successfully transitioned. When TRUE is returned by the callback,
      *                              the loop will end.
-     * @param int|bool $timeout     The maximum timeout in seconds. If the total time taken by the waiter has reached
+     * @param int|bool $timeout The maximum timeout in seconds. If the total time taken by the waiter has reached
      *                              or exceed this timeout, the blocking operation will immediately cease. If FALSE
      *                              is provided, the timeout will never be considered.
-     * @param int      $sleepPeriod the amount of time to pause between each HTTP request
+     * @param int $sleepPeriod the amount of time to pause between each HTTP request
      */
     public function waitWithCallback(callable $fn, $timeout = 60, int $sleepPeriod = 1)
     {

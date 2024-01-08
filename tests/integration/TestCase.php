@@ -15,6 +15,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase implements TestInter
 
     public function __construct(LoggerInterface $logger, SampleManagerInterface $sampleManager)
     {
+        parent::__construct();
+
         $this->logger = $logger;
         $this->sampleManager = $sampleManager;
     }

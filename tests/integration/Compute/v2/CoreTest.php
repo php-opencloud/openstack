@@ -18,6 +18,7 @@ use OpenStack\Networking\v2\Models\Subnet;
 use OpenStack\Networking\v2\Service as NetworkService;
 use OpenStack\BlockStorage\v2\Service as BlockStorageService;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Service as SecurityGroupService;
+use RuntimeException;
 
 class CoreTest extends TestCase
 {
@@ -60,7 +61,7 @@ class CoreTest extends TestCase
     private $keypairName;
     private $volumeAttachmentId;
 
-    private function getService()
+    private function getService() : \OpenStack\Compute\v2\Service
     {
         if (null === $this->service) {
             $this->service = Utils::getOpenStack()->computeV2();
@@ -69,7 +70,7 @@ class CoreTest extends TestCase
         return $this->service;
     }
 
-    private function getNetworkService()
+    private function getNetworkService() : \OpenStack\Networking\v2\Service
     {
         if (!$this->networkService) {
             $this->networkService = Utils::getOpenStack()->networkingV2();
@@ -103,7 +104,7 @@ class CoreTest extends TestCase
         }
 
         if (!$this->imageId) {
-            throw new \RuntimeException(sprintf('Unable to find image "%s". Make sure this image is available for integration test.', $name));
+            throw new RuntimeException(sprintf('Unable to find image "%s". Make sure this image is available for integration test.', $name));
         }
     }
 
@@ -231,7 +232,7 @@ class CoreTest extends TestCase
         $flavorId = getenv('OS_FLAVOR');
 
         if (!$flavorId) {
-            throw new \RuntimeException('OS_FLAVOR env var must be set');
+            throw new RuntimeException('OS_FLAVOR env var must be set');
         }
 
         $replacements = [
@@ -244,7 +245,7 @@ class CoreTest extends TestCase
         /** @var $server \OpenStack\Compute\v2\Models\Server */
         require_once $this->sampleFile('servers/create_server.php', $replacements);
 
-        $server->waitUntilActive(false);
+        $server->waitUntilActive();
 
         self::assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
         self::assertNotEmpty($server->id);
@@ -341,7 +342,7 @@ class CoreTest extends TestCase
     {
         $resizeFlavorId = getenv('OS_RESIZE_FLAVOR');
         if (!$resizeFlavorId) {
-            throw new \RuntimeException('OS_RESIZE_FLAVOR env var must be set');
+            throw new RuntimeException('OS_RESIZE_FLAVOR env var must be set');
         }
 
         $replacements = [
@@ -413,7 +414,7 @@ class CoreTest extends TestCase
         /** @var $server \OpenStack\Compute\v2\Models\Server */
         require_once $this->sampleFile('servers/reboot_server.php', $replacements);
 
-        $server->waitUntilActive(false);
+        $server->waitUntilActive();
 
         $this->logStep('Rebooted server {serverId}', $replacements);
     }
@@ -437,7 +438,7 @@ class CoreTest extends TestCase
         /** @var $server \OpenStack\Compute\v2\Models\Server */
         require_once $this->sampleFile('servers/start_server.php', $replacements);
 
-        $server->waitUntilActive(false);
+        $server->waitUntilActive();
 
         $this->logStep('Started server {serverId}', $replacements);
     }
@@ -673,7 +674,7 @@ class CoreTest extends TestCase
 
         require_once $this->sampleFile('servers/remove_security_group.php', $replacements);
 
-        $this->logStep('Delete security group {secGroupName} from server {serverId}', $replacements);
+        $this->logStep(/** @lang text */ 'Delete security group {secGroupName} from server {serverId}', $replacements);
     }
 
     private function attachVolumeToServer()
