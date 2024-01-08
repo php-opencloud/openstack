@@ -17,13 +17,13 @@ class CoreTest extends CoreV2Test
         return $this->service;
     }
 
-    protected function sampleFile(array $replacements, $path)
+    protected function sampleFile($path, array $replacements = [])
     {
         return parent::sampleFile(
+            '../v3/' . $path,
             array_merge(
                 $replacements,
                 ['$openstack->blockStorageV3()' => '$openstack->blockStorageV2()']
-            ),
-            '../v3/' . $path);
+            ));
     }
 }

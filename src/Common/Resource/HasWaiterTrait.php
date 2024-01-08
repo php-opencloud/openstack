@@ -19,10 +19,10 @@ trait HasWaiterTrait
      * will enter a loop, requesting feedback from the remote API until it sends back an appropriate
      * status.
      *
-     * @param string $status      The state to be reached
-     * @param int    $timeout     The maximum timeout. If the total time taken by the waiter has reached
-     *                            or exceed this timeout, the blocking operation will immediately cease.
-     * @param int    $sleepPeriod the amount of time to pause between each HTTP request
+     * @param string   $status      The state to be reached
+     * @param bool|int $timeout     The maximum timeout. If the total time taken by the waiter has reached
+     *                              or exceed this timeout, the blocking operation will immediately cease.
+     * @param int      $sleepPeriod the amount of time to pause between each HTTP request
      */
     public function waitUntil(string $status, $timeout = 60, int $sleepPeriod = 1)
     {
