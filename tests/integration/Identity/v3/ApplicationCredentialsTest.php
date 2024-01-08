@@ -41,11 +41,11 @@ class ApplicationCredentialsTest extends TestCase
 
         /** @var $applicationCredential \OpenStack\Identity\v3\Models\ApplicationCredential */
         require_once $this->sampleFile(
+            'application_credentials/add_application_credential.php',
             [
-                '{name}' => $name,
+                '{name}'        => $name,
                 '{description}' => $description,
-            ],
-            'application_credentials/add_application_credential.php'
+            ]
         );
         self::assertInstanceOf(Models\ApplicationCredential::class, $applicationCredential);
         self::assertEquals($name, $applicationCredential->name);
@@ -55,16 +55,16 @@ class ApplicationCredentialsTest extends TestCase
 
         /** @var $token \OpenStack\Identity\v3\Models\Token */
         require_once $this->sampleFile(
+            'tokens/generate_token_with_application_credential_id.php',
             [
                 '{applicationCredentialId}' => $applicationCredential->id,
-                '{secret}' => $applicationCredential->secret
-            ],
-            'tokens/generate_token_with_application_credential_id.php'
+                '{secret}'                  => $applicationCredential->secret
+            ]
         );
         self::assertInstanceOf(Models\Token::class, $token);
 
         /** @var $result bool */
-        require_once $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
+        require_once $this->sampleFile('tokens/validate_token.php', ['{tokenId}' => $token->id]);
         self::assertTrue($result);
 
 
@@ -74,8 +74,8 @@ class ApplicationCredentialsTest extends TestCase
 
         /** @var $applicationCredential \OpenStack\Identity\v3\Models\ApplicationCredential */
         require_once $this->sampleFile(
-            ['{applicationCredentialId}' => $applicationCredentialId],
-            'application_credentials/show_application_credential.php'
+            'application_credentials/show_application_credential.php',
+            ['{applicationCredentialId}' => $applicationCredentialId]
         );
         self::assertInstanceOf(Models\ApplicationCredential::class, $applicationCredential);
         self::assertEquals($name, $applicationCredential->name);
@@ -84,14 +84,14 @@ class ApplicationCredentialsTest extends TestCase
 
         $this->logStep('Delete application credential');
         require_once $this->sampleFile(
+            'application_credentials/delete_application_credential.php',
             [
                 '{applicationCredentialId}' => $applicationCredential->id,
-            ],
-            'application_credentials/delete_application_credential.php'
+            ]
         );
 
         /** @var $result bool */
-        require_once $this->sampleFile(['{tokenId}' => $token->id], 'tokens/validate_token.php');
+        require_once $this->sampleFile('tokens/validate_token.php', ['{tokenId}' => $token->id]);
         self::assertFalse($result);
     }
 }

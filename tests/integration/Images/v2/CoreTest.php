@@ -50,18 +50,18 @@ class CoreTest extends TestCase
 
         $this->logStep('Creating image');
         /** @var Image $image */
-        require_once $this->sampleFile($replacements, 'images/create.php');
+        require_once $this->sampleFile('images/create.php', $replacements);
         self::assertInstanceOf(Image::class, $image);
 
         $replacements = ['{imageId}' => $image->id];
 
         $this->logStep('Listing images');
         /** @var \Generator $images */
-        require_once $this->sampleFile($replacements, 'images/list.php');
+        require_once $this->sampleFile('images/list.php', $replacements);
 
         $this->logStep('Getting image');
         /** @var Image $image */
-        require_once $this->sampleFile($replacements, 'images/get.php');
+        require_once $this->sampleFile('images/get.php', $replacements);
         self::assertInstanceOf(Image::class, $image);
 
         $replacements += [
@@ -71,11 +71,11 @@ class CoreTest extends TestCase
 
         $this->logStep('Updating image');
         /** @var Image $image */
-        require_once $this->sampleFile($replacements, 'images/update.php');
+        require_once $this->sampleFile('images/update.php', $replacements);
 
         $this->logStep('Deleting image');
         /** @var Image $image */
-        require_once $this->sampleFile($replacements, 'images/delete.php');
+        require_once $this->sampleFile('images/delete.php', $replacements);
     }
 
     public function members()
@@ -92,29 +92,29 @@ class CoreTest extends TestCase
 
         $this->logStep('Creating image');
         /** @var Image $image */
-        require_once $this->sampleFile($replacements, 'images/create.php');
+        require_once $this->sampleFile('images/create.php', $replacements);
 
         $this->logStep(sprintf('Image created with id=%s', $image->id));
 
         $this->logStep('Adding member');
         $replacements += ['{imageId}' => $image->id];
         /** @var Member $member */
-        require_once $this->sampleFile(['{imageId}' => $image->id, ], 'members/add.php');
+        require_once $this->sampleFile('members/add.php', ['{imageId}' => $image->id,]);
         self::assertInstanceOf(Member::class, $member);
 
         $replacements += ['status' => Member::STATUS_REJECTED];
         $this->logStep('Updating member status');
         /** @var Member $member */
-        require_once $this->sampleFile($replacements, 'members/update_status.php');
+        require_once $this->sampleFile('members/update_status.php', $replacements);
         self::assertInstanceOf(Member::class, $member);
 
         $this->logStep('Deleting member');
         /** @var Member $member */
-        require_once $this->sampleFile($replacements, 'members/delete.php');
+        require_once $this->sampleFile('members/delete.php', $replacements);
 
         $this->logStep('Deleting image');
         /** @var Image $image */
-        require_once $this->sampleFile($replacements, 'images/delete.php');
+        require_once $this->sampleFile('images/delete.php', $replacements);
     }
 
     public function imageList()
@@ -143,7 +143,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var \OpenStack\Images\v2\Models\Image $image */
-        require_once $this->sampleFile($replacements, 'images/list_sorted.php');
+        require_once $this->sampleFile('images/list_sorted.php', $replacements);
         self::assertInstanceOf(Image::class, $image);
         self::assertEquals($names[2], $image->name);
 
@@ -152,7 +152,7 @@ class CoreTest extends TestCase
 
         $replacements['{sortDir}'] = 'desc';
         /** @var \OpenStack\Images\v2\Models\Image $image */
-        require_once $this->sampleFile($replacements, 'images/list_sorted.php');
+        require_once $this->sampleFile('images/list_sorted.php', $replacements);
         self::assertInstanceOf(Image::class, $image);
         self::assertEquals($names[1], $image->name);
 

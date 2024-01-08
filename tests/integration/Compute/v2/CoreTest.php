@@ -242,8 +242,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'servers/create_server.php');
-        require_once $path;
+        require_once $this->sampleFile('servers/create_server.php', $replacements);
 
         $server->waitUntilActive(false);
 
@@ -267,8 +266,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'servers/update_server.php');
-        require_once $path;
+        require_once $this->sampleFile('servers/update_server.php', $replacements);
 
         self::assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
         self::assertEquals($name, $server->name);
@@ -283,8 +281,7 @@ class CoreTest extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'servers/delete_server.php');
-        require_once $path;
+        require_once $this->sampleFile('servers/delete_server.php', $replacements);
 
         // Needed so that subnet and network can be removed
         $server->waitUntilDeleted();
@@ -296,8 +293,7 @@ class CoreTest extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        $path = $this->sampleFile($replacements, 'servers/get_server.php');
-        require_once $path;
+        require_once $this->sampleFile('servers/get_server.php', $replacements);
 
         self::assertInstanceOf('OpenStack\Compute\v2\Models\Server', $server);
         self::assertEquals($this->serverId, $server->id);
@@ -317,13 +313,13 @@ class CoreTest extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/reset_server_metadata.php');
+        require_once $this->sampleFile('servers/reset_server_metadata.php', $replacements);
         $this->logStep('Reset metadata of server {serverId}', $replacements);
 
-        require_once $this->sampleFile($replacements, 'servers/get_server_metadata.php');
+        require_once $this->sampleFile('servers/get_server_metadata.php', $replacements);
         $this->logStep('Retrieved metadata of server {serverId}', $replacements);
 
-        require_once $this->sampleFile($replacements, 'servers/delete_server_metadata_item.php');
+        require_once $this->sampleFile('servers/delete_server_metadata_item.php', $replacements);
         $this->logStep('Deleted metadata key of server {serverId}', $replacements);
     }
 
@@ -336,7 +332,7 @@ class CoreTest extends TestCase
             '{newPassword}' => $this->adminPass,
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/change_server_password.php');
+        require_once $this->sampleFile('servers/change_server_password.php', $replacements);
 
         $this->logStep('Changed root password of server {serverId} to {newPassword}', $replacements);
     }
@@ -354,7 +350,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/resize_server.php');
+        require_once $this->sampleFile('servers/resize_server.php', $replacements);
 
         $server->waitUntil('VERIFY_RESIZE');
 
@@ -367,7 +363,7 @@ class CoreTest extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/confirm_server_resize.php');
+        require_once $this->sampleFile('servers/confirm_server_resize.php', $replacements);
 
         $server->waitUntilActive();
 
@@ -383,7 +379,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/rebuild_server.php');
+        require_once $this->sampleFile('servers/rebuild_server.php', $replacements);
 
         $server->waitUntilActive();
 
@@ -399,11 +395,11 @@ class CoreTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/rescue_server.php');
+        require_once $this->sampleFile('servers/rescue_server.php', $replacements);
 
         $server->waitUntil('RESCUE');
 
-        require_once $this->sampleFile($replacements, 'servers/unrescue_server.php');
+        require_once $this->sampleFile('servers/unrescue_server.php', $replacements);
 
         $server->waitUntilActive();
 
@@ -415,7 +411,7 @@ class CoreTest extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/reboot_server.php');
+        require_once $this->sampleFile('servers/reboot_server.php', $replacements);
 
         $server->waitUntilActive(false);
 
@@ -427,7 +423,7 @@ class CoreTest extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/stop_server.php');
+        require_once $this->sampleFile('servers/stop_server.php', $replacements);
 
         $server->waitUntil('SHUTOFF', false);
 
@@ -439,7 +435,7 @@ class CoreTest extends TestCase
         $replacements = ['{serverId}' => $this->serverId];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'servers/start_server.php');
+        require_once $this->sampleFile('servers/start_server.php', $replacements);
 
         $server->waitUntilActive(false);
 
@@ -453,8 +449,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var $flavor \OpenStack\Compute\v2\Models\Flavor */
-        $path = $this->sampleFile($replacements, 'flavors/create_flavor.php');
-        require_once $path;
+        require_once $this->sampleFile('flavors/create_flavor.php', $replacements);
 
         self::assertInstanceOf('\OpenStack\Compute\v2\Models\Flavor', $flavor);
 
@@ -466,15 +461,14 @@ class CoreTest extends TestCase
     {
         $replacements = ['{flavorId}' => $this->flavorId];
 
-        $path = $this->sampleFile($replacements, 'flavors/delete_flavor.php');
-        require_once $path;
+        require_once $this->sampleFile('flavors/delete_flavor.php', $replacements);
 
         $this->logStep('Deleted flavor ID', ['ID' => $this->flavorId]);
     }
 
     private function listFlavors()
     {
-        require_once $this->sampleFile([], 'flavors/list_flavors.php');
+        require_once $this->sampleFile('flavors/list_flavors.php', []);
 
         $this->logStep('Listed all available flavors');
     }
@@ -483,7 +477,7 @@ class CoreTest extends TestCase
     {
         $replacements = ['{flavorId}' => 1];
 
-        require_once $this->sampleFile($replacements, 'flavors/get_flavor.php');
+        require_once $this->sampleFile('flavors/get_flavor.php', $replacements);
 
         $this->logStep('Retrieved details for flavor {flavorId}', $replacements);
     }
@@ -498,7 +492,7 @@ class CoreTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile($replacements, 'images/create_server_image.php');
+        require_once $this->sampleFile('images/create_server_image.php', $replacements);
 
         $server->waitWithCallback(function (Server $server) {
             return !$server->taskState;
@@ -511,7 +505,7 @@ class CoreTest extends TestCase
 
     private function listImages()
     {
-        require_once $this->sampleFile([], 'images/list_images.php');
+        require_once $this->sampleFile('images/list_images.php', []);
 
         $this->logStep('Listed all available images');
     }
@@ -520,7 +514,7 @@ class CoreTest extends TestCase
     {
         $replacements = ['{imageId}' => $this->imageId];
 
-        require_once $this->sampleFile($replacements, 'images/get_image.php');
+        require_once $this->sampleFile('images/get_image.php', $replacements);
 
         $this->logStep('Retrieved details for image {imageId}', $replacements);
     }
@@ -530,27 +524,27 @@ class CoreTest extends TestCase
         $replacements = ['{imageId}' => $this->imageId];
 
         /** @var $image \OpenStack\Compute\v2\Models\Image */
-        require_once $this->sampleFile($replacements, 'images/reset_image_metadata.php');
+        require_once $this->sampleFile('images/reset_image_metadata.php', $replacements);
         $this->logStep('Reset metadata of image {imageId}', $replacements);
 
-        require_once $this->sampleFile($replacements, 'images/retrieve_image_metadata.php');
+        require_once $this->sampleFile('images/retrieve_image_metadata.php', $replacements);
         $this->logStep('Retrieved metadata of image {imageId}', $replacements);
 
-        require_once $this->sampleFile($replacements + ['{metadataKey}'], 'images/delete_image_metadata_item.php');
+        require_once $this->sampleFile('images/delete_image_metadata_item.php', $replacements + ['{metadataKey}']);
         $this->logStep('Deleted metadata key of image {imageId}', $replacements);
     }
 
     private function deleteServerImage()
     {
         $replacements = ['{imageId}' => $this->imageId];
-        require_once $this->sampleFile($replacements, 'images/delete_image.php');
+        require_once $this->sampleFile('images/delete_image.php', $replacements);
         $this->logStep('Deleted image {imageId}', $replacements);
     }
 
     private function listKeypairs()
     {
         /** @var $keypairs \Generator */
-        require_once $this->sampleFile([], 'keypairs/list_keypairs.php');
+        require_once $this->sampleFile('keypairs/list_keypairs.php', []);
 
         self::assertInstanceOf(\Generator::class, $keypairs);
 
@@ -564,7 +558,7 @@ class CoreTest extends TestCase
             '{publicKey}' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCp4H/vDGnLi0QgWgMsQkv//FEz0xgv/mujVX+XCh6fHXxc/PbaASY+MsoI2Xr238cG9eaeAAUvbpJuEuHQ0M9WX97bvsWaWzLQ9F6hzLAwUBGxcG8cSh1nB3Ah7alR2nbIZ1N94yE72hXLb1AGogJ97NBVIph438BCXUNejqoOBsXL8UBP3RGdPnTHJ/6XSMaNTQAJruQMoQwecyGFQmuS2IEy2mBOmSldD6JZirHpj7PTCKJY4CS89QChGpKIeOymKn4tEQQVVtNFUyULEMdin88H1yMftPfq7QqH+ULFT2X2XvP3CI+sESq84lrIcVu7LjJCRIwlKsnMu2ESYCdz foo@bar.com'
         ];
 
-        require_once $this->sampleFile($replacements, 'keypairs/create_keypair.php');
+        require_once $this->sampleFile('keypairs/create_keypair.php', $replacements);
         /**@var Keypair $keypair */
 
         self::assertInstanceOf(Keypair::class, $keypair);
@@ -581,7 +575,7 @@ class CoreTest extends TestCase
             '{name}' => $this->keypairName,
         ];
 
-        require_once $this->sampleFile($replacements, 'keypairs/get_keypair.php');
+        require_once $this->sampleFile('keypairs/get_keypair.php', $replacements);
 
         /**@var Keypair $keypair */
         self::assertInstanceOf(Keypair::class, $keypair);
@@ -597,13 +591,13 @@ class CoreTest extends TestCase
             '{name}' => $this->keypairName,
         ];
 
-        require_once $this->sampleFile($replacements, 'keypairs/delete_keypair.php');
+        require_once $this->sampleFile('keypairs/delete_keypair.php', $replacements);
         $this->logStep('Deleted keypair name {name}', ['{name}' => $this->keypairName]);
     }
 
     private function listHypervisors()
     {
-        require_once $this->sampleFile([], 'hypervisors/list_hypervisors.php');
+        require_once $this->sampleFile('hypervisors/list_hypervisors.php', []);
 
         $this->logStep('Listed all available hypervisors');
     }
@@ -614,7 +608,7 @@ class CoreTest extends TestCase
             '{hypervisorId}' => '1',
         ];
 
-        require_once $this->sampleFile($replacements, 'hypervisors/get_hypervisor.php');
+        require_once $this->sampleFile('hypervisors/get_hypervisor.php', $replacements);
 
         /**@var Hypervisor $hypervisor */
         self::assertInstanceOf(Hypervisor::class, $hypervisor);
@@ -625,7 +619,7 @@ class CoreTest extends TestCase
 
     private function getHypervisorsStatistics()
     {
-        require_once  $this->sampleFile([], 'hypervisors/get_hypervisors_statistics.php');
+        require_once $this->sampleFile('hypervisors/get_hypervisors_statistics.php', []);
 
         /**@var HypervisorStatistic $hypervisorStatistics */
         self::assertInstanceOf(HypervisorStatistic::class, $hypervisorStatistics);
@@ -635,7 +629,7 @@ class CoreTest extends TestCase
 
     private function getLimits()
     {
-        require_once $this->sampleFile([], 'limits/get_limits.php');
+        require_once $this->sampleFile('limits/get_limits.php', []);
 
         /**@var Limit $limit */
         self::assertInstanceOf(Limit::class, $limit);
@@ -650,7 +644,7 @@ class CoreTest extends TestCase
             '{secGroupName}' => self::SECGROUP,
         ];
 
-        require_once  $this->sampleFile($replacements, 'servers/add_security_group.php');
+        require_once $this->sampleFile('servers/add_security_group.php', $replacements);
 
         /**@var Server $server*/
         $this->logStep('Added security group {secGroupName} to server {serverId}', $replacements);
@@ -662,7 +656,7 @@ class CoreTest extends TestCase
             '{serverId}' => $this->serverId
         ];
 
-        require_once  $this->sampleFile($replacements, 'servers/list_security_groups.php');
+        require_once $this->sampleFile('servers/list_security_groups.php', $replacements);
 
         /**@var \Generator $securityGroups */
         self::assertInstanceOf(\Generator::class, $securityGroups);
@@ -677,7 +671,7 @@ class CoreTest extends TestCase
             '{secGroupName}' => self::SECGROUP,
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/remove_security_group.php');
+        require_once $this->sampleFile('servers/remove_security_group.php', $replacements);
 
         $this->logStep('Delete security group {secGroupName} from server {serverId}', $replacements);
     }
@@ -689,7 +683,7 @@ class CoreTest extends TestCase
             '{volumeId}' => $this->volume->id
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/attach_volume_attachment.php');
+        require_once $this->sampleFile('servers/attach_volume_attachment.php', $replacements);
         /** @var \OpenStack\BlockStorage\v2\Models\VolumeAttachment $volumeAttachment */
         $this->volumeAttachmentId = $volumeAttachment->id;
 
@@ -707,7 +701,7 @@ class CoreTest extends TestCase
             '{serverId}' => $this->serverId
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/list_volume_attachments.php');
+        require_once $this->sampleFile('servers/list_volume_attachments.php', $replacements);
 
         $this->logStep('Retrieved volume attachments for server {serverId}', $replacements);
     }
@@ -719,7 +713,7 @@ class CoreTest extends TestCase
             '{volumeAttachmentId}' => $this->volumeAttachmentId,
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/detach_volume_attachment.php');
+        require_once $this->sampleFile('servers/detach_volume_attachment.php', $replacements);
 
         $this->volume->waitUntil('available');
 
@@ -732,7 +726,7 @@ class CoreTest extends TestCase
             '{serverId}' => $this->serverId
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/get_server_vnc_console.php');
+        require_once $this->sampleFile('servers/get_server_vnc_console.php', $replacements);
 
         $this->logStep('Get VNC console for server {serverId}', $replacements);
     }
@@ -744,7 +738,7 @@ class CoreTest extends TestCase
             '{networkId}' => $this->network->id
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/create_interface_attachment.php');
+        require_once $this->sampleFile('servers/create_interface_attachment.php', $replacements);
 
         $this->logStep('Create interface attachment for server {serverId}', $replacements);
     }
@@ -755,7 +749,7 @@ class CoreTest extends TestCase
             '{serverId}' => $this->serverId
         ];
 
-        require_once $this->sampleFile($replacements, 'servers/get_server_console_output.php');
+        require_once $this->sampleFile('servers/get_server_console_output.php', $replacements);
 
         $this->logStep('Get console output for server {serverId}', $replacements);
     }
