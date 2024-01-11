@@ -19,4 +19,5 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3(['region' => '{region}']);
 
 foreach ($identity->listEndpoints() as $endpoint) {
+    /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
 }

@@ -21,4 +21,5 @@ $identity = $openstack->identityV3(['region' => '{region}']);
 $group = $identity->getGroup('{groupId}');
 
 foreach ($group->listUsers() as $user) {
+    /** @var $user \OpenStack\Identity\v3\Models\User */
 }

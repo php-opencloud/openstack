@@ -20,7 +20,7 @@ $identity = $openstack->identityV3(['region' => '{region}']);
 
 $group = $identity->getGroup('{groupId}');
 
-$group->description = 'foo';
-$group->name = 'bar';
+$group->description = '{description}';
+$group->name = '{name}';
 
 $group->update();

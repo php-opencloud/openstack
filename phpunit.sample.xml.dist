@@ -5,10 +5,14 @@
         bootstrap="./vendor/autoload.php"
         colors="true"
         beStrictAboutOutputDuringTests="true"
+        stopOnError="true"
+        stopOnFailure="true"
+        printerClass="\PHPUnit\Util\TestDox\CliTestDoxPrinter"
+        verbose="true"
 >
     <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/unit</directory>
+        <testsuite name="Sample">
+            <directory>tests/sample</directory>
         </testsuite>
     </testsuites>
     <php>
