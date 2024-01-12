@@ -19,4 +19,5 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3();
 
 foreach ($identity->listUsers() as $user) {
+    /** @var $user \OpenStack\Identity\v3\Models\User */
 }

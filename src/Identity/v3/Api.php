@@ -555,6 +555,7 @@ class Api extends AbstractApi
                 'description'      => $this->params->desc('user'),
                 'email'            => $this->params->email(),
                 'enabled'          => $this->params->enabled('user'),
+                'name'             => $this->params->name('user'),
                 'password'         => $this->params->password(),
             ],
         ];

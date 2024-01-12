@@ -265,7 +265,6 @@ PHP
         require_once $this->sampleFile('domains/delete_domain.php', ['{domainId}' => $createdDomain->id]);
         $found = false;
         foreach ($this->getService()->listDomains() as $domain) {
-            /** @var $domain \OpenStack\Identity\v3\Models\Domain */
             if ($domain->id === $createdDomain->id) {
                 $found = true;
             }
