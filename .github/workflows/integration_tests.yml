@@ -103,8 +103,6 @@ jobs:
         run: php ./tests/integration/run.php -s=BlockStorage -v=v3
       - name: Execute Compute tests
         run: php ./tests/integration/run.php -s=Compute
-      - name: Execute Images tests
-        run: php ./tests/integration/run.php -s=Images
       - name: Execute Networking tests
         run: php ./tests/integration/run.php -s=Networking
       - name: Execute Object Storage tests

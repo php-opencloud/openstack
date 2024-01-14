@@ -12,3 +12,4 @@ $openstack = new OpenStack\OpenStack([
 $service = $openstack->imagesV2();
 
 $image = $service->getImage('{imageId}');
+$image->retrieve();
