@@ -8,12 +8,13 @@ use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
 /**
  * @property \OpenStack\BlockStorage\v2\Api $api
  */
-class VolumeType extends OperatorResource implements Listable, Creatable, Updateable, Deletable
+class VolumeType extends OperatorResource implements Listable, Creatable, Updateable, Deletable, Retrievable
 {
     /** @var string */
     public $id;
@@ -32,6 +33,12 @@ class VolumeType extends OperatorResource implements Listable, Creatable, Update
         $response = $this->execute($this->api->postTypes(), $userOptions);
 
         return $this->populateFromResponse($response);
+    }
+
+    public function retrieve()
+    {
+        $response = $this->executeWithState($this->api->getType());
+        $this->populateFromResponse($response);
     }
 
     public function update()
