@@ -7,17 +7,15 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
-
-$options = [
-    'name'    => '{objectName}',
-    'content' => '{objectContent}',
-];
 
 /** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
 $object = $openstack->objectStoreV1()
-                    ->getContainer('{containerName}')
-                    ->createObject($options);
+    ->getContainer('{containerName}')
+    ->createObject([
+        'name'    => '{objectName}',
+        'content' => '{objectContent}',
+    ]);

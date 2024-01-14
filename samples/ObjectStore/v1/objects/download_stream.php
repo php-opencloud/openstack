@@ -7,13 +7,12 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-/** @var \GuzzleHttp\Stream\Stream $stream */
 $stream = $openstack->objectStoreV1()
-                    ->getContainer('{containerName}')
-                    ->getObject('{objectName}')
-                    ->download(['requestOptions' => ['stream' => true]]);
+    ->getContainer('{containerName}')
+    ->getObject('{objectName}')
+    ->download(['requestOptions' => ['stream' => true]]);

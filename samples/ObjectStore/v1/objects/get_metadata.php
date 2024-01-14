@@ -7,13 +7,12 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-/** @var array $metadata */
 $metadata = $openstack->objectStoreV1()
-                      ->getContainer('{containerName}')
-                      ->getObject('{objectName}')
-                      ->getMetadata();
+    ->getContainer('{containerName}')
+    ->getObject('{objectName}')
+    ->getMetadata();

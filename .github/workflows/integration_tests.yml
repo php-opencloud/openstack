@@ -105,8 +105,6 @@ jobs:
         run: php ./tests/integration/run.php -s=Compute
       - name: Execute Networking tests
         run: php ./tests/integration/run.php -s=Networking
-      - name: Execute Object Storage tests
-        run: php ./tests/integration/run.php -s=ObjectStore
       - name: Execute Integration tests via PhpUnit
         run: vendor/bin/phpunit --configuration ./phpunit.sample.xml.dist
 

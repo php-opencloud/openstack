@@ -60,10 +60,9 @@ class MemberTest extends TestCase
         }
 
         $this->assertFalse($found);
+        $image->delete();
 
         $this->expectException(BadResponseError::class);
         $createdMember->retrieve();
-
-        $image->delete();
     }
 }
