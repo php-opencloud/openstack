@@ -14,5 +14,5 @@ $service = $openstack->blockStorageV3();
 $snapshots = $service->listSnapshots();
 
 foreach ($snapshots as $snapshot) {
-    /** @var $snapshot \OpenStack\BlockStorage\v2\Models\Snapshot */
+    /** @var \OpenStack\BlockStorage\v2\Models\Snapshot $snapshot */
 }

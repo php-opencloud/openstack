@@ -6,14 +6,14 @@ $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
     'region'  => '{region}',
     'user'    => ['id' => '{userId}', 'password' => '{password}'],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
 $service = $openstack->blockStorageV3();
 
 $volume = $service->getVolume('{volumeId}');
 
-$volume->name        = '{newName}';
+$volume->name = '{newName}';
 $volume->description = '{newDescription}';
 
 $volume->update();
