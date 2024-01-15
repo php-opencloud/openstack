@@ -122,14 +122,11 @@ PHP
     {
         require_once $this->sampleFile('containers/delete.php', ['{containerName}' => $createdContainer->name]);
 
-        $found = false;
         foreach ($this->getService()->listContainers() as $container) {
             if ($container->name === $createdContainer->name) {
-                $found = true;
+                $this->fail('Container still exists');
             }
         }
-
-        $this->assertFalse($found);
 
         $this->expectException(BadResponseError::class);
         $createdContainer->retrieve();

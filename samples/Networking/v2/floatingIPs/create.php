@@ -14,8 +14,7 @@ $openstack = new OpenStack\OpenStack([
 
 $networking = $openstack->networkingV2ExtLayer3();
 
-/** @var \OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp $ip */
-$ip = $networking->createFloatingIp([
+$floatingIp = $networking->createFloatingIp([
     "floatingNetworkId" => "{networkId}",
     "portId"            => "{portId}",
     'fixedIpAddress'    => '{fixedIpAddress}',

@@ -13,13 +13,13 @@ $networking = $openstack->networkingV2();
 
 $ports = $networking->createPorts([
     [
-        'name'         => 'port1',
-        'networkId'    => '{networkId}',
+        'name'         => '{name1}',
+        'networkId'    => '{networkId1}',
         'adminStateUp' => true
     ],
     [
-        'name'         => 'port2',
-        'networkId'    => '{networkId}',
+        'name'         => '{name2}',
+        'networkId'    => '{networkId2}',
         'adminStateUp' => true
     ],
 ]);

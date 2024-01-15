@@ -12,7 +12,7 @@ $openstack = new OpenStack\OpenStack([
 $networking = $openstack->networkingV2();
 
 $port = $networking->createPort([
-    'name'         => 'portName',
+    'name'         => '{portName}',
     'networkId'    => '{networkId}',
     'adminStateUp' => true
 ]);
