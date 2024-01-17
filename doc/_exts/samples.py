@@ -39,7 +39,7 @@ class Sample(LiteralInclude):
                 nodes.paragraph(
                     '',
                     '',
-                    nodes.Text('Example of how to create OpenStack object. See '),
+                    nodes.Text('Example on how to create OpenStack object. See '),
                     ref_node,
                     nodes.Text(' for all options.')
                 ),
