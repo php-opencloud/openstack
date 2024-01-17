@@ -75,4 +75,22 @@ Here is an example of how to create a client with application credentials:
         ]
     ]);
 
+You can specify the scope of the token:
+
+.. code-block:: php
+
+    $openstack = new OpenStack\OpenStack([
+        'authUrl' => '{authUrl}',
+        'region'  => '{region}',
+        'user'    => [
+            'id'       => '{userId}',
+            'password' => '{password}'
+        ],
+        'scope' => [
+            'project' => [
+                'id' => '{projectId}'
+            ],
+        ],
+    ]);
+
 .. _Composer installation instructions: https://getcomposer.org/doc/00-intro.md

@@ -1,10 +1,6 @@
 Identity v3
 ===========
 
-
-Service methods
----------------
-
 .. toctree::
   :maxdepth: 3
 
