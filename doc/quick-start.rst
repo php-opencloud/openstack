@@ -36,10 +36,11 @@ Creating a client
 -----------------
 
 To create a client, you will need to provide the following information:
+
 * The identity service URL (``authUrl``)
 * The region in which you want to operate (``region``)
 * The credentials of the user you want to authenticate (``user``), (``tokenId``), (``cachedToken``)
-    or (``application_credential``)
+or (``application_credential``)
 
 Only the ``authUrl`` is mandatory to create a client. But you will have to provide the ``region`` and ``user``
 to each service you create. So it is recommended to provide them when creating the client.
@@ -48,6 +49,7 @@ There are different ways to provide the authentication credentials. See the `Tok
 the full list of options. Here is an example of how to create a client with a user id and password:
 
 .. code-block:: php
+
     $openstack = new OpenStack\OpenStack([
         'authUrl' => '{authUrl}',
         'region'  => '{region}',
@@ -60,6 +62,7 @@ the full list of options. Here is an example of how to create a client with a us
 Here is an example of how to create a client with application credentials:
 
 .. code-block:: php
+
     $openstack = new OpenStack\OpenStack([
         'authUrl' => '{authUrl}',
         'region'  => '{region}',
