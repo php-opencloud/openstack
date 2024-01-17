@@ -1,11 +1,6 @@
 Welcome to the OpenStack SDK for PHP!
 =====================================
 
-.. toctree::
-  :hidden:
-
-  index
-
 Requirements
 ------------
 
@@ -34,15 +29,6 @@ application’s PHP files:
 This assumes your application's PHP files are located in the same folder as ``vendor/``. If your files are located
 elsewhere, please supply the path to vendor/autoload.php in the require statement above.
 
-Supported services
-------------------
-
-.. toctree::
-    :glob:
-    :maxdepth: 1
-
-    services/**/index
-
 Help and support
 ----------------
 
@@ -57,3 +43,14 @@ If you'd like to contribute to the project, or require help running the unit/int
 .. _Composer installation instructions: https://getcomposer.org/doc/00-intro.md
 .. _Github repo: https://github.com/php-opencloud/openstack
 .. _contributing guidelines: https://github.com/php-opencloud/openstack/blob/master/CONTRIBUTING.md
+
+Table of contents
+-----------------
+
+.. toctree::
+    :glob:
+    :maxdepth: 1
+
+    index
+    services/**/index
+
