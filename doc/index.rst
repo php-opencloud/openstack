@@ -49,6 +49,6 @@ Contributing
 If you'd like to contribute to the project, or require help running the unit/integration tests, please view the
 `contributing guidelines`_.
 
-.. _Composer installation instructions: `https://getcomposer.org/doc/00-intro.md`
-.. _Github repo: `https://github.com/php-opencloud/openstack`
-.. _contributing guidelines: `https://github.com/php-opencloud/openstack/blob/master/CONTRIBUTING.md`
+.. _Composer installation instructions: https://getcomposer.org/doc/00-intro.md
+.. _Github repo: https://github.com/php-opencloud/openstack
+.. _contributing guidelines: https://github.com/php-opencloud/openstack/blob/master/CONTRIBUTING.md
