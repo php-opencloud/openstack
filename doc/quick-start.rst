@@ -46,7 +46,9 @@ Only the ``authUrl`` is mandatory to create a client. But you will have to provi
 to each service you create. So it is recommended to provide them when creating the client.
 
 There are different ways to provide the authentication credentials. See the `Token generation`_ section for
-the full list of options. Here is an example of how to create a client with a user id and password:
+the full list of options.
+
+Here is an example of how to create a client with a user id and password:
 
 .. code-block:: php
 
@@ -73,4 +75,4 @@ Here is an example of how to create a client with application credentials:
     ]);
 
 .. _Composer installation instructions: https://getcomposer.org/doc/00-intro.md
-.. _Token generation: /services/identity/v3/tokens
+.. _Token generation: services/identity/v3/tokens
