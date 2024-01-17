@@ -46,6 +46,13 @@ html_theme = 'sphinx_rtd_theme'
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'php-openclouddoc'
 
+# These folders are copied to the documentation's HTML output
+html_static_path = ['_static']
+
+html_css_files = [
+    'css/custom.css',
+]
+
 latex_documents = [
   ('index', 'php-opencloud.tex', u'php-opencloud Documentation',
    u'Jamie Hannaford', 'manual'),

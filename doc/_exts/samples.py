@@ -26,6 +26,7 @@ class Sample(LiteralInclude):
             CollapseNode(
                 "",
                 "show auth code",
+                nodes.literal_block("This is example", "This is example"),
                 nodes.literal_block(auth_str, auth_str, language="php")
             ),
             nodes.literal_block(main_str, main_str, language="php")
