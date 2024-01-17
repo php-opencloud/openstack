@@ -17,4 +17,5 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 $flavors = $compute->listFlavors();
 
 foreach ($flavors as $flavor) {
+    /** @var \OpenStack\Compute\v2\Models\Flavor $flavor */
 }

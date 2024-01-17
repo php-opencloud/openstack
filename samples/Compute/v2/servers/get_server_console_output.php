@@ -16,5 +16,4 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 
 $server = $compute->getServer(['id' => '{serverId}']);
 
-/** @var string $consoleOutput */
 $consoleOutput = $server->getConsoleOutput();

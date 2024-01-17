@@ -99,8 +99,6 @@ jobs:
       - name: Check if Block Storage API v2 must be tested
         if: matrix.block_storage_v2 == true
         run: echo "OS_BLOCK_STORAGE_V2=1" >> "$GITHUB_ENV"
-      - name: Execute Compute tests
-        run: php ./tests/integration/run.php -s=Compute
       - name: Execute Integration tests via PhpUnit
         run: vendor/bin/phpunit --configuration ./phpunit.sample.xml.dist
 

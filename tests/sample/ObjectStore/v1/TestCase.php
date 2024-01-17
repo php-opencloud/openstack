@@ -7,15 +7,9 @@ use OpenStack\ObjectStore\v1\Service;
 
 abstract class TestCase extends \OpenStack\Sample\TestCase
 {
-    private $service;
-
     protected function getService(): Service
     {
-        if (null === $this->service) {
-            $this->service = $this->getOpenStack()->objectStoreV1();
-        }
-
-        return $this->service;
+        return $this->getCachedService(Service::class);
     }
 
     protected function sampleFile(string $path, array $replacements = []): string

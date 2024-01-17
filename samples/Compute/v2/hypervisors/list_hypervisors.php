@@ -1,7 +1,5 @@
 <?php
 
-use OpenStack\Compute\v2\Models\Hypervisor;
-
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
@@ -19,5 +17,5 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 $hypervisors = $compute->listHypervisors();
 
 foreach ($hypervisors as $hypervisor) {
-    /**@var Hypervisor $hypervisor*/
+    /** @var \OpenStack\Compute\v2\Models\Hypervisor $hypervisor */
 }

@@ -2,6 +2,8 @@
 
 namespace OpenStack\Sample;
 
+use InvalidArgumentException;
+use OpenStack\Common\Service\AbstractService;
 use OpenStack\OpenStack;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
@@ -10,6 +12,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     /** @var \OpenStack\Sample\SampleManager  */
     protected $sampleManager;
+
+    /** @var array<string, \OpenStack\Common\Service\AbstractService> */
+    protected $cachedServices = [];
 
     public function __construct()
     {
@@ -20,10 +25,62 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         );
     }
 
-
     protected function getOpenStack(array $options = []): OpenStack
     {
         return new OpenStack($this->getAuthOpts($options));
+    }
+
+    /**
+     * @param class-string<T> $serviceType
+     * @return T
+     * @template T of \OpenStack\Common\Service\AbstractService
+     *
+     * @noinspection PhpFullyQualifiedNameUsageInspection
+     */
+    protected function getCachedService(string $serviceType): AbstractService
+    {
+        if (isset($this->cachedServices[$serviceType])) {
+            return $this->cachedServices[$serviceType];
+        }
+
+        switch ($serviceType) {
+            case \OpenStack\BlockStorage\v2\Service::class:
+                $service = $this->getOpenStack()->blockStorageV2();
+                break;
+            case \OpenStack\BlockStorage\v3\Service::class:
+                $service = $this->getOpenStack()->blockStorageV3();
+                break;
+            case \OpenStack\Compute\v2\Service::class:
+                $service = $this->getOpenStack()->computeV2();
+                break;
+            case \OpenStack\Identity\v2\Service::class:
+                $service = $this->getOpenStack()->identityV2();
+                break;
+            case \OpenStack\Identity\v3\Service::class:
+                $service = $this->getOpenStack()->identityV3();
+                break;
+            case \OpenStack\Images\v2\Service::class:
+                $service = $this->getOpenStack()->imagesV2();
+                break;
+            case \OpenStack\Networking\v2\Service::class:
+                $service = $this->getOpenStack()->networkingV2();
+                break;
+            case \OpenStack\Networking\v2\Extensions\Layer3\Service::class:
+                $service = $this->getOpenStack()->networkingV2ExtLayer3();
+                break;
+            case \OpenStack\Networking\v2\Extensions\SecurityGroups\Service::class:
+                $service = $this->getOpenStack()->networkingV2ExtSecGroups();
+                break;
+            case \OpenStack\ObjectStore\v1\Service::class:
+                $service = $this->getOpenStack()->objectStoreV1();
+                break;
+            default:
+                throw new InvalidArgumentException("Unknown service type: $serviceType");
+        }
+
+        $this->cachedServices[$serviceType] = $service;
+
+        return $this->cachedServices[$serviceType];
     }
 
     protected function getAuthOpts(array $options = []): array

@@ -8,25 +8,14 @@ use OpenStack\Networking\v2\Service;
 
 abstract class TestCase extends \OpenStack\Sample\TestCase
 {
-    private $service;
-    private $serviceLayer3;
-
     protected function getService(): Service
     {
-        if (null === $this->service) {
-            $this->service = $this->getOpenStack()->networkingV2();
-        }
-
-        return $this->service;
+        return $this->getCachedService(Service::class);
     }
 
     protected function getServiceLayer3(): \OpenStack\Networking\v2\Extensions\Layer3\Service
     {
-        if (null === $this->serviceLayer3) {
-            $this->serviceLayer3 = $this->getOpenStack()->networkingV2ExtLayer3();
-        }
-
-        return $this->serviceLayer3;
+        return $this->getCachedService(\OpenStack\Networking\v2\Extensions\Layer3\Service::class);
     }
 
     protected function sampleFile(string $path, array $replacements = []): string

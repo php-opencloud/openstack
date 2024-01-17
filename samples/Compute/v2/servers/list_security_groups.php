@@ -1,8 +1,5 @@
 <?php
 
-use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
-use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroupRule;
-
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
@@ -22,10 +19,5 @@ $server = $compute->getServer(['id' => '{serverId}']);
 $securityGroups = $server->listSecurityGroups();
 
 foreach ($securityGroups as $securityGroup) {
-    /**@var SecurityGroup $securityGroup */
-    $rules = $securityGroup->securityGroupRules;
-
-    foreach ($rules as $rule) {
-        /**@var SecurityGroupRule $rule */
-    }
+    /** @var \OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup $securityGroup */
 }

@@ -17,4 +17,5 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 $images = $compute->listImages(['status' => 'ACTIVE']);
 
 foreach ($images as $image) {
+    /** @var \OpenStack\Compute\v2\Models\Image $image */
 }

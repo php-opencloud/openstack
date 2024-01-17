@@ -3,19 +3,11 @@
 namespace OpenStack\Sample\BlockStorage\v3;
 
 
-use OpenStack\BlockStorage\v2\Service;
-
 abstract class TestCase extends \OpenStack\Sample\TestCase
 {
-    protected $service;
-
-    protected function getService(): Service
+    protected function getService(): \OpenStack\BlockStorage\v2\Service
     {
-        if (null === $this->service) {
-            $this->service = $this->getOpenStack()->blockStorageV3();
-        }
-
-        return $this->service;
+        return $this->getCachedService(\OpenStack\BlockStorage\v3\Service::class);
     }
 
     protected function sampleFile(string $path, array $replacements = []): string

@@ -229,8 +229,8 @@ This operation will reset the state of the server.
 Reboot server
 -------------
 
-This operation will reboot a server. Please be aware that you must specify whether you want to initiate a HARD or
-SOFT reboot (you specify this as a string argument).
+This operation will reboot a server. You can specify HARD reboot by passing argument Enum::REBOOT_HARD to the function.
+Otherwise, the default is a SOFT reboot.
 
 .. sample:: Compute/v2/servers/reboot_server.php
 .. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_reboot

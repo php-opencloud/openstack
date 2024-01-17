@@ -18,4 +18,5 @@ $server = $compute->getServer([
     'id' => '{serverId}',
 ]);
 
+$server->waitUntil('VERIFY_RESIZE');
 $server->revertResize();
