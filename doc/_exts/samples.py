@@ -23,8 +23,13 @@ class Sample(LiteralInclude):
         main_str = re.sub(pattern, "", string, 0, re.S).strip()
 
         return [
-            CollapseNode(nodes.literal_block(auth_str, auth_str, language="php"), "show auth code"),
-            nodes.literal_block(main_str, main_str, language="php")]
+            CollapseNode(
+                "",
+                "show auth code",
+                nodes.literal_block(auth_str, auth_str, language="php")
+            ),
+            nodes.literal_block(main_str, main_str, language="php")
+        ]
 
 
 def setup(app):
