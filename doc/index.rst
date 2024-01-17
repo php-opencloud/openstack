@@ -1,6 +1,11 @@
 Welcome to the OpenStack SDK for PHP!
 =====================================
 
+.. toctree::
+  :hidden:
+
+  index
+
 Requirements
 ------------
 
