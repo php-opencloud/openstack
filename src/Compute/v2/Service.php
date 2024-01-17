@@ -114,8 +114,8 @@ class Service extends AbstractService
     /**
      * List images.
      *
-     * @param array $options {@see \OpenStack\Compute\v2\Api::getImages}
-     * @param callable|null $mapFn a callable function that will be invoked on every iteration of the list
+     * @param array         $options {@see \OpenStack\Compute\v2\Api::getImages}
+     * @param callable|null $mapFn   a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Image>
      */
