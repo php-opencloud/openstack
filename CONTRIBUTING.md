@@ -185,7 +185,7 @@ The second argument to `setupMockResponse` is an external file, storing a string
 We use phpunit, so you run this at the project root:
 
 ```bash
-phpunit
+vendor/bin/phpunit
 ```
 
 ### Integration tests
@@ -203,29 +203,46 @@ service charges from your provider. Although most tests handle their own
 teardown procedures, it is always worth manually checking that resources are
 deleted after the test suite finishes.
 
+It is recommended to run integration test in a separate OpenStack project, so that you can easily clean up all resources.
+
 We use all of our sample files as live integration tests, achieving the dual aim of reducing code duplication and 
 ensuring that our samples actually work.
+
+### Setting up dev environment
+
+In order to run integration tests, you need to have a working OpenStack environment. 
+You can use [DevStack](http://docs.openstack.org/developer/devstack/) to set up a local OpenStack environment.
+DevStack will make substantial changes to your system during installation. Only run DevStack on servers or
+virtual machines that are dedicated to this purpose.
+
+Installation is pretty straightforward. You can use guide on their [website](http://docs.openstack.org/developer/devstack/).
+
+Here is currently used `local.conf` for DevStack:
+
+```ini
+[[local|localrc]]
+ADMIN_PASSWORD=secret
+DATABASE_PASSWORD=root
+RABBIT_PASSWORD=secret
+SERVICE_PASSWORD=secret
+SWIFT_HASH=1234123412341234
+LOGFILE=/tmp/devstack-logs/devstack.log
+USE_PYTHON3=True
+INSTALL_TEMPEST=False
+GIT_BASE=https://github.com
+ENABLED_SERVICES+=,-horizon,-dstat,-tempest,s-account,s-container,s-object,s-proxy,s-bak
+SWIFT_ENABLE_TEMPURLS=True
+SWIFT_TEMPURL_KEY=secretkey
+
+[[post-config|$SWIFT_CONFIG_PROXY_SERVER]]
+[filter:versioned_writes]
+allow_object_versioning = true
+```
 
 ### Setting up environment variables
 
 Rename `env_test.sh.dist` as `env_test.sh` and replace values according to your OpenStack instance configuration.
-Completed file may look as following.
-
-
-```bash
-#!/usr/bin/env bash
-export OS_AUTH_URL="http://1.2.3.4:5000/v3"       
-export OS_REGION="RegionOne"
-export OS_REGION_NAME="RegionOne"
-export OS_USER_ID="536068bcb1b946ff8e2f10eff6543f9c"
-export OS_USERNAME="admin"
-export OS_PASSWORD="2251639ecaea442b"
-export OS_PROJECT_ID="b62b3bebf9e84e4eb11aafcd8c58db3f"
-export OS_PROJECT_NAME="admin"
-export OS_RESIZE_FLAVOR=2                                 #Must be a valid flavor ID
-export OS_FLAVOR=1                                        #Must be a valid flavor ID
-export OS_DOMAIN_ID="default"
-```
+If you are using DevStack with config file above, the values would be filled automatically.
 
 To export environment variables, run
  ```bash
@@ -236,22 +253,11 @@ Additionally, integration tests require image called `cirros` exists.
 
 ### Running integration tests
 
-You interact with integration tests through a runner script:
+We use phpunit, so you run this at the project root:
 
 ```bash
-php ./tests/integration/run.php [-s=BlockStorage|Compute|Identity|Images|Networking|ObjectStore] [--debug=1|2]
+vendor/bin/phpunit --configuration ./phpunit.sample.xml.dist
 ```
-
-It supports these command-line flags:
-
-| Flag | Description | Example |
-| ---- | ----------- | ------- |
-| `-s` `--service` | Allows you to refine tests by a particular service. A service corresponds to top-level directories in the `./integration` directory, meaning that `compute` and `identity` are services because they exist as sub-directories there. If omitted, all services are run.|Run compute service: `php ./tests/integration/run.php -s compute` Run all tests: `php ./tests/integration/run.php`|
-| `-v` `--version` | Allows you to refine by a particular service version. A version corresponds to the sub-directories inside a service directory, meaning that `v2` is a supported version of `compute` because it exists as a sub-directory inside the `compute` directory. If omitted, all versions are run.|Run v2 Compute tests: `php ./tests/integration/run.php -s compute -v v2` Run all compute tests: `php ./tests/integration/run.php -s compute`|
-| `-t` `--test` | Allows you to refine by a particular test. Tests are defined in classes like `integration\OpenStack\Compute\v2`. Each test method manually references a sample file. To refine which tests are run, list the name of the method in this class. If omitted, all tests are run.|Run create server test: `php ./tests/integration/run.php -s compute -v v2 -t createServer` Run all compute v2 tests: `php ./tests/integration/run.php -s compute -v v2`|
-| `--debug` |||
-| `--help` | A help screen is returned and no tests run | `php ./tests/integration/run.php --help`
-
 
 ## Style guide
 
@@ -281,14 +287,11 @@ required to adhere to:
 
 ### 1. Providing feedback
 
-On of the easiest ways to get readily involved in our project is to let us know
+One of the easiest ways to get readily involved in our project is to let us know
 about your experiences using our SDK. Feedback like this is incredibly useful
 to us, because it allows us to refine and change features based on what our
-users want and expect of us. There are a bunch of ways to get in contact! You
-can [ping us](https://developer.rackspace.com/support/) via e-mail, talk to us on irc
-(#rackspace-dev on freenode), [tweet us](https://twitter.com/rackspace), or
-submit an issue on our [bug tracker](/issues). Things you might like to tell us
-are:
+users want and expect of us.  You can submit an issue on our [bug tracker](/issues).
+Things you might like to tell us are:
 
 * how easy was it to start using our SDK?
 * did it meet your expectations? If not, why not?
@@ -309,8 +312,7 @@ breakthroughs on it so far.
 We have three forms of documentation:
 
 * short README documents that briefly introduce a topic
-* reference documentation
-* user documentation on http://docs.php-opencloud.com that includes
+* user documentation on https://php-openstack-sdk.readthedocs.io that includes
 getting started guides, installation guides and code samples
 
 If you feel that a certain section could be improved - whether it's to clarify

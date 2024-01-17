@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v3\Models;
 
 use InvalidArgumentException;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\OperatorResource;
@@ -129,5 +130,21 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     public function export(): array
     {
         return $this->cachedToken;
+    }
+
+    /**
+     * Checks if the token is valid.
+     *
+     * @return bool TRUE if the token is valid; FALSE otherwise
+     */
+    public function validate(): bool
+    {
+        try {
+            $this->execute($this->api->headTokens(), ['tokenId' => $this->id]);
+
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 }

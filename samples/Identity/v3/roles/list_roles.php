@@ -19,4 +19,5 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3();
 
 foreach ($identity->listRoles() as $role) {
+    /** @var $role \OpenStack\Identity\v3\Models\Role */
 }

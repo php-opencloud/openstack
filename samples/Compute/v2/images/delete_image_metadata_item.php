@@ -16,4 +16,4 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 
 $image = $compute->getImage(['id' => '{imageId}']);
 
-$image->deleteMetadataItem('key');
+$image->deleteMetadataItem('{key}');

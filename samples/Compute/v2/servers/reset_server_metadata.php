@@ -7,17 +7,15 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-$server = $compute->getServer([
-    'id' => '{serverId}',
-]);
+$server = $compute->getServer(['id' => '{serverId}']);
 
 $server->resetMetadata([
-    'key' => 'value',
+    '{key}' => '{value}',
 ]);

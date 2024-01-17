@@ -7,11 +7,11 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope' => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
 $openstack->networkingV2ExtLayer3()
-          ->getFloatingIp('{id}')
-          ->delete();
+    ->getFloatingIp('{id}')
+    ->delete();

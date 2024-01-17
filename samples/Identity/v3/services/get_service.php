@@ -19,3 +19,4 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3(['region' => '{region}']);
 
 $service = $identity->getService('{serviceId}');
+$service->retrieve();

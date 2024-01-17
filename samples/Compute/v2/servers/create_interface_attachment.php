@@ -16,7 +16,4 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 
 $server = $compute->getServer(['id' => '{serverId}']);
 
-/**@var OpenStack\Networking\v2\Models\InterfaceAttachment $interface */
-$interface = $server->createInterfaceAttachment([
-    'networkId' => '{networkId}',
-]);
+$interfaceAttachment = $server->createInterfaceAttachment(['networkId' => '{networkId}']);

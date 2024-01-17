@@ -17,5 +17,5 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 $image = $compute->getImage(['id' => '{imageId}']);
 
 $image->resetMetadata([
-    'key' => 'value',
+    '{key}' => '{value}',
 ]);

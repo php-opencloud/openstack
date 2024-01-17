@@ -12,5 +12,5 @@ $openstack = new OpenStack\OpenStack([
 $networking = $openstack->networkingV2();
 
 $port = $networking->getPort('{portId}');
-$port->name = 'newName';
+$port->name = '{newName}';
 $port->update();

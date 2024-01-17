@@ -7,12 +7,12 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
 $openstack->objectStoreV1()
-          ->getContainer('{containerName}')
-          ->getObject('{objectName}')
-          ->delete();
+    ->getContainer('{containerName}')
+    ->getObject('{objectName}')
+    ->delete();

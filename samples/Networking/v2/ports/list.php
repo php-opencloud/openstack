@@ -12,4 +12,5 @@ $openstack = new OpenStack\OpenStack([
 $networking = $openstack->networkingV2();
 
 foreach ($networking->listPorts() as $port) {
+    /** @var \OpenStack\Networking\v2\Models\Port $port */
 }

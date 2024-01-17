@@ -19,4 +19,5 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3(['region' => '{region}']);
 
 foreach ($identity->listServices() as $service) {
+    /** @var $service \OpenStack\Identity\v3\Models\Service */
 }

@@ -19,4 +19,5 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3(['region' => '{region}']);
 
 foreach ($identity->listDomains() as $domain) {
+    /** @var $domain \OpenStack\Identity\v3\Models\Domain */
 }

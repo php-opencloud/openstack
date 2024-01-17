@@ -16,5 +16,4 @@ $openstack = new OpenStack\OpenStack([
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-/** @var HypervisorStatistic $hypervisorStatistics */
 $hypervisorStatistics = $compute->getHypervisorStatistics();

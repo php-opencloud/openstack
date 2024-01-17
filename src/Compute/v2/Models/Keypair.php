@@ -40,7 +40,11 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     /** @var string */
     public $type;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @deprecated Left for backward compatibility only. It is not retrieved from the API.
+     */
     public $id;
 
     /** @var \DateTimeImmutable */

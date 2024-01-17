@@ -31,5 +31,4 @@ $options = [
 ];
 
 // Create the server
-/**@var OpenStack\Compute\v2\Models\Server $server */
 $server = $compute->createServer($options);

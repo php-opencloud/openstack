@@ -7,13 +7,13 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
 $container = $openstack->objectStoreV1()
-                       ->getContainer('{containerName}');
+    ->getContainer('{containerName}');
 
 foreach ($container->listObjects() as $object) {
     /** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */

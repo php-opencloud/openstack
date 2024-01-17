@@ -7,13 +7,13 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope' => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
 $floatingIps = $openstack->networkingV2ExtLayer3()
-                         ->listFloatingIps();
+    ->listFloatingIps();
 
 foreach ($floatingIps as $floatingIp) {
     /** @var \OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp $floatingIp */

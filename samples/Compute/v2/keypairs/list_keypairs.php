@@ -1,7 +1,5 @@
 <?php
 
-use OpenStack\Compute\v2\Models\Keypair;
-
 require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
@@ -19,5 +17,5 @@ $compute = $openstack->computeV2(['region' => '{region}']);
 $keypairs = $compute->listKeypairs();
 
 foreach ($keypairs as $keypair) {
-    /**@var Keypair $keypair */
+    /** @var \OpenStack\Compute\v2\Models\Keypair $keypair */
 }

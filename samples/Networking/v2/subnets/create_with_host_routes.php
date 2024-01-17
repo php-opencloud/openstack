@@ -19,7 +19,7 @@ $openstack = new OpenStack\OpenStack([
 $networking = $openstack->networkingV2();
 
 $options = [
-    'name'       => 'My subnet',
+    'name'       => '{subnetName}',
     'networkId'  => '{networkId}',
     'ipVersion'  => 4,
     'cidr'       => '192.168.199.0/24',
