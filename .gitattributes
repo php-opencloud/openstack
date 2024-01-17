@@ -4,7 +4,8 @@
 /tests export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
-/.php_cs.dist export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/.readthedocs.yaml export-ignore
 /.scrutinizer.yml export-ignore
-/.travis.yml export-ignore
+/phpunit.sample.xml.dist export-ignore
 /phpunit.xml.dist export-ignore
