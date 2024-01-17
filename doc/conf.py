@@ -23,7 +23,14 @@ lexers['php'] = PhpLexer(startinline=True, linenos=1)
 lexers['php-annotations'] = PhpLexer(startinline=True, linenos=1)
 primary_domain = 'php'
 
-extensions = ['samples', 'refdoc', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'sphinxcontrib.phpdomain']
+extensions = [
+    'samples',
+    'refdoc',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinxcontrib.phpdomain',
+    'sphinx_toolbox.collapse',
+]
 source_suffix = '.rst'
 master_doc = 'index'
 project = u'php-opencloud'

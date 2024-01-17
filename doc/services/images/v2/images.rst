@@ -18,7 +18,7 @@ List images
 .. include:: /common/generators.rst
 
 List images sorted
------------
+------------------
 
 Possible values for sort_key are:
 
