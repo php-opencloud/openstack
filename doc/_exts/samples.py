@@ -1,5 +1,6 @@
 from docutils import nodes
 from sphinx.directives.code import LiteralInclude
+from sphinx.util.nodes import make_refnode
 from sphinx_toolbox.collapse import CollapseNode
 import re
 
@@ -22,11 +23,26 @@ class Sample(LiteralInclude):
         auth_str = match.group(1).strip()
         main_str = re.sub(pattern, "", string, 0, re.S).strip()
 
+        env = self.state.document.settings.env
+        ref_node = make_refnode(
+            env.app.builder,
+            fromdocname=env.docname,
+            todocname='use',
+            targetid='',
+            child=nodes.Text('Use OpenStack library')
+        )
+
         return [
             CollapseNode(
-                "",
-                "show auth code",
-                nodes.literal_block("This is example", "This is example"),
+                '',
+                'show auth code',
+                nodes.paragraph(
+                    '',
+                    '',
+                    nodes.Text('Example of how to create OpenStack object. See '),
+                    ref_node,
+                    nodes.Text(' for all options.')
+                ),
                 nodes.literal_block(auth_str, auth_str, language="php")
             ),
             nodes.literal_block(main_str, main_str, language="php")

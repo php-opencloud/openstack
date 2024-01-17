@@ -9,7 +9,8 @@ This binding is specifically designed for OpenStack APIs, but other provider SDK
 Multiple OpenStack services, and versions of services, are supported.
 
 .. toctree::
-    quick-start
+    install
+    use
 
 Supported services
 ------------------
