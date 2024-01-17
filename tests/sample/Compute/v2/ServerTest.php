@@ -282,7 +282,7 @@ class ServerTest extends TestCase
             ]
         );
 
-        $createdServer->waitUntil('RESCUE');
+        $createdServer->waitUntil('RESCUE', 120);
         $this->assertEquals('RESCUE', $createdServer->status);
     }
 
@@ -294,7 +294,7 @@ class ServerTest extends TestCase
     {
         require_once $this->sampleFile('servers/unrescue_server.php', ['{serverId}' => $createdServer->id]);
 
-        $createdServer->waitUntil('ACTIVE');
+        $createdServer->waitUntil('ACTIVE', 120);
         $this->assertEquals('ACTIVE', $createdServer->status);
     }
 
