@@ -32,62 +32,17 @@ Authenticate application credential ID
 
 .. sample:: Setup/application_credential_id.php
 
-Generate token from ID
-~~~~~~~~~~~~~~~~~~~~~~
+Authenticate from ID
+~~~~~~~~~~~~~~~~~~~~
 
 .. sample:: Setup/from_id.php
 
-Generate token scoped to project ID
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Scope to project ID
+~~~~~~~~~~~~~~~~~~~
 
-.. sample:: Identity/v3/tokens/generate_token_scoped_to_project_id.php
+.. sample:: Setup/scoped_to_project_id.php
 
-Generate token scoped to project name
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Scope to project name
+~~~~~~~~~~~~~~~~~~~~~
 
-.. sample:: Identity/v3/tokens/generate_token_scoped_to_project_name.php
-
-
-Here is an example of how to create a client with a user id and password:
-
-.. code-block:: php
-
-    $openstack = new OpenStack\OpenStack([
-        'authUrl' => '{authUrl}',
-        'region'  => '{region}',
-        'user'    => [
-            'id'       => '{userId}',
-            'password' => '{password}'
-        ],
-    ]);
-
-Here is an example of how to create a client with application credentials:
-
-.. code-block:: php
-
-    $openstack = new OpenStack\OpenStack([
-        'authUrl' => '{authUrl}',
-        'region'  => '{region}',
-        'application_credential' => [
-            'id'     => '{applicationCredentialId}',
-            'secret' => '{secret}'
-        ]
-    ]);
-
-You can specify the scope of the token:
-
-.. code-block:: php
-
-    $openstack = new OpenStack\OpenStack([
-        'authUrl' => '{authUrl}',
-        'region'  => '{region}',
-        'user'    => [
-            'id'       => '{userId}',
-            'password' => '{password}'
-        ],
-        'scope' => [
-            'project' => [
-                'id' => '{projectId}'
-            ],
-        ],
-    ]);
+.. sample:: Setup/scoped_to_project_name.php

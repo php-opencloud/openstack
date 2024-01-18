@@ -11,4 +11,4 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$identity = $openstack->identityV3();
+$identity = $openstack->identityV3(['region' => '{region}']);

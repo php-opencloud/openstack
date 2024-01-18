@@ -10,12 +10,3 @@ $openstack = new OpenStack\OpenStack([
         'password' => '{password}'
     ]
 ]);
-
-$identity = $openstack->identityV3();
-
-$token = $identity->generateToken([
-    'user' => [
-        'id'       => '{userId}',
-        'password' => '{password}'
-    ]
-]);

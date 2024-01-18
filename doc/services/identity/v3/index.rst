@@ -5,6 +5,11 @@ OpenStack Identity API v3. It is used to manage the `OpenStack Keystone service 
 
 More information can be found in the `official documentation <https://docs.openstack.org/api-ref/identity/v3/index.html>`_.
 
+.. toctree::
+  :maxdepth: 3
+
+  create
+
 Resources
 =========
 
