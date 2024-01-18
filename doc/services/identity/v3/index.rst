@@ -9,14 +9,6 @@ More information can be found in the `official documentation <https://docs.opens
   :maxdepth: 3
 
   create
-
-Resources
-=========
-
-.. toctree::
-  :maxdepth: 3
-
-  create
   application-credentials
   credentials
   domains
