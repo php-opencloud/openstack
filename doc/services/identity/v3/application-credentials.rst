@@ -14,14 +14,14 @@ In order to work with application credentials you have to :doc:`create the servi
 Create
 ------
 
-.. sample:: Identity/v3/application_credentials/add_application_credential.php
+.. sample:: Identity/v3/application_credentials/create.php
 
 Read
 ----
 
-.. sample:: Identity/v3/application_credentials/show_application_credential.php
+.. sample:: Identity/v3/application_credentials/read.php
 
 Delete
 ------
 
-.. sample:: Identity/v3/application_credentials/delete_application_credential.php
+.. sample:: Identity/v3/application_credentials/delete.php
