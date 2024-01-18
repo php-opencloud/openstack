@@ -5,12 +5,9 @@ In exchange for a set of authentication credentials that the user submits, the I
 a token. A token represents the authenticated identity of a user and, optionally, grants authorization on a specific
 project or domain.
 
-More information can be found in the `official documentation <https://docs.openstack.org/api-ref/identity/v3/index.html#credentials>`_.
+.. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#credentials
 
-List
-----
-
-.. sample:: Identity/v3/credentials/list.php
+In order to work with credentials you have to :doc:`create the service </services/identity/v3/create>` first.
 
 Create
 ------
@@ -25,7 +22,7 @@ Read
 
 Retrieve a user's access/secret pair by the access key.
 
-.. sample:: Identity/v3/credentials/get.php
+.. sample:: Identity/v3/credentials/read.php
 
 Update
 ------
@@ -38,3 +35,8 @@ Delete
 Delete a user's access/secret pair.
 
 .. sample:: Identity/v3/credentials/delete.php
+
+List
+----
+
+.. sample:: Identity/v3/credentials/list.php

@@ -1,0 +1,1 @@
+In order to work with application credentials you have to :doc:`create the service <create>` first.

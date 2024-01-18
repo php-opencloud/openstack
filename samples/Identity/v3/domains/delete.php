@@ -14,8 +14,4 @@ $openstack = new OpenStack\OpenStack([
 $identity = $openstack->identityV3();
 
 $domain = $identity->getDomain('{domainId}');
-
-$domain->grantGroupRole([
-    'groupId' => '{groupId}',
-    'roleId'  => '{roleId}',
-]);
+$domain->delete();

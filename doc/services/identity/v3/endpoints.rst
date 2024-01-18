@@ -1,6 +1,11 @@
 Endpoints
 =========
 
+Each service should have one or more related endpoints. An endpoint is essentially a base URL for
+an API, along with some metadata about the endpoint itself and represents a set of URL endpoints for
+OpenStack web services.
+
+
 Add endpoints
 -------------
 
