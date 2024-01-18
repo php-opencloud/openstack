@@ -7,9 +7,9 @@ is provided by an external source, such as LDAP or a single-sign-on service. Ins
 config files, a user creates an application credential for a specific project, with all or a subset of the role assignments
 they have on that project, and then stores the application credential identifier and secret in the config file.
 
-See the `Official documentation <https://docs.openstack.org/keystone/latest/user/application_credentials.html>`_
+More information can be found in the `official documentation <https://docs.openstack.org/keystone/latest/user/application_credentials.html>`_.
 
-You must :doc:`create the service <services/identity/v3/create>` first to use this resource.
+You must :doc:`create the service <services/identity/v3/create>`_ first to use this resource.
 
 Create
 ------
