@@ -1,6 +1,8 @@
 Application Credentials
 =======================
 
+.. |models| replace:: application credentials
+
 Application credentials provide a way to delegate a user’s authorization to an application without sharing the user’s
 password authentication. This is a useful security measure, especially for situations where the user’s identification
 is provided by an external source, such as LDAP or a single-sign-on service. Instead of storing user passwords in
@@ -10,8 +12,6 @@ they have on that project, and then stores the application credential identifier
 .. osdoc:: https://docs.openstack.org/keystone/latest/user/application_credentials.html
 
 .. include:: /common/service.rst
-
-In order to work with application credentials you have to :doc:`create the service </services/identity/v3/create>` first.
 
 Create
 ------
@@ -27,3 +27,4 @@ Delete
 ------
 
 .. sample:: Identity/v3/application_credentials/delete.php
+
