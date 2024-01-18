@@ -1,5 +1,5 @@
-Quick Start
-===========
+Installation
+============
 
 Requirements
 ------------
@@ -7,8 +7,8 @@ Requirements
 * PHP >= 7, < 9
 * cURL extension
 
-Installation
-------------
+Install via composer
+--------------------
 
 You must install this library through Composer:
 
@@ -18,8 +18,8 @@ You must install this library through Composer:
 
 If you do not have Composer installed, please read the `Composer installation instructions`_.
 
-Include the autoloader
-----------------------
+Include autoloader
+------------------
 
 Once you have installed the SDK as a dependency of your project, you will need to load Composer’s autoloader
 (which registers all the required namespaces). To do this, place the following line of PHP code at the top of your

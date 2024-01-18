@@ -27,9 +27,9 @@ class Sample(LiteralInclude):
         ref_node = make_refnode(
             env.app.builder,
             fromdocname=env.docname,
-            todocname='use',
+            todocname='setup',
             targetid='',
-            child=nodes.Text('Use OpenStack library')
+            child=nodes.Text('Setup')
         )
 
         return [

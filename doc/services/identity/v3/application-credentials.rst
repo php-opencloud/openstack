@@ -1,17 +1,17 @@
 Application Credentials
 =======================
 
-Add application credential
---------------------------
+Create
+------
 
 .. sample:: Identity/v3/application_credentials/add_application_credential.php
 
-Show application credential details
------------------------------------
+Read
+----
 
 .. sample:: Identity/v3/application_credentials/show_application_credential.php
 
-Delete application credential
------------------------------
+Delete
+------
 
 .. sample:: Identity/v3/application_credentials/delete_application_credential.php

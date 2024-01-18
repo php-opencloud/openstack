@@ -10,7 +10,7 @@ Multiple OpenStack services, and versions of services, are supported.
 
 .. toctree::
     install
-    use
+    setup
 
 Supported services
 ------------------

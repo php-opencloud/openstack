@@ -1,5 +1,5 @@
-Use OpenStack library
-=====================
+Setup
+=====
 
 In order to access services you have to create the client object. To do it, you will need to provide the
 following information:
@@ -14,7 +14,7 @@ credentials to each service you create. So it is recommended to provide them whe
 would propagate these options to each service.
 
 There are different ways to provide the authentication credentials. See the :doc:`services/identity/v3/tokens`
-section for the full list of options. You should provide credentials to the `OpenStack` constructor as an array
+section for the full list of options. You should provide credentials to the ``OpenStack`` constructor as an array
 the same way you provide options to ``generateToken`` method of the ``Identity`` service.
 
 Here is an example of how to create a client with a user id and password:

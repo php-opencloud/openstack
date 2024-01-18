@@ -1,5 +1,5 @@
-Creating the service
-====================
+Create Service
+==============
 
 Service can be created via ``identityV3`` method of ``OpenStack`` object:
 
