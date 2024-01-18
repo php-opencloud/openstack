@@ -20,7 +20,7 @@ Resources
 =========
 
 .. toctree::
-  :maxdepth: 3
+  :maxdepth: 2
 
   application-credentials
   credentials

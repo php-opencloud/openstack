@@ -17,7 +17,7 @@ Supported services
 
 .. toctree::
     :glob:
-    :maxdepth: 1
+    :maxdepth: 0
 
     services/**/index
 
