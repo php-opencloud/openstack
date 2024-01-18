@@ -5,7 +5,9 @@ A domain is a collection of users, groups, and projects. Each group and project 
 
 .. osdoc:: https://docs.openstack.org/keystone/latest/getting-started/architecture.html#domains
 
-In order to work with domains you have to :doc:`create the service </services/identity/v3/create>` first.
+.. |models| replace:: domains
+
+.. include:: /common/service.rst
 
 Create
 ------

@@ -7,7 +7,9 @@ project or domain.
 
 .. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#credentials
 
-In order to work with credentials you have to :doc:`create the service </services/identity/v3/create>` first.
+.. |models| replace:: credentials
+
+.. include:: /common/service.rst
 
 Create
 ------

@@ -5,6 +5,12 @@ Each service should have one or more related endpoints. An endpoint is essential
 an API, along with some metadata about the endpoint itself and represents a set of URL endpoints for
 OpenStack web services.
 
+.. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#service-catalog-and-endpoints
+
+.. |models| replace:: endpoints
+
+.. include:: /common/service.rst
+
 
 Add endpoints
 -------------
