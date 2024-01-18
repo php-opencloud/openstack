@@ -26,6 +26,7 @@ primary_domain = 'php'
 extensions = [
     'samples',
     'refdoc',
+    'osdoc',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinxcontrib.phpdomain',
