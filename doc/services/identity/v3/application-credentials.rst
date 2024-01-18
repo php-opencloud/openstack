@@ -9,7 +9,7 @@ they have on that project, and then stores the application credential identifier
 
 More information can be found in the `official documentation <https://docs.openstack.org/keystone/latest/user/application_credentials.html>`_.
 
-In order to work with application credentials you have to :doc:`create the service </services/v3/identity/create>` first.
+In order to work with application credentials you have to :doc:`create the service </services/identity/v3/create>` first.
 
 Create
 ------
