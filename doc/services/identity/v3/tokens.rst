@@ -1,12 +1,6 @@
 Tokens
 ======
 
-Authenticate (generate) token
------------------------------
-
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createService
-
-
 Generate token with user ID
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

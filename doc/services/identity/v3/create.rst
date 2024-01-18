@@ -1,7 +1,7 @@
 Create Service
 ==============
 
-Service can be created via ``identityV3`` method of ``OpenStack`` object:
+Service can be created via ``identityV3()`` method of ``OpenStack`` object:
 
 .. code-block:: php
 

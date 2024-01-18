@@ -17,6 +17,37 @@ There are different ways to provide the authentication credentials. See the :doc
 section for the full list of options. You should provide credentials to the ``OpenStack`` constructor as an array
 the same way you provide options to ``generateToken`` method of the ``Identity`` service.
 
+Authenticate with user ID
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sample:: Setup/user_id.php
+
+Authenticate with username
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sample:: Setup/username.php
+
+Authenticate application credential ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sample:: Setup/application_credential_id.php
+
+Generate token from ID
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. sample:: Setup/from_id.php
+
+Generate token scoped to project ID
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sample:: Identity/v3/tokens/generate_token_scoped_to_project_id.php
+
+Generate token scoped to project name
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. sample:: Identity/v3/tokens/generate_token_scoped_to_project_name.php
+
+
 Here is an example of how to create a client with a user id and password:
 
 .. code-block:: php

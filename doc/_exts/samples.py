@@ -35,7 +35,7 @@ class Sample(LiteralInclude):
         return [
             CollapseNode(
                 '',
-                'show full code',
+                'auth code example',
                 nodes.paragraph(
                     '',
                     '',
