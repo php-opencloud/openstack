@@ -32,7 +32,7 @@ class Sample(LiteralInclude):
             child=nodes.Text('Setup')
         )
 
-        return [
+        """"
             CollapseNode(
                 '',
                 'auth code example',
@@ -45,6 +45,9 @@ class Sample(LiteralInclude):
                 ),
                 nodes.literal_block(auth_str, auth_str, language="php")
             ),
+        """
+
+        return [
             nodes.literal_block(main_str, main_str, language="php")
         ]
 
