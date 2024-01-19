@@ -40,7 +40,7 @@ Create from volume
 Read
 ----
 
-.. sample:: BlockStorage/v3/volumes/get.php
+.. sample:: BlockStorage/v3/volumes/read.php
 
 
 Update
