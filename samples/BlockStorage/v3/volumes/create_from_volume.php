@@ -14,9 +14,8 @@ $openstack = new OpenStack\OpenStack([
 $service = $openstack->blockStorageV3();
 
 $volume = $service->createVolume([
-    'description' => '{description}',
-    'size'        => '{size}',
-    'name'        => '{name}',
-    'volumeType'  => '{volumeType}',
-    'metadata'    => ['{key1}' => '{val1}'],
+    'description'    => '{description}',
+    'size'           => '{size}',
+    'name'           => '{name}',
+    'sourceVolumeId' => '{volumeId}',
 ]);

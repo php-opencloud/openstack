@@ -38,7 +38,7 @@ project = u'php-opencloud'
 copyright = u'2015-2023, PHP OpenCloud & contributors'
 version = '1.12'
 release = '1.12.1'
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', 'common']
 pygments_style = 'sphinx'
 
 html_theme = 'sphinx_rtd_theme'

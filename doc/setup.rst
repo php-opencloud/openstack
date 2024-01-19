@@ -26,7 +26,7 @@ as usernames will not be unique across an entire OpenStack installation
 .. sample:: Setup/username.php
 
 Authenticate with user ID
---------------------------
+-------------------------
 
 .. sample:: Setup/user_id.php
 
@@ -36,7 +36,7 @@ Authenticate application credential ID
 .. sample:: Setup/application_credential_id.php
 
 Authenticate using token ID
---------------------------
+---------------------------
 
 If you already have a valid token, you can use it to authenticate.
 

@@ -11,8 +11,4 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$service = $openstack->blockStorageV3();
-
-foreach ($service->listVolumes(true) as $volume) {
-    /** @var $volume \OpenStack\BlockStorage\v2\Models\Volume */
-}
+$service = $openstack->blockStorageV2();

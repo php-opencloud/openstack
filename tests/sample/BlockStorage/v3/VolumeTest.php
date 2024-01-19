@@ -35,16 +35,18 @@ class VolumeTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testGet(Volume $createdVolume)
+    public function testRead(Volume $createdVolume)
     {
         /** @var Volume $volume */
-        require_once $this->sampleFile('volumes/get.php', [
+        require_once $this->sampleFile('volumes/read.php', [
             '{volumeId}' => $createdVolume->id,
         ]);
 
         $this->assertInstanceOf(Volume::class, $volume);
         $this->assertEquals($createdVolume->id, $volume->id);
-        $this->assertNull($volume->description);
+        $this->assertEquals($createdVolume->name, $volume->name);
+        $this->assertEquals($createdVolume->size, $volume->size);
+        $this->assertEquals($createdVolume->description, $volume->description);
     }
 
     /**
