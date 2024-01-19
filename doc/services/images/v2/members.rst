@@ -1,34 +1,37 @@
 Image Members
 =============
 
-Add member to image
--------------------
+Image member is a project which can access a given VM image within Image service.
 
-.. sample:: Images/v2/members/add.php
-.. refdoc:: OpenStack/Images/v2/Models/Image.html#method_addMember
+.. osdoc:: https://docs.openstack.org/api-ref/image/v2/index.html#sharing
 
-List image members
-------------------
+.. |models| replace:: image members
+
+.. include:: /common/service.rst
+
+Create
+------
+
+.. sample:: Images/v2/members/create.php
+
+Read
+----
+
+.. sample:: Images/v2/members/read.php
+
+Delete
+------
+
+.. sample:: Images/v2/members/delete.php
+
+List
+----
 
 .. sample:: Images/v2/members/list.php
-.. refdoc:: OpenStack/Images/v2/Models/Image.html#method_listMembers
 
 .. include:: /common/generators.rst
 
-Show member details
--------------------
-
-.. sample:: Images/v2/members/get.php
-.. refdoc:: OpenStack/Images/v2/Models/Image.html#method_getMember
-
-Remove member from image
-------------------------
-
-.. sample:: Images/v2/members/delete.php
-.. refdoc:: OpenStack/Images/v2/Models/Member.html#method_delete
-
-Update status of image member
------------------------------
+Update Status
+-------------
 
 .. sample:: Images/v2/members/update_status.php
-.. refdoc:: OpenStack/Images/v2/Models/Member.html#method_updateStatus

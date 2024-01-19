@@ -11,4 +11,6 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$compute = $openstack->computeV2();
+$service = $openstack->imagesV2();
+$image = $service->getImage('{imageId}');
+$member = $image->addMember('{projectId}');

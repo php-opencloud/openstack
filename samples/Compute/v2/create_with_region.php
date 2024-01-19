@@ -10,4 +10,4 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$identity = $openstack->computeV2(['region' => '{region}']);
+$compute = $openstack->computeV2(['region' => '{region}']);

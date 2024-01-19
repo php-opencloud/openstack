@@ -7,7 +7,6 @@ use OpenStack\Images\v2\Models\Image;
 
 class ImageTest extends TestCase
 {
-
     public function testCreate(): Image
     {
         /** @var Image $image */
@@ -54,11 +53,11 @@ PHP
     /**
      * @depends testCreate
      */
-    public function testGet(Image $createdImage)
+    public function testRead(Image $createdImage)
     {
         /** @var Image $image */
         require_once $this->sampleFile(
-            'images/get.php',
+            'images/read.php',
             [
                 '{imageId}' => $createdImage->id,
             ]

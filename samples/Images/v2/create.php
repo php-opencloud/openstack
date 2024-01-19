@@ -11,4 +11,4 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$compute = $openstack->computeV2();
+$service = $openstack->imagesV2();

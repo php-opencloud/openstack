@@ -5,12 +5,14 @@ require 'vendor/autoload.php';
 $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
     'region'  => '{region}',
-    'user'    => ['id' => '{userId}', 'password' => '{password}'],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}',
+    ],
 ]);
 
-$image = $openstack->imagesV2()
-                   ->getImage('{imageId}');
+$service = $openstack->imagesV2();
+$image = $service->getImage('{imageId}');
 
 foreach ($image->listMembers() as $member) {
 }
