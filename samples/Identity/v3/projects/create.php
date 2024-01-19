@@ -9,16 +9,12 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
-$group = $identity->createGroup([
+$project = $identity->createProject([
     'description' => '{description}',
-    'name'        => '{name}',
+    'enabled'     => true,
+    'name'        => '{name}'
 ]);

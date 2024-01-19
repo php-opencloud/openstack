@@ -9,14 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
-foreach ($identity->listProjects() as $project) {
-}
+$endpoint = $identity->getEndpoint('{endpointId}');
+$endpoint->retrieve();

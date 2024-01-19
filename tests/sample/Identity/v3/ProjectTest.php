@@ -7,11 +7,11 @@ use OpenStack\Identity\v3\Models\Project;
 
 class ProjectTest extends TestCase
 {
-    public function testAdd(): Project
+    public function testCreate(): Project
     {
         /** @var $project \OpenStack\Identity\v3\Models\Project */
         require_once $this->sampleFile(
-            'projects/add_project.php',
+            'projects/create.php',
             ['{name}' => $this->randomStr(), '{description}' => $this->randomStr()]
         );
         $this->assertInstanceOf(Project::class, $project);
@@ -20,19 +20,19 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
-    public function testGet(Project $createdProject)
+    public function testRead(Project $createdProject)
     {
         /** @var $project \OpenStack\Identity\v3\Models\Project */
-        require_once $this->sampleFile('projects/get_project.php', ['{id}' => $createdProject->id]);
+        require_once $this->sampleFile('projects/read.php', ['{id}' => $createdProject->id]);
         $this->assertInstanceOf(Project::class, $project);
         $this->assertEquals($createdProject->id, $project->id);
         $this->assertEquals($createdProject->name, $project->name);
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testGrantGroupRole(Project $createdProject): array
     {
@@ -55,7 +55,7 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      * @depends testGrantGroupRole
      */
     public function testCheckGroupRole(Project $createdProject, array $createdRoleAndGroup)
@@ -76,7 +76,7 @@ class ProjectTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      * @depends testGrantGroupRole
      */
     public function testListGroupRoles(Project $createdProject, array $createdRoleAndGroup)
@@ -103,7 +103,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      * @depends testGrantGroupRole
      */
     public function testRevokeGroupRole(Project $createdProject, array $createdRoleAndGroup)
@@ -125,7 +125,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testGrantUserRole(Project $createdProject): array
     {
@@ -147,7 +147,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      * @depends testGrantUserRole
      */
     public function testCheckUserRole(Project $createdProject, array $createdRoleAndUser)
@@ -168,7 +168,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      * @depends testGrantUserRole
      */
     public function testListUserRoles(Project $createdProject, array $createdRoleAndUser)
@@ -195,7 +195,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      * @depends testGrantUserRole
      */
     public function testRevokeUserRole(Project $createdProject, array $createdRoleAndUser)
@@ -217,24 +217,24 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testUpdate(Project $createdProject)
     {
         $this->assertTrue($createdProject->enabled);
 
-        require_once $this->sampleFile('projects/update_project.php', ['{id}' => $createdProject->id]);
+        require_once $this->sampleFile('projects/update.php', ['{id}' => $createdProject->id]);
 
         $createdProject->retrieve();
         $this->assertFalse($createdProject->enabled);
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testDelete(Project $createdProject)
     {
-        require_once $this->sampleFile('projects/delete_project.php', ['{id}' => $createdProject->id]);
+        require_once $this->sampleFile('projects/delete.php', ['{id}' => $createdProject->id]);
 
         $found = false;
         foreach ($this->getService()->listProjects() as $project) {

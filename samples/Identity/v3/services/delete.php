@@ -13,12 +13,5 @@ $openstack = new OpenStack\OpenStack([
 
 $identity = $openstack->identityV3();
 
-$token = $identity->generateToken([
-    'user' => [
-        'id'       => '{userId}',
-        'password' => '{password}'
-    ],
-    'scope' => [
-        'project' => ['id' => '{projectId}']
-    ]
-]);
+$service = $identity->getService('{serviceId}');
+$service->delete();

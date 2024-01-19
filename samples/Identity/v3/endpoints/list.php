@@ -9,14 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
 foreach ($identity->listEndpoints() as $endpoint) {
     /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */

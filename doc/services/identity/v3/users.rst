@@ -1,44 +1,46 @@
 Users
 =====
 
-Add user
---------
+A user is an individual API consumer that is owned by a domain. A role explicitly associates a user with projects
+or domains. A user with no assigned roles has no access to OpenStack resources.
 
-.. sample:: Identity/v3/users/add_user.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createUser
+.. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#users
 
-List users
-----------
+.. |models| replace:: users
 
-.. sample:: Identity/v3/users/list_users.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_listUsers
+.. include:: /common/service.rst
 
-Show user details
------------------
+Create
+------
 
-.. sample:: Identity/v3/users/get_user.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_getUser
+.. sample:: Identity/v3/users/create.php
 
-Update user
------------
+Read
+----
 
-.. sample:: Identity/v3/users/update_user.php
-.. refdoc:: OpenStack/Identity/v3/Models/User.html#method_update
+.. sample:: Identity/v3/users/read.php
 
-Delete user
------------
+Update
+------
 
-.. sample:: Identity/v3/users/delete_user.php
-.. refdoc:: OpenStack/Identity/v3/Models/User.html#method_delete
+.. sample:: Identity/v3/users/update.php
+
+Delete
+------
+
+.. sample:: Identity/v3/users/delete.php
+
+List
+----
+
+.. sample:: Identity/v3/users/list.php
 
 List groups for user
 --------------------
 
 .. sample:: Identity/v3/users/list_groups.php
-.. refdoc:: OpenStack/Identity/v3/Models/User.html#method_listGroups
 
 List projects for user
 ----------------------
 
 .. sample:: Identity/v3/users/list_projects.php
-.. refdoc:: OpenStack/Identity/v3/Models/User.html#method_listProjects

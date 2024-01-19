@@ -9,15 +9,10 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
 $identity = $openstack->identityV3();
 
-$role = $identity->createRole([
-    'name' => '{name}',
-]);
+foreach ($identity->listRoles() as $role) {
+    /** @var $role \OpenStack\Identity\v3\Models\Role */
+}

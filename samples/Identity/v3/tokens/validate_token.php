@@ -10,12 +10,9 @@ $openstack = new OpenStack\OpenStack([
         'password' => '{password}',
         'domain'   => ['id' => '{domainId}']
     ],
-    'scope' => [
-        'project' => ['id' => '{projectId}']
-    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
 $result = $identity->validateToken('{tokenId}');
 

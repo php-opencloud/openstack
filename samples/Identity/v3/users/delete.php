@@ -9,15 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
 $identity = $openstack->identityV3();
 
-foreach ($identity->listUsers() as $user) {
-    /** @var $user \OpenStack\Identity\v3\Models\User */
-}
+$user = $identity->getUser('{id}');
+$user->delete();

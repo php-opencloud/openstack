@@ -1,26 +1,35 @@
 Services
 ========
 
-Add service
------------
+A service is an OpenStack web service that you can access through a URL, i.e. an endpoint.
 
-.. sample:: Identity/v3/services/add_service.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createService
+.. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#roles
 
-List services
--------------
+.. |models| replace:: services
 
-.. sample:: Identity/v3/services/list_services.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_listServices
+.. include:: /common/service.rst
 
-Show service details
---------------------
+Create
+------
 
-.. sample:: Identity/v3/services/get_service.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_getService
+.. sample:: Identity/v3/services/create.php
 
-Delete service
---------------
+Read
+----
 
-.. sample:: Identity/v3/services/delete_service.php
-.. refdoc:: OpenStack/Identity/v3/Models/Service.html#method_delete
+.. sample:: Identity/v3/services/read.php
+
+Update
+------
+
+.. sample:: Identity/v3/services/update.php
+
+Delete
+------
+
+.. sample:: Identity/v3/services/delete.php
+
+List
+----
+
+.. sample:: Identity/v3/services/list.php

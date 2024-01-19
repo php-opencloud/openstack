@@ -1,9 +1,15 @@
 from docutils import nodes
+from docutils.parsers.rst import directives
 from sphinx.directives.code import LiteralInclude
 import re
 
+from sphinx.util.typing import OptionSpec
+
 
 class Sample(LiteralInclude):
+    option_spec: OptionSpec = {
+        'full': directives.flag,
+    }
 
     def run(self):
         self.arguments[0] = "/../samples/" + self.arguments[0]
@@ -12,6 +18,9 @@ class Sample(LiteralInclude):
         pattern = r"[\s+]?(\<\?php.*?]\);)"
 
         code_block = super(Sample, self).run()[0]
+        if 'force' in self.options:
+            return [code_block]
+
         string = str(code_block[0])
 
         match = re.match(pattern, string, re.S)

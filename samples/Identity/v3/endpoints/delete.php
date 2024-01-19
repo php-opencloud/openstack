@@ -9,17 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
 $endpoint = $identity->getEndpoint('{endpointId}');
-
-$endpoint->interface = \OpenStack\Identity\v3\Enum::INTERFACE_PUBLIC;
-
-$endpoint->update();
+$endpoint->delete();

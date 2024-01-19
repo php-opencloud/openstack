@@ -7,14 +7,14 @@ use OpenStack\Identity\v3\Models\Group;
 
 class GroupTest extends TestCase
 {
-    public function testAdd(): array
+    public function testCreate(): array
     {
         $name = $this->randomStr();
         $description = $this->randomStr();
 
         /** @var $group \OpenStack\Identity\v3\Models\Group */
         require_once $this->sampleFile(
-            'groups/add_group.php',
+            'groups/create.php',
             [
                 '{name}'        => $name,
                 '{description}' => $description,
@@ -31,7 +31,7 @@ class GroupTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testAddUser(array $groupAndUser): void
     {
@@ -53,7 +53,7 @@ class GroupTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testCheckMembership(array $groupAndUser): void
     {
@@ -61,7 +61,7 @@ class GroupTest extends TestCase
         /** @var $createdUser \OpenStack\Identity\v3\Models\User */
         [$createdGroup, $createdUser] = $groupAndUser;
 
-        /** @var $result bool */
+        /** @var $hasMembership bool */
         require_once $this->sampleFile(
             'groups/check_user_membership.php',
             [
@@ -70,11 +70,11 @@ class GroupTest extends TestCase
             ]
         );
 
-        $this->assertTrue($result);
+        $this->assertTrue($hasMembership);
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testListUsers(array $groupAndUser): void
     {
@@ -101,7 +101,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testRemoveUser(array $groupAndUser): void
     {
@@ -123,16 +123,16 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
-    public function testGet(array $groupAndUser): void
+    public function testRead(array $groupAndUser): void
     {
         /** @var $createdGroup \OpenStack\Identity\v3\Models\Group */
         [$createdGroup] = $groupAndUser;
 
         /** @var $group \OpenStack\Identity\v3\Models\Group */
         require_once $this->sampleFile(
-            'groups/get_group.php',
+            'groups/read.php',
             [
                 '{groupId}' => $createdGroup->id,
             ]
@@ -144,7 +144,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testUpdate(array $groupAndUser): void
     {
@@ -155,7 +155,7 @@ PHP
         $newDescription = $this->randomStr();
 
         require_once $this->sampleFile(
-            'groups/update_group.php',
+            'groups/update.php',
             [
                 '{groupId}'     => $createdGroup->id,
                 '{name}'        => $newName,
@@ -169,7 +169,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testList(array $groupAndUser): void
     {
@@ -178,7 +178,7 @@ PHP
 
         $found = false;
         require_once $this->sampleFile(
-            'groups/list_groups.php',
+            'groups/list.php',
             [
                 '{groupId}'                                            => $createdGroup->id,
                 '/** @var $group \OpenStack\Identity\v3\Models\Group */' => <<<'PHP'
@@ -196,7 +196,7 @@ PHP
 
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testDelete(array $groupAndUser): void
     {
@@ -204,7 +204,7 @@ PHP
         [$createdGroup] = $groupAndUser;
 
         require_once $this->sampleFile(
-            'groups/delete_group.php',
+            'groups/delete.php',
             [
                 '{groupId}' => $createdGroup->id,
             ]

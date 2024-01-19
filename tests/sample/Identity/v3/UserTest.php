@@ -7,14 +7,14 @@ use OpenStack\Identity\v3\Models\User;
 
 class UserTest extends TestCase
 {
-    public function testAdd(): User
+    public function testCreate(): User
     {
         $domain = $this->getService()->createDomain(['name' => $this->randomStr()]);
         $project = $this->getService()->createProject(['name' => $this->randomStr(), 'domainId' => $domain->id]);
 
         /** @var $user \OpenStack\Identity\v3\Models\User */
         require_once $this->sampleFile(
-            'users/add_user.php',
+            'users/create.php',
             [
                 '{defaultProjectId}' => $project->id,
                 '{description}'      => $this->randomStr(),
@@ -31,12 +31,12 @@ class UserTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
-    public function testGet(User $createdUser): void
+    public function testRead(User $createdUser): void
     {
         /** @var $user \OpenStack\Identity\v3\Models\User */
-        require_once $this->sampleFile('users/get_user.php', ['{id}' => $createdUser->id]);
+        require_once $this->sampleFile('users/read.php', ['{id}' => $createdUser->id]);
         $this->assertInstanceOf(User::class, $user);
 
         $this->assertEquals($createdUser->id, $user->id);
@@ -45,13 +45,13 @@ class UserTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testList(User $createdUser): void
     {
         $found = false;
         require_once $this->sampleFile(
-            'users/list_users.php',
+            'users/list.php',
             [
                 '/** @var $user \OpenStack\Identity\v3\Models\User */' => <<<'PHP'
 /** @var $user \OpenStack\Identity\v3\Models\User */
@@ -67,7 +67,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testListGroups(User $createdUser): void
     {
@@ -93,7 +93,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testListProjects(User $createdUser): void
     {
@@ -121,7 +121,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testUpdate(User $createdUser): void
     {
@@ -129,7 +129,7 @@ PHP
         $newDescription = $this->randomStr();
 
         require_once $this->sampleFile(
-            'users/update_user.php',
+            'users/update.php',
             [
                 '{id}'          => $createdUser->id,
                 '{name}'        => $newName,
@@ -144,11 +144,11 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testDelete(User $createdUser): void
     {
-        require_once $this->sampleFile('users/delete_user.php', ['{id}' => $createdUser->id]);
+        require_once $this->sampleFile('users/delete.php', ['{id}' => $createdUser->id]);
 
         $found = false;
         foreach ($this->getService()->listUsers() as $user) {

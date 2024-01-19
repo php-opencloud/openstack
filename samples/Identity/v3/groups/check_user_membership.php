@@ -9,18 +9,10 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->identityV3();
 
 $group = $identity->getGroup('{groupId}');
 
-$result = $group->checkMembership(['userId' => '{groupUserId}']);
-
-if (true === $result) {
-}
+$hasMembership = $group->checkMembership(['userId' => '{groupUserId}']);

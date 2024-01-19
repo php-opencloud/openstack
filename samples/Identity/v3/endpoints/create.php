@@ -9,14 +9,14 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
 $identity = $openstack->identityV3();
 
-$user = $identity->getUser('{id}');
-$user->delete();
+$endpoint = $identity->createEndpoint([
+    'interface' => \OpenStack\Identity\v3\Enum::INTERFACE_INTERNAL,
+    'name'      => '{endpointName}',
+    'region'    => '{region}',
+    'url'       => '{endpointUrl}',
+    'serviceId' => '{serviceId}'
+]);

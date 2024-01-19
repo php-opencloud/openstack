@@ -1,29 +1,6 @@
 Policies
 ========
 
-.. warning:: Due to lack of information in upstream documentation, we are unable to offer code samples for this resource yet.
+.. warning:: The policies API is deprecated. Keystone is not a policy management service. Do not use this.
 
-Add policy
-----------
-
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createPolicy
-
-List policies
--------------
-
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_listPolicies
-
-Show policy details
--------------------
-
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_getPolicy
-
-Update policy
--------------
-
-.. refdoc:: OpenStack/Identity/v3/Models/Policy.html#method_update
-
-Delete policy
--------------
-
-.. refdoc:: OpenStack/Identity/v3/Models/Policy.html#method_delete
+.. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#policies

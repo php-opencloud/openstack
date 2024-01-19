@@ -13,12 +13,8 @@ $openstack = new OpenStack\OpenStack([
 
 $identity = $openstack->identityV3();
 
-$token = $identity->generateToken([
-    'user' => [
-        'id'       => '{userId}',
-        'password' => '{password}'
-    ],
-    'scope' => [
-        'project' => ['id' => '{projectId}']
-    ]
-]);
+$endpoint = $identity->getEndpoint('{endpointId}');
+
+$endpoint->interface = \OpenStack\Identity\v3\Enum::INTERFACE_PUBLIC;
+
+$endpoint->update();
