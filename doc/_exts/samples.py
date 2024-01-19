@@ -18,7 +18,7 @@ class Sample(LiteralInclude):
         pattern = r"[\s+]?(\<\?php.*?]\);)"
 
         code_block = super(Sample, self).run()[0]
-        if 'force' in self.options:
+        if 'full' in self.options:
             return [code_block]
 
         string = str(code_block[0])
