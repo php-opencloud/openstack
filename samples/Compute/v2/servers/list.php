@@ -7,8 +7,13 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}',
+        'password' => '{password}'
     ],
 ]);
 
-$service = $openstack->blockStorageV3();
+$compute = $openstack->computeV2();
+
+$servers = $compute->listServers();
+
+foreach ($servers as $server) {
+}

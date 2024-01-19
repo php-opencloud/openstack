@@ -11,4 +11,4 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$service = $openstack->blockStorageV3();
+$service = $openstack->computeV2();

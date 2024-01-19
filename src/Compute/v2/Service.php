@@ -37,10 +37,10 @@ class Service extends AbstractService
     /**
      * List servers.
      *
-     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     * @param bool $detailed Determines whether detailed information will be returned. If FALSE is specified, only
      *                           the ID, name and links attributes are returned, saving bandwidth.
-     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getServers}
-     * @param callable $mapFn    a callable function that will be invoked on every iteration of the list
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getServers}
+     * @param callable|null $mapFn a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Server>
      */
@@ -72,9 +72,9 @@ class Service extends AbstractService
     /**
      * List flavors.
      *
-     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getFlavors}
-     * @param callable $mapFn    a callable function that will be invoked on every iteration of the list
-     * @param bool     $detailed set to true to fetch flavors' details
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getFlavors}
+     * @param callable $mapFn a callable function that will be invoked on every iteration of the list
+     * @param bool $detailed set to true to fetch flavors' details
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Flavor>
      */
@@ -114,8 +114,8 @@ class Service extends AbstractService
     /**
      * List images.
      *
-     * @param array         $options {@see \OpenStack\Compute\v2\Api::getImages}
-     * @param callable|null $mapFn   a callable function that will be invoked on every iteration of the list
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getImages}
+     * @param callable|null $mapFn a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Image>
      */
@@ -143,8 +143,8 @@ class Service extends AbstractService
     /**
      * List key pairs.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getKeyPairs}
-     * @param callable $mapFn   a callable function that will be invoked on every iteration of the list
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getKeyPairs}
+     * @param callable $mapFn a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Keypair>
      */
@@ -197,10 +197,10 @@ class Service extends AbstractService
     /**
      * List hypervisors.
      *
-     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     * @param bool $detailed Determines whether detailed information will be returned. If FALSE is specified, only
      *                           the ID, name and links attributes are returned, saving bandwidth.
-     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getHypervisors}
-     * @param callable $mapFn    a callable function that will be invoked on every iteration of the list
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getHypervisors}
+     * @param callable $mapFn a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Hypervisor>
      */
@@ -224,8 +224,8 @@ class Service extends AbstractService
     /**
      * List hosts.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getHosts}
-     * @param callable $mapFn   a callable function that will be invoked on every iteration of the list
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getHosts}
+     * @param callable $mapFn a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Host>
      */
@@ -255,8 +255,8 @@ class Service extends AbstractService
     /**
      * List AZs.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getAvailabilityZones}
-     * @param callable $mapFn   a callable function that will be invoked on every iteration of the list
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getAvailabilityZones}
+     * @param callable $mapFn a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\AvailabilityZone>
      */

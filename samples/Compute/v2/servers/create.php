@@ -9,10 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$compute = $openstack->computeV2(['region' => '{region}']);
+$compute = $openstack->computeV2();
 
 $options = [
     // Required

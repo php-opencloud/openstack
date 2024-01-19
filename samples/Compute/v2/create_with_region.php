@@ -4,11 +4,10 @@ require 'vendor/autoload.php';
 
 $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
-    'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}',
+        'password' => '{password}'
     ],
 ]);
 
-$service = $openstack->blockStorageV3();
+$identity = $openstack->computeV2(['region' => '{region}']);

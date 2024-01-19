@@ -1,11 +1,24 @@
 Flavors
 =======
 
-List flavors
-------------
+Flavors define the compute, memory, and storage capacity of nova computing instances. To put it simply, a flavor is
+an available hardware configuration for a server. It defines the size of a virtual server that can be launched.
 
-.. sample:: Compute/v2/flavors/list_flavors.php
-.. refdoc:: OpenStack/Compute/v2/Service.html#method_listFlavors
+.. osdoc:: https://docs.openstack.org/nova/latest/user/flavors.html
+
+.. |models| replace:: flavors
+
+.. include:: /common/service.rst
+
+Read
+----
+
+.. sample:: Compute/v2/flavors/read.php
+
+List
+----
+
+.. sample:: Compute/v2/flavors/list.php
 
 Each iteration will return a :php:class:`Flavor` instance <OpenStack/Compute/v2/Models/Flavor.html>.
 
@@ -19,28 +32,5 @@ for a flavor, you must pass ``true`` as the last parameter, like so:
 
 .. code-block:: php
 
-    $flavors = $service->listFlavors([], function ($flavor) {
-        return $flavor;
-    }, true);
+    $flavors = $service->listFlavors([], null, true);
 
-Retrieve a flavor
------------------
-
-.. sample:: Compute/v2/flavors/get_flavor.php
-.. refdoc:: OpenStack/Compute/v2/Service.html#method_getFlavor
-
-When retrieving a flavor, sometimes you only want to operate on it. If this is the case,
-then there is no need to perform an initial ``GET`` request to the server:
-
-.. code-block:: php
-
-    // Get an unpopulated object
-    $flavor = $service->getFlavor(['id' => '{flavorId}']);
-
-If, however, you *do* want to retrieve all the details of a remote flavor from the API, you just call:
-
-.. code-block:: php
-
-    $flavor->retrieve();
-
-which will update the state of the local object. This gives you an element of control over your app's performance.

@@ -1,7 +1,7 @@
 Snapshots
 =========
 
-a read-only point in time copy of a volume. The snapshot can be created from a volume that is currently in use
+A snapshot is read-only point in time copy of a volume. The snapshot can be created from a volume that is currently in use
 or in an available state. The snapshot can then be used to create a new volume.
 
 .. osdoc:: https://docs.openstack.org/api-ref/block-storage/v3/#volume-snapshots-snapshots

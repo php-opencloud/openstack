@@ -10,4 +10,4 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$identity = $openstack->identityV3(['region' => '{region}']);
+$identity = $openstack->blockStorageV3(['region' => '{region}']);

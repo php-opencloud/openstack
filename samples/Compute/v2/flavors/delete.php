@@ -7,14 +7,11 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
 $compute = $openstack->computeV2(['region' => '{region}']);
 
-$servers = $compute->listServers(['imageId' => '{imageId}']);
-
-foreach ($servers as $server) {
-}
+$flavor = $compute->getFlavor(['id' => '{flavorId}']);
+$flavor->delete();

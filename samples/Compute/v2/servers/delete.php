@@ -9,11 +9,10 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$compute = $openstack->computeV2(['region' => '{region}']);
+$compute = $openstack->computeV2();
 
+$server = $compute->getServer(['id' => '{serverId}']);
 
-$flavor = $compute->getFlavor(['id' => '{flavorId}']);
-$flavor->delete();
+$server->delete();

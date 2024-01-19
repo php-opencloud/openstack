@@ -7,12 +7,11 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$compute = $openstack->computeV2(['region' => '{region}']);
+$compute = $openstack->computeV2();
 
 $flavor = $compute->createFlavor([
     'name'  => '{flavorName}',
