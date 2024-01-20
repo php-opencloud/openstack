@@ -31,6 +31,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinxcontrib.phpdomain',
     'sphinx_toolbox.collapse',
+    'sphinx_substitution_extensions',
 ]
 source_suffix = '.rst'
 master_doc = 'index'

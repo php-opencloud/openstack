@@ -2,7 +2,7 @@ Images
 ======
 
 .. warning::
-    These APIs are proxy calls to the :doc:`/services/images/v2/`Image service.
+    These APIs are proxy calls to the :doc:`/services/images/v2/index` Image service.
     Nova has deprecated all the proxy APIs and users should use the native APIs instead.
 
 .. osdoc:: https://docs.openstack.org/api-ref/compute/#images-deprecated

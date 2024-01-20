@@ -149,7 +149,7 @@ Update
 The first step when updating a server is modifying the attributes you want updated. By default, only a server's name,
 IPv4 and IPv6 IPs, and its auto disk config attributes can be edited.
 
-.. sample:: Compute/v2/servers/update_server.php
+.. sample:: Compute/v2/servers/update.php
 
 Delete
 ---------------
