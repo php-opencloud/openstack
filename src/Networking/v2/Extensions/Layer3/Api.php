@@ -6,6 +6,7 @@ use OpenStack\Common\Api\AbstractApi;
 
 /**
  * @deprecated Use Networking\v2\Api instead
+ *
  * @internal
  */
 class Api extends AbstractApi

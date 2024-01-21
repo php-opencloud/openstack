@@ -4,7 +4,8 @@ namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
 
 /**
  * @property \OpenStack\Networking\v2\Params $params
- * @property string $pathPrefix
+ * @property string                          $pathPrefix
+ *
  * @internal
  */
 trait ApiTrait
@@ -12,14 +13,12 @@ trait ApiTrait
     /**
      * Returns information about GET security-groups/{security_group_id} HTTP
      * operation.
-     *
-     * @return array
      */
     public function getSecurityGroups(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-groups',
+            'path'   => $this->pathPrefix.'/security-groups',
             'params' => [
                 'tenantId' => $this->params->queryTenantId(),
                 'name'     => $this->params->filterName(),
@@ -29,14 +28,12 @@ trait ApiTrait
 
     /**
      * Returns information about POST security-groups HTTP operation.
-     *
-     * @return array
      */
     public function postSecurityGroups(): array
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/security-groups',
+            'path'    => $this->pathPrefix.'/security-groups',
             'jsonKey' => 'security_group',
             'params'  => [
                 'description' => $this->params->descriptionJson(),
@@ -47,14 +44,12 @@ trait ApiTrait
 
     /**
      * Returns information about PUT security-groups HTTP operation.
-     *
-     * @return array
      */
     public function putSecurityGroups(): array
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/security-groups/{id}',
+            'path'    => $this->pathPrefix.'/security-groups/{id}',
             'jsonKey' => 'security_group',
             'params'  => [
                 'id'          => $this->params->idPath(),
@@ -67,14 +62,12 @@ trait ApiTrait
     /**
      * Returns information about GET security-groups/{security_group_id} HTTP
      * operation.
-     *
-     * @return array
      */
     public function getSecurityGroup(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-groups/{id}',
+            'path'   => $this->pathPrefix.'/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -84,14 +77,12 @@ trait ApiTrait
     /**
      * Returns information about DELETE security-groups/{security_group_id} HTTP
      * operation.
-     *
-     * @return array
      */
     public function deleteSecurityGroup(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/security-groups/{id}',
+            'path'   => $this->pathPrefix.'/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -100,28 +91,24 @@ trait ApiTrait
 
     /**
      * Returns information about GET security-group-rules HTTP operation.
-     *
-     * @return array
      */
     public function getSecurityRules(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-group-rules',
+            'path'   => $this->pathPrefix.'/security-group-rules',
             'params' => [],
         ];
     }
 
     /**
      * Returns information about POST security-group-rules HTTP operation.
-     *
-     * @return array
      */
     public function postSecurityRules(): array
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/security-group-rules',
+            'path'    => $this->pathPrefix.'/security-group-rules',
             'jsonKey' => 'security_group_rule',
             'params'  => [
                 'direction'       => $this->params->directionJson(),
@@ -140,14 +127,12 @@ trait ApiTrait
     /**
      * Returns information about DELETE
      * security-group-rules/{rules-security-groups-id} HTTP operation.
-     *
-     * @return array
      */
     public function deleteSecurityRule(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
+            'path'   => $this->pathPrefix.'/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -157,14 +142,12 @@ trait ApiTrait
     /**
      * Returns information about GET
      * security-group-rules/{rules-security-groups-id} HTTP operation.
-     *
-     * @return array
      */
     public function getSecurityRule(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
+            'path'   => $this->pathPrefix.'/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],

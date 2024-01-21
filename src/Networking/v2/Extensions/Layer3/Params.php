@@ -4,6 +4,7 @@ namespace OpenStack\Networking\v2\Extensions\Layer3;
 
 /**
  * @deprecated Use Networking\v2\Params instead
+ *
  * @internal
  */
 class Params extends \OpenStack\Networking\v2\Params
