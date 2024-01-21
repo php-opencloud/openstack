@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
 
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\Layer3;
 
 use OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp;

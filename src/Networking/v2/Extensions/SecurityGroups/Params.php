@@ -9,7 +9,7 @@ namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
  */
 class Params extends \OpenStack\Networking\v2\Params
 {
-    public function directionJson()
+    public function directionJson(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -17,7 +17,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function ethertypeJson()
+    public function ethertypeJson(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -25,7 +25,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function idJson()
+    public function idJson(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -33,7 +33,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function portRangeMaxJson()
+    public function portRangeMaxJson(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -42,7 +42,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function portRangeMinJson()
+    public function portRangeMinJson(): array
     {
         return [
             'sentAs'      => 'port_range_min',
@@ -51,7 +51,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function protocolJson()
+    public function protocolJson(): array
     {
         return [
             'type'        => self::STRING_TYPE,
@@ -59,7 +59,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function remoteGroupIdJson()
+    public function remoteGroupIdJson(): array
     {
         return [
             'sentAs'      => 'remote_group_id',
@@ -68,7 +68,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function remoteIpPrefixJson()
+    public function remoteIpPrefixJson(): array
     {
         return [
             'sentAs'      => 'remote_ip_prefix',
@@ -77,7 +77,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function securityGroupIdJson()
+    public function securityGroupIdJson(): array
     {
         return [
             'sentAs'      => 'security_group_id',
