@@ -8,7 +8,9 @@ use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroupRule;
 
 /**
  * @property Api $api
+ *
  * @deprecated Use Networking\v2\Service instead
+ *
  * @internal
  */
 class Service extends AbstractService

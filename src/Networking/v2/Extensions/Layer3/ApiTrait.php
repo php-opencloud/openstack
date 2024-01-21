@@ -6,7 +6,8 @@ namespace OpenStack\Networking\v2\Extensions\Layer3;
 
 /**
  * @property \OpenStack\Networking\v2\Params $params
- * @property string $pathPrefix
+ * @property string                          $pathPrefix
+ *
  * @internal
  */
 trait ApiTrait
@@ -15,7 +16,7 @@ trait ApiTrait
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/floatingips',
+            'path'    => $this->pathPrefix.'/floatingips',
             'jsonKey' => 'floatingip',
             'params'  => [
                 'tenantId'          => $this->params->tenantIdJson(),
@@ -31,7 +32,7 @@ trait ApiTrait
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/floatingips',
+            'path'   => $this->pathPrefix.'/floatingips',
             'params' => [
                 'tenantId' => $this->params->queryTenantId(),
             ],
@@ -42,7 +43,7 @@ trait ApiTrait
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/floatingips/{id}',
+            'path'    => $this->pathPrefix.'/floatingips/{id}',
             'jsonKey' => 'floatingip',
             'params'  => [
                 'id'                => $this->params->idPath(),
@@ -58,7 +59,7 @@ trait ApiTrait
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/floatingips/{id}',
+            'path'   => $this->pathPrefix.'/floatingips/{id}',
             'params' => [
                 'id'     => $this->params->idPath(),
                 'portId' => $this->params->portIdJson(),
@@ -70,7 +71,7 @@ trait ApiTrait
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/floatingips/{id}',
+            'path'   => $this->pathPrefix.'/floatingips/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -81,7 +82,7 @@ trait ApiTrait
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix . '/routers',
+            'path'    => $this->pathPrefix.'/routers',
             'jsonKey' => 'router',
             'params'  => [
                 'name'                => $this->params->nameJson(),
@@ -98,7 +99,7 @@ trait ApiTrait
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/routers',
+            'path'   => $this->pathPrefix.'/routers',
             'params' => [
                 'name'     => $this->params->queryName(),
                 'tenantId' => $this->params->queryTenantId(),
@@ -110,7 +111,7 @@ trait ApiTrait
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix . '/routers/{id}',
+            'path'    => $this->pathPrefix.'/routers/{id}',
             'jsonKey' => 'router',
             'params'  => [
                 'id'                  => $this->params->idPath(),
@@ -125,7 +126,7 @@ trait ApiTrait
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix . '/routers/{id}',
+            'path'   => $this->pathPrefix.'/routers/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -136,7 +137,7 @@ trait ApiTrait
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix . '/routers/{id}',
+            'path'   => $this->pathPrefix.'/routers/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -147,7 +148,7 @@ trait ApiTrait
     {
         return [
             'method' => 'PUT',
-            'path'   => $this->pathPrefix . '/routers/{id}/add_router_interface',
+            'path'   => $this->pathPrefix.'/routers/{id}/add_router_interface',
             'params' => [
                 'id'       => $this->params->idPath(),
                 'subnetId' => $this->params->subnetId(),
@@ -160,7 +161,7 @@ trait ApiTrait
     {
         return [
             'method' => 'PUT',
-            'path'   => $this->pathPrefix . '/routers/{id}/remove_router_interface',
+            'path'   => $this->pathPrefix.'/routers/{id}/remove_router_interface',
             'params' => [
                 'id'       => $this->params->idPath(),
                 'subnetId' => $this->params->subnetId(),

@@ -7,7 +7,8 @@ use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroupRule;
 
 /**
  * @property \OpenStack\Networking\v2\Api $api
- * @internal Please use the Networking\v2\Service instead of this one.
+ *
+ * @internal please use the Networking\v2\Service instead of this one
  */
 trait ServiceTrait
 {

@@ -8,6 +8,7 @@ use OpenStack\Networking\v2\Extensions\Layer3\Models\Router;
 
 /**
  * @property Api $api
+ *
  * @deprecated Use Networking\v2\Service instead
  */
 class Service extends AbstractService
