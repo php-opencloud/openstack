@@ -13,11 +13,6 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
         return $this->getCachedService(Service::class);
     }
 
-    protected function getServiceLayer3(): \OpenStack\Networking\v2\Extensions\Layer3\Service
-    {
-        return $this->getCachedService(\OpenStack\Networking\v2\Extensions\Layer3\Service::class);
-    }
-
     protected function sampleFile(string $path, array $replacements = []): string
     {
         return parent::sampleFile("Networking/v2/$path", $replacements);

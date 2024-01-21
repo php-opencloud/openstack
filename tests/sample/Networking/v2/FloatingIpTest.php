@@ -49,7 +49,7 @@ class FloatingIpTest extends TestCase
         $data->externalNetwork->waitUntilActive();
         $data->internalNetwork->waitUntilActive();
 
-        $data->router = $this->getServiceLayer3()->createRouter([
+        $data->router = $this->getService()->createRouter([
             'name'                => $this->randomStr(),
             'externalGatewayInfo' => [
                 'networkId'  => $data->externalNetwork->id,
@@ -161,7 +161,7 @@ PHP
             '{id}' => $data->floatingIp->id,
         ]);
 
-        foreach ($this->getServiceLayer3()->listFloatingIps() as $floatingIp) {
+        foreach ($this->getService()->listFloatingIps() as $floatingIp) {
             if ($floatingIp->id == $data->floatingIp->id) {
                 $this->fail('Floating IP still exists');
             }
