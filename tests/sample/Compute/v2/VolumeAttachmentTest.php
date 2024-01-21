@@ -71,7 +71,7 @@ PHP
         );
 
         $volume = $this->getCachedService(Service::class)->getVolume($createdVolumeAttachment->volumeId);
-        $volume->waitUntil('available');
+        $volume->waitUntil('available', 240);
         $this->assertEquals('available', $volume->status);
 
         $server = $this->getService()->getServer(['id' => $createdVolumeAttachment->serverId]);
