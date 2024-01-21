@@ -59,6 +59,9 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSecurityGroups(), $userOptions);

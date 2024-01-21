@@ -79,6 +79,8 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
 
     /**
      * @param array $userOptions {@see \OpenStack\ObjectStore\v1\Api::putContainer}
+     *
+     * @return self
      */
     public function create(array $userOptions): Creatable
     {

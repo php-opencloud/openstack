@@ -22,13 +22,14 @@ class ContainerTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testGet(Container $createdContainer)
+    public function testRead(Container $createdContainer)
     {
         /** @var \OpenStack\ObjectStore\v1\Models\Container $container */
         require_once $this->sampleFile('containers/get.php', ['{containerName}' => $createdContainer->name]);
 
         $this->assertInstanceOf(Container::class, $container);
         $this->assertEquals($createdContainer->name, $container->name);
+        $this->assertEquals($createdContainer->objectCount, $container->objectCount);
         $this->assertEquals([], $container->metadata);
     }
 

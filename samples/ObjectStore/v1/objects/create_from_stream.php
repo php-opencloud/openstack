@@ -2,27 +2,23 @@
 
 require 'vendor/autoload.php';
 
-use GuzzleHttp\Psr7\Stream;
-
 $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
 // You can use any instance of \Psr\Http\Message\StreamInterface
-$stream = new Stream(fopen('/path/to/object.txt', 'r'));
+$stream = new \GuzzleHttp\Psr7\Stream(fopen('/path/to/object.txt', 'r'));
 
-$options = [
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+
+$object = $container->createObject([
     'name'   => '{objectName}',
     'stream' => $stream,
-];
+]);
 
-/** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
-$object = $openstack->objectStoreV1()
-    ->getContainer('{containerName}')
-    ->createObject($options);

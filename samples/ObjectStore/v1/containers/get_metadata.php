@@ -9,10 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-/** @var array $metadata */
-$metadata = $openstack->objectStoreV1()
-                      ->getContainer('{containerName}')
-                      ->getMetadata();
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+
+$metadata = $container->getMetadata();

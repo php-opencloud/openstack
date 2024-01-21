@@ -9,9 +9,8 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$container = $openstack->objectStoreV1()
-    ->getContainer('{containerName}');
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
 $container->retrieve();

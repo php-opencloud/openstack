@@ -2,32 +2,29 @@
 
 require 'vendor/autoload.php';
 
-use Guzzle\Stream\Stream;
-
 $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
 $options = [
-    'name'   => 'object_name.txt',
-    'stream' => new Stream(fopen('/path/to/large_object.mov', 'r')),
 ];
 
-// optional: specify the size of each segment in bytes
-$options['segmentSize'] = 1073741824;
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
 
-// optional: specify the container where the segments live. This does not necessarily have to be the
-// same as the container which holds the manifest file
-$options['segmentContainer'] = 'test_segments';
+$object = $container->createObject([
+    'name'             => '{objectName}',
+    'stream'           => new \GuzzleHttp\Psr7\Stream(fopen('/path/to/large_object.mov', 'r')),
 
+    // optional: specify the size of each segment in bytes
+    'segmentSize'      => 1073741824,
 
-/** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
-$object = $openstack->objectStoreV1()
-                    ->getContainer('test')
-                    ->createLargeObject($options);
+    // optional: specify the container where the segments live. This does not necessarily have to be the
+    // same as the container which holds the manifest file
+    'segmentContainer' => 'test_segments',
+]);

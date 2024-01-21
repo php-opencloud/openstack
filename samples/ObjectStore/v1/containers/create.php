@@ -7,13 +7,12 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
 $service = $openstack->objectStoreV1();
 
 $container = $service->createContainer([
-    'name' => '{containerName}'
+    'name' => '{containerName}',
 ]);

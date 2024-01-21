@@ -1,3 +1,3 @@
-.. |method| replace:: objectStoreV1
+.. |method| replace::
 
 .. include:: /common/create-service.rst

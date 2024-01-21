@@ -2,8 +2,9 @@ Object Store v1
 ===============
 
 .. toctree::
-   :maxdepth: 3
+    :maxdepth: 3
 
-   account
-   containers
-   objects
+    create
+    account
+    containers
+    objects
