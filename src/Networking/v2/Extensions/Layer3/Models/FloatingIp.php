@@ -51,6 +51,9 @@ class FloatingIp extends OperatorResource implements Listable, Creatable, Retrie
     protected $resourceKey  = 'floatingip';
     protected $resourcesKey = 'floatingips';
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postFloatingIps(), $userOptions);

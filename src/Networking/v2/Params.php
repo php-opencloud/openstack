@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace OpenStack\Networking\v2;
 
 use OpenStack\Common\Api\AbstractParams;
+use OpenStack\Networking\v2\Extensions\Layer3\ParamsTrait as Layer3;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\ParamsTrait as SecurityGroups;
 
 class Params extends AbstractParams
 {
+    use Layer3;
+    use SecurityGroups;
+
     /**
      * Returns information about description parameter.
      */
@@ -717,6 +722,15 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'description' => 'The type of health monitor. Must be one of TCP, HTTP, HTTPS',
+        ];
+    }
+
+    public function tenantIdJson(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'description' => 'The UUID of the tenant. Only administrative users can specify a tenant UUID other than their own.',
+            'sentAs'      => 'tenant_id',
         ];
     }
 }

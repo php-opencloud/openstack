@@ -13,5 +13,5 @@ $openstack = new OpenStack\OpenStack([
 ]);
 
 /** @var \OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroupRule $rule */
-$rule = $openstack->networkingV2ExtSecGroups()
+$rule = $openstack->networkingV2()
     ->getSecurityGroupRule('{id}');

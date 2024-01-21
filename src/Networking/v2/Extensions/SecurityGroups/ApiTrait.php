@@ -2,32 +2,24 @@
 
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
 
-use OpenStack\Common\Api\AbstractApi;
-
 /**
- * @deprecated Use Networking\v2\Api instead
+ * @property \OpenStack\Networking\v2\Params $params
+ * @property string $pathPrefix
  * @internal
  */
-class Api extends AbstractApi
+trait ApiTrait
 {
-    private $pathPrefix = 'v2.0';
-
-    public function __construct()
-    {
-        $this->params = new Params();
-    }
-
     /**
      * Returns information about GET security-groups/{security_group_id} HTTP
      * operation.
      *
      * @return array
      */
-    public function getSecurityGroups()
+    public function getSecurityGroups(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix.'/security-groups',
+            'path'   => $this->pathPrefix . '/security-groups',
             'params' => [
                 'tenantId' => $this->params->queryTenantId(),
                 'name'     => $this->params->filterName(),
@@ -40,11 +32,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function postSecurityGroups()
+    public function postSecurityGroups(): array
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix.'/security-groups',
+            'path'    => $this->pathPrefix . '/security-groups',
             'jsonKey' => 'security_group',
             'params'  => [
                 'description' => $this->params->descriptionJson(),
@@ -58,11 +50,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function putSecurityGroups()
+    public function putSecurityGroups(): array
     {
         return [
             'method'  => 'PUT',
-            'path'    => $this->pathPrefix.'/security-groups/{id}',
+            'path'    => $this->pathPrefix . '/security-groups/{id}',
             'jsonKey' => 'security_group',
             'params'  => [
                 'id'          => $this->params->idPath(),
@@ -78,11 +70,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function getSecurityGroup()
+    public function getSecurityGroup(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix.'/security-groups/{id}',
+            'path'   => $this->pathPrefix . '/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -95,11 +87,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function deleteSecurityGroup()
+    public function deleteSecurityGroup(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix.'/security-groups/{id}',
+            'path'   => $this->pathPrefix . '/security-groups/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -111,11 +103,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function getSecurityRules()
+    public function getSecurityRules(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix.'/security-group-rules',
+            'path'   => $this->pathPrefix . '/security-group-rules',
             'params' => [],
         ];
     }
@@ -125,11 +117,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function postSecurityRules()
+    public function postSecurityRules(): array
     {
         return [
             'method'  => 'POST',
-            'path'    => $this->pathPrefix.'/security-group-rules',
+            'path'    => $this->pathPrefix . '/security-group-rules',
             'jsonKey' => 'security_group_rule',
             'params'  => [
                 'direction'       => $this->params->directionJson(),
@@ -151,11 +143,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function deleteSecurityRule()
+    public function deleteSecurityRule(): array
     {
         return [
             'method' => 'DELETE',
-            'path'   => $this->pathPrefix.'/security-group-rules/{id}',
+            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],
@@ -168,11 +160,11 @@ class Api extends AbstractApi
      *
      * @return array
      */
-    public function getSecurityRule()
+    public function getSecurityRule(): array
     {
         return [
             'method' => 'GET',
-            'path'   => $this->pathPrefix.'/security-group-rules/{id}',
+            'path'   => $this->pathPrefix . '/security-group-rules/{id}',
             'params' => [
                 'id' => $this->params->idPath(),
             ],

@@ -9,8 +9,8 @@ class InterfaceAttachmentTest extends TestCase
     public function testCreate()
     {
         $server = $this->createServer();
-        $network = $this->getServiceNetwork()->createNetwork(['name' => $this->randomStr()]);
-        $this->getServiceNetwork()->createSubnet(
+        $network = $this->getNetworkService()->createNetwork(['name' => $this->randomStr()]);
+        $this->getNetworkService()->createSubnet(
             [
                 'name'      => $this->randomStr(),
                 'networkId' => $network->id,
@@ -31,7 +31,7 @@ class InterfaceAttachmentTest extends TestCase
         $this->assertInstanceOf(InterfaceAttachment::class, $interfaceAttachment);
         $this->assertEquals($network->id, $interfaceAttachment->netId);
 
-        $port = $this->getServiceNetwork()->getPort($interfaceAttachment->portId);
+        $port = $this->getNetworkService()->getPort($interfaceAttachment->portId);
         $port->retrieve();
 
         $server->detachInterface($interfaceAttachment->portId);

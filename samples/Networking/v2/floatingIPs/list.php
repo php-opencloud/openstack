@@ -12,7 +12,7 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$floatingIps = $openstack->networkingV2ExtLayer3()
+$floatingIps = $openstack->networkingV2()
     ->listFloatingIps();
 
 foreach ($floatingIps as $floatingIp) {

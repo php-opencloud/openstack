@@ -17,7 +17,7 @@ $openstack = new OpenStack\OpenStack([
 ]);
 
 /** @var Service $networkingExtSecGroup */
-$networkingExtSecGroup = $openstack->networkingV2ExtSecGroups();
+$networkingExtSecGroup = $openstack->networkingV2();
 
 //List all security group rules
 foreach ($networkingExtSecGroup->listSecurityGroupRules() as $rule) {

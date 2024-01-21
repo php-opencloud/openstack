@@ -19,8 +19,8 @@ class ServerTest extends TestCase
             throw new RuntimeException('OS_FLAVOR env var must be set');
         }
 
-        $network = $this->getServiceNetwork()->createNetwork(['name' => $this->randomStr()]);
-        $this->getServiceNetwork()->createSubnet(
+        $network = $this->getNetworkService()->createNetwork(['name' => $this->randomStr()]);
+        $this->getNetworkService()->createSubnet(
             [
                 'name'      => $this->randomStr(),
                 'networkId' => $network->id,
@@ -355,7 +355,7 @@ class ServerTest extends TestCase
         }
 
         foreach (array_keys($createdServer->addresses) as $networkName) {
-            $network = $this->getServiceNetwork()->listNetworks(['name' => $networkName])->current();
+            $network = $this->getNetworkService()->listNetworks(['name' => $networkName])->current();
             $this->deleteNetwork($network);
         }
 
