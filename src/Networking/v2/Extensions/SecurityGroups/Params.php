@@ -85,7 +85,7 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function tenantIdJson()
+    public function tenantIdJson(): array
     {
         return [
             'sentAs'      => 'tenant_id',
