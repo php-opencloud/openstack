@@ -80,6 +80,9 @@ class SecurityGroupRule extends OperatorResource implements Creatable, Listable,
 
     protected $resourcesKey = 'security_group_rules';
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postSecurityRules(), $userOptions);

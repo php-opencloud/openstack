@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\Layer3;
 
-use OpenStack\Common\Service\AbstractService;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\FloatingIp;
 use OpenStack\Networking\v2\Extensions\Layer3\Models\Router;
 
 /**
- * @property Api $api
+ * @property \OpenStack\Networking\v2\Api $api
  *
- * @deprecated Use Networking\v2\Service instead
+ * @internal please use the Networking\v2\Service instead of this one
  */
-class Service extends AbstractService
+trait ServiceTrait
 {
     private function floatingIp(array $info = []): FloatingIp
     {

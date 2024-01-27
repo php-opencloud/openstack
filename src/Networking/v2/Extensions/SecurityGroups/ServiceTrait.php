@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
 
-use OpenStack\Common\Service\AbstractService;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroupRule;
 
 /**
- * @property Api $api
+ * @property \OpenStack\Networking\v2\Api $api
  *
- * @deprecated Use Networking\v2\Service instead
- *
- * @internal
+ * @internal please use the Networking\v2\Service instead of this one
  */
-class Service extends AbstractService
+trait ServiceTrait
 {
     private function securityGroup(array $info = []): SecurityGroup
     {

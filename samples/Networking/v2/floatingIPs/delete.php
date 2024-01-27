@@ -12,6 +12,7 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$openstack->networkingV2ExtLayer3()
-    ->getFloatingIp('{id}')
-    ->delete();
+$networking = $openstack->networkingV2();
+$floatIp = $networking->getFloatingIp('{id}');
+
+$floatIp->delete();

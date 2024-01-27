@@ -1,23 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\Layer3;
 
-use OpenStack\Common\Api\AbstractApi;
-
 /**
- * @deprecated Use Networking\v2\Api instead
+ * @property \OpenStack\Networking\v2\Params $params
+ * @property string                          $pathPrefix
  *
  * @internal
  */
-class Api extends AbstractApi
+trait ApiTrait
 {
-    private $pathPrefix = 'v2.0';
-
-    public function __construct()
-    {
-        $this->params = new Params();
-    }
-
     public function postFloatingIps(): array
     {
         return [
@@ -150,7 +144,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putAddInterface()
+    public function putAddInterface(): array
     {
         return [
             'method' => 'PUT',
@@ -163,7 +157,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putRemoveInterface()
+    public function putRemoveInterface(): array
     {
         return [
             'method' => 'PUT',

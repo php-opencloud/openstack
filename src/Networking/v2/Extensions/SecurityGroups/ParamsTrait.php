@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
 
 /**
- * @deprecated Use Networking\v2\Params instead
- *
  * @internal
  */
-class Params extends \OpenStack\Networking\v2\Params
+trait ParamsTrait
 {
     public function directionJson(): array
     {
@@ -86,19 +86,10 @@ class Params extends \OpenStack\Networking\v2\Params
         ];
     }
 
-    public function tenantIdJson(): array
-    {
-        return [
-            'sentAs'      => 'tenant_id',
-            'type'        => self::STRING_TYPE,
-            'description' => 'The UUID of the tenant who owns the security group rule. Only administrative users can specify a tenant UUID other than their own.',
-        ];
-    }
-
     public function filterName(): array
     {
         return [
-            'description' => sprintf('Filter the list result by the human-readable name of the resource'),
+            'description' => 'Filter the list result by the human-readable name of the resource',
             'type'        => self::STRING_TYPE,
             'location'    => self::QUERY,
         ];

@@ -15,7 +15,7 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
         return $this->getCachedService(Service::class);
     }
 
-    protected function getServiceNetwork(): \OpenStack\Networking\v2\Service
+    protected function getNetworkService(): \OpenStack\Networking\v2\Service
     {
         return $this->getCachedService(\OpenStack\Networking\v2\Service::class);
     }
@@ -47,8 +47,8 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
             throw new RuntimeException('OS_FLAVOR env var must be set');
         }
 
-        $network = $this->getServiceNetwork()->createNetwork(['name' => $this->randomStr()]);
-        $this->getServiceNetwork()->createSubnet(
+        $network = $this->getNetworkService()->createNetwork(['name' => $this->randomStr()]);
+        $this->getNetworkService()->createSubnet(
             [
                 'name'      => $this->randomStr(),
                 'networkId' => $network->id,
@@ -82,7 +82,7 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
         $server->waitUntilDeleted();
 
         foreach (array_keys($server->addresses) as $networkName) {
-            $network = $this->getServiceNetwork()->listNetworks(['name' => $networkName])->current();
+            $network = $this->getNetworkService()->listNetworks(['name' => $networkName])->current();
             $this->deleteNetwork($network);
         }
     }
@@ -93,11 +93,11 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
     protected function deleteNetwork(Network $network): void
     {
         foreach ($network->subnets as $subnetId) {
-            $subnet = $this->getServiceNetwork()->getSubnet($subnetId);
+            $subnet = $this->getNetworkService()->getSubnet($subnetId);
             $subnet->delete();
         }
 
-        foreach ($this->getServiceNetwork()->listPorts(['networkId' => $network->id]) as $port) {
+        foreach ($this->getNetworkService()->listPorts(['networkId' => $network->id]) as $port) {
             if ($port->deviceOwner) {
                 continue;
             }

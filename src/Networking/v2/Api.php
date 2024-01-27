@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace OpenStack\Networking\v2;
 
 use OpenStack\Common\Api\AbstractApi;
+use OpenStack\Networking\v2\Extensions\Layer3\ApiTrait as Layer3;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\ApiTrait as SecurityGroup;
 
 /**
  * A representation of the Neutron (Nova) v2 REST API.
@@ -13,6 +15,9 @@ use OpenStack\Common\Api\AbstractApi;
  */
 class Api extends AbstractApi
 {
+    use Layer3;
+    use SecurityGroup;
+
     private $pathPrefix = 'v2.0';
 
     public function __construct()

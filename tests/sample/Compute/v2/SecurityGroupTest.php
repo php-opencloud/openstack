@@ -12,7 +12,7 @@ class SecurityGroupTest extends TestCase
     public function testAdd(): array
     {
         $createdServer = $this->createServer();
-        $createdSecurityGroup = $this->getCachedService(Service::class)
+        $createdSecurityGroup = $this->getNetworkService()
             ->createSecurityGroup(['name' => $this->randomStr()]);
 
         $replacements = [
