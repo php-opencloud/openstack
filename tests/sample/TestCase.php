@@ -65,12 +65,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             case \OpenStack\Networking\v2\Service::class:
                 $service = $this->getOpenStack()->networkingV2();
                 break;
-            case \OpenStack\Networking\v2\Extensions\Layer3\Service::class:
-                $service = $this->getOpenStack()->networkingV2ExtLayer3();
-                break;
-            case \OpenStack\Networking\v2\Extensions\SecurityGroups\Service::class:
-                $service = $this->getOpenStack()->networkingV2ExtSecGroups();
-                break;
             case \OpenStack\ObjectStore\v1\Service::class:
                 $service = $this->getOpenStack()->objectStoreV1();
                 break;

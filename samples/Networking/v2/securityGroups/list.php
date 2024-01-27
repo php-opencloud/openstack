@@ -12,7 +12,7 @@ $openstack = new OpenStack\OpenStack([
     'scope' => ['project' => ['id' => '{projectId}']]
 ]);
 
-$networking = $openstack->networkingV2ExtSecGroups();
+$networking = $openstack->networkingV2();
 
 $secGroups = $networking->listSecurityGroups();
 

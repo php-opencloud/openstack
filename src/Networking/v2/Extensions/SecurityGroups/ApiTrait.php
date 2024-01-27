@@ -1,30 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
 
-use OpenStack\Common\Api\AbstractApi;
-
 /**
- * @deprecated Use Networking\v2\Api instead
+ * @property \OpenStack\Networking\v2\Params $params
+ * @property string                          $pathPrefix
  *
  * @internal
  */
-class Api extends AbstractApi
+trait ApiTrait
 {
-    private $pathPrefix = 'v2.0';
-
-    public function __construct()
-    {
-        $this->params = new Params();
-    }
-
     /**
      * Returns information about GET security-groups/{security_group_id} HTTP
      * operation.
-     *
-     * @return array
      */
-    public function getSecurityGroups()
+    public function getSecurityGroups(): array
     {
         return [
             'method' => 'GET',
@@ -38,10 +30,8 @@ class Api extends AbstractApi
 
     /**
      * Returns information about POST security-groups HTTP operation.
-     *
-     * @return array
      */
-    public function postSecurityGroups()
+    public function postSecurityGroups(): array
     {
         return [
             'method'  => 'POST',
@@ -56,10 +46,8 @@ class Api extends AbstractApi
 
     /**
      * Returns information about PUT security-groups HTTP operation.
-     *
-     * @return array
      */
-    public function putSecurityGroups()
+    public function putSecurityGroups(): array
     {
         return [
             'method'  => 'PUT',
@@ -76,10 +64,8 @@ class Api extends AbstractApi
     /**
      * Returns information about GET security-groups/{security_group_id} HTTP
      * operation.
-     *
-     * @return array
      */
-    public function getSecurityGroup()
+    public function getSecurityGroup(): array
     {
         return [
             'method' => 'GET',
@@ -93,10 +79,8 @@ class Api extends AbstractApi
     /**
      * Returns information about DELETE security-groups/{security_group_id} HTTP
      * operation.
-     *
-     * @return array
      */
-    public function deleteSecurityGroup()
+    public function deleteSecurityGroup(): array
     {
         return [
             'method' => 'DELETE',
@@ -109,10 +93,8 @@ class Api extends AbstractApi
 
     /**
      * Returns information about GET security-group-rules HTTP operation.
-     *
-     * @return array
      */
-    public function getSecurityRules()
+    public function getSecurityRules(): array
     {
         return [
             'method' => 'GET',
@@ -123,10 +105,8 @@ class Api extends AbstractApi
 
     /**
      * Returns information about POST security-group-rules HTTP operation.
-     *
-     * @return array
      */
-    public function postSecurityRules()
+    public function postSecurityRules(): array
     {
         return [
             'method'  => 'POST',
@@ -149,10 +129,8 @@ class Api extends AbstractApi
     /**
      * Returns information about DELETE
      * security-group-rules/{rules-security-groups-id} HTTP operation.
-     *
-     * @return array
      */
-    public function deleteSecurityRule()
+    public function deleteSecurityRule(): array
     {
         return [
             'method' => 'DELETE',
@@ -166,10 +144,8 @@ class Api extends AbstractApi
     /**
      * Returns information about GET
      * security-group-rules/{rules-security-groups-id} HTTP operation.
-     *
-     * @return array
      */
-    public function getSecurityRule()
+    public function getSecurityRule(): array
     {
         return [
             'method' => 'GET',

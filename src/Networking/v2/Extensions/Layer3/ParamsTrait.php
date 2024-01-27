@@ -1,23 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenStack\Networking\v2\Extensions\Layer3;
 
 /**
- * @deprecated Use Networking\v2\Params instead
- *
  * @internal
  */
-class Params extends \OpenStack\Networking\v2\Params
+trait ParamsTrait
 {
-    public function tenantIdJson(): array
-    {
-        return [
-            'type'        => self::STRING_TYPE,
-            'description' => 'The UUID of the tenant. Only administrative users can specify a tenant UUID other than their own.',
-            'sentAs'      => 'tenant_id',
-        ];
-    }
-
     public function floatingNetworkIdJson(): array
     {
         return [

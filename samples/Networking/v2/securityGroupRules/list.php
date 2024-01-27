@@ -16,16 +16,15 @@ $openstack = new OpenStack\OpenStack([
     'scope' => ['project' => ['id' => '{projectId}']]
 ]);
 
-/** @var Service $networkingExtSecGroup */
-$networkingExtSecGroup = $openstack->networkingV2ExtSecGroups();
+$networking = $openstack->networkingV2();
 
 //List all security group rules
-foreach ($networkingExtSecGroup->listSecurityGroupRules() as $rule) {
+foreach ($networking->listSecurityGroupRules() as $rule) {
     /** @var SecurityGroupRule $rule */
 }
 
 /** @var SecurityGroup $securityGroup */
-$securityGroup = $networkingExtSecGroup->getSecurityGroup(['id' => '{uuid}']);
+$securityGroup = $networking->getSecurityGroup('{uuid}');
 
 //List rules belong to a security group
 foreach ($securityGroup->securityGroupRules as $rule) {

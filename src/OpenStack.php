@@ -99,6 +99,8 @@ class OpenStack
      * Creates a new Networking v2 Layer 3 service.
      *
      * @param array $options options that will be used in configuring the service
+     *
+     * @deprecated Use networkingV2 instead
      */
     public function networkingV2ExtLayer3(array $options = []): Networking\v2\Extensions\Layer3\Service
     {
@@ -111,6 +113,8 @@ class OpenStack
      * Creates a new Networking v2 Layer 3 service.
      *
      * @param array $options options that will be used in configuring the service
+     *
+     * @deprecated Use networkingV2 instead
      */
     public function networkingV2ExtSecGroups(array $options = []): Networking\v2\Extensions\SecurityGroups\Service
     {

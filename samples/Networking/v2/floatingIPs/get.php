@@ -12,5 +12,5 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$floatingIp = $openstack->networkingV2ExtLayer3()
+$floatingIp = $openstack->networkingV2()
     ->getFloatingIp('{id}');
