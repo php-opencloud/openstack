@@ -53,7 +53,7 @@ class NetworkTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testRetrieve(Network $createdNetwork)
+    public function testRead(Network $createdNetwork)
     {
         /** @var \OpenStack\Networking\v2\Models\Network $network */
         require_once $this->sampleFile('networks/read.php', ['{networkId}' => $createdNetwork->id]);

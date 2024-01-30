@@ -13,3 +13,5 @@ $openstack = new OpenStack\OpenStack([
 
 $service = $openstack->objectStoreV1();
 $account = $service->getAccount();
+
+$account->retrieve();

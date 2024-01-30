@@ -13,4 +13,5 @@ $openstack = new OpenStack\OpenStack([
 
 $service = $openstack->objectStoreV1();
 $container = $service->getContainer('{containerName}');
+
 $container->retrieve();
