@@ -220,7 +220,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /**
      * Resumes server.
      */
-    public function resume()
+    public function resume(): void
     {
         $this->execute($this->api->resumeServer(), [
             'id'     => $this->id,
@@ -231,7 +231,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /**
      * Suspends server.
      */
-    public function suspend()
+    public function suspend(): void
     {
         $this->execute($this->api->suspendServer(), [
             'id'      => $this->id,

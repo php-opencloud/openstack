@@ -280,3 +280,14 @@ You can also refine by network label:
     $ipAddresses = $server->listAddresses([
         'networkLabel' => '{networkLabel}',
     ]);
+
+Suspend
+-------
+
+.. sample:: Compute/v2/images/suspend.php
+
+Resume
+------
+
+.. sample:: Compute/v2/images/resume.php
+

@@ -7,15 +7,11 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$compute = $openstack->computeV2(['region' => '{region}']);
-
-$server = $compute->getServer([
-    'id' => '{serverId}',
-]);
+$service = $openstack->computeV2();
+$server = $service->getServer(['id' => '{serverId}']);
 
 $server->resume();
