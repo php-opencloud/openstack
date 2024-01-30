@@ -331,6 +331,9 @@ class ServerTest extends TestCase
      */
     public function testGetConsoleOutput(Server $createdServer)
     {
+        // wait for the server to be ready
+        sleep(5);
+
         /** @var string $consoleOutput */
         require_once $this->sampleFile('servers/get_server_console_output.php', ['{serverId}' => $createdServer->id]);
 
