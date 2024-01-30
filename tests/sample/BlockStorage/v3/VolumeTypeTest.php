@@ -2,7 +2,6 @@
 
 namespace OpenStack\Sample\BlockStorage\v3;
 
-use OpenStack\BlockStorage\v2\Models\Snapshot;
 use OpenStack\BlockStorage\v2\Models\VolumeType;
 use OpenStack\Common\Error\BadResponseError;
 
@@ -24,16 +23,13 @@ class VolumeTypeTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testGet(VolumeType $createdVolumeType)
+    public function testRead(VolumeType $createdVolumeType)
     {
         /** @var VolumeType $volumeType */
-        require_once $this->sampleFile('volume_types/get.php', ['{volumeTypeId}' => $createdVolumeType->id]);
+        require_once $this->sampleFile('volume_types/read.php', ['{volumeTypeId}' => $createdVolumeType->id]);
 
         $this->assertInstanceOf(VolumeType::class, $volumeType);
         $this->assertEquals($createdVolumeType->id, $volumeType->id);
-        $this->assertNull($volumeType->name);
-
-        $volumeType->retrieve();
         $this->assertEquals($createdVolumeType->name, $volumeType->name);
     }
 

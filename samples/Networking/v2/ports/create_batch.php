@@ -5,21 +5,23 @@ require 'vendor/autoload.php';
 $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
     'region'  => '{region}',
-    'user'    => ['id' => '{userId}', 'password' => '{password}'],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}',
+    ],
 ]);
 
-$networking = $openstack->networkingV2();
+$service = $openstack->networkingV2();
 
-$ports = $networking->createPorts([
+$ports = $service->createPorts([
     [
         'name'         => '{name1}',
         'networkId'    => '{networkId1}',
-        'adminStateUp' => true
+        'adminStateUp' => true,
     ],
     [
         'name'         => '{name2}',
         'networkId'    => '{networkId2}',
-        'adminStateUp' => true
+        'adminStateUp' => true,
     ],
 ]);

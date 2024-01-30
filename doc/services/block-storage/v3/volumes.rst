@@ -1,26 +1,17 @@
 Volumes
 =======
 
-List volumes
-------------
+A volume is a detachable block storage device similar to a USB hard drive. You can attach a volume to an instance, and
+if the volume is of an appropriate volume type, a volume can be attached to multiple instances.
 
-.. sample:: BlockStorage/v3/volumes/list.php
-.. refdoc:: OpenStack/BlockStorage/v2/Service.html#method_listVolumes
+.. osdoc:: https://docs.openstack.org/api-ref/block-storage/v3/#volumes-volumes
 
-Each iteration will return a php:class:`Volume` instance <OpenStack/BlockStorage/v2/Models/Volume.html>.
+.. |models| replace:: volumes
 
-.. include:: /common/generators.rst
+.. include:: /common/service.rst
 
-Detailed information
-~~~~~~~~~~~~~~~~~~~~
-
-By default, only the ``id``, ``links`` and ``name`` attributes are returned. To return *all* information
-for a flavor, you must enable detailed information, like so:
-
-.. sample:: BlockStorage/v3/volumes/list_detail.php
-
-Create volume
--------------
+Create
+------
 
 The only attributes that are required when creating a volume are a size in GiB. The simplest example
 would therefore be this:
@@ -29,8 +20,6 @@ would therefore be this:
 
 You can further configure your new volume, however, by following the below sections, which instruct you how to add
 specific functionality.
-
-.. refdoc:: OpenStack/BlockStorage/v2/Service.html#method_createVolume
 
 Create from image
 ~~~~~~~~~~~~~~~~~
@@ -42,44 +31,46 @@ Create from snapshot
 
 .. sample:: BlockStorage/v3/volumes/create_from_snapshot.php
 
-Create from source volume
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Create from volume
+~~~~~~~~~~~~~~~~~~
 
-.. sample:: BlockStorage/v3/volumes/create_from_source_volume.php
-
-
-Retrieve volume details
------------------------
-
-When retrieving a volume, sometimes you only want to operate on it - say to update or delete it. If this is the case,
-then there is no need to perform an initial GET request to the API:
-
-.. sample:: BlockStorage/v3/volumes/get.php
-
-If, however, you *do* want to retrieve all the details of a remote volume from the API, you just call:
-
-.. code-block:: php
-
-    $volume->retrieve();
-
-which will update the state of the local object. This gives you an element of control over your app's performance.
-
-.. refdoc:: OpenStack/BlockStorage/v2/Service.html#method_getVolume
+.. sample:: BlockStorage/v3/volumes/create_from_volume.php
 
 
-Update volume
--------------
+Read
+----
 
-The first step when updating a volume is modifying the attributes you want updated. By default, only a volume's name
+.. sample:: BlockStorage/v3/volumes/read.php
+
+
+Update
+------
+
+The first step when updating a volume is modifying the attributes you want updated. Only a volume's name
 and description can be edited.
 
 .. sample:: BlockStorage/v3/volumes/update.php
-.. refdoc:: OpenStack/BlockStorage/v2/Models/Volume.html#method_update
 
-Delete volume
--------------
+Delete
+------
 
 To permanently delete a volume:
 
 .. sample:: BlockStorage/v3/volumes/delete.php
-.. refdoc:: OpenStack/BlockStorage/v2/Models/Volume.html#method_delete
+
+List
+----
+
+.. sample:: BlockStorage/v3/volumes/list.php
+
+Each iteration will return a php:class:`Volume` instance <OpenStack/BlockStorage/v2/Models/Volume.html>.
+
+.. include:: /common/generators.rst
+
+Detailed information
+~~~~~~~~~~~~~~~~~~~~
+
+By default, only the ``id``, ``links`` and ``name`` attributes are returned. To return *all* information
+for a flavor, you must enable detailed information:
+
+.. sample:: BlockStorage/v3/volumes/list_detail.php

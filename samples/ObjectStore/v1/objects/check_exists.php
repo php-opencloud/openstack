@@ -9,9 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$exists = $openstack->objectStoreV1()
-    ->getContainer('{containerName}')
-    ->objectExists('{objectName}');
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+
+$exists = $container->objectExists('{objectName}');

@@ -9,16 +9,11 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$networking = $openstack->networkingV2();
+$service = $openstack->networkingV2();
 
-$options = [
+$subnet = $service->createSubnet([
     'name'       => '{subnetName}',
     'networkId'  => '{networkId}',
     'ipVersion'  => 4,
@@ -27,7 +22,4 @@ $options = [
         'destination' => '1.1.1.0/24',
         'nexthop'     => '192.168.19.20'
     ]]
-];
-
-// Create the subnet
-$subnet = $networking->createSubnet($options);
+]);

@@ -1,11 +1,15 @@
 Tokens
 ======
 
-Authenticate (generate) token
------------------------------
+Tokens are used to authenticate and authorize your interactions with OpenStack APIs. Tokens come in many scopes,
+representing various authorization and sources of identity.
 
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createService
+.. osdoc:: https://docs.openstack.org/keystone/latest/admin/tokens-overview.html
 
+Generate token
+--------------
+
+Token is generated when you create the ``OpenStack`` object. You can also generate another token using the following methods.
 
 Generate token with user ID
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -14,6 +18,9 @@ Generate token with user ID
 
 Generate token with username
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since usernames will not be unique across an entire OpenStack installation, when authenticating with them,
+you must also provide your domain ID. You do not have to do this if you authenticate with a user ID.
 
 .. sample:: Identity/v3/tokens/generate_token_with_username.php
 
@@ -36,19 +43,20 @@ Generate token scoped to project ID
 Generate token scoped to project name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Since project names will not be unique across an entire OpenStack installation, when authenticating with them you must
+also provide your domain ID. You do not have to do this if you authenticate with a project ID.
+
 .. sample:: Identity/v3/tokens/generate_token_scoped_to_project_name.php
 
 Validate token
 --------------
 
 .. sample:: Identity/v3/tokens/validate_token.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_validateToken
 
 Revoke token
 ------------
 
 .. sample:: Identity/v3/tokens/revoke_token.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_revokeToken
 
 Cache authentication token
 --------------------------
@@ -73,6 +81,7 @@ Generate token and persist to file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. sample:: Identity/v3/tokens/export_authentication_token.php
+    :full:
 
 
 For scalability, it is recommended that cached tokens are stored in persistent storage such as memcache or redis instead
@@ -82,3 +91,4 @@ Initialize Open Stack using cached authentication token
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. sample:: Identity/v3/tokens/use_cached_authentication_token.php
+    :full:

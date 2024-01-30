@@ -7,24 +7,16 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$networking = $openstack->networkingV2();
-
-$options = [
+$service = $openstack->networkingV2();
+$networks = $service->createNetworks([
     [
-      'name' => '{networkName1}'
+        'name' => '{networkName1}',
     ],
     [
-      'name' => '{networkName2}'
+        'name' => '{networkName2}',
     ],
-];
-
-$networks = $networking->createNetworks($options);
+]);

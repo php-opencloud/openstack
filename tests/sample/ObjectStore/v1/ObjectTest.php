@@ -99,17 +99,22 @@ class ObjectTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testGet(StorageObject $createdObject)
+    public function testRead(StorageObject $createdObject)
     {
+        $createdObject->retrieve();
+
         /** @var StorageObject $object */
-        require_once $this->sampleFile('objects/get.php', [
+        require_once $this->sampleFile('objects/read.php', [
             '{containerName}' => $createdObject->containerName,
             '{objectName}' => $createdObject->name,
         ]);
 
         $this->assertInstanceOf(StorageObject::class, $object);
         $this->assertEquals($createdObject->name, $object->name);
-        $this->assertEquals(null, $object->metadata);
+        $this->assertEquals($createdObject->containerName, $object->containerName);
+        $this->assertEquals($createdObject->contentLength, $object->contentLength);
+        $this->assertEquals($createdObject->hash, $object->hash);
+        $this->assertEquals([], $object->metadata);
     }
 
     /**

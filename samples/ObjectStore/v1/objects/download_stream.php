@@ -9,10 +9,10 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$stream = $openstack->objectStoreV1()
-    ->getContainer('{containerName}')
-    ->getObject('{objectName}')
-    ->download(['requestOptions' => ['stream' => true]]);
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+$object = $container->getObject('{objectName}');
+
+$stream = $object->download(['requestOptions' => ['stream' => true]]);

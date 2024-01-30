@@ -1,48 +1,61 @@
 Objects
 =======
 
-Show details for an object
---------------------------
+Object stores data content, such as documents, images, and so on. You can also store custom metadata with an object.
 
-.. sample:: ObjectStore/v1/objects/get.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_getObject
+.. osdoc:: https://docs.openstack.org/api-ref/object-store/#objects
 
-At this point, the object returned is *empty* because we did not execute a HTTP request to receive the state of the
-container from the API. This is in accordance with one of the SDK's general policies of not assuming too much at the
-expense of performance.
+.. |models| replace:: objects
 
-To synchronize the local object's state with the remote API, you can run:
+.. include:: /common/service.rst
+
+Create
+------
+
+When creating an object, you can upload its content according to a string representation:
+
+.. sample:: ObjectStore/v1/objects/create.php
+
+If that is not optimal or convenient, you can use a stream instead. Any instance of ``\Psr\Http\Message\StreamInterface``
+is acceptable. For example, to use a normal Guzzle stream:
+
+.. sample:: ObjectStore/v1/objects/create_from_stream.php
+
+Create a large object (over 5GB)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For large objects (those over 5GB), you will need to use a concept in Swift called Dynamic Large Objects (DLO). When
+uploading, this is what happens under the hood:
+
+1. The large file is separated into smaller segments
+2. Each segment is uploaded
+3. A manifest file is created which, when requested by clients, will concatenate all the segments as a single file
+
+To upload a DLO, you need to call:
+
+.. sample:: ObjectStore/v1/objects/create_large_object.php
+
+Read
+----
+
+.. sample:: ObjectStore/v1/objects/read.php
+
+You can read properties of an object:
 
 .. code-block:: php
-
-    $object->retrieve();
 
     printf("%s/%s is %d bytes long and was last modified on %s",
         $object->containerName, $object->name, $object->contentLength, $object->lastModified);
 
-and all of the local properties will match those of the remote resource. The ``retrieve`` call, although fetching all
-of the object's metadata, will not download the object's content. To do this, see the next section.
+Delete
+------
 
-Download an object
-------------------
+.. sample:: ObjectStore/v1/objects/delete.php
 
-.. sample:: ObjectStore/v1/objects/download.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_download
-
-As you will notice, a Stream_ object is returned by this call. For more information about dealing with streams, please
-consult `Guzzle's docs`_.
-
-By default, the whole body of the object is fetched before the function returns, set the ``'requestOptions'`` key of
-parameter ``$data`` to ``['stream' => true]`` to get the stream before the end of download.
-
-.. _Stream: https://github.com/guzzle/streams/blob/master/src/Stream.php
-.. _Guzzle's docs: https://guzzle.readthedocs.org/en/5.3/streams.html
-
-List objects
-------------
+List
+----
 
 .. sample:: ObjectStore/v1/objects/list.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_listObjects
 
 When listing objects, you must be aware that not *all* information about a container is returned in a collection.
 Very often only the MD5 hash, last modified date, bytes used, content type and object name will be
@@ -59,51 +72,29 @@ If you have a large collection of $object, this will slow things down because yo
 
 .. include:: /common/generators.rst
 
-Create an object
-----------------
+Download an object
+------------------
 
-When creating an object, you can upload its content according to a string representation:
+.. sample:: ObjectStore/v1/objects/download.php
 
-.. sample:: ObjectStore/v1/objects/create.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_createObject
+As you will notice, a Stream_ object is returned by this call. For more information about dealing with streams, please
+consult `Guzzle's docs`_.
 
-If that is not optimal or convenient, you can use a stream instead. Any instance of ``\Psr\Http\Message\StreamInterface``
-is acceptable. For example, to use a normal Guzzle stream:
+By default, the whole body of the object is fetched before the function returns, set the ``'requestOptions'`` key of
+parameter ``$data`` to ``['stream' => true]`` to get the stream before the end of download.
 
-.. sample:: ObjectStore/v1/objects/create_from_stream.php
-
-Create a large object (over 5GB)
---------------------------------
-
-For large objects (those over 5GB), you will need to use a concept in Swift called Dynamic Large Objects (DLO). When
-uploading, this is what happens under the hood:
-
-1. The large file is separated into smaller segments
-2. Each segment is uploaded
-3. A manifest file is created which, when requested by clients, will concatenate all the segments as a single file
-
-To upload a DLO, you need to call:
-
-.. sample:: ObjectStore/v1/objects/create_large_object.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_createLargeObject
+.. _Stream: https://github.com/guzzle/streams/blob/master/src/Stream.php
+.. _Guzzle's docs: https://guzzle.readthedocs.org/en/5.3/streams.html
 
 Copy object
 -----------
 
 .. sample:: ObjectStore/v1/objects/copy.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_copy
-
-Delete object
--------------
-
-.. sample:: ObjectStore/v1/objects/delete.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_delete
 
 Get metadata
 ------------
 
 .. sample:: ObjectStore/v1/objects/get_metadata.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/StorageObject.html#method_getMetadata
 
 The returned value will be a standard associative array, or hash, containing arbitrary key/value pairs. These will
 correspond to the values set either when the object was created, or when a previous ``mergeMetadata`` or

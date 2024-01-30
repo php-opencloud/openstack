@@ -7,11 +7,11 @@ use OpenStack\Identity\v3\Service;
 
 class ServiceTest extends TestCase
 {
-    public function testAdd(): \OpenStack\Identity\v3\Models\Service
+    public function testCreate(): \OpenStack\Identity\v3\Models\Service
     {
         /** @var $service \OpenStack\Identity\v3\Models\Service */
         require_once $this->sampleFile(
-            'services/add_service.php',
+            'services/create.php',
             [
                 '{serviceName}' => $this->randomStr(),
                 '{serviceType}' => $this->randomStr(),
@@ -23,13 +23,13 @@ class ServiceTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testList(\OpenStack\Identity\v3\Models\Service $createdService)
     {
         $found = false;
         require_once $this->sampleFile(
-            'services/list_services.php',
+            'services/list.php',
             [
                 '/** @var $service \OpenStack\Identity\v3\Models\Service */' => <<<'PHP'
 /** @var $service \OpenStack\Identity\v3\Models\Service */
@@ -45,14 +45,14 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testUpdate(\OpenStack\Identity\v3\Models\Service $createdService)
     {
         $newDescription = $this->randomStr();
 
         require_once $this->sampleFile(
-            'services/update_service.php',
+            'services/update.php',
             [
                 '{serviceId}' => $createdService->id,
                 '{description}' => $newDescription,
@@ -64,13 +64,13 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testGet(\OpenStack\Identity\v3\Models\Service $createdService)
     {
         /** @var $service \OpenStack\Identity\v3\Models\Service */
         require_once $this->sampleFile(
-            'services/get_service.php',
+            'services/read.php',
             [
                 '{serviceId}' => $createdService->id,
             ]
@@ -82,12 +82,12 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testDelete(\OpenStack\Identity\v3\Models\Service $createdService)
     {
         require_once $this->sampleFile(
-            'services/delete_service.php',
+            'services/delete.php',
             [
                 '{serviceId}' => $createdService->id,
             ]

@@ -1,32 +1,35 @@
 LoadBalancer Listeners
 ======================
 
-Create Listener
----------------
+.. warning::
+    Load balancing functions accessed via the neutron endpoint are deprecated and will be removed in a future release.
+    Users are strongly encouraged to migrate to using the octavia endpoint.
+    This library does not support the octavia endpoint yet.
+    Consider `helping <https://github.com/php-opencloud/openstack/pulls>`_ us to implement it .
+
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#load-balancer-as-a-service-2-0-deprecated
+
+Create
+------
 
 .. sample:: Networking/v2/lbaas/listeners/create.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_createLoadBalancerListener
 
-Get Listener
-------------
+Read
+----
 
-.. sample:: Networking/v2/lbaas/listeners/get.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_getLoadBalancerListener
+.. sample:: Networking/v2/lbaas/listeners/read.php
 
-List Listeners
---------------
-
-.. sample:: Networking/v2/lbaas/listeners/list.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_listLoadBalancerListeners
-
-Update Listener
----------------
+Update
+------
 
 .. sample:: Networking/v2/lbaas/listeners/update.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerListener.html#method_update
 
-Delete Listener
----------------
+Delete
+------
 
 .. sample:: Networking/v2/lbaas/listeners/delete.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerListener.html#method_delete
+
+List
+----
+
+.. sample:: Networking/v2/lbaas/listeners/list.php

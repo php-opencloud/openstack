@@ -9,15 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$networking = $openstack->networkingV2();
-
-$network = $networking->getNetwork('{networkId}');
+$service = $openstack->networkingV2();
+$network = $service->getNetwork('{networkId}');
 
 $network->delete();

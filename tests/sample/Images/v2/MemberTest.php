@@ -8,7 +8,7 @@ use OpenStack\Images\v2\Models\Member;
 
 class MemberTest extends TestCase
 {
-    public function testAdd(): Member
+    public function testCreate(): Member
     {
         $image = $this->getService()->createImage([
             'name'            => $this->randomStr(),
@@ -18,14 +18,14 @@ class MemberTest extends TestCase
         ]);
 
         /** @var Member $member */
-        require_once $this->sampleFile('members/add.php', ['{imageId}' => $image->id,]);
+        require_once $this->sampleFile('members/create.php', ['{imageId}' => $image->id,]);
         $this->assertInstanceOf(Member::class, $member);
 
         return $member;
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testUpdateStatus(Member $createdMember)
     {
@@ -41,7 +41,7 @@ class MemberTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testDelete(Member $createdMember)
     {

@@ -7,30 +7,23 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope' => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$networking = $openstack->networkingV2();
+$service = $openstack->networkingV2();
 
-$options = [
+$subnets = $service->createSubnets([
     [
-      'name'        => '{subnetName1}',
-      'networkId'   => '{networkId1}',
-      'ipVersion'   => 4,
-      'cidr'        => '192.168.199.0/24',
+        'name'      => '{subnetName1}',
+        'networkId' => '{networkId1}',
+        'ipVersion' => 4,
+        'cidr'      => '192.168.199.0/24',
     ],
     [
-      'name'        => '{subnetName2}',
-      'networkId'   => '{networkId2}',
-      'ipVersion'   => 4,
-      'cidr'        => '10.56.4.0/22',
+        'name'      => '{subnetName2}',
+        'networkId' => '{networkId2}',
+        'ipVersion' => 4,
+        'cidr'      => '10.56.4.0/22',
     ],
-];
-
-$subnets = $networking->createSubnets($options);
+]);

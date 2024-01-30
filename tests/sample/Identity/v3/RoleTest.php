@@ -6,23 +6,23 @@ use OpenStack\Identity\v3\Models\Role;
 
 class RoleTest extends TestCase
 {
-    public function testAdd(): Role
+    public function testCeate(): Role
     {
         /** @var $role \OpenStack\Identity\v3\Models\Role */
-        require_once $this->sampleFile('roles/add_role.php', ['{name}' => $this->randomStr()]);
+        require_once $this->sampleFile('roles/create.php', ['{name}' => $this->randomStr()]);
         $this->assertInstanceOf(Role::class, $role);
 
         return $role;
     }
 
     /**
-     * @depends testAdd
+     * @depends testCeate
      */
     public function testList(Role $createdRole): void
     {
         $found = false;
         require_once $this->sampleFile(
-            'roles/list_roles.php',
+            'roles/list.php',
             [
                 '/** @var $role \OpenStack\Identity\v3\Models\Role */' => <<<'PHP'
 /** @var $role \OpenStack\Identity\v3\Models\Role */
@@ -38,7 +38,7 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCeate
      */
     public function testListAssignments(Role $createdRole): void
     {

@@ -1,32 +1,39 @@
 Containers
 ==========
 
-Show details for a container
-----------------------------
+Container defines a namespace for objects. An object with the same name in two different containers represents
+two different objects.
 
-.. sample:: ObjectStore/v1/containers/get.php
-.. refdoc:: OpenStack/ObjectStore/v1/Service.html#method_getContainer
+.. osdoc:: https://docs.openstack.org/api-ref/object-store/#containers
 
-At this point, the object returned is *empty* because we did not execute a HTTP request to receive the state of the
-container from the API. This is in accordance with one of the SDK's general policies of not assuming too much at the
-expense of performance.
+.. |models| replace:: containers
 
-To synchronize the local object's state with the remote API, you can run:
+.. include:: /common/service.rst
+
+Read
+----
+
+.. sample:: ObjectStore/v1/containers/read.php
+
+You can read the content of a container:
 
 .. code-block:: php
-
-    $container->retrieve();
 
     printf("%s container has %d objects and %d bytes",
         $container->name, $container->objectCount, $container->bytesUsed);
 
-and all of the local properties will match those of the remote resource.
+Delete
+------
 
-List containers
----------------
+.. sample:: ObjectStore/v1/containers/delete.php
+
+The API will only accept DELETE requests on containers when they are empty. If you have a container with any objects
+inside, the operation will fail.
+
+List
+----
 
 .. sample:: ObjectStore/v1/containers/list.php
-.. refdoc:: OpenStack/ObjectStore/v1/Service.html#method_listContainers
 
 When listing containers, you must be aware that not *all* information about a container is returned in a collection.
 Very often only the object count, bytes used and container name will be exposed. If you would like to
@@ -43,20 +50,10 @@ container.
 
 .. include:: /common/generators.rst
 
-Delete container
-----------------
-
-.. sample:: ObjectStore/v1/containers/delete.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_delete
-
-The API will only accept DELETE requests on containers when they are empty. If you have a container with any objects
-inside, the operation will fail.
-
 Get metadata
 ------------
 
 .. sample:: ObjectStore/v1/containers/get_metadata.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_getMetadata
 
 The returned value will be a standard associative array, or hash, containing arbitrary key/value pairs. These will
 correspond to the values set either when the container was created, or when a previous ``mergeMetadata`` or
@@ -66,7 +63,6 @@ Replace all metadata with new values
 ------------------------------------
 
 .. sample:: ObjectStore/v1/containers/reset_metadata.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_resetMetadata
 
 In order to replace all existing metadata with a set of new values, you can use this operation. Any existing metadata
 items which not specified in the new set will be removed. For example, say an account has the following metadata
@@ -96,7 +92,6 @@ Merge new metadata values with existing
 ---------------------------------------
 
 .. sample:: ObjectStore/v1/containers/merge_metadata.php
-.. refdoc:: OpenStack/ObjectStore/v1/Models/Container.html#method_mergeMetadata
 
 In order to merge a set of new metadata values with the existing metadata set, you can use this operation. Any existing
 metadata items which are not specified in the new set will be preserved. For example, say an account has the following

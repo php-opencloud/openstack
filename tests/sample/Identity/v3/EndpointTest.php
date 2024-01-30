@@ -8,13 +8,13 @@ use OpenStack\Identity\v3\Models\Endpoint;
 
 class EndpointTest extends TestCase
 {
-    public function testAdd(): Endpoint
+    public function testCreate(): Endpoint
     {
         $service = $this->getService()->createService(['name' => $this->randomStr(), 'type' => 'volume', 'description' => $this->randomStr()]);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
         require_once $this->sampleFile(
-            'endpoints/add_endpoint.php',
+            'endpoints/create.php',
             [
                 '{endpointName}' => $this->randomStr(),
                 '{serviceId}'    => $service->id,
@@ -28,13 +28,13 @@ class EndpointTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testList(Endpoint $createdEndpoint)
     {
         $found = false;
         require_once $this->sampleFile(
-            'endpoints/list_endpoints.php',
+            'endpoints/list.php',
             [
                 '/** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */' => <<<'PHP'
 /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
@@ -50,14 +50,14 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testUpdate(Endpoint $createdEndpoint)
     {
         $this->assertEquals(Enum::INTERFACE_INTERNAL, $createdEndpoint->interface);
 
         require_once $this->sampleFile(
-            'endpoints/update_endpoint.php',
+            'endpoints/update.php',
             [
                 '{endpointId}'   => $createdEndpoint->id,
             ]
@@ -68,12 +68,12 @@ PHP
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testDelete(Endpoint $createdEndpoint)
     {
         require_once $this->sampleFile(
-            'endpoints/delete_endpoint.php',
+            'endpoints/delete.php',
             [
                 '{endpointId}'   => $createdEndpoint->id,
             ]

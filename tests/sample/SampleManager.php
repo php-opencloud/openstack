@@ -2,7 +2,6 @@
 
 namespace OpenStack\Sample;
 
-use OpenStack\Integration\SampleManagerInterface;
 use RuntimeException;
 
 class SampleManager
@@ -98,7 +97,7 @@ EOL;
         }
 
         $content = strtr(file_get_contents($sampleFile), $replacements);
-        $content = str_replace("'vendor/'", "'" . dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . "vendor'", $content);
+        $content = str_replace("'vendor/'", "'" . dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . "vendor'", $content);
 
         $subst = $this->getConnectionTemplate();
         $content = preg_replace('/\([^)]+\)/', '', $content, 1);

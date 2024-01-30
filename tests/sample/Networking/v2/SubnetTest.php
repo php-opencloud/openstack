@@ -100,10 +100,10 @@ class SubnetTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testRetrieve(Subnet $createdSubnet)
+    public function testRead(Subnet $createdSubnet)
     {
         /** @var $subnet \OpenStack\Networking\v2\Models\Subnet */
-        require_once $this->sampleFile('subnets/get.php', ['{subnetId}' => $createdSubnet->id]);
+        require_once $this->sampleFile('subnets/read.php', ['{subnetId}' => $createdSubnet->id]);
 
         $this->assertInstanceOf(Subnet::class, $subnet);
         $this->assertEquals($subnet->id, $subnet->id);

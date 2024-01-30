@@ -5,16 +5,18 @@ require 'vendor/autoload.php';
 $openstack = new OpenStack\OpenStack([
     'authUrl' => '{authUrl}',
     'region'  => '{region}',
-    'user'    => ['id' => '{userId}', 'password' => '{password}'],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'user'    => [
+        'id'       => '{userId}',
+        'password' => '{password}',
+    ],
 ]);
 
 $service = $openstack->blockStorageV3();
 
 $volume = $service->createVolume([
-    'description'      => '{description}',
-    'size'             => '{size}',
-    'name'             => '{name}',
-    'volumeType'       => '{volumeType}',
-    'metadata'         => ['{key1}' => '{val1}'],
+    'description' => '{description}',
+    'size'        => '{size}',
+    'name'        => '{name}',
+    'volumeType'  => '{volumeType}',
+    'metadata'    => ['{key1}' => '{val1}'],
 ]);

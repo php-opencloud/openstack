@@ -1,80 +1,75 @@
 Domains
 =======
 
-Add domain
-----------
+A domain is a collection of users, groups, and projects. Each group and project is owned by exactly one domain.
 
-.. sample:: Identity/v3/domains/add_domain.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createDomain
+.. osdoc:: https://docs.openstack.org/keystone/latest/getting-started/architecture.html#domains
 
-List domains
-------------
+.. |models| replace:: domains
 
-.. sample:: Identity/v3/domains/list_domains.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_listDomains
+.. include:: /common/service.rst
 
-Show domain details
--------------------
+Create
+------
 
-.. sample:: Identity/v3/domains/show_domain.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_getDomain
+.. sample:: Identity/v3/domains/create.php
 
-Update domain
--------------
+Read
+----
 
-.. sample:: Identity/v3/domains/update_domain.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_update
+.. sample:: Identity/v3/domains/read.php
 
-Delete domain
--------------
+Update
+------
 
-.. sample:: Identity/v3/domains/delete_domain.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_delete
+.. sample:: Identity/v3/domains/update.php
+
+Delete
+------
+
+.. sample:: Identity/v3/domains/delete.php
+
+List
+----
+
+.. sample:: Identity/v3/domains/list.php
 
 List roles for domain user
 --------------------------
 
 .. sample:: Identity/v3/domains/list_user_roles.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_listUserRoles
 
 Grant role to domain user
 -------------------------
 
 .. sample:: Identity/v3/domains/grant_user_role.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_grantUserRole
 
 Check role for domain user
 --------------------------
 
 .. sample:: Identity/v3/domains/check_user_role.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_checkUserRole
 
 Revoke role for domain user
 ---------------------------
 
 .. sample:: Identity/v3/domains/revoke_user_role.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_revokeUserRole
 
 List roles for domain group
 ---------------------------
 
 .. sample:: Identity/v3/domains/list_group_roles.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_listGroupRoles
 
 Grant role to domain group
 --------------------------
 
 .. sample:: Identity/v3/domains/grant_group_role.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_grantGroupRole
 
 Check role for domain group
 ---------------------------
 
 .. sample:: Identity/v3/domains/check_group_role.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_checkGroupRole
 
 Revoke role for domain group
 ----------------------------
 
 .. sample:: Identity/v3/domains/revoke_group_role.php
-.. refdoc:: OpenStack/Identity/v3/Models/Domain.html#method_revokeGroupRole

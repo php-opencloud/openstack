@@ -97,20 +97,17 @@ PHP
     /**
      * @depends testCreate
      */
-    public function testGet(Port $createdPort)
+    public function testRead(Port $createdPort)
     {
         /** @var $port \OpenStack\Networking\v2\Models\Port */
         require_once $this->sampleFile(
-            'ports/get.php',
+            'ports/read.php',
             [
                 '{portId}' => $createdPort->id,
             ]);
 
         $this->assertInstanceOf(Port::class, $port);
         $this->assertNotEmpty($port->id);
-        $this->assertEmpty($port->name);
-
-        $port->retrieve();
         $this->assertNotEmpty($port->name);
     }
 

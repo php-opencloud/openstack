@@ -1,34 +1,42 @@
 Subnets
 =======
 
-Create subnet
--------------
+A block of IP addresses and associated configuration state. This is also known as the native IPAM (IP Address Management)
+provided by the networking service for both project and provider networks. Subnets are used to allocate IP addresses
+when new ports are created on a network.
+
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#subnets
+
+.. |models| replace:: subnets
+
+.. include:: /common/service.rst
+
+Create
+------
 
 .. sample:: Networking/v2/subnets/create.php
-.. refdoc:: OpenStack/Networking/v2/subnets/Service.html#method_createSubnet
 
-To create a subnet with gateway IP:
+With gateway IP
+~~~~~~~~~~~~~~~
 
 .. sample:: Networking/v2/subnets/create_with_gateway_ip.php
 
-To create a subnet with host routes:
+With host routes
+~~~~~~~~~~~~~~~~
 
 .. sample:: Networking/v2/subnets/create_with_host_routes.php
 
-Get subnet
-----------
+Read
+----
 
-.. sample:: Networking/v2/subnets/get.php
-.. refdoc:: OpenStack/Networking/v2/subnets/Service.html#method_getSubnet
+.. sample:: Networking/v2/subnets/read.php
 
-Update subnet
--------------
+Update
+------
 
 .. sample:: Networking/v2/subnets/update.php
-.. refdoc:: OpenStack/Networking/v2/subnets/Models/Subnet.html#method_update
 
-Delete subnet
--------------
+Delete
+------
 
 .. sample:: Networking/v2/subnets/delete.php
-.. refdoc:: OpenStack/Networking/v2/subnets/Models/Subnet.html#method_delete

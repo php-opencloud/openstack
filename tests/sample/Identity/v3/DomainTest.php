@@ -14,7 +14,7 @@ class DomainTest extends TestCase
 
         /** @var $domain \OpenStack\Identity\v3\Models\Domain */
         require_once $this->sampleFile(
-            'domains/add_domain.php',
+            'domains/create.php',
             [
                 '{name}'        => $name,
                 '{description}' => $description,
@@ -34,7 +34,7 @@ class DomainTest extends TestCase
     {
         $found = false;
         require_once $this->sampleFile(
-            'domains/list_domains.php',
+            'domains/list.php',
             [
                 '/** @var $domain \OpenStack\Identity\v3\Models\Domain */' => <<<'PHP'
 /** @var $domain \OpenStack\Identity\v3\Models\Domain */
@@ -51,10 +51,10 @@ PHP,
     /**
      * @depends testCreate
      */
-    public function testShow(Domain $createdDomain)
+    public function testRead(Domain $createdDomain)
     {
         /** @var $domain \OpenStack\Identity\v3\Models\Domain */
-        require_once $this->sampleFile('domains/show_domain.php', ['{domainId}' => $createdDomain->id]);
+        require_once $this->sampleFile('domains/read.php', ['{domainId}' => $createdDomain->id]);
         $this->assertInstanceOf(Domain::class, $domain);
         $this->assertEquals($createdDomain->id, $domain->id);
         $this->assertEquals($createdDomain->name, $domain->name);
@@ -252,7 +252,7 @@ PHP
     public function testUpdate(Domain $createdDomain)
     {
         $this->assertTrue($createdDomain->enabled);
-        require_once $this->sampleFile('domains/update_domain.php', ['{domainId}' => $createdDomain->id]);
+        require_once $this->sampleFile('domains/update.php', ['{domainId}' => $createdDomain->id]);
         $createdDomain->retrieve();
         $this->assertFalse($createdDomain->enabled);
     }
@@ -262,7 +262,7 @@ PHP
      */
     public function testDelete(Domain $createdDomain)
     {
-        require_once $this->sampleFile('domains/delete_domain.php', ['{domainId}' => $createdDomain->id]);
+        require_once $this->sampleFile('domains/delete.php', ['{domainId}' => $createdDomain->id]);
         $found = false;
         foreach ($this->getService()->listDomains() as $domain) {
             if ($domain->id === $createdDomain->id) {

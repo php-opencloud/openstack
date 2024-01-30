@@ -10,9 +10,6 @@ $params = [
         'password' => '{password}',
         'domain'   => ['id' => '{domainId}']
     ],
-    'scope' => [
-        'project' => ['id' => '{projectId}']
-    ]
 ];
 
 $openstack = new OpenStack\OpenStack($params);

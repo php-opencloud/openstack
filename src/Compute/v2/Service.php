@@ -37,10 +37,10 @@ class Service extends AbstractService
     /**
      * List servers.
      *
-     * @param bool     $detailed Determines whether detailed information will be returned. If FALSE is specified, only
-     *                           the ID, name and links attributes are returned, saving bandwidth.
-     * @param array    $options  {@see \OpenStack\Compute\v2\Api::getServers}
-     * @param callable $mapFn    a callable function that will be invoked on every iteration of the list
+     * @param bool          $detailed Determines whether detailed information will be returned. If FALSE is specified, only
+     *                                the ID, name and links attributes are returned, saving bandwidth.
+     * @param array         $options  {@see \OpenStack\Compute\v2\Api::getServers}
+     * @param callable|null $mapFn    a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Server>
      */

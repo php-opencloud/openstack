@@ -1,35 +1,39 @@
 Groups
 ======
 
-Add group
----------
+Groups are a container representing a collection of users. A group itself must be owned by a specific domain,
+and hence all group names are not globally unique, but only unique to their domain.
 
-.. sample:: Identity/v3/groups/add_group.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createGroup
+.. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#groups
 
-List groups
------------
+.. |models| replace:: groups
 
-.. sample:: Identity/v3/groups/list_groups.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_listGroups
+.. include:: /common/service.rst
 
-Show group details
-------------------
+Create
+------
 
-.. sample:: Identity/v3/groups/get_group.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_getGroup
+.. sample:: Identity/v3/groups/create.php
 
-Update group
-------------
+Read
+----
 
-.. sample:: Identity/v3/groups/update_group.php
-.. refdoc:: OpenStack/Identity/v3/Models/Group.html#method_update
+.. sample:: Identity/v3/groups/read.php
 
-Delete group
-------------
+Update
+------
 
-.. sample:: Identity/v3/groups/delete_group.php
-.. refdoc:: OpenStack/Identity/v3/Models/Group.html#method_delete
+.. sample:: Identity/v3/groups/update.php
+
+Delete
+------
+
+.. sample:: Identity/v3/groups/delete.php
+
+List
+----
+
+.. sample:: Identity/v3/groups/list.php
 
 List users in a group
 ---------------------

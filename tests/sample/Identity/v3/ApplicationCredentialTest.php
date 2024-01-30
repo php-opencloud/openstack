@@ -8,14 +8,14 @@ use OpenStack\Identity\v3\Models\ApplicationCredential;
 class ApplicationCredentialTest extends TestCase
 {
 
-    public function testAdd(): ApplicationCredential
+    public function testCreate(): ApplicationCredential
     {
         $name = $this->randomStr();
         $description = $this->randomStr();
 
         /** @var $applicationCredential \OpenStack\Identity\v3\Models\ApplicationCredential */
         require_once $this->sampleFile(
-            'application_credentials/add_application_credential.php',
+            'application_credentials/create.php',
             [
                 '{name}'        => $name,
                 '{description}' => $description,
@@ -30,7 +30,7 @@ class ApplicationCredentialTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testGenerateToken(ApplicationCredential $applicationCredential)
     {
@@ -48,13 +48,13 @@ class ApplicationCredentialTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
-    public function testRetrieve(ApplicationCredential $originalApplicationCredential)
+    public function testRead(ApplicationCredential $originalApplicationCredential)
     {
         /** @var $applicationCredential \OpenStack\Identity\v3\Models\ApplicationCredential */
         require_once $this->sampleFile(
-            'application_credentials/show_application_credential.php',
+            'application_credentials/read.php',
             ['{applicationCredentialId}' => $originalApplicationCredential->id]
         );
 
@@ -64,7 +64,7 @@ class ApplicationCredentialTest extends TestCase
     }
 
     /**
-     * @depends testAdd
+     * @depends testCreate
      */
     public function testDelete(ApplicationCredential $applicationCredential)
     {
@@ -78,7 +78,7 @@ class ApplicationCredentialTest extends TestCase
         $this->assertTrue($token->validate());
 
         require_once $this->sampleFile(
-            'application_credentials/delete_application_credential.php',
+            'application_credentials/delete.php',
             [
                 '{applicationCredentialId}' => $applicationCredential->id,
             ]

@@ -1,0 +1,1 @@
+In order to work with |models| you have to :doc:`create the service <create>` first.

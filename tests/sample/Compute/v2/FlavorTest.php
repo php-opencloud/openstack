@@ -12,7 +12,7 @@ class FlavorTest extends TestCase
         $name = $this->randomStr();
 
         /** @var $flavor \OpenStack\Compute\v2\Models\Flavor */
-        require_once $this->sampleFile('flavors/create_flavor.php', ['{flavorName}' => $name]);
+        require_once $this->sampleFile('flavors/create.php', ['{flavorName}' => $name]);
 
         $this->assertInstanceOf(Flavor::class, $flavor);
         $this->assertEquals($name, $flavor->name);
@@ -27,7 +27,7 @@ class FlavorTest extends TestCase
     {
         $found = false;
         require_once $this->sampleFile(
-            'flavors/list_flavors.php',
+            'flavors/list.php',
             [
                 '/** @var \OpenStack\Compute\v2\Models\Flavor $flavor */' => <<<'PHP'
 /** @var \OpenStack\Compute\v2\Models\Flavor $flavor */
@@ -45,10 +45,10 @@ PHP
     /**
      * @depends testCreate
      */
-    public function testGet(Flavor $createdFlavor)
+    public function testRead(Flavor $createdFlavor)
     {
         /** @var \OpenStack\Compute\v2\Models\Flavor $flavor */
-        require_once $this->sampleFile('flavors/get_flavor.php', ['{flavorId}' => $createdFlavor->id]);
+        require_once $this->sampleFile('flavors/read.php', ['{flavorId}' => $createdFlavor->id]);
 
         $this->assertInstanceOf(Flavor::class, $flavor);
         $this->assertEquals($createdFlavor->id, $flavor->id);
@@ -60,7 +60,7 @@ PHP
      */
     public function testDelete(Flavor $createdFlavor)
     {
-        require_once $this->sampleFile('flavors/delete_flavor.php', ['{flavorId}' => $createdFlavor->id]);
+        require_once $this->sampleFile('flavors/delete.php', ['{flavorId}' => $createdFlavor->id]);
 
         foreach ($this->getService()->listFlavors() as $flavor) {
             $this->assertNotEquals($createdFlavor->id, $flavor->id);

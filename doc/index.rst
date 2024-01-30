@@ -1,40 +1,23 @@
 Welcome to the OpenStack SDK for PHP!
 =====================================
 
-Requirements
-------------
+About
+-----
 
-* PHP >= 7, < 9
-* cURL extension
+OpenStack SDK allows PHP developers to easily connect to OpenStack APIs in a simple and idiomatic way.
+This binding is specifically designed for OpenStack APIs, but other provider SDKs are available.
+Multiple OpenStack services, and versions of services, are supported.
 
-Installation
-------------
-
-You must install this library through Composer:
-
-.. code-block:: bash
-
-    composer require php-opencloud/openstack
-
-If you do not have Composer installed, please read the `Composer installation instructions`_.
-
-Once you have installed the SDK as a dependency of your project, you will need to load Composer’s autoloader
-(which registers all the required namespaces). To do this, place the following line of PHP code at the top of your
-application’s PHP files:
-
-.. code-block:: php
-
-    require 'vendor/autoload.php';
-
-This assumes your application's PHP files are located in the same folder as ``vendor/``. If your files are located
-elsewhere, please supply the path to vendor/autoload.php in the require statement above.
+.. toctree::
+    install
+    setup
 
 Supported services
 ------------------
 
 .. toctree::
     :glob:
-    :maxdepth: 1
+    :maxdepth: 0
 
     services/**/index
 
@@ -49,6 +32,5 @@ Contributing
 If you'd like to contribute to the project, or require help running the unit/integration tests, please view the
 `contributing guidelines`_.
 
-.. _Composer installation instructions: `https://getcomposer.org/doc/00-intro.md`
-.. _Github repo: `https://github.com/php-opencloud/openstack`
-.. _contributing guidelines: `https://github.com/php-opencloud/openstack/blob/master/CONTRIBUTING.md`
+.. _Github repo: https://github.com/php-opencloud/openstack
+.. _contributing guidelines: https://github.com/php-opencloud/openstack/blob/master/CONTRIBUTING.md

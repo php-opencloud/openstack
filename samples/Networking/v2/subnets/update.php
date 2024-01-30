@@ -7,18 +7,12 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$networking = $openstack->networkingV2();
-
-$subnet = $networking->getSubnet('{subnetId}');
+$service = $openstack->networkingV2();
+$subnet = $service->getSubnet('{subnetId}');
 
 $subnet->name = '{newName}';
 $subnet->update();

@@ -10,7 +10,6 @@ use RuntimeException;
 
 class ServerTest extends TestCase
 {
-
     public function testCreate(): Server
     {
         $flavorId = getenv('OS_FLAVOR');
@@ -37,7 +36,7 @@ class ServerTest extends TestCase
         ];
 
         /** @var $server \OpenStack\Compute\v2\Models\Server */
-        require_once $this->sampleFile('servers/create_server.php', $replacements);
+        require_once $this->sampleFile('servers/create.php', $replacements);
 
         $server->waitUntilActive();
 
@@ -55,7 +54,7 @@ class ServerTest extends TestCase
     {
         $newName = $this->randomStr();
 
-        require_once $this->sampleFile('servers/update_server.php', [
+        require_once $this->sampleFile('servers/update.php', [
             '{serverId}' => $createdServer->id,
             '{newName}'  => $newName,
         ]);
@@ -72,7 +71,7 @@ class ServerTest extends TestCase
     public function testGet(Server $createdServer)
     {
         /** @var \OpenStack\Compute\v2\Models\Server $server */
-        require_once $this->sampleFile('servers/get_server.php', ['{serverId}' => $createdServer->id]);
+        require_once $this->sampleFile('servers/read.php', ['{serverId}' => $createdServer->id]);
 
         $this->assertInstanceOf(Server::class, $server);
         $this->assertEquals($createdServer->id, $server->id);
@@ -343,7 +342,7 @@ class ServerTest extends TestCase
      */
     public function testDelete(Server $createdServer)
     {
-        require_once $this->sampleFile('servers/delete_server.php', ['{serverId}' => $createdServer->id]);
+        require_once $this->sampleFile('servers/delete.php', ['{serverId}' => $createdServer->id]);
 
         // Needed so that subnet and network can be removed
         $createdServer->waitUntilDeleted();

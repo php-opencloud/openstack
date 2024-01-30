@@ -9,13 +9,11 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-/** @var \OpenStack\ObjectStore\v1\Models\StorageObject $object */
-$object = $openstack->objectStoreV1()
-    ->getContainer('{containerName}')
-    ->createObject([
-        'name'    => '{objectName}',
-        'content' => '{objectContent}',
-    ]);
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+$object = $container->createObject([
+    'name'    => '{objectName}',
+    'content' => '{objectContent}',
+]);

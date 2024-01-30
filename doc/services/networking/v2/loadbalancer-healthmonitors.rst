@@ -1,32 +1,36 @@
 LoadBalancer HealthMonitors
 ===========================
 
-Create HealthMonitor
---------------------
+.. warning::
+    Load balancing functions accessed via the neutron endpoint are deprecated and will be removed in a future release.
+    Users are strongly encouraged to migrate to using the octavia endpoint.
+    This library does not support the octavia endpoint yet.
+    Consider `helping <https://github.com/php-opencloud/openstack/pulls>`_ us to implement it .
+
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#load-balancer-as-a-service-2-0-deprecated
+
+Create
+------
 
 .. sample:: Networking/v2/lbaas/healthmonitors/create.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_createLoadBalancerHealthMonitor
 
-Get HealthMonitor
------------------
+Read
+----
 
-.. sample:: Networking/v2/lbaas/healthmonitors/get.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_getLoadBalancerHealthMonitor
+.. sample:: Networking/v2/lbaas/healthmonitors/read.php
 
-List HealthMonitors
--------------------
-
-.. sample:: Networking/v2/lbaas/healthmonitors/list.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_listLoadBalancerHealthMonitors
-
-Update HealthMonitor
---------------------
+Update
+------
 
 .. sample:: Networking/v2/lbaas/healthmonitors/update.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerHealthMonitor.html#method_update
 
-Delete HealthMonitor
---------------------
+Delete
+------
 
 .. sample:: Networking/v2/lbaas/healthmonitors/delete.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerHealthMonitor.html#method_delete
+
+List
+----
+
+.. sample:: Networking/v2/lbaas/healthmonitors/list.php
+

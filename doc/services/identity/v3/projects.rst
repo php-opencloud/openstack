@@ -1,35 +1,41 @@
 Projects
 ========
 
-Add project
------------
+Projects represent the base unit of ownership in OpenStack, in that all resources in OpenStack should be owned
+by a specific project. A project itself must be owned by a specific domain, and hence all project names
+are not globally unique, but unique to their domain. If the domain for a project is not specified, then it is added
+to the default domain.
 
-.. sample:: Identity/v3/projects/add_project.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_createProject
+.. osdoc:: https://docs.openstack.org/api-ref/identity/v3/index.html#projects
 
-List projects
--------------
+.. |models| replace:: projects
 
-.. sample:: Identity/v3/projects/list_projects.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_listProjects
+.. include:: /common/service.rst
 
-Show project details
---------------------
+Create
+------
 
-.. sample:: Identity/v3/projects/get_project.php
-.. refdoc:: OpenStack/Identity/v3/Service.html#method_getProject
+.. sample:: Identity/v3/projects/create.php
 
-Update project
---------------
+Read
+----
 
-.. sample:: Identity/v3/projects/update_project.php
-.. refdoc:: OpenStack/Identity/v3/Models/Project.html#method_update
+.. sample:: Identity/v3/projects/read.php
 
-Delete project
---------------
+Update
+------
 
-.. sample:: Identity/v3/projects/delete_project.php
-.. refdoc:: OpenStack/Identity/v3/Models/Project.html#method_delete
+.. sample:: Identity/v3/projects/update.php
+
+Delete
+------
+
+.. sample:: Identity/v3/projects/delete.php
+
+List
+----
+
+.. sample:: Identity/v3/projects/list.php
 
 List roles for project user
 ---------------------------

@@ -1,7 +1,9 @@
 Identity v2
 ===========
 
-.. toctree::
-    :maxdepth: 3
+We recommend users to use Identity v3 when possible.
 
-    authentication
+Some public clouds, however, might still use Keystone v2. This following code will work for such providers.
+
+.. sample:: Identity/v2/authentication.php
+    :full:

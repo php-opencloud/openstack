@@ -9,10 +9,10 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$openstack->objectStoreV1()
-    ->getContainer('{containerName}')
-    ->getObject('{objectName}')
-    ->delete();
+$service = $openstack->objectStoreV1();
+$container = $service->getContainer('{containerName}');
+$object = $container->getObject('{objectName}');
+
+$object->delete();
