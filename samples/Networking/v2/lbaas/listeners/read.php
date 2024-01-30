@@ -9,15 +9,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope'   => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
-$networking = $openstack->networkingV2();
+$service = $openstack->networkingV2();
+$listener = $service->getLoadBalancerListener('{listenerId}');
 
-// Get the listener
-$listener = $networking->getLoadBalancerListener('{listenerId}');
 $listener->retrieve();

@@ -12,7 +12,6 @@ $openstack = new OpenStack\OpenStack([
 ]);
 
 $service = $openstack->networkingV2();
-$network = $service->getNetwork('{networkId}');
+$healthMonitor = $service->getLoadBalancerHealthMonitor('{healthMonitorId}');
 
-$network->name = '{newName}';
-$network->update();
+$healthMonitor->retrieve();

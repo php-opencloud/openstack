@@ -14,5 +14,4 @@ $openstack = new OpenStack\OpenStack([
 $service = $openstack->networkingV2();
 $network = $service->getNetwork('{networkId}');
 
-$network->name = '{newName}';
-$network->update();
+$network->retrieve();

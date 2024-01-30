@@ -7,17 +7,11 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => [
-        'project' => [
-            'id' => '{projectId}'
-        ]
-    ]
 ]);
 
 $networking = $openstack->networkingV2();
+$port = $networking->getPort('{portId}');
 
-// Get the pool
-$pool = $networking->getLoadBalancerPool('{poolId}');
-$pool->retrieve();
+$port->retrieve();

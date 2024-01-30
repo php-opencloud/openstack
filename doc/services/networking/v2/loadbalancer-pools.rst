@@ -1,56 +1,55 @@
 LoadBalancer Pools
 ==================
 
-Create Pool
------------
+.. warning::
+    Load balancing functions accessed via the neutron endpoint are deprecated and will be removed in a future release.
+    Users are strongly encouraged to migrate to using the octavia endpoint.
+    This library does not support the octavia endpoint yet.
+    Consider `helping <https://github.com/php-opencloud/openstack/pulls>`_ us to implement it .
+
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#load-balancer-as-a-service-2-0-deprecated
+
+Create
+------
 
 .. sample:: Networking/v2/lbaas/pools/create.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_createLoadBalancerPool
 
-Get Pool
---------
+Read
+----
 
-.. sample:: Networking/v2/lbaas/pools/get.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_getLoadBalancerPool
+.. sample:: Networking/v2/lbaas/pools/read.php
 
-List Pools
-----------
+List
+----
 
 .. sample:: Networking/v2/lbaas/pools/list.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_listLoadBalancerPools
 
-Update Pool
+Update
 -----------
 
 .. sample:: Networking/v2/lbaas/pools/update.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_update
 
-Delete Pool
------------
+Delete
+------
 
 .. sample:: Networking/v2/lbaas/pools/delete.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_delete
 
 Add Member
 ----------
 
 .. sample:: Networking/v2/lbaas/pools/add-member.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_addMember
 
 Get Member
 ----------
 
 .. sample:: Networking/v2/lbaas/pools/get-member.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_getMember
 
 Delete Member
 -------------
 
 .. sample:: Networking/v2/lbaas/pools/delete-member.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_deleteMember
 
 Add Health Monitor
 ------------------
 
 .. sample:: Networking/v2/lbaas/pools/add-healthmonitor.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_addHealthMonitor

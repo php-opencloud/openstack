@@ -56,7 +56,7 @@ class NetworkTest extends TestCase
     public function testRetrieve(Network $createdNetwork)
     {
         /** @var \OpenStack\Networking\v2\Models\Network $network */
-        require_once $this->sampleFile('networks/get.php', ['{networkId}' => $createdNetwork->id]);
+        require_once $this->sampleFile('networks/read.php', ['{networkId}' => $createdNetwork->id]);
 
         $this->assertInstanceOf(Network::class, $network);
         $this->assertEquals($createdNetwork->id, $network->id);

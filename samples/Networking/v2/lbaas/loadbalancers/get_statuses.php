@@ -18,7 +18,6 @@ $openstack = new OpenStack\OpenStack([
 
 $networking = $openstack->networkingV2();
 
-// Get the loadbalancer
 $lb = $networking->getLoadBalancer('{loadbalancerId}');
 
-$stats = $lb->getStats();
+$status = $lb->getStatuses();

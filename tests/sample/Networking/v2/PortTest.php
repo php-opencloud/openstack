@@ -101,7 +101,7 @@ PHP
     {
         /** @var $port \OpenStack\Networking\v2\Models\Port */
         require_once $this->sampleFile(
-            'ports/get.php',
+            'ports/read.php',
             [
                 '{portId}' => $createdPort->id,
             ]);

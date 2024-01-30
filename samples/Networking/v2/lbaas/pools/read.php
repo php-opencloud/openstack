@@ -11,8 +11,8 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$service = $openstack->networkingV2();
-$network = $service->getNetwork('{networkId}');
+$read = $openstack->networkingV2();
 
-$network->name = '{newName}';
-$network->update();
+// Get the pool
+$pool = $read->getLoadBalancerPool('{poolId}');
+$pool->retrieve();
