@@ -42,10 +42,12 @@ jobs:
     name: Deploy OpenStack ${{ matrix.name }} and run integration tests with php ${{matrix.php_version}}
     steps:
       - uses: actions/checkout@v2
+
       - name: get cache directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+
       - uses: actions/cache@v3
         with:
           path: |
@@ -54,13 +56,16 @@ jobs:
           key: ${{ runner.os }}-composer-${{ matrix.php_version }}-${{ hashFiles('**.composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-${{ matrix.php_version }}-
+
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php_version }}
           extensions: curl
           tools: composer:v2
           coverage: none
+
       - run: composer install --prefer-dist --no-interaction --no-progress
+
       - name: Restore devstack cache
         uses: actions/cache@v3
         with:
@@ -69,6 +74,7 @@ jobs:
             !/opt/stack/data
             ~/devstack/
           key: ${{ runner.os }}-openstack-${{ matrix.openstack_version }}-${{ github.workflow }}
+
       - name: Deploy devstack
         uses: EmilienM/devstack-action@v0.11
         with:
@@ -81,6 +87,7 @@ jobs:
             [filter:versioned_writes]
             allow_object_versioning = true
           enabled_services: 's-account,s-container,s-object,s-proxy,s-bak'
+
       - name: Set env variables
         run: |
           {
@@ -96,9 +103,23 @@ jobs:
             echo OS_FLAVOR=1
             echo OS_DOMAIN_ID=default
           } >> "$GITHUB_ENV"
+
       - name: Check if Block Storage API v2 must be tested
         if: matrix.block_storage_v2 == true
         run: echo "OS_BLOCK_STORAGE_V2=1" >> "$GITHUB_ENV"
+
       - name: Execute Integration tests via PhpUnit
         run: vendor/bin/phpunit --configuration ./phpunit.sample.xml.dist
 
+      - name: Collect logs
+        if: ${{ failure() }}
+        run: |
+          set -x
+          journalctl >failure-logs
+
+      - name: Save logs
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: failure-logs
+          path: failure-logs

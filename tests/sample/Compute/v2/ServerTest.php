@@ -318,7 +318,7 @@ class ServerTest extends TestCase
     {
         /** @var array $console */
         require_once $this->sampleFile('servers/get_server_vnc_console.php', [
-            '{serverId}' => $createdServer->id
+            '{serverId}' => $createdServer->id,
         ]);
 
         $this->assertIsArray($console);
@@ -331,6 +331,9 @@ class ServerTest extends TestCase
      */
     public function testGetConsoleOutput(Server $createdServer)
     {
+        // wait for the server to be ready
+        sleep(5);
+
         /** @var string $consoleOutput */
         require_once $this->sampleFile('servers/get_server_console_output.php', ['{serverId}' => $createdServer->id]);
 
@@ -360,5 +363,32 @@ class ServerTest extends TestCase
 
         $this->expectException(BadResponseError::class);
         $createdServer->retrieve();
+    }
+
+    public function testSuspend()
+    {
+        $server = $this->createServer();
+
+        require_once $this->sampleFile('servers/suspend.php', ['{serverId}' => $server->id]);
+
+        $server->waitUntil('SUSPENDED');
+        $this->assertEquals('SUSPENDED', $server->status);
+
+        return $server;
+    }
+
+    /**
+     * @depends testSuspend
+     */
+    public function testResume(Server $server)
+    {
+        $this->assertEquals('SUSPENDED', $server->status);
+
+        require_once $this->sampleFile('servers/resume.php', ['{serverId}' => $server->id]);
+
+        $server->waitUntil('ACTIVE', 300);
+        $this->assertEquals('ACTIVE', $server->status);
+
+        $this->deleteServer($server);
     }
 }

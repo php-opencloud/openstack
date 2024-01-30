@@ -332,6 +332,30 @@ class Api extends AbstractApi
         ];
     }
 
+    public function resumeServer(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
+                'id'     => $this->params->urlId('server'),
+                'resume' => $this->params->nullAction(),
+            ],
+        ];
+    }
+
+    public function suspendServer(): array
+    {
+        return [
+            'method' => 'POST',
+            'path'   => 'servers/{id}/action',
+            'params' => [
+                'id'      => $this->params->urlId('server'),
+                'suspend' => $this->params->nullAction(),
+            ],
+        ];
+    }
+
     public function rebuildServer(): array
     {
         return [
