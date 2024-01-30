@@ -29,7 +29,7 @@ class ContainerTest extends TestCase
 
         $this->assertInstanceOf(Container::class, $container);
         $this->assertEquals($createdContainer->name, $container->name);
-        $this->assertEquals($createdContainer->objectCount, $container->objectCount);
+        $this->assertEquals(0, $container->objectCount);
         $this->assertEquals([], $container->metadata);
     }
 
