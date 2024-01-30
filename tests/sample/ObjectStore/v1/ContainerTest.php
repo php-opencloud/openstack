@@ -25,7 +25,7 @@ class ContainerTest extends TestCase
     public function testRead(Container $createdContainer)
     {
         /** @var \OpenStack\ObjectStore\v1\Models\Container $container */
-        require_once $this->sampleFile('containers/get.php', ['{containerName}' => $createdContainer->name]);
+        require_once $this->sampleFile('containers/read.php', ['{containerName}' => $createdContainer->name]);
 
         $this->assertInstanceOf(Container::class, $container);
         $this->assertEquals($createdContainer->name, $container->name);
