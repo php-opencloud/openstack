@@ -50,7 +50,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /** @var string */
     public $hostId;
 
-    /** @var string */
+    /** @var string The hypervisor host name provided by the Nova virt driver */
     public $hypervisorHostname;
 
     /** @var Image */
@@ -95,6 +95,12 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /** @var string */
     public $keyName;
 
+    /** @var string The hostname set on the instance when it is booted. New in micro version 2.3 */
+    public $hostname;
+
+    /** @var string The root device name for the instance. New in micro version 2.3 */
+    public $rootDeviceName;
+
     protected $resourceKey  = 'server';
     protected $resourcesKey = 'servers';
     protected $markerKey    = 'id';
@@ -111,6 +117,8 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
         'OS-EXT-STS:power_state'              => 'powerState',
         'OS-EXT-STS:vm_state'                 => 'vmState',
         'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
+        'OS-EXT-SRV-ATTR:hostname'            => 'hostname',
+        'OS-EXT-SRV-ATTR:root_device_name'    => 'rootDeviceName',
     ];
 
     protected function getAliases(): array
