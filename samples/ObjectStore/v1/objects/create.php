@@ -13,7 +13,7 @@ $openstack = new OpenStack\OpenStack([
 
 $service = $openstack->objectStoreV1();
 $container = $service->getContainer('{containerName}');
-$container->createObject([
+$object = $container->createObject([
     'name'    => '{objectName}',
     'content' => '{objectContent}',
 ]);

@@ -15,4 +15,4 @@ $service = $openstack->objectStoreV1();
 $container = $service->getContainer('{containerName}');
 $object = $container->getObject('{objectName}');
 
-$object->download();
+$stream = $object->download();

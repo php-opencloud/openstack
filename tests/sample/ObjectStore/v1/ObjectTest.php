@@ -101,6 +101,8 @@ class ObjectTest extends TestCase
      */
     public function testRead(StorageObject $createdObject)
     {
+        $createdObject->retrieve();
+
         /** @var StorageObject $object */
         require_once $this->sampleFile('objects/read.php', [
             '{containerName}' => $createdObject->containerName,
