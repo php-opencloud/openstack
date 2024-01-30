@@ -11,7 +11,9 @@ class VolumeAttachmentTest extends TestCase
     {
         $server = $this->createServer();
 
-        // let's wait for the server to be completely up  - https://bugs.launchpad.net/nova/+bug/1998148
+        // let's wait for the server to be completely up
+        // https://bugs.launchpad.net/nova/+bug/1998148
+        // https://bugs.launchpad.net/nova/+bug/1960346
         sleep(10);
 
         $volume = $this->getCachedService(Service::class)->createVolume(

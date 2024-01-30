@@ -383,7 +383,7 @@ class ServerTest extends TestCase
 
         require_once $this->sampleFile('servers/resume.php', ['{serverId}' => $server->id]);
 
-        $server->waitUntil('ACTIVE');
+        $server->waitUntil('ACTIVE', 300);
         $this->assertEquals('ACTIVE', $server->status);
 
         $this->deleteServer($server);
