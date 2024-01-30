@@ -284,10 +284,10 @@ You can also refine by network label:
 Suspend
 -------
 
-.. sample:: Compute/v2/images/suspend.php
+.. sample:: Compute/v2/servers/suspend.php
 
 Resume
 ------
 
-.. sample:: Compute/v2/images/resume.php
+.. sample:: Compute/v2/servers/resume.php
 
