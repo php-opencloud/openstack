@@ -44,7 +44,7 @@ class Operation
             $this->jsonKey = $definition['jsonKey'];
         }
 
-        $this->params = self::toParamArray($definition['params']);
+        $this->params   = self::toParamArray($definition['params']);
         $this->skipAuth = $definition['skipAuth'] ?? false;
     }
 

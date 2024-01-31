@@ -23,7 +23,7 @@ trait OperatorTrait
     public function __construct(ClientInterface $client, ApiInterface $api)
     {
         $this->client = $client;
-        $this->api = $api;
+        $this->api    = $api;
     }
 
     /**
@@ -56,7 +56,7 @@ trait OperatorTrait
      * following format: `createAsync`, where `create` is the sequential method being wrapped.
      *
      * @param string $methodName the name of the method being invoked
-     * @param array $args the arguments to be passed to the sequential method
+     * @param array  $args       the arguments to be passed to the sequential method
      *
      * @return Promise
      *
@@ -97,7 +97,7 @@ trait OperatorTrait
         $operation->validate($userValues);
 
         $options = (new RequestSerializer())->serializeOptions($operation, $userValues);
-        $method = $async ? 'requestAsync' : 'request';
+        $method  = $async ? 'requestAsync' : 'request';
 
         $uri = Utils::uri_template($operation->getPath(), $userValues);
 
