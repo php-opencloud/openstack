@@ -42,7 +42,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return Message::parseResponse(file_get_contents($path));
     }
 
-    protected function setupMock($method, $path, $body = null, array $headers = [], $response = null)
+    protected function setupMock($method, $path, $body = null, array $headers = [], $response = null, $skipAuth = false)
     {
         $options = ['headers' => $headers];
 
@@ -52,6 +52,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         if (is_string($response)) {
             $response = $this->getFixture($response);
+        }
+
+        if ($skipAuth) {
+            $options['openstack.skip_auth'] = true;
         }
 
         $this->client

@@ -40,7 +40,7 @@ class ServiceTest extends TestCase
             'tenantId' => $options['tenantId'],
         ]];
 
-        $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post');
+        $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post', true);
 
         list($token, $baseUrl) = $this->service->authenticate($options);
 
@@ -64,7 +64,7 @@ class ServiceTest extends TestCase
             'tenantId' => $options['tenantId'],
         ]];
 
-        $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post');
+        $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post', true);
 
         self::assertInstanceOf(Token::class, $this->service->generateToken($options));
     }

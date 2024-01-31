@@ -58,7 +58,7 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token', true);
 
         list($token, $url) = $this->service->authenticate($userOptions);
 
@@ -231,7 +231,7 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token', true);
 		$this->expectException(\RuntimeException::class);
 
         $this->service->authenticate([
@@ -629,7 +629,7 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token', true);
 
         $token = $this->service->generateToken($userOptions);
         self::assertInstanceOf(Models\Token::class, $token);
@@ -654,7 +654,7 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token', true);
 
         $token = $this->service->generateToken($userOptions);
         self::assertInstanceOf(Models\Token::class, $token);

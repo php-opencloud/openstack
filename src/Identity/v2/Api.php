@@ -14,20 +14,21 @@ class Api implements ApiInterface
     public function postToken(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'tokens',
-            'params' => [
-                'username' => [
+            'method'   => 'POST',
+            'path'     => 'tokens',
+            'skipAuth' => true,
+            'params'   => [
+                'username'   => [
                     'type'     => 'string',
                     'required' => true,
                     'path'     => 'auth.passwordCredentials',
                 ],
-                'password' => [
+                'password'   => [
                     'type'     => 'string',
                     'required' => true,
                     'path'     => 'auth.passwordCredentials',
                 ],
-                'tenantId' => [
+                'tenantId'   => [
                     'type' => 'string',
                     'path' => 'auth',
                 ],

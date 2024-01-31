@@ -132,4 +132,13 @@ PHP
         $this->expectException(BadResponseError::class);
         $createdContainer->retrieve();
     }
+
+    public function testTokensContainer()
+    {
+        $container = $this->getService()->createContainer(['name' => $this->randomStr() . '_tokens']);
+        $this->assertNotNull($container->name);
+
+        // this would send POST request with 'tokens' in the URL
+        $container->resetMetadata([]);
+    }
 }

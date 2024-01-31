@@ -89,27 +89,27 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     }
 
     /**
-     * @param array $data {@see \OpenStack\Identity\v3\Api::postTokens}
+     * @param array $userOptions {@see \OpenStack\Identity\v3\Api::postTokens}
      */
-    public function create(array $data): Creatable
+    public function create(array $userOptions): Creatable
     {
-        if (isset($data['user'])) {
-            $data['methods'] = ['password'];
-            if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
+        if (isset($userOptions['user'])) {
+            $userOptions['methods'] = ['password'];
+            if (!isset($userOptions['user']['id']) && empty($userOptions['user']['domain'])) {
                 throw new InvalidArgumentException('When authenticating with a username, you must also provide either the domain name '.'or domain ID to which the user belongs to. Alternatively, if you provide a user ID instead, '.'you do not need to provide domain information.');
             }
-        } elseif (isset($data['application_credential'])) {
-            $data['methods'] = ['application_credential'];
-            if (!isset($data['application_credential']['id']) || !isset($data['application_credential']['secret'])) {
+        } elseif (isset($userOptions['application_credential'])) {
+            $userOptions['methods'] = ['application_credential'];
+            if (!isset($userOptions['application_credential']['id']) || !isset($userOptions['application_credential']['secret'])) {
                 throw new InvalidArgumentException('When authenticating with a application_credential, you must provide application credential ID '.' and application credential secret.');
             }
-        } elseif (isset($data['tokenId'])) {
-            $data['methods'] = ['token'];
+        } elseif (isset($userOptions['tokenId'])) {
+            $userOptions['methods'] = ['token'];
         } else {
             throw new InvalidArgumentException('Either a user, tokenId or application_credential must be provided.');
         }
 
-        $response = $this->execute($this->api->postTokens(), $data);
+        $response = $this->execute($this->api->postTokens(), $userOptions);
         $token    = $this->populateFromResponse($response);
 
         // Cache response as an array to export if needed.

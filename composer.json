@@ -34,6 +34,7 @@
         "justinrainbow/json-schema": "^5.2"
     },
     "require-dev": {
+        "ext-json": "*",
         "ergebnis/composer-normalize": "^2.0",
         "friendsofphp/php-cs-fixer": "^3",
         "php-coveralls/php-coveralls": "^2.0",
