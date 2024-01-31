@@ -43,12 +43,12 @@ class AuthHandler
     {
         $fn = $this->nextHandler;
 
-        if (!isset($options['openstack.skip_auth'])){
+        if (!isset($options['openstack.skip_auth'])) {
             // Deprecated. Left for backward compatibility only.
             if ($this->shouldIgnore($request)) {
                 return $fn($request, $options);
             }
-        } else if ($options['openstack.skip_auth']) {
+        } elseif ($options['openstack.skip_auth']) {
             return $fn($request, $options);
         }
 
