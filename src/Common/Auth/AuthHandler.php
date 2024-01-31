@@ -43,7 +43,12 @@ class AuthHandler
     {
         $fn = $this->nextHandler;
 
-        if (isset($options['openstack.skip_auth']) && $options['openstack.skip_auth']) {
+        if (!isset($options['openstack.skip_auth'])){
+            // Deprecated. Left for backward compatibility only.
+            if ($this->shouldIgnore($request)) {
+                return $fn($request, $options);
+            }
+        } else if ($options['openstack.skip_auth']) {
             return $fn($request, $options);
         }
 
@@ -54,5 +59,14 @@ class AuthHandler
         $modify = ['set_headers' => ['X-Auth-Token' => $this->token->getId()]];
 
         return $fn(Utils::modifyRequest($request, $modify), $options);
+    }
+
+    /**
+     * Internal method which prevents infinite recursion. For certain requests, like the initial
+     * auth call itself, we do NOT want to send a token.
+     */
+    private function shouldIgnore(RequestInterface $request): bool
+    {
+        return false !== strpos((string) $request->getUri(), 'tokens') && 'POST' == $request->getMethod();
     }
 }

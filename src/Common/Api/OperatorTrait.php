@@ -105,9 +105,8 @@ trait OperatorTrait
             $options += $userValues['requestOptions'];
         }
 
-        if ($operation->getSkipAuth()) {
-            $options['openstack.skip_auth'] = true;
-        }
+        $options['openstack.skip_auth'] = $operation->getSkipAuth();
+        print_r($options);
 
         return $this->client->$method($operation->getMethod(), $uri, $options);
     }

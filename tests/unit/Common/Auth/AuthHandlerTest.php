@@ -38,6 +38,14 @@ class AuthHandlerTest extends TestCase
         self::assertEquals($request, call_user_func_array($this->handler, [$request, ['openstack.skip_auth' => true]]));
     }
 
+    public function test_it_should_bypass_auth_http_requests_backward_compatibility()
+    {
+        // Fake a Keystone request
+        $request = new Request('POST', 'https://my-openstack.org:5000/v2.0/tokens');
+
+        self::assertEquals($request, call_user_func_array($this->handler, [$request, []]));
+    }
+
     public function test_it_should_generate_a_new_token_if_the_current_token_is_either_expired_or_not_set()
     {
         $token = $this->prophesize(Token::class);

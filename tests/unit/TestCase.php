@@ -6,6 +6,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
+use Prophecy\Prophecy\MethodProphecy;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -42,9 +43,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return Message::parseResponse(file_get_contents($path));
     }
 
-    protected function setupMock($method, $path, $body = null, array $headers = [], $response = null, $skipAuth = false)
+    protected function setupMock($method, $path, $body = null, array $headers = [], $response = null, $skipAuth = false): MethodProphecy
     {
-        $options = ['headers' => $headers];
+        $options = [
+            'headers'             => $headers,
+            'openstack.skip_auth' => $skipAuth,
+        ];
 
         if (!empty($body)) {
             $options[is_array($body) ? 'json' : 'body'] = $body;
@@ -54,11 +58,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $response = $this->getFixture($response);
         }
 
-        if ($skipAuth) {
-            $options['openstack.skip_auth'] = true;
-        }
-
-        $this->client
+        return $this->client
             ->request($method, $path, $options)
             ->shouldBeCalled()
             ->willReturn($response);
