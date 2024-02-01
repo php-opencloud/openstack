@@ -50,7 +50,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OpenStack\\Integration\\": "tests/integration/",
             "OpenStack\\Sample\\": "tests/sample/",
             "OpenStack\\Test\\": "tests/unit/"
         }
