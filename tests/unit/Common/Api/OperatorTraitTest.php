@@ -38,7 +38,7 @@ class OperatorTraitTest extends TestCase
     {
         self::assertInstanceOf(
             Operation::class,
-            $this->operator->getOperation($this->def, [])
+            $this->operator->getOperation($this->def)
         );
     }
 
@@ -46,9 +46,7 @@ class OperatorTraitTest extends TestCase
     {
         $this->mockRequest('GET', 'test', new Response());
 
-        $this->operator->execute($this->def, []);
-
-        $this->addToAssertionCount(1);
+        $this->operator->execute($this->def);
     }
 
     public function test_it_sends_a_request_when_async_operations_are_executed()
@@ -58,9 +56,7 @@ class OperatorTraitTest extends TestCase
             ->shouldBeCalled()
             ->willReturn(new Promise());
 
-        $this->operator->executeAsync($this->def, []);
-
-        $this->addToAssertionCount(1);
+        $this->operator->executeAsync($this->def);
     }
 
     public function test_it_wraps_sequential_ops_in_promise_when_async_is_appended_to_method_name()
@@ -114,8 +110,6 @@ class OperatorTraitTest extends TestCase
         $this->operator->execute($this->def, [
             'requestOptions' => ['stream' => true],
         ]);
-
-        $this->addToAssertionCount(1);
     }
 }
 
