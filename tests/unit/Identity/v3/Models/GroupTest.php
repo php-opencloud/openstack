@@ -24,7 +24,7 @@ class GroupTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'groups/GROUP_ID', null, [], 'group');
+        $this->mockRequest('GET', 'groups/GROUP_ID', 'group', null, []);
 
         $this->group->retrieve();
     }
@@ -43,7 +43,7 @@ class GroupTest extends TestCase
             'name'        => $userOptions['name']
         ];
 
-        $this->setupMock('POST', 'groups', ['group' => $userJson], [], 'group');
+        $this->mockRequest('POST', 'groups', 'group', ['group' => $userJson], []);
 
         /** @var $group \OpenStack\Identity\v3\Models\Group */
         $group = $this->group->create($userOptions);
@@ -58,14 +58,14 @@ class GroupTest extends TestCase
 
         $userJson = ['description'  => 'desc', 'name' => 'name'];
 
-        $this->setupMock('PATCH', 'groups/GROUP_ID', ['group' => $userJson], [], 'endpoint');
+        $this->mockRequest('PATCH', 'groups/GROUP_ID', 'endpoint', ['group' => $userJson], []);
 
         $this->group->update();
     }
 
     public function test_it_deletes_group()
     {
-        $this->setupMock('DELETE', 'groups/GROUP_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'groups/GROUP_ID', new Response(204), null, []);
 
         $this->group->delete();
     }
@@ -78,31 +78,28 @@ class GroupTest extends TestCase
 
     public function test_it_adds_users()
     {
-        $this->setupMock('PUT', 'groups/GROUP_ID/users/USER_ID', null, [], new Response(204));
+        $this->mockRequest('PUT', 'groups/GROUP_ID/users/USER_ID', new Response(204), null, []);
 
         $this->group->addUser(['userId' => 'USER_ID']);
     }
 
     public function test_it_removes_users()
     {
-        $this->setupMock('DELETE', 'groups/GROUP_ID/users/USER_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'groups/GROUP_ID/users/USER_ID', new Response(204), null, []);
 
         $this->group->removeUser(['userId' => 'USER_ID']);
     }
 
     public function test_it_checks_user_memberships()
     {
-        $this->setupMock('HEAD', 'groups/GROUP_ID/users/USER_ID', null, [], new Response(200));
+        $this->mockRequest('HEAD', 'groups/GROUP_ID/users/USER_ID', new Response(200), null, []);
 
         $this->group->checkMembership(['userId' => 'USER_ID']);
     }
 
     public function test_it_checks_nonexistent_memberships()
     {
-        $this->client
-            ->request('HEAD', 'groups/GROUP_ID/users/USER_ID', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow(new BadResponseError());
+        $this->mockRequest('HEAD', 'groups/GROUP_ID/users/USER_ID', new BadResponseError());
 
         self::assertFalse($this->group->checkMembership(['userId' => 'USER_ID']));
     }

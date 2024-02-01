@@ -26,7 +26,7 @@ class QuotaSetTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'os-quota-sets/fake-tenant-id', null, [], 'quota-sets-get');
+        $this->mockRequest('GET', 'os-quota-sets/fake-tenant-id', 'quota-sets-get', null, []);
 
         $this->quotaSet->retrieve();
 
@@ -50,14 +50,14 @@ class QuotaSetTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'os-quota-sets/fake-tenant-id', null, [], new Response(202));
+        $this->mockRequest('DELETE', 'os-quota-sets/fake-tenant-id', new Response(202), null, []);
 
         $this->quotaSet->delete();
     }
 
     public function test_it_updates()
     {
-        $this->setupMock('PUT', 'os-quota-sets/fake-tenant-id', null, [], 'quota-sets-get');
+        $this->mockRequest('PUT', 'os-quota-sets/fake-tenant-id', 'quota-sets-get', null, []);
 
         $this->quotaSet->update();
     }

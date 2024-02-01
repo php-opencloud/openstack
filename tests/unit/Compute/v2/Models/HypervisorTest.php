@@ -25,7 +25,7 @@ class HypervisorTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'os-hypervisors/' . self::ID, null, [], 'hypervisor-get');
+        $this->mockRequest('GET', 'os-hypervisors/' . self::ID, 'hypervisor-get', null, []);
 
         $this->hypervisor->retrieve();
 

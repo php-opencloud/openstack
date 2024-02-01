@@ -24,7 +24,7 @@ class HostTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'os-hosts/b6e4adbc193d428ea923899d07fb001e', null, [], 'host-get');
+        $this->mockRequest('GET', 'os-hosts/b6e4adbc193d428ea923899d07fb001e', 'host-get', null, []);
 
         $this->host->retrieve();
 

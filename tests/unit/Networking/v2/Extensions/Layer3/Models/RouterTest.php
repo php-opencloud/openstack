@@ -26,7 +26,7 @@ class RouterTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/routers/id', null, [], new Response(202));
+        $this->mockRequest('DELETE', 'v2.0/routers/id', new Response(202), null, []);
 
         $this->router->delete();
     }
@@ -47,7 +47,7 @@ class RouterTest extends TestCase
             ],
         ]];
 
-        $this->setupMock('PUT', 'v2.0/routers/id', $expectedJson, [], new Response(201));
+        $this->mockRequest('PUT', 'v2.0/routers/id', new Response(201), $expectedJson, []);
 
         $gatewayInfo = new GatewayInfo();
         $gatewayInfo->networkId = '8ca37218-28ff-41cb-9b10-039601ea7e6b';
@@ -66,7 +66,7 @@ class RouterTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/routers/id', null, [], 'Router');
+        $this->mockRequest('GET', 'v2.0/routers/id', 'Router', null, []);
 
         $this->router->retrieve();
 
@@ -78,7 +78,7 @@ class RouterTest extends TestCase
     {
         $expectedJson = ['subnet_id' => 'a2f1f29d-571b-4533-907f-5803ab96ead1'];
 
-        $this->setupMock('PUT', 'v2.0/routers/id/add_router_interface', $expectedJson, [], new Response(201));
+        $this->mockRequest('PUT', 'v2.0/routers/id/add_router_interface', new Response(201), $expectedJson, []);
 
         $this->router->addInterface(['subnetId' => 'a2f1f29d-571b-4533-907f-5803ab96ead1']);
     }
@@ -87,7 +87,7 @@ class RouterTest extends TestCase
     {
         $expectedJson = ['subnet_id' => 'a2f1f29d-571b-4533-907f-5803ab96ead1'];
 
-        $this->setupMock('PUT', 'v2.0/routers/id/remove_router_interface', $expectedJson, [], new Response(201));
+        $this->mockRequest('PUT', 'v2.0/routers/id/remove_router_interface', new Response(201), $expectedJson, []);
 
         $this->router->removeInterface(['subnetId' => 'a2f1f29d-571b-4533-907f-5803ab96ead1']);
     }

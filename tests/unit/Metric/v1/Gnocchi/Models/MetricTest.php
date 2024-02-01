@@ -23,7 +23,7 @@ class MetricTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v1/metric/000b7bf8-0271-46dd-90aa-cfe89026a55a', null, [], 'metric-get');
+        $this->mockRequest('GET', 'v1/metric/000b7bf8-0271-46dd-90aa-cfe89026a55a', 'metric-get', null, []);
         $this->metric->retrieve();
 
         self::assertEquals('000b7bf8-0271-46dd-90aa-cfe89026a55a', $this->metric->id);

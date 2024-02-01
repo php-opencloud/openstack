@@ -24,7 +24,7 @@ class MemberTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2/images/foo/members/bar', null, [], 'GET_member');
+        $this->mockRequest('GET', 'v2/images/foo/members/bar', 'GET_member', null, []);
 
         $this->member->retrieve();
     }
@@ -33,14 +33,14 @@ class MemberTest extends TestCase
     {
         $expectedJson = ['status' => 'rejected'];
 
-        $this->setupMock('PUT', 'v2/images/foo/members/bar', $expectedJson, [], 'GET_member');
+        $this->mockRequest('PUT', 'v2/images/foo/members/bar', 'GET_member', $expectedJson, []);
 
         $this->member->updateStatus(Member::STATUS_REJECTED);
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2/images/foo/members/bar', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2/images/foo/members/bar', new Response(204), null, []);
 
         $this->member->delete();
     }

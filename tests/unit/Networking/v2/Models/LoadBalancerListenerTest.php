@@ -43,7 +43,7 @@ class LoadBalancerListenerTest extends TestCase
             'connection_limit' => $opts['connectionLimit']
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/listeners', $expectedJson, [], 'loadbalancer-listener-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/listeners', 'loadbalancer-listener-post', $expectedJson, []);
 
         self::assertInstanceOf(LoadBalancerListener::class, $this->listener->create($opts));
     }
@@ -63,14 +63,14 @@ class LoadBalancerListenerTest extends TestCase
             'admin_state_up'   => false
         ]];
 
-        $this->setupMock('PUT', 'v2.0/lbaas/listeners/listenerId', $expectedJson, [], 'loadbalancer-listener-put');
+        $this->mockRequest('PUT', 'v2.0/lbaas/listeners/listenerId', 'loadbalancer-listener-put', $expectedJson, []);
 
         $this->listener->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/listeners/listenerId', null, [], 'loadbalancer-listener-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/listeners/listenerId', 'loadbalancer-listener-get', null, []);
 
         $this->listener->retrieve();
 
@@ -81,7 +81,7 @@ class LoadBalancerListenerTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/lbaas/listeners/listenerId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/lbaas/listeners/listenerId', new Response(204), null, []);
 
         $this->listener->delete();
     }

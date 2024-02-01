@@ -34,41 +34,43 @@ class ServerTest extends TestCase
             'flavorId' => 'baz',
         ];
 
-        $expectedJson = ['server' => [
-            'name'      => $opts['name'],
-            'imageRef'  => $opts['imageId'],
-            'flavorRef' => $opts['flavorId'],
-        ]];
+        $expectedJson = [
+            'server' => [
+                'name'      => $opts['name'],
+                'imageRef'  => $opts['imageId'],
+                'flavorRef' => $opts['flavorId'],
+            ]];
 
-        $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
+        $this->mockRequest('POST', 'servers', 'server-post', $expectedJson);
         self::assertInstanceOf(Server::class, $this->server->create($opts));
     }
 
     public function test_it_creates_with_boot_from_volume()
     {
         $opts = [
-            'name'     => 'foo',
-            'flavorId' => 'baz',
-            'blockDeviceMapping' => [['uuid' => 'aaaa-ddddd-bbbb-ccccc']]
+            'name'               => 'foo',
+            'flavorId'           => 'baz',
+            'blockDeviceMapping' => [['uuid' => 'aaaa-ddddd-bbbb-ccccc']],
         ];
 
-        $expectedJson = ['server' => [
-            'name' => $opts['name'],
-            'flavorRef' => $opts['flavorId'],
-            'block_device_mapping_v2' => $opts['blockDeviceMapping']
-        ]];
+        $expectedJson = [
+            'server' => [
+                'name'                    => $opts['name'],
+                'flavorRef'               => $opts['flavorId'],
+                'block_device_mapping_v2' => $opts['blockDeviceMapping'],
+            ]];
 
-        $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
+        $this->mockRequest('POST', 'servers', 'server-post', $expectedJson);
         self::assertInstanceOf(Server::class, $this->server->create($opts));
     }
 
     public function test_it_requires_image_id_or_volume_id_to_create_servers()
     {
-		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessage('imageId or blockDeviceMapping.uuid must be set.');
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('imageId or blockDeviceMapping.uuid must be set.');
         $this->server->create([
-            'name' => 'some-server-name',
-            'flavorId' => 'apple'
+            'name'     => 'some-server-name',
+            'flavorId' => 'apple',
         ]);
     }
 
@@ -79,27 +81,28 @@ class ServerTest extends TestCase
         $this->server->ipv4 = '0.0.0.0';
         $this->server->ipv6 = '0:0:0:0:0:ffff:0:0';
 
-        $expectedJson = ['server' => [
-            'name'       => 'foo',
-            'accessIPv4' => '0.0.0.0',
-            'accessIPv6' => '0:0:0:0:0:ffff:0:0',
-        ]];
+        $expectedJson = [
+            'server' => [
+                'name'       => 'foo',
+                'accessIPv4' => '0.0.0.0',
+                'accessIPv6' => '0:0:0:0:0:ffff:0:0',
+            ]];
 
-        $this->setupMock('PUT', 'servers/serverId', $expectedJson, [], 'server-put');
+        $this->mockRequest('PUT', 'servers/serverId', 'server-put', $expectedJson);
 
         $this->server->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'servers/serverId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'servers/serverId', new Response(204));
 
-        self::assertNull($this->server->delete());
+        $this->server->delete();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'servers/serverId', null, [], 'server-get');
+        $this->mockRequest('GET', 'servers/serverId', 'server-get');
 
         $this->server->retrieve();
 
@@ -110,22 +113,22 @@ class ServerTest extends TestCase
     public function test_it_changes_password()
     {
         $expectedJson = ['changePassword' => ['adminPass' => 'foo']];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->changePassword('foo'));
+        $this->server->changePassword('foo');
     }
 
     public function test_it_reboots()
     {
         $expectedJson = ["reboot" => ["type" => "SOFT"]];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->reboot());
+        $this->server->reboot();
     }
 
     public function test_an_exception_is_thrown_when_rebooting_with_an_invalid_type()
     {
-		$this->expectException(\Exception::class);
+        $this->expectException(\Exception::class);
         $this->server->reboot('foo');
     }
 
@@ -142,20 +145,21 @@ class ServerTest extends TestCase
                 [
                     'path'     => '/etc/banner.txt',
                     'contents' => base64_encode('Hi there!'),
-                ]
+                ],
             ],
             'adminPass'   => 'foo',
         ];
 
-        $expectedJson = json_encode(['rebuild' => [
-            'imageRef'    => $userOptions['imageId'],
-            'name'        => $userOptions['name'],
-            'metadata'    => $userOptions['metadata'],
-            'personality' => $userOptions['personality'],
-            'adminPass'   => $userOptions['adminPass']
-        ]], JSON_UNESCAPED_SLASHES);
+        $expectedJson = json_encode([
+            'rebuild' => [
+                'imageRef'    => $userOptions['imageId'],
+                'name'        => $userOptions['name'],
+                'metadata'    => $userOptions['metadata'],
+                'personality' => $userOptions['personality'],
+                'adminPass'   => $userOptions['adminPass'],
+            ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, ['Content-Type' => 'application/json'], 'server-rebuild');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-rebuild', $expectedJson, ['Content-Type' => 'application/json']);
 
         $this->server->rebuild($userOptions);
 
@@ -166,18 +170,18 @@ class ServerTest extends TestCase
     public function test_it_rescues()
     {
         $userOptions = [
-            'imageId'     => 'newImage',
-            'adminPass'   => 'foo',
+            'imageId'   => 'newImage',
+            'adminPass' => 'foo',
         ];
 
         $expectedJson = [
             'rescue' => [
                 'rescue_image_ref' => $userOptions['imageId'],
-                'adminPass'        => $userOptions['adminPass']
-            ]
+                'adminPass'        => $userOptions['adminPass'],
+            ],
         ];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-rescue');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-rescue', $expectedJson);
 
         $adminPass = $this->server->rescue($userOptions);
 
@@ -188,75 +192,75 @@ class ServerTest extends TestCase
     {
         $expectedJson = ['unrescue' => null];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-unrescue');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-unrescue', $expectedJson);
 
-        self::assertNull($this->server->unrescue());
+        $this->server->unrescue();
     }
 
     public function test_it_starts()
     {
         $expectedJson = ['os-start' => null];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->start());
+        $this->server->start();
     }
 
     public function test_it_stops()
     {
         $expectedJson = ['os-stop' => null];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->stop());
+        $this->server->stop();
     }
 
     public function test_it_resumes()
     {
         $expectedJson = ['resume' => null];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        $this->assertNull($this->server->resume());
+        $this->server->resume();
     }
 
     public function test_it_suspends()
     {
         $expectedJson = ['suspend' => null];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        $this->assertNull($this->server->suspend());
+        $this->server->suspend();
     }
 
     public function test_it_resizes()
     {
         $expectedJson = ['resize' => ['flavorRef' => 'flavorId']];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->resize('flavorId'));
+        $this->server->resize('flavorId');
     }
 
     public function test_it_confirms_resizes()
     {
         $expectedJson = ['confirmResize' => null];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->confirmResize());
+        $this->server->confirmResize();
     }
 
     public function test_it_reverts_resizes()
     {
         $expectedJson = ['revertResize' => null];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->revertResize());
+        $this->server->revertResize();
     }
 
     public function test_it_gets_console_output()
     {
         $expectedJson = ["os-getConsoleOutput" => ["length" => 3]];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-output');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-get-console-output', $expectedJson);
 
         self::assertEquals("FAKE CONSOLE OUTPUT\nANOTHER\nLAST LINE", $this->server->getConsoleOutput(3));
     }
@@ -264,7 +268,7 @@ class ServerTest extends TestCase
     public function test_it_gets_all_console_output()
     {
         $expectedJson = ["os-getConsoleOutput" => new \stdClass()];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-output');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-get-console-output', $expectedJson);
 
         self::assertEquals("FAKE CONSOLE OUTPUT\nANOTHER\nLAST LINE", $this->server->getConsoleOutput());
     }
@@ -274,7 +278,7 @@ class ServerTest extends TestCase
         $type = 'novnc';
         $expectedJson = ['os-getVNCConsole' => ['type' => $type]];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-vnc');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-get-console-vnc', $expectedJson);
 
         $response = $this->server->getVncConsole();
 
@@ -288,7 +292,7 @@ class ServerTest extends TestCase
         $type = 'rdp-html5';
         $expectedJson = ['os-getRDPConsole' => ['type' => $type]];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-rdp');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-get-console-rdp', $expectedJson);
 
         $response = $this->server->getRDPConsole();
 
@@ -302,7 +306,7 @@ class ServerTest extends TestCase
         $type = 'spice-html5';
         $expectedJson = ['os-getSPICEConsole' => ['type' => $type]];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-spice');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-get-console-spice', $expectedJson);
 
         $response = $this->server->getSpiceConsole();
 
@@ -316,7 +320,7 @@ class ServerTest extends TestCase
         $type = 'serial';
         $expectedJson = ['os-getSerialConsole' => ['type' => $type]];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], 'server-get-console-serial');
+        $this->mockRequest('POST', 'servers/serverId/action', 'server-get-console-serial', $expectedJson);
 
         $response = $this->server->getSerialConsole();
 
@@ -330,14 +334,14 @@ class ServerTest extends TestCase
         $userData = ['name' => 'newImage', 'metadata' => ['foo' => 'bar']];
 
         $expectedJson = ['createImage' => $userData];
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
-        self::assertNull($this->server->createImage($userData));
+        $this->server->createImage($userData);
     }
 
     public function test_it_gets_ip_addresses()
     {
-        $this->setupMock('GET', 'servers/serverId/ips', null, [], 'server-ips');
+        $this->mockRequest('GET', 'servers/serverId/ips', 'server-ips');
 
         $ips = $this->server->listAddresses();
 
@@ -348,7 +352,7 @@ class ServerTest extends TestCase
 
     public function test_it_gets_ip_addresses_by_network_label()
     {
-        $this->setupMock('GET', 'servers/serverId/ips/foo', null, [], 'server-ips');
+        $this->mockRequest('GET', 'servers/serverId/ips/foo', 'server-ips');
 
         $ips = $this->server->listAddresses(['networkLabel' => 'foo']);
 
@@ -359,7 +363,7 @@ class ServerTest extends TestCase
 
     public function test_it_retrieves_metadata()
     {
-        $this->setupMock('GET', 'servers/serverId/metadata', null, [], 'server-metadata-get');
+        $this->mockRequest('GET', 'servers/serverId/metadata', 'server-metadata-get');
 
         $metadata = $this->server->getMetadata();
 
@@ -375,7 +379,7 @@ class ServerTest extends TestCase
 
         $expectedJson = ['metadata' => $metadata];
         $response = $this->createResponse(200, [], $expectedJson);
-        $this->setupMock('PUT', 'servers/serverId/metadata', $expectedJson, [], $response);
+        $this->mockRequest('PUT', 'servers/serverId/metadata', $response, $expectedJson);
 
         $this->server->resetMetadata($metadata);
 
@@ -388,7 +392,7 @@ class ServerTest extends TestCase
 
         $expectedJson = ['metadata' => $metadata];
         $response = $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']]));
-        $this->setupMock('POST', 'servers/serverId/metadata', $expectedJson, [], $response);
+        $this->mockRequest('POST', 'servers/serverId/metadata', $response, $expectedJson, []);
 
         $this->server->mergeMetadata($metadata);
 
@@ -399,7 +403,7 @@ class ServerTest extends TestCase
     public function test_it_retrieves_a_metadata_item()
     {
         $response = $this->createResponse(200, [], ['metadata' => ['fooKey' => 'bar']]);
-        $this->setupMock('GET', 'servers/serverId/metadata/fooKey', null, [], $response);
+        $this->mockRequest('GET', 'servers/serverId/metadata/fooKey', $response);
 
         $value = $this->server->getMetadataItem('fooKey');
 
@@ -408,14 +412,14 @@ class ServerTest extends TestCase
 
     public function test_it_deletes_a_metadata_item()
     {
-        $this->setupMock('DELETE', 'servers/serverId/metadata/fooKey', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'servers/serverId/metadata/fooKey', new Response(204));
 
-        self::assertNull($this->server->deleteMetadataItem('fooKey'));
+        $this->server->deleteMetadataItem('fooKey');
     }
 
     public function test_it_lists_security_groups()
     {
-        $this->setupMock('GET', 'servers/serverId/os-security-groups', null, [], 'server-security-groups-get');
+        $this->mockRequest('GET', 'servers/serverId/os-security-groups', 'server-security-groups-get');
 
         $securityGroups = iterator_to_array($this->server->listSecurityGroups());
 
@@ -424,7 +428,7 @@ class ServerTest extends TestCase
 
     public function test_it_lists_volume_attachments()
     {
-        $this->setupMock('GET', 'servers/serverId/os-volume_attachments', null, [], 'server-volume-attachments-get');
+        $this->mockRequest('GET', 'servers/serverId/os-volume_attachments', 'server-volume-attachments-get');
 
         $volumeAttachments = iterator_to_array($this->server->listVolumeAttachments());
 
@@ -434,14 +438,14 @@ class ServerTest extends TestCase
     public function test_it_remove_security_group()
     {
         $opt = [
-            'name' => 'secgroup_to_remove'
+            'name' => 'secgroup_to_remove',
         ];
 
         $expectedJson = [
-            'removeSecurityGroup' => $opt
+            'removeSecurityGroup' => $opt,
         ];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
         $this->server->removeSecurityGroup($opt);
     }
@@ -449,14 +453,14 @@ class ServerTest extends TestCase
     public function test_it_add_security_group()
     {
         $opt = [
-            'name' => 'secgroup_to_add'
+            'name' => 'secgroup_to_add',
         ];
 
         $expectedJson = [
-            'addSecurityGroup' => $opt
+            'addSecurityGroup' => $opt,
         ];
 
-        $this->setupMock('POST', 'servers/serverId/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'servers/serverId/action', new Response(202), $expectedJson);
 
         $this->server->addSecurityGroup($opt);
     }
@@ -466,10 +470,10 @@ class ServerTest extends TestCase
         $volumeId = 'fooooobarrrr';
 
         $expectedJson = [
-            'volumeAttachment' => ['volumeId' => $volumeId]
+            'volumeAttachment' => ['volumeId' => $volumeId],
         ];
 
-        $this->setupMock('POST', 'servers/serverId/os-volume_attachments', $expectedJson, [], 'server-volume-attach-post');
+        $this->mockRequest('POST', 'servers/serverId/os-volume_attachments', 'server-volume-attach-post', $expectedJson);
 
         $volumeAttachment = $this->server->attachVolume($volumeId);
         self::assertInstanceOf(VolumeAttachment::class, $volumeAttachment);
@@ -483,14 +487,14 @@ class ServerTest extends TestCase
     {
         $attachmentId = 'a-dummy-attachment-id';
 
-        $this->setupMock('DELETE', 'servers/serverId/os-volume_attachments/' . $attachmentId, null, [], new Response(202));
+        $this->mockRequest('DELETE', 'servers/serverId/os-volume_attachments/' . $attachmentId, new Response(202));
 
         $this->server->detachVolume($attachmentId);
     }
 
     public function test_it_lists_interface_attachments()
     {
-        $this->setupMock('GET', 'servers/serverId/os-interface', null, [], 'server-interface-attachments-get');
+        $this->mockRequest('GET', 'servers/serverId/os-interface', 'server-interface-attachments-get');
 
         $interfaceAttachments = iterator_to_array($this->server->listInterfaceAttachments());
 
@@ -509,7 +513,7 @@ class ServerTest extends TestCase
     {
         $portId = 'fooooobarrrr';
 
-        $this->setupMock('GET', 'servers/serverId/os-interface/' . $portId, ['port_id' => 'fooooobarrrr'], [], 'server-interface-attachment-get');
+        $this->mockRequest('GET', 'servers/serverId/os-interface/' . $portId, 'server-interface-attachment-get', ['port_id' => 'fooooobarrrr']);
 
         $interfaceAttachment = $this->server->getInterfaceAttachment($portId);
 
@@ -527,10 +531,10 @@ class ServerTest extends TestCase
         $networkId = 'fooooobarrrr';
 
         $expectedJson = [
-            'interfaceAttachment' => ['net_id' => $networkId]
+            'interfaceAttachment' => ['net_id' => $networkId],
         ];
 
-        $this->setupMock('POST', 'servers/serverId/os-interface', $expectedJson, [], 'server-interface-attachments-post');
+        $this->mockRequest('POST', 'servers/serverId/os-interface', 'server-interface-attachments-post', $expectedJson);
 
         $interfaceAttachment = $this->server->createInterfaceAttachment(['networkId' => $networkId]);
 
@@ -542,7 +546,7 @@ class ServerTest extends TestCase
     {
         $portId = 'a-dummy-port-id';
 
-        $this->setupMock('DELETE', 'servers/serverId/os-interface/' . $portId, ['port_id' => $portId], [], new Response(202));
+        $this->mockRequest('DELETE', 'servers/serverId/os-interface/' . $portId, new Response(202), ['port_id' => $portId]);
 
         $this->server->detachInterface($portId);
     }

@@ -24,7 +24,7 @@ class ServiceTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'services/SERVICE_ID', null, [], 'service');
+        $this->mockRequest('GET', 'services/SERVICE_ID', 'service', null, []);
 
         $this->service->retrieve();
     }
@@ -33,14 +33,14 @@ class ServiceTest extends TestCase
     {
         $this->service->type = 'foo';
 
-        $this->setupMock('PATCH', 'services/SERVICE_ID', ['service' => ['type' => 'foo']], [], 'service');
+        $this->mockRequest('PATCH', 'services/SERVICE_ID', 'service', ['service' => ['type' => 'foo']], []);
 
         $this->service->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'services/SERVICE_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'services/SERVICE_ID', new Response(204), null, []);
 
         $this->service->delete();
     }

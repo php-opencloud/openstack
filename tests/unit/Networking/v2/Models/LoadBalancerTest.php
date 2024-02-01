@@ -44,7 +44,7 @@ class LoadBalancerTest extends TestCase
             'admin_state_up' => $opts['adminStateUp']
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/loadbalancers', $expectedJson, [], 'loadbalancer-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/loadbalancers', 'loadbalancer-post', $expectedJson, []);
 
         self::assertInstanceOf(LoadBalancer::class, $this->loadbalancer->create($opts));
     }
@@ -60,14 +60,14 @@ class LoadBalancerTest extends TestCase
             'description' => 'bar'
         ]];
 
-        $this->setupMock('PUT', 'v2.0/lbaas/loadbalancers/loadbalancerId', $expectedJson, [], 'loadbalancer-put');
+        $this->mockRequest('PUT', 'v2.0/lbaas/loadbalancers/loadbalancerId', 'loadbalancer-put', $expectedJson, []);
 
         $this->loadbalancer->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId', null, [], 'loadbalancer-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId', 'loadbalancer-get', null, []);
 
         $this->loadbalancer->retrieve();
 
@@ -78,7 +78,7 @@ class LoadBalancerTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/lbaas/loadbalancers/loadbalancerId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/lbaas/loadbalancers/loadbalancerId', new Response(204), null, []);
 
         $this->loadbalancer->delete();
     }
@@ -106,14 +106,14 @@ class LoadBalancerTest extends TestCase
             'loadbalancer_id'  => 'loadbalancerId'
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/listeners', $expectedJson, [], 'loadbalancer-listener-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/listeners', 'loadbalancer-listener-post', $expectedJson, []);
 
         self::assertInstanceOf(LoadBalancerListener::class, $this->loadbalancer->addListener($opts));
     }
 
     public function test_get_stats()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/stats', null, [], 'loadbalancer-stats-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/stats', 'loadbalancer-stats-get', null, []);
 
         $stats = $this->loadbalancer->getStats();
 
@@ -127,7 +127,7 @@ class LoadBalancerTest extends TestCase
 
     public function test_get_statuses()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/statuses', null, [], 'loadbalancer-statuses-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/statuses', 'loadbalancer-statuses-get', null, []);
 
         $status = $this->loadbalancer->getStatuses();
         self::assertEquals('loadbalancer1', $status->name);

@@ -40,7 +40,7 @@ class PortTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $this->setupMock('PUT', 'v2.0/ports/' . self::PORT_ID, $expectedJson, [], 'port_get');
+        $this->mockRequest('PUT', 'v2.0/ports/' . self::PORT_ID, 'port_get', $expectedJson, []);
 
         $this->port->adminStateUp = false;
         $this->port->name = 'newName';
@@ -49,7 +49,7 @@ class PortTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/ports/' . self::PORT_ID, null, [], 'port_get');
+        $this->mockRequest('GET', 'v2.0/ports/' . self::PORT_ID, 'port_get', null, []);
 
         $this->port->retrieve();
         self::assertEquals('46d4bfb9-b26e-41f3-bd2e-e6dcc1ccedb2', $this->port->id);
@@ -65,7 +65,7 @@ class PortTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/ports/' . self::PORT_ID, null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/ports/' . self::PORT_ID, new Response(204), null, []);
 
         $this->port->delete();
     }
@@ -91,7 +91,7 @@ class PortTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'port_post');
+        $this->mockRequest('POST', 'v2.0/ports', 'port_post', $expectedJson, []);
 
         $this->port->create($opts);
     }

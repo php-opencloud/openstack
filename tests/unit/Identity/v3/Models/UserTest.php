@@ -23,7 +23,7 @@ class UserTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'users/USER_ID', null, [], 'user');
+        $this->mockRequest('GET', 'users/USER_ID', 'user', null, []);
 
         $this->user->retrieve();
     }
@@ -42,14 +42,14 @@ class UserTest extends TestCase
             'enabled' => true,
         ];
 
-        $this->setupMock('PATCH', 'users/USER_ID', ['user' => $expectedJson], [], 'user');
+        $this->mockRequest('PATCH', 'users/USER_ID', 'user', ['user' => $expectedJson], []);
 
         $this->user->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'users/USER_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'users/USER_ID', new Response(204), null, []);
 
         $this->user->delete();
     }
@@ -73,7 +73,7 @@ class UserTest extends TestCase
             'description' => 'Application credential for monitoring.',
         ];
 
-        $this->setupMock('POST', 'users/USER_ID/application_credentials', ['application_credential' => $userOptions], [], 'application_credential');
+        $this->mockRequest('POST', 'users/USER_ID/application_credentials', 'application_credential', ['application_credential' => $userOptions], []);
 
         $applicationCredential = $this->user->createApplicationCredential($userOptions);
 

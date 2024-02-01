@@ -23,7 +23,7 @@ class CredentialTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'credentials/CRED_ID', null, [], 'cred');
+        $this->mockRequest('GET', 'credentials/CRED_ID', 'cred', null, []);
 
         $this->credential->retrieve();
     }
@@ -38,14 +38,14 @@ class CredentialTest extends TestCase
             'project_id' => 'bar',
         ];
 
-        $this->setupMock('PATCH', 'credentials/CRED_ID', $expectedJson, [], 'cred');
+        $this->mockRequest('PATCH', 'credentials/CRED_ID', 'cred', $expectedJson, []);
 
         $this->credential->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'credentials/CRED_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'credentials/CRED_ID', new Response(204), null, []);
 
         $this->credential->delete();
     }

@@ -41,7 +41,7 @@ class ContainerTest extends TestCase
 
     public function test_Retrieve()
     {
-        $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
+        $this->mockRequest('HEAD', self::NAME, 'HEAD_Container', null, []);
 
         $this->container->retrieve();
         self::assertNotEmpty($this->container->metadata);
@@ -49,7 +49,7 @@ class ContainerTest extends TestCase
 
     public function test_Get_Metadata()
     {
-        $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
+        $this->mockRequest('HEAD', self::NAME, 'HEAD_Container', null, []);
 
         self::assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->getMetadata());
     }
@@ -58,21 +58,21 @@ class ContainerTest extends TestCase
     {
         $headers = ['X-Container-Meta-Subject' => 'AmericanLiterature'];
 
-        $this->setupMock('POST', self::NAME, [], $headers, 'NoContent');
+        $this->mockRequest('POST', self::NAME, 'NoContent', [], $headers);
 
         $this->container->mergeMetadata(['Subject' => 'AmericanLiterature']);
     }
 
     public function test_Reset_Metadata()
     {
-        $this->setupMock('HEAD', self::NAME, null, [], 'HEAD_Container');
+        $this->mockRequest('HEAD', self::NAME, 'HEAD_Container', null, []);
 
         $headers = [
             'X-Container-Meta-Book'          => 'Middlesex',
             'X-Remove-Container-Meta-Author' => 'True',
         ];
 
-        $this->setupMock('POST', self::NAME, [], $headers, 'NoContent');
+        $this->mockRequest('POST', self::NAME, 'NoContent', [], $headers);
 
         $this->container->resetMetadata([
             'Book' => 'Middlesex',
@@ -81,13 +81,13 @@ class ContainerTest extends TestCase
 
     public function test_It_Creates()
     {
-        $this->setupMock('PUT', self::NAME, null, [], 'Created');
+        $this->mockRequest('PUT', self::NAME, 'Created', null, []);
         $this->container->create(['name' => self::NAME]);
     }
 
     public function test_It_Deletes()
     {
-        $this->setupMock('DELETE', self::NAME, null, [], 'NoContent');
+        $this->mockRequest('DELETE', self::NAME, 'NoContent', null, []);
         $this->container->delete();
     }
 
@@ -114,7 +114,7 @@ class ContainerTest extends TestCase
 
         $content = json_encode(['foo' => 'bar']);
 
-        $this->setupMock('PUT', self::NAME . '/' . $objectName, $content, $headers, 'Created');
+        $this->mockRequest('PUT', self::NAME . '/' . $objectName, 'Created', $content, $headers);
 
         /** @var StorageObject $storageObject */
         $storageObject = $this->container->createObject([
@@ -133,10 +133,7 @@ class ContainerTest extends TestCase
 
     public function test_it_lists_objects()
     {
-        $this->client
-            ->request('GET', 'test', ['query' => ['limit' => 2, 'format' => 'json'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_Container'));
+        $this->mockRequest('GET', ['path' => 'test', 'query' => ['limit' => 2, 'format' => 'json']], 'GET_Container');
 
         $objects = iterator_to_array($this->container->listObjects(['limit' => 2]));
 
@@ -174,7 +171,7 @@ class ContainerTest extends TestCase
 
     public function test_true_is_returned_for_existing_object()
     {
-        $this->setupMock('HEAD', 'test/bar', null, [], new Response(200));
+        $this->mockRequest('HEAD', 'test/bar', new Response(200), null, []);
 
         self::assertTrue($this->container->objectExists('bar'));
     }
@@ -185,10 +182,7 @@ class ContainerTest extends TestCase
         $e->setRequest(new Request('HEAD', 'test/bar'));
         $e->setResponse(new Response(404));
 
-        $this->client
-            ->request('HEAD', 'test/bar', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow($e);
+        $this->mockRequest('HEAD', 'test/bar', $e);
 
         self::assertFalse($this->container->objectExists('bar'));
     }
@@ -199,10 +193,7 @@ class ContainerTest extends TestCase
         $e->setRequest(new Request('HEAD', 'test/bar'));
         $e->setResponse(new Response(500));
 
-        $this->client
-            ->request('HEAD', 'test/bar', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow($e);
+        $this->mockRequest('HEAD', 'test/bar', $e);
 		$this->expectException(BadResponseError::class);
 
         $this->container->objectExists('bar');
@@ -236,18 +227,15 @@ class ContainerTest extends TestCase
         $e->setRequest(new Request('HEAD', 'segments'));
         $e->setResponse(new Response(404));
 
-        $this->client
-            ->request('HEAD', 'segments', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow($e);
+        $this->mockRequest('HEAD', 'segments', $e);
 
-        $this->setupMock('PUT', 'segments', null, [], new Response(201));
+        $this->mockRequest('PUT', 'segments', new Response(201), null, []);
 
         // The stream has size 24 so we expect three segments.
-        $this->setupMock('PUT', 'segments/objectPrefix/001', $stream->read(10), [], new Response(201));
-        $this->setupMock('PUT', 'segments/objectPrefix/002', $stream->read(10), [], new Response(201));
-        $this->setupMock('PUT', 'segments/objectPrefix/003', $stream->read(10), [], new Response(201));
-        $this->setupMock('PUT', 'test/object', null, ['X-Object-Manifest' => 'segments/objectPrefix'], new Response(201));
+        $this->mockRequest('PUT', 'segments/objectPrefix/001', new Response(201), $stream->read(10), []);
+        $this->mockRequest('PUT', 'segments/objectPrefix/002', new Response(201), $stream->read(10), []);
+        $this->mockRequest('PUT', 'segments/objectPrefix/003', new Response(201), $stream->read(10), []);
+        $this->mockRequest('PUT', 'test/object', new Response(201), null, ['X-Object-Manifest' => 'segments/objectPrefix']);
 
         $stream->rewind();
 
