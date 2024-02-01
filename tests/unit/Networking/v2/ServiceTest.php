@@ -39,7 +39,7 @@ class ServiceTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'network-post');
+        $this->mockRequest('POST', 'v2.0/networks', 'network-post', $expectedJson, []);
 
         self::assertInstanceOf(Network::class, $this->service->createNetwork($opts));
     }
@@ -74,7 +74,7 @@ class ServiceTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'networks-post');
+        $this->mockRequest('POST', 'v2.0/networks', 'networks-post', $expectedJson, []);
 
         $networks = $this->service->createNetworks($opts);
 
@@ -92,10 +92,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_networks()
     {
-        $this->client
-            ->request('GET', 'v2.0/networks', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('networks-post'));
+        $this->mockRequest('GET', 'v2.0/networks', 'networks-post');
 
         foreach ($this->service->listNetworks() as $network) {
             self::assertInstanceOf(Network::class, $network);
@@ -120,7 +117,7 @@ class ServiceTest extends TestCase
             'cidr'       => $opts['cidr'],
         ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnet-post');
+        $this->mockRequest('POST', 'v2.0/subnets', 'subnet-post', $expectedJson, ['Content-Type' => 'application/json']);
 
         self::assertInstanceOf(Subnet::class, $this->service->createSubnet($opts));
     }
@@ -163,7 +160,7 @@ class ServiceTest extends TestCase
             ],
         ], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnets-post');
+        $this->mockRequest('POST', 'v2.0/subnets', 'subnets-post', $expectedJson, ['Content-Type' => 'application/json']);
 
         $subnets = $this->service->createSubnets($opts);
 
@@ -181,10 +178,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_subnets()
     {
-        $this->client
-            ->request('GET', 'v2.0/subnets', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('subnets-post'));
+        $this->mockRequest('GET', 'v2.0/subnets', 'subnets-post');
 
         foreach ($this->service->listSubnets() as $subnet) {
             self::assertInstanceOf(Subnet::class, $subnet);
@@ -205,7 +199,7 @@ class ServiceTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'ports_post');
+        $this->mockRequest('POST', 'v2.0/ports', 'ports_post', $expectedJson, []);
 
         self::assertInstanceOf(Port::class, $this->service->createPort($opts));
     }
@@ -240,7 +234,7 @@ class ServiceTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'v2.0/ports', $expectedJson, [], 'ports_multiple_post');
+        $this->mockRequest('POST', 'v2.0/ports', 'ports_multiple_post', $expectedJson, []);
 
         $ports = $this->service->createPorts($opts);
 
@@ -258,10 +252,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_ports()
     {
-        $this->client
-            ->request('GET', 'v2.0/ports', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('ports_get'));
+        $this->mockRequest('GET', 'v2.0/ports', 'ports_get');
 
         foreach ($this->service->listPorts() as $port) {
             self::assertInstanceOf(Port::class, $port);
@@ -270,10 +261,7 @@ class ServiceTest extends TestCase
 
     public function test_it_list_quotas()
     {
-        $this->client
-            ->request('GET', 'v2.0/quotas', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('quotas-get'));
+        $this->mockRequest('GET', 'v2.0/quotas', 'quotas-get');
 
         foreach ($this->service->listQuotas() as $quota) {
             self::assertInstanceOf(Quota::class, $quota);
@@ -282,10 +270,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_quotas()
     {
-        $this->client
-            ->request('GET', 'v2.0/quotas/fake_tenant_id', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('quota-get'));
+        $this->mockRequest('GET', 'v2.0/quotas/fake_tenant_id', 'quota-get');
 
         $quota = $this->service->getQuota('fake_tenant_id');
         $quota->retrieve();
@@ -295,10 +280,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_default_quotas()
     {
-        $this->client
-            ->request('GET', 'v2.0/quotas/fake_tenant_id/default', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('quota-get'));
+        $this->mockRequest('GET', 'v2.0/quotas/fake_tenant_id/default', 'quota-get');
 
         $this->service->getDefaultQuota('fake_tenant_id');
     }

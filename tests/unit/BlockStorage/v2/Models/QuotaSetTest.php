@@ -24,7 +24,7 @@ class QuotaSetTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'os-quota-sets/tenant-foo', [], [], 'GET_quota_set');
+        $this->mockRequest('GET', 'os-quota-sets/tenant-foo', 'GET_quota_set', [], []);
 
         $this->quotaSet->retrieve();
         self::assertEquals(1, $this->quotaSet->gigabytes);
@@ -41,7 +41,7 @@ class QuotaSetTest extends TestCase
             ],
         ];
 
-        $this->setupMock('PUT', 'os-quota-sets/tenant-foo', $expectedJson, [], 'GET_type');
+        $this->mockRequest('PUT', 'os-quota-sets/tenant-foo', 'GET_type', $expectedJson, []);
 
         $this->quotaSet->volumes = 1111;
         $this->quotaSet->snapshots = 2222;
@@ -50,7 +50,7 @@ class QuotaSetTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'os-quota-sets/tenant-foo', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'os-quota-sets/tenant-foo', new Response(204), null, []);
 
         $this->quotaSet->delete();
     }

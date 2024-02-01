@@ -58,22 +58,21 @@ class ServiceTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'volumes', $expectedJson, [], 'GET_volume');
+        $this->mockRequest('POST', 'volumes', 'GET_volume', $expectedJson, []);
 
         self::assertInstanceOf(Volume::class, $this->service->createVolume($opts));
     }
 
     public function test_it_lists_volumes()
     {
-        $this->client
-            ->request('GET', 'volumes', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_volumes'));
-
-        $this->client
-            ->request('GET', 'volumes', ['query' => ['marker' => '5aa119a8-d25b-45a7-8d1b-88e127885635'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
+        $this->mockRequest('GET', 'volumes', 'GET_volumes', null, []);
+        $this->mockRequest(
+            'GET',
+            ['path' => 'volumes', 'query' => ['marker' => '5aa119a8-d25b-45a7-8d1b-88e127885635']],
+            new Response(204),
+            null,
+            []
+        );
 
         $count = 0;
 
@@ -99,17 +98,14 @@ class ServiceTest extends TestCase
 
         $expectedJson = ['volume_type' => $opts];
 
-        $this->setupMock('POST', 'types', $expectedJson, [], 'GET_type');
+        $this->mockRequest('POST', 'types', 'GET_type', $expectedJson, []);
 
         self::assertInstanceOf(VolumeType::class, $this->service->createVolumeType($opts));
     }
 
     public function test_it_lists_volume_types()
     {
-        $this->client
-            ->request('GET', 'types', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_types'));
+        $this->mockRequest('GET', 'types', 'GET_types', null, []);
 
         $count = 0;
 
@@ -145,22 +141,21 @@ class ServiceTest extends TestCase
             'force'       => $opts['force'],
         ]];
 
-        $this->setupMock('POST', 'snapshots', $expectedJson, [], 'GET_snapshot');
+        $this->mockRequest('POST', 'snapshots', 'GET_snapshot', $expectedJson, []);
 
         self::assertInstanceOf(Snapshot::class, $this->service->createSnapshot($opts));
     }
 
     public function test_it_lists_snapshots()
     {
-        $this->client
-            ->request('GET', 'snapshots', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_snapshots'));
-
-        $this->client
-            ->request('GET', 'snapshots', ['query' => ['marker' => 'e820db06-58b5-439d-bac6-c01faa3f6499'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
+        $this->mockRequest('GET', 'snapshots', 'GET_snapshots', null, []);
+        $this->mockRequest(
+            'GET',
+            ['path' => 'snapshots', 'query' => ['marker' => 'e820db06-58b5-439d-bac6-c01faa3f6499']],
+            new Response(204),
+            null,
+            []
+        );
 
         $count = 0;
 
@@ -182,10 +177,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_quota_set()
     {
-        $this->client
-            ->request('GET', 'os-quota-sets/tenant-id-1234', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_quota_set'));
+        $this->mockRequest('GET', 'os-quota-sets/tenant-id-1234', 'GET_quota_set', null, []);
 
         $quotaSet = $this->service->getQuotaSet('tenant-id-1234');
 

@@ -31,10 +31,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_containers()
     {
-        $this->client
-            ->request('GET', '', ['query' => ['limit' => 2, 'format' => 'json'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_Container'));
+        $this->mockRequest('GET', ['query' => ['limit' => 2, 'format' => 'json']], 'GET_Container');
 
         foreach ($this->service->listContainers(['limit' => 2]) as $container) {
             self::assertInstanceOf(Container::class, $container);
@@ -43,13 +40,13 @@ class ServiceTest extends TestCase
 
     public function test_It_Create_Containers()
     {
-        $this->setupMock('PUT', 'foo', null, [], 'Created');
+        $this->mockRequest('PUT', 'foo', 'Created', null, []);
         $this->service->createContainer(['name' => 'foo']);
     }
 
     public function test_it_returns_true_for_existing_containers()
     {
-        $this->setupMock('HEAD', 'foo', null, [], new Response(200));
+        $this->mockRequest('HEAD', 'foo', new Response(200), null, []);
 
         self::assertTrue($this->service->containerExists('foo'));
     }
@@ -60,10 +57,7 @@ class ServiceTest extends TestCase
         $e->setRequest(new Request('HEAD', 'foo'));
         $e->setResponse(new Response(404));
 
-        $this->client
-            ->request('HEAD', 'foo', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow($e);
+        $this->mockRequest('HEAD', 'foo', $e);
 
         self::assertFalse($this->service->containerExists('foo'));
     }
@@ -74,10 +68,8 @@ class ServiceTest extends TestCase
         $e->setRequest(new Request('HEAD', 'foo'));
         $e->setResponse(new Response(500));
 
-        $this->client
-            ->request('HEAD', 'foo', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow($e);
+        $this->mockRequest('HEAD', 'foo', $e);
+
 		$this->expectException(BadResponseError::class);
 
         $this->service->containerExists('foo');

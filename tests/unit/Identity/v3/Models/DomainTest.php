@@ -25,7 +25,7 @@ class DomainTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'domains/DOMAIN_ID', null, [], 'domain');
+        $this->mockRequest('GET', 'domains/DOMAIN_ID', 'domain', null, []);
 
         $this->domain->retrieve();
     }
@@ -42,14 +42,14 @@ class DomainTest extends TestCase
             'enabled' => false,
         ];
 
-        $this->setupMock('PATCH', 'domains/DOMAIN_ID', ['domain' => $expectedJson], [], 'domain');
+        $this->mockRequest('PATCH', 'domains/DOMAIN_ID', 'domain', ['domain' => $expectedJson], []);
 
         $this->domain->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'domains/DOMAIN_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'domains/DOMAIN_ID', new Response(204), null, []);
 
         $this->domain->delete();
     }
@@ -62,29 +62,26 @@ class DomainTest extends TestCase
 
     public function test_it_grants_user_role()
     {
-        $this->setupMock('PUT', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(204));
-        self::assertNull($this->domain->grantUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
+        $this->mockRequest('PUT', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', new Response(204));
+        $this->domain->grantUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']);
     }
 
     public function test_it_checks_user_role()
     {
-        $this->setupMock('HEAD', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(200));
+        $this->mockRequest('HEAD', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', new Response(200));
         self::assertTrue($this->domain->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_user_role()
     {
-        $this->client
-            ->request('HEAD', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow(new BadResponseError());
+        $this->mockRequest('HEAD', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', new BadResponseError());
 
         self::assertFalse($this->domain->checkUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_user_role()
     {
-        $this->setupMock('DELETE', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'domains/DOMAIN_ID/users/USER_ID/roles/ROLE_ID', new Response(204));
         $this->domain->revokeUserRole(['userId' => 'USER_ID', 'roleId' => 'ROLE_ID']);
     }
 
@@ -96,29 +93,26 @@ class DomainTest extends TestCase
 
     public function test_it_grants_group_role()
     {
-        $this->setupMock('PUT', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(204));
-        self::assertNull($this->domain->grantGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
+        $this->mockRequest('PUT', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', new Response(204));
+        $this->domain->grantGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']);
     }
 
     public function test_it_checks_group_role()
     {
-        $this->setupMock('HEAD', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(200));
+        $this->mockRequest('HEAD', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', new Response(200));
         self::assertTrue($this->domain->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_checks_nonexistent_group_role()
     {
-        $this->client
-            ->request('HEAD', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow(new BadResponseError());
+        $this->mockRequest('HEAD', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', new BadResponseError());
 
         self::assertFalse($this->domain->checkGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']));
     }
 
     public function test_it_revokes_group_role()
     {
-        $this->setupMock('DELETE', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'domains/DOMAIN_ID/groups/GROUP_ID/roles/ROLE_ID', new Response(204), null, []);
         $this->domain->revokeGroupRole(['groupId' => 'GROUP_ID', 'roleId' => 'ROLE_ID']);
     }
 }

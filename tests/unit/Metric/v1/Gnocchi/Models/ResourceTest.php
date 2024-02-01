@@ -25,7 +25,7 @@ class ResourceTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v1/resource/generic/1111', null, [], 'resource-get');
+        $this->mockRequest('GET', 'v1/resource/generic/1111', 'resource-get', null, []);
         $this->resource->retrieve();
         self::assertEquals('fake-project-id', $this->resource->projectId);
         self::assertEquals('fake-created-by-user-id', $this->resource->createdByUserId);
@@ -37,7 +37,7 @@ class ResourceTest extends TestCase
 
     public function test_it_gets_metric()
     {
-        $this->setupMock('GET', sprintf('v1/resource/generic/1111/metric/storage.objects.outgoing.bytes'), [], [], 'metric-get');
+        $this->mockRequest('GET', sprintf('v1/resource/generic/1111/metric/storage.objects.outgoing.bytes'), 'metric-get', [], []);
 
         /** @var Metric $metric */
         $metric = $this->resource->getMetric('storage.objects.outgoing.bytes');
@@ -49,7 +49,7 @@ class ResourceTest extends TestCase
 
     public function test_it_gets_metric_measures()
     {
-        $this->setupMock('GET', sprintf('v1/resource/generic/1111/metric/storage.objects.outgoing.bytes/measures'), [], [], 'resource-metric-measures-get');
+        $this->mockRequest('GET', sprintf('v1/resource/generic/1111/metric/storage.objects.outgoing.bytes/measures'), 'resource-metric-measures-get', [], []);
         $measures = $this->resource->getMetricMeasures(['metric' => 'storage.objects.outgoing.bytes']);
 
         self::assertIsArray($measures);
@@ -59,7 +59,7 @@ class ResourceTest extends TestCase
 
     public function test_it_lists_resource_metrics()
     {
-        $this->setupMock('GET', 'v1/resource/generic/1111/metric', [], [], 'resource-metrics-get');
+        $this->mockRequest('GET', 'v1/resource/generic/1111/metric', 'resource-metrics-get', [], []);
 
         $result = iterator_to_array($this->resource->listResourceMetrics());
 

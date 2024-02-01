@@ -23,7 +23,7 @@ class LoadBalancerStatTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/stats', null, [], 'loadbalancer-stats-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/stats', 'loadbalancer-stats-get', null, []);
 
         $this->stat->retrieve();
         self::assertEquals('1234', $this->stat->bytesOut);

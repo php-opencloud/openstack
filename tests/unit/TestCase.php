@@ -10,7 +10,7 @@ use Prophecy\Prophecy\MethodProphecy;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /** @var \Prophecy\Prophecy\ObjectProphecy */
+    /** @var \Prophecy\Prophecy\ObjectProphecy<\GuzzleHttp\ClientInterface> */
     protected $client;
 
     /** @var string */
@@ -43,7 +43,20 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return Message::parseResponse(file_get_contents($path));
     }
 
-    protected function setupMock($method, $path, $body = null, array $headers = [], $response = null, $skipAuth = false): MethodProphecy
+
+    /**
+     * Mocks request
+     *
+     * @param string $method method of request: GET, POST, PUT, DELETE
+     * @param string|array $uri request path or array with path and query
+     * @param string|\GuzzleHttp\Psr7\Response|\Throwable $response the file name of the response fixture or a Response object
+     * @param string|array|null $body request body. If type is array, it will be encoded as JSON.
+     * @param array $headers request headers
+     * @param bool $skipAuth true if the api call skips authentication
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function mockRequest(string $method, $uri, $response = null, $body = null, array $headers = [], $skipAuth = false): MethodProphecy
     {
         $options = [
             'headers'             => $headers,
@@ -54,14 +67,30 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $options[is_array($body) ? 'json' : 'body'] = $body;
         }
 
-        if (is_string($response)) {
-            $response = $this->getFixture($response);
+
+        if (is_string($uri)) {
+            $uri = ['path' => $uri];
         }
 
-        return $this->client
-            ->request($method, $path, $options)
-            ->shouldBeCalled()
-            ->willReturn($response);
+        if (isset($uri['query'])) {
+            $options['query'] = $uri['query'];
+        }
+
+        $method = $this->client
+            ->request($method, $uri['path'] ?? '', $options)
+            ->shouldBeCalled();
+
+        if (is_string($response)) {
+            $method = $method->willReturn($this->getFixture($response));
+        } elseif ($response instanceof Response) {
+            $method = $method->willReturn($response);
+        } elseif ($response instanceof \Throwable) {
+            $method = $method->willThrow($response);
+        } else {
+            throw new \InvalidArgumentException('Response must be either a string, a Response object or an instance of Throwable');
+        }
+
+        return $method;
     }
 
     protected function createFn($receiver, $method, $args)
@@ -76,7 +105,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $modelName = $modelName ?: $urlPath;
         $responseFile = $responseFile ?: $urlPath;
 
-        $this->setupMock('GET', $urlPath, null, [], $responseFile);
+        $this->mockRequest('GET', $urlPath, $responseFile, null, []);
 
         $resources = call_user_func($call);
 

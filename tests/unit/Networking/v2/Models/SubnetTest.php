@@ -41,7 +41,7 @@ class SubnetTest extends TestCase
             'enable_dhcp' => $opts['enableDhcp'],
         ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnet-post');
+        $this->mockRequest('POST', 'v2.0/subnets', 'subnet-post', $expectedJson, ['Content-Type' => 'application/json']);
 
         self::assertInstanceOf(Subnet::class, $this->subnet->create($opts));
     }
@@ -84,7 +84,7 @@ class SubnetTest extends TestCase
             ],
         ], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnets-post');
+        $this->mockRequest('POST', 'v2.0/subnets', 'subnets-post', $expectedJson, ['Content-Type' => 'application/json']);
 
         $subnets = $this->subnet->bulkCreate($opts);
 
@@ -103,14 +103,14 @@ class SubnetTest extends TestCase
             'gateway_ip' => $this->subnet->gatewayIp,
         ]];
 
-        $this->setupMock('PUT', 'v2.0/subnets/subnetId', $expectedJson, [], 'subnet-put');
+        $this->mockRequest('PUT', 'v2.0/subnets/subnetId', 'subnet-put', $expectedJson, []);
 
         $this->subnet->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/subnets/subnetId', null, [], 'subnet-get');
+        $this->mockRequest('GET', 'v2.0/subnets/subnetId', 'subnet-get', null, []);
 
         $this->subnet->retrieve();
 
@@ -122,7 +122,7 @@ class SubnetTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/subnets/subnetId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/subnets/subnetId', new Response(204), null, []);
 
         $this->subnet->delete();
     }

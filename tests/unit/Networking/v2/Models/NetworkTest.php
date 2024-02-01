@@ -35,7 +35,7 @@ class NetworkTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'network-post');
+        $this->mockRequest('POST', 'v2.0/networks', 'network-post', $expectedJson, []);
 
         self::assertInstanceOf(Network::class, $this->network->create($opts));
     }
@@ -70,7 +70,7 @@ class NetworkTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'networks-post');
+        $this->mockRequest('POST', 'v2.0/networks', 'networks-post', $expectedJson, []);
 
         $networks = $this->network->bulkCreate($opts);
 
@@ -91,14 +91,14 @@ class NetworkTest extends TestCase
             'admin_state_up' => false,
         ]];
 
-        $this->setupMock('PUT', 'v2.0/networks/networkId', $expectedJson, [], 'network-put');
+        $this->mockRequest('PUT', 'v2.0/networks/networkId', 'network-put', $expectedJson, []);
 
         $this->network->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/networks/networkId', null, [], 'network-get');
+        $this->mockRequest('GET', 'v2.0/networks/networkId', 'network-get', null, []);
 
         $this->network->retrieve();
 
@@ -109,7 +109,7 @@ class NetworkTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/networks/networkId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/networks/networkId', new Response(204), null, []);
 
         $this->network->delete();
     }

@@ -37,14 +37,14 @@ class KeypairTest extends TestCase
             'public_key' => $opts['publicKey'],
         ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'os-keypairs', $expectedJson, ['Content-Type' => 'application/json'], 'keypair-post');
+        $this->mockRequest('POST', 'os-keypairs', 'keypair-post', $expectedJson, ['Content-Type' => 'application/json']);
 
         self::assertInstanceOf(Keypair::class, $this->keypair->create($opts));
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'os-keypairs/' . self::KEYPAIR_NAME, null, [], 'keypair-get');
+        $this->mockRequest('GET', 'os-keypairs/' . self::KEYPAIR_NAME, 'keypair-get', null, []);
 
         $this->keypair->retrieve();
 
@@ -61,11 +61,11 @@ class KeypairTest extends TestCase
 
     public function test_it_retrieves_by_user_id()
     {
-        $this->client
-            ->request('GET', 'os-keypairs/' . self::KEYPAIR_NAME, ['headers' => [], 'query' => ['user_id' => 'fake']])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('keypair-get'));
-
+        $this->mockRequest(
+            'GET',
+            ['path' => 'os-keypairs/' . self::KEYPAIR_NAME, 'query' => ['user_id' => 'fake']],
+            'keypair-get'
+        );
 
         $this->keypair->userId = 'fake';
         $this->keypair->retrieve();
@@ -83,7 +83,7 @@ class KeypairTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'os-keypairs/' . self::KEYPAIR_NAME, null, [], new Response(204));
+        $this->mockRequest('DELETE', 'os-keypairs/' . self::KEYPAIR_NAME, new Response(204), null, []);
         $this->keypair->delete();
     }
 }

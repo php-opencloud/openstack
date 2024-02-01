@@ -24,7 +24,7 @@ class ApplicationCredentialTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'users/USER_ID/application_credentials/APPLICATION_CREDENTIAL_ID', null, [], 'application_credential');
+        $this->mockRequest('GET', 'users/USER_ID/application_credentials/APPLICATION_CREDENTIAL_ID', 'application_credential', null, []);
 
         $this->applicationCredential->retrieve();
 
@@ -34,7 +34,7 @@ class ApplicationCredentialTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'users/USER_ID/application_credentials/APPLICATION_CREDENTIAL_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'users/USER_ID/application_credentials/APPLICATION_CREDENTIAL_ID', new Response(204), null, []);
 
         $this->applicationCredential->delete();
     }

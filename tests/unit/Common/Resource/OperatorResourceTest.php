@@ -41,27 +41,20 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_executes_with_state()
     {
-        $this->resource->id  = 'foo';
+        $this->resource->id = 'foo';
         $this->resource->bar = 'bar';
 
         $expectedJson = ['id' => 'foo', 'bar' => 'bar'];
 
-        $this->setupMock('GET', 'foo', $expectedJson, [], new Response(204));
+        $this->mockRequest('GET', 'foo', new Response(204), $expectedJson);
 
         $this->resource->executeWithState((new ComputeV2Api())->test());
     }
 
     public function test_it_executes_operations_until_a_204_is_received()
     {
-        $this->client
-            ->request('GET', 'servers', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
-
-        $this->client
-            ->request('GET', 'servers', ['query' => ['marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
+        $this->mockRequest('GET', 'servers', 'servers-page1');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], new Response(204));
 
         $count = 0;
 
@@ -77,15 +70,8 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_invokes_function_if_provided()
     {
-        $this->client
-            ->request('GET', 'servers', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
-
-        $this->client
-            ->request('GET', 'servers', ['query' => ['marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
+        $this->mockRequest('GET', 'servers', 'servers-page1');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], new Response(204));
 
         $api = new ComputeV2Api();
 
@@ -96,6 +82,7 @@ class OperatorResourceTest extends TestCase
         };
 
         foreach ($this->resource->enumerate($api->getServers(), [], $fn) as $item) {
+            // empty
         }
 
         self::assertEquals(5, $count);
@@ -103,10 +90,7 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_halts_when_user_provided_limit_is_reached()
     {
-        $this->client
-            ->request('GET', 'servers', ['query' => ['limit' => 2], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 2]], 'servers-page1');
 
         $count = 0;
 
@@ -121,14 +105,11 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_predicts_resources_key_without_explicit_property()
     {
-        $this->client
-            ->request('GET', 'servers', ['query' => ['limit' => 2], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 2]], 'servers-page1');
 
         $count = 0;
 
-        $api      = new ComputeV2Api();
+        $api = new ComputeV2Api();
         $resource = new Server($this->client->reveal(), new $api());
 
         foreach ($resource->enumerate($api->getServers(), ['limit' => 2]) as $item) {
@@ -184,9 +165,9 @@ class OperatorResourceTest extends TestCase
 
 class TestOperatorResource extends OperatorResource
 {
-    protected $resourceKey  = 'foo';
+    protected $resourceKey = 'foo';
     protected $resourcesKey = 'servers';
-    protected $markerKey    = 'id';
+    protected $markerKey = 'id';
 
     /** @var string */
     public $bar;

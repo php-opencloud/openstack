@@ -26,14 +26,14 @@ class SecurityGroupTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, null, [], new Response(202));
+        $this->mockRequest('DELETE', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, new Response(202), null, []);
 
         $this->securityGroup->delete();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, null, [], 'SecurityGroup');
+        $this->mockRequest('GET', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, 'SecurityGroup', null, []);
 
         $this->securityGroup->retrieve();
 
@@ -45,7 +45,7 @@ class SecurityGroupTest extends TestCase
 
     public function test_it_updates()
     {
-        $this->setupMock('PUT', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, null, [], 'SecurityGroup');
+        $this->mockRequest('PUT', 'v2.0/security-groups/' . self::SECURITY_GROUP_ID, 'SecurityGroup', null, []);
 
         $this->securityGroup->update();
     }
@@ -64,7 +64,7 @@ class SecurityGroupTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'v2.0/security-groups', $expectedJson, [], 'SecurityGroup');
+        $this->mockRequest('POST', 'v2.0/security-groups', 'SecurityGroup', $expectedJson, []);
 
         self::assertInstanceOf(SecurityGroup::class, $this->securityGroup->create($opts));
     }

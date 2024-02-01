@@ -37,7 +37,7 @@ class PolicyTest extends TestCase
             'user_id' => 'id',
         ];
 
-        $this->setupMock('POST', 'policies', ['policy' => $userJson], [], 'policy');
+        $this->mockRequest('POST', 'policies', 'policy', ['policy' => $userJson], []);
 
         /** @var $policy \OpenStack\Identity\v3\Models\Policy */
         $policy = $this->policy->create($userOptions);
@@ -48,7 +48,7 @@ class PolicyTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'policies/POLICY_ID', null, [], 'policy');
+        $this->mockRequest('GET', 'policies/POLICY_ID', 'policy', null, []);
 
         $this->policy->retrieve();
     }
@@ -57,14 +57,14 @@ class PolicyTest extends TestCase
     {
         $this->policy->type = 'foo';
 
-        $this->setupMock('PATCH', 'policies/POLICY_ID', ['policy' => ['type' => 'foo']], [], 'policy');
+        $this->mockRequest('PATCH', 'policies/POLICY_ID', 'policy', ['policy' => ['type' => 'foo']], []);
 
         $this->policy->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'policies/POLICY_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'policies/POLICY_ID', new Response(204), null, []);
 
         $this->policy->delete();
     }

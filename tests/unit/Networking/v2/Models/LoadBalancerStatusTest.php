@@ -24,7 +24,7 @@ class LoadBalancerStatusTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/statuses', null, [], 'loadbalancer-statuses-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/statuses', 'loadbalancer-statuses-get', null, []);
 
         $this->status->retrieve();
 

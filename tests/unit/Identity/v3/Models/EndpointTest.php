@@ -39,7 +39,7 @@ class EndpointTest extends TestCase
         $userJson['service_id'] = $userOptions['serviceId'];
         unset($userJson['serviceId']);
 
-        $this->setupMock('POST', 'endpoints', ['endpoint' => $userJson], [], 'endpoint');
+        $this->mockRequest('POST', 'endpoints', 'endpoint', ['endpoint' => $userJson], []);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
         $endpoint = $this->service->createEndpoint($userOptions);
@@ -63,14 +63,14 @@ class EndpointTest extends TestCase
             'service_id' => '12345'
         ];
 
-        $this->setupMock('PATCH', 'endpoints/ENDPOINT_ID', ['endpoint' => $userJson], [], 'endpoint');
+        $this->mockRequest('PATCH', 'endpoints/ENDPOINT_ID', 'endpoint', ['endpoint' => $userJson], []);
 
         $this->endpoint->update();
     }
 
     public function test_it_deletes_endpoint()
     {
-        $this->setupMock('DELETE', 'endpoints/ENDPOINT_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'endpoints/ENDPOINT_ID', new Response(204), null, []);
 
         $this->endpoint->delete();
     }

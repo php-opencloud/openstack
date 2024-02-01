@@ -23,10 +23,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_resource_types()
     {
-        $this->client
-            ->request('GET', 'v1/resource_type', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resourcetypes-get'));
+        $this->mockRequest('GET', 'v1/resource_type', 'resourcetypes-get');
 
         $result = iterator_to_array($this->service->listResourceTypes());
 
@@ -36,10 +33,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_resources()
     {
-        $this->client
-            ->request('GET', 'v1/resource/generic', ['headers' => [], 'query' => ['limit' => 3]])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resources-get'));
+        $this->mockRequest('GET', ['path' => 'v1/resource/generic', 'query' => ['limit' => 3]], 'resources-get');
 
         $result = iterator_to_array($this->service->listResources(['limit' => 3]));
 
@@ -57,20 +51,27 @@ class ServiceTest extends TestCase
 
     public function test_it_search_resources()
     {
-        $this->client
-            ->request('POST', 'v1/search/resource/generic', ['headers' => ['Content-Type' => 'application/json']])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resources-get'));
+        $this->mockRequest(
+            'POST',
+            'v1/search/resource/generic',
+            'resources-get',
+            [],
+            ['Content-Type' => 'application/json']
+        );
+
         $result = $this->service->searchResources(['type' => 'generic']);
         self::assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_search_resources_with_custom_type()
     {
-        $this->client
-            ->request('POST', 'v1/search/resource/instance', ['headers' => ['Content-Type' => 'application/json']])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resources-get'));
+        $this->mockRequest(
+            'POST',
+            'v1/search/resource/instance',
+            'resources-get',
+            [],
+            ['Content-Type' => 'application/json']
+        );
 
         $result = $this->service->searchResources(['type' => 'instance']);
 
@@ -79,10 +80,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_metrics()
     {
-        $this->client
-            ->request('GET', 'v1/metric', ['headers' => [], 'query' => ['limit' => 5]])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('metrics-get'));
+        $this->mockRequest('GET', ['path' => 'v1/metric', 'query' => ['limit' => 5]], 'metrics-get');
 
         $result = $this->service->listMetrics(['limit' => 5]);
 

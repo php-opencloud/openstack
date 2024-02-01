@@ -23,7 +23,7 @@ class FlavorTest extends TestCase
 
     public function test_it_retrieves_details()
     {
-        $this->setupMock('GET', 'flavors/1', null, [], 'flavor-get');
+        $this->mockRequest('GET', 'flavors/1', 'flavor-get', null, []);
 
         $this->flavor->retrieve();
 
@@ -50,14 +50,14 @@ class FlavorTest extends TestCase
             'disk'  => $opts['disk'],
         ]];
 
-        $this->setupMock('POST', 'flavors', $expectedJson, [], 'flavor-post');
+        $this->mockRequest('POST', 'flavors', 'flavor-post', $expectedJson, []);
 
         self::assertInstanceOf(Flavor::class, $this->flavor->create($opts));
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'flavors/1', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'flavors/1', new Response(204), null, []);
 
         $this->flavor->delete();
     }

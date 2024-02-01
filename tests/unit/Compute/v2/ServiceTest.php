@@ -44,17 +44,14 @@ class ServiceTest extends TestCase
             'flavorRef' => $opts['flavorId'],
         ]];
 
-        $this->setupMock('POST', 'servers', $expectedJson, [], 'server-post');
+        $this->mockRequest('POST', 'servers', 'server-post', $expectedJson, []);
 
         self::assertInstanceOf(Server::class, $this->service->createServer($opts));
     }
 
     public function test_it_lists_servers()
     {
-        $this->client
-            ->request('GET', 'servers', ['query' => ['limit' => 5], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-get'));
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 5]], 'servers-get');
 
         foreach ($this->service->listServers(false, ['limit' => 5]) as $server) {
             self::assertInstanceOf(Server::class, $server);
@@ -73,10 +70,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_flavors()
     {
-        $this->client
-            ->request('GET', 'flavors', ['query' => ['limit' => 5], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('flavors-get'));
+        $this->mockRequest('GET', ['path' => 'flavors', 'query' => ['limit' => 5]], 'flavors-get');
 
         $count = 0;
 
@@ -100,10 +94,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_images()
     {
-        $this->client
-            ->request('GET', 'images', ['query' => ['limit' => 5], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('images-get'));
+        $this->mockRequest('GET', ['path' => 'images', 'query' => ['limit' => 5]], 'images-get');
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
             self::assertInstanceOf(Image::class, $image);
@@ -122,10 +113,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_keypairs()
     {
-        $this->client
-            ->request('GET', 'os-keypairs', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('keypairs-get'));
+        $this->mockRequest('GET', 'os-keypairs', 'keypairs-get');
 
         foreach ($this->service->listKeypairs() as $keypair) {
             self::assertInstanceOf(Keypair::class, $keypair);
@@ -134,10 +122,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_hypervisor_statistics()
     {
-        $this->client
-            ->request('GET', 'os-hypervisors/statistics', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('hypervisor-statistic-get'));
+        $this->mockRequest('GET', 'os-hypervisors/statistics', 'hypervisor-statistic-get');
 
         $hypervisorStats = $this->service->getHypervisorStatistics();
 
@@ -146,10 +131,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_hypervisors()
     {
-        $this->client
-            ->request('GET', 'os-hypervisors', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('hypervisors-get'));
+        $this->mockRequest('GET', 'os-hypervisors', 'hypervisors-get');
 
         foreach ($this->service->listHypervisors(false) as $hypervisor) {
             self::assertInstanceOf(Hypervisor::class, $hypervisor);
@@ -158,10 +140,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_hypervisor()
     {
-        $this->client
-            ->request('GET', 'os-hypervisors/1234', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('hypervisor-get'));
+        $this->mockRequest('GET', 'os-hypervisors/1234', 'hypervisor-get');
 
         $hypervisor = $this->service->getHypervisor(['id' => 1234]);
         $hypervisor->retrieve();
@@ -171,10 +150,7 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_hosts()
     {
-        $this->client
-            ->request('GET', 'os-hosts', ['query' => ['limit' => 5], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('hosts-get'));
+        $this->mockRequest('GET', ['path' => 'os-hosts', 'query' => ['limit' => 5]], 'hosts-get');
 
         foreach ($this->service->listHosts(['limit' => 5]) as $host) {
             self::assertInstanceOf(Host::class, $host);
@@ -183,10 +159,7 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_host()
     {
-        $this->client
-            ->request('GET', 'os-hosts/b6e4adbc193d428ea923899d07fb001e', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('host-get'));
+        $this->mockRequest('GET', 'os-hosts/b6e4adbc193d428ea923899d07fb001e', 'host-get');
 
         $host = $this->service->getHost(['name' => 'b6e4adbc193d428ea923899d07fb001e']);
         $host->retrieve();
@@ -196,10 +169,11 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_availability_zones()
     {
-        $this->client
-            ->request('GET', 'os-availability-zone/detail', ['query' => ['limit' => 5], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('availability-zones-get'));
+        $this->mockRequest(
+            'GET',
+            ['path' => 'os-availability-zone/detail', 'query' => ['limit' => 5]],
+            'availability-zones-get'
+        );
 
         foreach ($this->service->listAvailabilityZones(['limit' => 5]) as $zone) {
             self::assertInstanceOf(AvailabilityZone::class, $zone);

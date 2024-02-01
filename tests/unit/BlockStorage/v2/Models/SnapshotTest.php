@@ -28,21 +28,21 @@ class SnapshotTest extends TestCase
         $this->snapshot->description = 'bar';
 
         $expectedJson = ['snapshot' => ['name' => 'foo', 'description' => 'bar']];
-        $this->setupMock('PUT', 'snapshots/1', $expectedJson, [], 'GET_snapshot');
+        $this->mockRequest('PUT', 'snapshots/1', 'GET_snapshot', $expectedJson, []);
 
         $this->snapshot->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'snapshots/1', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'snapshots/1', new Response(204), null, []);
 
         $this->snapshot->delete();
     }
 
     public function test_it_gets_metadata()
     {
-        $this->setupMock('GET', 'snapshots/1/metadata', null, [], 'GET_metadata');
+        $this->mockRequest('GET', 'snapshots/1/metadata', 'GET_metadata', null, []);
 
         $expected = [
             'foo' => '1',
@@ -54,14 +54,14 @@ class SnapshotTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'snapshots/1', null, [], 'GET_snapshot');
+        $this->mockRequest('GET', 'snapshots/1', 'GET_snapshot', null, []);
 
         $this->snapshot->retrieve();
     }
 
     public function test_it_merges_metadata()
     {
-        $this->setupMock('GET', 'snapshots/1/metadata', null, [], 'GET_metadata');
+        $this->mockRequest('GET', 'snapshots/1/metadata', 'GET_metadata', null, []);
 
         $expectedJson = ['metadata' => [
             'foo' => 'newFoo',
@@ -69,7 +69,7 @@ class SnapshotTest extends TestCase
             'baz' => 'bazVal',
         ]];
 
-        $this->setupMock('PUT', 'snapshots/1/metadata', $expectedJson, [], 'GET_metadata');
+        $this->mockRequest('PUT', 'snapshots/1/metadata', 'GET_metadata', $expectedJson, []);
 
         $this->snapshot->mergeMetadata(['foo' => 'newFoo', 'baz' => 'bazVal']);
     }
@@ -78,7 +78,7 @@ class SnapshotTest extends TestCase
     {
         $expectedJson = ['metadata' => ['key1' => 'val1']];
 
-        $this->setupMock('PUT', 'snapshots/1/metadata', $expectedJson, [], 'GET_metadata');
+        $this->mockRequest('PUT', 'snapshots/1/metadata', 'GET_metadata', $expectedJson, []);
 
         $this->snapshot->resetMetadata(['key1' => 'val1']);
     }

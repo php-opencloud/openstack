@@ -14,7 +14,7 @@ class VolumeAttachmentTest extends TestCase
         // let's wait for the server to be completely up
         // https://bugs.launchpad.net/nova/+bug/1998148
         // https://bugs.launchpad.net/nova/+bug/1960346
-        sleep(10);
+        sleep(15);
 
         $volume = $this->getCachedService(Service::class)->createVolume(
             [
@@ -67,6 +67,11 @@ PHP
      */
     public function testDetach(VolumeAttachment $createdVolumeAttachment)
     {
+        // let's wait for the server to be completely up
+        // https://bugs.launchpad.net/nova/+bug/1998148
+        // https://bugs.launchpad.net/nova/+bug/1960346
+        sleep(15);
+
         require_once $this->sampleFile(
             'servers/detach_volume_attachment.php',
             [
