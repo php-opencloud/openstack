@@ -44,7 +44,7 @@ class OperatorTraitTest extends TestCase
 
     public function test_it_sends_a_request_when_operations_are_executed()
     {
-        $this->client->request('GET', 'test', ['headers' => []])->willReturn(new Response());
+        $this->mockRequest('GET', 'test', new Response());
 
         $this->operator->execute($this->def, []);
 
@@ -53,7 +53,10 @@ class OperatorTraitTest extends TestCase
 
     public function test_it_sends_a_request_when_async_operations_are_executed()
     {
-        $this->client->requestAsync('GET', 'test', ['headers' => []])->willReturn(new Promise());
+        $this->client
+            ->requestAsync('GET', 'test', ['headers' => [], 'openstack.skip_auth' => false])
+            ->shouldBeCalled()
+            ->willReturn(new Promise());
 
         $this->operator->executeAsync($this->def, []);
 
@@ -75,13 +78,13 @@ class OperatorTraitTest extends TestCase
 
     public function test_it_throws_exception_when_async_is_called_on_a_non_existent_method()
     {
-		$this->expectException(\RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->operator->fooAsync();
     }
 
     public function test_undefined_methods_result_in_error()
     {
-		$this->expectException(\Exception::class);
+        $this->expectException(\Exception::class);
         $this->operator->foo();
     }
 
@@ -103,15 +106,19 @@ class OperatorTraitTest extends TestCase
 
     public function test_guzzle_options_are_forwarded()
     {
-        $this->client->request('GET', 'test', ['headers' => [], 'stream' => true])->willReturn(new Response());
+        $this->client
+            ->request('GET', 'test', ['headers' => [], 'openstack.skip_auth' => false, 'stream' => true])
+            ->shouldBeCalled()
+            ->willReturn(new Response());
 
         $this->operator->execute($this->def, [
-            'requestOptions' => ['stream' => true]
+            'requestOptions' => ['stream' => true],
         ]);
 
         $this->addToAssertionCount(1);
     }
 }
+
 
 class TestResource extends AbstractResource
 {

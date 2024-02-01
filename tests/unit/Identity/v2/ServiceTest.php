@@ -40,7 +40,7 @@ class ServiceTest extends TestCase
             'tenantId' => $options['tenantId'],
         ]];
 
-        $this->mockRequest('POST', 'tokens', 'token-post', $expectedJson, [], true;
+        $this->mockRequest('POST', 'tokens', 'token-post', $expectedJson, [], true);
 
         [$token, $baseUrl] = $this->service->authenticate($options);
 
