@@ -43,6 +43,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return Message::parseResponse(file_get_contents($path));
     }
 
+
     /**
      * Mocks request
      *
@@ -51,12 +52,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      * @param string|\GuzzleHttp\Psr7\Response|\Throwable $response the file name of the response fixture or a Response object
      * @param string|array|null $body request body. If type is array, it will be encoded as JSON.
      * @param array $headers request headers
+     * @param bool $skipAuth true if the api call skips authentication
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function mockRequest(string $method, $uri, $response = null, $body = null, array $headers = []): MethodProphecy
+    protected function mockRequest(string $method, $uri, $response = null, $body = null, array $headers = [], $skipAuth = false): MethodProphecy
     {
-        $options = ['headers' => $headers];
+        $options = [
+            'headers'             => $headers,
+            'openstack.skip_auth' => $skipAuth,
+        ];
 
         if (!empty($body)) {
             $options[is_array($body) ? 'json' : 'body'] = $body;

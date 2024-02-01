@@ -68,7 +68,8 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
             ]
         );
 
-        $server->waitUntilActive(60);
+        $server->waitUntilActive(120);
+        $this->assertEquals('ACTIVE', $server->status);
 
         return $server;
     }

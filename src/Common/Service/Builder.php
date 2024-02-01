@@ -83,7 +83,7 @@ class Builder
         return new $serviceClass($options['httpClient'], new $apiClass());
     }
 
-    private function stockHttpClient(array &$options, string $serviceName)
+    private function stockHttpClient(array &$options, string $serviceName): void
     {
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
             if (false !== stripos($serviceName, 'identity')) {
@@ -105,7 +105,7 @@ class Builder
     /**
      * @codeCoverageIgnore
      */
-    private function addDebugMiddleware(array $options, HandlerStack &$stack)
+    private function addDebugMiddleware(array $options, HandlerStack &$stack): void
     {
         if (!empty($options['debugLog'])
             && !empty($options['logger'])
@@ -118,7 +118,7 @@ class Builder
     /**
      * @codeCoverageIgnore
      */
-    private function stockAuthHandler(array &$options)
+    private function stockAuthHandler(array &$options): void
     {
         if (!isset($options['authHandler'])) {
             $options['authHandler'] = function () use ($options) {

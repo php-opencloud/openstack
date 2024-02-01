@@ -35,6 +35,14 @@ class AuthHandlerTest extends TestCase
         // Fake a Keystone request
         $request = new Request('POST', 'https://my-openstack.org:5000/v2.0/tokens');
 
+        self::assertEquals($request, call_user_func_array($this->handler, [$request, ['openstack.skip_auth' => true]]));
+    }
+
+    public function test_it_should_bypass_auth_http_requests_backward_compatibility()
+    {
+        // Fake a Keystone request
+        $request = new Request('POST', 'https://my-openstack.org:5000/v2.0/tokens');
+
         self::assertEquals($request, call_user_func_array($this->handler, [$request, []]));
     }
 
