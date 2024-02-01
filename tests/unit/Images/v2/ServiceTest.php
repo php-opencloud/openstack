@@ -46,7 +46,7 @@ class ServiceTest extends TestCase
             "min_ram" => 0,
         ];
 
-        $this->setupMock('POST', 'v2/images', $expectedJson, [], 'GET_image');
+        $this->mockRequest('POST', 'v2/images', 'GET_image', $expectedJson, []);
 
         $this->service->createImage([
             'name' => 'Ubuntu 12.10',
@@ -71,10 +71,7 @@ class ServiceTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($returnedUri);
 
-        $this->client
-            ->request('GET', 'v2/images', ['query' => ['limit' => 5], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_images'));
+        $this->mockRequest('GET', ['path' => 'v2/images', 'query' => ['limit' => 5]], 'GET_images');
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
             self::assertInstanceOf(Image::class, $image);

@@ -40,7 +40,7 @@ class LoadBalancerMemberTest extends TestCase
             'admin_state_up' => $opts['adminStateUp']
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/pools/poolId/members', $expectedJson, [], 'loadbalancer-member-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/pools/poolId/members', 'loadbalancer-member-post', $expectedJson, []);
 
         self::assertInstanceOf(LoadBalancerMember::class, $this->member->create($opts));
     }
@@ -56,14 +56,14 @@ class LoadBalancerMemberTest extends TestCase
             'admin_state_up' => false
         ]];
 
-        $this->setupMock('PUT', 'v2.0/lbaas/pools/poolId/members/memberId', $expectedJson, [], 'loadbalancer-member-put');
+        $this->mockRequest('PUT', 'v2.0/lbaas/pools/poolId/members/memberId', 'loadbalancer-member-put', $expectedJson, []);
 
         $this->member->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/pools/poolId/members/memberId', null, [], 'loadbalancer-member-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/pools/poolId/members/memberId', 'loadbalancer-member-get', null, []);
 
         $this->member->retrieve();
 
@@ -74,7 +74,7 @@ class LoadBalancerMemberTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/lbaas/pools/poolId/members/memberId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/lbaas/pools/poolId/members/memberId', new Response(204), null, []);
 
         $this->member->delete();
     }

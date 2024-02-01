@@ -23,7 +23,7 @@ class ImageTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'images/imageId', null, [], 'image-get');
+        $this->mockRequest('GET', 'images/imageId', 'image-get', null, []);
 
         $this->image->retrieve();
 
@@ -46,14 +46,14 @@ class ImageTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'images/imageId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'images/imageId', new Response(204), null, []);
 
         $this->image->delete();
     }
 
     public function test_it_retrieves_metadata()
     {
-        $this->setupMock('GET', 'images/imageId/metadata', null, [], 'server-metadata-get');
+        $this->mockRequest('GET', 'images/imageId/metadata', 'server-metadata-get', null, []);
 
         $metadata = $this->image->getMetadata();
 
@@ -70,7 +70,7 @@ class ImageTest extends TestCase
         $expectedJson = ['metadata' => $metadata];
 
         $response = $this->createResponse(200, [], $expectedJson);
-        $this->setupMock('PUT', 'images/imageId/metadata', $expectedJson, [], $response);
+        $this->mockRequest('PUT', 'images/imageId/metadata', $response, $expectedJson, []);
 
         $this->image->resetMetadata($metadata);
 
@@ -84,7 +84,7 @@ class ImageTest extends TestCase
         $expectedJson = ['metadata' => $metadata];
 
         $response = $this->createResponse(200, [], array_merge_recursive($expectedJson, ['metadata' => ['bar' => '2']]));
-        $this->setupMock('POST', 'images/imageId/metadata', $expectedJson, [], $response);
+        $this->mockRequest('POST', 'images/imageId/metadata', $response, $expectedJson, []);
 
         $this->image->mergeMetadata($metadata);
 
@@ -95,7 +95,7 @@ class ImageTest extends TestCase
     public function test_it_retrieves_a_metadata_item()
     {
         $response = $this->createResponse(200, [], ['metadata' => ['fooKey' => 'bar']]);
-        $this->setupMock('GET', 'images/imageId/metadata/fooKey', null, [], $response);
+        $this->mockRequest('GET', 'images/imageId/metadata/fooKey', $response, null, []);
 
         $value = $this->image->getMetadataItem('fooKey');
 
@@ -104,7 +104,7 @@ class ImageTest extends TestCase
 
     public function test_it_deletes_a_metadata_item()
     {
-        $this->setupMock('DELETE', 'images/imageId/metadata/fooKey', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'images/imageId/metadata/fooKey', new Response(204), null, []);
 
         self::assertNull($this->image->deleteMetadataItem('fooKey'));
     }

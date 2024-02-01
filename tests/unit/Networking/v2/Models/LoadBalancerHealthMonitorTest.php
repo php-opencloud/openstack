@@ -47,7 +47,7 @@ class LoadBalancerHealthMonitorTest extends TestCase
             'timeout'        => $opts['timeout']
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/healthmonitors', $expectedJson, [], 'loadbalancer-healthmonitor-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/healthmonitors', 'loadbalancer-healthmonitor-post', $expectedJson, []);
 
         self::assertInstanceOf(LoadBalancerHealthMonitor::class, $this->healthmonitor->create($opts));
     }
@@ -73,14 +73,14 @@ class LoadBalancerHealthMonitorTest extends TestCase
             'admin_state_up' => true
         ]];
 
-        $this->setupMock('PUT', 'v2.0/lbaas/healthmonitors/healthmonitorId', $expectedJson, [], 'loadbalancer-healthmonitor-put');
+        $this->mockRequest('PUT', 'v2.0/lbaas/healthmonitors/healthmonitorId', 'loadbalancer-healthmonitor-put', $expectedJson, []);
 
         $this->healthmonitor->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/healthmonitors/healthmonitorId', null, [], 'loadbalancer-healthmonitor-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/healthmonitors/healthmonitorId', 'loadbalancer-healthmonitor-get', null, []);
 
         $this->healthmonitor->retrieve();
 
@@ -94,7 +94,7 @@ class LoadBalancerHealthMonitorTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/lbaas/healthmonitors/healthmonitorId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/lbaas/healthmonitors/healthmonitorId', new Response(204), null, []);
 
         $this->healthmonitor->delete();
     }
