@@ -80,7 +80,8 @@ class TokenTest extends TestCase
     {
         $options = $this->getAuthOpts();
         $password = $options['user']['password'] . $this->randomStr();
-        $options['user']['password'] .= $password;
+        $options['user']['id'] = $password;
+        $options['user']['password'] = $password;
 
         $openstack = new OpenStack($options);
         $this->expectException(BadResponseError::class);
@@ -91,8 +92,10 @@ class TokenTest extends TestCase
     public function testInvalidPasswordHidesPassword()
     {
         $options = $this->getAuthOpts();
+
         $password = $options['user']['password'] . $this->randomStr();
-        $options['user']['password'] .= $password;
+        $options['user']['id'] = $password;
+        $options['user']['password'] = $password;
 
         $openstack = new OpenStack(array_merge($options, ['errorVerbosity' => 0]));
         $this->expectException(BadResponseError::class);
@@ -101,7 +104,6 @@ class TokenTest extends TestCase
             $openstack->objectStoreV1();
         } catch (BadResponseError $e) {
             $this->assertStringNotContainsString($password, $e->getMessage());
-            print_r($e->getMessage());
 
             throw $e;
         }
