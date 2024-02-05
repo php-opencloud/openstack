@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenStack;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Service\Builder;
 use OpenStack\Common\Transport\HandlerStackFactory;
 use OpenStack\Common\Transport\Utils;
@@ -37,7 +36,7 @@ class OpenStack
     public function __construct(array $options = [], Builder $builder = null)
     {
         $defaults = ['errorVerbosity' => 2];
-        $options = array_merge($defaults, $options);
+        $options  = array_merge($defaults, $options);
 
         if (!isset($options['identityService'])) {
             $options['identityService'] = $this->getDefaultIdentityService($options);

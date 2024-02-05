@@ -23,7 +23,7 @@ class HandlerStackFactory
     }
 
     /**
-     * Creates a new HandlerStack with the given options
+     * Creates a new HandlerStack with the given options.
      *
      * @param array{
      *     handler: callable,
@@ -37,11 +37,11 @@ class HandlerStackFactory
      */
     public static function createWithOptions(array $options): HandlerStack
     {
-        $stack = new HandlerStack($options['handler'] ?? Utils::chooseHandler());
+        $stack = new HandlerStack($options['handler']                  ?? Utils::chooseHandler());
         $stack->push(Middleware::httpErrors($options['errorVerbosity'] ?? 0), 'http_errors');
         $stack->push(GuzzleMiddleware::prepareBody(), 'prepare_body');
 
-        if (!empty($options['authHandler'])){
+        if (!empty($options['authHandler'])) {
             $stack->push(Middleware::authHandler($options['authHandler'], $options['token'] ?? null));
         }
 

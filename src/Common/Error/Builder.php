@@ -54,7 +54,7 @@ class Builder
      */
     private function linkIsValid(string $link): bool
     {
-        $link = $this->docDomain . $link;
+        $link = $this->docDomain.$link;
 
         try {
             return $this->client->request('HEAD', $link)->getStatusCode() < 400;
@@ -69,16 +69,16 @@ class Builder
     public function str(MessageInterface $message, int $verbosity = 0): string
     {
         if ($message instanceof RequestInterface) {
-            $msg = trim($message->getMethod() . ' ' . $message->getRequestTarget());
-            $msg .= ' HTTP/' . $message->getProtocolVersion();
+            $msg = trim($message->getMethod().' '.$message->getRequestTarget());
+            $msg .= ' HTTP/'.$message->getProtocolVersion();
             if (!$message->hasHeader('host')) {
-                $msg .= "\r\nHost: " . $message->getUri()->getHost();
+                $msg .= "\r\nHost: ".$message->getUri()->getHost();
             }
         } else {
             if ($message instanceof ResponseInterface) {
-                $msg = 'HTTP/' . $message->getProtocolVersion() . ' '
-                    . $message->getStatusCode() . ' '
-                    . $message->getReasonPhrase();
+                $msg = 'HTTP/'.$message->getProtocolVersion().' '
+                    .$message->getStatusCode().' '
+                    .$message->getReasonPhrase();
             } else {
                 throw new \InvalidArgumentException('Unknown message type');
             }
@@ -89,7 +89,7 @@ class Builder
         }
 
         foreach ($message->getHeaders() as $name => $values) {
-            $msg .= "\r\n{$name}: " . implode(', ', $values);
+            $msg .= "\r\n{$name}: ".implode(', ', $values);
         }
 
         if ($verbosity < 2) {
@@ -97,7 +97,7 @@ class Builder
         }
 
         if (ini_get('memory_limit') < 0 || $message->getBody()->getSize() < ini_get('memory_limit')) {
-            $msg .= "\r\n\r\n" . $message->getBody();
+            $msg .= "\r\n\r\n".$message->getBody();
         }
 
         return trim($msg);
@@ -106,7 +106,7 @@ class Builder
     /**
      * Helper method responsible for constructing and returning {@see BadResponseError} exceptions.
      *
-     * @param RequestInterface $request The faulty request
+     * @param RequestInterface  $request  The faulty request
      * @param ResponseInterface $response The error-filled response
      */
     public function httpError(RequestInterface $request, ResponseInterface $response, int $verbosity = 0): BadResponseError
@@ -120,16 +120,16 @@ class Builder
         );
 
         $message .= $this->header('Request');
-        $message .= $this->str($request, $verbosity) . PHP_EOL . PHP_EOL;
+        $message .= $this->str($request, $verbosity).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Response');
-        $message .= $this->str($response, $verbosity) . PHP_EOL . PHP_EOL;
+        $message .= $this->str($response, $verbosity).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Further information');
         $message .= $this->getStatusCodeMessage($response->getStatusCode());
 
         $message .= 'Visit http://docs.php-opencloud.com/en/latest/http-codes for more information about debugging '
-            . 'HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.';
+            .'HTTP status codes, or file a support issue on https://github.com/php-opencloud/openstack/issues.';
 
         $e = new BadResponseError($message);
         $e->setRequest($request);
@@ -153,9 +153,9 @@ class Builder
     /**
      * Helper method responsible for constructing and returning {@see UserInputError} exceptions.
      *
-     * @param string $expectedType The type that was expected from the user
-     * @param mixed $userValue The incorrect value the user actually provided
-     * @param string|null $furtherLink a link to further information if necessary (optional)
+     * @param string      $expectedType The type that was expected from the user
+     * @param mixed       $userValue    The incorrect value the user actually provided
+     * @param string|null $furtherLink  a link to further information if necessary (optional)
      */
     public function userInputError(string $expectedType, $userValue, string $furtherLink = null): UserInputError
     {
@@ -170,7 +170,7 @@ class Builder
         $message .= 'Please ensure that the value adheres to the expectation above. ';
 
         if ($furtherLink && $this->linkIsValid($furtherLink)) {
-            $message .= sprintf('Visit %s for more information about input arguments. ', $this->docDomain . $furtherLink);
+            $message .= sprintf('Visit %s for more information about input arguments. ', $this->docDomain.$furtherLink);
         }
 
         $message .= 'If you run into trouble, please open a support issue on https://github.com/php-opencloud/openstack/issues.';

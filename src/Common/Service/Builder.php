@@ -7,11 +7,8 @@ namespace OpenStack\Common\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Auth\IdentityService;
-use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Transport\HandlerStackFactory;
-use OpenStack\Common\Transport\Middleware;
 use OpenStack\Common\Transport\Utils;
 
 /**
@@ -37,7 +34,7 @@ class Builder
     private $defaults = ['urlType' => 'publicURL'];
 
     /**
-     * @param array $globalOptions options that will be applied to every service created by this builder.
+     * @param array  $globalOptions options that will be applied to every service created by this builder.
      *                              Eventually they will be merged (and if necessary overridden) by the
      *                              service-specific options passed in
      * @param string $rootNamespace API classes' root namespace
@@ -50,8 +47,8 @@ class Builder
 
     private function getClasses($namespace)
     {
-        $namespace = $this->rootNamespace . '\\' . $namespace;
-        $classes = [$namespace . '\\Api', $namespace . '\\Service'];
+        $namespace = $this->rootNamespace.'\\'.$namespace;
+        $classes   = [$namespace.'\\Api', $namespace.'\\Service'];
 
         foreach ($classes as $class) {
             if (!class_exists($class)) {
@@ -68,8 +65,8 @@ class Builder
      * directly - this setup includes the configuration of the HTTP client's base URL, and the
      * attachment of an authentication handler.
      *
-     * @param string $namespace The namespace of the service
-     * @param array $serviceOptions The service-specific options to use
+     * @param string $namespace      The namespace of the service
+     * @param array  $serviceOptions The service-specific options to use
      */
     public function createService(string $namespace, array $serviceOptions = []): ServiceInterface
     {
@@ -88,12 +85,12 @@ class Builder
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
             if (false !== stripos($serviceName, 'identity')) {
                 $baseUrl = $options['authUrl'];
-                $token = null;
+                $token   = null;
             } else {
                 [$token, $baseUrl] = $options['identityService']->authenticate($options);
             }
 
-            $stack = HandlerStackFactory::createWithOptions(array_merge($options, ['token' => $token]));
+            $stack        = HandlerStackFactory::createWithOptions(array_merge($options, ['token' => $token]));
             $microVersion = $options['microVersion'] ?? null;
 
             $options['httpClient'] = $this->httpClient($baseUrl, $stack, $options['catalogType'], $microVersion);
