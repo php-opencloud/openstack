@@ -27,13 +27,16 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf(Builder::class, new Builder($this->client->reveal()));
     }
 
-    public function test_it_builds_http_errors()
+    /**
+     * @dataProvider verbosityProvider
+     */
+    public function test_it_builds_http_errors(int $verbosity)
     {
         $request = new Request('POST', '/servers');
         $response = new Response(400, [], Utils::streamFor('Invalid parameters'));
 
-        $requestStr = trim($this->builder->str($request));
-        $responseStr = trim($this->builder->str($response));
+        $requestStr = $this->builder->str($request, $verbosity);
+        $responseStr = $this->builder->str($response, $verbosity);
 
         $errorMessage = <<<EOT
 HTTP Error
@@ -57,7 +60,19 @@ EOT;
         $e->setRequest($request);
         $e->setResponse($response);
 
-        self::assertEquals($e, $this->builder->httpError($request, $response));
+        self::assertEquals($e, $this->builder->httpError($request, $response, $verbosity));
+    }
+
+    /**
+     * Provides different verbosity levels.
+     */
+    public function verbosityProvider(): array
+    {
+        return [
+            [0],
+            [1],
+            [2],
+        ];
     }
 
     public function test_it_builds_user_input_errors()

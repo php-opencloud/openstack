@@ -7,11 +7,8 @@ namespace OpenStack\Common\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Auth\IdentityService;
-use OpenStack\Common\Auth\Token;
 use OpenStack\Common\Transport\HandlerStackFactory;
-use OpenStack\Common\Transport\Middleware;
 use OpenStack\Common\Transport\Utils;
 
 /**
@@ -88,30 +85,15 @@ class Builder
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
             if (false !== stripos($serviceName, 'identity')) {
                 $baseUrl = $options['authUrl'];
-                $stack   = $this->getStack($options['authHandler']);
+                $token   = null;
             } else {
-                [$token, $baseUrl]     = $options['identityService']->authenticate($options);
-                $stack                 = $this->getStack($options['authHandler'], $token);
+                [$token, $baseUrl] = $options['identityService']->authenticate($options);
             }
 
+            $stack        = HandlerStackFactory::createWithOptions(array_merge($options, ['token' => $token]));
             $microVersion = $options['microVersion'] ?? null;
 
-            $this->addDebugMiddleware($options, $stack);
-
             $options['httpClient'] = $this->httpClient($baseUrl, $stack, $options['catalogType'], $microVersion);
-        }
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    private function addDebugMiddleware(array $options, HandlerStack &$stack): void
-    {
-        if (!empty($options['debugLog'])
-            && !empty($options['logger'])
-            && !empty($options['messageFormatter'])
-        ) {
-            $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
         }
     }
 
@@ -125,14 +107,6 @@ class Builder
                 return $options['identityService']->authenticate($options)[0];
             };
         }
-    }
-
-    private function getStack(callable $authHandler, Token $token = null): HandlerStack
-    {
-        $stack = HandlerStackFactory::create();
-        $stack->push(Middleware::authHandler($authHandler, $token));
-
-        return $stack;
     }
 
     private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType = null, string $microVersion = null): ClientInterface

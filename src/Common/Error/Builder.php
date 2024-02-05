@@ -66,30 +66,41 @@ class Builder
     /**
      * @codeCoverageIgnore
      */
-    public function str(MessageInterface $message): string
+    public function str(MessageInterface $message, int $verbosity = 0): string
     {
         if ($message instanceof RequestInterface) {
-            $msg = trim($message->getMethod().' '
-                    .$message->getRequestTarget())
-                .' HTTP/'.$message->getProtocolVersion();
+            $msg = trim($message->getMethod().' '.$message->getRequestTarget());
+            $msg .= ' HTTP/'.$message->getProtocolVersion();
             if (!$message->hasHeader('host')) {
                 $msg .= "\r\nHost: ".$message->getUri()->getHost();
             }
-        } elseif ($message instanceof ResponseInterface) {
-            $msg = 'HTTP/'.$message->getProtocolVersion().' '
-                .$message->getStatusCode().' '
-                .$message->getReasonPhrase();
+        } else {
+            if ($message instanceof ResponseInterface) {
+                $msg = 'HTTP/'.$message->getProtocolVersion().' '
+                    .$message->getStatusCode().' '
+                    .$message->getReasonPhrase();
+            } else {
+                throw new \InvalidArgumentException('Unknown message type');
+            }
+        }
+
+        if ($verbosity < 1) {
+            return $msg;
         }
 
         foreach ($message->getHeaders() as $name => $values) {
             $msg .= "\r\n{$name}: ".implode(', ', $values);
         }
 
+        if ($verbosity < 2) {
+            return $msg;
+        }
+
         if (ini_get('memory_limit') < 0 || $message->getBody()->getSize() < ini_get('memory_limit')) {
             $msg .= "\r\n\r\n".$message->getBody();
         }
 
-        return $msg;
+        return trim($msg);
     }
 
     /**
@@ -98,7 +109,7 @@ class Builder
      * @param RequestInterface  $request  The faulty request
      * @param ResponseInterface $response The error-filled response
      */
-    public function httpError(RequestInterface $request, ResponseInterface $response): BadResponseError
+    public function httpError(RequestInterface $request, ResponseInterface $response, int $verbosity = 0): BadResponseError
     {
         $message = $this->header('HTTP Error');
 
@@ -109,10 +120,10 @@ class Builder
         );
 
         $message .= $this->header('Request');
-        $message .= trim($this->str($request)).PHP_EOL.PHP_EOL;
+        $message .= $this->str($request, $verbosity).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Response');
-        $message .= trim($this->str($response)).PHP_EOL.PHP_EOL;
+        $message .= $this->str($response, $verbosity).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Further information');
         $message .= $this->getStatusCodeMessage($response->getStatusCode());

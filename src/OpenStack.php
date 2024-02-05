@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace OpenStack;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Middleware as GuzzleMiddleware;
 use OpenStack\Common\Service\Builder;
 use OpenStack\Common\Transport\HandlerStackFactory;
 use OpenStack\Common\Transport\Utils;
@@ -36,6 +35,9 @@ class OpenStack
      */
     public function __construct(array $options = [], Builder $builder = null)
     {
+        $defaults = ['errorVerbosity' => 2];
+        $options  = array_merge($defaults, $options);
+
         if (!isset($options['identityService'])) {
             $options['identityService'] = $this->getDefaultIdentityService($options);
         }
@@ -49,15 +51,7 @@ class OpenStack
             throw new \InvalidArgumentException("'authUrl' is a required option");
         }
 
-        $stack = HandlerStackFactory::create();
-
-        if (!empty($options['debugLog'])
-            && !empty($options['logger'])
-            && !empty($options['messageFormatter'])
-        ) {
-            $logMiddleware = GuzzleMiddleware::log($options['logger'], $options['messageFormatter']);
-            $stack->push($logMiddleware, 'logger');
-        }
+        $stack = HandlerStackFactory::createWithOptions(array_merge($options, ['token' => null]));
 
         $clientOptions = [
             'base_uri' => Utils::normalizeUrl($options['authUrl']),
