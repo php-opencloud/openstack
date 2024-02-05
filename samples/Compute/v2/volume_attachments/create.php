@@ -13,13 +13,9 @@ $openstack = new OpenStack\OpenStack([
         'id'       => '{userId}',
         'password' => '{password}'
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$compute = $openstack->computeV2(['region' => '{region}']);
-
-/**@var OpenStack\Compute\v2\Models\Server $server */
+$compute = $openstack->computeV2();
 $server = $compute->getServer(['id' => '{serverId}']);
 
-//Must detach by volumeAttachment id
-$server->detachVolume('{volumeAttachmentId}');
+$volumeAttachment = $server->attachVolume('{volumeId}');
