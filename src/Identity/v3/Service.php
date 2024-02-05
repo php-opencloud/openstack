@@ -45,7 +45,7 @@ class Service extends AbstractService implements IdentityService
         $name      = $options['catalogName'];
         $type      = $options['catalogType'];
         $region    = $options['region'];
-        $interface = isset($options['interface']) ? $options['interface'] : Enum::INTERFACE_PUBLIC;
+        $interface = $options['interface'] ?? Enum::INTERFACE_PUBLIC;
 
         if ($baseUrl = $token->catalog->getServiceUrl($name, $type, $region, $interface)) {
             return [$token, $baseUrl];

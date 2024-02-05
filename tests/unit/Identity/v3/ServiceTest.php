@@ -10,7 +10,6 @@ use OpenStack\Identity\v3\Models;
 use OpenStack\Identity\v3\Service;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
-use Psr\Http\Message\ResponseInterface;
 
 class ServiceTest extends TestCase
 {

@@ -2,7 +2,10 @@
 
 namespace OpenStack\Sample\Identity\v3;
 
+use GuzzleHttp\Exception\ClientException;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Identity\v3\Models\Token;
+use OpenStack\OpenStack;
 
 class TokenTest extends TestCase
 {
@@ -73,4 +76,37 @@ class TokenTest extends TestCase
         $this->assertFalse($token->validate());
     }
 
+    public function testInvalidPassword()
+    {
+        $options = $this->getAuthOpts();
+        $password = $options['user']['password'] . $this->randomStr();
+        $options['user']['id'] = $password;
+        $options['user']['password'] = $password;
+
+        $openstack = new OpenStack($options);
+        $this->expectException(BadResponseError::class);
+
+        $openstack->objectStoreV1();
+    }
+
+    public function testInvalidPasswordHidesPassword()
+    {
+        $options = $this->getAuthOpts();
+
+        $password = $options['user']['password'] . $this->randomStr();
+        $options['user']['id'] = $password;
+        $options['user']['password'] = $password;
+
+        $openstack = new OpenStack(array_merge($options, ['errorVerbosity' => 0]));
+        $this->expectException(BadResponseError::class);
+
+        try {
+            $openstack->objectStoreV1();
+        } catch (BadResponseError $e) {
+            $this->assertStringNotContainsString($password, $e->getMessage());
+
+            throw $e;
+        }
+
+    }
 }
