@@ -11,6 +11,7 @@ OpenStack Compute (Nova) API Version 2. Nova is the OpenStack project that provi
 
     create
     servers
+    volume-attachments
     flavors
     images
     states

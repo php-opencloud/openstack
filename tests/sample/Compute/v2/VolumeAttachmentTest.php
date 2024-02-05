@@ -27,7 +27,7 @@ class VolumeAttachmentTest extends TestCase
         $this->assertEquals('available', $volume->status);
 
         /** @var \OpenStack\BlockStorage\v2\Models\VolumeAttachment $volumeAttachment */
-        require_once $this->sampleFile('servers/attach_volume_attachment.php', [
+        require_once $this->sampleFile('volume_attachments/create.php', [
             '{serverId}' => $server->id,
             '{volumeId}' => $volume->id,
         ]);
@@ -47,12 +47,12 @@ class VolumeAttachmentTest extends TestCase
     {
         $found = false;
         require_once $this->sampleFile(
-            'servers/list_volume_attachments.php',
+            'volume_attachments/list.php',
             [
                 '{serverId}'                                                                       => $createdVolumeAttachment->serverId,
                 '/** @var \OpenStack\BlockStorage\v2\Models\VolumeAttachment $volumeAttachment */' => <<<'PHP'
 /** @var \OpenStack\BlockStorage\v2\Models\VolumeAttachment $volumeAttachment */
-if ($volumeAttachment->id === $createdVolumeAttachment->id) {
+if ($volumeAttachment->volumeId === $createdVolumeAttachment->volumeId) {
     $found = true;
 }
 PHP
@@ -73,10 +73,10 @@ PHP
         sleep(15);
 
         require_once $this->sampleFile(
-            'servers/detach_volume_attachment.php',
+            'volume_attachments/delete.php',
             [
-                '{serverId}'           => $createdVolumeAttachment->serverId,
-                '{volumeAttachmentId}' => $createdVolumeAttachment->id,
+                '{serverId}' => $createdVolumeAttachment->serverId,
+                '{volumeId}' => $createdVolumeAttachment->volumeId,
             ]
         );
 
