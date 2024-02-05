@@ -12,8 +12,8 @@ Nova allows you to attach a volume to a server on the fly. This model represents
 .. warning::
 
     The server must be fully started before you can attach a volume to it. Just because the server is in the ``ACTIVE``
-    state does not mean that it is ready to accept a volume attachment. See `https://bugs.launchpad.net/nova/+bug/1960346`_
-    and `https://bugs.launchpad.net/nova/+bug/1998148`_ for more information.
+    state does not mean that it is ready to accept a volume attachment. See https://bugs.launchpad.net/nova/+bug/1960346
+    and https://bugs.launchpad.net/nova/+bug/1998148 for more information.
 
 Create
 ------
