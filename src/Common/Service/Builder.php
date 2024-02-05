@@ -37,7 +37,7 @@ class Builder
     private $defaults = ['urlType' => 'publicURL'];
 
     /**
-     * @param array  $globalOptions options that will be applied to every service created by this builder.
+     * @param array $globalOptions options that will be applied to every service created by this builder.
      *                              Eventually they will be merged (and if necessary overridden) by the
      *                              service-specific options passed in
      * @param string $rootNamespace API classes' root namespace
@@ -50,8 +50,8 @@ class Builder
 
     private function getClasses($namespace)
     {
-        $namespace = $this->rootNamespace.'\\'.$namespace;
-        $classes   = [$namespace.'\\Api', $namespace.'\\Service'];
+        $namespace = $this->rootNamespace . '\\' . $namespace;
+        $classes = [$namespace . '\\Api', $namespace . '\\Service'];
 
         foreach ($classes as $class) {
             if (!class_exists($class)) {
@@ -68,8 +68,8 @@ class Builder
      * directly - this setup includes the configuration of the HTTP client's base URL, and the
      * attachment of an authentication handler.
      *
-     * @param string $namespace      The namespace of the service
-     * @param array  $serviceOptions The service-specific options to use
+     * @param string $namespace The namespace of the service
+     * @param array $serviceOptions The service-specific options to use
      */
     public function createService(string $namespace, array $serviceOptions = []): ServiceInterface
     {
@@ -88,30 +88,15 @@ class Builder
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
             if (false !== stripos($serviceName, 'identity')) {
                 $baseUrl = $options['authUrl'];
-                $stack   = $this->getStack($options['authHandler']);
+                $token = null;
             } else {
-                [$token, $baseUrl]     = $options['identityService']->authenticate($options);
-                $stack                 = $this->getStack($options['authHandler'], $token);
+                [$token, $baseUrl] = $options['identityService']->authenticate($options);
             }
 
+            $stack = HandlerStackFactory::createWithOptions(array_merge($options, ['token' => $token]));
             $microVersion = $options['microVersion'] ?? null;
 
-            $this->addDebugMiddleware($options, $stack);
-
             $options['httpClient'] = $this->httpClient($baseUrl, $stack, $options['catalogType'], $microVersion);
-        }
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    private function addDebugMiddleware(array $options, HandlerStack &$stack): void
-    {
-        if (!empty($options['debugLog'])
-            && !empty($options['logger'])
-            && !empty($options['messageFormatter'])
-        ) {
-            $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
         }
     }
 
@@ -125,14 +110,6 @@ class Builder
                 return $options['identityService']->authenticate($options)[0];
             };
         }
-    }
-
-    private function getStack(callable $authHandler, Token $token = null): HandlerStack
-    {
-        $stack = HandlerStackFactory::create();
-        $stack->push(Middleware::authHandler($authHandler, $token));
-
-        return $stack;
     }
 
     private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType = null, string $microVersion = null): ClientInterface
