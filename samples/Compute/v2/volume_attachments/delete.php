@@ -16,6 +16,6 @@ $openstack = new OpenStack\OpenStack([
 ]);
 
 $compute = $openstack->computeV2();
-$server = $compute->getServer();
+$server = $compute->getServer(['id' => '{serverId}']);
 
 $server->detachVolume('{volumeId}');
