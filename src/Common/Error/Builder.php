@@ -129,7 +129,7 @@ class Builder
             return $msg;
         }
 
-        if ($this->memoryLimitToInt() <= 0 || $message->getBody()->getSize() < $this->memoryLimitToInt()) {
+        if ($this->memoryLimitToInt() < 0 || $message->getBody()->getSize() < $this->memoryLimitToInt()) {
             $msg .= "\r\n\r\n" . $message->getBody();
         }
 
