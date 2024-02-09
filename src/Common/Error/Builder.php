@@ -64,7 +64,8 @@ class Builder
     }
 
     /**
-     * Reads the PHP memory limit from the ini files and then converts it into an integer, handling PHP's shorthand byte values
+     * Reads the PHP memory limit from the ini file and then converts it into an integer, handling PHP's shorthand byte values.
+     * 
      * @see https://www.php.net/manual/en/faq.using.php#faq.using.shorthandbytes
      * 
      * @return int
