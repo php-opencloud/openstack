@@ -99,10 +99,10 @@ class Builder
         }
 
         $contentType = strtolower($message->getHeaderLine('content-type'));
-        if (strpos($contentType, 'application/json') !== false) {
+        if (false !== strpos($contentType, 'application/json')) {
             $body = $message->getBody()->read(self::MAX_BODY_LENGTH);
             $msg .= "\r\n\r\n".$body;
-            if ($message->getBody()->read(1) !== '') {
+            if ('' !== $message->getBody()->read(1)) {
                 $msg .= '...';
             }
         }
