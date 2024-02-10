@@ -374,6 +374,9 @@ class ServerTest extends TestCase
         $server->waitUntil('SUSPENDED');
         $this->assertEquals('SUSPENDED', $server->status);
 
+        // wait for the server to be fully suspended
+        sleep(5);
+
         return $server;
     }
 
