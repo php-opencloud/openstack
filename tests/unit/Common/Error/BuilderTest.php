@@ -4,6 +4,8 @@ namespace OpenStack\Test\Common\Error;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\NoSeekStream;
+use GuzzleHttp\Psr7\PumpStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
@@ -73,6 +75,85 @@ EOT;
             [1],
             [2],
         ];
+    }
+
+    public function test_it_outputs_body_for_json()
+    {
+        $value = 'foobar';
+
+        $request = new Request(
+            'POST',
+            '/servers',
+            ['Content-Type' => 'application/json'],
+            json_encode(['foo' => $value])
+        );
+
+        $str = $this->builder->str($request, 2);
+        $this->assertStringContainsString($value, $str);
+    }
+
+    public function test_it_skips_body_for_low_verbosity()
+    {
+        $value = 'foobar';
+
+        $request = new Request(
+            'POST',
+            '/servers',
+            ['Content-Type' => 'application/json'],
+            json_encode(['foo' => $value])
+        );
+
+        $str = $this->builder->str($request, 1);
+        $this->assertStringNotContainsString($value, $str);
+    }
+
+    public function test_it_cuts_big_body_for_json()
+    {
+        $value = str_repeat('A', Builder::MAX_BODY_LENGTH);
+
+        $request = new Request(
+            'POST',
+            '/servers',
+            ['Content-Type' => 'application/json'],
+            json_encode(['foo' => $value])
+        );
+
+        $str = $this->builder->str($request, 2);
+        $this->assertStringNotContainsString($value, $str);
+        $this->assertStringContainsString('AAAAAA...', $str);
+    }
+
+    public function test_it_did_not_read_full_body_for_json()
+    {
+        $value = str_repeat('A', Builder::MAX_BODY_LENGTH + 1);
+
+        $request = new Request(
+            'POST',
+            '/servers',
+            ['Content-Type' => 'application/json'],
+            new PumpStream(function ($size) {
+                return str_repeat('A', $size);
+            })
+        );
+
+        $str = $this->builder->str($request, 2);
+        $this->assertStringNotContainsString($value, $str);
+        $this->assertStringContainsString('AAAAAA...', $str);
+    }
+
+    public function test_it_skips_body_for_binary()
+    {
+        $value = 'foobar';
+
+        $request = new Request(
+            'POST',
+            '/servers',
+            ['Content-Type' => 'binary/octet-stream'],
+            $value
+        );
+
+        $str = $this->builder->str($request, 2);
+        $this->assertStringNotContainsString($value, $str);
     }
 
     public function test_it_builds_user_input_errors()

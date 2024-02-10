@@ -19,6 +19,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Builder
 {
+    public const MAX_BODY_LENGTH = 5000;
+
     /**
      * The default domain to use for further link documentation.
      *
@@ -96,8 +98,13 @@ class Builder
             return $msg;
         }
 
-        if (ini_get('memory_limit') < 0 || $message->getBody()->getSize() < ini_get('memory_limit')) {
-            $msg .= "\r\n\r\n".$message->getBody();
+        $contentType = strtolower($message->getHeaderLine('content-type'));
+        if (false !== strpos($contentType, 'application/json')) {
+            $body = $message->getBody()->read(self::MAX_BODY_LENGTH);
+            $msg .= "\r\n\r\n".$body;
+            if ('' !== $message->getBody()->read(1)) {
+                $msg .= '...';
+            }
         }
 
         return trim($msg);
