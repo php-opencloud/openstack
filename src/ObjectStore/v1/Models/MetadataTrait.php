@@ -16,6 +16,9 @@ trait MetadataTrait
             if (0 === stripos($header, static::METADATA_PREFIX)) {
                 $name            = substr($header, strlen(static::METADATA_PREFIX));
                 $metadata[$name] = $response->getHeader($header)[0];
+                if ($name !== strtolower($name)) {
+                    $metadata[strtolower($name)] = $response->getHeader($header)[0];
+                }
             }
         }
 
