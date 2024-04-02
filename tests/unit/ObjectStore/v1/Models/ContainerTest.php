@@ -35,7 +35,15 @@ class ContainerTest extends TestCase
         $this->container->populateFromResponse($response);
 
         self::assertEquals(1, $this->container->objectCount);
-        self::assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->metadata);
+        self::assertEquals(
+            [
+                'Book'      => 'TomSawyer',
+                'Author'    => 'SamuelClemens',
+                'UPPERCASE' => 'UPPERCASE',
+                'lowercase' => 'lowercase',
+            ],
+            $this->container->metadata
+        );
         self::assertEquals(14, $this->container->bytesUsed);
     }
 
@@ -51,7 +59,16 @@ class ContainerTest extends TestCase
     {
         $this->mockRequest('HEAD', self::NAME, 'HEAD_Container', null, []);
 
-        self::assertEquals(['Book' => 'TomSawyer', 'Author' => 'SamuelClemens'], $this->container->getMetadata());
+        self::assertEquals(
+            [
+                'Book'      => 'TomSawyer',
+                'Author'    => 'SamuelClemens',
+                'UPPERCASE' => 'UPPERCASE',
+                'lowercase' => 'lowercase',
+
+            ],
+            $this->container->getMetadata()
+        );
     }
 
     public function test_Merge_Metadata()
@@ -70,6 +87,8 @@ class ContainerTest extends TestCase
         $headers = [
             'X-Container-Meta-Book'          => 'Middlesex',
             'X-Remove-Container-Meta-Author' => 'True',
+            'X-Remove-Container-Meta-UPPERCASE' => 'True',
+            'X-Remove-Container-Meta-lowercase' => 'True',
         ];
 
         $this->mockRequest('POST', self::NAME, 'NoContent', [], $headers);
@@ -141,29 +160,27 @@ class ContainerTest extends TestCase
 
         $expected = [
             [
-                'name' => 'goodbye',
+                'name'          => 'goodbye',
                 'contentLength' => '14',
-                'lastModified' => new \DateTimeImmutable('2014-01-15T16:41:49.390270'),
-                'contentType' => 'application/octet-stream',
-                'hash' => '451e372e48e0f6b1114fa0724aa79fa1'
+                'lastModified'  => new \DateTimeImmutable('2014-01-15T16:41:49.390270'),
+                'contentType'   => 'application/octet-stream',
+                'hash'          => '451e372e48e0f6b1114fa0724aa79fa1',
             ],
             [
-                'name' => 'helloworld.json',
+                'name'          => 'helloworld.json',
                 'contentLength' => '12',
-                'lastModified' => new \DateTimeImmutable('2014-01-15T16:37:43.427570'),
-                'contentType' => 'application/json',
-                'hash' => 'ed076287532e86365e841e92bfc50d8c'
+                'lastModified'  => new \DateTimeImmutable('2014-01-15T16:37:43.427570'),
+                'contentType'   => 'application/json',
+                'hash'          => 'ed076287532e86365e841e92bfc50d8c',
             ],
         ];
 
-        for ($i = 0; $i < count($objects); $i++)
-        {
+        for ($i = 0; $i < count($objects); $i++) {
             $exp = $expected[$i];
             /** @var StorageObject $obj */
             $obj = $objects[$i];
 
-            foreach ($exp as $attr => $attrVal)
-            {
+            foreach ($exp as $attr => $attrVal) {
                 self::assertEquals($attrVal, $obj->{$attr});
             }
         }
@@ -194,7 +211,7 @@ class ContainerTest extends TestCase
         $e->setResponse(new Response(500));
 
         $this->mockRequest('HEAD', 'test/bar', $e);
-		$this->expectException(BadResponseError::class);
+        $this->expectException(BadResponseError::class);
 
         $this->container->objectExists('bar');
     }
@@ -214,11 +231,11 @@ class ContainerTest extends TestCase
             : \GuzzleHttp\Psr7\Utils::streamFor(implode('', range('A', 'X')));
 
         $data = [
-            'name' => 'object',
-            'stream'           => $stream,
-            'segmentSize'      => 10,
-            'segmentPrefix'    => 'objectPrefix',
-            'segmentContainer' => 'segments',
+            'name'               => 'object',
+            'stream'             => $stream,
+            'segmentSize'        => 10,
+            'segmentPrefix'      => 'objectPrefix',
+            'segmentContainer'   => 'segments',
             'segmentIndexFormat' => '%03d',
         ];
 

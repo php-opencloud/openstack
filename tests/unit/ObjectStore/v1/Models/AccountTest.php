@@ -26,7 +26,15 @@ class AccountTest extends TestCase
         $this->account->populateFromResponse($response);
 
         self::assertEquals(1, $this->account->objectCount);
-        self::assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->metadata);
+        self::assertEquals(
+            [
+                'Book'      => 'MobyDick',
+                'Genre'     => 'Fiction',
+                'UPPERCASE' => 'UPPERCASE',
+                'lowercase' => 'lowercase',
+            ],
+            $this->account->metadata
+        );
         self::assertEquals(14, $this->account->bytesUsed);
         self::assertEquals(2, $this->account->containerCount);
     }
@@ -43,7 +51,15 @@ class AccountTest extends TestCase
     public function test_Get_Metadata()
     {
         $this->mockRequest('HEAD', '', 'HEAD_Account', null, []);
-        self::assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->getMetadata());
+        self::assertEquals(
+            [
+                'Book'      => 'MobyDick',
+                'Genre'     => 'Fiction',
+                'UPPERCASE' => 'UPPERCASE',
+                'lowercase' => 'lowercase',
+            ],
+            $this->account->getMetadata()
+        );
     }
 
     public function test_Merge_Metadata()
@@ -60,9 +76,11 @@ class AccountTest extends TestCase
         $this->mockRequest('HEAD', '', 'HEAD_Account', null, []);
 
         $headers = [
-            'X-Account-Meta-Book'         => 'Middlesex',
-            'X-Account-Meta-Author'       => 'Jeffrey Eugenides',
-            'X-Remove-Account-Meta-Genre' => 'True',
+            'X-Account-Meta-Book'             => 'Middlesex',
+            'X-Account-Meta-Author'           => 'Jeffrey Eugenides',
+            'X-Remove-Account-Meta-Genre'     => 'True',
+            'X-Remove-Account-Meta-UPPERCASE' => 'True',
+            'X-Remove-Account-Meta-lowercase' => 'True',
         ];
 
         $this->mockRequest('POST', '', 'NoContent', [], $headers);
