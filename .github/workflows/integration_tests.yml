@@ -19,6 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        openstack_version: [ "stable/2023.2" ]
         php_version: [ 8.1 ]
         include:
           - name: "bobcat"
