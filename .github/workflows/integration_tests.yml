@@ -19,7 +19,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        openstack_version: [ "stable/wallaby", "stable/zed", "stable/2023.2" ]
         php_version: [ 8.1 ]
         include:
           - name: "bobcat"
@@ -32,10 +31,10 @@ jobs:
             openstack_version: "stable/zed"
             ubuntu_version: "20.04"
           - name: "yoga"
-            openstack_version: "stable/yoga"
+            openstack_version: "unmaintained/yoga"
             ubuntu_version: "20.04"
           - name: "wallaby"
-            openstack_version: "stable/wallaby"
+            openstack_version: "unmaintained/wallaby"
             ubuntu_version: "20.04"
             block_storage_v2: true
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
