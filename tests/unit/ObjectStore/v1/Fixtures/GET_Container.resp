@@ -3,6 +3,8 @@ Content-Length: 341
 X-Container-Object-Count: 2
 Accept-Ranges: bytes
 X-Container-Meta-Book: TomSawyer
+X-CONTAINER-META-UPPERCASE: UPPERCASE
+x-container-meta-lowercase: lowercase
 X-Timestamp: 1389727543.65372
 X-Container-Bytes-Used: 26
 Content-Type: application/json; charset=utf-8

@@ -4,6 +4,8 @@ X-Container-Object-Count: 1
 Accept-Ranges: bytes
 X-Container-Meta-Book: TomSawyer
 X-Container-Meta-Author: SamuelClemens
+X-CONTAINER-META-UPPERCASE: UPPERCASE
+x-container-meta-lowercase: lowercase
 X-Timestamp: 1389727543.65372
 X-Container-Bytes-Used: 14
 Content-Type: text/plain; charset=utf-8

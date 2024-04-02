@@ -69,6 +69,8 @@ class ObjectTest extends TestCase
         self::assertEquals([
             'Book'         => 'GoodbyeColumbus',
             'Manufacturer' => 'Acme',
+            'UPPERCASE'    => 'UPPERCASE',
+            'lowercase'    => 'lowercase',
         ], $this->object->getMetadata());
     }
 
@@ -80,6 +82,8 @@ class ObjectTest extends TestCase
             'X-Object-Meta-Author'       => 'foo',
             'X-Object-Meta-Book'         => 'GoodbyeColumbus',
             'X-Object-Meta-Manufacturer' => 'Acme',
+            'X-Object-Meta-UPPERCASE'    => 'UPPERCASE',
+            'X-Object-Meta-lowercase'    => 'lowercase',
         ];
 
         $this->mockRequest('POST', self::CONTAINER . '/' . self::NAME, 'NoContent', null, $headers);
@@ -120,7 +124,7 @@ class ObjectTest extends TestCase
         $this->mockRequest('COPY', $path, 'Created', null, $headers);
 
         $this->object->copy([
-            'destination' => $headers['Destination']
+            'destination' => $headers['Destination'],
         ]);
     }
 

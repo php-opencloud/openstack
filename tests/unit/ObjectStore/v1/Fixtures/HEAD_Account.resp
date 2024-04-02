@@ -3,6 +3,8 @@ Content-Length: 0
 X-Account-Object-Count: 1
 X-Account-Meta-Book: MobyDick
 X-Account-Meta-Genre: Fiction
+X-ACCOUNT-META-UPPERCASE: UPPERCASE
+x-account-meta-lowercase: lowercase
 X-Timestamp: 1389453423.35964
 X-Account-Bytes-Used: 14
 X-Account-Container-Count: 2
