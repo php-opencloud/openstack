@@ -32,7 +32,7 @@ class Catalog extends OperatorResource implements \OpenStack\Common\Auth\Catalog
     }
 
     /**
-     * Retrieve a base URL for a service, according to its catalog name, type, region.
+     * Override a given service's predetermined endpoint URL.
      *
      * @param string $name      the name of the service as it appears in the catalog
      * @param string $type      the type of the service as it appears in the catalog
