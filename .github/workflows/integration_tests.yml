@@ -83,6 +83,7 @@ jobs:
             CINDER_ISCSI_HELPER=lioadm
             SWIFT_ENABLE_TEMPURLS=True
             SWIFT_TEMPURL_KEY=secretkey
+            TARGET_BRANCH=${{ matrix.openstack_version }}
             [[post-config|\$SWIFT_CONFIG_PROXY_SERVER]]
             [filter:versioned_writes]
             allow_object_versioning = true
