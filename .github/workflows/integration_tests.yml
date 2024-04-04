@@ -31,13 +31,13 @@ jobs:
           - name: "zed"
             openstack_version: "stable/zed"
             ubuntu_version: "20.04"
-          #- name: "yoga"
-          #  openstack_version: "unmaintained/yoga"
-          #  ubuntu_version: "20.04"
-          #- name: "wallaby"
-          #  openstack_version: "unmaintained/wallaby"
-          #  ubuntu_version: "20.04"
-          #  block_storage_v2: true
+          - name: "yoga"
+            openstack_version: "unmaintained/yoga"
+            ubuntu_version: "20.04"
+          - name: "wallaby"
+            openstack_version: "unmaintained/wallaby"
+            ubuntu_version: "20.04"
+            block_storage_v2: true
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
     name: Deploy OpenStack ${{ matrix.name }} and run integration tests with php ${{matrix.php_version}}
     steps:
@@ -76,13 +76,14 @@ jobs:
           key: ${{ runner.os }}-openstack-${{ matrix.openstack_version }}-${{ github.workflow }}
 
       - name: Deploy devstack
-        uses: EmilienM/devstack-action@v0.11
+        uses: EmilienM/devstack-action@v0.15
         with:
           branch: ${{ matrix.openstack_version }}
           conf_overrides: |
             CINDER_ISCSI_HELPER=lioadm
             SWIFT_ENABLE_TEMPURLS=True
             SWIFT_TEMPURL_KEY=secretkey
+            TARGET_BRANCH=${{ matrix.openstack_version }}
             [[post-config|\$SWIFT_CONFIG_PROXY_SERVER]]
             [filter:versioned_writes]
             allow_object_versioning = true
