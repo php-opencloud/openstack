@@ -827,12 +827,20 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => 'os-availability-zone/detail',
+            'path'   => 'os-availability-zone',
             'params' => [
                 'limit'  => $this->params->limit(),
                 'marker' => $this->params->marker(),
             ],
         ];
+    }
+
+    public function getAvailabilityZonesDetail(): array
+    {
+        $definition = $this->getAvailabilityZones();
+        $definition['path'] .= '/detail';
+
+        return $definition;
     }
 
     public function getHosts(): array

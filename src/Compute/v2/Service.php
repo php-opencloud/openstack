@@ -255,14 +255,17 @@ class Service extends AbstractService
     /**
      * List AZs.
      *
-     * @param array    $options {@see \OpenStack\Compute\v2\Api::getAvailabilityZones}
-     * @param callable $mapFn   a callable function that will be invoked on every iteration of the list
+     * @param bool $detailed
+     * @param array $options {@see \OpenStack\Compute\v2\Api::getAvailabilityZones}
+     * @param callable|null $mapFn a callable function that will be invoked on every iteration of the list
      *
-     * @return \Generator<mixed, \OpenStack\Compute\v2\Models\AvailabilityZone>
+     * @return \Generator<mixed, AvailabilityZone>
      */
-    public function listAvailabilityZones(array $options = [], callable $mapFn = null): \Generator
+    public function listAvailabilityZones(bool $detailed = false, array $options = [], callable $mapFn = null): \Generator
     {
-        return $this->model(AvailabilityZone::class)->enumerate($this->api->getAvailabilityZones(), $options, $mapFn);
+        $def = (true === $detailed) ? $this->api->getAvailabilityZonesDetail() : $this->api->getAvailabilityZones();
+
+        return $this->model(AvailabilityZone::class)->enumerate($def, $options, $mapFn);
     }
 
     /**
