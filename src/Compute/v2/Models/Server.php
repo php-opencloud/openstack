@@ -95,32 +95,41 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /** @var string */
     public $keyName;
 
+    /** @var string */
+    public $availabilityZone;
+
+    /** @var string */
+    public $configDrive;
+
+
     protected $resourceKey  = 'server';
     protected $resourcesKey = 'servers';
     protected $markerKey    = 'id';
 
     protected $aliases = [
-        'block_device_mapping_v2'             => 'blockDeviceMapping',
-        'accessIPv4'                          => 'ipv4',
-        'accessIPv6'                          => 'ipv6',
-        'tenant_id'                           => 'tenantId',
-        'key_name'                            => 'keyName',
-        'user_id'                             => 'userId',
-        'security_groups'                     => 'securityGroups',
-        'OS-EXT-STS:task_state'               => 'taskState',
-        'OS-EXT-STS:power_state'              => 'powerState',
-        'OS-EXT-STS:vm_state'                 => 'vmState',
-        'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
+        'block_device_mapping_v2'              => 'blockDeviceMapping',
+        'accessIPv4'                           => 'ipv4',
+        'accessIPv6'                           => 'ipv6',
+        'tenant_id'                            => 'tenantId',
+        'key_name'                             => 'keyName',
+        'user_id'                              => 'userId',
+        'security_groups'                      => 'securityGroups',
+        'OS-EXT-STS:task_state'                => 'taskState',
+        'OS-EXT-STS:power_state'               => 'powerState',
+        'OS-EXT-STS:vm_state'                  => 'vmState',
+        'OS-EXT-SRV-ATTR:hypervisor_hostname'  => 'hypervisorHostname',
+        'OS-EXT-AZ:availability_zone'          => 'availabilityZone',
+        'config_drive'                         => 'configDrive',
     ];
 
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'image'   => new Alias('image', Image::class),
-            'flavor'  => new Alias('flavor', Flavor::class),
-            'created' => new Alias('created', \DateTimeImmutable::class),
-            'updated' => new Alias('updated', \DateTimeImmutable::class),
-        ];
+                'image'   => new Alias('image', Image::class),
+                'flavor'  => new Alias('flavor', Flavor::class),
+                'created' => new Alias('created', \DateTimeImmutable::class),
+                'updated' => new Alias('updated', \DateTimeImmutable::class),
+            ];
     }
 
     /**
@@ -407,7 +416,9 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      */
     public function listInterfaceAttachments(array $options = []): \Generator
     {
-        return $this->model(InterfaceAttachment::class)->enumerate($this->api->getInterfaceAttachments(), ['id' => $this->id]);
+        return $this->model(InterfaceAttachment::class)
+                    ->enumerate($this->api->getInterfaceAttachments(), ['id' => $this->id])
+        ;
     }
 
     /**
@@ -562,7 +573,9 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      */
     public function listVolumeAttachments(): \Generator
     {
-        return $this->model(VolumeAttachment::class)->enumerate($this->api->getVolumeAttachments(), ['id' => $this->id]);
+        return $this->model(VolumeAttachment::class)
+                    ->enumerate($this->api->getVolumeAttachments(), ['id' => $this->id])
+        ;
     }
 
     /**
