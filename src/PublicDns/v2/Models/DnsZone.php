@@ -12,6 +12,9 @@ use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
+/**
+ * @property \OpenStack\PublicDns\v2\Api $api
+ */
 class DnsZone extends OperatorResource implements Creatable, Updateable, Deletable, Retrievable, Listable
 {
     use HasWaiterTrait;
@@ -53,10 +56,11 @@ class DnsZone extends OperatorResource implements Creatable, Updateable, Deletab
         // TODO: Implement delete() method.
     }
 
-    public function retrieve()
+    public function retrieve(): void
     {
-        $response = $this->execute($this->api->getDns(), $this->getAttrs(['id']));
+        $response = $this->execute($this->api->getDnsZone(), $this->getAttrs(['uuid']));
         $this->populateFromResponse($response);
+
     }
 
     public function update()

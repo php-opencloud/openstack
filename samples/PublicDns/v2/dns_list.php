@@ -18,8 +18,13 @@ $openstack = new OpenStack\OpenStack([
 
 $publicDns = $openstack->publicDnsV2();
 
-$dnsList = $publicDns->listDnsZone();
+//$dnsList = $publicDns->listDnsZone();
+//
+//foreach ($dnsList as $item) {
+//    $item->retrieve();
+//    var_dump($item); exit();
+//}
 
-foreach ($dnsList as $item) {
-    var_dump($item); exit();
-}
+$pubDns = $publicDns->getDnsZone(['uuid' => 'a2af0970-e04e-4232-8720-518ba2021a3d']);
+
+var_dump($pubDns); exit();
