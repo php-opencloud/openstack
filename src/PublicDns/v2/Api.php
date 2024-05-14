@@ -19,8 +19,6 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'v2/dns/', // Последний слэш это ньанс от VK
             'params' => [
-                'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker(),
                 'tenant' => $this->params->tenant(),
             ],
         ];
@@ -32,8 +30,6 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'v2/dns/{dnsUuid}',
             'params' => [
-                'limit'   => $this->params->limit(),
-                'marker'  => $this->params->marker(),
                 'dnsUuid' => $this->params->dnsUuid(),
             ],
         ];
@@ -46,8 +42,6 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'v2/dns/{dnsUuid}/' . $type->value . '/',
             'params' => [
-                'limit'   => $this->params->limit(),
-                'marker'  => $this->params->marker(),
                 'dnsUuid' => $this->params->dnsUuid(),
             ],
         ];
@@ -59,8 +53,6 @@ class Api extends AbstractApi
             'method' => 'GET',
             'path'   => 'v2/dns/{uuid}/' . $type->value . '/{recordUuid}',
             'params' => [
-                'limit'      => $this->params->limit(),
-                'marker'     => $this->params->marker(),
                 'dnsUuid'    => $this->params->dnsUuid(),
                 'recordUuid' => $this->params->recordUuid(),
             ],

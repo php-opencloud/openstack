@@ -35,7 +35,7 @@ class DnsZone extends OperatorResource implements Creatable, Updateable, Deletab
 
     protected $resourceKey  = '';
     protected $resourcesKey = '';
-    protected $markerKey    = 'uuid';
+    protected $markerKey    = '';
 
 
     protected $aliases = [
