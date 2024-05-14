@@ -200,4 +200,14 @@ class OpenStack
 
         return $this->builder->createService('Metric\\v1\\Gnocchi', array_merge($defaults, $options));
     }
+
+    /**
+     * Creates a new Public DNS service v2.
+     */
+    public function publicDnsV2(array $options = []): PublicDns\v2\Service
+    {
+        $defaults = ['catalogName' => 'publicdns', 'catalogType' => 'publicdns'];
+
+        return $this->builder->createService('PublicDns\\v2', array_merge($defaults, $options));
+    }
 }
