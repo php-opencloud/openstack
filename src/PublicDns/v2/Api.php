@@ -30,11 +30,39 @@ class Api extends AbstractApi
     {
         return [
             'method' => 'GET',
-            'path'   => 'v2/dns/{uuid}',
+            'path'   => 'v2/dns/{dnsUuid}',
             'params' => [
-                'limit'  => $this->params->limit(),
-                'marker' => $this->params->marker(),
-                'uuid'   => $this->params->uuid(),
+                'limit'   => $this->params->limit(),
+                'marker'  => $this->params->marker(),
+                'dnsUuid' => $this->params->dnsUuid(),
+            ],
+        ];
+    }
+
+    public function getDnsZoneRecords(DnsRecordType $type = DnsRecordType::A): array
+    {
+
+        return [
+            'method' => 'GET',
+            'path'   => 'v2/dns/{dnsUuid}/' . $type->value . '/',
+            'params' => [
+                'limit'   => $this->params->limit(),
+                'marker'  => $this->params->marker(),
+                'dnsUuid' => $this->params->dnsUuid(),
+            ],
+        ];
+    }
+
+    public function getDnsZoneRecord(DnsRecordType $type = DnsRecordType::A): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'v2/dns/{uuid}/' . $type->value . '/{recordUuid}',
+            'params' => [
+                'limit'      => $this->params->limit(),
+                'marker'     => $this->params->marker(),
+                'dnsUuid'    => $this->params->dnsUuid(),
+                'recordUuid' => $this->params->recordUuid(),
             ],
         ];
     }

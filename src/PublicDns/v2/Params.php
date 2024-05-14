@@ -11,16 +11,26 @@ class Params extends AbstractParams
     public function tenant(): array
     {
         return [
-            'type'        => self::STRING_TYPE,
-            'location'    => self::QUERY,
+            'type'     => self::STRING_TYPE,
+            'location' => self::QUERY,
         ];
     }
 
-    public function uuid(): array
+    public function dnsUuid(): array
     {
         return [
-            'type'        => self::STRING_TYPE,
-            'location'    => self::QUERY,
+            'type'     => self::STRING_TYPE,
+            'location' => self::URL,
+            'required' => true,
+        ];
+    }
+
+    public function recordUuid(): array
+    {
+        return [
+            'type'     => self::STRING_TYPE,
+            'location' => self::URL,
+            'required' => true,
         ];
     }
 

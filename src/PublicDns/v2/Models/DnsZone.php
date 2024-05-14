@@ -11,9 +11,11 @@ use OpenStack\Common\Resource\Listable;
 use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
+use OpenStack\Common\Transport\Utils;
+use OpenStack\PublicDns\v2\Api;
 
 /**
- * @property \OpenStack\PublicDns\v2\Api $api
+ * @property Api $api
  */
 class DnsZone extends OperatorResource implements Creatable, Updateable, Deletable, Retrievable, Listable
 {
@@ -58,13 +60,22 @@ class DnsZone extends OperatorResource implements Creatable, Updateable, Deletab
 
     public function retrieve(): void
     {
-        $response = $this->execute($this->api->getDnsZone(), $this->getAttrs(['uuid']));
+        $response = $this->execute($this->api->getDnsZone(), ['dnsUuid' => $this->uuid]);
         $this->populateFromResponse($response);
-
     }
 
     public function update()
     {
         // TODO: Implement update() method.
+    }
+
+    public function listDnsRecord(array $options = []): array
+    {
+        $options['dnsUuid'] = $this->uuid;
+
+        $data     = $this->api->getDnsZoneRecords($options['type']);
+        $response = $this->execute($data, $options);
+
+        return Utils::jsonDecode($response);
     }
 }

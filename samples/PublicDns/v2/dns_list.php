@@ -1,5 +1,7 @@
 <?php
 
+use OpenStack\PublicDns\v2\DnsRecordType;
+
 require '../../../vendor/autoload.php';
 
 
@@ -25,6 +27,14 @@ $publicDns = $openstack->publicDnsV2();
 //    var_dump($item); exit();
 //}
 
-$pubDns = $publicDns->getDnsZone(['uuid' => 'a2af0970-e04e-4232-8720-518ba2021a3d']);
+$records = $publicDns->listDnsZoneRecord(['dnsUuid' => 'a2af0970-e04e-4232-8720-518ba2021a3d', 'type' => DnsRecordType::MX]);
 
-var_dump($pubDns); exit();
+foreach ($records as $record) {
+    var_dump($record); exit();
+}
+
+//
+//$pubDns = $publicDns->getDnsZone(['uuid' => 'a2af0970-e04e-4232-8720-518ba2021a3d']);
+//
+//$pubDns->retrieve();
+//var_dump($pubDns, $pubDns->listDnsRecord(['type' => DnsRecordType::MX])); exit();
