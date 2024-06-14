@@ -200,4 +200,17 @@ class OpenStack
 
         return $this->builder->createService('Metric\\v1\\Gnocchi', array_merge($defaults, $options));
     }
+
+    /**
+     * Creates a new Sahara Data Processing service v1
+     *
+     * @param array $options
+     *
+     * @return \OpenStack\DataProcessing\v1\Service
+     */
+    public function dataProcessingV1(array $options = []): \OpenStack\DataProcessing\v1\Service
+    {
+        $defaults = ['catalogName' => 'sahara', 'catalogType' => 'data-processing'];
+        return $this->builder->createService('DataProcessing\\v1', array_merge($defaults, $options));
+    }
 }
