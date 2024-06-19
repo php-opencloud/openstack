@@ -113,6 +113,7 @@ abstract class AbstractResource implements ResourceInterface, Serializable
 
     /**
      * @template T
+     *
      * @param class-string<T> $class
      *
      * @return T

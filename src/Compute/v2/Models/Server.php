@@ -326,14 +326,13 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     public function createConsole(
         $protocol = Enum::CONSOLE_PROTOCOL_VNC,
         $type = Enum::CONSOLE_TYPE_NOVNC
-    ): array
-    {
+    ): array {
         $response = $this->execute(
             $this->api->createConsole(),
             [
                 'id'       => $this->id,
                 'protocol' => $protocol,
-                'type'     => $type
+                'type'     => $type,
             ]
         );
 
@@ -393,12 +392,11 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Creates an image for the current server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::createServerImage}
-     * @return string
      */
     public function createImage(array $options): string
     {
         $options['id'] = $this->id;
-        $response = $this->execute($this->api->createServerImage(), $options);
+        $response      = $this->execute($this->api->createServerImage(), $options);
 
         return Utils::jsonDecode($response)['image_id'];
     }

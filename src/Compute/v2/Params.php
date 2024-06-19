@@ -305,10 +305,10 @@ EOL
                         'sentAs'      => 'fixed_ip',
                     ],
                     'tag' => [
-                        'type' => self::STRING_TYPE,
+                        'type'        => self::STRING_TYPE,
                         'description' => 'Helps to identify specific interface',
-                        'sentAs' => 'tag'
-                    ]
+                        'sentAs'      => 'tag',
+                    ],
                 ],
             ],
         ];

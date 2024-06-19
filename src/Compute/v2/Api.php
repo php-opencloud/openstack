@@ -484,8 +484,8 @@ class Api extends AbstractApi
             'path'    => 'servers/{id}/remote-consoles',
             'jsonKey' => 'remote_console',
             'params'  => [
-                'id'   => $this->params->urlId('server'),
-                'type' => $this->params->consoleType(),
+                'id'       => $this->params->urlId('server'),
+                'type'     => $this->params->consoleType(),
                 'protocol' => $this->params->consoleProtocol(),
             ],
         ];

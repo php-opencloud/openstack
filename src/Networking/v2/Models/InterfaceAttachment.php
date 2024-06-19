@@ -51,6 +51,6 @@ class InterfaceAttachment extends OperatorResource implements Listable
       'fixed_ips'  => 'fixedIps',
       'port_state' => 'portState',
       'server_id'  => 'serverId',
-      "tag"	       => "tag",
+      'tag'	       => 'tag',
     ];
 }

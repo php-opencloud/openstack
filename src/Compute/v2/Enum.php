@@ -17,6 +17,6 @@ abstract class Enum
     public const CONSOLE_SPICE_HTML5 = 'spice-html5';
     public const CONSOLE_SERIAL      = 'serial';
 
-    const CONSOLE_PROTOCOL_VNC = 'vnc';
-    const CONSOLE_TYPE_NOVNC = 'novnc';
+    public const CONSOLE_PROTOCOL_VNC = 'vnc';
+    public const CONSOLE_TYPE_NOVNC   = 'novnc';
 }
