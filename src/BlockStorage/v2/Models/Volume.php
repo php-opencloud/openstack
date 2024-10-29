@@ -116,9 +116,9 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
         return $this->populateFromResponse($response);
     }
 
-    public function update()
+    public function update(array $userOptions = [])
     {
-        $response = $this->executeWithState($this->api->putVolume());
+        $response = $this->executeWithState($this->api->putVolume($userOptions));
         $this->populateFromResponse($response);
     }
 

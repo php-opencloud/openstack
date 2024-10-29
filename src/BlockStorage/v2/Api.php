@@ -73,17 +73,19 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putVolume(): array
+    public function putVolume(array $userOptions = []): array
     {
+        $params = array_merge([
+            'id'          => $this->params->idPath(),
+            'name'        => $this->params->name('volume'),
+            'description' => $this->params->desc(),
+        ], $userOptions);
+
         return [
             'method'  => 'PUT',
             'path'    => 'volumes/{id}',
             'jsonKey' => 'volume',
-            'params'  => [
-                'id'          => $this->params->idPath(),
-                'name'        => $this->params->name('volume'),
-                'description' => $this->params->desc(),
-            ],
+            'params'  => $params,
         ];
     }
 
@@ -203,7 +205,7 @@ class Api extends AbstractApi
 
     public function getSnapshotsDetail(): array
     {
-        $api = $this->getSnapshots();
+        $api         = $this->getSnapshots();
         $api['path'] .= '/detail';
 
         return $api;
