@@ -73,7 +73,7 @@ class Api extends AbstractApi
         ];
     }
 
-    public function putVolume(array $userOptions = []): array
+    public function putVolume(): array
     {
         return [
             'method'  => 'PUT',
@@ -82,8 +82,20 @@ class Api extends AbstractApi
             'params'  => [
                 'id'          => $this->params->idPath(),
                 'name'        => $this->params->name('volume'),
-                'description' => $this->params->desc(),
-                'size'        => $this->params->size(),
+                'description' => $this->params->desc()
+            ],
+        ];
+    }
+
+    public function resizeVolume(array $userOptions = []): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'volumes/{id}/action',
+            'jsonKey' => 'os-extend',
+            'params'  => [
+                'id'       => $this->params->idPath(),
+                'new_size' => $this->params->size()
             ],
         ];
     }

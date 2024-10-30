@@ -29,6 +29,8 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     /** @var int */
     public $size;
 
+    public $new_size;
+
     /** @var string */
     public $status;
 
@@ -88,8 +90,8 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     protected function getAliases(): array
     {
         return parent::getAliases() + [
-            'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
-        ];
+                'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
+            ];
     }
 
     public function populateFromResponse(ResponseInterface $response): self
@@ -119,6 +121,12 @@ class Volume extends OperatorResource implements Creatable, Listable, Updateable
     public function update()
     {
         $response = $this->executeWithState($this->api->putVolume());
+        $this->populateFromResponse($response);
+    }
+
+    public function resize()
+    {
+        $response = $this->executeWithState($this->api->resizeVolume());
         $this->populateFromResponse($response);
     }
 

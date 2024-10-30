@@ -24,7 +24,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'source_volid',
-            'description' => 'To create a volume from an existing volume, specify the ID of the existing volume. The '.
+            'description' => 'To create a volume from an existing volume, specify the ID of the existing volume. The ' .
                 'volume is created with the same size as the source volume.',
         ];
     }
@@ -44,7 +44,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'snapshot_id',
-            'description' => 'To create a volume from an existing snapshot, specify the ID of the existing volume '.
+            'description' => 'To create a volume from an existing snapshot, specify the ID of the existing volume ' .
                 'snapshot. The volume is created in same availability zone and with same size as the snapshot.',
         ];
     }
@@ -65,7 +65,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'imageRef',
-            'description' => 'The ID of the image from which you want to create the volume. Required to create a '.
+            'description' => 'The ID of the image from which you want to create the volume. Required to create a ' .
                 'bootable volume.',
         ];
     }
@@ -141,7 +141,7 @@ TYPEOTHER
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::QUERY,
-            'description' => 'Comma-separated list of sort keys and optional sort directions in the form of '.
+            'description' => 'Comma-separated list of sort keys and optional sort directions in the form of ' .
                 '<key>[:<direction>]. A valid direction is asc (ascending) or desc (descending).',
         ];
     }
@@ -149,9 +149,9 @@ TYPEOTHER
     public function name(string $resource): array
     {
         return parent::name($resource) + [
-            'type'     => self::STRING_TYPE,
-            'location' => self::JSON,
-        ];
+                'type'     => self::STRING_TYPE,
+                'location' => self::JSON,
+            ];
     }
 
     public function idPath(): array
@@ -169,8 +169,8 @@ TYPEOTHER
         return [
             'type'        => self::OBJECT_TYPE,
             'location'    => self::JSON,
-            'description' => 'A key and value pair that contains additional specifications that are associated with '.
-                'the volume type. Examples include capabilities, capacity, compression, and so on, depending on the '.
+            'description' => 'A key and value pair that contains additional specifications that are associated with ' .
+                'the volume type. Examples include capabilities, capacity, compression, and so on, depending on the ' .
                 'storage driver in use.',
         ];
     }
@@ -198,9 +198,9 @@ TYPEOTHER
     public function snapshotName(): array
     {
         return parent::name('snapshot') + [
-            'type'     => self::STRING_TYPE,
-            'location' => self::JSON,
-        ];
+                'type'     => self::STRING_TYPE,
+                'location' => self::JSON,
+            ];
     }
 
     protected function quotaSetLimit($sentAs, $description): array
