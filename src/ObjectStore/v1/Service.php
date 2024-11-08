@@ -30,7 +30,7 @@ class Service extends AbstractService
      *
      * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\Container>
      */
-    public function listContainers(array $options = [], callable $mapFn = null): \Generator
+    public function listContainers(array $options = [], ?callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['format' => 'json']);
 
@@ -41,9 +41,9 @@ class Service extends AbstractService
      * Retrieves a Container object and populates its name according to the value provided. Please note that the
      * remote API is not contacted.
      *
-     * @param string $name The unique name of the container
+     * @param string|null $name The unique name of the container
      */
-    public function getContainer(string $name = null): Container
+    public function getContainer(?string $name = null): Container
     {
         return $this->model(Container::class, ['name' => $name]);
     }

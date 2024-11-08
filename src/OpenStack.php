@@ -33,7 +33,7 @@ class OpenStack
      *         ['requestOptions']   = (array)             Guzzle Http request options    [OPTIONAL]
      *         ['cachedToken']      = (array)             Cached token credential        [OPTIONAL]
      */
-    public function __construct(array $options = [], Builder $builder = null)
+    public function __construct(array $options = [], ?Builder $builder = null)
     {
         $defaults = ['errorVerbosity' => 2];
         $options  = array_merge($defaults, $options);

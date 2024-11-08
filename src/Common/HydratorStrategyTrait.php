@@ -25,7 +25,7 @@ trait HydratorStrategyTrait
         }
     }
 
-    public function set(string $key, $property, array $data, callable $fn = null)
+    public function set(string $key, $property, array $data, ?callable $fn = null)
     {
         if (isset($data[$key]) && property_exists($this, $property)) {
             $value           = $fn ? call_user_func($fn, $data[$key]) : $data[$key];

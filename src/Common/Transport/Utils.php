@@ -45,7 +45,7 @@ class Utils
      *
      * @return array
      */
-    public static function flattenJson($data, string $key = null)
+    public static function flattenJson($data, ?string $key = null)
     {
         return (!empty($data) && $key && isset($data[$key])) ? $data[$key] : $data;
     }

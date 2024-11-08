@@ -69,7 +69,7 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
      *
      * @returns \Generator<mixed, static>
      */
-    public function enumerate(array $def, array $userVals = [], callable $mapFn = null): \Generator
+    public function enumerate(array $def, array $userVals = [], ?callable $mapFn = null): \Generator
     {
         $operation = $this->getOperation($def);
 
@@ -105,7 +105,7 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
      *
      * @return array<self>
      */
-    public function extractMultipleInstances(ResponseInterface $response, string $key = null): array
+    public function extractMultipleInstances(ResponseInterface $response, ?string $key = null): array
     {
         $key           = $key ?: $this->getResourcesKey();
         $resourcesData = Utils::jsonDecode($response)[$key];

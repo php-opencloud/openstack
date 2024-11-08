@@ -25,7 +25,7 @@ class AuthHandler
     /** @var Token */
     private $token;
 
-    public function __construct(callable $nextHandler, callable $tokenGenerator, Token $token = null)
+    public function __construct(callable $nextHandler, callable $tokenGenerator, ?Token $token = null)
     {
         $this->nextHandler    = $nextHandler;
         $this->tokenGenerator = $tokenGenerator;

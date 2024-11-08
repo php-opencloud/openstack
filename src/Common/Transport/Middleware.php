@@ -31,7 +31,7 @@ final class Middleware
         };
     }
 
-    public static function authHandler(callable $tokenGenerator, Token $token = null): callable
+    public static function authHandler(callable $tokenGenerator, ?Token $token = null): callable
     {
         return function (callable $handler) use ($tokenGenerator, $token) {
             return new AuthHandler($handler, $tokenGenerator, $token);
@@ -49,7 +49,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function retry(callable $decider, callable $delay = null): callable
+    public static function retry(callable $decider, ?callable $delay = null): callable
     {
         return GuzzleMiddleware::retry($decider, $delay);
     }
