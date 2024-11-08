@@ -57,7 +57,7 @@ class Container extends OperatorResource implements Creatable, Deletable, Retrie
      *
      * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\StorageObject>
      */
-    public function listObjects(array $options = [], callable $mapFn = null): \Generator
+    public function listObjects(array $options = [], ?callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['name' => $this->name, 'format' => 'json']);
 

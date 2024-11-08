@@ -35,7 +35,7 @@ class Builder
      */
     private $client;
 
-    public function __construct(ClientInterface $client = null)
+    public function __construct(?ClientInterface $client = null)
     {
         $this->client = $client ?: new Client();
     }
@@ -164,7 +164,7 @@ class Builder
      * @param mixed       $userValue    The incorrect value the user actually provided
      * @param string|null $furtherLink  a link to further information if necessary (optional)
      */
-    public function userInputError(string $expectedType, $userValue, string $furtherLink = null): UserInputError
+    public function userInputError(string $expectedType, $userValue, ?string $furtherLink = null): UserInputError
     {
         $message = $this->header('User Input Error');
 

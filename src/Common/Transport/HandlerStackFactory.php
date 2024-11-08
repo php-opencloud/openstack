@@ -13,7 +13,7 @@ class HandlerStackFactory
     /**
      * @deprecated use \OpenStack\Common\Transport\HandlerStackFactory::createWithOptions instead
      */
-    public static function create(callable $handler = null): HandlerStack
+    public static function create(?callable $handler = null): HandlerStack
     {
         $stack = new HandlerStack($handler ?: Utils::chooseHandler());
         $stack->push(Middleware::httpErrors(), 'http_errors');

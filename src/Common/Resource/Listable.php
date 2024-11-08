@@ -18,11 +18,11 @@ interface Listable
      * of the marker will depend on the last element returned in the previous response. If a limit is
      * provided, the loop will continue up until that point.
      *
-     * @param array    $def      The operation definition
-     * @param array    $userVals The user values
-     * @param callable $mapFn    an optional callback that will be executed on every resource iteration
+     * @param array         $def      The operation definition
+     * @param array         $userVals The user values
+     * @param callable|null $mapFn    an optional callback that will be executed on every resource iteration
      *
      * @returns \Generator<mixed, static>
      */
-    public function enumerate(array $def, array $userVals = [], callable $mapFn = null);
+    public function enumerate(array $def, array $userVals = [], ?callable $mapFn = null);
 }
