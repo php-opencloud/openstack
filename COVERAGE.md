@@ -1,6 +1,8 @@
 # OpenStack versions coverage
 
 While we strive to support all versions of OpenStack, we can only test limited number of versions. The current set:
+* 2024.2 Dalmatian
+* 2024.1 Caracal
 * 2023.2 Bobcat
 * 2023.1 Antelope
 * Zed
