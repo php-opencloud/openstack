@@ -70,7 +70,7 @@ PHP
         // let's wait for the server to be completely up
         // https://bugs.launchpad.net/nova/+bug/1998148
         // https://bugs.launchpad.net/nova/+bug/1960346
-        sleep(30);
+        sleep(15);
 
         require_once $this->sampleFile(
             'volume_attachments/delete.php',
@@ -85,8 +85,16 @@ PHP
         $this->assertEquals('available', $volume->status);
 
         $server = $this->getService()->getServer(['id' => $createdVolumeAttachment->serverId]);
+        $server->retrieve();
         foreach ($server->listVolumeAttachments() as $volumeAttachment) {
-            $this->assertNotEquals($createdVolumeAttachment->id, $volumeAttachment->id);
+            if ($volumeAttachment->volumeId === $createdVolumeAttachment->volumeId) {
+                print_r($volumeAttachment);
+                print_r($server);
+
+                $this->fail('Volume attachment was not detached');
+            } else {
+                $this->assertNotEquals($createdVolumeAttachment->id, $volumeAttachment->id);
+            }
         }
 
         $volume->delete();
