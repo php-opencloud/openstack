@@ -88,6 +88,7 @@ PHP
         $server->retrieve();
         foreach ($server->listVolumeAttachments() as $volumeAttachment) {
             if ($volumeAttachment->volumeId === $createdVolumeAttachment->volumeId) {
+                print_r($volume);
                 print_r($volumeAttachment);
                 print_r($server);
 
