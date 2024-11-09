@@ -84,6 +84,8 @@ PHP
         $volume->waitUntil('available', 240);
         $this->assertEquals('available', $volume->status);
 
+        sleep(5);
+
         $server = $this->getService()->getServer(['id' => $createdVolumeAttachment->serverId]);
         $server->retrieve();
         foreach ($server->listVolumeAttachments() as $volumeAttachment) {
