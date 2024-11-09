@@ -70,7 +70,7 @@ PHP
         // let's wait for the server to be completely up
         // https://bugs.launchpad.net/nova/+bug/1998148
         // https://bugs.launchpad.net/nova/+bug/1960346
-        sleep(15);
+        sleep(30);
 
         require_once $this->sampleFile(
             'volume_attachments/delete.php',
