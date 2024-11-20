@@ -84,9 +84,20 @@ PHP
         $volume->waitUntil('available', 240);
         $this->assertEquals('available', $volume->status);
 
+        sleep(5);
+
         $server = $this->getService()->getServer(['id' => $createdVolumeAttachment->serverId]);
+        $server->retrieve();
         foreach ($server->listVolumeAttachments() as $volumeAttachment) {
-            $this->assertNotEquals($createdVolumeAttachment->id, $volumeAttachment->id);
+            if ($volumeAttachment->volumeId === $createdVolumeAttachment->volumeId) {
+                print_r($volume);
+                print_r($volumeAttachment);
+                print_r($server);
+
+                $this->fail('Volume attachment was not detached');
+            } else {
+                $this->assertNotEquals($createdVolumeAttachment->id, $volumeAttachment->id);
+            }
         }
 
         $volume->delete();
