@@ -11,7 +11,7 @@ class RequestSerializer
 {
     private $jsonSerializer;
 
-    public function __construct(JsonSerializer $jsonSerializer = null)
+    public function __construct(?JsonSerializer $jsonSerializer = null)
     {
         $this->jsonSerializer = $jsonSerializer ?: new JsonSerializer();
     }

@@ -109,7 +109,7 @@ class Builder
         }
     }
 
-    private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType = null, string $microVersion = null): ClientInterface
+    private function httpClient(string $baseUrl, HandlerStack $stack, ?string $serviceType = null, ?string $microVersion = null): ClientInterface
     {
         $clientOptions = [
             'base_uri' => Utils::normalizeUrl($baseUrl),

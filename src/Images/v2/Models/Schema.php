@@ -8,7 +8,7 @@ use JsonSchema\Validator;
 
 class Schema extends \OpenStack\Common\JsonSchema\Schema
 {
-    public function __construct($data, Validator $validator = null)
+    public function __construct($data, ?Validator $validator = null)
     {
         if (!isset($data->type)) {
             $data->type = 'object';
