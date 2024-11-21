@@ -89,6 +89,9 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /** @var string */
     public $vmState;
 
+    /** @var string */
+    public $availabilityZone;
+
     /** @var Fault */
     public $fault;
 
@@ -111,6 +114,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
         'OS-EXT-STS:power_state'              => 'powerState',
         'OS-EXT-STS:vm_state'                 => 'vmState',
         'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
+        'OS-EXT-AZ:availability_zone'         => 'availabilityZone',
     ];
 
     protected function getAliases(): array
