@@ -63,16 +63,19 @@ class FloatingIpTest extends TestCase
             'name'      => $this->randomStr(),
         ]);
         $fixedIp = $this->findSubnetIp($data->port, $data->internalSubnet);
+        $description = $this->randomStr();
 
         /** @var FloatingIp $floatingIp */
         require_once $this->sampleFile('floatingIPs/create.php', [
             '{networkId}'      => $data->externalNetwork->id,
             '{portId}'         => $data->port->id,
             '{fixedIpAddress}' => $fixedIp,
+            '{description}'    => $description,
         ]);
         $this->assertInstanceOf(FloatingIp::class, $floatingIp);
         $this->assertEquals($data->externalNetwork->id, $floatingIp->floatingNetworkId);
         $this->assertEquals($data->port->id, $floatingIp->portId);
+        $this->assertEquals($description, $floatingIp->description);
 
         $data->floatingIp = $floatingIp;
 
@@ -123,6 +126,7 @@ PHP
         $this->assertInstanceOf(FloatingIp::class, $floatingIp);
         $this->assertEquals($data->floatingIp->id, $floatingIp->id);
         $this->assertEmpty($floatingIp->portId);
+        $this->assertEmpty($floatingIp->description);
 
         $floatingIp->retrieve();
         $this->assertEquals($data->floatingIp->portId, $floatingIp->portId);

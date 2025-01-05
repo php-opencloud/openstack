@@ -17,5 +17,6 @@ $networking = $openstack->networkingV2();
 $floatingIp = $networking->createFloatingIp([
     "floatingNetworkId" => "{networkId}",
     "portId"            => "{portId}",
-    'fixedIpAddress'    => '{fixedIpAddress}',
+    "fixedIpAddress"    => "{fixedIpAddress}",
+    "description"       => "{description}",
 ]);

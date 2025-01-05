@@ -27,12 +27,14 @@ class FloatingIpTest extends TestCase
         $expectedJson = ['floatingip' => [
             "floating_network_id" => "376da547-b977-4cfe-9cba-275c80debf57",
             "port_id"             => "ce705c24-c1ef-408a-bda3-7bbd946164ab",
+            "description"         => "some-floating-ip",
         ]];
 
         $this->mockRequest('PUT', 'v2.0/floatingips/id', new Response(202), $expectedJson, []);
 
         $this->floatingIp->floatingNetworkId = "376da547-b977-4cfe-9cba-275c80debf57";
         $this->floatingIp->portId = "ce705c24-c1ef-408a-bda3-7bbd946164ab";
+        $this->floatingIp->description = "some-floating-ip";
         $this->floatingIp->update();
     }
 
@@ -49,6 +51,10 @@ class FloatingIpTest extends TestCase
 
         $this->floatingIp->retrieve();
 
+        self::assertEquals(
+            'some-floating-ip',
+                            $this->floatingIp->description
+        );
         self::assertEquals(
             '376da547-b977-4cfe-9cba-275c80debf57',
                             $this->floatingIp->floatingNetworkId

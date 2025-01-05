@@ -9,6 +9,15 @@ namespace OpenStack\Networking\v2\Extensions\Layer3;
  */
 trait ParamsTrait
 {
+    public function descriptionJson(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'description' => 'The description of the floating IP.',
+            'sentAs'      => 'description',
+        ];
+    }
+
     public function floatingNetworkIdJson(): array
     {
         return [
@@ -34,6 +43,15 @@ trait ParamsTrait
             'type'        => self::STRING_TYPE,
             'description' => 'The floating IP address.',
             'sentAs'      => 'floating_ip_address',
+        ];
+    }
+
+    public function subnetIdJson(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'description' => 'The UUID of the subnet of the floating Network associated with the floating IP.',
+            'sentAs'      => 'subnet',
         ];
     }
 
