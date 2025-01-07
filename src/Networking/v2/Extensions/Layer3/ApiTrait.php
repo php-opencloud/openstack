@@ -20,7 +20,9 @@ trait ApiTrait
             'jsonKey' => 'floatingip',
             'params'  => [
                 'tenantId'          => $this->params->tenantIdJson(),
+                'description'       => $this->notRequired($this->params->descriptionJson()),
                 'floatingNetworkId' => $this->params->floatingNetworkIdJson(),
+                'subnetId'          => $this->notRequired($this->params->subnetIdJson()),
                 'fixedIpAddress'    => $this->params->fixedIpAddressJson(),
                 'floatingIpAddress' => $this->params->floatingIpAddressJson(),
                 'portId'            => $this->params->portIdJson(),
@@ -47,6 +49,7 @@ trait ApiTrait
             'jsonKey' => 'floatingip',
             'params'  => [
                 'id'                => $this->params->idPath(),
+                'description'       => $this->notRequired($this->params->descriptionJson()),
                 'floatingNetworkId' => $this->notRequired($this->params->floatingNetworkIdJson()),
                 'fixedIpAddress'    => $this->params->fixedIpAddressJson(),
                 'floatingIpAddress' => $this->params->floatingIpAddressJson(),

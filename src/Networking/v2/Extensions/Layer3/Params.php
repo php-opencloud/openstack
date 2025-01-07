@@ -9,6 +9,15 @@ namespace OpenStack\Networking\v2\Extensions\Layer3;
  */
 class Params extends \OpenStack\Networking\v2\Params
 {
+    public function descriptionJson(): array
+    {
+        return [
+            'type'        => self::STRING_TYPE,
+            'description' => 'The description of the floating IP.',
+            'sentAs'      => 'description',
+        ];
+    }
+
     public function tenantIdJson(): array
     {
         return [

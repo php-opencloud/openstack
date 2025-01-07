@@ -22,6 +22,9 @@ class FloatingIp extends OperatorResource implements Listable, Creatable, Retrie
     public $status;
 
     /** @var string */
+    public $description;
+
+    /** @var string */
     public $floatingNetworkId;
 
     /** @var string */
