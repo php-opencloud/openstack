@@ -408,7 +408,7 @@ class Params extends AbstractParams
             'type'        => self::STRING_TYPE,
             'location'    => self::JSON,
             'sentAs'      => 'qos_policy_id',
-            'description' => 'The UUID of the entity that uses this port. For example, a DHCP agent.',
+            'description' => 'QoS policy associated with the port.',
         ];
     }
     public function deviceId(): array
