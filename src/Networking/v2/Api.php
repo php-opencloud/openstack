@@ -237,6 +237,7 @@ class Api extends AbstractApi
                 'deviceOwner'         => $this->params->deviceOwner(),
                 'deviceId'            => $this->params->deviceId(),
                 'portSecurityEnabled' => $this->params->portSecurityEnabled(),
+                'qosPolicyId'         => $this->params->qosPolicy(),
             ],
         ];
     }
@@ -287,6 +288,7 @@ class Api extends AbstractApi
                 'allowedAddressPairs' => $this->params->allowedAddrPairs(),
                 'deviceOwner'         => $this->params->deviceOwner(),
                 'deviceId'            => $this->params->deviceId(),
+                'qosPolicyId'         => $this->params->qosPolicy(),
             ],
         ];
     }
