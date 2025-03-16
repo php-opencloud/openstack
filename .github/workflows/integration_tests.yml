@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
     name: Deploy OpenStack ${{ matrix.name }} and run integration tests with php ${{matrix.php_version}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: get cache directory
         id: composer-cache
@@ -126,7 +126,7 @@ jobs:
 
       - name: Save logs
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: failure-logs
           path: failure-logs
