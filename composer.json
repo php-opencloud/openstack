@@ -31,7 +31,7 @@
         "guzzlehttp/guzzle": "^7.0",
         "guzzlehttp/psr7": ">=1.7",
         "guzzlehttp/uri-template": "^0.2 || ^1.0",
-        "justinrainbow/json-schema": "^5.2"
+        "justinrainbow/json-schema": "^5.2 || ^6.0"
     },
     "require-dev": {
         "ext-json": "*",
