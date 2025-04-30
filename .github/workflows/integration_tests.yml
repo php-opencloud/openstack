@@ -85,7 +85,7 @@ jobs:
         uses: EmilienM/devstack-action@v0.15
         with:
           branch: ${{ matrix.openstack_version }}
-          force: true
+          force: yes
           conf_overrides: |
             CINDER_ISCSI_HELPER=lioadm
             SWIFT_ENABLE_TEMPURLS=True
@@ -129,5 +129,5 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: failure-logs-${{ matrix.openstack_version }}
+          name: failure-logs-${{ strategy.job-index }}
           path: failure-logs
