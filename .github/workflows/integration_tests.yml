@@ -37,13 +37,6 @@ jobs:
           - name: "zed"
             openstack_version: "unmaintained/zed"
             ubuntu_version: "22.04"
-          - name: "yoga"
-            openstack_version: "unmaintained/yoga"
-            ubuntu_version: "22.04"
-          - name: "wallaby"
-            openstack_version: "unmaintained/wallaby"
-            ubuntu_version: "22.04"
-            block_storage_v2: true
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
     name: Deploy OpenStack ${{ matrix.name }} and run integration tests with php ${{matrix.php_version}}
     steps:
@@ -85,7 +78,6 @@ jobs:
         uses: EmilienM/devstack-action@v0.15
         with:
           branch: ${{ matrix.openstack_version }}
-          force: yes
           conf_overrides: |
             CINDER_ISCSI_HELPER=lioadm
             SWIFT_ENABLE_TEMPURLS=True
