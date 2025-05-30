@@ -19,9 +19,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        openstack_version: [ "stable/2023.2" ]
+        openstack_version: [ "stable/2025.1" ]
         php_version: [ 8.1 ]
         include:
+          - name: "epoxy"
+            openstack_version: "stable/2025.1"
+            ubuntu_version: "24.04"
           - name: "dalmatian"
             openstack_version: "stable/2024.2"
             ubuntu_version: "22.04"
