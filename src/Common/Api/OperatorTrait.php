@@ -101,8 +101,13 @@ trait OperatorTrait
 
         $uri = Utils::uri_template($operation->getPath(), $userValues);
 
-        if (array_key_exists('requestOptions', $userValues)) {
+        if (isset($userValues['requestOptions'])) {
             $options += $userValues['requestOptions'];
+
+            // headers are always created in options, merge them
+            if (isset($userValues['requestOptions']['headers'])) {
+                $options['headers'] = array_merge($options['headers'], $userValues['requestOptions']['headers']);
+            }
         }
 
         $options['openstack.skip_auth'] = $operation->getSkipAuth();
