@@ -111,6 +111,30 @@ class OperatorTraitTest extends TestCase
             'requestOptions' => ['stream' => true],
         ]);
     }
+
+    public function test_it_sends_custom_headers_in_request_options()
+    {
+        $this->client
+            ->requestAsync('GET', 'test',
+                [
+                    'headers' => [
+                        'Access-Control-Allow-Origin'  => '*',
+                        'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS',
+                    ],
+                    'openstack.skip_auth' => false,
+                ])
+            ->shouldBeCalled()
+            ->willReturn(new Promise());
+
+        $this->operator->executeAsync($this->def, [
+            'requestOptions' => [
+                'headers' => [
+                    'Access-Control-Allow-Origin'  => '*',
+                    'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS',
+                ],
+            ],
+        ]);
+    }
 }
 
 
