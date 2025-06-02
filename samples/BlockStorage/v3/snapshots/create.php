@@ -9,7 +9,7 @@ $openstack = new OpenStack\OpenStack([
     'scope'   => ['project' => ['id' => '{projectId}']]
 ]);
 
-$service = $openstack->blockStorageV3();
+$service = $openstack->blockStorageV3(['catalogName' => 'cinder', 'catalogType' => 'block-storage']);
 
 $snapshot = $service->createSnapshot([
     'volumeId'    => '{volumeId}',

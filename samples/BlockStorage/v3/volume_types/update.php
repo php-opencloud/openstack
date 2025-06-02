@@ -11,7 +11,7 @@ $openstack = new OpenStack\OpenStack([
     ,
 ]);
 
-$service = $openstack->blockStorageV3();
+$service = $openstack->blockStorageV3(['catalogName' => 'cinder', 'catalogType' => 'block-storage']);
 
 $volumeType = $service->getVolumeType('{volumeTypeId}');
 $volumeType->name = '{newName}';

@@ -48,7 +48,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 $service = $this->getOpenStack()->blockStorageV2();
                 break;
             case \OpenStack\BlockStorage\v3\Service::class:
-                $service = $this->getOpenStack()->blockStorageV3();
+                $service = $this->getOpenStack()->blockStorageV3(['catalogName' => 'cinder', 'catalogType' => 'block-storage']);
                 break;
             case \OpenStack\Compute\v2\Service::class:
                 $service = $this->getOpenStack()->computeV2();
