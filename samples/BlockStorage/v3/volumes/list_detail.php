@@ -11,7 +11,7 @@ $openstack = new OpenStack\OpenStack([
     ],
 ]);
 
-$service = $openstack->blockStorageV3();
+$service = $openstack->blockStorageV3(['catalogName' => 'cinder', 'catalogType' => 'block-storage']);
 
 foreach ($service->listVolumes(true) as $volume) {
     /** @var $volume \OpenStack\BlockStorage\v2\Models\Volume */

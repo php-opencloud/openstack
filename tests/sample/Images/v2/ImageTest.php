@@ -18,7 +18,7 @@ class ImageTest extends TestCase
                 '{tag1}'            => 'ubuntu',
                 '{tag2}'            => 'test',
                 '{containerFormat}' => 'bare',
-                '{diskFormat}'      => 'qcow2',
+                '{diskFormat}'      => 'raw',
                 '{visibility}'      => 'private',
             ]
         );

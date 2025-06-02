@@ -2,6 +2,16 @@ name: Integration Tests
 
 on:
   workflow_dispatch:
+    inputs:
+      tmate_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled'
+        required: false
+        default: false
+      openstack_version:
+        description: 'Comma-separated list of Openstack versions e.g. "stable/2025.1", "unmaintained/zed"'
+        required: false
+        default: false
   pull_request:
   push:
     branches:
@@ -19,23 +29,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        openstack_version: [ "stable/2023.2" ]
+        openstack_version: ${{ fromJSON(format('[{0}]', inputs.openstack_version || vars.OPENSTACK_VERSIONS )) }}
         php_version: [ 8.1 ]
-        include:
-          - name: "dalmatian"
-            openstack_version: "stable/2024.2"
-            ubuntu_version: "22.04"
-          - name: "caracal"
-            openstack_version: "stable/2024.1"
-            ubuntu_version: "22.04"
-          - name: "antelope"
-            openstack_version: "unmaintained/2023.1"
-            ubuntu_version: "22.04"
-          - name: "zed"
-            openstack_version: "unmaintained/zed"
-            ubuntu_version: "22.04"
+        ubuntu_version: [ 22.04 ]
     runs-on: ubuntu-${{ matrix.ubuntu_version }}
-    name: Deploy OpenStack ${{ matrix.name }} and run integration tests with php ${{matrix.php_version}}
+    name: Deploy OpenStack ${{ matrix.openstack_version }} and run integration tests with php ${{matrix.php_version}}
     steps:
       - uses: actions/checkout@v4
 
@@ -120,3 +118,7 @@ jobs:
         with:
           name: failure-logs-${{ strategy.job-index }}
           path: failure-logs
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.tmate_enabled }}
