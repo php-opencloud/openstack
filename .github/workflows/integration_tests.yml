@@ -121,4 +121,4 @@ jobs:
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
-        if: ${{ failure() && github.event_name == 'workflow_dispatch' && inputs.tmate_enabled }}
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.tmate_enabled }}
