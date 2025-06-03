@@ -44,6 +44,7 @@ class Api extends AbstractApi
                 'marker'       => $this->params->marker(),
                 'sortKey'      => $this->params->sortKey(),
                 'sortDir'      => $this->params->sortDir(),
+                'sort'         => $this->params->sort(),
                 'name'         => $this->params->queryName(),
                 'visibility'   => $this->params->queryVisibility(),
                 'memberStatus' => $this->params->queryMemberStatus(),
