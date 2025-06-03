@@ -47,6 +47,18 @@ class Service extends AbstractService implements IdentityService
         $region    = $options['region'];
         $interface = $options['interface'] ?? Enum::INTERFACE_PUBLIC;
 
+        if (!empty($options['catalog_overrides'])) {
+            $baseUrl = $token->catalog->getServiceUrlOverride(
+                $name,
+                $type,
+                $region,
+                $interface,
+                $options['catalog_overrides']
+            );
+            if ($baseUrl) {
+                return [$token, $baseUrl];
+            }
+        }
         if ($baseUrl = $token->catalog->getServiceUrl($name, $type, $region, $interface)) {
             return [$token, $baseUrl];
         }
