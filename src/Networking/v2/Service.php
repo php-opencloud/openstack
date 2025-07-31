@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace OpenStack\Networking\v2;
 
 use OpenStack\Common\Service\AbstractService;
+use OpenStack\Networking\v2\Extensions\Layer3\ServiceTrait as Layer3;
+use OpenStack\Networking\v2\Extensions\SecurityGroups\ServiceTrait as SecurityGroups;
 use OpenStack\Networking\v2\Models\LoadBalancer;
 use OpenStack\Networking\v2\Models\LoadBalancerHealthMonitor;
 use OpenStack\Networking\v2\Models\LoadBalancerListener;
@@ -20,16 +22,17 @@ use OpenStack\Networking\v2\Models\Subnet;
 /**
  * Network v2 service for OpenStack.
  *
- * @property \OpenStack\Networking\v2\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {
+    use Layer3;
+    use SecurityGroups;
+
     /**
      * Create a new network resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postNetwork}
-     *
-     * @return Network
      */
     public function createNetwork(array $options): Network
     {
@@ -40,8 +43,6 @@ class Service extends AbstractService
      * Create a new network resources.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postNetworks}
-     *
-     * @return array
      */
     public function createNetworks(array $options): array
     {
@@ -52,10 +53,6 @@ class Service extends AbstractService
      * Retrieve a network object without calling the remote API. Any values provided in the array will populate the
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
      * and have the response populate the object, call {@see Network::retrieve}.
-     *
-     * @param string $id
-     *
-     * @return Network
      */
     public function getNetwork(string $id): Network
     {
@@ -67,7 +64,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getNetworks}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Network>
      */
     public function listNetworks(array $options = []): \Generator
     {
@@ -78,8 +75,6 @@ class Service extends AbstractService
      * Create a new subnet resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postSubnet}
-     *
-     * @return Subnet
      */
     public function createSubnet(array $options): Subnet
     {
@@ -102,10 +97,6 @@ class Service extends AbstractService
      * Retrieve a subnet object without calling the remote API. Any values provided in the array will populate the
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
      * and have the response populate the object, call {@see Subnet::retrieve}.
-     *
-     * @param string $id
-     *
-     * @return Subnet
      */
     public function getSubnet(string $id): Subnet
     {
@@ -117,7 +108,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getSubnets}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Subnet>
      */
     public function listSubnets(array $options = []): \Generator
     {
@@ -128,8 +119,6 @@ class Service extends AbstractService
      * Create a new port resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postSinglePort}
-     *
-     * @return Port
      */
     public function createPort(array $options): Port
     {
@@ -152,10 +141,6 @@ class Service extends AbstractService
      * Retrieve a subnet object without calling the remote API. Any values provided in the array will populate the
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
      * and have the response populate the object, call {@see Port::retrieve}.
-     *
-     * @param string $id
-     *
-     * @return Port
      */
     public function getPort(string $id): Port
     {
@@ -167,7 +152,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::getPorts}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Port>
      */
     public function listPorts(array $options = []): \Generator
     {
@@ -177,7 +162,7 @@ class Service extends AbstractService
     /**
      * Lists quotas for projects with non-default quota values.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\Quota>
      */
     public function listQuotas(): \Generator
     {
@@ -190,10 +175,6 @@ class Service extends AbstractService
      * Retrieve a quota object without calling the remote API. Any values provided in the array will populate the
      * empty object, allowing you greater control without the expense of network transactions. To call the remote API
      * and have the response populate the object, call {@see Quota::retrieve}.
-     *
-     * @param string $tenantId
-     *
-     * @return Quota
      */
     public function getQuota(string $tenantId): Quota
     {
@@ -202,10 +183,6 @@ class Service extends AbstractService
 
     /**
      * Lists default quotas for a project.
-     *
-     * @param string $tenantId
-     *
-     * @return Quota
      */
     public function getDefaultQuota(string $tenantId): Quota
     {
@@ -218,7 +195,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancers for projects.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancer>
      */
     public function listLoadBalancers(): \Generator
     {
@@ -227,10 +204,6 @@ class Service extends AbstractService
 
     /**
      * Retrieve an instance of a LoadBalancer object.
-     *
-     * @param string $id
-     *
-     * @return LoadBalancer
      */
     public function getLoadBalancer(string $id): LoadBalancer
     {
@@ -241,8 +214,6 @@ class Service extends AbstractService
      * Create a new loadbalancer resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancer}
-     *
-     * @return LoadBalancer
      */
     public function createLoadBalancer(array $options): LoadBalancer
     {
@@ -252,7 +223,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer listeners.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerListener>
      */
     public function listLoadBalancerListeners(): \Generator
     {
@@ -261,10 +232,6 @@ class Service extends AbstractService
 
     /**
      * Retrieve an instance of a loadbalancer listener object.
-     *
-     * @param string $id
-     *
-     * @return LoadBalancerListener
      */
     public function getLoadBalancerListener(string $id): LoadBalancerListener
     {
@@ -275,8 +242,6 @@ class Service extends AbstractService
      * Create a new loadbalancer Listener resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerListener}
-     *
-     * @return LoadBalancerListener
      */
     public function createLoadBalancerListener(array $options): LoadBalancerListener
     {
@@ -286,7 +251,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer pools.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerPool>
      */
     public function listLoadBalancerPools(): \Generator
     {
@@ -295,10 +260,6 @@ class Service extends AbstractService
 
     /**
      * Retrieve an instance of a loadbalancer Pool object.
-     *
-     * @param string $id
-     *
-     * @return LoadBalancerPool
      */
     public function getLoadBalancerPool(string $id): LoadBalancerPool
     {
@@ -309,8 +270,6 @@ class Service extends AbstractService
      * Create a new loadbalancer Pool resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerPool}
-     *
-     * @return LoadBalancerPool
      */
     public function createLoadBalancerPool(array $options): LoadBalancerPool
     {
@@ -320,9 +279,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer members.
      *
-     * @param string $poolId
-     *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerMember>
      */
     public function listLoadBalancerMembers(string $poolId): \Generator
     {
@@ -331,11 +288,6 @@ class Service extends AbstractService
 
     /**
      * Retrieve an instance of a loadbalancer Member object.
-     *
-     * @param string $poolId
-     * @param string $memberId
-     *
-     * @return LoadBalancerMember
      */
     public function getLoadBalancerMember(string $poolId, string $memberId): LoadBalancerMember
     {
@@ -346,8 +298,6 @@ class Service extends AbstractService
      * Create a new loadbalancer member resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerMember}
-     *
-     * @return LoadBalancerMember
      */
     public function createLoadBalancerMember(array $options): LoadBalancerMember
     {
@@ -357,7 +307,7 @@ class Service extends AbstractService
     /**
      * Lists loadbalancer healthmonitors.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\LoadBalancerHealthMonitor>
      */
     public function listLoadBalancerHealthMonitors(): \Generator
     {
@@ -366,10 +316,6 @@ class Service extends AbstractService
 
     /**
      * Retrieve an instance of a loadbalancer healthmonitor object.
-     *
-     * @param string $id
-     *
-     * @return LoadBalancerHealthMonitor
      */
     public function getLoadBalancerHealthMonitor(string $id): LoadBalancerHealthMonitor
     {
@@ -380,8 +326,6 @@ class Service extends AbstractService
      * Create a new loadbalancer healthmonitor resource.
      *
      * @param array $options {@see \OpenStack\Networking\v2\Api::postLoadBalancerHealthMonitor}
-     *
-     * @return LoadBalancerHealthMonitor
      */
     public function createLoadBalancerHealthMonitor(array $options): LoadBalancerHealthMonitor
     {

@@ -1,56 +1,55 @@
 LoadBalancer Pools
 ==================
 
-Create Pool
+.. warning::
+    Load balancing functions accessed via the neutron endpoint are deprecated and will be removed in a future release.
+    Users are strongly encouraged to migrate to using the octavia endpoint.
+    This library does not support the octavia endpoint yet.
+    Consider `helping <https://github.com/php-opencloud/openstack/pulls>`_ us to implement it .
+
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#load-balancer-as-a-service-2-0-deprecated
+
+Create
+------
+
+.. sample:: Networking/v2/lbaas/pools/create.php
+
+Read
+----
+
+.. sample:: Networking/v2/lbaas/pools/read.php
+
+List
+----
+
+.. sample:: Networking/v2/lbaas/pools/list.php
+
+Update
 -----------
 
-.. sample:: networking/v2/lbaas/pools/create.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_createLoadBalancerPool
+.. sample:: Networking/v2/lbaas/pools/update.php
 
-Get Pool
---------
+Delete
+------
 
-.. sample:: networking/v2/lbaas/pools/get.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_getLoadBalancerPool
-
-List Pools
-----------
-
-.. sample:: networking/v2/lbaas/pools/list.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_listLoadBalancerPools
-
-Update Pool
------------
-
-.. sample:: networking/v2/lbaas/pools/update.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_update
-
-Delete Pool
------------
-
-.. sample:: networking/v2/lbaas/pools/delete.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_delete
+.. sample:: Networking/v2/lbaas/pools/delete.php
 
 Add Member
 ----------
 
-.. sample:: networking/v2/lbaas/pools/add-member.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_addMember
+.. sample:: Networking/v2/lbaas/pools/add-member.php
 
 Get Member
 ----------
 
-.. sample:: networking/v2/lbaas/pools/get-member.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_getMember
+.. sample:: Networking/v2/lbaas/pools/get-member.php
 
 Delete Member
 -------------
 
-.. sample:: networking/v2/lbaas/pools/delete-member.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_deleteMember
+.. sample:: Networking/v2/lbaas/pools/delete-member.php
 
 Add Health Monitor
 ------------------
 
-.. sample:: networking/v2/lbaas/pools/add-healthmonitor.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancerPool.html#method_addHealthMonitor
+.. sample:: Networking/v2/lbaas/pools/add-healthmonitor.php

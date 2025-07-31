@@ -11,7 +11,7 @@ class UserTest extends TestCase
 {
     private $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -23,7 +23,7 @@ class UserTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'users/USER_ID', null, [], 'user');
+        $this->mockRequest('GET', 'users/USER_ID', 'user', null, []);
 
         $this->user->retrieve();
     }
@@ -42,14 +42,14 @@ class UserTest extends TestCase
             'enabled' => true,
         ];
 
-        $this->setupMock('PATCH', 'users/USER_ID', ['user' => $expectedJson], [], 'user');
+        $this->mockRequest('PATCH', 'users/USER_ID', 'user', ['user' => $expectedJson], []);
 
         $this->user->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'users/USER_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'users/USER_ID', new Response(204), null, []);
 
         $this->user->delete();
     }
@@ -64,5 +64,25 @@ class UserTest extends TestCase
     {
         $fn = $this->createFn($this->user, 'listProjects', []);
         $this->listTest($fn, 'users/USER_ID/projects', 'Project', 'projects');
+    }
+
+    public function test_it_creates_application_credential()
+    {
+        $userOptions = [
+            'name'        => 'monitoring',
+            'description' => 'Application credential for monitoring.',
+        ];
+
+        $this->mockRequest('POST', 'users/USER_ID/application_credentials', 'application_credential', ['application_credential' => $userOptions], []);
+
+        $applicationCredential = $this->user->createApplicationCredential($userOptions);
+
+        self::assertEquals('monitoring', $applicationCredential->name);
+        self::assertEquals('Application credential for monitoring.', $applicationCredential->description);
+    }
+
+    public function test_it_gets_application_credential()
+    {
+        $this->getTest($this->createFn($this->user, 'getApplicationCredential', 'id'), 'ApplicationCredential');
     }
 }

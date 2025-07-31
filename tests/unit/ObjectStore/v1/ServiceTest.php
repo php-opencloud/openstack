@@ -15,7 +15,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,32 +26,29 @@ class ServiceTest extends TestCase
 
     public function test_Account()
     {
-        $this->assertInstanceOf(Account::class, $this->service->getAccount());
+        self::assertInstanceOf(Account::class, $this->service->getAccount());
     }
 
     public function test_it_lists_containers()
     {
-        $this->client
-            ->request('GET', '', ['query' => ['limit' => 2, 'format' => 'json'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_Container'));
+        $this->mockRequest('GET', ['query' => ['limit' => 2, 'format' => 'json']], 'GET_Container');
 
         foreach ($this->service->listContainers(['limit' => 2]) as $container) {
-            $this->assertInstanceOf(Container::class, $container);
+            self::assertInstanceOf(Container::class, $container);
         }
     }
 
     public function test_It_Create_Containers()
     {
-        $this->setupMock('PUT', 'foo', null, [], 'Created');
+        $this->mockRequest('PUT', 'foo', 'Created', null, []);
         $this->service->createContainer(['name' => 'foo']);
     }
 
     public function test_it_returns_true_for_existing_containers()
     {
-        $this->setupMock('HEAD', 'foo', null, [], new Response(200));
+        $this->mockRequest('HEAD', 'foo', new Response(200), null, []);
 
-        $this->assertTrue($this->service->containerExists('foo'));
+        self::assertTrue($this->service->containerExists('foo'));
     }
 
     public function test_it_returns_false_if_container_does_not_exist()
@@ -60,28 +57,21 @@ class ServiceTest extends TestCase
         $e->setRequest(new Request('HEAD', 'foo'));
         $e->setResponse(new Response(404));
 
-        $this->client
-            ->request('HEAD', 'foo', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow($e);
+        $this->mockRequest('HEAD', 'foo', $e);
 
-        $this->assertFalse($this->service->containerExists('foo'));
+        self::assertFalse($this->service->containerExists('foo'));
     }
 
-    /**
-     * @expectedException \OpenStack\Common\Error\BadResponseError
-     */
     public function test_it_throws_exception_when_error()
     {
         $e = new BadResponseError();
         $e->setRequest(new Request('HEAD', 'foo'));
         $e->setResponse(new Response(500));
 
-        $this->client
-            ->request('HEAD', 'foo', ['headers' => []])
-            ->shouldBeCalled()
-            ->willThrow($e);
+        $this->mockRequest('HEAD', 'foo', $e);
 
-        $this->assertFalse($this->service->containerExists('foo'));
+		$this->expectException(BadResponseError::class);
+
+        $this->service->containerExists('foo');
     }
 }

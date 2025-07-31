@@ -23,21 +23,37 @@ lexers['php'] = PhpLexer(startinline=True, linenos=1)
 lexers['php-annotations'] = PhpLexer(startinline=True, linenos=1)
 primary_domain = 'php'
 
-extensions = ['samples', 'refdoc', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'sphinxcontrib.phpdomain']
+extensions = [
+    'samples',
+    'refdoc',
+    'osdoc',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinxcontrib.phpdomain',
+    'sphinx_toolbox.collapse',
+    'sphinx_substitution_extensions',
+]
 source_suffix = '.rst'
 master_doc = 'index'
 project = u'php-opencloud'
-copyright = u'2015, Jamie Hannaford'
+copyright = u'2015-2023, PHP OpenCloud & contributors'
 version = '1.12'
 release = '1.12.1'
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', 'common']
 pygments_style = 'sphinx'
 
 html_theme = 'sphinx_rtd_theme'
-html_theme_path = ["_templates", ]
+# html_theme_path = ["_templates", ]
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'php-openclouddoc'
+
+# These folders are copied to the documentation's HTML output
+html_static_path = ['_static']
+
+html_css_files = [
+    'css/custom.css',
+]
 
 latex_documents = [
   ('index', 'php-opencloud.tex', u'php-opencloud Documentation',

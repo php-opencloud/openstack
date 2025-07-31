@@ -11,7 +11,7 @@ class RoleTest extends TestCase
 {
     private $role;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -23,7 +23,7 @@ class RoleTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'roles/ROLE_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'roles/ROLE_ID', new Response(204), null, []);
 
         $this->role->delete();
     }

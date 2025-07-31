@@ -11,7 +11,7 @@ class FlavorTest extends TestCase
 {
     private $flavor;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -23,15 +23,15 @@ class FlavorTest extends TestCase
 
     public function test_it_retrieves_details()
     {
-        $this->setupMock('GET', 'flavors/1', null, [], 'flavor-get');
+        $this->mockRequest('GET', 'flavors/1', 'flavor-get', null, []);
 
         $this->flavor->retrieve();
 
-        $this->assertEquals('m1.tiny', $this->flavor->name);
-        $this->assertEquals('1', $this->flavor->id);
-        $this->assertEquals(512, $this->flavor->ram);
-        $this->assertEquals(1, $this->flavor->vcpus);
-        $this->assertEquals(1, $this->flavor->disk);
+        self::assertEquals('m1.tiny', $this->flavor->name);
+        self::assertEquals('1', $this->flavor->id);
+        self::assertEquals(512, $this->flavor->ram);
+        self::assertEquals(1, $this->flavor->vcpus);
+        self::assertEquals(1, $this->flavor->disk);
     }
 
     public function test_it_creates()
@@ -50,14 +50,14 @@ class FlavorTest extends TestCase
             'disk'  => $opts['disk'],
         ]];
 
-        $this->setupMock('POST', 'flavors', $expectedJson, [], 'flavor-post');
+        $this->mockRequest('POST', 'flavors', 'flavor-post', $expectedJson, []);
 
-        $this->assertInstanceOf(Flavor::class, $this->flavor->create($opts));
+        self::assertInstanceOf(Flavor::class, $this->flavor->create($opts));
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'flavors/1', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'flavors/1', new Response(204), null, []);
 
         $this->flavor->delete();
     }

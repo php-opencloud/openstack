@@ -11,7 +11,7 @@ class MetricTest extends TestCase
     /** @var Metric */
     private $metric;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -23,10 +23,10 @@ class MetricTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v1/metric/000b7bf8-0271-46dd-90aa-cfe89026a55a', null, [], 'metric-get');
+        $this->mockRequest('GET', 'v1/metric/000b7bf8-0271-46dd-90aa-cfe89026a55a', 'metric-get', null, []);
         $this->metric->retrieve();
 
-        $this->assertEquals('000b7bf8-0271-46dd-90aa-cfe89026a55a', $this->metric->id);
-        $this->assertEquals('storage.objects.outgoing.bytes', $this->metric->name);
+        self::assertEquals('000b7bf8-0271-46dd-90aa-cfe89026a55a', $this->metric->id);
+        self::assertEquals('storage.objects.outgoing.bytes', $this->metric->name);
     }
 }

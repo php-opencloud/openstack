@@ -50,10 +50,6 @@ class JsonPath
     /**
      * Internal method for recursive calls.
      *
-     * @param $path
-     * @param $value
-     * @param $json
-     *
      * @return mixed
      */
     private function setPath(string $path, $value, array $json): array
@@ -76,8 +72,6 @@ class JsonPath
 
     /**
      * Return the updated structure.
-     *
-     * @return mixed
      */
     public function getStructure()
     {
@@ -86,8 +80,6 @@ class JsonPath
 
     /**
      * Get a path's value. If no path can be matched, NULL is returned.
-     *
-     * @param $path
      *
      * @return mixed|null
      */
@@ -98,9 +90,6 @@ class JsonPath
 
     /**
      * Internal method for recursion.
-     *
-     * @param $path
-     * @param $json
      */
     private function getPath(string $path, $json)
     {

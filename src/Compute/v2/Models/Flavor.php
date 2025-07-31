@@ -6,8 +6,8 @@ namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 
 /**
@@ -41,18 +41,12 @@ class Flavor extends OperatorResource implements Listable, Retrievable, Creatabl
     protected $resourceKey  = 'flavor';
     protected $resourcesKey = 'flavors';
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getFlavor(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postFlavors(), $userOptions);
@@ -60,9 +54,6 @@ class Flavor extends OperatorResource implements Listable, Retrievable, Creatabl
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteFlavor(), ['id' => (string) $this->id]);

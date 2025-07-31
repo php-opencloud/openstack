@@ -15,32 +15,23 @@ use Psr\Log\LogLevel;
 
 final class Middleware
 {
-    /**
-     * @return callable
-     */
-    public static function httpErrors(): callable
+    public static function httpErrors(int $verbosity = 0): callable
     {
-        return function (callable $handler) {
-            return function ($request, array $options) use ($handler) {
+        return function (callable $handler) use ($verbosity) {
+            return function ($request, array $options) use ($handler, $verbosity) {
                 return $handler($request, $options)->then(
-                    function (ResponseInterface $response) use ($request, $handler) {
+                    function (ResponseInterface $response) use ($request, $verbosity) {
                         if ($response->getStatusCode() < 400) {
                             return $response;
                         }
-                        throw (new Builder())->httpError($request, $response);
+                        throw (new Builder())->httpError($request, $response, $verbosity);
                     }
                 );
             };
         };
     }
 
-    /**
-     * @param callable $tokenGenerator
-     * @param Token    $token
-     *
-     * @return callable
-     */
-    public static function authHandler(callable $tokenGenerator, Token $token = null): callable
+    public static function authHandler(callable $tokenGenerator, ?Token $token = null): callable
     {
         return function (callable $handler) use ($tokenGenerator, $token) {
             return new AuthHandler($handler, $tokenGenerator, $token);
@@ -58,7 +49,7 @@ final class Middleware
     /**
      * @codeCoverageIgnore
      */
-    public static function retry(callable $decider, callable $delay = null): callable
+    public static function retry(callable $decider, ?callable $delay = null): callable
     {
         return GuzzleMiddleware::retry($decider, $delay);
     }

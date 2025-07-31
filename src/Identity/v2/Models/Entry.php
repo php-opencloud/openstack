@@ -21,9 +21,6 @@ class Entry extends OperatorResource
     /** @var []Endpoint */
     public $endpoints = [];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -34,9 +31,6 @@ class Entry extends OperatorResource
     /**
      * Indicates whether this catalog entry matches a certain name and type.
      *
-     * @param string $name
-     * @param string $type
-     *
      * @return bool TRUE if it's a match, FALSE if not
      */
     public function matches(string $name, string $type): bool
@@ -46,11 +40,6 @@ class Entry extends OperatorResource
 
     /**
      * Retrieves the catalog entry's URL according to a specific region and URL type.
-     *
-     * @param string $region
-     * @param string $urlType
-     *
-     * @return string
      */
     public function getEndpointUrl(string $region, string $urlType): string
     {

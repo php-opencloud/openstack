@@ -12,7 +12,7 @@ class SecurityGroupRuleTest extends TestCase
     /** @var SecurityGroupRule */
     private $securityGroupRule;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -24,14 +24,14 @@ class SecurityGroupRuleTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/security-group-rules/id', null, [], new Response(202));
+        $this->mockRequest('DELETE', 'v2.0/security-group-rules/id', new Response(202), null, []);
 
         $this->securityGroupRule->delete();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/security-group-rules/id', null, [], 'SecurityGroupRule');
+        $this->mockRequest('GET', 'v2.0/security-group-rules/id', 'SecurityGroupRule', null, []);
 
         $this->securityGroupRule->retrieve();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Test\Subneting\v2\Models;
+namespace OpenStack\Test\Networking\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Networking\v2\Api;
@@ -15,7 +15,7 @@ class QuotaTest extends TestCase
     /** @var Port */
     private $quota;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -27,14 +27,14 @@ class QuotaTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/quotas/' . self::TENANT_ID, null, [], 'quota-get');
+        $this->mockRequest('GET', 'v2.0/quotas/' . self::TENANT_ID, 'quota-get', null, []);
 
         $this->quota->retrieve();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/quotas/' . self::TENANT_ID, null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/quotas/' . self::TENANT_ID, new Response(204), null, []);
 
         $this->quota->delete();
     }
@@ -63,7 +63,7 @@ class QuotaTest extends TestCase
             'port'                => 99
         ]];
 
-        $this->setupMock('PUT', 'v2.0/quotas/' . self::TENANT_ID, $expectedJson, [], 'quota-get');
+        $this->mockRequest('PUT', 'v2.0/quotas/' . self::TENANT_ID, 'quota-get', $expectedJson, []);
 
         $this->quota->update();
     }

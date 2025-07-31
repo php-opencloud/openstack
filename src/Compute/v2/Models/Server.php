@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
+use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
-use OpenStack\BlockStorage\v2\Models\VolumeAttachment;
-use OpenStack\Networking\v2\Models\InterfaceAttachment;
 use OpenStack\Compute\v2\Enum;
 use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup;
+use OpenStack\Networking\v2\Models\InterfaceAttachment;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -113,9 +113,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
         'OS-EXT-SRV-ATTR:hypervisor_hostname' => 'hypervisorHostname',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -127,8 +124,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postServer}
      */
     public function create(array $userOptions): Creatable
@@ -142,26 +137,17 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->execute($this->api->putServer(), $this->getAttrs(['id', 'name', 'ipv4', 'ipv6']));
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteServer(), $this->getAttrs(['id']));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getServer(), $this->getAttrs(['id']));
@@ -232,6 +218,28 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     }
 
     /**
+     * Resumes server.
+     */
+    public function resume(): void
+    {
+        $this->execute($this->api->resumeServer(), [
+            'id'     => $this->id,
+            'resume' => null,
+        ]);
+    }
+
+    /**
+     * Suspends server.
+     */
+    public function suspend(): void
+    {
+        $this->execute($this->api->suspendServer(), [
+            'id'      => $this->id,
+            'suspend' => null,
+        ]);
+    }
+
+    /**
      * Shelves server
      */
     public function shelve()
@@ -239,17 +247,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
         $this->execute($this->api->shelveServer(), [
             'id' => $this->id,
             'shelve' => null
-        ]);
-    }
-
-    /*
-     * Suspend server
-     */
-    public function suspend()
-    {
-        $this->execute($this->api->suspendServer(), [
-            'id' => $this->id,
-            'suspend' => null
         ]);
     }
 
@@ -272,17 +269,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
         $this->execute($this->api->unshelveServer(), [
             'id' => $this->id,
             'unshelve' => null
-        ]);
-    }
-
-    /*
-     * Resume server
-     */
-    public function resume()
-    {
-        $this->execute($this->api->resumeServer(), [
-            'id' => $this->id,
-            'resume' => null
         ]);
     }
 
@@ -325,8 +311,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Rescues the server.
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::rescueServer}
-     *
-     * @return string
      */
     public function rescue(array $options): string
     {
@@ -380,8 +364,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets the console output of the server.
      *
      * @param int $length the number of lines, by default all lines will be returned
-     *
-     * @return string
      */
     public function getConsoleOutput(int $length = -1): string
     {
@@ -401,8 +383,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      *
      * @param string $type the type of VNC console: novnc|xvpvnc.
      *                     Defaults to novnc
-     *
-     * @return array
      */
     public function getVncConsole($type = Enum::CONSOLE_NOVNC): array
     {
@@ -415,8 +395,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets a RDP console for a server.
      *
      * @param string $type the type of VNC console: rdp-html5 (default)
-     *
-     * @return array
      */
     public function getRDPConsole($type = Enum::CONSOLE_RDP_HTML5): array
     {
@@ -429,8 +407,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets a Spice console for a server.
      *
      * @param string $type the type of VNC console: spice-html5
-     *
-     * @return array
      */
     public function getSpiceConsole($type = Enum::CONSOLE_SPICE_HTML5): array
     {
@@ -443,8 +419,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets a serial console for a server.
      *
      * @param string $type the type of VNC console: serial
-     *
-     * @return array
      */
     public function getSerialConsole($type = Enum::CONSOLE_SERIAL): array
     {
@@ -497,7 +471,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /**
      * Returns Generator for InterfaceAttachment.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Models\InterfaceAttachment>
      */
     public function listInterfaceAttachments(array $options = []): \Generator
     {
@@ -508,8 +482,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Gets an interface attachment.
      *
      * @param string $portId the unique ID of the port
-     *
-     * @return InterfaceAttachment
      */
     public function getInterfaceAttachment(string $portId): InterfaceAttachment
     {
@@ -525,8 +497,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Creates an interface attachment.
      *
      * @param array $userOptions {@see \OpenStack\Compute\v2\Api::postInterfaceAttachment}
-     *
-     * @return InterfaceAttachment
      */
     public function createInterfaceAttachment(array $userOptions): InterfaceAttachment
     {
@@ -541,8 +511,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Detaches an interface attachment.
-     *
-     * @param string $portId
      */
     public function detachInterface(string $portId)
     {
@@ -554,8 +522,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Retrieves metadata from the API.
-     *
-     * @return array
      */
     public function getMetadata(): array
     {
@@ -582,8 +548,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * existing keys will remain unaffected.
      *
      * @param array $metadata {@see \OpenStack\Compute\v2\Api::postServerMetadata}
-     *
-     * @return array
      */
     public function mergeMetadata(array $metadata)
     {
@@ -595,8 +559,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Retrieve the value for a specific metadata key.
      *
      * @param string $key {@see \OpenStack\Compute\v2\Api::getServerMetadataKey}
-     *
-     * @return mixed
      */
     public function getMetadataItem(string $key)
     {
@@ -625,8 +587,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      * Add security group to a server (addSecurityGroup action).
      *
      * @param array $options {@see \OpenStack\Compute\v2\Api::postSecurityGroup}
-     *
-     * @return SecurityGroup
      */
     public function addSecurityGroup(array $options): SecurityGroup
     {
@@ -656,7 +616,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /**
      * Returns Generator for SecurityGroups.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroup>
      */
     public function listSecurityGroups(): \Generator
     {
@@ -666,7 +626,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
     /**
      * Returns Generator for VolumeAttachment.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\BlockStorage\v2\Models\VolumeAttachment>
      */
     public function listVolumeAttachments(): \Generator
     {
@@ -675,10 +635,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Attach a volume and returns volume that was attached.
-     *
-     * @param $volumeId
-     *
-     * @return VolumeAttachment
      */
     public function attachVolume(string $volumeId): VolumeAttachment
     {
@@ -689,8 +645,6 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
 
     /**
      * Detach a volume.
-     *
-     * @param $attachmentId
      */
     public function detachVolume(string $attachmentId)
     {

@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-export OS_AUTH_URL=""
-export OS_REGION=""
-export OS_REGION_NAME=""
-export OS_USER_ID=""
-export OS_USERNAME=""
-export OS_PASSWORD=""
-export OS_PROJECT_ID=""
-export OS_PROJECT_NAME=""
-export OS_RESIZE_FLAVOR=""
-export OS_FLAVOR=""
+
+export OS_AUTH_URL="$(grep -oP -m 1 "(?<=auth_url: )(.*)\$" /etc/openstack/clouds.yaml)/v3"
+export OS_REGION="RegionOne"
+export OS_REGION_NAME="RegionOne"
+export OS_USER_ID=$(openstack --os-cloud=devstack-admin user show admin -f value -c id)
+export OS_USERNAME="admin"
+export OS_PASSWORD="secret"
+export OS_PROJECT_ID=$(openstack --os-cloud=devstack-admin project show admin -f value -c id)
+export OS_PROJECT_NAME="admin"
+export OS_RESIZE_FLAVOR="c1"
+export OS_FLAVOR=1
 export OS_DOMAIN_ID="default"

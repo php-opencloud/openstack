@@ -6,9 +6,9 @@ namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\Creatable;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 
@@ -40,7 +40,11 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     /** @var string */
     public $type;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @deprecated Left for backward compatibility only. It is not retrieved from the API.
+     */
     public $id;
 
     /** @var \DateTimeImmutable */
@@ -56,9 +60,6 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
     protected $resourceKey  = 'keypair';
     protected $resourcesKey = 'keypairs';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -66,9 +67,6 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getKeypair(), $this->getAttrs(['name', 'userId']));
@@ -82,17 +80,11 @@ class Keypair extends OperatorResource implements Listable, Retrievable, Deletab
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromArray(array $array): self
     {
         return parent::populateFromArray(Utils::flattenJson($array, $this->resourceKey));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteKeypair(), ['name' => (string) $this->name]);

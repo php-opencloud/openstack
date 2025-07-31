@@ -1,5 +1,5 @@
 Server states
--------------
+=============
 
 Servers contain a status attribute that indicates the current server state. You can filter on the server status when
 you complete a list servers request. The server status is returned in the response body. The server status is one of

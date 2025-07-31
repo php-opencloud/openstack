@@ -1,17 +1,24 @@
 Servers
 =======
 
-Listing servers
----------------
+Server is the main resource in the Compute API. It represents a virtual machine.
+
+.. osdoc:: https://docs.openstack.org/api-ref/compute/#servers-servers
+
+.. |models| replace:: servers
+
+.. include:: /common/service.rst
+
+List
+----
 
 To list a collection of servers, you run:
 
-.. sample:: compute/v2/servers/list_servers.php
+.. sample:: Compute/v2/servers/list.php
 
 Each iteration will return a :apiref:Server instance <OpenStack/Compute/v2/Models/Server.html>.
 
 .. include:: /common/generators.rst
-.. refdoc:: OpenStack/Compute/v2/Service.html#method_listServers
 
 Detailed information
 ~~~~~~~~~~~~~~~~~~~~
@@ -38,18 +45,16 @@ parameters which are documented in the reference documentation.
         'flavorId'     => 'performance1-1',
     ]);
 
-Create a server
----------------
+Create
+------
 
 The only attributes that are required when creating a server are a name, flavor ID and image ID. The simplest example
 would therefore be this:
 
-.. sample:: compute/v2/servers/create_server.php
+.. sample:: Compute/v2/servers/create.php
 
 You can further configure your new server, however, by following the below sections, which instruct you how to add
 specific functionality. They are interoperable and can work together.
-
-.. refdoc:: OpenStack/Compute/v2/Service.html#method_createServer
 
 Security groups
 ~~~~~~~~~~~~~~~
@@ -133,48 +138,32 @@ when the server is launched, use this option:
         'baz' => 'bar',
     ];
 
-Retrieve a server
------------------
+Read
+----
 
-When retrieving a server, sometimes you only want to operate on it - say to update or delete it. If this is the case,
-then there is no need to perform an initial GET request to the server:
+.. sample:: Compute/v2/servers/read.php
 
-.. sample:: compute/v2/servers/get_server.php
-
-If, however, you *do* want to retrieve all the details of a remote server from the API, you just call:
-
-.. code-block:: php
-
-    $server->retrieve();
-
-which will update the state of the local object. This gives you an element of control over your app's performance.
-
-.. refdoc:: OpenStack/Compute/v2/Service.html#method_getServer
-
-Update a server
----------------
+Update
+------
 
 The first step when updating a server is modifying the attributes you want updated. By default, only a server's name,
 IPv4 and IPv6 IPs, and its auto disk config attributes can be edited.
 
-.. sample:: compute/v2/servers/update_server.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_update
+.. sample:: Compute/v2/servers/update.php
 
-Delete a server
+Delete
 ---------------
 
 To permanently delete a server:
 
-.. sample:: compute/v2/servers/delete_server.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_delete
+.. sample:: Compute/v2/servers/delete.php
 
 Retrieve metadata
 -----------------
 
 This operation will retrieve the existing metadata for a server:
 
-.. sample:: compute/v2/servers/get_server_metadata.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_getMetadata
+.. sample:: Compute/v2/servers/get_server_metadata.php
 
 Reset metadata
 --------------
@@ -182,8 +171,7 @@ Reset metadata
 This operation will _replace_ all existing metadata with whatever is provided in the request. Any existing metadata
 not specified in the request will be deleted.
 
-.. sample:: compute/v2/servers/reset_server_metadata.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_resetMetadata
+.. sample:: Compute/v2/servers/reset_server_metadata.php
 
 Merge metadata
 --------------
@@ -191,49 +179,43 @@ Merge metadata
 This operation will _merge_ specified metadata with what already exists. Existing values will be overriden, new values
 will be added. Any existing keys that are not specified in the request will remain unaffected.
 
-.. sample:: compute/v2/servers/merge_server_metadata.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_mergeMetadata
+.. sample:: Compute/v2/servers/merge_server_metadata.php
 
 Retrieve metadata item
 ----------------------
 
 This operation allows you to retrieve the value for a specific metadata item:
 
-.. sample:: compute/v2/servers/get_server_metadata_item.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_getMetadataItem
+.. sample:: Compute/v2/servers/get_server_metadata_item.php
 
 Delete metadata item
 --------------------
 
 This operation allows you to remove a specific metadata item:
 
-.. sample:: compute/v2/servers/delete_server_metadata_item.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_deleteMetadataItem
+.. sample:: Compute/v2/servers/delete_server_metadata_item.php
 
 Change root password
 --------------------
 
 This operation will replace the root password for a server.
 
-.. sample:: compute/v2/servers/change_server_password.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_changePassword
+.. sample:: Compute/v2/servers/change_server_password.php
 
 Reset server state
 ------------------
 
 This operation will reset the state of the server.
 
-.. sample:: compute/v2/servers/reset_server_state.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_resetState
+.. sample:: Compute/v2/servers/reset_server_state.php
 
 Reboot server
 -------------
 
-This operation will reboot a server. Please be aware that you must specify whether you want to initiate a HARD or
-SOFT reboot (you specify this as a string argument).
+This operation will reboot a server. You can specify HARD reboot by passing argument Enum::REBOOT_HARD to the function.
+Otherwise, the default is a SOFT reboot.
 
-.. sample:: compute/v2/servers/reboot_server.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_reboot
+.. sample:: Compute/v2/servers/reboot_server.php
 
 Rebuild server
 --------------
@@ -242,8 +224,7 @@ Rebuilding a server will re-initialize the booting procedure for the server and 
 system. It will shutdown, re-image and then reboot your instance. Any data saved on your instance will be lost when
 the rebuild is performed.
 
-.. sample:: compute/v2/servers/rebuild_server.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_rebuild
+.. sample:: Compute/v2/servers/rebuild_server.php
 
 Resize server
 -------------
@@ -252,8 +233,7 @@ You can resize the flavor of a server by performing this operation. As soon the 
 transition to a VERIFY_RESIZE state and a VM status of RESIZED. You will either need to confirm or revert the
 resize in order to continue.
 
-.. sample:: compute/v2/servers/resize_server.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_resize
+.. sample:: Compute/v2/servers/resize_server.php
 
 Confirm server resize
 ---------------------
@@ -262,8 +242,7 @@ Once a server has been resized, you can confirm the operation by calling this. T
 VERIFY_RESIZE and a VM status of RESIZED. Once this operation completes, the server should transition to an
 ACTIVE state and a migration status of confirmed.
 
-.. sample:: compute/v2/servers/confirm_server_resize.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_confirmResize
+.. sample:: Compute/v2/servers/confirm_server_resize.php
 
 Revert server resize
 --------------------
@@ -272,8 +251,7 @@ Once a server has been resized, you can revert the operation by calling this. Th
 VERIFY_RESIZE and a VM status of RESIZED. Once this operation completes, the server should transition to an
 ACTIVE state and a migration status of reverted.
 
-.. sample:: compute/v2/servers/revert_server_resize.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_revertResize
+.. sample:: Compute/v2/servers/revert_server_resize.php
 
 Create server image
 -------------------
@@ -281,8 +259,7 @@ Create server image
 This operation will create a new server image. The only required option is the new image's name. You may also specify
 additional metadata:
 
-.. sample:: compute/v2/images/create_server_image.php
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_createImage
+.. sample:: Compute/v2/images/create_server_image.php
 
 List server IP addresses
 ------------------------
@@ -304,10 +281,13 @@ You can also refine by network label:
         'networkLabel' => '{networkLabel}',
     ]);
 
-.. refdoc:: OpenStack/Compute/v2/Models/Server.html#method_listAddresses
+Suspend
+-------
 
-Further links
--------------
+.. sample:: Compute/v2/servers/suspend.php
 
-* Reference docs for Server class
-* API docs
+Resume
+------
+
+.. sample:: Compute/v2/servers/resume.php
+

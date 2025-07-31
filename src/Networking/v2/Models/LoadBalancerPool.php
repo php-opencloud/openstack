@@ -103,9 +103,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
         'provisioning_status' => 'provisioningStatus',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -115,9 +112,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postLoadBalancerPool(), $userOptions);
@@ -125,27 +119,18 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getLoadBalancerPool(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->putLoadBalancerPool());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteLoadBalancerPool());
@@ -153,8 +138,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Add a member to this pool.
-     *
-     * @param array $userOptions
      */
     public function addMember(array $userOptions = []): LoadBalancerMember
     {
@@ -165,10 +148,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Get an instance of a member.
-     *
-     * @param string $memberId
-     *
-     * @return LoadBalancerMember
      */
     public function getMember(string $memberId): LoadBalancerMember
     {
@@ -177,8 +156,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Delete a member.
-     *
-     * @param string $memberId
      */
     public function deleteMember(string $memberId)
     {
@@ -187,10 +164,6 @@ class LoadBalancerPool extends OperatorResource implements Creatable, Retrievabl
 
     /**
      * Add a healthmonitor to this load balancer pool.
-     *
-     * @param array $userOptions
-     *
-     * @return LoadBalancerHealthMonitor
      */
     public function addHealthMonitor(array $userOptions = []): LoadBalancerHealthMonitor
     {

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
@@ -38,9 +38,6 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     protected $resourceKey  = 'service';
     protected $resourcesKey = 'services';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -49,8 +46,6 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postServices}
      */
     public function create(array $data): Creatable
@@ -60,27 +55,18 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getService());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchService());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteService());
@@ -93,7 +79,7 @@ class Service extends OperatorResource implements Creatable, Listable, Retrievab
 
     private function typeMatches(string $value): bool
     {
-        return $this->type && $this->type = $value;
+        return $this->type && $this->type == $value;
     }
 
     /**

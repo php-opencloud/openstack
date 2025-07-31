@@ -2,20 +2,19 @@
 
 namespace OpenStack\Test\Common\Resource;
 
-use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use OpenStack\Common\Resource\AbstractResource;
 use OpenStack\Common\Resource\Alias;
 use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Test\TestCase;
-use Prophecy\Argument;
 
 class AbstractResourceTest extends TestCase
 {
     /** @var TestResource */
     private $resource;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,22 +25,25 @@ class AbstractResourceTest extends TestCase
 
     public function test_it_populates_from_response()
     {
-        $response = new Response(200, ['Content-Type' => 'application/json'], stream_for(
+        $response = new Response(200, ['Content-Type' => 'application/json'], Utils::streamFor(
             json_encode(['foo' => ['bar' => '1']])
         ));
 
         $this->resource->populateFromResponse($response);
 
-        $this->assertEquals('1', $this->resource->bar);
+        self::assertEquals('1', $this->resource->bar);
     }
 
     public function test_it_populates_datetimes_from_arrays()
     {
-        $dt = new \DateTimeImmutable('2015');
+        $ca = new \DateTimeImmutable('2015');
+        $ua = new \DateTimeImmutable('2016');
 
-        $this->resource->populateFromArray(['created' => '2015']);
+        $this->resource->populateFromArray(['created_at' => '2015']);
+        $this->resource->populateFromArray(['updated_at' => '2016']);
 
-        $this->assertEquals($this->resource->created, $dt);
+        self::assertEquals($this->resource->createdAt, $ca);
+        self::assertEquals($this->resource->updatedAt, $ua);
     }
 
     public function test_it_populates_model_objects_from_arrays()
@@ -49,37 +51,65 @@ class AbstractResourceTest extends TestCase
         $tr = new TestResource();
         $this->resource->populateFromArray(['child' => $tr]);
 
-        $this->assertEquals($this->resource->child, $tr);
+        self::assertEquals($this->resource->child, $tr);
     }
 
     public function test_it_populates_arrays_from_arrays()
     {
         $this->resource->populateFromArray(['children' => [$this->resource, $this->resource]]);
 
-        $this->assertInstanceOf(TestResource::class, $this->resource->children[0]);
+        self::assertInstanceOf(TestResource::class, $this->resource->children[0]);
     }
 
     public function test_it_gets_attrs()
     {
         $this->resource->bar = 'foo';
 
-        $this->assertEquals(['bar' => 'foo'], $this->resource->getAttrs(['bar']));
+        self::assertEquals(['bar' => 'foo'], $this->resource->getAttrs(['bar']));
     }
 
     public function test_it_returns_a_model_instance()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
     }
 
     public function test_it_populates_models_from_response()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
     }
 
     public function test_it_populates_models_from_arrays()
     {
-        $data = ['flavor' => [], 'image' => []];
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, $data));
+        $data = [
+            'bar'        => 'this-is-bar',
+            'camel_attr' => 'this-is-camel-attr',
+            'child'      => ['bar' => 'child-bar', 'camel_attr' => 'child-camel'],
+            'children'   => [
+                ['bar' => 'child1-bar', 'camel_attr' => 'child1-camel'],
+                ['bar' => 'child2-bar', 'camel_attr' => 'child2-camel'],
+            ],
+        ];
+
+        /** @var TestResource $model */
+        $model = $this->resource->model(TestResource::class, $data);
+
+        self::assertInstanceOf(ResourceInterface::class, $model);
+
+        self::assertEquals('this-is-bar', $model->bar);
+        self::assertEquals('this-is-camel-attr', $model->camelAttr);
+
+        $child = $model->child;
+        self::assertInstanceOf(TestResource::class, $child);
+        self::assertEquals('child-bar', $child->bar);
+        self::assertEquals('child-camel', $child->camelAttr);
+
+        self::assertContainsOnlyInstancesOf(TestResource::class, $model->children);
+        self::assertCount(2, $model->children);
+        self::assertEquals('child1-bar', $model->children[0]->bar);
+        self::assertEquals('child1-camel', $model->children[0]->camelAttr);
+        self::assertEquals('child2-bar', $model->children[1]->bar);
+        self::assertEquals('child2-camel', $model->children[1]->camelAttr);
+
     }
 }
 
@@ -90,10 +120,16 @@ class TestResource extends AbstractResource
     /** @var string */
     public $bar;
 
+    /** @var string */
+    public $camelAttr;
+
     public $id;
 
     /** @var \DateTimeImmutable */
-    public $created;
+    public $createdAt;
+
+    /** @var \DateTimeImmutable */
+    public $updatedAt;
 
     /** @var []TestResource */
     public $children;
@@ -101,13 +137,18 @@ class TestResource extends AbstractResource
     /** @var TestResource */
     public $child;
 
+    protected $aliases = [
+        'camel_attr'  => 'camelAttr',
+    ];
+
     protected function getAliases(): array
     {
-        $aliases = parent::getAliases();
-        $aliases['created'] = new Alias('created', \DateTimeImmutable::class);
-        $aliases['child'] = new Alias('child', TestResource::class);
-        $aliases['children'] = new Alias('children', TestResource::class, true);
-        return $aliases;
+        return parent::getAliases() + [
+                'created_at' => new Alias('createdAt', \DateTimeImmutable::class),
+                'updated_at' => new Alias('updatedAt', \DateTimeImmutable::class),
+                'child'      => new Alias('child', TestResource::class),
+                'children'   => new Alias('children', TestResource::class, true),
+            ];
     }
 
     public function getAttrs(array $keys)

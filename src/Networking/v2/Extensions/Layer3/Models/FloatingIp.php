@@ -2,10 +2,10 @@
 
 namespace OpenStack\Networking\v2\Extensions\Layer3\Models;
 
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 use OpenStack\Networking\v2\Extensions\Layer3\Api;
@@ -20,6 +20,9 @@ class FloatingIp extends OperatorResource implements Listable, Creatable, Retrie
 
     /** @var string */
     public $status;
+
+    /** @var string */
+    public $description;
 
     /** @var string */
     public $floatingNetworkId;
@@ -51,6 +54,9 @@ class FloatingIp extends OperatorResource implements Listable, Creatable, Retrie
     protected $resourceKey  = 'floatingip';
     protected $resourcesKey = 'floatingips';
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(array $userOptions): Creatable
     {
         $response = $this->execute($this->api->postFloatingIps(), $userOptions);

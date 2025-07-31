@@ -8,6 +8,10 @@ use OpenStack\Networking\v2\Extensions\SecurityGroups\Models\SecurityGroupRule;
 
 /**
  * @property Api $api
+ *
+ * @deprecated Use Networking\v2\Service instead
+ *
+ * @internal
  */
 class Service extends AbstractService
 {
@@ -22,58 +26,36 @@ class Service extends AbstractService
     }
 
     /**
-     * @param array $options
-     *
-     * @return \Generator
+     * @return \Generator<mixed, SecurityGroup>
      */
     public function listSecurityGroups(array $options = []): \Generator
     {
         return $this->securityGroup()->enumerate($this->api->getSecurityGroups(), $options);
     }
 
-    /**
-     * @param array $options
-     *
-     * @return SecurityGroup
-     */
     public function createSecurityGroup(array $options): SecurityGroup
     {
         return $this->securityGroup()->create($options);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return SecurityGroup
-     */
     public function getSecurityGroup(string $id): SecurityGroup
     {
         return $this->securityGroup(['id' => $id]);
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<mixed, SecurityGroupRule>
      */
     public function listSecurityGroupRules(): \Generator
     {
         return $this->securityGroupRule()->enumerate($this->api->getSecurityRules());
     }
 
-    /**
-     * @param array $options
-     *
-     * @return SecurityGroupRule
-     */
     public function createSecurityGroupRule(array $options): SecurityGroupRule
     {
         return $this->securityGroupRule()->create($options);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return SecurityGroupRule
-     */
     public function getSecurityGroupRule(string $id): SecurityGroupRule
     {
         return $this->securityGroupRule(['id' => $id]);

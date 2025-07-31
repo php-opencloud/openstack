@@ -6,7 +6,7 @@ namespace OpenStack\Identity\v3;
 
 abstract class Enum
 {
-    const INTERFACE_INTERNAL = 'internal';
-    const INTERFACE_PUBLIC   = 'public';
-    const INTERFACE_ADMIN    = 'admin';
+    public const INTERFACE_INTERNAL = 'internal';
+    public const INTERFACE_PUBLIC   = 'public';
+    public const INTERFACE_ADMIN    = 'admin';
 }

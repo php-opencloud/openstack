@@ -11,7 +11,7 @@ class LoadBalancerHealthMonitorTest extends TestCase
 {
     private $healthmonitor;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -47,9 +47,9 @@ class LoadBalancerHealthMonitorTest extends TestCase
             'timeout'        => $opts['timeout']
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/healthmonitors', $expectedJson, [], 'loadbalancer-healthmonitor-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/healthmonitors', 'loadbalancer-healthmonitor-post', $expectedJson, []);
 
-        $this->assertInstanceOf(LoadBalancerHealthMonitor::class, $this->healthmonitor->create($opts));
+        self::assertInstanceOf(LoadBalancerHealthMonitor::class, $this->healthmonitor->create($opts));
     }
 
     public function test_it_updates()
@@ -73,28 +73,28 @@ class LoadBalancerHealthMonitorTest extends TestCase
             'admin_state_up' => true
         ]];
 
-        $this->setupMock('PUT', 'v2.0/lbaas/healthmonitors/healthmonitorId', $expectedJson, [], 'loadbalancer-healthmonitor-put');
+        $this->mockRequest('PUT', 'v2.0/lbaas/healthmonitors/healthmonitorId', 'loadbalancer-healthmonitor-put', $expectedJson, []);
 
         $this->healthmonitor->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/healthmonitors/healthmonitorId', null, [], 'loadbalancer-healthmonitor-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/healthmonitors/healthmonitorId', 'loadbalancer-healthmonitor-get', null, []);
 
         $this->healthmonitor->retrieve();
 
-        $this->assertEquals(1, $this->healthmonitor->delay);
-        $this->assertEquals(1, $this->healthmonitor->timeout);
-        $this->assertEquals('200', $this->healthmonitor->expectedCodes);
-        $this->assertEquals(5, $this->healthmonitor->maxRetries);
-        $this->assertEquals('GET', $this->healthmonitor->httpMethod);
-        $this->assertEquals('HTTP', $this->healthmonitor->type);
+        self::assertEquals(1, $this->healthmonitor->delay);
+        self::assertEquals(1, $this->healthmonitor->timeout);
+        self::assertEquals('200', $this->healthmonitor->expectedCodes);
+        self::assertEquals(5, $this->healthmonitor->maxRetries);
+        self::assertEquals('GET', $this->healthmonitor->httpMethod);
+        self::assertEquals('HTTP', $this->healthmonitor->type);
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/lbaas/healthmonitors/healthmonitorId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/lbaas/healthmonitors/healthmonitorId', new Response(204), null, []);
 
         $this->healthmonitor->delete();
     }

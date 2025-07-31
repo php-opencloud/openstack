@@ -11,7 +11,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -40,14 +40,14 @@ class ServiceTest extends TestCase
             'tenantId' => $options['tenantId'],
         ]];
 
-        $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post');
+        $this->mockRequest('POST', 'tokens', 'token-post', $expectedJson, [], true);
 
-        list($token, $baseUrl) = $this->service->authenticate($options);
+        [$token, $baseUrl] = $this->service->authenticate($options);
 
-        $this->assertInstanceOf(Token::class, $token);
-        $this->assertInternalType('string', $baseUrl);
+        self::assertInstanceOf(Token::class, $token);
+        self::assertIsString($baseUrl);
     }
-    
+
     public function test_it_generates_tokens()
     {
         $options = [
@@ -64,8 +64,8 @@ class ServiceTest extends TestCase
             'tenantId' => $options['tenantId'],
         ]];
 
-        $this->setupMock('POST', 'tokens', $expectedJson, [], 'token-post');
+        $this->mockRequest('POST', 'tokens', 'token-post', $expectedJson, [], true);
 
-        $this->assertInstanceOf(Token::class, $this->service->generateToken($options));
+        self::assertInstanceOf(Token::class, $this->service->generateToken($options));
     }
 }

@@ -9,15 +9,15 @@ use OpenStack\Common\Resource\ResourceInterface;
 use OpenStack\Test\Common\Service\Fixtures\Api;
 use OpenStack\Test\Common\Service\Fixtures\Models\Foo;
 use OpenStack\Test\Common\Service\Fixtures\Service;
-use OpenStack\Test\TestCase;
 use OpenStack\Test\Fixtures\ComputeV2Api;
+use OpenStack\Test\TestCase;
 
 class OperatorResourceTest extends TestCase
 {
     /** @var TestOperatorResource */
     private $resource;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -28,13 +28,15 @@ class OperatorResourceTest extends TestCase
 
     public function test_it_retrieves_base_http_url()
     {
-        $returnedUri = \GuzzleHttp\Psr7\uri_for('http://foo.com');
+        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
+            ? \GuzzleHttp\Psr7\uri_for('http://foo.com')
+            : \GuzzleHttp\Psr7\Utils::uriFor('http://foo.com');
         $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn($returnedUri);
 
         $uri = $this->resource->testBaseUri();
 
-        $this->assertInstanceOf(Uri::class, $uri);
-        $this->assertEquals($returnedUri, $uri);
+        self::assertInstanceOf(Uri::class, $uri);
+        self::assertEquals($returnedUri, $uri);
     }
 
     public function test_it_executes_with_state()
@@ -44,96 +46,77 @@ class OperatorResourceTest extends TestCase
 
         $expectedJson = ['id' => 'foo', 'bar' => 'bar'];
 
-        $this->setupMock('GET', 'foo', $expectedJson, [], new Response(204));
+        $this->mockRequest('GET', 'foo', new Response(204), $expectedJson);
 
         $this->resource->executeWithState((new ComputeV2Api())->test());
     }
 
     public function test_it_executes_operations_until_a_204_is_received()
     {
-        $this->client
-            ->request('GET', 'servers', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
-
-        $this->client
-            ->request('GET', 'servers', ['query' => ['marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
+        $this->mockRequest('GET', 'servers', 'servers-page1');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], new Response(204));
 
         $count = 0;
 
         $api = new ComputeV2Api();
 
         foreach ($this->resource->enumerate($api->getServers()) as $item) {
-            $count++;
-            $this->assertInstanceOf(TestOperatorResource::class, $item);
+            ++$count;
+            self::assertInstanceOf(TestOperatorResource::class, $item);
         }
 
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 
     public function test_it_invokes_function_if_provided()
     {
-        $this->client
-            ->request('GET', 'servers', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
-
-        $this->client
-            ->request('GET', 'servers', ['query' => ['marker' => '5'], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn(new Response(204));
+        $this->mockRequest('GET', 'servers', 'servers-page1');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], new Response(204));
 
         $api = new ComputeV2Api();
 
         $count = 0;
 
         $fn = function () use (&$count) {
-            $count++;
+            ++$count;
         };
 
         foreach ($this->resource->enumerate($api->getServers(), [], $fn) as $item) {
+            // empty
         }
 
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 
     public function test_it_halts_when_user_provided_limit_is_reached()
     {
-        $this->client
-            ->request('GET', 'servers', ['query' => ['limit' => 2], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 2]], 'servers-page1');
 
         $count = 0;
 
         $api = new ComputeV2Api();
 
         foreach ($this->resource->enumerate($api->getServers(), ['limit' => 2]) as $item) {
-            $count++;
+            ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_predicts_resources_key_without_explicit_property()
     {
-        $this->client
-            ->request('GET', 'servers', ['query' => ['limit' => 2], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('servers-page1'));
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 2]], 'servers-page1');
 
         $count = 0;
 
         $api = new ComputeV2Api();
-        $resource = new Server($this->client->reveal(), new $api);
+        $resource = new Server($this->client->reveal(), new $api());
 
         foreach ($resource->enumerate($api->getServers(), ['limit' => 2]) as $item) {
-            $count++;
+            ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_extracts_multiple_instances()
@@ -144,30 +127,39 @@ class OperatorResourceTest extends TestCase
         $resources = $resource->extractMultipleInstances($response);
 
         foreach ($resources as $resource) {
-            $this->assertInstanceOf(Server::class, $resource);
+            self::assertInstanceOf(Server::class, $resource);
         }
     }
 
     public function test_it_finds_parent_service()
     {
         $r = new Foo($this->client->reveal(), new Api());
-        $this->assertInstanceOf(Service::class, $r->testGetService());
+        self::assertInstanceOf(Service::class, $r->testGetService());
     }
 
     public function test_it_returns_a_model_instance()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class));
     }
 
     public function test_it_populates_models_from_response()
     {
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
+        self::assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, new Response(200)));
     }
 
     public function test_it_populates_models_from_arrays()
     {
-        $data = ['flavor' => [], 'image' => []];
-        $this->assertInstanceOf(ResourceInterface::class, $this->resource->model(TestResource::class, $data));
+        $data = [
+            'id'  => 123,
+            'bar' => 'this-is-bar',
+        ];
+
+        /** @var TestOperatorResource $model */
+        $model = $this->resource->model(TestOperatorResource::class, $data);
+
+        self::assertInstanceOf(ResourceInterface::class, $model);
+        self::assertEquals(123, $model->id);
+        self::assertEquals('this-is-bar', $model->bar);
     }
 }
 

@@ -14,7 +14,7 @@ class Schema
     /** @var Validator */
     private $validator;
 
-    public function __construct($body, Validator $validator = null)
+    public function __construct($body, ?Validator $validator = null)
     {
         $this->body      = (object) $body;
         $this->validator = $validator ?: new Validator();

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
-use OpenStack\Common\Resource\OperatorResource;
 
 /**
  * Represents an Identity v2 Token.
@@ -26,9 +26,6 @@ class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
     /** @var Tenant */
     public $tenant;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -38,9 +35,6 @@ class Token extends OperatorResource implements \OpenStack\Common\Auth\Token
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response): self
     {
         $this->populateFromArray(Utils::jsonDecode($response)['access']['token']);

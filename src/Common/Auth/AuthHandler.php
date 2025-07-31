@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenStack\Common\Auth;
 
-use function GuzzleHttp\Psr7\modify_request;
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -25,11 +25,7 @@ class AuthHandler
     /** @var Token */
     private $token;
 
-    /**
-     * @param callable $nextHandler
-     * @param callable $tokenGenerator
-     */
-    public function __construct(callable $nextHandler, callable $tokenGenerator, Token $token = null)
+    public function __construct(callable $nextHandler, callable $tokenGenerator, ?Token $token = null)
     {
         $this->nextHandler    = $nextHandler;
         $this->tokenGenerator = $tokenGenerator;
@@ -41,16 +37,18 @@ class AuthHandler
      * checks to see whether a token is set and valid, and then sets the ``X-Auth-Token`` header
      * for the HTTP request before letting it continue on its merry way.
      *
-     * @param RequestInterface $request
-     * @param array            $options
-     *
      * @return mixed|void
      */
     public function __invoke(RequestInterface $request, array $options)
     {
         $fn = $this->nextHandler;
 
-        if ($this->shouldIgnore($request)) {
+        if (!isset($options['openstack.skip_auth'])) {
+            // Deprecated. Left for backward compatibility only.
+            if ($this->shouldIgnore($request)) {
+                return $fn($request, $options);
+            }
+        } elseif ($options['openstack.skip_auth']) {
             return $fn($request, $options);
         }
 
@@ -60,16 +58,12 @@ class AuthHandler
 
         $modify = ['set_headers' => ['X-Auth-Token' => $this->token->getId()]];
 
-        return $fn(modify_request($request, $modify), $options);
+        return $fn(Utils::modifyRequest($request, $modify), $options);
     }
 
     /**
      * Internal method which prevents infinite recursion. For certain requests, like the initial
      * auth call itself, we do NOT want to send a token.
-     *
-     * @param RequestInterface $request
-     *
-     * @return bool
      */
     private function shouldIgnore(RequestInterface $request): bool
     {

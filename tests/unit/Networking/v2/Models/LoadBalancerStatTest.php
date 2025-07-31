@@ -11,7 +11,7 @@ class LoadBalancerStatTest extends TestCase
 {
     private $stat;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -23,12 +23,12 @@ class LoadBalancerStatTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/stats', null, [], 'loadbalancer-stats-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/loadbalancers/loadbalancerId/stats', 'loadbalancer-stats-get', null, []);
 
         $this->stat->retrieve();
-        $this->assertEquals('1234', $this->stat->bytesOut);
-        $this->assertEquals('4321', $this->stat->bytesIn);
-        $this->assertEquals(25, $this->stat->totalConnections);
-        $this->assertEquals(10, $this->stat->activeConnections);
+        self::assertEquals('1234', $this->stat->bytesOut);
+        self::assertEquals('4321', $this->stat->bytesIn);
+        self::assertEquals(25, $this->stat->totalConnections);
+        self::assertEquals(10, $this->stat->activeConnections);
     }
 }

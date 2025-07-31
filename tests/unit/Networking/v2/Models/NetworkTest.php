@@ -11,7 +11,7 @@ class NetworkTest extends TestCase
 {
     private $network;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -35,9 +35,9 @@ class NetworkTest extends TestCase
             'admin_state_up' => $opts['adminStateUp'],
         ]];
 
-        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'network-post');
+        $this->mockRequest('POST', 'v2.0/networks', 'network-post', $expectedJson, []);
 
-        $this->assertInstanceOf(Network::class, $this->network->create($opts));
+        self::assertInstanceOf(Network::class, $this->network->create($opts));
     }
 
     public function test_it_bulk_creates()
@@ -70,12 +70,12 @@ class NetworkTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'v2.0/networks', $expectedJson, [], 'networks-post');
+        $this->mockRequest('POST', 'v2.0/networks', 'networks-post', $expectedJson, []);
 
         $networks = $this->network->bulkCreate($opts);
 
-        $this->assertInternalType('array', $networks);
-        $this->assertCount(2, $networks);
+        self::assertIsArray($networks);
+        self::assertCount(2, $networks);
     }
 
     public function test_it_updates()
@@ -91,25 +91,25 @@ class NetworkTest extends TestCase
             'admin_state_up' => false,
         ]];
 
-        $this->setupMock('PUT', 'v2.0/networks/networkId', $expectedJson, [], 'network-put');
+        $this->mockRequest('PUT', 'v2.0/networks/networkId', 'network-put', $expectedJson, []);
 
         $this->network->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/networks/networkId', null, [], 'network-get');
+        $this->mockRequest('GET', 'v2.0/networks/networkId', 'network-get', null, []);
 
         $this->network->retrieve();
 
-        $this->assertEquals('networkId', $this->network->id);
-        $this->assertEquals('fakenetwork', $this->network->name);
-        $this->assertEquals('ACTIVE', $this->network->status);
+        self::assertEquals('networkId', $this->network->id);
+        self::assertEquals('fakenetwork', $this->network->name);
+        self::assertEquals('ACTIVE', $this->network->status);
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/networks/networkId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/networks/networkId', new Response(204), null, []);
 
         $this->network->delete();
     }

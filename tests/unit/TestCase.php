@@ -2,15 +2,15 @@
 
 namespace OpenStack\Test;
 
-use function GuzzleHttp\Psr7\stream_for;
-use function GuzzleHttp\Psr7\parse_response;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Response;
-use Prophecy\Argument;
+use GuzzleHttp\Psr7\Utils;
+use Prophecy\Prophecy\MethodProphecy;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /** @var \Prophecy\Prophecy\ObjectProphecy */
+    /** @var \Prophecy\Prophecy\ObjectProphecy<\GuzzleHttp\ClientInterface> */
     protected $client;
 
     /** @var string */
@@ -18,14 +18,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected $api;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this->prophesize(ClientInterface::class);
     }
 
     protected function createResponse($status, array $headers, array $json)
     {
-        return new Response($status, $headers, stream_for(json_encode($json)));
+        return new Response($status, $headers, Utils::streamFor(json_encode($json)));
     }
 
     protected function getFixture($file)
@@ -40,25 +40,57 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             throw new \RuntimeException(sprintf("%s does not exist", $path));
         }
 
-        return parse_response(file_get_contents($path));
+        return Message::parseResponse(file_get_contents($path));
     }
 
-    protected function setupMock($method, $path, $body = null, array $headers = [], $response)
+
+    /**
+     * Mocks request
+     *
+     * @param string $method method of request: GET, POST, PUT, DELETE
+     * @param string|array $uri request path or array with path and query
+     * @param string|\GuzzleHttp\Psr7\Response|\Throwable $response the file name of the response fixture or a Response object
+     * @param string|array|null $body request body. If type is array, it will be encoded as JSON.
+     * @param array $headers request headers
+     * @param bool $skipAuth true if the api call skips authentication
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function mockRequest(string $method, $uri, $response = null, $body = null, array $headers = [], $skipAuth = false): MethodProphecy
     {
-        $options = ['headers' => $headers];
+        $options = [
+            'headers'             => $headers,
+            'openstack.skip_auth' => $skipAuth,
+        ];
 
         if (!empty($body)) {
             $options[is_array($body) ? 'json' : 'body'] = $body;
         }
 
-        if (is_string($response)) {
-            $response = $this->getFixture($response);
+
+        if (is_string($uri)) {
+            $uri = ['path' => $uri];
         }
 
-        $this->client
-            ->request($method, $path, $options)
-            ->shouldBeCalled()
-            ->willReturn($response);
+        if (isset($uri['query'])) {
+            $options['query'] = $uri['query'];
+        }
+
+        $method = $this->client
+            ->request($method, $uri['path'] ?? '', $options)
+            ->shouldBeCalled();
+
+        if (is_string($response)) {
+            $method = $method->willReturn($this->getFixture($response));
+        } elseif ($response instanceof Response) {
+            $method = $method->willReturn($response);
+        } elseif ($response instanceof \Throwable) {
+            $method = $method->willThrow($response);
+        } else {
+            throw new \InvalidArgumentException('Response must be either a string, a Response object or an instance of Throwable');
+        }
+
+        return $method;
     }
 
     protected function createFn($receiver, $method, $args)
@@ -73,27 +105,27 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $modelName = $modelName ?: $urlPath;
         $responseFile = $responseFile ?: $urlPath;
 
-        $this->setupMock('GET', $urlPath, null, [], $responseFile);
+        $this->mockRequest('GET', $urlPath, $responseFile, null, []);
 
         $resources = call_user_func($call);
 
-        $this->assertInstanceOf('\Generator', $resources);
+        self::assertInstanceOf('\Generator', $resources);
 
         $count = 0;
 
         foreach ($resources as $resource) {
-            $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+            self::assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
             ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     protected function getTest(callable $call, $modelName)
     {
         $resource = call_user_func($call);
 
-        $this->assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
-        $this->assertEquals('id', $resource->id);
+        self::assertInstanceOf('OpenStack\Identity\v3\Models\\' . ucfirst($modelName), $resource);
+        self::assertEquals('id', $resource->id);
     }
 }

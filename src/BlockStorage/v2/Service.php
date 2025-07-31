@@ -11,7 +11,7 @@ use OpenStack\BlockStorage\v2\Models\VolumeType;
 use OpenStack\Common\Service\AbstractService;
 
 /**
- * @property \OpenStack\BlockStorage\v2\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {
@@ -20,8 +20,6 @@ class Service extends AbstractService
      * You must have enough volume storage quota remaining to create a volume of size requested.
      *
      * @param array $userOptions {@see Api::postVolumes}
-     *
-     * @return Volume
      */
     public function createVolume(array $userOptions): Volume
     {
@@ -34,7 +32,7 @@ class Service extends AbstractService
      * @param bool  $detail      if set to TRUE, more information will be returned
      * @param array $userOptions {@see Api::getVolumes}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\BlockStorage\v2\Models\Volume>
      */
     public function listVolumes(bool $detail = false, array $userOptions = []): \Generator
     {
@@ -45,8 +43,6 @@ class Service extends AbstractService
 
     /**
      * @param string $volumeId the UUID of the volume being retrieved
-     *
-     * @return Volume
      */
     public function getVolume(string $volumeId): Volume
     {
@@ -58,8 +54,6 @@ class Service extends AbstractService
 
     /**
      * @param array $userOptions {@see Api::postTypes}
-     *
-     * @return VolumeType
      */
     public function createVolumeType(array $userOptions): VolumeType
     {
@@ -67,18 +61,13 @@ class Service extends AbstractService
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\BlockStorage\v2\Models\VolumeType>
      */
     public function listVolumeTypes(): \Generator
     {
         return $this->model(VolumeType::class)->enumerate($this->api->getTypes(), []);
     }
 
-    /**
-     * @param string $typeId
-     *
-     * @return VolumeType
-     */
     public function getVolumeType(string $typeId): VolumeType
     {
         $type = $this->model(VolumeType::class);
@@ -89,8 +78,6 @@ class Service extends AbstractService
 
     /**
      * @param array $userOptions {@see Api::postSnapshots}
-     *
-     * @return Snapshot
      */
     public function createSnapshot(array $userOptions): Snapshot
     {
@@ -98,7 +85,7 @@ class Service extends AbstractService
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\BlockStorage\v2\Models\Snapshot>
      */
     public function listSnapshots(bool $detail = false, array $userOptions = []): \Generator
     {
@@ -107,11 +94,6 @@ class Service extends AbstractService
         return $this->model(Snapshot::class)->enumerate($def, $userOptions);
     }
 
-    /**
-     * @param string $snapshotId
-     *
-     * @return Snapshot
-     */
     public function getSnapshot(string $snapshotId): Snapshot
     {
         $snapshot = $this->model(Snapshot::class);
@@ -122,10 +104,6 @@ class Service extends AbstractService
 
     /**
      * Shows A Quota for a tenant.
-     *
-     * @param string $tenantId
-     *
-     * @return QuotaSet
      */
     public function getQuotaSet(string $tenantId): QuotaSet
     {

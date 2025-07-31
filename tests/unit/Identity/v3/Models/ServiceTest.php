@@ -12,7 +12,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -24,7 +24,7 @@ class ServiceTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'services/SERVICE_ID', null, [], 'service');
+        $this->mockRequest('GET', 'services/SERVICE_ID', 'service', null, []);
 
         $this->service->retrieve();
     }
@@ -33,21 +33,21 @@ class ServiceTest extends TestCase
     {
         $this->service->type = 'foo';
 
-        $this->setupMock('PATCH', 'services/SERVICE_ID', ['service' => ['type' => 'foo']], [], 'service');
+        $this->mockRequest('PATCH', 'services/SERVICE_ID', 'service', ['service' => ['type' => 'foo']], []);
 
         $this->service->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'services/SERVICE_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'services/SERVICE_ID', new Response(204), null, []);
 
         $this->service->delete();
     }
 
     public function test_it_returns_false_if_name_and_type_does_not_match()
     {
-        $this->assertFalse($this->service->getUrl('foo', 'bar', '', ''));
+        self::assertFalse($this->service->getUrl('foo', 'bar', '', ''));
     }
 
     public function test_it_retrieves_url_if_name_type_and_region_match()
@@ -61,7 +61,7 @@ class ServiceTest extends TestCase
         $this->service->type = 'bar';
         $this->service->endpoints = [$endpoint];
 
-        $this->assertNotNull($this->service->getUrl('foo', 'bar', 'baz', 'internal'));
-        $this->assertFalse($this->service->getUrl('foo', 'bar', 'bat', ''));
+        self::assertNotNull($this->service->getUrl('foo', 'bar', 'baz', 'internal'));
+        self::assertFalse($this->service->getUrl('foo', 'bar', 'bat', ''));
     }
 }

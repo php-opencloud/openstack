@@ -1,32 +1,38 @@
 Ports
 =====
 
-Create port
------------
+A port is a connection point for attaching a single device, such as the NIC of a virtual server, to a virtual network.
+The port also describes the associated network configuration, such as the MAC and IP addresses to be used on that port.
 
-.. sample:: networking/v2/ports/create.php
-.. refdoc:: OpenStack/Networking/v2/ports/Service.html#method_createPort
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#ports
 
-Create ports
-------------
+.. |models| replace:: ports
 
-.. sample:: networking/v2/ports/create_batch.php
-.. refdoc:: OpenStack/Networking/v2/ports/Service.html#method_createPorts
+.. include:: /common/service.rst
 
-Get port
---------
+Create
+------
 
-.. sample:: networking/v2/ports/get.php
-.. refdoc:: OpenStack/Networking/v2/ports/Service.html#method_getPort
+.. sample:: Networking/v2/ports/create.php
 
-Update port
------------
+Batch
+~~~~~
 
-.. sample:: networking/v2/ports/update.php
-.. refdoc:: OpenStack/Networking/v2/ports/Models/Port.html#method_update
+To create multiple ports in a single request, use the following code:
 
-Delete port
------------
+.. sample:: Networking/v2/ports/create_batch.php
 
-.. sample:: networking/v2/ports/delete.php
-.. refdoc:: OpenStack/Networking/v2/ports/Models/Port.html#method_delete
+Read
+----
+
+.. sample:: Networking/v2/ports/read.php
+
+Update
+------
+
+.. sample:: Networking/v2/ports/update.php
+
+Delete
+------
+
+.. sample:: Networking/v2/ports/delete.php

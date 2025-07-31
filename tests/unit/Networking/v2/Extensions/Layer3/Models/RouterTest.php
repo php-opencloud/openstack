@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Networking\v2\Extensions\Layer3\Models;
+namespace OpenStack\Test\Networking\v2\Extensions\Layer3\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Test\TestCase;
@@ -14,7 +14,7 @@ class RouterTest extends TestCase
     /** @var Router */
     private $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -26,7 +26,7 @@ class RouterTest extends TestCase
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/routers/id', null, [], new Response(202));
+        $this->mockRequest('DELETE', 'v2.0/routers/id', new Response(202), null, []);
 
         $this->router->delete();
     }
@@ -47,7 +47,7 @@ class RouterTest extends TestCase
             ],
         ]];
 
-        $this->setupMock('PUT', 'v2.0/routers/id', $expectedJson, [], new Response(201));
+        $this->mockRequest('PUT', 'v2.0/routers/id', new Response(201), $expectedJson, []);
 
         $gatewayInfo = new GatewayInfo();
         $gatewayInfo->networkId = '8ca37218-28ff-41cb-9b10-039601ea7e6b';
@@ -66,19 +66,19 @@ class RouterTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/routers/id', null, [], 'Router');
+        $this->mockRequest('GET', 'v2.0/routers/id', 'Router', null, []);
 
         $this->router->retrieve();
 
-        $this->assertEquals('f8a44de0-fc8e-45df-93c7-f79bf3b01c95', $this->router->id);
-        $this->assertCount(2, $this->router->externalGatewayInfo->fixedIps);
+        self::assertEquals('f8a44de0-fc8e-45df-93c7-f79bf3b01c95', $this->router->id);
+        self::assertCount(2, $this->router->externalGatewayInfo->fixedIps);
     }
 
     public function test_it_adds_interface()
     {
         $expectedJson = ['subnet_id' => 'a2f1f29d-571b-4533-907f-5803ab96ead1'];
 
-        $this->setupMock('PUT', 'v2.0/routers/id/add_router_interface', $expectedJson, [], new Response(201));
+        $this->mockRequest('PUT', 'v2.0/routers/id/add_router_interface', new Response(201), $expectedJson, []);
 
         $this->router->addInterface(['subnetId' => 'a2f1f29d-571b-4533-907f-5803ab96ead1']);
     }
@@ -87,7 +87,7 @@ class RouterTest extends TestCase
     {
         $expectedJson = ['subnet_id' => 'a2f1f29d-571b-4533-907f-5803ab96ead1'];
 
-        $this->setupMock('PUT', 'v2.0/routers/id/remove_router_interface', $expectedJson, [], new Response(201));
+        $this->mockRequest('PUT', 'v2.0/routers/id/remove_router_interface', new Response(201), $expectedJson, []);
 
         $this->router->removeInterface(['subnetId' => 'a2f1f29d-571b-4533-907f-5803ab96ead1']);
     }

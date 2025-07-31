@@ -20,7 +20,6 @@ trait ArrayAccessTrait
      * Sets an internal key with a value.
      *
      * @param string $offset
-     * @param mixed  $value
      */
     public function offsetSet($offset, $value)
     {
@@ -33,10 +32,6 @@ trait ArrayAccessTrait
 
     /**
      * Checks whether an internal key exists.
-     *
-     * @param string $offset
-     *
-     * @return bool
      */
     public function offsetExists(string $offset): bool
     {
@@ -45,8 +40,6 @@ trait ArrayAccessTrait
 
     /**
      * Unsets an internal key.
-     *
-     * @param string $offset
      */
     public function offsetUnset(string $offset)
     {
@@ -55,8 +48,6 @@ trait ArrayAccessTrait
 
     /**
      * Retrieves an internal key.
-     *
-     * @param string $offset
      *
      * @return mixed|null
      */

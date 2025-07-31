@@ -16,13 +16,15 @@ class Api extends AbstractApi
     public function postTokens(): array
     {
         return [
-            'method' => 'POST',
-            'path'   => 'auth/tokens',
-            'params' => [
-                'methods' => $this->params->methods(),
-                'user'    => $this->params->user(),
-                'tokenId' => $this->params->tokenBody(),
-                'scope'   => $this->params->scope(),
+            'method'   => 'POST',
+            'path'     => 'auth/tokens',
+            'skipAuth' => true,
+            'params'   => [
+                'methods'                => $this->params->methods(),
+                'user'                   => $this->params->user(),
+                'application_credential' => $this->params->applicationCredential(),
+                'tokenId'                => $this->params->tokenBody(),
+                'scope'                  => $this->params->scope(),
             ],
         ];
     }
@@ -554,6 +556,7 @@ class Api extends AbstractApi
                 'description'      => $this->params->desc('user'),
                 'email'            => $this->params->email(),
                 'enabled'          => $this->params->enabled('user'),
+                'name'             => $this->params->name('user'),
                 'password'         => $this->params->password(),
             ],
         ];
@@ -835,6 +838,45 @@ class Api extends AbstractApi
             'method' => 'DELETE',
             'path'   => 'policies/{id}',
             'params' => ['id' => $this->params->idUrl('policy')],
+        ];
+    }
+
+    public function getApplicationCredential(): array
+    {
+        return [
+            'method'  => 'GET',
+            'path'    => 'users/{userId}/application_credentials/{id}',
+            'jsonKey' => 'application_credential',
+            'params'  => [
+                'id'     => $this->params->idUrl('application_credential'),
+                'userId' => $this->params->idUrl('user'),
+            ],
+        ];
+    }
+
+    public function postApplicationCredential(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'users/{userId}/application_credentials',
+            'jsonKey' => 'application_credential',
+            'params'  => [
+                'userId'      => $this->params->idUrl('user'),
+                'name'        => $this->params->name('application_credential'),
+                'description' => $this->params->desc('application_credential'),
+            ],
+        ];
+    }
+
+    public function deleteApplicationCredential(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'users/{userId}/application_credentials/{id}',
+            'params' => [
+                'id'     => $this->params->idUrl('application_credential'),
+                'userId' => $this->params->idUrl('user'),
+            ],
         ];
     }
 }

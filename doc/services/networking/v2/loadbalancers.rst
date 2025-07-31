@@ -1,47 +1,54 @@
 LoadBalancers
 =============
 
-Create LoadBalancer
--------------------
+.. warning::
+    Load balancing functions accessed via the neutron endpoint are deprecated and will be removed in a future release.
+    Users are strongly encouraged to migrate to using the octavia endpoint.
+    This library does not support the octavia endpoint yet.
+    Consider `helping <https://github.com/php-opencloud/openstack/pulls>`_ us to implement it .
 
-.. sample:: networking/v2/lbaas/loadbalancers/create.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_createLoadBalancer
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#load-balancer-as-a-service-2-0-deprecated
 
-Get LoadBalancer
-----------------
+.. |models| replace:: load balancers
 
-.. sample:: networking/v2/lbaas/loadbalancers/get.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_getLoadBalancer
+.. include:: /common/service.rst
 
-List LoadBalancers
-------------------
+Create
+------
 
-.. sample:: networking/v2/lbaas/loadbalancers/list.php
-.. refdoc:: OpenStack/Networking/v2/Service.html#method_listLoadBalancers
+.. sample:: Networking/v2/lbaas/loadbalancers/create.php
 
-Update LoadBalancer
--------------------
+Read
+----
 
-.. sample:: networking/v2/lbaas/loadbalancers/update.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancer.html#method_update
+.. sample:: Networking/v2/lbaas/loadbalancers/read.php
 
-Delete LoadBalancer
--------------------
+Update
+------
 
-.. sample:: networking/v2/lbaas/loadbalancers/delete.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancer.html#method_delete
+.. sample:: Networking/v2/lbaas/loadbalancers/update.php
 
-Add Listener to LoadBalancer
-----------------------------
-.. sample:: networking/v2/lbaas/loadbalancers/add_listener.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancer.html#method_addListener
+Delete
+------
 
-Get Stats for LoadBalancer
---------------------------
-.. sample:: networking/v2/lbaas/loadbalancers/get_stats.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancer.html#method_getStats
+.. sample:: Networking/v2/lbaas/loadbalancers/delete.php
 
-Get Status Tree for LoadBalancer
+List
+----
+
+.. sample:: Networking/v2/lbaas/loadbalancers/list.php
+
+Add Listener
+------------
+
+.. sample:: Networking/v2/lbaas/loadbalancers/add_listener.php
+
+Get Stats
+---------
+
+.. sample:: Networking/v2/lbaas/loadbalancers/get_stats.php
+
+Get Status Tree
 --------------------------------
-.. sample:: networking/v2/lbaas/loadbalancers/get_statuses.php
-.. refdoc:: OpenStack/Networking/v2/Models/LoadBalancer.html#method_getStatuses
+
+.. sample:: Networking/v2/lbaas/loadbalancers/get_statuses.php

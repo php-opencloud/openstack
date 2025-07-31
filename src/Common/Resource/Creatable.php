@@ -12,9 +12,7 @@ interface Creatable
     /**
      * Create a new resource according to the configuration set in the options.
      *
-     * @param array $userOptions
-     *
-     * @return self
+     * @return static
      */
     public function create(array $userOptions): Creatable;
 }

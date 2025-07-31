@@ -7,21 +7,21 @@ namespace OpenStack\Common\Api;
 abstract class AbstractParams
 {
     // locations
-    const QUERY  = 'query';
-    const HEADER = 'header';
-    const URL    = 'url';
-    const JSON   = 'json';
-    const RAW    = 'raw';
+    public const QUERY  = 'query';
+    public const HEADER = 'header';
+    public const URL    = 'url';
+    public const JSON   = 'json';
+    public const RAW    = 'raw';
 
     // types
-    const STRING_TYPE  = 'string';
-    const BOOL_TYPE    = 'boolean';
-    const BOOLEAN_TYPE = self::BOOL_TYPE;
-    const OBJECT_TYPE  = 'object';
-    const ARRAY_TYPE   = 'array';
-    const NULL_TYPE    = 'NULL';
-    const INT_TYPE     = 'integer';
-    const INTEGER_TYPE = self::INT_TYPE;
+    public const STRING_TYPE  = 'string';
+    public const BOOL_TYPE    = 'boolean';
+    public const BOOLEAN_TYPE = self::BOOL_TYPE;
+    public const OBJECT_TYPE  = 'object';
+    public const ARRAY_TYPE   = 'array';
+    public const NULL_TYPE    = 'NULL';
+    public const INT_TYPE     = 'integer';
+    public const INTEGER_TYPE = self::INT_TYPE;
 
     public static function isSupportedLocation(string $val): bool
     {
@@ -85,6 +85,7 @@ DESC
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::QUERY,
+            'sentAs'      => 'sort_dir',
             'description' => 'Sorts by one or more sets of attribute and sort direction combinations.',
             'enum'        => ['asc', 'desc'],
         ];
@@ -95,6 +96,7 @@ DESC
         return [
             'type'        => self::STRING_TYPE,
             'location'    => self::QUERY,
+            'sentAs'      => 'sort_key',
             'description' => 'Sorts by one or more sets of attribute and sort direction combinations.',
         ];
     }

@@ -10,14 +10,12 @@ use OpenStack\ObjectStore\v1\Models\Account;
 use OpenStack\ObjectStore\v1\Models\Container;
 
 /**
- * @property \OpenStack\ObjectStore\v1\Api $api
+ * @property Api $api
  */
 class Service extends AbstractService
 {
     /**
      * Retrieves an Account object.
-     *
-     * @return Account
      */
     public function getAccount(): Account
     {
@@ -30,9 +28,9 @@ class Service extends AbstractService
      * @param array         $options {@see \OpenStack\ObjectStore\v1\Api::getAccount}
      * @param callable|null $mapFn   allows a function to be mapped over each element in the collection
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\ObjectStore\v1\Models\Container>
      */
-    public function listContainers(array $options = [], callable $mapFn = null): \Generator
+    public function listContainers(array $options = [], ?callable $mapFn = null): \Generator
     {
         $options = array_merge($options, ['format' => 'json']);
 
@@ -43,11 +41,9 @@ class Service extends AbstractService
      * Retrieves a Container object and populates its name according to the value provided. Please note that the
      * remote API is not contacted.
      *
-     * @param string $name The unique name of the container
-     *
-     * @return Container
+     * @param string|null $name The unique name of the container
      */
-    public function getContainer(string $name = null): Container
+    public function getContainer(?string $name = null): Container
     {
         return $this->model(Container::class, ['name' => $name]);
     }
@@ -56,8 +52,6 @@ class Service extends AbstractService
      * Creates a new container according to the values provided.
      *
      * @param array $data {@see \OpenStack\ObjectStore\v1\Api::putContainer}
-     *
-     * @return Container
      */
     public function createContainer(array $data): Container
     {

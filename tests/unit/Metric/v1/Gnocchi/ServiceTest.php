@@ -14,7 +14,7 @@ class ServiceTest extends TestCase
     /** @var Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->rootFixturesDir = __DIR__;
@@ -23,74 +23,72 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_resource_types()
     {
-        $this->client
-            ->request('GET', 'v1/resource_type', ['headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resourcetypes-get'));
+        $this->mockRequest('GET', 'v1/resource_type', 'resourcetypes-get');
 
         $result = iterator_to_array($this->service->listResourceTypes());
 
-        $this->assertEquals(15, count($result));
-        $this->assertContainsOnlyInstancesOf(ResourceType::class, $result);
+        self::assertEquals(15, count($result));
+        self::assertContainsOnlyInstancesOf(ResourceType::class, $result);
     }
 
     public function test_it_lists_resources()
     {
-        $this->client
-            ->request('GET', 'v1/resource/generic', ['headers' => [], 'query' => ['limit' => 3]])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resources-get'));
+        $this->mockRequest('GET', ['path' => 'v1/resource/generic', 'query' => ['limit' => 3]], 'resources-get');
 
         $result = iterator_to_array($this->service->listResources(['limit' => 3]));
 
-        $this->assertEquals(3, count($result));
-        $this->assertContainsOnlyInstancesOf(Resource::class, $result);
+        self::assertEquals(3, count($result));
+        self::assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_get_resource()
     {
         $resource = $this->service->getResource(['id' => '1']);
 
-        $this->assertEquals('1', $resource->id);
-        $this->assertInstanceOf(Resource::class, $resource);
+        self::assertEquals('1', $resource->id);
+        self::assertInstanceOf(Resource::class, $resource);
     }
 
     public function test_it_search_resources()
     {
-        $this->client
-            ->request('POST', 'v1/search/resource/generic', ['headers' => ['Content-Type' => 'application/json']])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resources-get'));
+        $this->mockRequest(
+            'POST',
+            'v1/search/resource/generic',
+            'resources-get',
+            [],
+            ['Content-Type' => 'application/json']
+        );
+
         $result = $this->service->searchResources(['type' => 'generic']);
-        $this->assertContainsOnlyInstancesOf(Resource::class, $result);
+        self::assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_search_resources_with_custom_type()
     {
-        $this->client
-            ->request('POST', 'v1/search/resource/instance', ['headers' => ['Content-Type' => 'application/json']])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('resources-get'));
+        $this->mockRequest(
+            'POST',
+            'v1/search/resource/instance',
+            'resources-get',
+            [],
+            ['Content-Type' => 'application/json']
+        );
 
         $result = $this->service->searchResources(['type' => 'instance']);
 
-        $this->assertContainsOnlyInstancesOf(Resource::class, $result);
+        self::assertContainsOnlyInstancesOf(Resource::class, $result);
     }
 
     public function test_it_lists_metrics()
     {
-        $this->client
-            ->request('GET', 'v1/metric', ['headers' => [], 'query' => ['limit' => 5]])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('metrics-get'));
+        $this->mockRequest('GET', ['path' => 'v1/metric', 'query' => ['limit' => 5]], 'metrics-get');
 
         $result = $this->service->listMetrics(['limit' => 5]);
 
-        $this->assertContainsOnlyInstancesOf(Metric::class, $result);
+        self::assertContainsOnlyInstancesOf(Metric::class, $result);
     }
 
     public function test_it_get_metric()
     {
-        $this->assertInstanceOf(Metric::class, $this->service->getMetric('metric-id'));
+        self::assertInstanceOf(Metric::class, $this->service->getMetric('metric-id'));
     }
 }

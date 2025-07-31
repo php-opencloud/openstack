@@ -6,11 +6,9 @@ namespace OpenStack\Common\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Middleware as GuzzleMiddleware;
+use GuzzleHttp\HandlerStack;
 use OpenStack\Common\Auth\IdentityService;
-use OpenStack\Common\Auth\Token;
-use OpenStack\Common\Transport\HandlerStack;
-use OpenStack\Common\Transport\Middleware;
+use OpenStack\Common\Transport\HandlerStackFactory;
 use OpenStack\Common\Transport\Utils;
 
 /**
@@ -69,10 +67,6 @@ class Builder
      *
      * @param string $namespace      The namespace of the service
      * @param array  $serviceOptions The service-specific options to use
-     *
-     * @return \OpenStack\Common\Service\ServiceInterface
-     *
-     * @throws \Exception
      */
     public function createService(string $namespace, array $serviceOptions = []): ServiceInterface
     {
@@ -81,25 +75,23 @@ class Builder
         $this->stockAuthHandler($options);
         $this->stockHttpClient($options, $namespace);
 
-        list($apiClass, $serviceClass) = $this->getClasses($namespace);
+        [$apiClass, $serviceClass] = $this->getClasses($namespace);
 
         return new $serviceClass($options['httpClient'], new $apiClass());
     }
 
-    private function stockHttpClient(array &$options, string $serviceName)
+    private function stockHttpClient(array &$options, string $serviceName): void
     {
         if (!isset($options['httpClient']) || !($options['httpClient'] instanceof ClientInterface)) {
             if (false !== stripos($serviceName, 'identity')) {
                 $baseUrl = $options['authUrl'];
-                $stack   = $this->getStack($options['authHandler']);
+                $token   = null;
             } else {
-                list($token, $baseUrl) = $options['identityService']->authenticate($options);
-                $stack                 = $this->getStack($options['authHandler'], $token);
+                [$token, $baseUrl] = $options['identityService']->authenticate($options);
             }
 
+            $stack        = HandlerStackFactory::createWithOptions(array_merge($options, ['token' => $token]));
             $microVersion = $options['microVersion'] ?? null;
-
-            $this->addDebugMiddleware($options, $stack);
 
             $options['httpClient'] = $this->httpClient($baseUrl, $stack, $options['catalogType'], $microVersion);
         }
@@ -108,22 +100,7 @@ class Builder
     /**
      * @codeCoverageIgnore
      */
-    private function addDebugMiddleware(array $options, HandlerStack &$stack)
-    {
-        if (!empty($options['debugLog'])
-            && !empty($options['logger'])
-            && !empty($options['messageFormatter'])
-        ) {
-            $stack->push(GuzzleMiddleware::log($options['logger'], $options['messageFormatter']));
-        }
-    }
-
-    /**
-     * @param array $options
-     *
-     * @codeCoverageIgnore
-     */
-    private function stockAuthHandler(array &$options)
+    private function stockAuthHandler(array &$options): void
     {
         if (!isset($options['authHandler'])) {
             $options['authHandler'] = function () use ($options) {
@@ -132,15 +109,7 @@ class Builder
         }
     }
 
-    private function getStack(callable $authHandler, Token $token = null): HandlerStack
-    {
-        $stack = HandlerStack::create();
-        $stack->push(Middleware::authHandler($authHandler, $token));
-
-        return $stack;
-    }
-
-    private function httpClient(string $baseUrl, HandlerStack $stack, string $serviceType = null, string $microVersion = null): ClientInterface
+    private function httpClient(string $baseUrl, HandlerStack $stack, ?string $serviceType = null, ?string $microVersion = null): ClientInterface
     {
         $clientOptions = [
             'base_uri' => Utils::normalizeUrl($baseUrl),
@@ -167,10 +136,7 @@ class Builder
         }
 
         if (!isset($options['identityService']) || !($options['identityService'] instanceof IdentityService)) {
-            throw new \InvalidArgumentException(sprintf(
-                '"identityService" must be specified and implement %s',
-                IdentityService::class
-            ));
+            throw new \InvalidArgumentException(sprintf('"identityService" must be specified and implement %s', IdentityService::class));
         }
 
         return $options;

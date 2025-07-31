@@ -12,7 +12,7 @@ class ServiceTest extends TestCase
 {
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -23,10 +23,14 @@ class ServiceTest extends TestCase
 
     public function test_it_creates_image()
     {
+        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
+            ? \GuzzleHttp\Psr7\uri_for('')
+            : \GuzzleHttp\Psr7\Utils::uriFor('');
+
         $this->client
             ->getConfig('base_uri')
             ->shouldBeCalled()
-            ->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+            ->willReturn($returnedUri);
 
         $expectedJson = [
             "name" => "Ubuntu 12.10",
@@ -42,7 +46,7 @@ class ServiceTest extends TestCase
             "min_ram" => 0,
         ];
 
-        $this->setupMock('POST', 'v2/images', $expectedJson, [], 'GET_image');
+        $this->mockRequest('POST', 'v2/images', 'GET_image', $expectedJson, []);
 
         $this->service->createImage([
             'name' => 'Ubuntu 12.10',
@@ -58,23 +62,24 @@ class ServiceTest extends TestCase
 
     public function test_it_lists_images()
     {
+        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
+            ? \GuzzleHttp\Psr7\uri_for('')
+            : \GuzzleHttp\Psr7\Utils::uriFor('');
+
         $this->client
             ->getConfig('base_uri')
             ->shouldBeCalled()
-            ->willReturn(\GuzzleHttp\Psr7\uri_for(''));
+            ->willReturn($returnedUri);
 
-        $this->client
-            ->request('GET', 'v2/images', ['query' => ['limit' => 5], 'headers' => []])
-            ->shouldBeCalled()
-            ->willReturn($this->getFixture('GET_images'));
+        $this->mockRequest('GET', ['path' => 'v2/images', 'query' => ['limit' => 5]], 'GET_images');
 
         foreach ($this->service->listImages(['limit' => 5]) as $image) {
-            $this->assertInstanceOf(Image::class, $image);
+            self::assertInstanceOf(Image::class, $image);
         }
     }
 
     public function test_it_gets_image()
     {
-        $this->assertInstanceOf(Image::class, $this->service->getImage('id'));
+        self::assertInstanceOf(Image::class, $this->service->getImage('id'));
     }
 }

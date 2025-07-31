@@ -19,6 +19,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Builder
 {
+    public const MAX_BODY_LENGTH = 5000;
+
     /**
      * The default domain to use for further link documentation.
      *
@@ -33,20 +35,13 @@ class Builder
      */
     private $client;
 
-    /**
-     * @param ClientInterface $client
-     */
-    public function __construct(ClientInterface $client = null)
+    public function __construct(?ClientInterface $client = null)
     {
         $this->client = $client ?: new Client();
     }
 
     /**
      * Internal method used when outputting headers in the error description.
-     *
-     * @param $name
-     *
-     * @return string
      */
     private function header(string $name): string
     {
@@ -58,8 +53,6 @@ class Builder
      * directed off to a broken link. If a 404 is detected, it is hidden.
      *
      * @param $link The proposed link
-     *
-     * @return bool
      */
     private function linkIsValid(string $link): bool
     {
@@ -73,36 +66,48 @@ class Builder
     }
 
     /**
-     * @param MessageInterface $message
-     *
      * @codeCoverageIgnore
-     *
-     * @return string
      */
-    public function str(MessageInterface $message): string
+    public function str(MessageInterface $message, int $verbosity = 0): string
     {
         if ($message instanceof RequestInterface) {
-            $msg = trim($message->getMethod().' '
-                    .$message->getRequestTarget())
-                .' HTTP/'.$message->getProtocolVersion();
+            $msg = trim($message->getMethod().' '.$message->getRequestTarget());
+            $msg .= ' HTTP/'.$message->getProtocolVersion();
             if (!$message->hasHeader('host')) {
                 $msg .= "\r\nHost: ".$message->getUri()->getHost();
             }
-        } elseif ($message instanceof ResponseInterface) {
-            $msg = 'HTTP/'.$message->getProtocolVersion().' '
-                .$message->getStatusCode().' '
-                .$message->getReasonPhrase();
+        } else {
+            if ($message instanceof ResponseInterface) {
+                $msg = 'HTTP/'.$message->getProtocolVersion().' '
+                    .$message->getStatusCode().' '
+                    .$message->getReasonPhrase();
+            } else {
+                throw new \InvalidArgumentException('Unknown message type');
+            }
+        }
+
+        if ($verbosity < 1) {
+            return $msg;
         }
 
         foreach ($message->getHeaders() as $name => $values) {
             $msg .= "\r\n{$name}: ".implode(', ', $values);
         }
 
-        if (ini_get('memory_limit') < 0 || $message->getBody()->getSize() < ini_get('memory_limit')) {
-            $msg .= "\r\n\r\n".$message->getBody();
+        if ($verbosity < 2) {
+            return $msg;
         }
 
-        return $msg;
+        $contentType = strtolower($message->getHeaderLine('content-type'));
+        if (false !== strpos($contentType, 'application/json')) {
+            $body = $message->getBody()->read(self::MAX_BODY_LENGTH);
+            $msg .= "\r\n\r\n".$body;
+            if ('' !== $message->getBody()->read(1)) {
+                $msg .= '...';
+            }
+        }
+
+        return trim($msg);
     }
 
     /**
@@ -110,10 +115,8 @@ class Builder
      *
      * @param RequestInterface  $request  The faulty request
      * @param ResponseInterface $response The error-filled response
-     *
-     * @return BadResponseError
      */
-    public function httpError(RequestInterface $request, ResponseInterface $response): BadResponseError
+    public function httpError(RequestInterface $request, ResponseInterface $response, int $verbosity = 0): BadResponseError
     {
         $message = $this->header('HTTP Error');
 
@@ -124,10 +127,10 @@ class Builder
         );
 
         $message .= $this->header('Request');
-        $message .= trim($this->str($request)).PHP_EOL.PHP_EOL;
+        $message .= $this->str($request, $verbosity).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Response');
-        $message .= trim($this->str($response)).PHP_EOL.PHP_EOL;
+        $message .= $this->str($response, $verbosity).PHP_EOL.PHP_EOL;
 
         $message .= $this->header('Further information');
         $message .= $this->getStatusCodeMessage($response->getStatusCode());
@@ -160,10 +163,8 @@ class Builder
      * @param string      $expectedType The type that was expected from the user
      * @param mixed       $userValue    The incorrect value the user actually provided
      * @param string|null $furtherLink  a link to further information if necessary (optional)
-     *
-     * @return UserInputError
      */
-    public function userInputError(string $expectedType, $userValue, string $furtherLink = null): UserInputError
+    public function userInputError(string $expectedType, $userValue, ?string $furtherLink = null): UserInputError
     {
         $message = $this->header('User Input Error');
 

@@ -15,7 +15,7 @@ class SchemaTest extends TestCase
     private $validator;
     private $body;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->body = [
             'properties' => [
@@ -35,7 +35,7 @@ class SchemaTest extends TestCase
             ->shouldBeCalled()
             ->willReturn([]);
 
-        $this->assertEquals([], $this->schema->getErrors());
+        self::assertEquals([], $this->schema->getErrors());
     }
 
     public function test_it_gets_error_string()
@@ -46,12 +46,12 @@ class SchemaTest extends TestCase
 
         $errorMsg = sprintf("Provided values do not validate. Errors:\n[foo] bar\n");
 
-        $this->assertEquals($errorMsg, $this->schema->getErrorString());
+        self::assertEquals($errorMsg, $this->schema->getErrorString());
     }
 
     public function test_it_gets_property_paths()
     {
-        $this->assertEquals(['/foo', '/bar', '/baz'], $this->schema->getPropertyPaths());
+        self::assertEquals(['/foo', '/bar', '/baz'], $this->schema->getPropertyPaths());
     }
 
     public function test_it_ignores_readOnly_attrs()
@@ -67,7 +67,7 @@ class SchemaTest extends TestCase
             'baz' => true,
         ];
 
-        $this->assertEquals((object)$expected, $this->schema->normalizeObject((object)$subject, []));
+        self::assertEquals((object)$expected, $this->schema->normalizeObject((object)$subject, []));
     }
 
     public function test_it_stocks_aliases()
@@ -83,7 +83,7 @@ class SchemaTest extends TestCase
             'bar' => false,
         ];
 
-        $this->assertEquals($expected, $this->schema->normalizeObject($subject, ['foo' => 'fooAlias', 'bar' => 'lol']));
+        self::assertEquals($expected, $this->schema->normalizeObject($subject, ['foo' => 'fooAlias', 'bar' => 'lol']));
     }
 
     public function test_it_validates()

@@ -4,6 +4,11 @@ namespace OpenStack\Networking\v2\Extensions\SecurityGroups;
 
 use OpenStack\Common\Api\AbstractApi;
 
+/**
+ * @deprecated Use Networking\v2\Api instead
+ *
+ * @internal
+ */
 class Api extends AbstractApi
 {
     private $pathPrefix = 'v2.0';

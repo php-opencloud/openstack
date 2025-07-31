@@ -19,7 +19,7 @@ class Service extends AbstractService
     /**
      * Retrieves a collection of \OpenStack\Metric\v1\Gnocchi\Models\ResourceType type in a generator format.
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Metric\v1\Gnocchi\Models\ResourceType>
      */
     public function listResourceTypes(): \Generator
     {
@@ -31,7 +31,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Metric\v1\Gnocchi\Api::getResources}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Metric\v1\Gnocchi\Models\Resource>
      */
     public function listResources(array $options = []): \Generator
     {
@@ -43,10 +43,6 @@ class Service extends AbstractService
     /**
      * Retrieves a Resource object and populates its unique identifier object. This operation will not perform a GET or
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
-     *
-     * @param array $options
-     *
-     * @return resource
      */
     public function getResource(array $options = []): Resource
     {
@@ -64,7 +60,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Metric\v1\Gnocchi\Api::searchResources}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Metric\v1\Gnocchi\Models\Resource>
      */
     public function searchResources(array $options = []): \Generator
     {
@@ -90,10 +86,6 @@ class Service extends AbstractService
     /**
      * Retrieves a Metric object and populates its unique identifier object. This operation will not perform a GET or
      * HEAD request by default; you will need to call retrieve() if you want to pull in remote state from the API.
-     *
-     * @param string $id
-     *
-     * @return Metric
      */
     public function getMetric(string $id): Metric
     {
@@ -109,7 +101,7 @@ class Service extends AbstractService
      *
      * @param array $options {@see \OpenStack\Metric\v1\Gnocchi\Api::getMetrics}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Metric\v1\Gnocchi\Models\Metric>
      */
     public function listMetrics(array $options = []): \Generator
     {
@@ -120,8 +112,6 @@ class Service extends AbstractService
      * If options does not have type, this will inject $options['type'] = 'generic'.
      *
      * @internal
-     *
-     * @param array $options
      */
     private function injectGenericType(array &$options)
     {

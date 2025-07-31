@@ -4,6 +4,11 @@ namespace OpenStack\Networking\v2\Extensions\Layer3;
 
 use OpenStack\Common\Api\AbstractApi;
 
+/**
+ * @deprecated Use Networking\v2\Api instead
+ *
+ * @internal
+ */
 class Api extends AbstractApi
 {
     private $pathPrefix = 'v2.0';
@@ -21,6 +26,7 @@ class Api extends AbstractApi
             'jsonKey' => 'floatingip',
             'params'  => [
                 'tenantId'          => $this->params->tenantIdJson(),
+                'description'       => $this->notRequired($this->params->descriptionJson()),
                 'floatingNetworkId' => $this->params->floatingNetworkIdJson(),
                 'fixedIpAddress'    => $this->params->fixedIpAddressJson(),
                 'floatingIpAddress' => $this->params->floatingIpAddressJson(),
@@ -48,6 +54,7 @@ class Api extends AbstractApi
             'jsonKey' => 'floatingip',
             'params'  => [
                 'id'                => $this->params->idPath(),
+                'description'       => $this->notRequired($this->params->descriptionJson()),
                 'floatingNetworkId' => $this->notRequired($this->params->floatingNetworkIdJson()),
                 'fixedIpAddress'    => $this->params->fixedIpAddressJson(),
                 'floatingIpAddress' => $this->params->floatingIpAddressJson(),

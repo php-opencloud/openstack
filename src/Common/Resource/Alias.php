@@ -26,19 +26,13 @@ class Alias
      * @param string|null $className    A class name for the property value
      * @param bool        $list         Whether value of the property should be treated as a list or not
      */
-    public function __construct(string $propertyName, string $className = null, bool $list = false)
+    public function __construct(string $propertyName, ?string $className = null, bool $list = false)
     {
         $this->isList       = $list;
         $this->propertyName = $propertyName;
         $this->className    = $className && class_exists($className) ? $className : null;
     }
 
-    /**
-     * @param ResourceInterface $resource
-     * @param mixed             $value
-     *
-     * @return mixed
-     */
     public function getValue(ResourceInterface $resource, $value)
     {
         if (null === $value || !$this->className) {

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace OpenStack\Networking\v2\Extensions\SecurityGroups\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
@@ -51,9 +51,6 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
     protected $resourceKey  = 'security_group';
     protected $resourcesKey = 'security_groups';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -72,17 +69,11 @@ class SecurityGroup extends OperatorResource implements Creatable, Listable, Del
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteSecurityGroup());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getSecurityGroup());

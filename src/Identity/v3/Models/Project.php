@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Error\BadResponseError;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
@@ -47,8 +47,6 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     protected $resourcesKey = 'projects';
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postProjects}
      */
     public function create(array $data): Creatable
@@ -59,27 +57,18 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getProject());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchProject());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteProject());
@@ -88,7 +77,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getProjectUserRoles}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listUserRoles(array $options = []): \Generator
     {
@@ -107,8 +96,6 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::headProjectUserRole}
-     *
-     * @return bool
      */
     public function checkUserRole(array $options): bool
     {
@@ -132,7 +119,7 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getProjectGroupRoles}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listGroupRoles(array $options = []): \Generator
     {
@@ -151,8 +138,6 @@ class Project extends OperatorResource implements Creatable, Retrievable, Listab
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::headProjectGroupRole}
-     *
-     * @return bool
      */
     public function checkGroupRole(array $options): bool
     {

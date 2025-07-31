@@ -1,32 +1,38 @@
 Networks
 ========
 
-Create network
+Network represents an isolated Layer-2 networking segment within the cloud. It can be shared across tenants,
+or isolated to a single tenant.
+
+.. osdoc:: https://docs.openstack.org/api-ref/network/v2/index.html#layer-2-networking
+
+.. |models| replace:: networks
+
+.. include:: /common/service.rst
+
+Create
 --------------
 
-.. sample:: networking/v2/networks/create.php
-.. refdoc:: OpenStack/Networking/v2/networks/Service.html#method_createNetwork
+.. sample:: Networking/v2/networks/create.php
 
-Create networks
----------------
+Batch
+~~~~~
 
-.. sample:: networking/v2/networks/create_batch.php
-.. refdoc:: OpenStack/Networking/v2/networks/Service.html#method_createNetworks
+To create multiple networks in a single request, use the following code:
 
-Get network
------------
+.. sample:: Networking/v2/networks/create_batch.php
 
-.. sample:: networking/v2/networks/get.php
-.. refdoc:: OpenStack/Networking/v2/networks/Service.html#method_getNetwork
+Read
+----
 
-Update network
---------------
+.. sample:: Networking/v2/networks/read.php
 
-.. sample:: networking/v2/networks/update.php
-.. refdoc:: OpenStack/Networking/v2/networks/Models/Network.html#method_update
+Update
+------
 
-Delete network
---------------
+.. sample:: Networking/v2/networks/update.php
 
-.. sample:: networking/v2/networks/delete.php
-.. refdoc:: OpenStack/Networking/v2/networks/Models/Network.html#method_delete
+Delete
+------
+
+.. sample:: Networking/v2/networks/delete.php

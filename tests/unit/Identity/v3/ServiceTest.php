@@ -10,14 +10,13 @@ use OpenStack\Identity\v3\Models;
 use OpenStack\Identity\v3\Service;
 use OpenStack\Test\TestCase;
 use Prophecy\Argument;
-use Psr\Http\Message\ResponseInterface;
 
 class ServiceTest extends TestCase
 {
     /** @var Service */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -58,12 +57,12 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->mockRequest('POST', 'auth/tokens', 'token', ['auth' => $expectedJson], [], true);
 
-        list($token, $url) = $this->service->authenticate($userOptions);
+        [$token, $url] = $this->service->authenticate($userOptions);
 
-        $this->assertInstanceOf(Models\Token::class, $token);
-        $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
+        self::assertInstanceOf(Models\Token::class, $token);
+        self::assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
     }
 
     public function test_it_authenticates_using_cache_token()
@@ -134,17 +133,12 @@ class ServiceTest extends TestCase
             'cachedToken' => $cachedToken
         ];
 
-        list($token, $url) = $this->service->authenticate($userOptions);
+        [$token, $url] = $this->service->authenticate($userOptions);
 
-        $this->assertInstanceOf(Models\Token::class, $token);
-        $this->assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
+        self::assertInstanceOf(Models\Token::class, $token);
+        self::assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
     }
 
-
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Cached token has expired
-     */
     public function test_it_authenticates_and_throws_exception_when_authenticate_with_expired_cached_token()
     {
         $cachedToken = [
@@ -212,14 +206,13 @@ class ServiceTest extends TestCase
             'region'      => 'RegionOne',
             'cachedToken' => $cachedToken
         ];
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Cached token has expired');
 
         $this->service->authenticate($userOptions);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function test_it_throws_exception_if_no_endpoint_found()
+   public function test_it_throws_exception_if_no_endpoint_found()
     {
         $expectedJson = [
             "identity" => [
@@ -237,7 +230,8 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->mockRequest('POST', 'auth/tokens', 'token', ['auth' => $expectedJson], [], true);
+		$this->expectException(\RuntimeException::class);
 
         $this->service->authenticate([
             'catalogName' => 'foo',
@@ -256,15 +250,15 @@ class ServiceTest extends TestCase
 
     public function test_it_gets_token()
     {
-        $this->setupMock('GET', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId'], 'token-get');
+        $this->mockRequest('GET', 'auth/tokens', 'token-get', [], ['X-Subject-Token' => 'tokenId']);
 
         $token = $this->service->getToken('tokenId');
         $token->retrieve();
 
-        $this->assertInstanceOf(Models\Token::class, $token);
-        $this->assertEquals(new \DateTimeImmutable('2013-02-27T18:30:59.999999Z'), $token->expires);
-        $this->assertEquals(new \DateTimeImmutable('2013-02-27T16:30:59.999999Z'), $token->issued);
-        $this->assertEquals(['password'], $token->methods);
+        self::assertInstanceOf(Models\Token::class, $token);
+        self::assertEquals(new \DateTimeImmutable('2013-02-27T18:30:59.999999Z'), $token->expires);
+        self::assertEquals(new \DateTimeImmutable('2013-02-27T16:30:59.999999Z'), $token->issued);
+        self::assertEquals(['password'], $token->methods);
 
         $user = $this->service->model(Models\User::class, [
             "domain" => [
@@ -280,45 +274,42 @@ class ServiceTest extends TestCase
             ],
             "name"   => "Joe"
         ]);
-        $this->assertEquals($user, $token->user);
+        self::assertEquals($user, $token->user);
     }
 
     public function test_false_is_returned_when_token_validation_returns_204()
     {
-        $this->setupMock('HEAD', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId'], new Response(204));
+        $this->mockRequest('HEAD', 'auth/tokens', new Response(204), [], ['X-Subject-Token' => 'tokenId']);
 
-        $this->assertTrue($this->service->validateToken('tokenId'));
+        self::assertTrue($this->service->validateToken('tokenId'));
     }
 
     public function test_true_is_returned_when_token_validation_returns_error()
     {
-        $this->client
-            ->request('HEAD', 'auth/tokens', ['headers' => ['X-Subject-Token' => 'tokenId']])
-            ->shouldBeCalled()
-            ->willThrow(new BadResponseError());
+        $this->mockRequest('HEAD', 'auth/tokens', new BadResponseError(), [], ['X-Subject-Token' => 'tokenId']);
 
-        $this->assertFalse($this->service->validateToken('tokenId'));
+        self::assertFalse($this->service->validateToken('tokenId'));
     }
 
     public function test_it_revokes_token()
     {
-        $this->setupMock('DELETE', 'auth/tokens', [], ['X-Subject-Token' => 'tokenId'], new Response(204));
+        $this->mockRequest('DELETE', 'auth/tokens', new Response(204), [], ['X-Subject-Token' => 'tokenId']);
 
-        $this->assertNull($this->service->revokeToken('tokenId'));
+        $this->service->revokeToken('tokenId');
     }
 
     public function test_it_creates_service()
     {
         $userOptions = ['name' => 'foo', 'type' => 'bar', 'description' => 'description'];
 
-        $this->setupMock('POST', 'services', ['service' => $userOptions], [], 'service');
+        $this->mockRequest('POST', 'services', 'service', ['service' => $userOptions]);
 
         $service = $this->service->createService($userOptions);
 
-        $this->assertInstanceOf(Models\Service::class, $service);
-        $this->assertEquals('serviceId', $service->id);
-        $this->assertEquals('foo', $service->name);
-        $this->assertEquals('bar', $service->type);
+        self::assertInstanceOf(Models\Service::class, $service);
+        self::assertEquals('serviceId', $service->id);
+        self::assertEquals('foo', $service->name);
+        self::assertEquals('bar', $service->type);
     }
 
     public function test_it_lists_services()
@@ -346,18 +337,18 @@ class ServiceTest extends TestCase
         $expectedJson['endpoint']['service_id'] = $userOptions['serviceId'];
         $expectedJson = json_encode($expectedJson, JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'endpoints', $expectedJson, ['Content-Type' => 'application/json'], 'endpoint');
+        $this->mockRequest('POST', 'endpoints', 'endpoint', $expectedJson, ['Content-Type' => 'application/json']);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Endpoint */
         $endpoint = $this->service->createEndpoint($userOptions);
 
-        $this->assertInstanceOf(Models\Endpoint::class, $endpoint);
+        self::assertInstanceOf(Models\Endpoint::class, $endpoint);
 
-        $this->assertEquals($userOptions['interface'], $endpoint->interface);
-        $this->assertEquals($userOptions['name'], $endpoint->name);
-        $this->assertEquals($userOptions['region'], $endpoint->region);
-        $this->assertEquals($userOptions['url'], $endpoint->url);
-        $this->assertEquals($userOptions['serviceId'], $endpoint->serviceId);
+        self::assertEquals($userOptions['interface'], $endpoint->interface);
+        self::assertEquals($userOptions['name'], $endpoint->name);
+        self::assertEquals($userOptions['region'], $endpoint->region);
+        self::assertEquals($userOptions['url'], $endpoint->url);
+        self::assertEquals($userOptions['serviceId'], $endpoint->serviceId);
     }
 
     public function test_it_creates_domain()
@@ -368,17 +359,17 @@ class ServiceTest extends TestCase
             'name'        => 'foo'
         ];
 
-        $this->setupMock('POST', 'domains', ['domain' => $userOptions], [], 'domain');
+        $this->mockRequest('POST', 'domains', 'domain', ['domain' => $userOptions]);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Domain */
         $domain = $this->service->createDomain($userOptions);
 
-        $this->assertInstanceOf(Models\Domain::class, $domain);
+        self::assertInstanceOf(Models\Domain::class, $domain);
 
-        $this->assertEquals('12345', $domain->id);
-        $this->assertTrue($domain->enabled);
-        $this->assertEquals('foo', $domain->name);
-        $this->assertEquals('bar', $domain->description);
+        self::assertEquals('12345', $domain->id);
+        self::assertTrue($domain->enabled);
+        self::assertEquals('foo', $domain->name);
+        self::assertEquals('bar', $domain->description);
     }
 
     public function test_it_lists_domains()
@@ -399,34 +390,34 @@ class ServiceTest extends TestCase
             'name'        => 'foo'
         ];
 
-        $this->setupMock('POST', 'projects', ['project' => $userOptions], [], 'project');
+        $this->mockRequest('POST', 'projects', 'project', ['project' => $userOptions]);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Project */
         $project = $this->service->createProject($userOptions);
 
-        $this->assertInstanceOf(Models\Project::class, $project);
+        self::assertInstanceOf(Models\Project::class, $project);
 
-        $this->assertEquals('456789', $project->id);
-        $this->assertTrue($project->enabled);
-        $this->assertEquals('myNewProject', $project->name);
+        self::assertEquals('456789', $project->id);
+        self::assertTrue($project->enabled);
+        self::assertEquals('myNewProject', $project->name);
     }
 
     public function test_it_lists_projects()
     {
-        $this->setupMock('GET', 'projects', null, [], 'projects');
+        $this->mockRequest('GET', 'projects', 'projects');
 
         $projects = $this->service->listProjects();
 
-        $this->assertInstanceOf('\Generator', $projects);
+        self::assertInstanceOf('\Generator', $projects);
 
         $count = 0;
 
         foreach ($projects as $project) {
-            $this->assertInstanceOf(Models\Project::class, $project);
+            self::assertInstanceOf(Models\Project::class, $project);
             ++$count;
         }
 
-        $this->assertEquals(2, $count);
+        self::assertEquals(2, $count);
     }
 
     public function test_it_gets_project()
@@ -451,20 +442,20 @@ class ServiceTest extends TestCase
         $userJson['domain_id'] = $userJson['domainId'];
         unset($userJson['defaultProjectId'], $userJson['domainId']);
 
-        $this->setupMock('POST', 'users', ['user' => $userJson], [], 'user');
+        $this->mockRequest('POST', 'users', 'user', ['user' => $userJson]);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\User */
         $user = $this->service->createUser($userOptions);
 
-        $this->assertInstanceOf(Models\User::class, $user);
+        self::assertInstanceOf(Models\User::class, $user);
 
-        $this->assertEquals('263fd9', $user->defaultProjectId);
-        $this->assertEquals("Jim Doe's user", $user->description);
-        $this->assertEquals("1789d1", $user->domainId);
-        $this->assertEquals("jdoe@example.com", $user->email);
-        $this->assertTrue($user->enabled);
-        $this->assertEquals('ff4e51', $user->id);
-        $this->assertEquals('jdoe', $user->name);
+        self::assertEquals('263fd9', $user->defaultProjectId);
+        self::assertEquals("Jim Doe's user", $user->description);
+        self::assertEquals("1789d1", $user->domainId);
+        self::assertEquals("jdoe@example.com", $user->email);
+        self::assertTrue($user->enabled);
+        self::assertEquals('ff4e51', $user->id);
+        self::assertEquals('jdoe', $user->name);
     }
 
     public function test_it_lists_users()
@@ -484,17 +475,17 @@ class ServiceTest extends TestCase
             'name'        => 'name',
         ];
 
-        $this->setupMock('POST', 'groups', ['group' => $userOptions], [], 'group');
+        $this->mockRequest('POST', 'groups', 'group', ['group' => $userOptions]);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Group */
         $group = $this->service->createGroup($userOptions);
 
-        $this->assertInstanceOf(Models\Group::class, $group);
+        self::assertInstanceOf(Models\Group::class, $group);
 
-        $this->assertEquals($userOptions['description'], $group->description);
-        $this->assertEquals($userOptions['name'], $group->name);
-        $this->assertEquals('id', $group->id);
-        $this->assertEquals('domain_id', $group->domainId);
+        self::assertEquals($userOptions['description'], $group->description);
+        self::assertEquals($userOptions['name'], $group->name);
+        self::assertEquals('id', $group->id);
+        self::assertEquals('domain_id', $group->domainId);
     }
 
     public function test_it_lists_groups()
@@ -523,17 +514,17 @@ class ServiceTest extends TestCase
             'user_id'    => $userOptions['userId'],
         ];
 
-        $this->setupMock('POST', 'credentials', $userJson, [], 'cred');
+        $this->mockRequest('POST', 'credentials', 'cred', $userJson);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Credential */
         $cred = $this->service->createCredential($userOptions);
 
-        $this->assertInstanceOf(Models\Credential::class, $cred);
+        self::assertInstanceOf(Models\Credential::class, $cred);
 
-        $this->assertEquals($userOptions['blob'], $cred->blob);
-        $this->assertEquals($userOptions['projectId'], $cred->projectId);
-        $this->assertEquals('id', $cred->id);
-        $this->assertEquals($userOptions['type'], $cred->type);
+        self::assertEquals($userOptions['blob'], $cred->blob);
+        self::assertEquals($userOptions['projectId'], $cred->projectId);
+        self::assertEquals('id', $cred->id);
+        self::assertEquals($userOptions['type'], $cred->type);
     }
 
     public function test_it_lists_credentials()
@@ -550,14 +541,14 @@ class ServiceTest extends TestCase
     {
         $userOptions = ['name' => 'a role name'];
 
-        $this->setupMock('POST', 'roles', ['role' => $userOptions], [], 'role');
+        $this->mockRequest('POST', 'roles', 'role', ['role' => $userOptions]);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Role */
         $role = $this->service->createRole($userOptions);
 
-        $this->assertInstanceOf(Models\Role::class, $role);
+        self::assertInstanceOf(Models\Role::class, $role);
 
-        $this->assertEquals($userOptions['name'], $role->name);
+        self::assertEquals($userOptions['name'], $role->name);
     }
 
     public function test_it_lists_roles()
@@ -587,12 +578,12 @@ class ServiceTest extends TestCase
             'user_id'    => $userOptions['userId'],
         ];
 
-        $this->setupMock('POST', 'policies', ['policy' => $userJson], [], 'policy');
+        $this->mockRequest('POST', 'policies', 'policy', ['policy' => $userJson]);
 
         /** @var $endpoint \OpenStack\Identity\v3\Models\Policy */
         $policy = $this->service->createPolicy($userOptions);
 
-        $this->assertInstanceOf(Models\Policy::class, $policy);
+        self::assertInstanceOf(Models\Policy::class, $policy);
     }
 
     public function test_it_lists_policies()
@@ -634,10 +625,10 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->mockRequest('POST', 'auth/tokens', 'token', ['auth' => $expectedJson], [], true);
 
         $token = $this->service->generateToken($userOptions);
-        $this->assertInstanceOf(Models\Token::class, $token);
+        self::assertInstanceOf(Models\Token::class, $token);
     }
 
     public function test_it_generates_token_with_token_id()
@@ -659,10 +650,10 @@ class ServiceTest extends TestCase
             ]
         ];
 
-        $this->setupMock('POST', 'auth/tokens', ['auth' => $expectedJson], [], 'token');
+        $this->mockRequest('POST', 'auth/tokens', 'token', ['auth' => $expectedJson], [], true);
 
         $token = $this->service->generateToken($userOptions);
-        $this->assertInstanceOf(Models\Token::class, $token);
+        self::assertInstanceOf(Models\Token::class, $token);
     }
 
     public function test_it_generates_token_from_cache()
@@ -678,8 +669,8 @@ class ServiceTest extends TestCase
 
         $token = $this->service->generateTokenFromCache($cache);
 
-        $this->assertInstanceOf(Models\Token::class, $token);
-        $this->assertEquals('some-token-id', $token->id);
+        self::assertInstanceOf(Models\Token::class, $token);
+        self::assertEquals('some-token-id', $token->id);
     }
 
     public function test_it_lists_endpoints()

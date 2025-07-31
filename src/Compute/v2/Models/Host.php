@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace OpenStack\Compute\v2\Models;
 
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 
 /**
@@ -31,9 +31,6 @@ class Host extends OperatorResource implements Listable, Retrievable
       'host_name' => 'name',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getHost(), $this->getAttrs(['name']));

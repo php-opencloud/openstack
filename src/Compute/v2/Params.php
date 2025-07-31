@@ -356,6 +356,11 @@ EOL
                         'sentAs'      => 'volume_size',
                         'description' => 'Size of the volume created if we are doing vol creation',
                     ],
+                    'volumeType' => [
+                        'type'        => self::STRING_TYPE,
+                        'sentAs'      => 'volume_type',
+                        'description' => 'The type of volume which the compute service will create and attach to the server.',
+                    ],
                 ],
             ],
         ];

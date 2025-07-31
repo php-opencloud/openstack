@@ -11,7 +11,7 @@ class PolicyTest extends TestCase
 {
     private $policy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rootFixturesDir = dirname(__DIR__);
 
@@ -37,18 +37,18 @@ class PolicyTest extends TestCase
             'user_id' => 'id',
         ];
 
-        $this->setupMock('POST', 'policies', ['policy' => $userJson], [], 'policy');
+        $this->mockRequest('POST', 'policies', 'policy', ['policy' => $userJson], []);
 
         /** @var $policy \OpenStack\Identity\v3\Models\Policy */
         $policy = $this->policy->create($userOptions);
 
-        $this->assertInstanceOf(Policy::class, $policy);
-        $this->assertEquals('--policy-id--', $policy->id);
+        self::assertInstanceOf(Policy::class, $policy);
+        self::assertEquals('--policy-id--', $policy->id);
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'policies/POLICY_ID', null, [], 'policy');
+        $this->mockRequest('GET', 'policies/POLICY_ID', 'policy', null, []);
 
         $this->policy->retrieve();
     }
@@ -57,14 +57,14 @@ class PolicyTest extends TestCase
     {
         $this->policy->type = 'foo';
 
-        $this->setupMock('PATCH', 'policies/POLICY_ID', ['policy' => ['type' => 'foo']], [], 'policy');
+        $this->mockRequest('PATCH', 'policies/POLICY_ID', 'policy', ['policy' => ['type' => 'foo']], []);
 
         $this->policy->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'policies/POLICY_ID', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'policies/POLICY_ID', new Response(204), null, []);
 
         $this->policy->delete();
     }

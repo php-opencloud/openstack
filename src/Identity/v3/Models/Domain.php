@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace OpenStack\Identity\v3\Models;
 
 use OpenStack\Common\Error\BadResponseError;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\Updateable;
 
@@ -36,8 +36,6 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     protected $resourcesKey = 'domains';
 
     /**
-     * {@inheritdoc}
-     *
      * @param array $data {@see \OpenStack\Identity\v3\Api::postDomains}
      */
     public function create(array $data): Creatable
@@ -47,27 +45,18 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
         return $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->executeWithState($this->api->getDomain());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function update()
     {
         $response = $this->executeWithState($this->api->patchDomain());
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->executeWithState($this->api->deleteDomain());
@@ -76,7 +65,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getUserRoles}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listUserRoles(array $options = []): \Generator
     {
@@ -95,8 +84,6 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::headUserRole}
-     *
-     * @return bool
      */
     public function checkUserRole(array $options = []): bool
     {
@@ -120,7 +107,7 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::getGroupRoles}
      *
-     * @return \Generator
+     * @return \Generator<mixed, \OpenStack\Identity\v3\Models\Role>
      */
     public function listGroupRoles(array $options = []): \Generator
     {
@@ -139,8 +126,6 @@ class Domain extends OperatorResource implements Creatable, Listable, Retrievabl
 
     /**
      * @param array $options {@see \OpenStack\Identity\v3\Api::headGroupRole}
-     *
-     * @return bool
      */
     public function checkGroupRole(array $options = []): bool
     {

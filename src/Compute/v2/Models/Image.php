@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace OpenStack\Compute\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Deletable;
 use OpenStack\Common\Resource\HasMetadata;
+use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
@@ -20,6 +21,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Image extends OperatorResource implements Listable, Retrievable, Deletable, HasMetadata
 {
+    use HasWaiterTrait;
+
     /** @var string */
     public $id;
 
@@ -53,9 +56,6 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
     protected $resourceKey  = 'image';
     protected $resourcesKey = 'images';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -64,18 +64,12 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getImage(), ['id' => (string) $this->id]);
         $this->populateFromResponse($response);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
         $this->execute($this->api->deleteImage(), ['id' => (string) $this->id]);
@@ -83,8 +77,6 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
 
     /**
      * Retrieves metadata from the API.
-     *
-     * @return array
      */
     public function getMetadata(): array
     {
@@ -122,8 +114,6 @@ class Image extends OperatorResource implements Listable, Retrievable, Deletable
      * Retrieve the value for a specific metadata key.
      *
      * @param string $key {@see \OpenStack\Compute\v2\Api::getImageMetadataKey}
-     *
-     * @return mixed
      */
     public function getMetadataItem(string $key)
     {

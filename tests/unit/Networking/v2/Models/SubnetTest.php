@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenStack\Test\Subneting\v2\Models;
+namespace OpenStack\Test\Networking\v2\Models;
 
 use GuzzleHttp\Psr7\Response;
 use OpenStack\Networking\v2\Api;
@@ -11,7 +11,7 @@ class SubnetTest extends TestCase
 {
     private $subnet;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -41,9 +41,9 @@ class SubnetTest extends TestCase
             'enable_dhcp' => $opts['enableDhcp'],
         ]], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnet-post');
+        $this->mockRequest('POST', 'v2.0/subnets', 'subnet-post', $expectedJson, ['Content-Type' => 'application/json']);
 
-        $this->assertInstanceOf(Subnet::class, $this->subnet->create($opts));
+        self::assertInstanceOf(Subnet::class, $this->subnet->create($opts));
     }
 
     public function test_it_bulk_creates()
@@ -84,12 +84,12 @@ class SubnetTest extends TestCase
             ],
         ], JSON_UNESCAPED_SLASHES);
 
-        $this->setupMock('POST', 'v2.0/subnets', $expectedJson, ['Content-Type' => 'application/json'], 'subnets-post');
+        $this->mockRequest('POST', 'v2.0/subnets', 'subnets-post', $expectedJson, ['Content-Type' => 'application/json']);
 
         $subnets = $this->subnet->bulkCreate($opts);
 
-        $this->assertInternalType('array', $subnets);
-        $this->assertCount(2, $subnets);
+        self::assertIsArray($subnets);
+        self::assertCount(2, $subnets);
     }
 
     public function test_it_updates()
@@ -103,26 +103,26 @@ class SubnetTest extends TestCase
             'gateway_ip' => $this->subnet->gatewayIp,
         ]];
 
-        $this->setupMock('PUT', 'v2.0/subnets/subnetId', $expectedJson, [], 'subnet-put');
+        $this->mockRequest('PUT', 'v2.0/subnets/subnetId', 'subnet-put', $expectedJson, []);
 
         $this->subnet->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/subnets/subnetId', null, [], 'subnet-get');
+        $this->mockRequest('GET', 'v2.0/subnets/subnetId', 'subnet-get', null, []);
 
         $this->subnet->retrieve();
 
-        $this->assertEquals('subnetId', $this->subnet->id);
-        $this->assertEquals('192.0.0.0/8', $this->subnet->cidr);
-        $this->assertEquals('192.0.0.1', $this->subnet->gatewayIp);
-        $this->assertTrue($this->subnet->enableDhcp);
+        self::assertEquals('subnetId', $this->subnet->id);
+        self::assertEquals('192.0.0.0/8', $this->subnet->cidr);
+        self::assertEquals('192.0.0.1', $this->subnet->gatewayIp);
+        self::assertTrue($this->subnet->enableDhcp);
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/subnets/subnetId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/subnets/subnetId', new Response(204), null, []);
 
         $this->subnet->delete();
     }

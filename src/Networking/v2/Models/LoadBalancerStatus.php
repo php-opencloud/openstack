@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace OpenStack\Networking\v2\Models;
 
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 
 /**
@@ -54,9 +54,6 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
         'provisioning_status' => 'provisioningStatus',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -64,9 +61,6 @@ class LoadBalancerStatus extends OperatorResource implements Retrievable
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getLoadBalancerStatuses(), ['loadbalancerId' => (string) $this->loadbalancerId]);

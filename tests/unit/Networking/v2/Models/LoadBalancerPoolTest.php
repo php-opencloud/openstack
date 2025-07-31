@@ -13,7 +13,7 @@ class LoadBalancerPoolTest extends TestCase
 {
     private $pool;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -48,9 +48,9 @@ class LoadBalancerPoolTest extends TestCase
             'admin_state_up'      => $opts['adminStateUp']
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/pools', $expectedJson, [], 'loadbalancer-pool-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/pools', 'loadbalancer-pool-post', $expectedJson, []);
 
-        $this->assertInstanceOf(LoadBalancerPool::class, $this->pool->create($opts));
+        self::assertInstanceOf(LoadBalancerPool::class, $this->pool->create($opts));
     }
 
     public function test_it_updates()
@@ -76,25 +76,25 @@ class LoadBalancerPoolTest extends TestCase
             'admin_state_up'      => false
         ]];
 
-        $this->setupMock('PUT', 'v2.0/lbaas/pools/poolId', $expectedJson, [], 'loadbalancer-pool-put');
+        $this->mockRequest('PUT', 'v2.0/lbaas/pools/poolId', 'loadbalancer-pool-put', $expectedJson, []);
 
         $this->pool->update();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'v2.0/lbaas/pools/poolId', null, [], 'loadbalancer-pool-get');
+        $this->mockRequest('GET', 'v2.0/lbaas/pools/poolId', 'loadbalancer-pool-get', null, []);
 
         $this->pool->retrieve();
 
-        $this->assertEquals('poolId', $this->pool->id);
-        $this->assertEquals('pool1', $this->pool->name);
-        $this->assertEquals('simple pool', $this->pool->description);
+        self::assertEquals('poolId', $this->pool->id);
+        self::assertEquals('pool1', $this->pool->name);
+        self::assertEquals('simple pool', $this->pool->description);
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'v2.0/lbaas/pools/poolId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/lbaas/pools/poolId', new Response(204), null, []);
 
         $this->pool->delete();
     }
@@ -117,21 +117,21 @@ class LoadBalancerPoolTest extends TestCase
             'weight'         => $opts['weight']
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/pools/poolId/members', $expectedJson, [], 'loadbalancer-member-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/pools/poolId/members', 'loadbalancer-member-post', $expectedJson, []);
 
-        $this->assertInstanceOf(LoadBalancerMember::class, $this->pool->addMember($opts));
+        self::assertInstanceOf(LoadBalancerMember::class, $this->pool->addMember($opts));
     }
 
     public function test_get_member()
     {
         $memberId = 'memberId';
 
-        $this->assertInstanceOf(LoadBalancerMember::class, $this->pool->getMember($memberId));
+        self::assertInstanceOf(LoadBalancerMember::class, $this->pool->getMember($memberId));
     }
 
     public function test_delete_member()
     {
-        $this->setupMock('DELETE', 'v2.0/lbaas/pools/poolId/members/memberId', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'v2.0/lbaas/pools/poolId/members/memberId', new Response(204), null, []);
 
         $this->pool->deleteMember('memberId');
     }
@@ -163,8 +163,8 @@ class LoadBalancerPoolTest extends TestCase
             'pool_id'        => $this->pool->id
         ]];
 
-        $this->setupMock('POST', 'v2.0/lbaas/healthmonitors', $expectedJson, [], 'loadbalancer-healthmonitor-post');
+        $this->mockRequest('POST', 'v2.0/lbaas/healthmonitors', 'loadbalancer-healthmonitor-post', $expectedJson, []);
 
-        $this->assertInstanceOf(LoadBalancerHealthMonitor::class, $this->pool->addHealthMonitor($opts));
+        self::assertInstanceOf(LoadBalancerHealthMonitor::class, $this->pool->addHealthMonitor($opts));
     }
 }

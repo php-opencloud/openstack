@@ -8,6 +8,8 @@ use OpenStack\Networking\v2\Extensions\Layer3\Models\Router;
 
 /**
  * @property Api $api
+ *
+ * @deprecated Use Networking\v2\Service instead
  */
 class Service extends AbstractService
 {
@@ -21,54 +23,36 @@ class Service extends AbstractService
         return $this->model(Router::class, $info);
     }
 
-    /**
-     * @param array $options
-     *
-     * @return FloatingIp
-     */
     public function createFloatingIp(array $options): FloatingIp
     {
         return $this->floatingIp()->create($options);
     }
 
-    /**
-     * @return FloatingIp
-     */
     public function getFloatingIp($id): FloatingIp
     {
         return $this->floatingIp(['id' => $id]);
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<mixed, FloatingIp>
      */
     public function listFloatingIps(array $options = []): \Generator
     {
         return $this->floatingIp()->enumerate($this->api->getFloatingIps(), $options);
     }
 
-    /**
-     * @param array $options
-     *
-     * @return Router
-     */
     public function createRouter(array $options): Router
     {
         return $this->router()->create($options);
     }
 
-    /**
-     * @return Router
-     */
     public function getRouter($id): Router
     {
         return $this->router(['id' => $id]);
     }
 
     /**
-     * @param array $options
-     *
-     * @return \Generator
+     * @return \Generator<mixed, Router>
      */
     public function listRouters(array $options = []): \Generator
     {

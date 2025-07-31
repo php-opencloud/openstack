@@ -1,0 +1,11 @@
+/.github export-ignore
+/doc export-ignore
+/samples export-ignore
+/tests export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/.readthedocs.yaml export-ignore
+/.scrutinizer.yml export-ignore
+/phpunit.sample.xml.dist export-ignore
+/phpunit.xml.dist export-ignore

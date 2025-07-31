@@ -10,7 +10,7 @@ class AccountTest extends TestCase
 {
     private $account;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -25,47 +25,65 @@ class AccountTest extends TestCase
 
         $this->account->populateFromResponse($response);
 
-        $this->assertEquals(1, $this->account->objectCount);
-        $this->assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->metadata);
-        $this->assertEquals(14, $this->account->bytesUsed);
-        $this->assertEquals(2, $this->account->containerCount);
+        self::assertEquals(1, $this->account->objectCount);
+        self::assertEquals(
+            [
+                'Book'      => 'MobyDick',
+                'Genre'     => 'Fiction',
+                'UPPERCASE' => 'UPPERCASE',
+                'lowercase' => 'lowercase',
+            ],
+            $this->account->metadata
+        );
+        self::assertEquals(14, $this->account->bytesUsed);
+        self::assertEquals(2, $this->account->containerCount);
     }
 
     public function test_Retrieve()
     {
-        $this->setupMock('HEAD', '', null, [], 'HEAD_Account');
+        $this->mockRequest('HEAD', '', 'HEAD_Account', null, []);
 
         $this->account->retrieve();
 
-        $this->assertNotEmpty($this->account->metadata);
+        self::assertNotEmpty($this->account->metadata);
     }
 
     public function test_Get_Metadata()
     {
-        $this->setupMock('HEAD', '', null, [], 'HEAD_Account');
-        $this->assertEquals(['Book' => 'MobyDick', 'Genre' => 'Fiction'], $this->account->getMetadata());
+        $this->mockRequest('HEAD', '', 'HEAD_Account', null, []);
+        self::assertEquals(
+            [
+                'Book'      => 'MobyDick',
+                'Genre'     => 'Fiction',
+                'UPPERCASE' => 'UPPERCASE',
+                'lowercase' => 'lowercase',
+            ],
+            $this->account->getMetadata()
+        );
     }
 
     public function test_Merge_Metadata()
     {
         $headers = ['X-Account-Meta-Subject' => 'AmericanLiterature'];
 
-        $this->setupMock('POST', '', [], $headers, 'NoContent');
+        $this->mockRequest('POST', '', 'NoContent', [], $headers);
 
         $this->account->mergeMetadata(['Subject' => 'AmericanLiterature']);
     }
 
     public function test_Reset_Metadata()
     {
-        $this->setupMock('HEAD', '', null, [], 'HEAD_Account');
+        $this->mockRequest('HEAD', '', 'HEAD_Account', null, []);
 
         $headers = [
-            'X-Account-Meta-Book'         => 'Middlesex',
-            'X-Account-Meta-Author'       => 'Jeffrey Eugenides',
-            'X-Remove-Account-Meta-Genre' => 'True',
+            'X-Account-Meta-Book'             => 'Middlesex',
+            'X-Account-Meta-Author'           => 'Jeffrey Eugenides',
+            'X-Remove-Account-Meta-Genre'     => 'True',
+            'X-Remove-Account-Meta-UPPERCASE' => 'True',
+            'X-Remove-Account-Meta-lowercase' => 'True',
         ];
 
-        $this->setupMock('POST', '', [], $headers, 'NoContent');
+        $this->mockRequest('POST', '', 'NoContent', [], $headers);
 
         $this->account->resetMetadata([
             'Book'   => 'Middlesex',

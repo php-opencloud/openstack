@@ -21,6 +21,24 @@ EOT
         ];
     }
 
+    public function applicationCredential(): array
+    {
+        return [
+            'type'       => self::OBJECT_TYPE,
+            'path'       => 'auth.identity',
+            'properties' => [
+                'id' => [
+                    'type'        => self::STRING_TYPE,
+                    'description' => $this->id('application credential id'),
+                ],
+                'secret' => [
+                    'type'        => self::STRING_TYPE,
+                    'description' => 'The secret of the application credential',
+                ],
+            ],
+        ];
+    }
+
     public function user(): array
     {
         return [

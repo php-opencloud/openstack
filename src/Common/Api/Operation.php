@@ -27,6 +27,9 @@ class Operation
     /** @var []Parameter The parameters of this operation */
     private $params;
 
+    /** @var bool Whether this operation should skip authentication */
+    private $skipAuth;
+
     /**
      * @param array $definition The data definition (in array form) that will populate this
      *                          operation. Usually this is retrieved from an {@see ApiInterface}
@@ -41,31 +44,32 @@ class Operation
             $this->jsonKey = $definition['jsonKey'];
         }
 
-        $this->params = self::toParamArray($definition['params']);
+        $this->params   = self::toParamArray($definition['params']);
+        $this->skipAuth = $definition['skipAuth'] ?? false;
     }
 
-    /**
-     * @return string
-     */
     public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @return string
-     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
     /**
+     * Indicates if operation must be run without authentication. This is useful for getting authentication tokens.
+     */
+    public function getSkipAuth(): bool
+    {
+        return $this->skipAuth;
+    }
+
+    /**
      * Indicates whether this operation supports a parameter.
      *
-     * @param $key The name of a parameter
-     *
-     * @return bool
+     * @param string $key The name of a parameter
      */
     public function hasParam(string $key): bool
     {
@@ -73,8 +77,6 @@ class Operation
     }
 
     /**
-     * @param $name
-     *
      * @return Parameter
      */
     public function getParam(string $name)
@@ -82,9 +84,6 @@ class Operation
         return isset($this->params[$name]) ? $this->params[$name] : null;
     }
 
-    /**
-     * @return string
-     */
     public function getJsonKey(): string
     {
         return $this->jsonKey ?: '';
@@ -95,8 +94,6 @@ class Operation
      * {@see Parameter} objects.
      *
      * @param array $data A generic data array
-     *
-     * @return array
      */
     public static function toParamArray(array $data): array
     {

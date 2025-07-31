@@ -10,9 +10,9 @@ use OpenStack\Test\TestCase;
 class VolumeTest extends TestCase
 {
     /** @var Volume */
-    private $volume;
+    protected $volume;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -28,46 +28,46 @@ class VolumeTest extends TestCase
         $this->volume->description = 'bar';
 
         $expectedJson = ['volume' => ['name' => 'foo', 'description' => 'bar']];
-        $this->setupMock('PUT', 'volumes/1', $expectedJson, [], 'GET_volume');
+        $this->mockRequest('PUT', 'volumes/1', 'GET_volume', $expectedJson, []);
 
         $this->volume->update();
     }
 
     public function test_it_deletes()
     {
-        $this->setupMock('DELETE', 'volumes/1', null, [], new Response(204));
+        $this->mockRequest('DELETE', 'volumes/1', new Response(204), null, []);
 
         $this->volume->delete();
     }
 
     public function test_it_retrieves()
     {
-        $this->setupMock('GET', 'volumes/1', null, [], 'GET_volume');
+        $this->mockRequest('GET', 'volumes/1', 'GET_volume', null, []);
 
         $this->volume->retrieve();
 
         $volumeImageMetadata = $this->volume->volumeImageMetadata;
 
-        $this->assertInternalType('array', $volumeImageMetadata);
-        $this->assertEquals($volumeImageMetadata['os_distro'], 'ubuntu');
-        $this->assertEquals($volumeImageMetadata['os_version'], 'xenial');
-        $this->assertEquals($volumeImageMetadata['hypervisor_type'], 'qemu');
-        $this->assertEquals($volumeImageMetadata['os_variant'], 'ubuntu');
-        $this->assertEquals($volumeImageMetadata['disk_format'], 'qcow2');
-        $this->assertEquals($volumeImageMetadata['image_name'], 'Some Image Name x86_64');
-        $this->assertEquals($volumeImageMetadata['image_id'], '54986297-8364-4baa-8435-812add437507');
-        $this->assertEquals($volumeImageMetadata['architecture'], 'x86_64');
-        $this->assertEquals($volumeImageMetadata['container_format'], 'bare');
-        $this->assertEquals($volumeImageMetadata['min_disk'], '40');
-        $this->assertEquals($volumeImageMetadata['os_type'], 'linux');
-        $this->assertEquals($volumeImageMetadata['checksum'], 'bb3055b274fe72bc3406ffe9febe9fff');
-        $this->assertEquals($volumeImageMetadata['min_ram'], '0');
-        $this->assertEquals($volumeImageMetadata['size'], '6508557824');
+        self::assertIsArray($volumeImageMetadata);
+        self::assertEquals($volumeImageMetadata['os_distro'], 'ubuntu');
+        self::assertEquals($volumeImageMetadata['os_version'], 'xenial');
+        self::assertEquals($volumeImageMetadata['hypervisor_type'], 'qemu');
+        self::assertEquals($volumeImageMetadata['os_variant'], 'ubuntu');
+        self::assertEquals($volumeImageMetadata['disk_format'], 'qcow2');
+        self::assertEquals($volumeImageMetadata['image_name'], 'Some Image Name x86_64');
+        self::assertEquals($volumeImageMetadata['image_id'], '54986297-8364-4baa-8435-812add437507');
+        self::assertEquals($volumeImageMetadata['architecture'], 'x86_64');
+        self::assertEquals($volumeImageMetadata['container_format'], 'bare');
+        self::assertEquals($volumeImageMetadata['min_disk'], '40');
+        self::assertEquals($volumeImageMetadata['os_type'], 'linux');
+        self::assertEquals($volumeImageMetadata['checksum'], 'bb3055b274fe72bc3406ffe9febe9fff');
+        self::assertEquals($volumeImageMetadata['min_ram'], '0');
+        self::assertEquals($volumeImageMetadata['size'], '6508557824');
     }
 
     public function test_it_merges_metadata()
     {
-        $this->setupMock('GET', 'volumes/1/metadata', null, [], 'GET_metadata');
+        $this->mockRequest('GET', 'volumes/1/metadata', 'GET_metadata', null, []);
 
         $expectedJson = ['metadata' => [
             'foo' => 'newFoo',
@@ -75,7 +75,7 @@ class VolumeTest extends TestCase
             'baz' => 'bazVal',
         ]];
 
-        $this->setupMock('PUT', 'volumes/1/metadata', $expectedJson, [], 'GET_metadata');
+        $this->mockRequest('PUT', 'volumes/1/metadata', 'GET_metadata', $expectedJson, []);
 
         $this->volume->mergeMetadata(['foo' => 'newFoo', 'baz' => 'bazVal']);
     }
@@ -84,14 +84,14 @@ class VolumeTest extends TestCase
     {
         $expectedJson = ['metadata' => ['key1' => 'val1']];
 
-        $this->setupMock('PUT', 'volumes/1/metadata', $expectedJson, [], 'GET_metadata');
+        $this->mockRequest('PUT', 'volumes/1/metadata', 'GET_metadata', $expectedJson, []);
 
         $this->volume->resetMetadata(['key1' => 'val1']);
     }
 
     public function test_it_sets_volume_bootable()
     {
-        $this->setupMock('POST', 'volumes/1/action', ['os-set_bootable' => ['bootable' => 'True']], [], new Response(200));
+        $this->mockRequest('POST', 'volumes/1/action', new Response(200), ['os-set_bootable' => ['bootable' => 'True']], []);
 
         $this->volume->setBootable(true);
     }
@@ -107,7 +107,7 @@ class VolumeTest extends TestCase
             ],
         ];
 
-        $this->setupMock('POST', 'volumes/1/action', $expectedJson, [], new Response(200));
+        $this->mockRequest('POST', 'volumes/1/action', new Response(200), $expectedJson, []);
         $this->volume->setImageMetadata([
             'attr_foo' => 'foofoo',
             'attr_bar' => 'barbar',
@@ -118,7 +118,7 @@ class VolumeTest extends TestCase
     {
         $expectedJson = ['os-reset_status' => ['status' => 'available', 'attach_status' => 'detached', 'migration_status' => 'migrating']];
 
-        $this->setupMock('POST', 'volumes/1/action', $expectedJson, [], new Response(202));
+        $this->mockRequest('POST', 'volumes/1/action', new Response(202), $expectedJson, []);
 
         $this->volume->resetStatus(
             [

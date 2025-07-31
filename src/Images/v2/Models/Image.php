@@ -6,10 +6,11 @@ namespace OpenStack\Images\v2\Models;
 
 use OpenStack\Common\JsonSchema\Schema;
 use OpenStack\Common\Resource\Alias;
-use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Creatable;
 use OpenStack\Common\Resource\Deletable;
+use OpenStack\Common\Resource\HasWaiterTrait;
 use OpenStack\Common\Resource\Listable;
+use OpenStack\Common\Resource\OperatorResource;
 use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 use OpenStack\Images\v2\JsonPatch;
@@ -20,6 +21,8 @@ use Psr\Http\Message\StreamInterface;
  */
 class Image extends OperatorResource implements Creatable, Listable, Retrievable, Deletable
 {
+    use HasWaiterTrait;
+
     /** @var string */
     public $status;
 
@@ -85,9 +88,6 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         'virtual_size'     => 'virtualSize',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -213,6 +213,9 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
         return $this->model(Member::class, ['imageId' => $this->id, 'id' => $memberId])->create([]);
     }
 
+    /**
+     * @return \Generator<mixed, \OpenStack\Images\v2\Models\Member>
+     */
     public function listMembers(): \Generator
     {
         return $this->model(Member::class)->enumerate($this->api->getImageMembers(), ['imageId' => $this->id]);

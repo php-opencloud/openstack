@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace OpenStack\Identity\v3\Models;
 
+use InvalidArgumentException;
+use OpenStack\Common\Error\BadResponseError;
 use OpenStack\Common\Resource\Alias;
+use OpenStack\Common\Resource\Creatable;
+use OpenStack\Common\Resource\OperatorResource;
+use OpenStack\Common\Resource\Retrievable;
 use OpenStack\Common\Transport\Utils;
 use Psr\Http\Message\ResponseInterface;
-use OpenStack\Common\Resource\OperatorResource;
-use OpenStack\Common\Resource\Creatable;
-use OpenStack\Common\Resource\Retrievable;
 
 /**
  * @property \OpenStack\Identity\v3\Api $api
@@ -31,7 +33,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     /** @var Catalog */
     public $catalog;
 
-    /** @var mixed */
     public $extras;
 
     /** @var User */
@@ -48,9 +49,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
 
     protected $cachedToken;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAliases(): array
     {
         return parent::getAliases() + [
@@ -63,9 +61,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function populateFromResponse(ResponseInterface $response)
     {
         parent::populateFromResponse($response);
@@ -74,9 +69,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
@@ -90,9 +82,6 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
         return $this->expires <= new \DateTimeImmutable('now', $this->expires->getTimezone());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieve()
     {
         $response = $this->execute($this->api->getTokens(), ['tokenId' => $this->id]);
@@ -100,28 +89,27 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param array $data {@see \OpenStack\Identity\v3\Api::postTokens}
+     * @param array $userOptions {@see \OpenStack\Identity\v3\Api::postTokens}
      */
-    public function create(array $data): Creatable
+    public function create(array $userOptions): Creatable
     {
-        if (isset($data['user'])) {
-            $data['methods'] = ['password'];
-            if (!isset($data['user']['id']) && empty($data['user']['domain'])) {
-                throw new \InvalidArgumentException(
-                    'When authenticating with a username, you must also provide either the domain name or domain ID to '
-                    .'which the user belongs to. Alternatively, if you provide a user ID instead, you do not need to '
-                    .'provide domain information.'
-                );
+        if (isset($userOptions['user'])) {
+            $userOptions['methods'] = ['password'];
+            if (!isset($userOptions['user']['id']) && empty($userOptions['user']['domain'])) {
+                throw new InvalidArgumentException('When authenticating with a username, you must also provide either the domain name '.'or domain ID to which the user belongs to. Alternatively, if you provide a user ID instead, '.'you do not need to provide domain information.');
             }
-        } elseif (isset($data['tokenId'])) {
-            $data['methods'] = ['token'];
+        } elseif (isset($userOptions['application_credential'])) {
+            $userOptions['methods'] = ['application_credential'];
+            if (!isset($userOptions['application_credential']['id']) || !isset($userOptions['application_credential']['secret'])) {
+                throw new InvalidArgumentException('When authenticating with a application_credential, you must provide application credential ID '.' and application credential secret.');
+            }
+        } elseif (isset($userOptions['tokenId'])) {
+            $userOptions['methods'] = ['token'];
         } else {
-            throw new \InvalidArgumentException('Either a user or token must be provided.');
+            throw new InvalidArgumentException('Either a user, tokenId or application_credential must be provided.');
         }
 
-        $response = $this->execute($this->api->postTokens(), $data);
+        $response = $this->execute($this->api->postTokens(), $userOptions);
         $token    = $this->populateFromResponse($response);
 
         // Cache response as an array to export if needed.
@@ -138,11 +126,25 @@ class Token extends OperatorResource implements Creatable, Retrievable, \OpenSta
      * Initialize OpenStack object using $params['cachedToken'] to reduce the amount of HTTP calls.
      *
      * This array is a modified version of response from `/auth/tokens`. Do not manually modify this array.
-     *
-     * @return array
      */
     public function export(): array
     {
         return $this->cachedToken;
+    }
+
+    /**
+     * Checks if the token is valid.
+     *
+     * @return bool TRUE if the token is valid; FALSE otherwise
+     */
+    public function validate(): bool
+    {
+        try {
+            $this->execute($this->api->headTokens(), ['tokenId' => $this->id]);
+
+            return true;
+        } catch (BadResponseError $e) {
+            return false;
+        }
     }
 }
