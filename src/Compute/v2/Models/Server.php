@@ -185,7 +185,7 @@ class Server extends OperatorResource implements Creatable, Updateable, Deletabl
      */
     public function reboot(string $type = Enum::REBOOT_SOFT)
     {
-        if (!in_array($type, ['SOFT', 'HARD'])) {
+        if (!in_array($type, [Enum::REBOOT_SOFT, Enum::REBOOT_HARD])) {
             throw new \RuntimeException('Reboot type must either be SOFT or HARD');
         }
 
