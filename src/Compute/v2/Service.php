@@ -15,6 +15,7 @@ use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Limit;
 use OpenStack\Compute\v2\Models\QuotaSet;
 use OpenStack\Compute\v2\Models\Server;
+use OpenStack\Compute\v2\Models\Aggregate;
 
 /**
  * Compute v2 service for OpenStack.

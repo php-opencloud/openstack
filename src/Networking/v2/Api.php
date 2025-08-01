@@ -708,4 +708,24 @@ class Api extends AbstractApi
             ],
         ];
     }
+
+    public function getNetworkIpAvailability() : array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => $this->pathPrefix . '/network-ip-availabilities/{id}',
+            'params' => ['id' => $this->params->urlId('network')],
+        ];
+    }
+
+    public function getNetworkIpAvailabilities(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => $this->pathPrefix . '/network-ip-availabilities',
+            'params' => [
+                'tenantId' => $this->params->queryTenantId()
+            ]
+        ];
+    }
 }

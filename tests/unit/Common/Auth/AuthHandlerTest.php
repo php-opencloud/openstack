@@ -65,9 +65,11 @@ class FakeToken implements Token
 {
     public function getId(): string
     {
+        return '';
     }
 
     public function hasExpired(): bool
     {
+        return false;
     }
 }
