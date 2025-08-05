@@ -1,10 +1,11 @@
 {
     "name": "php-opencloud/openstack",
-    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi",
+    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi - NocWorx fork by Dave Mednick",
     "version": "3.14",
     "keywords": [
         "php",
         "openstack",
+        "opencloud",
         "api",
         "sdk"
     ],
@@ -20,6 +21,11 @@
             "name": "Ha Phan",
             "email": "thanhha.work@gmail.com",
             "homepage" : "https://github.com/haphan"
+        },
+        {
+            "name": "Dave Mednick",
+            "email": "david.mednick@nexcess.net",
+            "homepage" : "https://github.com/davemednick"
         }
     ],
     "autoload": {
