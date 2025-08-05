@@ -1,14 +1,15 @@
 {
-    "name": "php-opencloud/openstack",
-    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi",
+    "name": "nocworx/php-opencloud-openstack",
+    "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi - NocWorx fork by Dave Mednick",
     "license": "Apache-2.0",
+    "version": "3.14",
     "keywords": [
         "php",
         "openstack",
+        "opencloud",
         "api",
         "sdk"
     ],
-    "homepage": "https://github.com/php-opencloud/openstack",
     "authors": [
         {
             "name": "Jamie Hannaford",
@@ -24,8 +25,31 @@
             "name": "Konstantin Babushkin",
             "email": "koka@idwrx.com",
             "homepage": "https://github.com/k0ka"
+        },
+        {
+            "name": "Dave Mednick",
+            "email": "david.mednick@nexcess.net",
+            "homepage": "https://github.com/davemednick"
         }
     ],
+    "homepage": "https://github.com/nocworx/php-opencloud-openstack",
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/psr7": ">=1.7",
+        "guzzlehttp/uri-template": "^0.2",
+        "justinrainbow/json-schema": "^5.2 || ^6.0"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "ergebnis/composer-normalize": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3",
+        "php-coveralls/php-coveralls": "^2.0",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "phpspec/prophecy": "^1.17",
+        "phpunit/phpunit": ">=8.5.23 <9.0",
+        "psr/log": "^1.0"
+    },
     "autoload": {
         "psr-4": {
             "OpenStack\\": "src/"
@@ -33,28 +57,20 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "OpenStack\\Integration\\": "tests/integration/",
             "OpenStack\\Sample\\": "tests/sample/",
             "OpenStack\\Test\\": "tests/unit/"
         }
-    },
-  "require": {
-    "php": "^7.2.5 || ^8.0",
-    "guzzlehttp/guzzle": "^7.0",
-    "guzzlehttp/psr7": ">=1.7",
-    "guzzlehttp/uri-template": "^0.2 || ^1.0",
-    "justinrainbow/json-schema": "^5.2 || ^6.0"
-  },
-    "require-dev": {
-      "phpunit/phpunit": "^6.5 || ^8.5",
-      "psr/log": "^1.0",
-      "php-coveralls/php-coveralls": "^2.0",
-      "jakub-onderka/php-parallel-lint": "^1.0",
-      "friendsofphp/php-cs-fixer": "^2.13 || ^3"
     },
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true
         },
         "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
     }
 }
