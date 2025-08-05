@@ -1,7 +1,7 @@
 {
     "name": "php-opencloud/openstack",
     "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi",
-    "license": "Apache-2.0",
+    "version": "3.14",
     "keywords": [
         "php",
         "openstack",
@@ -9,21 +9,17 @@
         "sdk"
     ],
     "homepage": "https://github.com/php-opencloud/openstack",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Jamie Hannaford",
             "email": "jamie.hannaford@rackspace.com",
-            "homepage": "https://github.com/jamiehannaford"
+            "homepage" : "https://github.com/jamiehannaford"
         },
         {
             "name": "Ha Phan",
             "email": "thanhha.work@gmail.com",
-            "homepage": "https://github.com/haphan"
-        },
-        {
-            "name": "Konstantin Babushkin",
-            "email": "koka@idwrx.com",
-            "homepage": "https://github.com/k0ka"
+            "homepage" : "https://github.com/haphan"
         }
     ],
     "autoload": {
@@ -33,28 +29,25 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OpenStack\\Sample\\": "tests/sample/",
-            "OpenStack\\Test\\": "tests/unit/"
+            "OpenStack\\Test\\": "tests/unit/",
+            "OpenStack\\Integration\\": "tests/integration/"
         }
     },
-  "require": {
-    "php": "^7.2.5 || ^8.0",
-    "guzzlehttp/guzzle": "^7.0",
-    "guzzlehttp/psr7": ">=1.7",
-    "guzzlehttp/uri-template": "^0.2 || ^1.0",
-    "justinrainbow/json-schema": "^5.2 || ^6.0"
-  },
-    "require-dev": {
-      "phpunit/phpunit": "^6.5 || ^8.5",
-      "psr/log": "^1.0",
-      "php-coveralls/php-coveralls": "^2.0",
-      "jakub-onderka/php-parallel-lint": "^1.0",
-      "friendsofphp/php-cs-fixer": "^2.13 || ^3"
+    "require": {
+        "php": "~7.0 || ^8.0",
+        "guzzlehttp/guzzle": "^6.1",
+        "justinrainbow/json-schema": "^5.2"
     },
-    "config": {
-        "allow-plugins": {
-            "ergebnis/composer-normalize": true
-        },
-        "sort-packages": true
+    "require-dev": {
+        "phpunit/phpunit": "^6.5 || ^8.5",
+        "psr/log": "^1.0",
+        "php-coveralls/php-coveralls": "^2.0",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.13 || ^3"
+    },
+    "extra": {
+        "branch-alias": {
+           "dev-master": "3.0-dev"
+        }
     }
 }
