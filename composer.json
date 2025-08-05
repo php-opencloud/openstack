@@ -1,76 +1,76 @@
 {
     "name": "nocworx/php-opencloud-openstack",
     "description": "PHP SDK for OpenStack APIs. Supports BlockStorage, Compute, Identity, Images, Networking and Metric Gnocchi - NocWorx fork by Dave Mednick",
+    "license": "Apache-2.0",
     "version": "3.14",
     "keywords": [
-      "php",
-      "openstack",
-      "opencloud",
-      "api",
-      "sdk"
+        "php",
+        "openstack",
+        "opencloud",
+        "api",
+        "sdk"
+    ],
+    "authors": [
+        {
+            "name": "Jamie Hannaford",
+            "email": "jamie.hannaford@rackspace.com",
+            "homepage": "https://github.com/jamiehannaford"
+        },
+        {
+            "name": "Ha Phan",
+            "email": "thanhha.work@gmail.com",
+            "homepage": "https://github.com/haphan"
+        },
+        {
+            "name": "Konstantin Babushkin",
+            "email": "koka@idwrx.com",
+            "homepage": "https://github.com/k0ka"
+        },
+        {
+            "name": "Dave Mednick",
+            "email": "david.mednick@nexcess.net",
+            "homepage": "https://github.com/davemednick"
+        }
     ],
     "homepage": "https://github.com/nocworx/php-opencloud-openstack",
-    "license": "Apache-2.0",
-    "authors": [
-      {
-        "name": "Jamie Hannaford",
-        "email": "jamie.hannaford@rackspace.com",
-        "homepage": "https://github.com/jamiehannaford"
-      },
-      {
-        "name": "Ha Phan",
-        "email": "thanhha.work@gmail.com",
-        "homepage": "https://github.com/haphan"
-      },
-      {
-        "name": "Konstantin Babushkin",
-        "email": "koka@idwrx.com",
-        "homepage": "https://github.com/k0ka"
-      },
-      {
-        "name": "Dave Mednick",
-        "email": "david.mednick@nexcess.net",
-        "homepage": "https://github.com/davemednick"
-      }
-    ],
-    "autoload": {
-      "psr-4": {
-        "OpenStack\\": "src/"
-      }
-    },
-    "autoload-dev": {
-      "psr-4": {
-        "OpenStack\\Test\\": "tests/unit/",
-        "OpenStack\\Sample\\": "tests/sample/",
-        "OpenStack\\Integration\\": "tests/integration/"
-      }
-    },
     "require": {
-      "php": "^7.2.5 || ^8.0",
-      "guzzlehttp/guzzle": "^7.0",
-      "guzzlehttp/psr7": ">=1.7",
-      "guzzlehttp/uri-template": "^0.2",
-      "justinrainbow/json-schema": "^5.2 || ^6.0"
+        "php": "^7.2.5 || ^8.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/psr7": ">=1.7",
+        "guzzlehttp/uri-template": "^0.2",
+        "justinrainbow/json-schema": "^5.2 || ^6.0"
     },
     "require-dev": {
-      "ext-json": "*",
-      "ergebnis/composer-normalize": "^2.0",
-      "friendsofphp/php-cs-fixer": "^3",
-      "php-coveralls/php-coveralls": "^2.0",
-      "php-parallel-lint/php-parallel-lint": "^1.2",
-      "phpspec/prophecy": "^1.17",
-      "phpunit/phpunit": ">=8.5.23 <9.0",
-      "psr/log": "^1.0"
+        "ext-json": "*",
+        "ergebnis/composer-normalize": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3",
+        "php-coveralls/php-coveralls": "^2.0",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
+        "phpspec/prophecy": "^1.17",
+        "phpunit/phpunit": ">=8.5.23 <9.0",
+        "psr/log": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenStack\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenStack\\Integration\\": "tests/integration/",
+            "OpenStack\\Sample\\": "tests/sample/",
+            "OpenStack\\Test\\": "tests/unit/"
+        }
     },
     "config": {
-      "allow-plugins": {
-        "ergebnis/composer-normalize": true
-      },
-      "sort-packages": true
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
     },
     "extra": {
-      "branch-alias": {
-         "dev-master": "3.0-dev"
-      }
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        }
     }
 }
