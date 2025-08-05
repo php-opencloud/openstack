@@ -36,7 +36,7 @@
     "autoload-dev": {
       "psr-4": {
         "OpenStack\\Test\\": "tests/unit/",
-        "OpenStack\\Integration\\": "tests/integration/"
+        "OpenStack\\Sample\\": "tests/sample/"
       }
     },
     "require": {
