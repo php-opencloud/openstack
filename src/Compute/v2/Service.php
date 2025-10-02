@@ -28,7 +28,7 @@ class Service extends AbstractService
      * Create a new server resource. This operation will provision a new virtual machine on a host chosen by your
      * service API.
      *
-     * @param array $options {@see \OpenStack\Compute\v2\Api::postServer}
+     * @param array $options {@see Api::postServer}
      */
     public function createServer(array $options): Server
     {
@@ -40,7 +40,7 @@ class Service extends AbstractService
      *
      * @param bool          $detailed Determines whether detailed information will be returned. If FALSE is specified, only
      *                                the ID, name and links attributes are returned, saving bandwidth.
-     * @param array         $options  {@see \OpenStack\Compute\v2\Api::getServers}
+     * @param array         $options  {@see Api::getServers}
      * @param callable|null $mapFn    a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Server>
@@ -73,7 +73,7 @@ class Service extends AbstractService
     /**
      * List flavors.
      *
-     * @param array         $options  {@see \OpenStack\Compute\v2\Api::getFlavors}
+     * @param array         $options  {@see Api::getFlavors}
      * @param callable|null $mapFn    a callable function that will be invoked on every iteration of the list
      * @param bool          $detailed set to true to fetch flavors' details
      *
@@ -105,7 +105,7 @@ class Service extends AbstractService
     /**
      * Create a new flavor resource.
      *
-     * @param array $options {@see \OpenStack\Compute\v2\Api::postFlavors}
+     * @param array $options {@see Api::postFlavors}
      */
     public function createFlavor(array $options = []): Flavor
     {
@@ -115,7 +115,7 @@ class Service extends AbstractService
     /**
      * List images.
      *
-     * @param array         $options {@see \OpenStack\Compute\v2\Api::getImages}
+     * @param array         $options {@see Api::getImages}
      * @param callable|null $mapFn   a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Image>
@@ -144,7 +144,7 @@ class Service extends AbstractService
     /**
      * List key pairs.
      *
-     * @param array         $options {@see \OpenStack\Compute\v2\Api::getKeyPairs}
+     * @param array         $options {@see Api::getKeyPairs}
      * @param callable|null $mapFn   a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Keypair>
@@ -154,6 +154,18 @@ class Service extends AbstractService
         return $this->model(Keypair::class)->enumerate($this->api->getKeypairs(), $options, $mapFn);
     }
 
+    /**
+     * List host aggregates.
+     *
+     * @param array $options {@see Api::getAggregates}
+     * @param callable|null $mapFn A callable function that will be invoked on every iteration of the list.
+     *
+     * @return \Generator
+     */
+    public function listAggregates(array $options = [], callable $mapFn = null): \Generator
+    {
+        return $this->model(Aggregate::class)->enumerate($this->api->getAggregates(), $options, $mapFn);
+    }
     /**
      * Create or import keypair.
      */
@@ -200,7 +212,7 @@ class Service extends AbstractService
      *
      * @param bool          $detailed Determines whether detailed information will be returned. If FALSE is specified, only
      *                                the ID, name and links attributes are returned, saving bandwidth.
-     * @param array         $options  {@see \OpenStack\Compute\v2\Api::getHypervisors}
+     * @param array         $options  {@see Api::getHypervisors}
      * @param callable|null $mapFn    a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Hypervisor>
@@ -225,7 +237,7 @@ class Service extends AbstractService
     /**
      * List hosts.
      *
-     * @param array         $options {@see \OpenStack\Compute\v2\Api::getHosts}
+     * @param array         $options {@see Api::getHosts}
      * @param callable|null $mapFn   a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\Host>
@@ -256,7 +268,7 @@ class Service extends AbstractService
     /**
      * List AZs.
      *
-     * @param array         $options {@see \OpenStack\Compute\v2\Api::getAvailabilityZones}
+     * @param array         $options {@see Api::getAvailabilityZones}
      * @param callable|null $mapFn   a callable function that will be invoked on every iteration of the list
      *
      * @return \Generator<mixed, \OpenStack\Compute\v2\Models\AvailabilityZone>
@@ -276,4 +288,5 @@ class Service extends AbstractService
 
         return $quotaSet;
     }
+
 }
