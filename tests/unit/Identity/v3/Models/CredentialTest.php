@@ -34,8 +34,10 @@ class CredentialTest extends TestCase
         $this->credential->projectId = 'bar';
 
         $expectedJson = [
-            'type' => 'foo',
-            'project_id' => 'bar',
+            'credential' => [
+                'type'       => 'foo',
+                'project_id' => 'bar',
+            ]
         ];
 
         $this->mockRequest('PATCH', 'credentials/CRED_ID', 'cred', $expectedJson, []);

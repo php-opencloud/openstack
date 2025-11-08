@@ -504,14 +504,16 @@ class ServiceTest extends TestCase
             'blob'      => "{\"access\":\"--access-key--\",\"secret\":\"--secret-key--\"}",
             'projectId' => 'project_id',
             'type'      => 'ec2',
-            'userId'    => 'user_id'
+            'userId'    => 'user_id',
         ];
 
         $userJson = [
-            'blob'       => $userOptions['blob'],
-            'project_id' => $userOptions['projectId'],
-            'type'       => $userOptions['type'],
-            'user_id'    => $userOptions['userId'],
+            'credential' => [
+                'blob'       => $userOptions['blob'],
+                'project_id' => $userOptions['projectId'],
+                'type'       => $userOptions['type'],
+                'user_id'    => $userOptions['userId'],
+            ],
         ];
 
         $this->mockRequest('POST', 'credentials', 'cred', $userJson);
