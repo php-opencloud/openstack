@@ -17,7 +17,7 @@ $options = [
 $service = $openstack->objectStoreV1();
 $container = $service->getContainer('{containerName}');
 
-$object = $container->createObject([
+$object = $container->createLargeObject([
     'name'             => '{objectName}',
     'stream'           => new \GuzzleHttp\Psr7\Stream(fopen('/path/to/large_object.mov', 'r')),
 
