@@ -13,5 +13,5 @@ $openstack = new OpenStack\OpenStack([
 
 $identity = $openstack->identityV3();
 
-$credential = $identity->getCredential('credentialId');
+$credential = $identity->getCredential('{credentialId}');
 $credential->delete();

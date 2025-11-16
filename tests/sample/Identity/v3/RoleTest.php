@@ -6,7 +6,7 @@ use OpenStack\Identity\v3\Models\Role;
 
 class RoleTest extends TestCase
 {
-    public function testCeate(): Role
+    public function testCreate(): Role
     {
         /** @var $role \OpenStack\Identity\v3\Models\Role */
         require_once $this->sampleFile('roles/create.php', ['{name}' => $this->randomStr()]);
@@ -16,7 +16,7 @@ class RoleTest extends TestCase
     }
 
     /**
-     * @depends testCeate
+     * @depends testCreate
      */
     public function testList(Role $createdRole): void
     {
@@ -38,7 +38,7 @@ PHP
     }
 
     /**
-     * @depends testCeate
+     * @depends testCreate
      */
     public function testListAssignments(Role $createdRole): void
     {
