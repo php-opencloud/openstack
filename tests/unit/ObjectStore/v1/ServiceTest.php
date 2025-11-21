@@ -13,6 +13,7 @@ use OpenStack\Test\TestCase;
 
 class ServiceTest extends TestCase
 {
+    /** @var Service */
     private $service;
 
     public function setUp(): void
@@ -73,5 +74,32 @@ class ServiceTest extends TestCase
 		$this->expectException(BadResponseError::class);
 
         $this->service->containerExists('foo');
+    }
+
+    public function test_it_generates_temp_url_sha1()
+    {
+        $cases = [
+            [
+                ['GET', '1516741234', '/v1/AUTH_account/container/object', 'mykey'],
+                '/v1/AUTH_account/container/object?temp_url_sig=712dcef48d391e39bd2e3b63fc0a07146a36055e&temp_url_expires=1516741234'
+            ],
+            [
+                ['HEAD', '1516741234', '/v1/AUTH_account/container/object', 'somekey'],
+                '/v1/AUTH_account/container/object?temp_url_sig=a4516e93f2023652641fec44c82163dc298620e8&temp_url_expires=1516741234'
+            ],
+            [
+                ['GET', '1323479485', 'prefix:/v1/AUTH_account/container/pre', 'mykey'],
+                '/v1/AUTH_account/container/object?temp_url_sig=a4516e93f2023652641fec44c82163dc298620e8&temp_url_expires=1516741234'
+            ]
+        ];
+
+        foreach ($cases as $case)
+        {
+            $params = $case[0];
+            $expected = $case[1];
+
+            $actual = call_user_func_array([$this->service, 'tempUrl'], $params);
+            $this->assertEquals($expected, $actual);
+        }
     }
 }
