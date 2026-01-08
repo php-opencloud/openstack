@@ -117,6 +117,12 @@ class Port extends OperatorResource implements Creatable, Updateable, Deletable,
      * @var bool
      */
     public $portSecurityEnabled;
+    /**
+     * The ID of the QoS policy associated with the port.
+     *
+     * @var bool
+     */
+    public $qosPolicyId;
 
     protected $aliases = [
         'port_security_enabled' => 'portSecurityEnabled',
@@ -131,6 +137,7 @@ class Port extends OperatorResource implements Creatable, Updateable, Deletable,
         'device_id'             => 'deviceId',
         'fixed_ips'             => 'fixedIps',
         'allowed_address_pairs' => 'allowedAddressPairs',
+        'qos_policy_id'         => 'qosPolicyId',
     ];
 
     protected $resourceKey  = 'port';
