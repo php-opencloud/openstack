@@ -712,4 +712,3 @@ EOL
         return $this->quotaSetLimit('server_group_members', 'The number of allowed members for each server group.');
     }
 }
-
