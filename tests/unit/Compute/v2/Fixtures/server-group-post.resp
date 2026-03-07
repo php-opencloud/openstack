@@ -1,0 +1,16 @@
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "server_group": {
+        "id": "4f62479e-cf47-4d14-bc41-0fc0c9db79f3",
+        "members": [],
+        "metadata": {},
+        "name": "web-group",
+        "policies": [
+            "affinity"
+        ],
+        "project_id": "project-123",
+        "user_id": "user-456"
+    }
+}

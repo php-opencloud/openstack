@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "server_group": {
+        "id": "4f62479e-cf47-4d14-bc41-0fc0c9db79f3",
+        "members": [
+            "server-1",
+            "server-2"
+        ],
+        "name": "db-group",
+        "policy": "anti-affinity",
+        "project_id": "project-123",
+        "rules": {
+            "max_server_per_host": 1
+        },
+        "user_id": "user-456"
+    }
+}
