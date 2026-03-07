@@ -7,14 +7,15 @@ $openstack = new OpenStack\OpenStack([
     'region'  => '{region}',
     'user'    => [
         'id'       => '{userId}',
-        'password' => '{password}'
+        'password' => '{password}',
     ],
-    'scope'   => ['project' => ['id' => '{projectId}']]
+    'scope'   => ['project' => ['id' => '{projectId}']],
 ]);
 
-$compute = $openstack->computeV2(['region' => '{region}']);
+$compute = $openstack->computeV2(['region' => '{region}', 'microVersion' => '2.64']);
 
 $serverGroup = $compute->createServerGroup([
-    'name'     => '{serverGroupName}',
-    'policies' => ['affinity'],
+    'name'   => '{serverGroupName}',
+    'policy' => 'anti-affinity',
+    'rules'  => ['max_server_per_host' => 3],
 ]);

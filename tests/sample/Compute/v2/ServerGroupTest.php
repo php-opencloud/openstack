@@ -22,7 +22,7 @@ class ServerGroupTest extends TestCase
 
         $this->assertInstanceOf(ServerGroup::class, $serverGroup);
         $this->assertEquals($name, $serverGroup->name);
-        $this->assertPolicy($serverGroup, 'affinity');
+        $this->assertPolicy($serverGroup, 'anti-affinity');
 
         return $serverGroup;
     }
@@ -60,7 +60,7 @@ PHP
         $this->assertInstanceOf(ServerGroup::class, $serverGroup);
         $this->assertEquals($createdServerGroup->id, $serverGroup->id);
         $this->assertEquals($createdServerGroup->name, $serverGroup->name);
-        $this->assertPolicy($serverGroup, 'affinity');
+        $this->assertPolicy($serverGroup, 'anti-affinity');
     }
 
     /**
