@@ -39,19 +39,7 @@ Microversion 2.64+
 If the Compute service is created with microversion ``2.64`` or later, you can use the singular ``policy`` field and
 optional ``rules`` object instead:
 
-.. code-block:: php
-
-    $compute = $openstack->computeV2([
-        'microVersion' => '2.64',
-    ]);
-
-    $serverGroup = $compute->createServerGroup([
-        'name'   => 'db-group',
-        'policy' => 'anti-affinity',
-        'rules'  => [
-            'max_server_per_host' => 1,
-        ],
-    ]);
+.. sample:: Compute/v2/server_groups/create_2_64.php
 
 When Nova responds with the newer singular ``policy`` field, the SDK also exposes that value as the first item in
 ``policies`` for compatibility with the older response shape.

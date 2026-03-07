@@ -103,6 +103,8 @@ Prefer adding focused tests around the exact operation being changed instead of 
 - a corresponding sample test under `tests/sample/`
 - documentation in `doc/services/` if the feature is part of the supported public workflow
 
+All code snippets used in the docs must live in `samples/` rather than being maintained only inline in `.rst` files, and they must be covered by the sample test suite.
+
 Sample tests typically create a temporary PHP file from a template and `require_once` it, so keep samples self-contained and readable.
 
 ## Documentation
@@ -123,3 +125,4 @@ make -C doc html
 - Keep docblocks accurate for public APIs and option arrays.
 - Reuse existing fixtures, sample patterns, and helper methods before inventing new ones.
 - If `composer.json` changes, run `composer normalize` because CI auto-normalizes that file.
+

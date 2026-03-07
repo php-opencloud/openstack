@@ -13,6 +13,26 @@ class ServerGroupTest extends TestCase
         $this->assertEquals($expected, $serverGroup->policy);
     }
 
+    public function testCreateWithMicroversion264()
+    {
+        $name = $this->randomStr();
+
+        /** @var ServerGroup $serverGroup */
+        require_once $this->sampleFile('server_groups/create_2_64.php', ['{serverGroupName}' => $name]);
+
+        try {
+            $this->assertInstanceOf(ServerGroup::class, $serverGroup);
+            $this->assertEquals($name, $serverGroup->name);
+            $this->assertPolicy($serverGroup, 'anti-affinity');
+            $this->assertEquals(1, $serverGroup->rules['max_server_per_host']);
+        } finally {
+            $serverGroup->delete();
+        }
+
+        $this->expectException(BadResponseError::class);
+        $serverGroup->retrieve();
+    }
+
     public function testCreate(): ServerGroup
     {
         $name = $this->randomStr();
@@ -22,7 +42,7 @@ class ServerGroupTest extends TestCase
 
         $this->assertInstanceOf(ServerGroup::class, $serverGroup);
         $this->assertEquals($name, $serverGroup->name);
-        $this->assertPolicy($serverGroup, 'anti-affinity');
+        $this->assertPolicy($serverGroup, 'affinity');
 
         return $serverGroup;
     }
@@ -60,7 +80,7 @@ PHP
         $this->assertInstanceOf(ServerGroup::class, $serverGroup);
         $this->assertEquals($createdServerGroup->id, $serverGroup->id);
         $this->assertEquals($createdServerGroup->name, $serverGroup->name);
-        $this->assertPolicy($serverGroup, 'anti-affinity');
+        $this->assertPolicy($serverGroup, 'affinity');
     }
 
     /**
