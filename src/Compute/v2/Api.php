@@ -708,6 +708,68 @@ class Api extends AbstractApi
         ];
     }
 
+    public function getServerGroups(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-server-groups',
+            'params' => [
+                'allProjects' => $this->params->allProjects(),
+                'limit'       => $this->params->limit(),
+                'offset'      => $this->params->offset(),
+            ],
+        ];
+    }
+
+    public function getServerGroup(): array
+    {
+        return [
+            'method' => 'GET',
+            'path'   => 'os-server-groups/{id}',
+            'params' => [
+                'id' => $this->params->urlId('server group'),
+            ],
+        ];
+    }
+
+    public function postServerGroup(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'os-server-groups',
+            'jsonKey' => 'server_group',
+            'params'  => [
+                'name'     => $this->isRequired($this->params->name('server group')),
+                'policies' => $this->isRequired($this->params->serverGroupPolicies()),
+            ],
+        ];
+    }
+
+    public function postServerGroupWithPolicy(): array
+    {
+        return [
+            'method'  => 'POST',
+            'path'    => 'os-server-groups',
+            'jsonKey' => 'server_group',
+            'params'  => [
+                'name'   => $this->isRequired($this->params->name('server group')),
+                'policy' => $this->isRequired($this->params->serverGroupPolicy()),
+                'rules'  => $this->notRequired($this->params->serverGroupRules()),
+            ],
+        ];
+    }
+
+    public function deleteServerGroup(): array
+    {
+        return [
+            'method' => 'DELETE',
+            'path'   => 'os-server-groups/{id}',
+            'params' => [
+                'id' => $this->params->urlId('server group'),
+            ],
+        ];
+    }
+
     public function postSecurityGroup(): array
     {
         return [
@@ -914,3 +976,8 @@ class Api extends AbstractApi
         ];
     }
 }
+
+
+
+
+

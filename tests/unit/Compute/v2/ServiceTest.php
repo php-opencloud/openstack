@@ -2,19 +2,18 @@
 
 namespace OpenStack\Test\Compute\v2;
 
-use GuzzleHttp\Psr7\Response;
 use OpenStack\Compute\v2\Api;
-use OpenStack\Compute\v2\Models\Flavor;
-use OpenStack\Compute\v2\Models\HypervisorStatistic;
-use OpenStack\Compute\v2\Models\Host;
 use OpenStack\Compute\v2\Models\AvailabilityZone;
+use OpenStack\Compute\v2\Models\Flavor;
+use OpenStack\Compute\v2\Models\Host;
+use OpenStack\Compute\v2\Models\Hypervisor;
+use OpenStack\Compute\v2\Models\HypervisorStatistic;
 use OpenStack\Compute\v2\Models\Image;
 use OpenStack\Compute\v2\Models\Keypair;
 use OpenStack\Compute\v2\Models\Server;
-use OpenStack\Compute\v2\Models\Hypervisor;
+use OpenStack\Compute\v2\Models\ServerGroup;
 use OpenStack\Compute\v2\Service;
 use OpenStack\Test\TestCase;
-use Prophecy\Argument;
 
 class ServiceTest extends TestCase
 {
@@ -33,14 +32,14 @@ class ServiceTest extends TestCase
     public function test_it_creates_servers()
     {
         $opts = [
-            'name' => 'foo',
-            'imageId' => '',
+            'name'     => 'foo',
+            'imageId'  => '',
             'flavorId' => '',
         ];
 
         $expectedJson = ['server' => [
-            'name' => $opts['name'],
-            'imageRef' => $opts['imageId'],
+            'name'      => $opts['name'],
+            'imageRef'  => $opts['imageId'],
             'flavorRef' => $opts['flavorId'],
         ]];
 
@@ -61,7 +60,7 @@ class ServiceTest extends TestCase
     public function test_it_gets_a_server()
     {
         $server = $this->service->getServer([
-            'id' => 'serverId'
+            'id' => 'serverId',
         ]);
 
         self::assertInstanceOf(Server::class, $server);
@@ -85,7 +84,7 @@ class ServiceTest extends TestCase
     public function test_it_gets_a_flavor()
     {
         $flavor = $this->service->getFlavor([
-            'id' => 'flavorId'
+            'id' => 'flavorId',
         ]);
 
         self::assertInstanceOf(Flavor::class, $flavor);
@@ -104,7 +103,7 @@ class ServiceTest extends TestCase
     public function test_it_gets_an_image()
     {
         $image = $this->service->getImage([
-            'id' => 'imageId'
+            'id' => 'imageId',
         ]);
 
         self::assertInstanceOf(Image::class, $image);
@@ -118,6 +117,45 @@ class ServiceTest extends TestCase
         foreach ($this->service->listKeypairs() as $keypair) {
             self::assertInstanceOf(Keypair::class, $keypair);
         }
+    }
+
+    public function test_it_creates_server_groups()
+    {
+        $opts = [
+            'name'     => 'group-a',
+            'policies' => ['affinity'],
+        ];
+
+        $expectedJson = ['server_group' => [
+            'name'     => $opts['name'],
+            'policies' => $opts['policies'],
+        ]];
+
+        $this->mockRequest('POST', 'os-server-groups', 'server-group-post', $expectedJson, []);
+
+        self::assertInstanceOf(ServerGroup::class, $this->service->createServerGroup($opts));
+    }
+
+    public function test_it_lists_server_groups()
+    {
+        $this->mockRequest('GET', ['path' => 'os-server-groups', 'query' => ['all_projects' => true]], 'server-groups-get');
+
+        $serverGroups = iterator_to_array($this->service->listServerGroups(['allProjects' => true]));
+
+        self::assertCount(2, $serverGroups);
+        self::assertInstanceOf(ServerGroup::class, $serverGroups[0]);
+        self::assertEquals('affinity', $serverGroups[0]->policy);
+        self::assertEquals('anti-affinity', $serverGroups[1]->policy);
+    }
+
+    public function test_it_gets_a_server_group()
+    {
+        $serverGroup = $this->service->getServerGroup([
+            'id' => 'serverGroupId',
+        ]);
+
+        self::assertInstanceOf(ServerGroup::class, $serverGroup);
+        self::assertEquals('serverGroupId', $serverGroup->id);
     }
 
     public function test_it_gets_hypervisor_statistics()
