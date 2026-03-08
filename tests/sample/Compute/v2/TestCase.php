@@ -87,6 +87,9 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
 
         foreach ($networks as $networkName) {
             $network = $this->getNetworkService()->listNetworks(['name' => $networkName])->current();
+            if ($network == null){
+                continue;
+            }
             $this->deleteNetwork($network);
         }
     }
