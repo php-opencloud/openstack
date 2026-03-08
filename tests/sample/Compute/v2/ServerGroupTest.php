@@ -3,7 +3,9 @@
 namespace OpenStack\Sample\Compute\v2;
 
 use OpenStack\Common\Error\BadResponseError;
+use OpenStack\Compute\v2\Models\Server;
 use OpenStack\Compute\v2\Models\ServerGroup;
+use RuntimeException;
 
 class ServerGroupTest extends TestCase
 {
@@ -45,6 +47,49 @@ class ServerGroupTest extends TestCase
         $this->assertPolicy($serverGroup, 'affinity');
 
         return $serverGroup;
+    }
+
+    /**
+     * @depends testCreate
+     */
+    public function testCreateServerInGroup(ServerGroup $createdServerGroup)
+    {
+        $flavorId = getenv('OS_FLAVOR');
+
+        if (!$flavorId) {
+            throw new RuntimeException('OS_FLAVOR env var must be set');
+        }
+
+        $network = $this->getNetworkService()->createNetwork(['name' => $this->randomStr()]);
+        $this->getNetworkService()->createSubnet(
+            [
+                'name'      => $this->randomStr(),
+                'networkId' => $network->id,
+                'ipVersion' => 4,
+                'cidr'      => '10.20.30.0/24',
+            ]
+        );
+
+        /** @var Server $server */
+        require_once $this->sampleFile(
+            'server_groups/create_server.php',
+            [
+                '{serverName}'    => $this->randomStr(),
+                '{imageId}'       => $this->searchImageId(),
+                '{flavorId}'      => $flavorId,
+                '{networkId}'     => $network->id,
+                '{serverGroupId}' => $createdServerGroup->id,
+            ]
+        );
+
+        $this->assertInstanceOf(Server::class, $server);
+
+        $server->waitUntilActive(300);
+        $createdServerGroup->retrieve();
+
+        $this->assertContains($server->id, $createdServerGroup->members);
+
+        $this->deleteServer($server);
     }
 
     /**

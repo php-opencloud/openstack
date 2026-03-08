@@ -366,6 +366,16 @@ EOL
         ];
     }
 
+    public function schedulerHints(): array
+    {
+        return [
+            'type'        => self::OBJECT_TYPE,
+            'location'    => self::JSON,
+            'sentAs'      => 'os:scheduler_hints',
+            'description' => 'Scheduler hints to pass alongside the server create request, for example ["group" => "{serverGroupId}"].',
+        ];
+    }
+
     public function filterHost(): array
     {
         return [

@@ -44,6 +44,14 @@ optional ``rules`` object instead:
 When Nova responds with the newer singular ``policy`` field, the SDK also exposes that value as the first item in
 ``policies`` for compatibility with the older response shape.
 
+Create A Server In A Group
+--------------------------
+
+To place a server into an existing server group, pass the server group UUID through ``schedulerHints.group`` when you
+create the server:
+
+.. sample:: Compute/v2/server_groups/create_server.php
+
 Read
 ----
 
