@@ -79,11 +79,17 @@ abstract class TestCase extends \OpenStack\Sample\TestCase
      */
     protected function deleteServer(Server $server): void
     {
+        $server->retrieve();
+        $networks = array_keys($server->addresses);
+
         $server->delete();
         $server->waitUntilDeleted();
 
-        foreach (array_keys($server->addresses) as $networkName) {
+        foreach ($networks as $networkName) {
             $network = $this->getNetworkService()->listNetworks(['name' => $networkName])->current();
+            if ($network == null){
+                continue;
+            }
             $this->deleteNetwork($network);
         }
     }

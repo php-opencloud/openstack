@@ -48,6 +48,33 @@ class ServiceTest extends TestCase
         self::assertInstanceOf(Server::class, $this->service->createServer($opts));
     }
 
+    public function test_it_creates_servers_with_scheduler_hints()
+    {
+        $opts = [
+            'name'           => 'foo',
+            'imageId'        => '',
+            'flavorId'       => '',
+            'schedulerHints' => [
+                'group' => 'server-group-id',
+            ],
+        ];
+
+        $expectedJson = [
+            'server' => [
+                'name'      => $opts['name'],
+                'imageRef'  => $opts['imageId'],
+                'flavorRef' => $opts['flavorId'],
+            ],
+            'os:scheduler_hints' => [
+                'group' => 'server-group-id',
+            ],
+        ];
+
+        $this->mockRequest('POST', 'servers', 'server-post', $expectedJson, []);
+
+        self::assertInstanceOf(Server::class, $this->service->createServer($opts));
+    }
+
     public function test_it_lists_servers()
     {
         $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 5]], 'servers-get');

@@ -107,6 +107,8 @@ All code snippets used in the docs must live in `samples/` rather than being mai
 
 Sample tests typically create a temporary PHP file from a template and `require_once` it, so keep samples self-contained and readable.
 
+When adding sample tests, prefer reusing resources created earlier in the same test file instead of provisioning duplicate ones. In practice, `testCreate` should return the created resource, dependent tests should consume it via `@depends`, and cleanup should happen in the final `testDelete`.
+
 ## Documentation
 
 User docs live in `doc/` and use Sphinx plus reStructuredText. If a change affects public behavior, examples, or supported options, update docs as needed.
