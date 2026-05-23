@@ -226,9 +226,7 @@ class ContainerTest extends TestCase
 
     public function test_it_chunks_according_to_provided_segment_size()
     {
-        $stream = function_exists('\GuzzleHttp\Psr7\stream_for')
-            ? \GuzzleHttp\Psr7\stream_for(implode('', range('A', 'X')))
-            : \GuzzleHttp\Psr7\Utils::streamFor(implode('', range('A', 'X')));
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor(implode('', range('A', 'X')));
 
         $data = [
             'name'               => 'object',

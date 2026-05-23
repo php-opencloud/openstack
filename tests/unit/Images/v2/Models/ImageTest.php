@@ -30,9 +30,7 @@ class ImageTest extends TestCase
 
     public function test_it_retrieves()
     {
-        $returnedUri = function_exists('\GuzzleHttp\Psr7\uri_for')
-            ? \GuzzleHttp\Psr7\uri_for('')
-            : \GuzzleHttp\Psr7\Utils::uriFor('');
+        $returnedUri = \GuzzleHttp\Psr7\Utils::uriFor('');
 
         $this->client->getConfig('base_uri')->shouldBeCalled()->willReturn($returnedUri);
 
@@ -127,9 +125,7 @@ class ImageTest extends TestCase
 
     public function test_it_uploads_data_stream()
     {
-        $stream = function_exists('\GuzzleHttp\Psr7\stream_for')
-            ? \GuzzleHttp\Psr7\stream_for('data')
-            : \GuzzleHttp\Psr7\Utils::streamFor('data');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('data');
 
         $headers = ['Content-Type' => 'application/octet-stream'];
 
@@ -140,9 +136,7 @@ class ImageTest extends TestCase
 
     public function test_it_downloads_data()
     {
-        $stream = function_exists('\GuzzleHttp\Psr7\stream_for')
-            ? \GuzzleHttp\Psr7\stream_for('data')
-            : \GuzzleHttp\Psr7\Utils::streamFor('data');
+        $stream = \GuzzleHttp\Psr7\Utils::streamFor('data');
 
         $headers = ['Content-Type' => 'application/octet-stream'];
         $response = new Response(200, $headers, $stream);
