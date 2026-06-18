@@ -113,6 +113,7 @@ class Params extends AbstractParams
         return [
             'location'    => self::QUERY,
             'type'        => self::STRING_TYPE,
+            'sentAs'      => 'member_status',
             'description' => 'Shows only images with this member status.',
             'enum'        => ['accepted', 'pending', 'rejected', 'all'],
         ];
@@ -142,6 +143,7 @@ class Params extends AbstractParams
         return [
             'location'    => self::QUERY,
             'type'        => self::INT_TYPE,
+            'sentAs'      => 'size_min',
             'description' => 'Shows only images with this minimum image size.',
         ];
     }
@@ -151,6 +153,7 @@ class Params extends AbstractParams
         return [
             'location'    => self::QUERY,
             'type'        => self::INT_TYPE,
+            'sentAs'      => 'size_max',
             'description' => 'Shows only images with this maximum image size.',
         ];
     }
@@ -161,6 +164,16 @@ class Params extends AbstractParams
             'location'    => self::QUERY,
             'type'        => self::STRING_TYPE,
             'description' => 'Image tag.',
+        ];
+    }
+
+    public function sort(): array
+    {
+        return [
+            'location'    => self::QUERY,
+            'type'        => self::STRING_TYPE,
+            'description' => 'Sorts the response by one or more attribute and sort direction combinations. You can ' .
+                             'also set multiple sort keys and directions. Default direction is desc.'
         ];
     }
 
