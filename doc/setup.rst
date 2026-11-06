@@ -45,6 +45,22 @@ If you already have a valid token, you can use it to authenticate.
 
 .. sample:: Setup/token_id.php
 
+Overriding catalog endpoints
+----------------------------
+
+Normally the endpoint URL for a service is read from the Identity catalog returned by the authentication request.
+In some cases that URL is not the one that should be used, for example when an application credential is used to
+access an object container that belongs to another project. The ``catalog_overrides`` option lets you replace the
+catalog URL for a service.
+
+Each override must contain a ``url`` and at least one of ``name`` or ``type``. Every key that is specified must
+match the requested service, while omitted keys act as wildcards. The ``region`` and ``interface`` keys are
+therefore optional and can be used to restrict the override further.
+
+.. sample:: Setup/catalog_override.php
+
+If no override matches the requested service, the URL from the catalog is used as usual.
+
 Other options
 -------------
 

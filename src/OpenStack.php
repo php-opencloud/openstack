@@ -32,6 +32,7 @@ class OpenStack
      *         ['messageFormatter'] = (MessageFormatter)  Must set if debugLog is true   [OPTIONAL]
      *         ['requestOptions']   = (array)             Guzzle Http request options    [OPTIONAL]
      *         ['cachedToken']      = (array)             Cached token credential        [OPTIONAL]
+     *         ['catalog_overrides'] = (array)            Override catalog endpoint URLs [OPTIONAL]
      */
     public function __construct(array $options = [], ?Builder $builder = null)
     {

@@ -139,6 +139,68 @@ class ServiceTest extends TestCase
         self::assertEquals('http://example.org:8080/v1/AUTH_e00abf65afca49609eedd163c515cf10', $url);
     }
 
+    public function test_it_authenticates_using_catalog_override()
+    {
+        $userOptions = [
+            'catalogName'       => 'swift',
+            'catalogType'       => 'object-store',
+            'region'            => 'RegionOne',
+            'cachedToken'       => $this->cachedToken(),
+            'catalog_overrides' => [
+                [
+                    'name'      => 'swift',
+                    'type'      => 'object-store',
+                    'region'    => 'RegionOne',
+                    'interface' => 'public',
+                    'url'       => 'http://override.example/v1/AUTH_override',
+                ],
+            ],
+        ];
+
+        [$token, $url] = $this->service->authenticate($userOptions);
+
+        self::assertInstanceOf(Models\Token::class, $token);
+        self::assertEquals('http://override.example/v1/AUTH_override', $url);
+    }
+
+    public function test_it_uses_public_interface_by_default_for_catalog_override()
+    {
+        $userOptions = [
+            'catalogName'       => 'swift',
+            'catalogType'       => 'object-store',
+            'region'            => 'RegionOne',
+            'cachedToken'       => $this->cachedToken(),
+            'catalog_overrides' => [
+                [
+                    'name'      => 'swift',
+                    'interface' => Enum::INTERFACE_PUBLIC,
+                    'url'       => 'http://override.example/v1/AUTH_override',
+                ],
+            ],
+        ];
+
+        $result = $this->service->authenticate($userOptions);
+
+        self::assertEquals('http://override.example/v1/AUTH_override', $result[1]);
+    }
+
+    public function test_it_falls_back_to_catalog_url_when_override_does_not_match()
+    {
+        $userOptions = [
+            'catalogName'       => 'swift',
+            'catalogType'       => 'object-store',
+            'region'            => 'RegionOne',
+            'cachedToken'       => $this->cachedToken(),
+            'catalog_overrides' => [
+                ['name' => 'nova', 'url' => 'http://override.example/v1/AUTH_override'],
+            ],
+        ];
+
+        $result = $this->service->authenticate($userOptions);
+
+        self::assertEquals('http://example.org:8080/v1/AUTH_catalog', $result[1]);
+    }
+
     public function test_it_authenticates_and_throws_exception_when_authenticate_with_expired_cached_token()
     {
         $cachedToken = [
@@ -683,5 +745,25 @@ class ServiceTest extends TestCase
     public function test_it_gets_endpoint()
     {
         $this->getTest($this->createFn($this->service, 'getEndpoint', 'id'), 'endpoint');
+    }
+
+    private function cachedToken(): array
+    {
+        return [
+            'expires_at' => '2199-11-24T04:47:49.000000Z',
+            'catalog'    => [
+                [
+                    'name'      => 'swift',
+                    'type'      => 'object-store',
+                    'endpoints' => [
+                        [
+                            'region'    => 'RegionOne',
+                            'interface' => 'public',
+                            'url'       => 'http://example.org:8080/v1/AUTH_catalog',
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }
