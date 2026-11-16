@@ -79,6 +79,10 @@ class Image extends OperatorResource implements Creatable, Listable, Retrievable
 
     private $jsonSchema;
 
+    protected $markerKey = 'id';
+
+    protected $nextLinkKey = 'next';
+
     protected $aliases = [
         'container_format' => 'containerFormat',
         'disk_format'      => 'diskFormat',

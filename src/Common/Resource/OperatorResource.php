@@ -30,6 +30,15 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
     protected $markerKey;
 
     /**
+     * The key of the link to the next page in a collection response, for APIs that send it only when another page
+     * exists (Glance: ``{"images": [...], "next": "/v2/images?marker=..."}``). When set, enumeration stops on a page
+     * without this link instead of asking for one more, empty page.
+     *
+     * @var string|null
+     */
+    protected $nextLinkKey;
+
+    /**
      * Will create a new instance of this class with the current HTTP client and API injected in. This
      * is useful when enumerating over a collection since multiple copies of the same resource class
      * are needed.
@@ -91,7 +100,9 @@ abstract class OperatorResource extends AbstractResource implements OperatorInte
         $opts = [
             'limit'        => isset($userVals['limit']) ? $userVals['limit'] : null,
             'resourcesKey' => $this->getResourcesKey(),
-            'markerKey'    => $this->markerKey,
+            // An operation without a marker parameter would silently drop it and answer the first page again
+            'markerKey'    => $operation->hasParam('marker') ? $this->markerKey : null,
+            'nextLinkKey'  => $this->nextLinkKey,
             'mapFn'        => $mapFn,
         ];
 

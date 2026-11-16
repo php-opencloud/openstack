@@ -14,6 +14,8 @@ class Iterator
     private $count;
     private $resourcesKey;
     private $markerKey;
+    private $nextLinkKey;
+    private $lastPageReached = false;
     private $mapFn;
     private $currentMarker;
     private $sentMarkers = [];
@@ -29,6 +31,10 @@ class Iterator
 
         if (isset($options['markerKey'])) {
             $this->markerKey = $options['markerKey'];
+        }
+
+        if (isset($options['nextLinkKey'])) {
+            $this->nextLinkKey = $options['nextLinkKey'];
         }
 
         if (isset($options['mapFn']) && is_callable($options['mapFn'])) {
@@ -51,7 +57,13 @@ class Iterator
 
         $response = call_user_func($this->requestFn, $this->currentMarker);
 
-        $json = Utils::flattenJson(Utils::jsonDecode($response), $this->resourcesKey);
+        $body = Utils::jsonDecode($response);
+        $json = Utils::flattenJson($body, $this->resourcesKey);
+
+        // An API that links the next page tells, by leaving the link out, that this page is the last one
+        if ($this->nextLinkKey && !isset($body[$this->nextLinkKey])) {
+            $this->lastPageReached = true;
+        }
 
         if (204 === $response->getStatusCode() || empty($json)) {
             return false;
@@ -79,16 +91,21 @@ class Iterator
 
     private function totalReached()
     {
-        return ($this->limit && $this->count >= $this->limit) || $this->markerSent();
+        return $this->limit && $this->count >= $this->limit;
     }
 
     private function shouldNotSendAnotherRequest()
     {
         return $this->totalReached()
+            || $this->lastPageReached
             || ($this->count > 0 && !$this->markerKey)
             || $this->markerSent();
     }
 
+    /**
+     * The last element of the latest page was already sent as a marker: the API ignored the marker and answered
+     * the same page again, so asking further would loop forever.
+     */
     private function markerSent()
     {
         return $this->currentMarker && in_array($this->currentMarker, $this->sentMarkers);

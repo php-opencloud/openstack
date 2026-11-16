@@ -1,0 +1,30 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "images": [
+        {
+            "status": "active",
+            "name": "ubuntu-14.04-server",
+            "tags": [],
+            "container_format": "bare",
+            "created_at": "2014-10-01T10:00:00Z",
+            "disk_format": "qcow2",
+            "updated_at": "2014-10-01T10:05:00Z",
+            "visibility": "private",
+            "self": "/v2/images/5d3c1c62-8f3e-4d2b-9c41-0a7b6e2f1d93",
+            "min_disk": 0,
+            "protected": false,
+            "id": "5d3c1c62-8f3e-4d2b-9c41-0a7b6e2f1d93",
+            "file": "/v2/images/5d3c1c62-8f3e-4d2b-9c41-0a7b6e2f1d93/file",
+            "checksum": "0c5d4c1a4f7e9b2d3a6f8e1c2b4d6a8f",
+            "owner": "5ef70662f8b34079a6eddb8da9d75fe8",
+            "size": 253755392,
+            "min_ram": 0,
+            "schema": "/v2/schemas/image",
+            "virtual_size": null
+        }
+    ],
+    "schema": "/v2/schemas/images",
+    "first": "/v2/images?limit=2"
+}

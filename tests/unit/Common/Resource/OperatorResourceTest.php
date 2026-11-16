@@ -88,6 +88,106 @@ class OperatorResourceTest extends TestCase
         self::assertEquals(5, $count);
     }
 
+    public function test_it_returns_elements_of_every_page()
+    {
+        $this->mockRequest('GET', 'servers', 'servers-page1');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], 'servers-page2');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '10']], new Response(204));
+
+        $ids = [];
+
+        $api = new ComputeV2Api();
+
+        foreach ($this->resource->enumerate($api->getServers()) as $item) {
+            $ids[] = $item->id;
+        }
+
+        self::assertEquals(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], $ids);
+    }
+
+    public function test_it_stops_asking_when_the_api_ignores_the_marker()
+    {
+        $this->mockRequest('GET', 'servers', 'servers-page1');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], 'servers-page1')
+            ->shouldBeCalledTimes(1);
+
+        $count = 0;
+
+        $api = new ComputeV2Api();
+
+        foreach ($this->resource->enumerate($api->getServers()) as $item) {
+            ++$count;
+        }
+
+        self::assertEquals(10, $count);
+    }
+
+    public function test_it_halts_inside_a_later_page_when_user_provided_limit_is_reached()
+    {
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 7]], 'servers-page1');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 7, 'marker' => '5']], 'servers-page2');
+
+        $ids = [];
+
+        $api = new ComputeV2Api();
+
+        foreach ($this->resource->enumerate($api->getServers(), ['limit' => 7]) as $item) {
+            $ids[] = $item->id;
+        }
+
+        self::assertEquals(['1', '2', '3', '4', '5', '6', '7'], $ids);
+    }
+
+    public function test_it_stops_on_an_empty_answer_after_a_page_with_the_next_link()
+    {
+        $this->mockRequest('GET', 'servers', 'servers-page1-next');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], new Response(204));
+
+        $count = 0;
+
+        $api = new ComputeV2Api();
+        $resource = new TestNextLinkOperatorResource($this->client->reveal(), new Api());
+
+        foreach ($resource->enumerate($api->getServers()) as $item) {
+            ++$count;
+        }
+
+        self::assertEquals(5, $count);
+    }
+
+    public function test_it_follows_the_next_link_and_stops_on_a_page_without_it()
+    {
+        $this->mockRequest('GET', 'servers', 'servers-page1-next');
+        $this->mockRequest('GET', ['path' => 'servers', 'query' => ['marker' => '5']], 'servers-page2');
+
+        $ids = [];
+
+        $api = new ComputeV2Api();
+        $resource = new TestNextLinkOperatorResource($this->client->reveal(), new Api());
+
+        foreach ($resource->enumerate($api->getServers()) as $item) {
+            $ids[] = $item->id;
+        }
+
+        self::assertEquals(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], $ids);
+    }
+
+    public function test_it_does_not_request_another_page_when_the_first_has_no_next_link()
+    {
+        $this->mockRequest('GET', 'servers', 'servers-page1');
+
+        $count = 0;
+
+        $api = new ComputeV2Api();
+        $resource = new TestNextLinkOperatorResource($this->client->reveal(), new Api());
+
+        foreach ($resource->enumerate($api->getServers()) as $item) {
+            ++$count;
+        }
+
+        self::assertEquals(5, $count);
+    }
+
     public function test_it_halts_when_user_provided_limit_is_reached()
     {
         $this->mockRequest('GET', ['path' => 'servers', 'query' => ['limit' => 2]], 'servers-page1');
@@ -188,4 +288,9 @@ class TestOperatorResource extends OperatorResource
 
 class Server extends OperatorResource
 {
+}
+
+class TestNextLinkOperatorResource extends TestOperatorResource
+{
+    protected $nextLinkKey = 'next';
 }
